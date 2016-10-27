@@ -1,0 +1,20 @@
+<?php
+
+namespace SocialiteProviders\deviantART;
+
+use SocialiteProviders\Manager\SocialiteWasCalled;
+
+class DeviantartExtendSocialite
+{
+    /**
+     * Register the provider.
+     *
+     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
+     */
+    public function handle(SocialiteWasCalled $socialiteWasCalled)
+    {
+        $socialiteWasCalled->extendSocialite(
+            'deviantart', __NAMESPACE__.'\Provider'
+        );
+    }
+}
