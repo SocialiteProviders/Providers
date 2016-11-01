@@ -126,3 +126,4 @@ split Zendesk               src/Zendesk:git@github.com:SocialiteProviders/Zendes
 split Battle.net             src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                   "master"
 split Dataporten            src/Dataporten:git@github.com:SocialiteProviders/Dataporten.git                 "master"
 split Patreon               src/Patreon:git@github.com:SocialiteProviders/Patreon.git                       "master"
+split Redbooth              src/Redbooth:git@github.com:SocialiteProviders/Redbooth.git                     "master"
