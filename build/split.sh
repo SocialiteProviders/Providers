@@ -124,3 +124,4 @@ split YouTube               src/YouTube:git@github.com:SocialiteProviders/YouTub
 split Zendesk               src/Zendesk:git@github.com:SocialiteProviders/Zendesk.git                       "master"
 
 split Battle.net             src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                   "master"
+split Dataporten            src/Dataporten:git@github.com:SocialiteProviders/Dataporten.git                 "master"
