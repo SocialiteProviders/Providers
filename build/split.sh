@@ -122,3 +122,5 @@ split Yammer                src/Yammer:git@github.com:SocialiteProviders/Yammer.
 split Yandex                src/Yandex:git@github.com:SocialiteProviders/Yandex.git                         "master"
 split YouTube               src/YouTube:git@github.com:SocialiteProviders/YouTube.git                       "master"
 split Zendesk               src/Zendesk:git@github.com:SocialiteProviders/Zendesk.git                       "master"
+
+split Battle.net             src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                   "master"
