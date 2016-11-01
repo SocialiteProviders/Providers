@@ -86,7 +86,7 @@ class Server extends BaseServer
      */
     protected function fetchUserDetails(TokenCredentials $tokenCredentials, $force = true)
     {
-        if (!$this->cachedUserDetailsResponse || $force == true) {
+        if (! $this->cachedUserDetailsResponse || $force == true) {
             $url = $this->urlUserDetails();
 
             $client = $this->createHttpClient();

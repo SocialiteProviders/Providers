@@ -4,7 +4,7 @@ namespace SocialiteProviders\Redbooth;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class RedboothExtendSocialite
+class RedBoothExtendSocialite
 {
     /**
      * Execute the provider.

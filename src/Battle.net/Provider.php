@@ -22,7 +22,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      * {@inheritdoc}
      */
     protected $scopeSeparator = '+';
-    
+
     /**
      * {@inheritdoc}
      */

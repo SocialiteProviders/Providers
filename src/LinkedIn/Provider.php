@@ -72,7 +72,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $state = Str::random(40);
 
-        if (!$this->isStateless()) {
+        if (! $this->isStateless()) {
             $this->request->getSession()->set('state', $state);
         }
 
