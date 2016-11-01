@@ -34,7 +34,7 @@ class Server extends BaseServer
             $this->jiraCertPath = array_get($clientCredentials, 'cert', $this->getConfig('cert_path', storage_path().'/app/keys/jira.pem'));
 
             $clientCredentials = $this->createClientCredentials($clientCredentials);
-        } elseif (!$clientCredentials instanceof ClientCredentialsInterface) {
+        } elseif (! $clientCredentials instanceof ClientCredentialsInterface) {
             throw new \InvalidArgumentException('Client credentials must be an array or valid object.');
         }
 

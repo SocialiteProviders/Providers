@@ -54,7 +54,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $openID = $this->getOpenID();
 
-        if (!$openID->validate()) {
+        if (! $openID->validate()) {
             throw new OpenIDValidationException();
         }
 
