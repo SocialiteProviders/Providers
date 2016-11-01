@@ -34,7 +34,7 @@ split 37Signals             src/37Signals:git@github.com:SocialiteProviders/37Si
 split 500px                 src/500px:git@github.com:SocialiteProviders/500px.git                           "master"
 split AngelList             src/AngelList:git@github.com:SocialiteProviders/AngelList.git                   "master"
 split Asana                 src/Asana:git@github.com:SocialiteProviders/Asana.git                           "master"
-split Battle.net             src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                "master"
+split Battle.net            src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                 "master"
 split Bit.ly                src/Bit.ly:git@github.com:SocialiteProviders/Bit.ly.git                         "master"
 split Box                   src/Box:git@github.com:SocialiteProviders/Box.git                               "master"
 split Buffer                src/Buffer:git@github.com:SocialiteProviders/Buffer.git                         "master"
