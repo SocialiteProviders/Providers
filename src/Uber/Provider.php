@@ -73,7 +73,6 @@ class Provider extends AbstractProvider implements ProviderInterface
         ]);
     }
 
-
     /**
      * {@inheritdoc}
      */
