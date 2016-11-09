@@ -16,6 +16,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
+    protected $scopeSeparator = ' ';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $scopes = ['profile'];
 
     /**
@@ -73,21 +78,4 @@ class Provider extends AbstractProvider implements ProviderInterface
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getCodeFields($state = null)
-    {
-        $fields = [
-            'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
-            'scope' => array_values($this->getScopes()),
-            'response_type' => 'code',
-        ];
-
-        if ($this->usesState()) {
-            $fields['state'] = $state;
-        }
-
-        return array_merge($fields, $this->parameters);
-    }
 }
