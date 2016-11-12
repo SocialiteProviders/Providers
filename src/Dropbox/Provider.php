@@ -19,7 +19,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.dropbox.com/1/oauth2/authorize', $state
+            'https://www.dropbox.com/oauth2/authorize', $state
         );
     }
 
@@ -28,7 +28,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://api.dropbox.com/1/oauth2/token';
+        return 'https://api.dropboxapi.com/oauth2/token';
     }
 
     /**
@@ -36,8 +36,8 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.dropbox.com/1/account/info', [
+        $response = $this->getHttpClient()->post(
+            'https://api.dropboxapi.com/2/users/get_current_account', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -52,8 +52,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['uid'], 'nickname' => null,
-            'name' => $user['display_name'], 'email' => $user['email'],
+            'id' => $user['account_id'], 'nickname' => null,
+            'name' => $user['name']['display_name'], 'email' => $user['email'],
             'avatar' => null,
         ]);
     }
