@@ -21,7 +21,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      * @var string
      */
     protected $scopeSeparator = ' ';
-    
+
     /**
      * Get the instance URL from config
      * If not available default to production.
@@ -34,6 +34,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         if (!is_null($fromConfig)) {
             return $fromConfig;
         }
+
         return 'https://login.salesforce.com';
     }
 
