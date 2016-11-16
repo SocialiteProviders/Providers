@@ -31,7 +31,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     private function getInstanceURL()
     {
         $fromConfig = config('services.salesforce.instance_url');
-        if (!is_null($fromConfig)) {
+        if (! is_null($fromConfig)) {
             return $fromConfig;
         }
 
