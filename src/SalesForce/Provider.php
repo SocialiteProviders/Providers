@@ -23,22 +23,6 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected $scopeSeparator = ' ';
 
     /**
-     * Get the instance URL from config
-     * If not available default to production.
-     *
-     * @return string Salesforce base URL
-     */
-    private function getInstanceURL()
-    {
-        $fromConfig = config('services.salesforce.instance_url');
-        if (! is_null($fromConfig)) {
-            return $fromConfig;
-        }
-
-        return 'https://login.salesforce.com';
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
@@ -94,5 +78,21 @@ class Provider extends AbstractProvider implements ProviderInterface
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
+    }
+    
+    /**
+     * Get the instance URL from config
+     * If not available default to production.
+     *
+     * @return string Salesforce base URL
+     */
+    private function getInstanceURL()
+    {
+        $fromConfig = config('services.salesforce.instance_url');
+        if (! is_null($fromConfig)) {
+            return $fromConfig;
+        }
+
+        return 'https://login.salesforce.com';
     }
 }
