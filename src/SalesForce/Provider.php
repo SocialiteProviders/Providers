@@ -28,7 +28,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://login.salesforce.com/services/oauth2/authorize', $state
+            $this->getInstanceURL().'/services/oauth2/authorize', $state
         );
     }
 
@@ -37,7 +37,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://login.salesforce.com/services/oauth2/token';
+        return $this->getInstanceURL().'/services/oauth2/token';
     }
 
     /**
@@ -46,7 +46,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://login.salesforce.com/services/oauth2/userinfo', [
+            $this->getInstanceURL().'/services/oauth2/userinfo', [
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer '.$token,
@@ -78,5 +78,21 @@ class Provider extends AbstractProvider implements ProviderInterface
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
+    }
+
+    /**
+     * Get the instance URL from config
+     * If not available default to production.
+     *
+     * @return string Salesforce base URL
+     */
+    private function getInstanceURL()
+    {
+        $fromConfig = config('services.salesforce.instance_url');
+        if (! is_null($fromConfig)) {
+            return $fromConfig;
+        }
+
+        return 'https://login.salesforce.com';
     }
 }
