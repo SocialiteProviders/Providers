@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Jira;
 
-use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Signature\SignatureInterface;
+use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 
 class Server extends BaseServer

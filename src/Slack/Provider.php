@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Slack;
 
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\User;
+use Laravel\Socialite\Two\ProviderInterface;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {

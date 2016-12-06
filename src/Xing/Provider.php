@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\Xing;
 
-use SocialiteProviders\Manager\OAuth1\AbstractProvider;
 use SocialiteProviders\Manager\OAuth1\User;
+use SocialiteProviders\Manager\OAuth1\AbstractProvider;
 
 class Provider extends AbstractProvider
 {
