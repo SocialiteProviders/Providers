@@ -2,10 +2,10 @@
 
 namespace SocialiteProviders\VersionOne;
 
-use Guzzle\Http\Exception\BadResponseException;
-use Laravel\Socialite\Two\ProviderInterface;
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use Laravel\Socialite\Two\ProviderInterface;
+use Guzzle\Http\Exception\BadResponseException;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {

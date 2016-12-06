@@ -3,10 +3,10 @@
 namespace SocialiteProviders\LinkedIn;
 
 use Illuminate\Support\Str;
-use Laravel\Socialite\Two\ProviderInterface;
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use Laravel\Socialite\Two\ProviderInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {

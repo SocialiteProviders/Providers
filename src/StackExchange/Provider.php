@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\StackExchange;
 
+use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
 
 /**
  * https://api.stackexchange.com/docs/authentication

@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\xREL;
 
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider
 {
