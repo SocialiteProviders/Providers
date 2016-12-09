@@ -16,7 +16,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['wl.basic', 'wl.emails', 'wl.signin'];
+    protected $scopes = ['User.Read User.ReadBasic.All'];
 
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://login.live.com/oauth20_authorize.srf', $state
+            'https://login.microsoftonline.com/common/oauth2/v2.0/authorize', $state
         );
     }
 
@@ -33,7 +33,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://login.live.com/oauth20_token.srf';
+        return 'https://login.microsoftonline.com/common/oauth2/v2.0/token';
     }
 
     /**
@@ -42,8 +42,12 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://apis.live.net/v5.0/me?access_token='.$token
-        );
+            'https://graph.microsoft.com/v1.0/me',
+            ['headers' => [
+                'Accept'=>'application/json',
+                'Authorization' => 'Bearer ' . $token,
+            ],
+        ]);
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -54,10 +58,13 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null, 'name' => $user['name'],
-            'email' => $user['emails']['account'], 'avatar' => null,
+            'id' => $user['id'],
+            'nickname' => null,
+            'name' => $user['displayName'],
+            'email' => $user['userPrincipalName'],
+            'avatar' => null,
         ]);
-    }
+    }	
 
     /**
      * {@inheritdoc}
