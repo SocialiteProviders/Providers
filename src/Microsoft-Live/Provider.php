@@ -45,7 +45,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'https://graph.microsoft.com/v1.0/me',
             ['headers' => [
                 'Accept'=>'application/json',
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -64,7 +64,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'email' => $user['userPrincipalName'],
             'avatar' => null,
         ]);
-    }	
+    }
 
     /**
      * {@inheritdoc}
