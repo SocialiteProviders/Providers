@@ -33,7 +33,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://login.microsoftonline.com/common/oauth2/authorize', $state
+            'https://login.microsoftonline.com/'.($this->config['tenant'] ?: 'common').'/oauth2/authorize', $state
         );
     }
 
@@ -95,4 +95,13 @@ class Provider extends AbstractProvider implements ProviderInterface
             'resource' => 'https://graph.windows.net',
         ]);
     }
+
+    /**
+     * Add the additional configuration key 'tenant' to enable the branded sign-in experience
+     * 
+     * @return array
+     */
+    public static function additionalConfigKeys() {
+        return ['tenant']; 
+    } 
 }
