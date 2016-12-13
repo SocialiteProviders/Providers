@@ -97,11 +97,12 @@ class Provider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Add the additional configuration key 'tenant' to enable the branded sign-in experience
-     * 
+     * Add the additional configuration key 'tenant' to enable the branded sign-in experience.
+     *
      * @return array
      */
-    public static function additionalConfigKeys() {
-        return ['tenant']; 
-    } 
+    public static function additionalConfigKeys()
+    {
+        return ['tenant'];
+    }
 }
