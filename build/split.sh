@@ -32,6 +32,7 @@ split()
 split 23andme               src/23andme:git@github.com:SocialiteProviders/23andme.git                       "master"
 split 37Signals             src/37Signals:git@github.com:SocialiteProviders/37Signals.git                   "master"
 split 500px                 src/500px:git@github.com:SocialiteProviders/500px.git                           "master"
+split Acclaim               src/Acclaim:git@github.com:SocialiteProviders/Acclaim.git                       "master"
 split AngelList             src/AngelList:git@github.com:SocialiteProviders/AngelList.git                   "master"
 split Asana                 src/Asana:git@github.com:SocialiteProviders/Asana.git                           "master"
 split Battle.net            src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                 "master"
