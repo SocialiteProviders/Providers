@@ -99,7 +99,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'grant_type' => 'authorization_code',
         ]);
     }
-    
+
     /**
      * Allows compatibility for signed API requests.
      */
@@ -111,6 +111,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             $sig .= "|$key=$val";
         }
         $signing_key = $this->clientSecret;
+        
         return hash_hmac('sha256', $sig, $signing_key, false);
     }
 }
