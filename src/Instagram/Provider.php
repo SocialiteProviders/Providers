@@ -48,7 +48,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $endpoint = '/users/self';
         $query = [
-            'access_token' => $token
+            'access_token' => $token,
         ];
         $signature = $this->generateSignature($endpoint, $query);
 
@@ -101,7 +101,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     }
     
     /**
-     * Allows compatibility for signed API requests
+     * Allows compatibility for signed API requests.
      */
     protected function generateSignature($endpoint, array $params)
     {
