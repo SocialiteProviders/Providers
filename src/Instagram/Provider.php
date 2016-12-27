@@ -111,7 +111,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             $sig .= "|$key=$val";
         }
         $signing_key = $this->clientSecret;
-        
+
         return hash_hmac('sha256', $sig, $signing_key, false);
     }
 }
