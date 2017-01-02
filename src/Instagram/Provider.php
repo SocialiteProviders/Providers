@@ -46,8 +46,16 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
+        $endpoint = '/users/self';
+        $query = [
+            'access_token' => $token,
+        ];
+        $signature = $this->generateSignature($endpoint, $query);
+
+        $query['sig'] = $signature;
         $response = $this->getHttpClient()->get(
-            'https://api.instagram.com/v1/users/self?access_token='.$token, [
+            'https://api.instagram.com/v1/users/self', [
+            'query' => $query,
             'headers' => [
                 'Accept' => 'application/json',
             ],
@@ -90,5 +98,20 @@ class Provider extends AbstractProvider implements ProviderInterface
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
+    }
+
+    /**
+     * Allows compatibility for signed API requests.
+     */
+    protected function generateSignature($endpoint, array $params)
+    {
+        $sig = $endpoint;
+        ksort($params);
+        foreach ($params as $key => $val) {
+            $sig .= "|$key=$val";
+        }
+        $signing_key = $this->clientSecret;
+
+        return hash_hmac('sha256', $sig, $signing_key, false);
     }
 }
