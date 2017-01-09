@@ -1,5 +1,5 @@
 {
-    "name": "CJEdgerton/Providers",
+    "name": "socialiteproviders/microsoft-graph",
     "description": "Microsoft Graph OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "authors": [{

@@ -16,7 +16,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['openid profile mail.send User.ReadBasic.All'];
+    protected $scopes = ['openid mail.send User.ReadBasic.All'];
 
     /**
      * {@inheritdoc}
@@ -53,12 +53,15 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
+        // Mapping all response data plus default Laravel user keys.
         return (new User())->setRaw($user)->map([
             'id'                => $user['id'],
             'businessPhones'    => $user['businessPhones'],
             'displayName'       => $user['displayName'],
+            'name'              => $user['displayName'],
             'givenName'         => $user['givenName'],
             'jobTitle'          => $user['jobTitle'],
+            'email'             => $user['mail'],
             'mail'              => $user['mail'],
             'mobilePhone'       => $user['mobilePhone'],
             'officeLocation'    => $user['officeLocation'],
