@@ -80,6 +80,7 @@ split MailChimp             src/MailChimp:git@github.com:SocialiteProviders/Mail
 split Medium                src/Medium:git@github.com:SocialiteProviders/Medium.git                         "master"
 split Meetup                src/Meetup:git@github.com:SocialiteProviders/Meetup.git                         "master"
 split Microsoft-Azure       src/Microsoft-Azure:git@github.com:SocialiteProviders/Microsoft-Azure.git       "master"
+split Microsoft-Graph       src/Microsoft-Azure:git@github.com:SocialiteProviders/Microsoft-Graph.git       "master"
 split Microsoft-Live        src/Microsoft-Live:git@github.com:SocialiteProviders/Microsoft-Live.git         "master"
 split Mixcloud              src/Mixcloud:git@github.com:SocialiteProviders/Mixcloud.git                     "master"
 split Moves                 src/Moves:git@github.com:SocialiteProviders/Moves.git                           "master"
