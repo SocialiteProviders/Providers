@@ -53,7 +53,9 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        // Mapping all response data plus default Laravel user keys so it's not nested an additional layer in $user->user.
+        /* 
+            Mapping default Laravel user keys and the keys that are nested in $user->user in response. Modify as needed.
+        */
         return (new User())->setRaw($user)->map([
             'id'                => $user['id'],
             'name'              => $user['displayName'],
