@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\GitLab\\": "src/"
+            "SocialiteProviders\\GitLab\\": ""
         }
     }
 }
