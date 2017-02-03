@@ -41,8 +41,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->get('https://' . $this->getSubdomain() . '.myshopify.com/admin/shop.json', [
             'headers' => [
-                'Accept' => 'application/json'
-                'Authorization' => 'Bearer '.$token,
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer '.$token
             ],
         ]);
 
