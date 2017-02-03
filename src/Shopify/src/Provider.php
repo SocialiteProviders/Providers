@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Shopify;
 
+use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -23,7 +23,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://' . $this->getSubdomain() . '.myshopify.com/admin/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://'.$this->getSubdomain().'.myshopify.com/admin/oauth/authorize', $state);
     }
 
     /**
@@ -31,7 +31,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://' . $this->getSubdomain() . '.myshopify.com/admin/oauth/access_token';
+        return 'https://'.$this->getSubdomain().'.myshopify.com/admin/oauth/access_token';
     }
 
     /**
@@ -39,10 +39,10 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://' . $this->getSubdomain() . '.myshopify.com/admin/shop.json', [
+        $response = $this->getHttpClient()->get('https://'.$this->getSubdomain().'.myshopify.com/admin/shop.json', [
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer '.$token
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -69,7 +69,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 
