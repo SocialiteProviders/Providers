@@ -42,7 +42,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $openID = $this->getOpenID();
 
-        $openID->identity = 'http://steamcommunity.com/openid';
+        $openID->identity = 'https://steamcommunity.com/openid';
 
         return $openID->authUrl();
     }
@@ -80,7 +80,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $endpoint = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s';
+        $endpoint = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s';
 
         $response = $this->getHttpClient()->get(
             sprintf($endpoint, $this->getConfig('client_secret'), $token)
