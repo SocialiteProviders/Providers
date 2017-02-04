@@ -101,6 +101,7 @@ split Reddit                src/Reddit:git@github.com:SocialiteProviders/Reddit.
 split RunKeeper             src/RunKeeper:git@github.com:SocialiteProviders/RunKeeper.git                   "master"
 split SalesForce            src/SalesForce:git@github.com:SocialiteProviders/SalesForce.git                 "master"
 split SharePoint            src/SharePoint:git@github.com:SocialiteProviders/SharePoint.git                 "master"
+split Shopify               src/Shopify:git@github.com:SocialiteProviders/Shopify.git                       "master"
 split Slack                 src/Slack:git@github.com:SocialiteProviders/Slack.git                           "master"
 split SoundCloud            src/SoundCloud:git@github.com:SocialiteProviders/SoundCloud.git                 "master"
 split Spotify               src/Spotify:git@github.com:SocialiteProviders/Spotify.git                       "master"
