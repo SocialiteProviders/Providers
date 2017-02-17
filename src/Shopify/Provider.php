@@ -23,7 +23,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://'.$this->config('subdomain').'.myshopify.com/admin/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://'.$this->getConfig('subdomain').'.myshopify.com/admin/oauth/authorize', $state);
     }
 
     /**
@@ -31,7 +31,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://'.$this->config('subdomain').'.myshopify.com/admin/oauth/access_token';
+        return 'https://'.$this->getConfig('subdomain').'.myshopify.com/admin/oauth/access_token';
     }
 
     /**
@@ -39,7 +39,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://'.$this->config('subdomain').'.myshopify.com/admin/shop.json', [
+        $response = $this->getHttpClient()->get('https://'.$this->getConfig('subdomain').'.myshopify.com/admin/shop.json', [
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer '.$token,
