@@ -1,0 +1,18 @@
+{
+    "name": "socialiteproviders/line",
+    "description": "Line Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Sorrawut Kittikeereechaikun",
+        "email": "mix5003@gmail.com"
+    }],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "socialiteproviders/manager": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Line\\": ""
+        }
+    }
+}
