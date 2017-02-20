@@ -42,6 +42,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 if (empty($options['http_errors'])) {
                     return $handler($request, $options);
                 }
+
                 return $handler($request, $options)->then(
                     function (ResponseInterface $response) use ($request, $handler) {
                         $body = json_decode($response->getBody()->getContents(), true);
