@@ -78,6 +78,7 @@ class Server extends BaseServer
 
         $user->nickname = $data['username'];
         $user->name = $data['fullName'];
+        $user->email = $data['email'];
         $user->imageUrl = null;
 
         $user->extra = (array) $data;
@@ -98,6 +99,7 @@ class Server extends BaseServer
      */
     public function userEmail($data, TokenCredentials $tokenCredentials)
     {
+        return $data['email'];
     }
 
     /**
@@ -119,7 +121,7 @@ class Server extends BaseServer
 
         $params = [
             'response_type' => 'fragment',
-            'scope' => $scopes ?: 'read',
+            'scope' => $scopes ?: 'read,account',
             'expiration' => array_get($this->parameters, 'expiration', '1day'),
             'name' => array_get($this->parameters, 'name', null),
         ];
