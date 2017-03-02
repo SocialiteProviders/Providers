@@ -73,6 +73,7 @@ split Hitbox                src/Hitbox:git@github.com:SocialiteProviders/Hitbox.
 split Human-API             src/Human-API:git@github.com:SocialiteProviders/Human-API.git                   "master"
 split Imgur                 src/Imgur:git@github.com:SocialiteProviders/Imgur.git                           "master"
 split Instagram             src/Instagram:git@github.com:SocialiteProviders/Instagram.git                   "master"
+split Intercom              src/Intercom:git@github.com:SocialiteProviders/Intercom.git                     "master"
 split Jawbone               src/Jawbone:git@github.com:SocialiteProviders/Jawbone.git                       "master"
 split Jira                  src/Jira:git@github.com:SocialiteProviders/Jira.git                             "master"
 split Kakao                 src/Kakao:git@github.com:SocialiteProviders/Kakao.git                           "master"
