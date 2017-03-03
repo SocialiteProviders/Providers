@@ -56,7 +56,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'nickname' => null,
             'name' => $user['displayName'],
             'email' => null,
-            'avatar' => $user['pictureUrl'],
+            'avatar' => array_key_exists('pictureUrl', $user) ? $user['pictureUrl'] : null,
         ]);
     }
 
