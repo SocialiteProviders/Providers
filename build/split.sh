@@ -38,6 +38,7 @@ split App.net               src/App.net:git@github.com:SocialiteProviders/App.ne
 split Asana                 src/Asana:git@github.com:SocialiteProviders/Asana.git                           "master"
 split Battle.net            src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                 "master"
 split Bit.ly                src/Bit.ly:git@github.com:SocialiteProviders/Bit.ly.git                         "master"
+split Bitbucket             src/Bit.ly:git@github.com:SocialiteProviders/Bitbucket.git                      "master"
 split Box                   src/Box:git@github.com:SocialiteProviders/Box.git                               "master"
 split Buffer                src/Buffer:git@github.com:SocialiteProviders/Buffer.git                         "master"
 split CampaignMonitor       src/CampaignMonitor:git@github.com:SocialiteProviders/CampaignMonitor.git       "master"
