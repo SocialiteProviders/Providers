@@ -2,10 +2,10 @@
 
 namespace SocialiteProviders\SciStarter;
 
+use GuzzleHttp\ClientInterface;
+use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
-use GuzzleHttp\ClientInterface;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -57,7 +57,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
           'id' => $user['user_id'],
           'profile_id' => $user['profile_id'],
-          'profile_url' => $user['url']
+          'profile_url' => $user['url'],
         ]);
     }
 
@@ -69,7 +69,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         return [
           'client_id' => $this->clientId,
           'code' => $code,
-          'grant_type' => 'authorization_code'
+          'grant_type' => 'authorization_code',
         ];
     }
 
@@ -85,7 +85,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             $postKey => $this->getTokenFields($code),
             'query' => [
               'key' => $this->clientSecret // key instead of client_secret
-            ]
+            ],
         ]);
 
         return json_decode($response->getBody(), true);
