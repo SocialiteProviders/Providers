@@ -84,7 +84,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'headers' => ['Accept' => 'application/json'],
             $postKey => $this->getTokenFields($code),
             'query' => [
-              'key' => $this->clientSecret // key instead of client_secret
+              'key' => $this->clientSecret, // key instead of client_secret
             ],
         ]);
 
