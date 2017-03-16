@@ -102,6 +102,7 @@ split Redbooth              src/Redbooth:git@github.com:SocialiteProviders/Redbo
 split Reddit                src/Reddit:git@github.com:SocialiteProviders/Reddit.git                         "master"
 split RunKeeper             src/RunKeeper:git@github.com:SocialiteProviders/RunKeeper.git                   "master"
 split SalesForce            src/SalesForce:git@github.com:SocialiteProviders/SalesForce.git                 "master"
+split SciStarter            src/SciStarter:git@github.com:SocialiteProviders/SciStarter.git                 "master"
 split SharePoint            src/SharePoint:git@github.com:SocialiteProviders/SharePoint.git                 "master"
 split Shopify               src/Shopify:git@github.com:SocialiteProviders/Shopify.git                       "master"
 split Slack                 src/Slack:git@github.com:SocialiteProviders/Slack.git                           "master"
