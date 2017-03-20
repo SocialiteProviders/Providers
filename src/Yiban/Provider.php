@@ -32,8 +32,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $this->openId = $openId;
     }
+
     /**
-     * 取消易班授权
+     * 取消易班授权.
      */
     public function RevokeToken($token)
     {
@@ -41,13 +42,14 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         $response = $this->getHttpClient()->post($this->getRevokeUrl(), [
             'headers' => ['Accept' => 'application/json'],
-            $postKey => ['client_id' => $this->clientId, 'access_token' => $token]
+            $postKey => ['client_id' => $this->clientId, 'access_token' => $token],
         ]);
 
         return json_decode($response->getBody(), true);
     }
+
     /**
-     * 易班授权取消链接
+     * 易班授权取消链接.
      */
     protected function getRevokeUrl()
     {
@@ -80,6 +82,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             $userUrl, $this->getRequestOptions()
         );
         $user = json_decode($response->getBody(), true);
+
         return $user;
     }
 
@@ -94,7 +97,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'sex' => $user['info']['yb_sex'],
             'avatar' => $user['info']['yb_userhead'],
             'schoolId' => $user['info']['yb_schoolid'],
-            'studentId' => $user['info']['yb_studentid']
+            'studentId' => $user['info']['yb_studentid'],
         ]);
     }
 
@@ -111,5 +114,4 @@ class Provider extends AbstractProvider implements ProviderInterface
             ],
         ];
     }
-
 }
