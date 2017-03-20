@@ -132,5 +132,6 @@ split xREL                  src/xREL:git@github.com:SocialiteProviders/xREL.git 
 split Yahoo                 src/Yahoo:git@github.com:SocialiteProviders/Yahoo.git                           "master"
 split Yammer                src/Yammer:git@github.com:SocialiteProviders/Yammer.git                         "master"
 split Yandex                src/Yandex:git@github.com:SocialiteProviders/Yandex.git                         "master"
+split Yiban                 src/Yiban:git@github.com:SocialiteProviders/Yiban.git                           "master"
 split YouTube               src/YouTube:git@github.com:SocialiteProviders/YouTube.git                       "master"
 split Zendesk               src/Zendesk:git@github.com:SocialiteProviders/Zendesk.git                       "master"
