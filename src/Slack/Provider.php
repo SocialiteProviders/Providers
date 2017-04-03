@@ -18,11 +18,6 @@ class Provider extends AbstractProvider implements ProviderInterface
     const IDENTIFIER = 'SLACK';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $scopes = ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
-
-    /**
      * The separating character for the requested scopes.
      *
      * @var string
