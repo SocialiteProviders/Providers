@@ -17,7 +17,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['login'];
+    protected $scopes = ['login extensive'];
 
     /**
      * {@inheritdoc}
@@ -44,6 +44,10 @@ class Provider extends AbstractProvider implements ProviderInterface
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
+            'query' => [
+              'client_id' => $this->client_id,
+              'key' => $this->clientSecret,
+            ],
         ]);
 
         return json_decode($response->getBody(), true);
@@ -56,6 +60,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
           'id' => array_get($user, 'user_id'),
+          'nickname' => array_get($user, 'handle'),
+          'email' => array_get($user, 'email'),
+          'first_name' => array_get($user, 'first_name'),
+          'last_name' => array_get($user, 'last_name'),
           'profile_id' => array_get($user, 'profile_id'),
           'profile_url' => array_get($user, 'url'),
         ]);
