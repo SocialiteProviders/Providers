@@ -25,6 +25,20 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected $scopeSeparator = ',';
 
     /**
+     * {@inheritdoc}
+     */
+    public function getScopes()
+    {
+        if (count($this->scopes) > 0) {
+            return $this->scopes;
+        }
+
+        // Provide some default scopes if the user didn't define some.
+        // See: https://github.com/SocialiteProviders/Providers/pull/53
+        return ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
+    }
+
+    /**
      * Middleware that throws exceptions for non successful slack api calls
      * "http_error" request option is set to true.
      *
