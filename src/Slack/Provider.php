@@ -18,16 +18,25 @@ class Provider extends AbstractProvider implements ProviderInterface
     const IDENTIFIER = 'SLACK';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $scopes = ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
-
-    /**
      * The separating character for the requested scopes.
      *
      * @var string
      */
     protected $scopeSeparator = ',';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getScopes()
+    {
+        if (count($this->scopes) > 0) {
+            return $this->scopes;
+        }
+
+        // Provide some default scopes if the user didn't define some.
+        // See: https://github.com/SocialiteProviders/Providers/pull/53
+        return ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
+    }
 
     /**
      * Middleware that throws exceptions for non successful slack api calls
