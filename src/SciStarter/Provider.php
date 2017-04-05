@@ -45,7 +45,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 'Authorization' => 'Bearer '.$token,
             ],
             'query' => [
-              'client_id' => $this->client_id,
+              'client_id' => $this->clientId,
               'key' => $this->clientSecret,
             ],
         ]);
