@@ -117,6 +117,7 @@ split Stripe                src/Stripe:git@github.com:SocialiteProviders/Stripe.
 split Trakt                 src/Trakt:git@github.com:SocialiteProviders/Trakt.git                           "master"
 split Trello                src/Trello:git@github.com:SocialiteProviders/Trello.git                         "master"
 split Tumblr                src/Tumblr:git@github.com:SocialiteProviders/Tumblr.git                         "master"
+split TVShowTime            src/TVShowTime:git@github.com:SocialiteProviders/TVShowTime.git                 "master"
 split Twitch                src/Twitch:git@github.com:SocialiteProviders/Twitch.git                         "master"
 split Twitter               src/Twitter:git@github.com:SocialiteProviders/Twitter.git                       "master"
 split Uber                  src/Uber:git@github.com:SocialiteProviders/Uber.git                             "master"
