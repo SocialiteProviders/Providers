@@ -120,6 +120,7 @@ split Tumblr                src/Tumblr:git@github.com:SocialiteProviders/Tumblr.
 split Twitch                src/Twitch:git@github.com:SocialiteProviders/Twitch.git                         "master"
 split Twitter               src/Twitter:git@github.com:SocialiteProviders/Twitter.git                       "master"
 split Uber                  src/Uber:git@github.com:SocialiteProviders/Uber.git                             "master"
+split Unsplash              src/Unsplash:git@github.com:SocialiteProviders/Unsplash.git                     "master"
 split Venmo                 src/Venmo:git@github.com:SocialiteProviders/Venmo.git                           "master"
 split VersionOne            src/VersionOne:git@github.com:SocialiteProviders/VersionOne.git                 "master"
 split Vimeo                 src/Vimeo:git@github.com:SocialiteProviders/Vimeo.git                           "master"
