@@ -39,10 +39,10 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://api.tvshowtime.com/v1/user?access_token='.$token, [
-            /*'headers' => [
-                'Authorization' => 'TVST_ACCESS_TOKEN: '.$token,
-            ],*/
+        $response = $this->getHttpClient()->get('https://api.tvshowtime.com/v1/user', [
+            'headers' => [
+                'TVST_ACCESS_TOKEN' => $token,
+            ],
         ]);
 
         return json_decode($response->getBody(), true);
@@ -66,7 +66,6 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            /*'grant_type' => 'authorization_code'*/
         ]);
     }
 }
