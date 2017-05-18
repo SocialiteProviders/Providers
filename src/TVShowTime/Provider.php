@@ -59,13 +59,4 @@ class Provider extends AbstractProvider implements ProviderInterface
             'avatar'   => $user['user']['image'],
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-        ]);
-    }
 }
