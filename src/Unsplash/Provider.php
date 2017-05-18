@@ -1,0 +1,84 @@
+<?php
+
+namespace SocialiteProviders\Unsplash;
+
+use SocialiteProviders\Manager\OAuth2\User;
+use Laravel\Socialite\Two\ProviderInterface;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+
+class Provider extends AbstractProvider implements ProviderInterface
+{
+    /**
+     * Unique Provider Identifier.
+     */
+    const IDENTIFIER = 'UNSPLASH';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopeSeparator = '+';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopes = ['public'];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAuthUrl($state)
+    {
+        return $this->buildAuthUrlFromBase(
+            'https://unsplash.com/oauth/authorize', $state
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenUrl()
+    {
+        return 'https://unsplash.com/oauth/token';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getUserByToken($token)
+    {
+        $response = $this->getHttpClient()->get(
+            'https://api.unsplash.com/me', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function mapUserToObject(array $user)
+    {
+        return (new User())->setRaw($user)->map([
+            'id' => $user['id'],
+            'nickname' => $user['username'],
+            'name' => isset($user['name']) ? $user['name'] : null,
+            'email' => isset($user['email']) ? $user['email'] : null,
+            'avatar' => $user['profile_image']['medium'],
+            'profileUrl' => $user['links']['html'],
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenFields($code)
+    {
+        return array_merge(parent::getTokenFields($code), [
+            'grant_type' => 'authorization_code',
+        ]);
+    }
+}
