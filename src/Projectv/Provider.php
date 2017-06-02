@@ -56,6 +56,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
+        
         return json_decode($response->getBody()->getContents(), true);
     }
 
@@ -78,7 +79,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'active'      => array_get($user, 'data')['active'],            //profile
             'blacklisted' => array_get($user, 'data')['blacklisted'],       //profile
             'verified'    => array_get($user, 'data')['verified'],          //profile
-            'flagged'     => array_get($user, 'data')['flagged']            //profile
+            'flagged'     => array_get($user, 'data')['flagged'],            //profile
         ]);
     }
 
