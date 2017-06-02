@@ -56,7 +56,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
-        
+
         return json_decode($response->getBody()->getContents(), true);
     }
 
