@@ -96,6 +96,7 @@ split PayPal-Sandbox        src/PayPal-Sandbox:git@github.com:SocialiteProviders
 split Pinterest             src/Pinterest:git@github.com:SocialiteProviders/Pinterest.git                   "master"
 split Podio                 src/Podio:git@github.com:SocialiteProviders/Podio.git                           "master"
 split Pushbullet            src/Pushbullet:git@github.com:SocialiteProviders/Pushbullet.git                 "master"
+split QuickBooks            src/QuickBooks:git@github.com:SocialiteProviders/QuickBooks.git                 "master"
 split QQ                    src/QQ:git@github.com:SocialiteProviders/QQ.git                                 "master"
 split Rdio                  src/Rdio:git@github.com:SocialiteProviders/Rdio.git                             "master"
 split Readability           src/Readability:git@github.com:SocialiteProviders/Readability.git               "master"
