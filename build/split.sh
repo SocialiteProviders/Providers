@@ -138,4 +138,4 @@ split Yandex                src/Yandex:git@github.com:SocialiteProviders/Yandex.
 split Yiban                 src/Yiban:git@github.com:SocialiteProviders/Yiban.git                           "master"
 split YouTube               src/YouTube:git@github.com:SocialiteProviders/YouTube.git                       "master"
 split Zendesk               src/Zendesk:git@github.com:SocialiteProviders/Zendesk.git                       "master"
-split Projectv              src/Projectv:git@github.com:SocialiteProviders/Projectv.git                     "master"
+split ProjectV              src/ProjectV:git@github.com:SocialiteProviders/ProjectV.git                     "master"
