@@ -56,7 +56,7 @@ class Server extends BaseServer
         $user->id = $this->userUid($data, $tokenCredentials);
         $user->name = $this->userScreenName($data, $tokenCredentials);
         $user->email = $this->userEmail($data, $tokenCredentials);
-        $user->verified = (bool)$data->User->IsVerified;
+        $user->verified = (bool) $data->User->IsVerified;
 
         return $user;
     }
