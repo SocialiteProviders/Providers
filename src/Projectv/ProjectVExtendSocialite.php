@@ -4,7 +4,7 @@ namespace SocialiteProviders\ProjectV;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class ProjectvExtendSocialite
+class ProjectVExtendSocialite
 {
     /**
      * Register the provider.
