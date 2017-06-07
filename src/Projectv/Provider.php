@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\projectv;
+namespace SocialiteProviders\ProjectV;
 
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;

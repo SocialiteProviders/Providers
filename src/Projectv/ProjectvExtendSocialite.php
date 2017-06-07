@@ -1,10 +1,10 @@
 <?php
 
-namespace SocialiteProviders\projectv;
+namespace SocialiteProviders\ProjectV;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class ProjectvExtendSocialite
+class ProjectVExtendSocialite
 {
     /**
      * Register the provider.
