@@ -84,7 +84,6 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Work out the shopify domain based on either the
      * `subdomain` config setting or the current request
-     *
      * @param  string $uri URI to append to the domain
      * @return string      The fully qualified *.myshopify.com url
      */
