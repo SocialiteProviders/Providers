@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\\Mixer;
+namespace SocialiteProviders\Mixer;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
