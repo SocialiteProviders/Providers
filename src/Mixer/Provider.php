@@ -12,15 +12,17 @@ class Provider extends AbstractProvider implements ProviderInterface
      * Unique Provider Identifier.
      */
     const IDENTIFIER = 'MIXER';
+
     /**
      * {@inheritdoc}
      */
     protected $scopes = ['user:details:self'];
+
     /**
      * {@inherticdoc}.
      */
     protected $scopeSeparator = ' ';
-    
+
     /**
      * {@inheritdoc}
      */
@@ -30,6 +32,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'https://mixer.com/oauth/authorize', $state
         );
     }
+
     /**
      * {@inheritdoc}
      */
@@ -47,11 +50,13 @@ class Provider extends AbstractProvider implements ProviderInterface
             'https://mixer.com/api/v1/users/current', [
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token
+                'Authorization' => 'Bearer ' . $token,
             ],
         ]);
+
         return json_decode($response->getBody()->getContents(), true);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -60,9 +65,10 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id' => array_get($user['id']), 'username' => array_get($user['username']),
             'email' => array_get($user, 'email'), 'twoFactor' => array_get($user, 'twoFactor'),
-            'avatarUrl' => array_get($user['avatarUrl']), 'verified' => array_get($user['verified'])
+            'avatarUrl' => array_get($user['avatarUrl']), 'verified' => array_get($user['verified']),
         ]);
     }
+
     /**
      * {@inheritdoc}
      */
