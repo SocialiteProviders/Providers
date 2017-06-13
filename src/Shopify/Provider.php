@@ -23,7 +23,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://'.$this->getConfig('subdomain').'.myshopify.com/admin/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->shopifyUrl('/admin/oauth/authorize'), $state);
     }
 
     /**
@@ -31,7 +31,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://'.$this->getConfig('subdomain').'.myshopify.com/admin/oauth/access_token';
+        return $this->shopifyUrl('/admin/oauth/access_token');
     }
 
     /**
@@ -39,7 +39,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://'.$this->getConfig('subdomain').'.myshopify.com/admin/shop.json', [
+        $response = $this->getHttpClient()->get($this->shopifyUrl('/admin/shop.json'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'X-Shopify-Access-Token' => $token,
@@ -79,5 +79,20 @@ class Provider extends AbstractProvider implements ProviderInterface
     public static function additionalConfigKeys()
     {
         return ['subdomain'];
+    }
+
+    /**
+     * Work out the shopify domain based on either the
+     * `subdomain` config setting or the current request.
+     * @param  string $uri URI to append to the domain
+     * @return string      The fully qualified *.myshopify.com url
+     */
+    private function shopifyUrl($uri = null)
+    {
+        if ($this->getConfig('subdomain')) {
+            return "https://{$this->getConfig('subdomain')}.myshopify.com".$uri;
+        }
+
+        return 'https://'.$this->request->get('shop').$uri;
     }
 }
