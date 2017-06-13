@@ -57,8 +57,8 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['myshopify_domain'],
-            'name'     => null,
-            'email'    => null,
+            'name'     => $user['name'],
+            'email'    => $user['email'],
             'avatar'   => null,
         ]);
     }
