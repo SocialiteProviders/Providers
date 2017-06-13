@@ -40,7 +40,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return 'https://mixer.com/api/v1/oauth/token';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -50,7 +50,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'https://mixer.com/api/v1/users/current', [
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 

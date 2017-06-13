@@ -17,5 +17,4 @@ class MixerExtendSocialite
             'mixer', __NAMESPACE__.'\Provider'
         );
     }
-    
 }
