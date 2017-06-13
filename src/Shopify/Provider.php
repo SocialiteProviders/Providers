@@ -1,58 +1,99 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace SocialiteProviders\Shopify;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Laravel\Socialite\Contracts\Factory as Socialite;
+use SocialiteProviders\Manager\OAuth2\User;
+use Laravel\Socialite\Two\ProviderInterface;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
-class OAuthController extends Controller
+class Provider extends AbstractProvider implements ProviderInterface
 {
-    public $driver = 'shopify';
+    /**
+     * Unique Provider Identifier.
+     */
+    const IDENTIFIER = 'SHOPIFY';
 
     /**
-     * Redirect off to oAuth server for authentication
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * {@inheritdoc}
      */
-    public function redirect(Request $request)
+    protected $scopes = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAuthUrl($state)
     {
-        return app(Socialite::class)
-            ->driver($this->driver)
-            // ->setConfig($this->getConfig($request))
-            ->setScopes([
-                'read_script_tags',
-                'write_script_tags',
-            ])
-            ->redirect();
+        return $this->buildAuthUrlFromBase($this->shopifyUrl('/admin/oauth/authorize'), $state);
     }
 
     /**
-     * Handle the oAuth callback
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * {@inheritdoc}
      */
-    public function callback(Request $request)
+    protected function getTokenUrl()
     {
-        dump($request);
-
-        $user = app(Socialite::class)
-            ->driver($this->driver)
-            // ->setConfig($this->getConfig($request))
-            ->user();
-
-        dd($user);
+        return $this->shopifyUrl('/admin/oauth/access_token');
     }
 
-    private function getConfig($request)
+    /**
+     * {@inheritdoc}
+     */
+    protected function getUserByToken($token)
     {
-        $config = config('services.shopify');
-        return new \SocialiteProviders\Manager\Config(
-            $config['client_id'],
-            $config['client_secret'],
-            $config['redirect_url'],
-            ['subdomain' => preg_replace('/^([^\.]*).+/', '$1', $request->get('shop'))]
-        );
+        $response = $this->getHttpClient()->get($this->shopifyUrl('/admin/shop.json'), [
+            'headers' => [
+                'Accept' => 'application/json',
+                'X-Shopify-Access-Token' => $token,
+            ],
+        ]);
+
+        return json_decode($response->getBody(), true)['shop'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function mapUserToObject(array $user)
+    {
+        return (new User())->setRaw($user)->map([
+            'id'       => $user['id'],
+            'nickname' => $user['myshopify_domain'],
+            'name'     => null,
+            'email'    => null,
+            'avatar'   => null,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenFields($code)
+    {
+        return array_merge(parent::getTokenFields($code), [
+            'grant_type' => 'authorization_code',
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['subdomain'];
+    }
+
+    /**
+     * Work out the shopify domain based on either the
+     * `subdomain` config setting or the current request
+     *
+     * @param  string $uri URI to append to the domain
+     * @return string      The fully qualified *.myshopify.com url
+     */
+    private function shopifyUrl($uri = null)
+    {
+        if ($this->getConfig('subdomain')) {
+            return "https://{$this->getConfig('subdomain')}.myshopify.com".$uri;
+        }
+
+        return 'https://'.$this->request->get('shop').$uri;
     }
 }
