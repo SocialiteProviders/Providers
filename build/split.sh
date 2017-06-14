@@ -71,6 +71,7 @@ split Goodreads             src/Goodreads:git@github.com:SocialiteProviders/Good
 split Google-Plus           src/Google-Plus:git@github.com:SocialiteProviders/Google-Plus.git               "master"
 split Heroku                src/Heroku:git@github.com:SocialiteProviders/Heroku.git                         "master"
 split Hitbox                src/Hitbox:git@github.com:SocialiteProviders/Hitbox.git                         "master"
+split HubSpot               src/HubSpot:git@github.com:SocialiteProviders/Hubspot.git                       "master"
 split Human-API             src/Human-API:git@github.com:SocialiteProviders/Human-API.git                   "master"
 split Imgur                 src/Imgur:git@github.com:SocialiteProviders/Imgur.git                           "master"
 split Instagram             src/Instagram:git@github.com:SocialiteProviders/Instagram.git                   "master"
