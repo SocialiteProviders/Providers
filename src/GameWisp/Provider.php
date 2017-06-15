@@ -72,7 +72,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         //hotfix the api to return email addresses with the user object.
         return (new User())->setRaw($user)->map([
             'id' => array_get($user, 'data.id'), 'username' => array_get($user, 'data.username'),
-            'email' => array_get($user, 'data.email'), 'avatar' => array_get($user, 'data.profile.data.picture.data.content'), 
+            'email' => array_get($user, 'data.email'), 'avatar' => array_get($user, 'data.profile.data.picture.data.content'),
             'deactivated' => array_get($user, 'data.deactivated'), 'banned' => array_get($user, 'data.banned'),
         ]);
     }
