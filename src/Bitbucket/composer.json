@@ -1,0 +1,18 @@
+{
+    "name": "socialiteproviders/bitbucket",
+    "description": "Bitbucket OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Daniel Baron",
+        "email": "daniel.baron@gmx.net"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "socialiteproviders/manager": "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Bitbucket\\": "src/"
+        }
+    }
+}
