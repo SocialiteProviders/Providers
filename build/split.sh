@@ -88,6 +88,7 @@ split Microsoft-Azure       src/Microsoft-Azure:git@github.com:SocialiteProvider
 split Microsoft-Graph       src/Microsoft-Graph:git@github.com:SocialiteProviders/Microsoft-Graph.git       "master"
 split Microsoft-Live        src/Microsoft-Live:git@github.com:SocialiteProviders/Microsoft-Live.git         "master"
 split Mixcloud              src/Mixcloud:git@github.com:SocialiteProviders/Mixcloud.git                     "master"
+split Mixer                 src/Mixer:git@github.com:SocialiteProviders/Mixer.git                           "master"
 split Moves                 src/Moves:git@github.com:SocialiteProviders/Moves.git                           "master"
 split Naver                 src/Naver:git@github.com:SocialiteProviders/Naver.git                           "master"
 split Patreon               src/Patreon:git@github.com:SocialiteProviders/Patreon.git                       "master"
