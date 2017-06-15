@@ -48,7 +48,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $query = [
             'access_token' => $token,
-            'include' => 'profile.picture'
+            'include' => 'profile.picture',
         ];
 
         $response = $this->getHttpClient()->get(
@@ -73,7 +73,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id' => array_get($user, 'data.id'), 'username' => array_get($user, 'data.username'),
             'email' => array_get($user, 'data.email'), 'avatar' => array_get($user, 'data.profile.data.picture.data.content'), 
-            'deactivated' => array_get($user, 'data.deactivated'), 'banned' => array_get($user, 'data.banned')
+            'deactivated' => array_get($user, 'data.deactivated'), 'banned' => array_get($user, 'data.banned'),
         ]);
     }
 
