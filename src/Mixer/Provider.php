@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Mixer;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -63,9 +64,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => array_get($user, 'id'), 'username' => array_get($user, 'username'),
-            'email' => array_get($user, 'email'), 'twoFactor' => array_get($user, 'twoFactor'),
-            'avatarUrl' => array_get($user, 'avatarUrl'), 'verified' => array_get($user, 'verified'),
+            'id' => Arr::get($user, 'id'), 'username' => Arr::get($user, 'username'),
+            'email' => Arr::get($user, 'email'), 'twoFactor' => Arr::get($user, 'twoFactor'),
+            'avatarUrl' => Arr::get($user, 'avatarUrl'), 'verified' => Arr::get($user, 'verified'),
         ]);
     }
 

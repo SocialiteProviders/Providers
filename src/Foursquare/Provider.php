@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Foursquare;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -50,7 +51,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => null,
-            'name' => array_get($user, 'firstName').' '.array_get($user, 'lastName'),
+            'name' => Arr::get($user, 'firstName').' '.Arr::get($user, 'lastName'),
             'email' => $user['contact']['email'],
             'avatar' => $user['photo']['prefix'].$user['photo']['suffix'],
         ]);

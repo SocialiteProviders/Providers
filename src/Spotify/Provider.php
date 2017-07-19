@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Spotify;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -64,7 +65,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'nickname' => null,
             'name' => $user['display_name'],
             'email' => isset($user['email']) ? $user['email'] : null,
-            'avatar' => array_get($user, 'images.0.url'),
+            'avatar' => Arr::get($user, 'images.0.url'),
             'profileUrl' => isset($user['href']) ? $user['href'] : null,
         ]);
     }

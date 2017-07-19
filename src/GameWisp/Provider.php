@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\GameWisp;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -71,9 +72,9 @@ class Provider extends AbstractProvider implements ProviderInterface
         //need to do some work here to get the email address and the profile picture.
         //hotfix the api to return email addresses with the user object.
         return (new User())->setRaw($user)->map([
-            'id' => array_get($user, 'data.id'), 'username' => array_get($user, 'data.username'),
-            'email' => array_get($user, 'data.email'), 'avatar' => array_get($user, 'data.profile.data.picture.data.content'),
-            'deactivated' => array_get($user, 'data.deactivated'), 'banned' => array_get($user, 'data.banned'),
+            'id' => Arr::get($user, 'data.id'), 'username' => Arr::get($user, 'data.username'),
+            'email' => Arr::get($user, 'data.email'), 'avatar' => Arr::get($user, 'data.profile.data.picture.data.content'),
+            'deactivated' => Arr::get($user, 'data.deactivated'), 'banned' => Arr::get($user, 'data.banned'),
         ]);
     }
 

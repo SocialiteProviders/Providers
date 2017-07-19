@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\WordPress;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -61,7 +62,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 'id' => $user['ID'],
                 'nickname' => $user['username'],
                 'name' => $user['display_name'],
-                'email' => array_get($user, 'email'),
+                'email' => Arr::get($user, 'email'),
                 'avatar' => $user['avatar_URL'],
             ]
         );
