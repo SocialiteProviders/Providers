@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\Steam;
 
-use Illuminate\Support\Arr;
 use LightOpenID;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;

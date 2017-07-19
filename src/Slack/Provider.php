@@ -3,8 +3,8 @@
 namespace SocialiteProviders\Slack;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
 use Illuminate\Support\Arr;
+use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
 use SocialiteProviders\Manager\OAuth2\User;

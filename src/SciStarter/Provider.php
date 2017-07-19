@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\SciStarter;
 
-use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Arr;
+use GuzzleHttp\ClientInterface;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
