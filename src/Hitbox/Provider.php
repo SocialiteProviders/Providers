@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Hitbox;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -52,7 +53,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->get('https://api.hitbox.tv/userfromtoken/'.$token);
 
-        return array_get(json_decode($response->getBody(), true), 'user_name');
+        return Arr::get(json_decode($response->getBody(), true), 'user_name');
     }
 
     /**
@@ -61,10 +62,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => array_get($user, 'user_id'),
-            'nickname' => array_get($user, 'user_name'),
-            'email' => array_get($user, 'user_email'),
-            'avatar' => array_get($user, 'user_logo'),
+            'id' => Arr::get($user, 'user_id'),
+            'nickname' => Arr::get($user, 'user_name'),
+            'email' => Arr::get($user, 'user_email'),
+            'avatar' => Arr::get($user, 'user_logo'),
         ]);
     }
 
@@ -102,7 +103,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     public function user()
     {
         $user = $this->mapUserToObject($this->getUserByToken(
-            $token = $this->getAccessToken() ?: array_get($this->getAccessTokenResponse($this->getCode()), 'access_token')
+            $token = $this->getAccessToken() ?: Arr::get($this->getAccessTokenResponse($this->getCode()), 'access_token')
         ));
 
         return $user->setToken($token);

@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\ProjectV;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -66,20 +67,20 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'gid'         => array_get($user, 'data')['gid'],               //googledata
-            'vid'         => array_get($user, 'data')['enlid'],             //profile
-            'nickname'    => array_get($user, 'data')['agent'],             //profile
-            'forename'    => array_get($user, 'data')['forename'],          //googledata
-            'lastname'    => array_get($user, 'data')['lastname'],          //googledata
-            'avatarurl'   => array_get($user, 'data')['imageurl'],          //googledata
-            'email'       => array_get($user, 'data')['email'],             //email
-            'vlevel'      => array_get($user, 'data')['vlevel'],            //profile
-            'vpoints'     => array_get($user, 'data')['vpoints'],           //profile
-            'quarantine'  => array_get($user, 'data')['quarantine'],        //profile
-            'active'      => array_get($user, 'data')['active'],            //profile
-            'blacklisted' => array_get($user, 'data')['blacklisted'],       //profile
-            'verified'    => array_get($user, 'data')['verified'],          //profile
-            'flagged'     => array_get($user, 'data')['flagged'],            //profile
+            'gid'         => Arr::get($user, 'data')['gid'],               //googledata
+            'vid'         => Arr::get($user, 'data')['enlid'],             //profile
+            'nickname'    => Arr::get($user, 'data')['agent'],             //profile
+            'forename'    => Arr::get($user, 'data')['forename'],          //googledata
+            'lastname'    => Arr::get($user, 'data')['lastname'],          //googledata
+            'avatarurl'   => Arr::get($user, 'data')['imageurl'],          //googledata
+            'email'       => Arr::get($user, 'data')['email'],             //email
+            'vlevel'      => Arr::get($user, 'data')['vlevel'],            //profile
+            'vpoints'     => Arr::get($user, 'data')['vpoints'],           //profile
+            'quarantine'  => Arr::get($user, 'data')['quarantine'],        //profile
+            'active'      => Arr::get($user, 'data')['active'],            //profile
+            'blacklisted' => Arr::get($user, 'data')['blacklisted'],       //profile
+            'verified'    => Arr::get($user, 'data')['verified'],          //profile
+            'flagged'     => Arr::get($user, 'data')['flagged'],            //profile
         ]);
     }
 

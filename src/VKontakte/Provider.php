@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\VKontakte;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -53,7 +54,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = json_decode($response->getBody()->getContents(), true)['response'][0];
 
         return array_merge($response, [
-            'email' => array_get($token, 'email'),
+            'email' => Arr::get($token, 'email'),
         ]);
     }
 
@@ -63,9 +64,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => array_get($user, 'uid'), 'nickname' => array_get($user, 'screen_name'),
-            'name' => trim(array_get($user, 'first_name').' '.array_get($user, 'last_name')),
-            'email' => array_get($user, 'email'), 'avatar' => array_get($user, 'photo'),
+            'id' => Arr::get($user, 'uid'), 'nickname' => Arr::get($user, 'screen_name'),
+            'name' => trim(Arr::get($user, 'first_name').' '.Arr::get($user, 'last_name')),
+            'email' => Arr::get($user, 'email'), 'avatar' => Arr::get($user, 'photo'),
         ]);
     }
 
@@ -100,7 +101,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             $token = $this->getAccessTokenResponse($this->getCode())
         ));
 
-        return $user->setToken(array_get($token, 'access_token'));
+        return $user->setToken(Arr::get($token, 'access_token'));
     }
 
     /**

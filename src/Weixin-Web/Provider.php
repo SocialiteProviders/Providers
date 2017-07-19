@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\WeixinWeb;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -98,7 +99,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => array_get($user, 'openid'), 'nickname' => $user['nickname'],
+            'id' => Arr::get($user, 'openid'), 'nickname' => $user['nickname'],
             'avatar' => $user['headimgurl'], 'name' => null, 'email' => null,
         ]);
     }

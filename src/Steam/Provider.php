@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Steam;
 
 use LightOpenID;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -88,7 +89,7 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         $contents = json_decode($response->getBody()->getContents(), true);
 
-        return array_get($contents, 'response.players.0');
+        return Arr::get($contents, 'response.players.0');
     }
 
     /**
@@ -98,10 +99,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'id' => $user['steamid'],
-            'nickname' => array_get($user, 'personaname'),
-            'name' => array_get($user, 'realname'),
+            'nickname' => Arr::get($user, 'personaname'),
+            'name' => Arr::get($user, 'realname'),
             'email' => null,
-            'avatar' => array_get($user, 'avatarmedium'),
+            'avatar' => Arr::get($user, 'avatarmedium'),
         ]);
     }
 

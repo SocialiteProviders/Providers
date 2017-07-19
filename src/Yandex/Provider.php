@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Yandex;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -54,9 +55,9 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => $user['login'],
-            'name' => array_get($user, 'real_name'),
-            'email' => array_get($user, 'default_email'),
-            'avatar' => 'https://avatars.yandex.net/get-yapic/'.array_get($user, 'default_avatar_id').'/islands-200',
+            'name' => Arr::get($user, 'real_name'),
+            'email' => Arr::get($user, 'default_email'),
+            'avatar' => 'https://avatars.yandex.net/get-yapic/'.Arr::get($user, 'default_avatar_id').'/islands-200',
         ]);
     }
 

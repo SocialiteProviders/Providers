@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\VersionOne;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use Guzzle\Http\Exception\BadResponseException;
@@ -99,7 +100,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id' => str_replace('Member:', '', $user['_oid']),
             'nickname' => $user['Username'], 'name' => $user['Name'],
-            'email' => $user['Email'], 'avatar' => array_get($user, 'Avatar.Content'),
+            'email' => $user['Email'], 'avatar' => Arr::get($user, 'Avatar.Content'),
         ]);
     }
 

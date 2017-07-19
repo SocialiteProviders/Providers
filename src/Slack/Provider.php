@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Slack;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Arr;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -117,7 +118,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             if ($exception->hasResponse()) {
                 $data = json_decode($exception->getResponse()->getBody(), true);
 
-                if (array_get($data, 'error') === 'missing_scope') {
+                if (Arr::get($data, 'error') === 'missing_scope') {
                     return [];
                 }
             }
@@ -134,11 +135,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => array_get($user, 'user.id'),
-            'name' => array_get($user, 'user.name'),
-            'email' => array_get($user, 'user.email'),
-            'avatar' => array_get($user, 'user.image_192'),
-            'organization_id' => array_get($user, 'team.id'),
+            'id' => Arr::get($user, 'user.id'),
+            'name' => Arr::get($user, 'user.name'),
+            'email' => Arr::get($user, 'user.email'),
+            'avatar' => Arr::get($user, 'user.image_192'),
+            'organization_id' => Arr::get($user, 'team.id'),
         ]);
     }
 }
