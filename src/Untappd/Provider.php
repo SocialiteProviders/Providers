@@ -37,9 +37,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.untappd.com/v4/user/info?access_token=' . $token, [
+            'https://api.untappd.com/v4/user/info?access_token='.$token, [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -54,7 +54,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => $user['user_name'],
-            'name' => array_get($user, 'first_name') . ' ' . array_get($user, 'last_name'),
+            'name' => array_get($user, 'first_name').' '.array_get($user, 'last_name'),
             'email' => array_get($user, 'settings.email_address'),
             'avatar' => array_get($user, 'user_avatar'),
             'avatar_original' => array_get($user, 'user_avatar_hd'),
