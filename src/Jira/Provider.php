@@ -13,18 +13,18 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'JIRA';
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function mapUserToObject(array $user)
-     {
-         $userObject = new User();
+    /**
+     * {@inheritdoc}
+     */
+    protected function mapUserToObject(array $user)
+    {
+        $userObject = new User();
 
-         if (isset($user['extra'])) {
-             $userObject = $userObject->setRaw($user['extra']);
-         }
+        if (isset($user['extra'])) {
+            $userObject = $userObject->setRaw($user['extra']);
+        }
 
-         return $userObject->map([
+        return $userObject->map([
              'id' => Arr::get($user, 'key'),
              'nickname' => Arr::get($user, 'nickname', Arr::get($user, 'name')),
              'name' => Arr::get($user, 'displayName', Arr::get($user, 'name')),
@@ -35,8 +35,8 @@ class Provider extends AbstractProvider
              'locale' => Arr::get($user, 'locale'),
          ]);
 
-         return $userObject;
-     }
+        return $userObject;
+    }
 
     public static function additionalConfigKeys()
     {
