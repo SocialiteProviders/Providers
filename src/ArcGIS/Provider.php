@@ -18,9 +18,10 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getBaseUrl()
     {
-        $port = is_null($this->getServerPort()) ? '' : ':' . $this->getServerPort();
-        $subdirectory = is_null($this->getServerDirectory()) ? '' : '/' . $this->getServerDirectory();
-        return 'https://' . $this->getServerHost() . $port . $subdirectory;
+        $port = is_null($this->getServerPort()) ? '' : ':'.$this->getServerPort();
+        $subdirectory = is_null($this->getServerDirectory()) ? '' : '/'.$this->getServerDirectory();
+
+        return 'https://'.$this->getServerHost().$port.$subdirectory;
     }
 
     /**
@@ -29,7 +30,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            $this->getBaseUrl() . '/sharing/rest/oauth2/authorize', $state
+            $this->getBaseUrl().'/sharing/rest/oauth2/authorize', $state
         );
     }
 
@@ -38,7 +39,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return $this->getBaseUrl() . '/sharing/rest/oauth2/token';
+        return $this->getBaseUrl().'/sharing/rest/oauth2/token';
     }
 
     /**
@@ -47,9 +48,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            $this->getBaseUrl() . '/sharing/rest/community/self', [
+            $this->getBaseUrl().'/sharing/rest/community/self', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -103,5 +104,4 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return $this->getConfig('arcgis_directory', null);
     }
-
 }
