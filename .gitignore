@@ -1,8 +1,3 @@
 composer.lock
 phpunit.xml
 vendor
-
-.idea/modules.xml
-.idea/providers.iml
-.idea/vcs.xml
-.idea/workspace.xml
