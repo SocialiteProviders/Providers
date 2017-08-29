@@ -36,6 +36,7 @@ split Acclaim               src/Acclaim:git@github.com:SocialiteProviders/Acclai
 split Admitad               src/Admitad:git@github.com:SocialiteProviders/Admitad.git                       "master"
 split AngelList             src/AngelList:git@github.com:SocialiteProviders/AngelList.git                   "master"
 split App.net               src/App.net:git@github.com:SocialiteProviders/App.net.git                       "master"
+split ArcGIS                src/ArcGIS:git@github.com:SocialiteProviders/ArcGIS.git                         "master"
 split Asana                 src/Asana:git@github.com:SocialiteProviders/Asana.git                           "master"
 split Battle.net            src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                 "master"
 split Bit.ly                src/Bit.ly:git@github.com:SocialiteProviders/Bit.ly.git                         "master"
