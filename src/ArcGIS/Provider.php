@@ -51,8 +51,8 @@ class Provider extends AbstractProvider implements ProviderInterface
             $this->getBaseUrl().'/sharing/rest/community/self', [
             'query' => [
                 'token' => $token,
-                'f' => 'json'
-            ]
+                'f' => 'json',
+            ],
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
