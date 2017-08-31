@@ -49,8 +49,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->get(
             $this->getBaseUrl().'/sharing/rest/community/self', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
+            'query' => [
+                'token' => $token,
+                'f' => 'json',
             ],
         ]);
 
