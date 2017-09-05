@@ -1,7 +1,7 @@
 {
     "name": "socialiteproviders/withings",
     "description": "Withings OAuth1 Provider for Laravel Socialite using code from Paxx\\Withings",
-    "license": "BSD-3-Clause",
+    "license": "MIT",
     "authors": [{
         "name": "Alexandre Levavasseur",
         "email": "alexandre+github@13x.fr"
