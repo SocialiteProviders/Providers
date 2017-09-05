@@ -2,18 +2,18 @@
 
 namespace SocialiteProviders\Withings;
 
-use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 use SocialiteProviders\Manager\OAuth1\User;
 use League\OAuth1\Client\Credentials\TokenCredentials;
-use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use League\OAuth1\Client\Credentials\CredentialsException;
+use League\OAuth1\Client\Credentials\TemporaryCredentials;
+use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 
 class Server extends BaseServer
 {
     private $urlUserDetails = '';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function urlTemporaryCredentials()
     {
@@ -21,7 +21,7 @@ class Server extends BaseServer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function urlAuthorization()
     {
@@ -29,7 +29,7 @@ class Server extends BaseServer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function urlTokenCredentials()
     {
@@ -37,7 +37,7 @@ class Server extends BaseServer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function urlUserDetails()
     {
@@ -45,29 +45,29 @@ class Server extends BaseServer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function userDetails($data, TokenCredentials $tokenCredentials)
     {
-        if(isset($data['body']['users'][0])) {
+        if (isset($data['body']['users'][0])) {
             $data = $data['body']['users'][0];
         }
 
         $user = new User();
 
-        $user->uid       = $data['id'];
-        $user->name      = $data['firstname'] . ' ' . $data['lastname'];
+        $user->uid = $data['id'];
+        $user->name = $data['firstname'].' '.$data['lastname'];
 
         // Save all extra data
-        $user->extra = array(
+        $user->extra = [
             'firstName' => $data['firstname'],
             'lastName'  => $data['lastname'],
             'gender'    => $data['gender'],
             'fatmethod' => $data['fatmethod'],
             'birthdate' => $data['birthdate'],
             'shortname' => $data['shortname'],
-            'ispublic'  => $data['ispublic']
-        );
+            'ispublic'  => $data['ispublic'],
+        ];
 
         return $user;
     }
@@ -83,7 +83,7 @@ class Server extends BaseServer
      */
     public function userUid($data, TokenCredentials $tokenCredentials)
     {
-        if(isset($data['body']['users'][0])) {
+        if (isset($data['body']['users'][0])) {
             $data = $data['body']['users'][0];
         }
 
@@ -91,19 +91,17 @@ class Server extends BaseServer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function userEmail($data, TokenCredentials $tokenCredentials)
     {
-        return;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function userScreenName($data, TokenCredentials $tokenCredentials)
     {
-        return;
     }
 
     /**
@@ -117,7 +115,7 @@ class Server extends BaseServer
     {
         parse_str($body, $data);
 
-        if (!$data || !is_array($data)) {
+        if (! $data || ! is_array($data)) {
             throw new CredentialsException('Unable to parse temporary credentials response.');
         }
 
@@ -132,21 +130,22 @@ class Server extends BaseServer
      * Since Withings has their own unique implementation of oAuth, we need to override
      * the fetchUserDetails-method and add the oauth headers as querystrings.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function fetchUserDetails(TokenCredentials $tokenCredentials, $force=true) {
-        if (!$this->cachedUserDetailsResponse || $force) {
+    protected function fetchUserDetails(TokenCredentials $tokenCredentials, $force = true)
+    {
+        if (! $this->cachedUserDetailsResponse || $force) {
 
             // The user-endpoint
             $endpoint = 'http://wbsapi.withings.net/user';
 
             // Parse the parameters
-            $parameters = $this->getOauthParameters($endpoint, $tokenCredentials, array(
-                'action' => 'getbyuserid'
-            ));
+            $parameters = $this->getOauthParameters($endpoint, $tokenCredentials, [
+                'action' => 'getbyuserid',
+            ]);
 
             // Set the urlUserDetails so the parent method can call it via $this->urlUserDetails();
-            $this->urlUserDetails = $endpoint . '?' . http_build_query($parameters);
+            $this->urlUserDetails = $endpoint.'?'.http_build_query($parameters);
         }
 
         // Call the parent when we're done
@@ -166,14 +165,15 @@ class Server extends BaseServer
      * @param array $extraParams
      * @return array
      */
-    private function getOauthParameters($url, TokenCredentials $tokenCredentials, $extraParams = array()) {
+    private function getOauthParameters($url, TokenCredentials $tokenCredentials, $extraParams = [])
+    {
         $parameters = array_merge(
             $this->baseProtocolParameters(),
             $this->additionalProtocolParameters(),
             $extraParams,
-            array(
+            [
                 'oauth_token' => $tokenCredentials->getIdentifier(),
-            )
+            ]
         );
 
         $this->signature->setCredentials($tokenCredentials);
@@ -182,5 +182,4 @@ class Server extends BaseServer
 
         return $parameters;
     }
-
 }
