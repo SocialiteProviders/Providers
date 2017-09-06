@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/withings",
+    "description": "Withings OAuth1 Provider for Laravel Socialite using code from Paxx\\Withings",
+    "license": "MIT",
+    "authors": [{
+        "name": "Alexandre Levavasseur",
+        "email": "alexandre+github@13x.fr"
+    }],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "suggest": {
+        "paxx/withings": "Withings Body metrics Services API"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Withings\\": ""
+        }
+    }
+}
