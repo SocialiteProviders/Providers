@@ -1,5 +1,5 @@
 {
-    "name": "ufutx/ufutx-socialite",
+    "name": "socialiteproviders/ufutx-socialite",
     "description": "Ufutx OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "authors": [{
@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ufutx\\Socialite\\": ""
+            "SocialiteProviders\\Ufutx": ""
         }
     }
 }

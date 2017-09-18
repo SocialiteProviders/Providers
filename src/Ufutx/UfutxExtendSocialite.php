@@ -1,6 +1,6 @@
 <?php
 
-namespace Ufutx\Socialite;
+namespace SocialiteProviders\Ufutx;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
