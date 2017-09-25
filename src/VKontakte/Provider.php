@@ -102,7 +102,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         ));
 
         return $user->setToken(Arr::get($token, 'access_token'))
-            ->setExpiresIn(array_get($token, 'expires_in'));
+            ->setExpiresIn(Arr::get($token, 'expires_in'));
     }
 
     /**
