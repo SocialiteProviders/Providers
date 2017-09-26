@@ -101,7 +101,8 @@ class Provider extends AbstractProvider implements ProviderInterface
             $token = $this->getAccessTokenResponse($this->getCode())
         ));
 
-        return $user->setToken(Arr::get($token, 'access_token'));
+        return $user->setToken(Arr::get($token, 'access_token'))
+            ->setExpiresIn(Arr::get($token, 'expires_in'));
     }
 
     /**
