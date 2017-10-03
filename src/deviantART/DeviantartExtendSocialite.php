@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\deviantART;
+namespace SocialiteProviders\Deviantart;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
