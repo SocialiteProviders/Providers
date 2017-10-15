@@ -49,7 +49,6 @@ class Provider extends AbstractProvider implements ProviderInterface
             ],
         ]);
 
-
         return array_merge(json_decode($response->getBody()->getContents(), true)['data'], json_decode($response2->getBody()->getContents(), true)['data']);
     }
 
