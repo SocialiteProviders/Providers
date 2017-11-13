@@ -77,15 +77,21 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
-            'query' => [
-                'access_token' => $token,
-                'openid' => $this->openId,
-                'lang' => 'zh_CN',
-            ],
-        ]);
+        if (in_array('snsapi_base', $this->scopes)) {
+            $user = ['openid' => $this->openId];
+        } else {
+            $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
+                'query' => [
+                    'access_token' => $token,
+                    'openid'       => $this->openId,
+                    'lang'         => 'zh_CN',
+                ],
+            ]);
 
-        return json_decode($response->getBody(), true);
+            $user = json_decode($response->getBody(), true);
+        }
+
+        return $user;
     }
 
     /**
