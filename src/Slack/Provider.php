@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Slack;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Arr;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -106,9 +107,24 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://slack.com/api/users.identity?token='.$token
-        );
+        try {
+            $response = $this->getHttpClient()->get(
+                'https://slack.com/api/users.identity?token='.$token
+            );
+        } catch (RequestException $exception) {
+            // Getting user informations requires the "identity.*" scopes, however we might want to not add them to the
+            // scope list for various reasons. Instead of throwing an exception on this error, we return an empty user.
+
+            if ($exception->hasResponse()) {
+                $data = json_decode($exception->getResponse()->getBody(), true);
+
+                if (Arr::get($data, 'error') === 'missing_scope') {
+                    return [];
+                }
+            }
+
+            throw $exception;
+        }
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -119,11 +135,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['user']['id'],
-            'name' => $user['user']['name'],
-            'email' => $user['user']['email'],
-            'avatar' => $user['user']['image_192'],
-            'organization_id' => $user['team']['id'],
+            'id' => Arr::get($user, 'user.id'),
+            'name' => Arr::get($user, 'user.name'),
+            'email' => Arr::get($user, 'user.email'),
+            'avatar' => Arr::get($user, 'user.image_192'),
+            'organization_id' => Arr::get($user, 'team.id'),
         ]);
     }
 }

@@ -127,14 +127,4 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         return $this->credentialsResponseBody;
     }
-
-    /**
-     * {@inheritdoc}.
-     */
-    public function scopes(array $scopes)
-    {
-        $this->scopes = array_unique($scopes);
-
-        return $this;
-    }
 }

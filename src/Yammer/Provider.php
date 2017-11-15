@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Yammer;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -73,6 +74,6 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function parseAccessToken($body)
     {
-        return json_decode($body, true)['access_token']['token'];
+        return Arr::get($body, 'access_token.token');
     }
 }

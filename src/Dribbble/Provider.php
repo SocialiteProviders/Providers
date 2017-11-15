@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Dribbble;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -55,7 +56,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => $user['username'],
-            'name' => $user['name'], 'email' => array_get($user, 'email'),
+            'name' => $user['name'], 'email' => Arr::get($user, 'email'),
             'avatar' => $user['avatar_url'],
         ]);
     }

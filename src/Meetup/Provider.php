@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Meetup;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -55,7 +56,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => $user['name'],
-            'name' => $user['name'], 'avatar' => array_get($user, 'photo.photo_link'),
+            'name' => $user['name'], 'avatar' => Arr::get($user, 'photo.photo_link'),
         ]);
     }
 

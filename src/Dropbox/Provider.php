@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Dropbox;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -56,7 +57,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'nickname' => null,
             'name' => $user['name']['display_name'],
             'email' => $user['email'],
-            'avatar' => array_get($user, 'profile_photo_url'),
+            'avatar' => Arr::get($user, 'profile_photo_url'),
         ]);
     }
 

@@ -53,11 +53,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'uid' => substr(strrchr($user['user']['userid_sec'][0], ':'), 1), //non-regex solution to extract username
-            'name' => $user['user']['name'],
-            'email' => strtolower($user['user']['email']),
-        ]);
+        return (new User())->setRaw($user);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\LinkedIn;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
@@ -112,7 +113,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id' => $user['id'], 'nickname' => null,
             'name' => $user['formattedName'], 'email' => $user['emailAddress'],
-            'avatar' => array_get($user, 'pictureUrl'),
+            'avatar' => Arr::get($user, 'pictureUrl'),
         ]);
     }
 

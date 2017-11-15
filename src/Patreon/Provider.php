@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Patreon;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -64,7 +65,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'id' => $user['data']['id'],
-            'nickname' => array_get($user['data']['attributes'], 'vanity', $user['data']['attributes']['full_name']),
+            'nickname' => Arr::get($user['data']['attributes'], 'vanity', $user['data']['attributes']['full_name']),
             'name' => $user['data']['attributes']['full_name'], 'email' => $user['data']['attributes']['email'],
             'avatar' => $user['data']['attributes']['image_url'],
         ]);
