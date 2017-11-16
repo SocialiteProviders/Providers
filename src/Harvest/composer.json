@@ -1,0 +1,18 @@
+{
+    "name": "socialiteproviders/harvest",
+    "description": "Harvest OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Jason Jozwiak",
+        "email": "jason.jozwiak@gmail.com"
+    }],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "socialiteproviders/manager": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Harvest\\": ""
+        }
+    }
+}
