@@ -2,10 +2,9 @@
 
 namespace SocialiteProviders\Okta;
 
-use GuzzleHttp\ClientInterface;
+use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -32,7 +31,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected $scopes = [
         'openid',
         'profile',
-        'email'
+        'email',
     ];
 
     /**
@@ -90,7 +89,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'last_name' => array_get($user, 'family_name'),
             'profileUrl' => array_get($user, 'profile'),
             'address' => array_get($user, 'address'),
-            'phone' => array_get($user, 'phone')
+            'phone' => array_get($user, 'phone'),
         ]);
     }
 
@@ -100,8 +99,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
-
 }
