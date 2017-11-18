@@ -42,8 +42,14 @@ class Provider extends AbstractProvider implements ProviderInterface
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
+        $response2 = $this->getHttpClient()->get(
+            'https://api.imgur.com/3/account/me/settings', [
+            'headers' => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
 
-        return json_decode($response->getBody()->getContents(), true)['data'];
+        return array_merge(json_decode($response->getBody()->getContents(), true)['data'], json_decode($response2->getBody()->getContents(), true)['data']);
     }
 
     /**
@@ -52,8 +58,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => $user['url'], 'name' => null,
-            'email' => null, 'avatar' => null,
+            'id' => $user['id'],
+            'nickname' => $user['url'],
+            'name' => $user['url'],
+            'email' => $user['email'],
+            'avatar' => null,
         ]);
     }
 
