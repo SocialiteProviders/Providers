@@ -39,9 +39,20 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected $scopeSeparator = ' ';
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getOktaUrl()
     {
-        return config('services.okta.url');
+        return $this->getConfig('base_url');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['base_url'];
     }
 
     /**
