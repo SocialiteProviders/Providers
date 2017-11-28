@@ -1,10 +1,10 @@
 <?php
 
-namespace SocialiteProviders\Hitbox;
+namespace SocialiteProviders\Smashcast;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class HitboxExtendSocialite
+class SmashcastExtendSocialite
 {
     /**
      * Execute the provider.
