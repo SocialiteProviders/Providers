@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\Hitbox;
+namespace SocialiteProviders\Smashcast;
 
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -12,7 +12,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'HITBOX';
+    const IDENTIFIER = 'SMASHCAST';
 
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://api.hitbox.tv/oauth/login', $state);
+        return $this->buildAuthUrlFromBase('https://api.smashcast.tv/oauth/login', $state);
     }
 
     /**
@@ -32,7 +32,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://api.hitbox.tv/oauth/exchange';
+        return 'https://api.smashcast.tv/oauth/exchange';
     }
 
     /**
@@ -42,7 +42,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $username = $this->getUserNameByToken($token);
 
-        $response = $this->getHttpClient()->get('https://api.hitbox.tv/user/'.$username, [
+        $response = $this->getHttpClient()->get('https://api.smashcast.tv/user/'.$username, [
             'query' => ['authToken' => $token],
         ]);
 
@@ -51,7 +51,7 @@ class Provider extends AbstractProvider implements ProviderInterface
 
     protected function getUserNameByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://api.hitbox.tv/userfromtoken/'.$token);
+        $response = $this->getHttpClient()->get('https://api.smashcast.tv/userfromtoken/'.$token);
 
         return Arr::get(json_decode($response->getBody(), true), 'user_name');
     }
