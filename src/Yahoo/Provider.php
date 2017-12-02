@@ -53,13 +53,14 @@ class Provider extends AbstractProvider implements ProviderInterface
      * Maps Yahoo object to User Object.
      *
      * Note: To have access to e-mail, you need to request "Profiles (Social Directory) - Read/Write Public and Private"
+     * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
             'id' => $user['guid'],
             'nickname' => $user['nickname'],
-            'name' => null,
+            'name' => trim(sprintf('%s %s', Arr::get($user, 'givenName'), Arr::get($user, 'familyName'))),
             'email' => Arr::get($user, 'emails.0.handle'),
             'avatar' => Arr::get($user, 'image.imageUrl'),
         ]);
@@ -75,6 +76,9 @@ class Provider extends AbstractProvider implements ProviderInterface
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function parseAccessToken($body)
     {
         $this->xoauth_yahoo_guid = Arr::get($body, 'xoauth_yahoo_guid');
