@@ -54,6 +54,7 @@ split Deezer                src/Deezer:git@github.com:SocialiteProviders/Deezer.
 split deviantART            src/deviantART:git@github.com:SocialiteProviders/deviantART.git                 "master"
 split DigitalOcean          src/DigitalOcean:git@github.com:SocialiteProviders/DigitalOcean.git             "master"
 split Discord               src/Discord:git@github.com:SocialiteProviders/Discord.git                       "master"
+split Discogs               src/Discogs:git@github.com:SocialiteProviders/Discogs.git                       "master"
 split Disqus                src/Disqus:git@github.com:SocialiteProviders/Disqus.git                         "master"
 split Douban                src/Douban:git@github.com:SocialiteProviders/Douban.git                         "master"
 split Dribbble              src/Dribbble:git@github.com:SocialiteProviders/Dribbble.git                     "master"
