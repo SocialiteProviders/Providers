@@ -51,7 +51,7 @@ class Server extends BaseServer
         $user = new User();
         $user->id = $data['id'];
         $user->nickname = $data['username']['_content'];
-        $user->name = $data['realname']['_content'];
+        $user->name = array_get($data, 'realname._content');
         $user->extra = array_diff_key($data, array_flip([
             'id', 'username', 'realname',
         ]));
@@ -104,8 +104,8 @@ class Server extends BaseServer
 
         $client = $this->createHttpClient();
 
-        $response = $client->get($url)->send();
+        $response = $client->request('GET', $url);
 
-        return $response->json();
+        return json_decode($response->getBody()->getContents(), true);
     }
 }
