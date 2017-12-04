@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\Discogs;
 
-use SocialiteProviders\Manager\OAuth1\AbstractProvider;
 use SocialiteProviders\Manager\OAuth1\User;
+use SocialiteProviders\Manager\OAuth1\AbstractProvider;
 
 class Provider extends AbstractProvider
 {
@@ -13,12 +13,12 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'DISCOGS';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function user()
     {
         if (! $this->hasNecessaryVerifier()) {
-            throw new \InvalidArgumentException("Invalid request. Missing OAuth verifier.");
+            throw new \InvalidArgumentException('Invalid request. Missing OAuth verifier.');
         }
         $token = $this->getToken();
         $tokenCredentials = $token['tokenCredentials'];
@@ -29,7 +29,7 @@ class Provider extends AbstractProvider
             'nickname' => $user->nickname,
             'name'     => $user->name,
             'email'    => $user->email,
-            'avatar'   => $user->avatar
+            'avatar'   => $user->avatar,
         ])->setToken($tokenCredentials->getIdentifier(), $tokenCredentials->getSecret());
     }
 }
