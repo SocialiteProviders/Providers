@@ -5,7 +5,6 @@ namespace SocialiteProviders\VKontakte;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
-use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider implements ProviderInterface
@@ -46,9 +45,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $lang = $this->getConfig('lang');
-        $lang = $lang ? '&language=' . $lang : '';
+        $lang = $lang ? '&language='.$lang : '';
         $response = $this->getHttpClient()->get(
-            'https://api.vk.com/method/users.get?access_token=' . $token . '&fields=' . implode(',', $this->fields) . $lang
+            'https://api.vk.com/method/users.get?access_token='.$token.'&fields='.implode(',', $this->fields).$lang
         );
 
         $response = json_decode($response->getBody()->getContents(), true)['response'][0];
@@ -64,7 +63,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id' => Arr::get($user, 'uid'),
             'nickname' => Arr::get($user, 'screen_name'),
-            'name' => trim(Arr::get($user, 'first_name') . ' ' . Arr::get($user, 'last_name')),
+            'name' => trim(Arr::get($user, 'first_name').' '. Arr::get($user, 'last_name')),
             'email' => Arr::get($user, 'email'),
             'avatar' => Arr::get($user, 'photo'),
         ]);
