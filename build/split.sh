@@ -88,6 +88,7 @@ split LinkedIn              src/LinkedIn:git@github.com:SocialiteProviders/Linke
 split MailChimp             src/MailChimp:git@github.com:SocialiteProviders/MailChimp.git                   "master"
 split Medium                src/Medium:git@github.com:SocialiteProviders/Medium.git                         "master"
 split Meetup                src/Meetup:git@github.com:SocialiteProviders/Meetup.git                         "master"
+split Microsoft             src/Microsoft:git@github.com:SocialiteProviders/Microsoft.git                   "master"
 split Microsoft-Azure       src/Microsoft-Azure:git@github.com:SocialiteProviders/Microsoft-Azure.git       "master"
 split Microsoft-Graph       src/Microsoft-Graph:git@github.com:SocialiteProviders/Microsoft-Graph.git       "master"
 split Microsoft-Live        src/Microsoft-Live:git@github.com:SocialiteProviders/Microsoft-Live.git         "master"
