@@ -14,7 +14,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     const IDENTIFIER = 'LINE';
 
     /**
-     * {@inheritdoc}
+     * Get the authentication URL for the provider.
+     *
+     * @param string $state
+     *
+     * @return string
      */
     protected function getAuthUrl($state)
     {
@@ -24,7 +28,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get the token URL for the provider.
+     *
+     * @return string
      */
     protected function getTokenUrl()
     {
@@ -32,7 +38,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get the raw user for the given access token.
+     *
+     * @param string $token
+     *
+     * @return array
      */
     protected function getUserByToken($token)
     {
@@ -42,12 +52,15 @@ class Provider extends AbstractProvider implements ProviderInterface
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
-
         return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
-     * {@inheritdoc}
+     * Map the raw user array to a Socialite User instance.
+     *
+     * @param array $user
+     *
+     * @return \Laravel\Socialite\User
      */
     protected function mapUserToObject(array $user)
     {
@@ -61,7 +74,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get the POST fields for the token request.
+     *
+     * @param string $code
+     *
+     * @return array
      */
     protected function getTokenFields($code)
     {
