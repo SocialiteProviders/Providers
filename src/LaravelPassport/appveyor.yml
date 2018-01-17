@@ -1,0 +1,46 @@
+build: false
+platform: x86
+clone_folder: c:\projects\terminal
+
+cache:
+  - c:\php -> appveyor.yml
+
+environment:
+  matrix:
+    - PHP_DOWNLOAD_FILE: php-5.5.9-nts-Win32-VC11-x86.zip
+    - PHP_DOWNLOAD_FILE: php-5.6.4-nts-Win32-VC11-x86.zip
+    - PHP_DOWNLOAD_FILE: php-7.0.0-nts-Win32-VC14-x86.zip
+    - PHP_DOWNLOAD_FILE: php-7.1.0-nts-Win32-VC14-x86.zip
+
+init:
+  - SET PATH=c:\php;%PATH%
+  - SET COMPOSER_NO_INTERACTION=1
+  - SET PHP=1
+
+install:
+  - IF EXIST c:\php (SET PHP=0) ELSE (mkdir c:\php)
+  - cd c:\php
+  - IF %PHP%==1 appveyor DownloadFile https://raw.githubusercontent.com/symfony/binary-utils/master/cacert.pem
+  - IF %PHP%==1 appveyor DownloadFile http://windows.php.net/downloads/releases/archives/%PHP_DOWNLOAD_FILE%
+  - IF %PHP%==1 7z x %PHP_DOWNLOAD_FILE% -y >nul
+  - IF %PHP%==1 del /Q *.zip
+  - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
+  - IF %PHP%==1 copy /Y php.ini-development php.ini
+  - IF %PHP%==1 echo max_execution_time=1200 >> php.ini
+  - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
+  - IF %PHP%==1 echo extension_dir=ext >> php.ini
+  - IF %PHP%==1 echo extension=php_curl.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_intl.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_pdo_sqlite.dll >> php.ini
+  - IF %PHP%==1 echo curl.cainfo=c:\php\cacert.pem >> php.ini
+  - appveyor DownloadFile https://getcomposer.org/composer.phar
+  - cd c:\projects\terminal
+  - mkdir %APPDATA%\Composer
+  - composer update --prefer-dist --no-progress --ansi
+
+test_script:
+  - cd c:\projects\terminal
+  - vendor\bin\phpunit.bat --verbose
