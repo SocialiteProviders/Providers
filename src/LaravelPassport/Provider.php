@@ -24,7 +24,18 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     public static function additionalConfigKeys()
     {
-        return ['host', 'authorize_uri', 'token_uri', 'userinfo_uri', 'userinfo_key'];
+        return [
+            'host',
+            'authorize_uri',
+            'token_uri',
+            'userinfo_uri',
+            'userinfo_key',
+            'user_id',
+            'user_nickname',
+            'user_name',
+            'user_email',
+            'user_avatar',
+        ];
     }
 
     /**
@@ -80,11 +91,11 @@ class Provider extends AbstractProvider implements ProviderInterface
         $data = is_null($key) === true ? $user : Arr::get($user, $key, []);
 
         return (new User())->setRaw($data)->map([
-            'id' => Arr::get($data, 'id'),
-            'nickname' => Arr::get($data, 'username'),
-            'name' => Arr::get($data, 'name'),
-            'email' => Arr::get($data, 'email'),
-            'avatar' => Arr::get($user, 'avatar'),
+            'id' => $this->getUserData($data, 'id'),
+            'nickname' => $this->getUserData($data, 'nickname'),
+            'name' => $this->getUserData($data, 'name'),
+            'email' => $this->getUserData($data, 'email'),
+            'avatar' => $this->getUserData($data, 'avatar'),
         ]);
     }
 
@@ -112,5 +123,13 @@ class Provider extends AbstractProvider implements ProviderInterface
             'token_uri' => 'oauth/token',
             'userinfo_uri' => 'api/user',
         ], $type))), '/');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getUserData($user, $key)
+    {
+        return Arr::get($user, $this->getConfig('user_'.$key, $key));
     }
 }
