@@ -1,0 +1,22 @@
+{
+    "name": "socialiteproviders/laravelpassport",
+    "description": "LaravelPassport OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "recca0120",
+        "email": "recca0120@name.com"
+    }],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "~0.9.4",
+        "phpunit/phpunit": "~4.8|~5.4|~6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\LaravelPassport\\": ""
+        }
+    }
+}
