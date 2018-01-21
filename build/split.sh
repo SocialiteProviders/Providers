@@ -83,6 +83,7 @@ split Intercom              src/Intercom:git@github.com:SocialiteProviders/Inter
 split Jawbone               src/Jawbone:git@github.com:SocialiteProviders/Jawbone.git                       "master"
 split Jira                  src/Jira:git@github.com:SocialiteProviders/Jira.git                             "master"
 split Kakao                 src/Kakao:git@github.com:SocialiteProviders/Kakao.git                           "master"
+split LaravelPassport       src/LaravelPassport:git@github.com:SocialiteProviders/LaravelPassport.git       "master"
 split Line                  src/Line:git@github.com:SocialiteProviders/Line.git                             "master"
 split LinkedIn              src/LinkedIn:git@github.com:SocialiteProviders/LinkedIn.git                     "master"
 split MailChimp             src/MailChimp:git@github.com:SocialiteProviders/MailChimp.git                   "master"
