@@ -25,9 +25,9 @@ class Provider extends AbstractProvider implements ProviderInterface
      * {@inheritdoc}
      */
     protected $parameters = [
-    	'v' => '5.69',
+    	 'v' => '5.69',
     ];
-    
+
     /**
      * {@inheritdoc}
      */
