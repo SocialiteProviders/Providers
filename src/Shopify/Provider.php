@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Shopify;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -41,7 +41,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->get($this->shopifyUrl('/admin/shop.json'), [
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'                 => 'application/json',
                 'X-Shopify-Access-Token' => $token,
             ],
         ]);
@@ -84,8 +84,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Work out the shopify domain based on either the
      * `subdomain` config setting or the current request.
-     * @param  string $uri URI to append to the domain
-     * @return string      The fully qualified *.myshopify.com url
+     *
+     * @param string $uri URI to append to the domain
+     *
+     * @return string The fully qualified *.myshopify.com url
      */
     private function shopifyUrl($uri = null)
     {

@@ -2,11 +2,11 @@
 
 namespace SocialiteProviders\Withings;
 
-use SocialiteProviders\Manager\OAuth1\User;
-use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Credentials\CredentialsException;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
+use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
+use SocialiteProviders\Manager\OAuth1\User;
 
 class Server extends BaseServer
 {
@@ -108,14 +108,16 @@ class Server extends BaseServer
      * Creates temporary credentials from the body response.
      *
      * @param string $body
-     * @return TemporaryCredentials
+     *
      * @throws CredentialsException
+     *
+     * @return TemporaryCredentials
      */
     protected function createTemporaryCredentials($body)
     {
         parse_str($body, $data);
 
-        if (! $data || ! is_array($data)) {
+        if (!$data || !is_array($data)) {
             throw new CredentialsException('Unable to parse temporary credentials response.');
         }
 
@@ -134,7 +136,7 @@ class Server extends BaseServer
      */
     protected function fetchUserDetails(TokenCredentials $tokenCredentials, $force = true)
     {
-        if (! $this->cachedUserDetailsResponse || $force) {
+        if (!$this->cachedUserDetailsResponse || $force) {
 
             // The user-endpoint
             $endpoint = 'http://wbsapi.withings.net/user';
@@ -162,7 +164,8 @@ class Server extends BaseServer
      *
      * @param $url
      * @param TokenCredentials $tokenCredentials
-     * @param array $extraParams
+     * @param array            $extraParams
+     *
      * @return array
      */
     private function getOauthParameters($url, TokenCredentials $tokenCredentials, $extraParams = [])

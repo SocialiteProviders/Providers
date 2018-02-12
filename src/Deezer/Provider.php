@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Deezer;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -54,8 +54,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => $user['name'],
-            'name' => $user['firstname'].' '.$user['lastname'],
+            'id'    => $user['id'], 'nickname' => $user['name'],
+            'name'  => $user['firstname'].' '.$user['lastname'],
             'email' => $user['email'], 'avatar' => $user['picture'],
         ]);
     }
@@ -67,8 +67,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return [
             'app_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
-            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
-            'state' => $state, 'response_type' => 'code',
+            'scope'  => $this->formatScopes($this->scopes, $this->scopeSeparator),
+            'state'  => $state, 'response_type' => 'code',
         ];
     }
 
@@ -96,7 +96,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         return [
             'app_id' => $this->clientId,
             'secret' => $this->clientSecret,
-            'code' => $code,
+            'code'   => $code,
         ];
     }
 

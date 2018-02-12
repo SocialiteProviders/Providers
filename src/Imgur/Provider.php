@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Imgur;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -58,11 +58,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['url'],
-            'name' => $user['url'],
-            'email' => $user['email'],
-            'avatar' => null,
+            'name'     => $user['url'],
+            'email'    => $user['email'],
+            'avatar'   => null,
         ]);
     }
 

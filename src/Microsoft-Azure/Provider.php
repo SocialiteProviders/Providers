@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Azure;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -66,7 +66,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 'api-version' => $this->version,
             ],
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -80,7 +80,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['objectId'], 'nickname' => null, 'name' => $user['displayName'],
+            'id'    => $user['objectId'], 'nickname' => null, 'name' => $user['displayName'],
             'email' => $user['userPrincipalName'], 'avatar' => null,
         ]);
     }
@@ -92,7 +92,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
-            'resource' => 'https://graph.windows.net',
+            'resource'   => 'https://graph.windows.net',
         ]);
     }
 

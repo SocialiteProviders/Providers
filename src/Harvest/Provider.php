@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Harvest;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -42,7 +42,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get('https://api.harvestapp.com/v2/users/me', [
             'headers' => [
                 'Harvest-Account-ID' => env('HARVEST_CLIENT_ACCOUNT'),
-                'Authorization' => 'Bearer '.$token,
+                'Authorization'      => 'Bearer '.$token,
             ],
         ]);
 

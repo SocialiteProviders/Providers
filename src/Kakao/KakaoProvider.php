@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Kakao;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class KakaoProvider extends AbstractProvider implements ProviderInterface
 {
@@ -63,7 +63,7 @@ class KakaoProvider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return [
-            'grant_type' => 'authorization_code', 'client_id' => $this->clientId,
+            'grant_type'   => 'authorization_code', 'client_id' => $this->clientId,
             'redirect_uri' => $this->redirectUrl, 'code' => $code,
         ];
     }
@@ -94,7 +94,7 @@ class KakaoProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => $user['properties']['nickname'], 'name' => null, 'email' => null,
+            'id'     => $user['id'], 'nickname' => $user['properties']['nickname'], 'name' => null, 'email' => null,
             'avatar' => $user['properties']['profile_image'],
         ]);
     }

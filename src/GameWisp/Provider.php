@@ -3,9 +3,9 @@
 namespace SocialiteProviders\GameWisp;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -49,14 +49,14 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $query = [
             'access_token' => $token,
-            'include' => 'profile.picture',
+            'include'      => 'profile.picture',
         ];
 
         $response = $this->getHttpClient()->get(
             'https://api.gamewisp.com/pub/v1/user/information', [
-            'query' => $query,
+            'query'   => $query,
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -72,8 +72,8 @@ class Provider extends AbstractProvider implements ProviderInterface
         //need to do some work here to get the email address and the profile picture.
         //hotfix the api to return email addresses with the user object.
         return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user, 'data.id'), 'username' => Arr::get($user, 'data.username'),
-            'email' => Arr::get($user, 'data.email'), 'avatar' => Arr::get($user, 'data.profile.data.picture.data.content'),
+            'id'          => Arr::get($user, 'data.id'), 'username' => Arr::get($user, 'data.username'),
+            'email'       => Arr::get($user, 'data.email'), 'avatar' => Arr::get($user, 'data.profile.data.picture.data.content'),
             'deactivated' => Arr::get($user, 'data.deactivated'), 'banned' => Arr::get($user, 'data.banned'),
         ]);
     }

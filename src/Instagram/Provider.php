@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Instagram;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -55,7 +55,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $query['sig'] = $signature;
         $response = $this->getHttpClient()->get(
             'https://api.instagram.com/v1/users/self', [
-            'query' => $query,
+            'query'   => $query,
             'headers' => [
                 'Accept' => 'application/json',
             ],
@@ -70,8 +70,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => $user['username'],
-            'name' => $user['full_name'], 'email' => null,
+            'id'     => $user['id'], 'nickname' => $user['username'],
+            'name'   => $user['full_name'], 'email' => null,
             'avatar' => $user['profile_picture'],
         ]);
     }

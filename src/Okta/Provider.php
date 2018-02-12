@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Okta;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -91,16 +91,16 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => array_get($user, 'sub'),
-            'email' => array_get($user, 'email'),
+            'id'             => array_get($user, 'sub'),
+            'email'          => array_get($user, 'email'),
             'email_verified' => array_get($user, 'email_verified', false),
-            'nickname' => array_get($user, 'nickname'),
-            'name' => array_get($user, 'name'),
-            'first_name' => array_get($user, 'given_name'),
-            'last_name' => array_get($user, 'family_name'),
-            'profileUrl' => array_get($user, 'profile'),
-            'address' => array_get($user, 'address'),
-            'phone' => array_get($user, 'phone'),
+            'nickname'       => array_get($user, 'nickname'),
+            'name'           => array_get($user, 'name'),
+            'first_name'     => array_get($user, 'given_name'),
+            'last_name'      => array_get($user, 'family_name'),
+            'profileUrl'     => array_get($user, 'profile'),
+            'address'        => array_get($user, 'address'),
+            'phone'          => array_get($user, 'phone'),
         ]);
     }
 

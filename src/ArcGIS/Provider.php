@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\ArcGIS;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -51,7 +51,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             $this->getBaseUrl().'/sharing/rest/community/self', [
             'query' => [
                 'token' => $token,
-                'f' => 'json',
+                'f'     => 'json',
             ],
         ]);
 
@@ -64,11 +64,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['username'],
+            'id'       => $user['username'],
             'nickname' => $user['username'],
-            'name' => $user['fullName'],
-            'email' => $user['email'],
-            'avatar' => $user['thumbnail'],
+            'name'     => $user['fullName'],
+            'email'    => $user['email'],
+            'avatar'   => $user['thumbnail'],
         ]);
     }
 

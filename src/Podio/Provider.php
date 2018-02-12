@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Podio;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -52,9 +52,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['profile']['user_id'],
+            'id'       => $user['profile']['user_id'],
             'nickname' => $user['profile']['name'], 'name' => null,
-            'email' => $user['profile']['mail'][0], 'avatar' => null,
+            'email'    => $user['profile']['mail'][0], 'avatar' => null,
         ]);
     }
 

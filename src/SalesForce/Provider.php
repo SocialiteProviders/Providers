@@ -3,9 +3,9 @@
 namespace SocialiteProviders\SalesForce;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -49,7 +49,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get(
             $this->getInstanceURL().'/services/oauth2/userinfo', [
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -63,10 +63,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user, 'user_id'),
-            'name' => Arr::get($user, 'name'),
-            'email' => Arr::get($user, 'email'),
-            'avatar' => Arr::get($user, 'picture'),
+            'id'       => Arr::get($user, 'user_id'),
+            'name'     => Arr::get($user, 'name'),
+            'email'    => Arr::get($user, 'email'),
+            'avatar'   => Arr::get($user, 'picture'),
             'nickname' => Arr::get($user, 'nickname'),
         ]);
     }
@@ -90,7 +90,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     private function getInstanceURL()
     {
         $fromConfig = config('services.salesforce.instance_url');
-        if (! is_null($fromConfig)) {
+        if (!is_null($fromConfig)) {
             return $fromConfig;
         }
 

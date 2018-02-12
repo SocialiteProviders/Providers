@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Jira;
 
 use Illuminate\Support\Arr;
+use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Signature\SignatureInterface;
-use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 
 class Server extends BaseServer
@@ -35,7 +35,7 @@ class Server extends BaseServer
             $this->jiraCertPath = Arr::get($clientCredentials, 'cert', $this->getConfig('cert_path', storage_path().'/app/keys/jira.pem'));
 
             $clientCredentials = $this->createClientCredentials($clientCredentials);
-        } elseif (! $clientCredentials instanceof ClientCredentialsInterface) {
+        } elseif (!$clientCredentials instanceof ClientCredentialsInterface) {
             throw new \InvalidArgumentException('Client credentials must be an array or valid object.');
         }
 
@@ -72,6 +72,7 @@ class Server extends BaseServer
         $client = $this->createHttpClient();
 
         $headers = $this->getHeaders($temporaryCredentials, 'POST', $uri, $bodyParameters);
+
         try {
             $response = $client->post($uri, ['headers' => $headers], ['body' => $bodyParameters]);
         } catch (BadResponseException $e) {
@@ -80,7 +81,7 @@ class Server extends BaseServer
         $responseString = (string) $response->getBody();
 
         return [
-            'tokenCredentials' => $this->createTokenCredentials($responseString),
+            'tokenCredentials'        => $this->createTokenCredentials($responseString),
             'credentialsResponseBody' => $responseString,
         ];
     }

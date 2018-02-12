@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Microsoft;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -54,7 +54,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'https://graph.microsoft.com/v1.0/me',
             [
                 'headers' => [
-                    'Accept' => 'application/json',
+                    'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -69,21 +69,21 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => null,
-            'name' => $user['displayName'],
-            'email' => $user['mail'],
-            'avatar' => null,
+            'name'     => $user['displayName'],
+            'email'    => $user['mail'],
+            'avatar'   => null,
 
-            'businessPhones' => $user['businessPhones'],
-            'displayName' => $user['displayName'],
-            'givenName' => $user['givenName'],
-            'jobTitle' => $user['jobTitle'],
-            'mail' => $user['mail'],
-            'mobilePhone' => $user['mobilePhone'],
-            'officeLocation' => $user['officeLocation'],
+            'businessPhones'    => $user['businessPhones'],
+            'displayName'       => $user['displayName'],
+            'givenName'         => $user['givenName'],
+            'jobTitle'          => $user['jobTitle'],
+            'mail'              => $user['mail'],
+            'mobilePhone'       => $user['mobilePhone'],
+            'officeLocation'    => $user['officeLocation'],
             'preferredLanguage' => $user['preferredLanguage'],
-            'surname' => $user['surname'],
+            'surname'           => $user['surname'],
             'userPrincipalName' => $user['userPrincipalName'],
         ]);
     }

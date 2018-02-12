@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\PayPal;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -62,9 +62,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => str_replace('https://www.paypal.com/webapps/auth/identity/user/', null, $user['user_id']),
+            'id'       => str_replace('https://www.paypal.com/webapps/auth/identity/user/', null, $user['user_id']),
             'nickname' => null, 'name' => $user['name'],
-            'email' => $user['email'], 'avatar' => null,
+            'email'    => $user['email'], 'avatar' => null,
         ]);
     }
 
@@ -74,8 +74,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
-            'auth' => [$this->clientId, $this->clientSecret],
+            'headers'     => ['Accept' => 'application/json'],
+            'auth'        => [$this->clientId, $this->clientSecret],
             'form_params' => $this->getTokenFields($code),
         ]);
 

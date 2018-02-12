@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Ufutx;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -56,7 +56,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id' => $user['id'],
             //'mobile' => $user['mobile'],
-            'name' => $user['name'],
+            'name'  => $user['name'],
             'email' => $user['email'],
             //'avatar' => $user['avatar_url'],
         ]);

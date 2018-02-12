@@ -3,9 +3,9 @@
 namespace SocialiteProviders\LaravelPassport;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -91,11 +91,11 @@ class Provider extends AbstractProvider implements ProviderInterface
         $data = is_null($key) === true ? $user : Arr::get($user, $key, []);
 
         return (new User())->setRaw($data)->map([
-            'id' => $this->getUserData($data, 'id'),
+            'id'       => $this->getUserData($data, 'id'),
             'nickname' => $this->getUserData($data, 'nickname'),
-            'name' => $this->getUserData($data, 'name'),
-            'email' => $this->getUserData($data, 'email'),
-            'avatar' => $this->getUserData($data, 'avatar'),
+            'name'     => $this->getUserData($data, 'name'),
+            'email'    => $this->getUserData($data, 'email'),
+            'avatar'   => $this->getUserData($data, 'avatar'),
         ]);
     }
 
@@ -120,8 +120,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return rtrim($this->getConfig('host'), '/').'/'.ltrim(($this->getConfig($type, Arr::get([
             'authorize_uri' => 'oauth/authorize',
-            'token_uri' => 'oauth/token',
-            'userinfo_uri' => 'api/user',
+            'token_uri'     => 'oauth/token',
+            'userinfo_uri'  => 'api/user',
         ], $type))), '/');
     }
 

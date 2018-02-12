@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Reddit;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -45,7 +45,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'https://oauth.reddit.com/api/v1/me', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
-                'User-Agent' => $this->getUserAgent(),
+                'User-Agent'    => $this->getUserAgent(),
             ],
         ]);
 
@@ -58,7 +58,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => $user['name'],
+            'id'   => $user['id'], 'nickname' => $user['name'],
             'name' => null, 'email' => null, 'avatar' => null,
         ]);
     }
@@ -70,10 +70,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'     => 'application/json',
                 'User-Agent' => $this->getUserAgent(),
             ],
-            'auth' => [$this->clientId, $this->clientSecret],
+            'auth'        => [$this->clientId, $this->clientSecret],
             'form_params' => $this->getTokenFields($code),
         ]);
 
@@ -88,7 +88,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return [
-            'grant_type' => 'authorization_code', 'code' => $code,
+            'grant_type'   => 'authorization_code', 'code' => $code,
             'redirect_uri' => $this->redirectUrl,
         ];
     }

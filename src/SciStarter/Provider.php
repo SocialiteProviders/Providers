@@ -2,11 +2,11 @@
 
 namespace SocialiteProviders\SciStarter;
 
-use Illuminate\Support\Arr;
 use GuzzleHttp\ClientInterface;
-use SocialiteProviders\Manager\OAuth2\User;
+use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -52,7 +52,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             ],
             'query' => [
               'client_id' => $this->clientId,
-              'key' => $this->clientSecret,
+              'key'       => $this->clientSecret,
             ],
         ]);
 
@@ -65,12 +65,12 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-          'id' => Arr::get($user, 'user_id'),
-          'nickname' => Arr::get($user, 'handle'),
-          'email' => Arr::get($user, 'email'),
-          'first_name' => Arr::get($user, 'first_name'),
-          'last_name' => Arr::get($user, 'last_name'),
-          'profile_id' => Arr::get($user, 'profile_id'),
+          'id'          => Arr::get($user, 'user_id'),
+          'nickname'    => Arr::get($user, 'handle'),
+          'email'       => Arr::get($user, 'email'),
+          'first_name'  => Arr::get($user, 'first_name'),
+          'last_name'   => Arr::get($user, 'last_name'),
+          'profile_id'  => Arr::get($user, 'profile_id'),
           'profile_url' => Arr::get($user, 'url'),
         ]);
     }
@@ -81,8 +81,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return [
-          'client_id' => $this->clientId,
-          'code' => $code,
+          'client_id'  => $this->clientId,
+          'code'       => $code,
           'grant_type' => 'authorization_code',
         ];
     }
@@ -96,8 +96,8 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json'],
-            $postKey => $this->getTokenFields($code),
-            'query' => [
+            $postKey  => $this->getTokenFields($code),
+            'query'   => [
               'key' => $this->clientSecret, // key instead of client_secret
             ],
         ]);

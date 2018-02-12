@@ -3,9 +3,9 @@
 namespace SocialiteProviders\WordPress;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -59,11 +59,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map(
             [
-                'id' => $user['ID'],
+                'id'       => $user['ID'],
                 'nickname' => $user['username'],
-                'name' => $user['display_name'],
-                'email' => Arr::get($user, 'email'),
-                'avatar' => $user['avatar_URL'],
+                'name'     => $user['display_name'],
+                'email'    => Arr::get($user, 'email'),
+                'avatar'   => $user['avatar_URL'],
             ]
         );
     }
