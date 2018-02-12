@@ -4,10 +4,10 @@ namespace SocialiteProviders\LinkedIn;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -31,8 +31,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getCodeFields($state = null)
     {
         $fields = [
-            'client_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
-            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
+            'client_id'     => $this->clientId, 'redirect_uri' => $this->redirectUrl,
+            'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
             'response_type' => 'code',
         ];
 
@@ -73,7 +73,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $state = Str::random(40);
 
-        if (! $this->isStateless()) {
+        if (!$this->isStateless()) {
             $this->request->getSession()->put('state', $state);
         }
 
@@ -97,8 +97,8 @@ class Provider extends AbstractProvider implements ProviderInterface
             'https://api.linkedin.com/v1/people/~:(id,formatted-name,picture-url,email-address,public-profile-url)', [
             'headers' => [
                 'Accept-Language' => 'en-US',
-                'x-li-format' => 'json',
-                'Authorization' => 'Bearer '.$token,
+                'x-li-format'     => 'json',
+                'Authorization'   => 'Bearer '.$token,
             ],
         ]);
 
@@ -111,8 +111,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null,
-            'name' => $user['formattedName'], 'email' => $user['emailAddress'],
+            'id'     => $user['id'], 'nickname' => null,
+            'name'   => $user['formattedName'], 'email' => $user['emailAddress'],
             'avatar' => Arr::get($user, 'pictureUrl'),
         ]);
     }
@@ -137,8 +137,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return [
-            'client_id' => $this->clientId, 'client_secret' => $this->clientSecret,
-            'code' => $code, 'redirect_uri' => $this->redirectUrl,
+            'client_id'  => $this->clientId, 'client_secret' => $this->clientSecret,
+            'code'       => $code, 'redirect_uri' => $this->redirectUrl,
             'grant_type' => 'authorization_code',
         ];
     }

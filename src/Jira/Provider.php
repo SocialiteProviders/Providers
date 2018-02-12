@@ -3,8 +3,8 @@
 namespace SocialiteProviders\Jira;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth1\User;
 use SocialiteProviders\Manager\OAuth1\AbstractProvider;
+use SocialiteProviders\Manager\OAuth1\User;
 
 class Provider extends AbstractProvider
 {
@@ -25,14 +25,14 @@ class Provider extends AbstractProvider
         }
 
         return $userObject->map([
-             'id' => Arr::get($user, 'key'),
+             'id'       => Arr::get($user, 'key'),
              'nickname' => Arr::get($user, 'nickname', Arr::get($user, 'name')),
-             'name' => Arr::get($user, 'displayName', Arr::get($user, 'name')),
-             'email' => Arr::get($user, 'emailAddress', Arr::get($user, 'email')),
-             'avatar' => Arr::get($user, 'avatarUrls.48x48', Arr::get($user, 'avatar')),
-             'active' => Arr::get($user, 'active'),
+             'name'     => Arr::get($user, 'displayName', Arr::get($user, 'name')),
+             'email'    => Arr::get($user, 'emailAddress', Arr::get($user, 'email')),
+             'avatar'   => Arr::get($user, 'avatarUrls.48x48', Arr::get($user, 'avatar')),
+             'active'   => Arr::get($user, 'active'),
              'timezone' => Arr::get($user, 'timeZone'),
-             'locale' => Arr::get($user, 'locale'),
+             'locale'   => Arr::get($user, 'locale'),
          ]);
 
         return $userObject;

@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Patreon;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -50,7 +50,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get(
             'https://api.patreon.com/oauth2/api/current_user', [
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -64,10 +64,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['data']['id'],
+            'id'       => $user['data']['id'],
             'nickname' => Arr::get($user['data']['attributes'], 'vanity', $user['data']['attributes']['full_name']),
-            'name' => $user['data']['attributes']['full_name'], 'email' => $user['data']['attributes']['email'],
-            'avatar' => $user['data']['attributes']['image_url'],
+            'name'     => $user['data']['attributes']['full_name'], 'email' => $user['data']['attributes']['email'],
+            'avatar'   => $user['data']['attributes']['image_url'],
         ]);
     }
 

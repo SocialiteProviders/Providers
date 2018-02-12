@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\Flickr;
 
-use SocialiteProviders\Manager\OAuth1\User;
 use SocialiteProviders\Manager\OAuth1\AbstractProvider;
+use SocialiteProviders\Manager\OAuth1\User;
 
 class Provider extends AbstractProvider
 {
@@ -18,11 +18,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user['extra'])->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['nickname'],
-            'name' => $user['name'],
-            'email' => null,
-            'avatar' => null,
+            'name'     => $user['name'],
+            'email'    => null,
+            'avatar'   => null,
         ]);
     }
 }

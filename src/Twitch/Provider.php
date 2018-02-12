@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Twitch;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -63,8 +63,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['_id'], 'nickname' => $user['display_name'],
-            'name' => $user['name'], 'email' => Arr::get($user, 'email'),
+            'id'     => $user['_id'], 'nickname' => $user['display_name'],
+            'name'   => $user['name'], 'email' => Arr::get($user, 'email'),
             'avatar' => $user['logo'],
         ]);
     }

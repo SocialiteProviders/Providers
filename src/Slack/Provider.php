@@ -3,13 +3,13 @@
 namespace SocialiteProviders\Slack;
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Arr;
-use GuzzleHttp\HandlerStack;
-use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
-use SocialiteProviders\Manager\OAuth2\User;
+use GuzzleHttp\HandlerStack;
+use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\ProviderInterface;
+use Psr\Http\Message\ResponseInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -135,10 +135,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user, 'user.id'),
-            'name' => Arr::get($user, 'user.name'),
-            'email' => Arr::get($user, 'user.email'),
-            'avatar' => Arr::get($user, 'user.image_192'),
+            'id'              => Arr::get($user, 'user.id'),
+            'name'            => Arr::get($user, 'user.name'),
+            'email'           => Arr::get($user, 'user.email'),
+            'avatar'          => Arr::get($user, 'user.image_192'),
             'organization_id' => Arr::get($user, 'team.id'),
         ]);
     }

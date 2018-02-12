@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Spotify;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -47,7 +47,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get(
             'https://api.spotify.com/v1/me', [
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -61,11 +61,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
-            'nickname' => null,
-            'name' => $user['display_name'],
-            'email' => isset($user['email']) ? $user['email'] : null,
-            'avatar' => Arr::get($user, 'images.0.url'),
+            'id'         => $user['id'],
+            'nickname'   => null,
+            'name'       => $user['display_name'],
+            'email'      => isset($user['email']) ? $user['email'] : null,
+            'avatar'     => Arr::get($user, 'images.0.url'),
             'profileUrl' => isset($user['href']) ? $user['href'] : null,
         ]);
     }

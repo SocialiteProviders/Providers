@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Flickr;
 
-use SocialiteProviders\Manager\OAuth1\User;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
+use SocialiteProviders\Manager\OAuth1\User;
 
 class Server extends BaseServer
 {
@@ -93,11 +93,11 @@ class Server extends BaseServer
     public function getProfile($userId)
     {
         $parameters = [
-            'method' => 'flickr.people.getInfo',
-            'format' => 'json',
+            'method'         => 'flickr.people.getInfo',
+            'format'         => 'json',
             'nojsoncallback' => 1,
-            'user_id' => $userId,
-            'api_key' => $this->clientCredentials->getIdentifier(),
+            'user_id'        => $userId,
+            'api_key'        => $this->clientCredentials->getIdentifier(),
         ];
 
         $url = 'https://api.flickr.com/services/rest/?'.http_build_query($parameters);

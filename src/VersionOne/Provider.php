@@ -2,11 +2,11 @@
 
 namespace SocialiteProviders\VersionOne;
 
-use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
-use Laravel\Socialite\Two\ProviderInterface;
 use Guzzle\Http\Exception\BadResponseException;
+use Illuminate\Support\Arr;
+use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -62,15 +62,15 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         try {
             $data = json_encode([
-                'from' => 'Member',
+                'from'   => 'Member',
                 'select' => ['Name', 'Username', 'Email', 'Avatar.Content'],
-                'where' => ['IsSelf' => 'true'],
+                'where'  => ['IsSelf' => 'true'],
             ]);
 
             $requestOptions = [
                 'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
+                    'Content-Type'  => 'application/json',
+                    'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
                 'body' => $data,
@@ -98,9 +98,9 @@ class Provider extends AbstractProvider implements ProviderInterface
         $user = $user[0][0];
 
         return (new User())->setRaw($user)->map([
-            'id' => str_replace('Member:', '', $user['_oid']),
+            'id'       => str_replace('Member:', '', $user['_oid']),
             'nickname' => $user['Username'], 'name' => $user['Name'],
-            'email' => $user['Email'], 'avatar' => Arr::get($user, 'Avatar.Content'),
+            'email'    => $user['Email'], 'avatar' => Arr::get($user, 'Avatar.Content'),
         ]);
     }
 

@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Smashcast;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -62,10 +62,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user, 'user_id'),
+            'id'       => Arr::get($user, 'user_id'),
             'nickname' => Arr::get($user, 'user_name'),
-            'email' => Arr::get($user, 'user_email'),
-            'avatar' => Arr::get($user, 'user_logo'),
+            'email'    => Arr::get($user, 'user_email'),
+            'avatar'   => Arr::get($user, 'user_logo'),
         ]);
     }
 
@@ -92,8 +92,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return [
             'request_token' => $code,
-            'app_token' => $this->clientId,
-            'hash' => base64_encode($this->clientId.$this->clientSecret),
+            'app_token'     => $this->clientId,
+            'hash'          => base64_encode($this->clientId.$this->clientSecret),
         ];
     }
 

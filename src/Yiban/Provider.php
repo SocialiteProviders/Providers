@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Yiban;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -42,7 +42,7 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         $response = $this->getHttpClient()->post($this->getRevokeUrl(), [
             'headers' => ['Accept' => 'application/json'],
-            $postKey => ['client_id' => $this->clientId, 'access_token' => $token],
+            $postKey  => ['client_id' => $this->clientId, 'access_token' => $token],
         ]);
 
         return json_decode($response->getBody(), true);
@@ -92,11 +92,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['info']['yb_userid'],
-            'name' => $user['info']['yb_username'],
-            'sex' => $user['info']['yb_sex'],
-            'avatar' => $user['info']['yb_userhead'],
-            'schoolId' => $user['info']['yb_schoolid'],
+            'id'        => $user['info']['yb_userid'],
+            'name'      => $user['info']['yb_username'],
+            'sex'       => $user['info']['yb_sex'],
+            'avatar'    => $user['info']['yb_userhead'],
+            'schoolId'  => $user['info']['yb_schoolid'],
             'studentId' => $user['info']['yb_studentid'],
         ]);
     }

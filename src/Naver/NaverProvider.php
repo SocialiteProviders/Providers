@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Naver;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class NaverProvider extends AbstractProvider implements ProviderInterface
 {
@@ -45,7 +45,7 @@ class NaverProvider extends AbstractProvider implements ProviderInterface
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->request('POST', $this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
+            'headers'     => ['Accept' => 'application/json'],
             'form_params' => $this->getTokenFields($code),
         ]);
 
@@ -94,10 +94,10 @@ class NaverProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['nickname'],
-            'email' => $user['email'],
-            'avatar' => $user['profile_image'],
+            'email'    => $user['email'],
+            'avatar'   => $user['profile_image'],
         ]);
     }
 

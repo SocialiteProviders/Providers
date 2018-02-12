@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\MailChimp;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -39,7 +39,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get(
             'https://login.mailchimp.com/oauth2/metadata', [
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'OAuth '.$token,
             ],
         ]);
@@ -53,9 +53,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['login']['login_id'],
+            'id'       => $user['login']['login_id'],
             'nickname' => $user['login']['login_name'], 'name' => null,
-            'email' => $user['login']['login_email'], 'avatar' => null,
+            'email'    => $user['login']['login_email'], 'avatar' => null,
         ]);
     }
 

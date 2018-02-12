@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\HubSpot;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -50,7 +50,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'nickname' => null, 'name' => null,
-            'email' => $user['user'], 'avatar' => null,
+            'email'    => $user['user'], 'avatar' => null,
         ]);
     }
 

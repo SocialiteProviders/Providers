@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Weibo;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -37,7 +37,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get('https://api.weibo.com/2/users/show.json', [
             'query' => [
                 'access_token' => $token,
-                'uid' => $this->getUid($token),
+                'uid'          => $this->getUid($token),
             ],
         ]);
 
@@ -50,7 +50,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['idstr'], 'nickname' => $user['name'],
+            'id'     => $user['idstr'], 'nickname' => $user['name'],
             'avatar' => $user['avatar_large'], 'name' => null, 'email' => null,
         ]);
     }

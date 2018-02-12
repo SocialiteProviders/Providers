@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Tumblr;
 
-use SocialiteProviders\Manager\OAuth1\User;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
+use SocialiteProviders\Manager\OAuth1\User;
 
 class Server extends BaseServer
 {
@@ -46,7 +46,7 @@ class Server extends BaseServer
     public function userDetails($data, TokenCredentials $tokenCredentials)
     {
         // If the API has broke, return nothing
-        if (! isset($data['response']['user']) || ! is_array($data['response']['user'])) {
+        if (!isset($data['response']['user']) || !is_array($data['response']['user'])) {
             return;
         }
 
@@ -68,7 +68,7 @@ class Server extends BaseServer
      */
     public function userUid($data, TokenCredentials $tokenCredentials)
     {
-        if (! isset($data['response']['user']) || ! is_array($data['response']['user'])) {
+        if (!isset($data['response']['user']) || !is_array($data['response']['user'])) {
             return;
         }
 
@@ -89,7 +89,7 @@ class Server extends BaseServer
      */
     public function userScreenName($data, TokenCredentials $tokenCredentials)
     {
-        if (! isset($data['response']['user']) || ! is_array($data['response']['user'])) {
+        if (!isset($data['response']['user']) || !is_array($data['response']['user'])) {
             return;
         }
 

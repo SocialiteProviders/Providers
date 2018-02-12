@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Heroku;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -52,7 +52,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null, 'name' => $user['name'],
+            'id'    => $user['id'], 'nickname' => null, 'name' => $user['name'],
             'email' => $user['email'], 'avatar' => null,
         ]);
     }

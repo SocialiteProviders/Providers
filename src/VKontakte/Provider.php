@@ -3,9 +3,9 @@
 namespace SocialiteProviders\VKontakte;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -68,11 +68,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user, 'uid'),
+            'id'       => Arr::get($user, 'uid'),
             'nickname' => Arr::get($user, 'screen_name'),
-            'name' => trim(Arr::get($user, 'first_name').' '.Arr::get($user, 'last_name')),
-            'email' => Arr::get($user, 'email'),
-            'avatar' => Arr::get($user, 'photo'),
+            'name'     => trim(Arr::get($user, 'first_name').' '.Arr::get($user, 'last_name')),
+            'email'    => Arr::get($user, 'email'),
+            'avatar'   => Arr::get($user, 'photo'),
         ]);
     }
 

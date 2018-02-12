@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Buffer;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -53,7 +53,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => null, 'name' => Arr::get($user, 'name'),
+            'id'    => $user['id'], 'nickname' => null, 'name' => Arr::get($user, 'name'),
             'email' => null, 'avatar' => null,
         ]);
     }

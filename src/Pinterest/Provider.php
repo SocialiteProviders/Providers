@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Pinterest;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -66,9 +66,9 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         return (new User())->setRaw($user)->map(
             [
-                'id' => $user['data']['id'],
+                'id'       => $user['data']['id'],
                 'nickname' => $nickname,
-                'name' => $user['data']['first_name'].' '.$user['data']['last_name'],
+                'name'     => $user['data']['first_name'].' '.$user['data']['last_name'],
             ]
         );
     }

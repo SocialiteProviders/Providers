@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Trello;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth1\User;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
+use SocialiteProviders\Manager\OAuth1\User;
 
 class Server extends BaseServer
 {
@@ -120,9 +120,9 @@ class Server extends BaseServer
 
         $params = [
             'response_type' => 'fragment',
-            'scope' => $scopes ?: 'read',
-            'expiration' => Arr::get($this->parameters, 'expiration', '1day'),
-            'name' => Arr::get($this->parameters, 'name', null),
+            'scope'         => $scopes ?: 'read',
+            'expiration'    => Arr::get($this->parameters, 'expiration', '1day'),
+            'name'          => Arr::get($this->parameters, 'name', null),
         ];
 
         return http_build_query($params);

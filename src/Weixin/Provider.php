@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Weixin;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -57,10 +57,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getCodeFields($state = null)
     {
         return [
-            'appid' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
+            'appid'         => $this->clientId, 'redirect_uri' => $this->redirectUrl,
             'response_type' => 'code',
-            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
-            'state' => $state,
+            'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
+            'state'         => $state,
         ];
     }
 
@@ -100,11 +100,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['openid'],
+            'id'       => $user['openid'],
             'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
-            'avatar' => isset($user['headimgurl']) ? $user['headimgurl'] : null,
-            'name' => null,
-            'email' => null,
+            'avatar'   => isset($user['headimgurl']) ? $user['headimgurl'] : null,
+            'name'     => null,
+            'email'    => null,
         ]);
     }
 
@@ -115,7 +115,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return [
             'appid' => $this->clientId, 'secret' => $this->clientSecret,
-            'code' => $code, 'grant_type' => 'authorization_code',
+            'code'  => $code, 'grant_type' => 'authorization_code',
         ];
     }
 

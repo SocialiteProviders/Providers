@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Venmo;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -46,7 +46,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'https://api.venmo.com/v1/me',
             [
                 'headers' => [
-                    'Accept' => 'application/json',
+                    'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -64,11 +64,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map(
             [
-                'id' => $user['data']['user']['id'],
+                'id'       => $user['data']['user']['id'],
                 'nickname' => $user['data']['user']['username'],
-                'name' => $user['data']['user']['display_name'],
-                'email' => $user['data']['user']['email'],
-                'avatar' => $user['data']['user']['profile_picture_url'],
+                'name'     => $user['data']['user']['display_name'],
+                'email'    => $user['data']['user']['email'],
+                'avatar'   => $user['data']['user']['profile_picture_url'],
             ]
         );
     }

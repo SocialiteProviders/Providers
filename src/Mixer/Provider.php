@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Mixer;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -50,7 +50,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get(
             'https://mixer.com/api/v1/users/current', [
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -64,8 +64,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user, 'id'), 'username' => Arr::get($user, 'username'),
-            'email' => Arr::get($user, 'email'), 'twoFactor' => Arr::get($user, 'twoFactor'),
+            'id'        => Arr::get($user, 'id'), 'username' => Arr::get($user, 'username'),
+            'email'     => Arr::get($user, 'email'), 'twoFactor' => Arr::get($user, 'twoFactor'),
             'avatarUrl' => Arr::get($user, 'avatarUrl'), 'verified' => Arr::get($user, 'verified'),
         ]);
     }

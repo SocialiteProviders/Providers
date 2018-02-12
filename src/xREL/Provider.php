@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\xREL;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
@@ -47,11 +47,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['name'],
-            'name' => $user['name'],
-            'email' => null,
-            'avatar' => null,
+            'name'     => $user['name'],
+            'email'    => null,
+            'avatar'   => null,
         ]);
     }
 
