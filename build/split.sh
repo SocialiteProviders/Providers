@@ -123,6 +123,7 @@ split SoundCloud            src/SoundCloud:git@github.com:SocialiteProviders/Sou
 split Spotify               src/Spotify:git@github.com:SocialiteProviders/Spotify.git                       "master"
 split StackExchange         src/StackExchange:git@github.com:SocialiteProviders/StackExchange.git           "master"
 split Steam                 src/Steam:git@github.com:SocialiteProviders/Steam.git                           "master"
+split Steem                 src/Steem:git@github.com:SocialiteProviders/Steem.git                           "master"
 split StockTwits            src/StockTwits:git@github.com:SocialiteProviders/StockTwits.git                 "master"
 split Strava                src/Strava:git@github.com:SocialiteProviders/Strava.git                         "master"
 split Stripe                src/Stripe:git@github.com:SocialiteProviders/Stripe.git                         "master"
