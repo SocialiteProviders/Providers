@@ -79,6 +79,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         $metadata = json_decode($user['account']['json_metadata'], true);
+
         return (new User())->setRaw($user)->map([
             'id'          => $user['user'],
             'nickname'    => $user['user'],
