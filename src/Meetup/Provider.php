@@ -16,13 +16,14 @@ class Provider extends AbstractProvider implements ProviderInterface
 
     protected $version = '2';
     protected $scopes = ['ageless'];
+    protected $scopeSeparator = '+';
 
     /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://secure.meetup.com/oauth2/authorize', $state);
+        return urldecode($this->buildAuthUrlFromBase('https://secure.meetup.com/oauth2/authorize', $state));
     }
 
     /**
