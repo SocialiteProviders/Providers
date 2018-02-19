@@ -1,0 +1,18 @@
+{
+    "name": "socialiteproviders/ifsp",
+    "description": "IFSP OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Douglas Andrade",
+        "email": "douglas@ifsp.edu.br"
+    }],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\IFSP\\": "src/"
+        }
+    }
+}

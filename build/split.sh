@@ -77,6 +77,7 @@ split Heroku                src/Heroku:git@github.com:SocialiteProviders/Heroku.
 split Hitbox                src/Hitbox:git@github.com:SocialiteProviders/Hitbox.git                         "master"
 split HubSpot               src/HubSpot:git@github.com:SocialiteProviders/Hubspot.git                       "master"
 split Human-API             src/Human-API:git@github.com:SocialiteProviders/Human-API.git                   "master"
+split IFSP                  src/IFSP:git@github.com:SocialiteProviders/IFSP.git                             "master"
 split Imgur                 src/Imgur:git@github.com:SocialiteProviders/Imgur.git                           "master"
 split Instagram             src/Instagram:git@github.com:SocialiteProviders/Instagram.git                   "master"
 split Intercom              src/Intercom:git@github.com:SocialiteProviders/Intercom.git                     "master"
