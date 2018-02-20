@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\IFSP\\": "src/"
+            "SocialiteProviders\\IFSP\\": ""
         }
     }
 }
