@@ -87,7 +87,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'about'       => isset($metadata['profile']['about']) ? $metadata['profile']['about'] : null,
             'location'    => isset($metadata['profile']['location']) ? $metadata['profile']['location'] : null,
             'avatar'      => isset($metadata['profile']['profile_image']) ? $metadata['profile']['profile_image'] : null,
-            'cover_image' => isset($metadata['profile']['cover_image']) ? $metadata['profile']['cover_image'] : null
+            'cover_image' => isset($metadata['profile']['cover_image']) ? $metadata['profile']['cover_image'] : null,
         ]);
     }
 

@@ -1,8 +1,7 @@
 <?php
 
-namespace SocialiteProviders\Meetup;
+namespace SocialiteProviders\IFSP;
 
-use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -12,18 +11,19 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MEETUP';
+    const IDENTIFIER = 'IFSP';
 
-    protected $version = '2';
-    protected $scopes = ['ageless'];
-    protected $scopeSeparator = '+';
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopes = ['read'];
 
     /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        return urldecode($this->buildAuthUrlFromBase('https://secure.meetup.com/oauth2/authorize', $state));
+        return $this->buildAuthUrlFromBase('https://suap.ifsp.edu.br/o/authorize/', $state);
     }
 
     /**
@@ -31,7 +31,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://secure.meetup.com/oauth2/access';
+        return 'https://suap.ifsp.edu.br/o/token/';
     }
 
     /**
@@ -39,15 +39,13 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        // http://www.meetup.com/meetup_api/auth/#oauth2-resources
-        $response = $this->getHttpClient()->get(
-            'https://api.meetup.com/'.$this->version.'/member/self?access_token='.$token, [
+        $response = $this->getHttpClient()->get('https://suap.ifsp.edu.br/comum/user_info/', [
             'headers' => [
-                'Accept' => 'application/json',
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -55,9 +53,18 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
+        if ($user['name'] != null) {
+            $name = $user['name'];
+        } else {
+            $name = $user['username'];
+        }
+
         return (new User())->setRaw($user)->map([
-            'id'   => $user['id'], 'nickname' => $user['name'],
-            'name' => $user['name'], 'avatar' => Arr::get($user, 'photo.photo_link'),
+            'id'       => $user['id'],
+            'nickname' => $user['first_name'].' '.$user['last_name'],
+            'name'     => $name,
+            'email'    => $user['email'],
+            'avatar'   => null,
         ]);
     }
 
@@ -66,7 +73,6 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenFields($code)
     {
-        // see http://www.meetup.com/meetup_api/auth/#oauth2server-access
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
