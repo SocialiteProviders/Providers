@@ -87,7 +87,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'about'       => array_get($metadata, 'profile.about'),
             'location'    => array_get($metadata, 'profile.location'),
             'avatar'      => array_get($metadata, 'profile.profile_image'),
-            'cover_image' => array_get($metadata, 'profile.cover_image')
+            'cover_image' => array_get($metadata, 'profile.cover_image'),
         ]);
     }
 
