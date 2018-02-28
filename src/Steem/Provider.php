@@ -83,11 +83,11 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())->setRaw($user)->map([
             'id'          => $user['user'],
             'nickname'    => $user['user'],
-            'name'        => $metadata['profile']['name'],
-            'about'       => $metadata['profile']['about'],
-            'location'    => $metadata['profile']['location'],
-            'avatar'      => $metadata['profile']['profile_image'],
-            'cover_image' => $metadata['profile']['cover_image'],
+            'name'        => array_get($metadata, 'profile.name', $user['user']),
+            'about'       => array_get($metadata, 'profile.about'),
+            'location'    => array_get($metadata, 'profile.location'),
+            'avatar'      => array_get($metadata, 'profile.profile_image'),
+            'cover_image' => array_get($metadata, 'profile.cover_image'),
         ]);
     }
 
