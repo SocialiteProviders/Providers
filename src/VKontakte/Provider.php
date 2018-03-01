@@ -57,9 +57,16 @@ class Provider extends AbstractProvider implements ProviderInterface
             'https://api.vk.com/method/users.get?access_token='.$token.'&fields='.implode(',', $this->fields).$lang.'&v=3.0'
         );
 
-        $response = json_decode($response->getBody()->getContents(), true)['response'][0];
+        $contents = $response->getBody()->getContents();
+        $response = json_decode($contents, true);
+        if (!is_array($response) || !isset($response['response'][0])) {
+            throw new \RuntimeException(sprintf(
+                'Invalid JSON response from VK: %s',
+                $contents
+            ));
+        }
 
-        return $response;
+        return $response['response'][0];
     }
 
     /**
