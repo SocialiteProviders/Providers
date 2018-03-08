@@ -104,6 +104,7 @@ split Paymill               src/Paymill:git@github.com:SocialiteProviders/Paymil
 split PayPal                src/PayPal:git@github.com:SocialiteProviders/PayPal.git                         "master"
 split PayPal-Sandbox        src/PayPal-Sandbox:git@github.com:SocialiteProviders/PayPal-Sandbox.git         "master"
 split Pinterest             src/Pinterest:git@github.com:SocialiteProviders/Pinterest.git                   "master"
+split Pipedrive             src/Pipedrive:git@github.com:SocialiteProviders/Pipedrive.git                   "master"
 split Podio                 src/Podio:git@github.com:SocialiteProviders/Podio.git                           "master"
 split ProjectV              src/ProjectV:git@github.com:SocialiteProviders/ProjectV.git                     "master"
 split Pushbullet            src/Pushbullet:git@github.com:SocialiteProviders/Pushbullet.git                 "master"
