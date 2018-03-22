@@ -43,7 +43,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.dribbble.com/v1/user?access_token='.$token
+            'https://api.dribbble.com/v2/user?access_token='.$token
         );
 
         return json_decode($response->getBody()->getContents(), true);
@@ -55,7 +55,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['id'], 'nickname' => $user['username'],
+            'id'     => $user['id'], 'nickname' => $user['login'],
             'name'   => $user['name'], 'email' => Arr::get($user, 'email'),
             'avatar' => $user['avatar_url'],
         ]);
