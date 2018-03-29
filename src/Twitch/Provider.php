@@ -2,10 +2,9 @@
 
 namespace SocialiteProviders\Twitch;
 
-use Illuminate\Support\Arr;
+use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -30,7 +29,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.twitch.tv/kraken/oauth2/authorize', $state
+            'https://id.twitch.tv/oauth2/authorize', $state
         );
     }
 
@@ -39,7 +38,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://api.twitch.tv/kraken/oauth2/token';
+        return 'https://id.twitch.tv/oauth2/token';
     }
 
     /**
@@ -48,10 +47,12 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.twitch.tv/kraken/user?oauth_token='.$token, [
+            'https://api.twitch.tv/helix/users', [
             'headers' => [
                 'Accept' => 'application/json',
+                'Authorization' => 'Bearer '.$token
             ],
+            'debug' => true
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -62,10 +63,13 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
+        $user = $user['data']['0'];
         return (new User())->setRaw($user)->map([
-            'id'     => $user['_id'], 'nickname' => $user['display_name'],
-            'name'   => $user['name'], 'email' => Arr::get($user, 'email'),
-            'avatar' => $user['logo'],
+            'id' => $user['id'],
+            'nickname' => $user['display_name'],
+            'name' => $user['display_name'],
+            'email' => array_get($user, 'email'),
+            'avatar' => $user['profile_image_url'],
         ]);
     }
 
