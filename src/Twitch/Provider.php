@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Twitch;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -49,9 +49,9 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = $this->getHttpClient()->get(
             'https://api.twitch.tv/helix/users', [
             'headers' => [
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer '.$token
-            ]
+                'Accept'        => 'application/json',
+                'Authorization' => 'Bearer '.$token,
+            ],
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -63,12 +63,13 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         $user = $user['data']['0'];
+
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['display_name'],
-            'name' => $user['display_name'],
-            'email' => array_get($user, 'email'),
-            'avatar' => $user['profile_image_url'],
+            'name'     => $user['display_name'],
+            'email'    => array_get($user, 'email'),
+            'avatar'   => $user['profile_image_url'],
         ]);
     }
 
