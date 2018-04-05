@@ -97,7 +97,7 @@ class Server extends BaseServer
     {
         return $data['screen_name'];
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -108,16 +108,14 @@ class Server extends BaseServer
         if ($temporaryIdentifier instanceof TemporaryCredentials) {
             $temporaryIdentifier = $temporaryIdentifier->getIdentifier();
         }
-        $query_oauth_token = array('oauth_token' => $temporaryIdentifier);
-        
+        $query_oauth_token = ['oauth_token' => $temporaryIdentifier];
         $parameters = (isset($this->parameters))
             ? array_merge($query_oauth_token, $this->parameters)
             : $query_oauth_token;
-        
+
         $url = $this->urlAuthorization();
         $queryString = http_build_query($parameters);
 
         return $this->buildUrl($url, $queryString);
     }
-
 }
