@@ -19,6 +19,20 @@ class Provider extends AbstractProvider implements ProviderInterface
     private $openId;
 
     /**
+     * User unionid.
+     *
+     * @var string
+     */
+    protected $unionId;
+
+    /**
+     * get token(openid) with unionid.
+     *
+     * @var bool
+     */
+    protected $withUnionId = false;
+
+    /**
      * The scopes being requested.
      *
      * @var array
@@ -46,15 +60,32 @@ class Provider extends AbstractProvider implements ProviderInterface
     }
 
     /**
+     * @param bool $value
+     *
+     * @return self
+     */
+    public function withUnionId($value = true)
+    {
+        $this->withUnionId = $value;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}.
      *
      * @see \Laravel\Socialite\Two\AbstractProvider::getUserByToken()
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://graph.qq.com/oauth2.0/me?access_token='.$token);
+        $url = 'https://graph.qq.com/oauth2.0/me?access_token='.$token;
+        $this->withUnionId && $url .= '&unionid=1';
 
-        $this->openId = json_decode($this->removeCallback($response->getBody()->getContents()), true)['openid'];
+        $response = $this->getHttpClient()->get($url);
+
+        $me = json_decode($this->removeCallback($response->getBody()->getContents()), true);
+        $this->openId = $me['openid'];
+        $this->unionId = isset($me['unionid']) ? $me['unionid'] : '';
 
         $response = $this->getHttpClient()->get(
             "https://graph.qq.com/user/get_user_info?access_token=$token&openid={$this->openId}&oauth_consumer_key={$this->clientId}"
@@ -71,7 +102,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'   => $this->openId, 'nickname' => $user['nickname'],
+            'id'   => $this->openId, 'unionid' => $this->unionId, 'nickname' => $user['nickname'],
             'name' => null, 'email' => null, 'avatar' => $user['figureurl_qq_2'],
         ]);
     }
