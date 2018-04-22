@@ -64,9 +64,14 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'        => Arr::get($user, 'id'), 'username' => Arr::get($user, 'username'),
-            'email'     => Arr::get($user, 'email'), 'twoFactor' => Arr::get($user, 'twoFactor'),
-            'avatarUrl' => Arr::get($user, 'avatarUrl'), 'verified' => Arr::get($user, 'verified'),
+            'id'        => Arr::get($user, 'id'),
+            'nickname'  => Arr::get($user, 'username'),
+            'email'     => Arr::get($user, 'email'),
+            'avatar'    => Arr::get($user, 'avatarUrl'),
+            'username'  => Arr::get($user, 'username'),
+            'twoFactor' => Arr::get($user, 'twoFactor'),
+            'avatarUrl' => Arr::get($user, 'avatarUrl'),
+            'verified'  => Arr::get($user, 'verified'),
         ]);
     }
 
