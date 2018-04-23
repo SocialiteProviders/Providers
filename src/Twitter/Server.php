@@ -97,4 +97,25 @@ class Server extends BaseServer
     {
         return $data['screen_name'];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthorizationUrl($temporaryIdentifier)
+    {
+        // Somebody can pass through an instance of temporary
+        // credentials and we'll extract the identifier from there.
+        if ($temporaryIdentifier instanceof TemporaryCredentials) {
+            $temporaryIdentifier = $temporaryIdentifier->getIdentifier();
+        }
+        $query_oauth_token = ['oauth_token' => $temporaryIdentifier];
+        $parameters = (isset($this->parameters))
+            ? array_merge($query_oauth_token, $this->parameters)
+            : $query_oauth_token;
+
+        $url = $this->urlAuthorization();
+        $queryString = http_build_query($parameters);
+
+        return $this->buildUrl($url, $queryString);
+    }
 }
