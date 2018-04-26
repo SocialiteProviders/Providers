@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Twitter;
 
+use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 use SocialiteProviders\Manager\OAuth1\User;
