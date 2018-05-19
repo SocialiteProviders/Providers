@@ -39,10 +39,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://' . $this->getAccount() . '.vssps.visualstudio.com/_apis/profile/profiles/me?api-version=5.0-preview.3',
-            [
+            'https://'.$this->getAccount().'.vssps.visualstudio.com/_apis/profile/profiles/me?api-version=5.0-preview.3',            [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $token,
+                    'Authorization' => 'Bearer '.$token,
                 ],
             ]
         );
@@ -56,11 +55,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['displayName'],
-            'name' => $user['displayName'],
-            'email' => $user['emailAddress'],
-            'avatar' => null,
+            'name'     => $user['displayName'],
+            'email'    => $user['emailAddress'],
+            'avatar'   => null,
         ]);
     }
 
@@ -70,11 +69,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return [
-            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            'grant_type'            => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
             'client_assertion_type' => 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-            'client_assertion' => $this->clientSecret,
-            'assertion' => $code,
-            'redirect_uri' => $this->redirectUrl,
+            'client_assertion'      => $this->clientSecret,
+            'assertion'             => $code,
+            'redirect_uri'          => $this->redirectUrl,
         ];
     }
 
@@ -85,6 +84,6 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAccount()
     {
-        return config('services.teamservice.account','app');
+        return config('services.teamservice.account', 'app');
     }
 }
