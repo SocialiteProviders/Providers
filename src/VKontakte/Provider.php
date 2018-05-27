@@ -9,7 +9,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
-    protected $fields = ['uid', 'email', 'first_name', 'last_name', 'screen_name', 'photo'];
+    protected $fields = ['id', 'email', 'first_name', 'last_name', 'screen_name', 'photo'];
 
     /**
      * Unique Provider Identifier.
@@ -25,7 +25,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      * {@inheritdoc}
      */
     protected $parameters = [
-         'v' => '5.69',
+         'v' => '5.78',
     ];
 
     /**
@@ -51,14 +51,19 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $lang = $this->getConfig('lang');
-        $lang = $lang ? '&language='.$lang : '';
-        $response = $this->getHttpClient()->get(
-            'https://api.vk.com/method/users.get?access_token='.$token.'&fields='.implode(',', $this->fields).$lang.'&v=3.0'
-        );
+       $params = http_build_query([
+            'access_token' => $token,
+            'fields' => implode(',', $this->fields),
+            'language' => $this->getConfig('lang', 'en'),
+            'v' => self::VERSION
+        ]);
 
+        $response = $this->getHttpClient()->get('https://api.vk.com/method/users.get?' . $params);
+        
         $contents = $response->getBody()->getContents();
+        
         $response = json_decode($contents, true);
+        
         if (!is_array($response) || !isset($response['response'][0])) {
             throw new \RuntimeException(sprintf(
                 'Invalid JSON response from VK: %s',
@@ -75,7 +80,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => Arr::get($user, 'uid'),
+            'id'       => Arr::get($user, 'id'),
             'nickname' => Arr::get($user, 'screen_name'),
             'name'     => trim(Arr::get($user, 'first_name').' '.Arr::get($user, 'last_name')),
             'email'    => Arr::get($user, 'email'),
