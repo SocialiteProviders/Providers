@@ -19,7 +19,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      * @var string
      */
     protected $scopeSeparator = ' ';
-    
+
     /**
      * The scopes being requested.
      *
@@ -117,9 +117,9 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        if( $jwt = $response['id_token'] ?? null ) {
+        if ($jwt = $response['id_token'] ?? null) {
             list($headb64, $bodyb64, $cryptob64) = explode('.', $jwt);
-            $user = $this->mapUserToObject( json_decode(base64_decode($bodyb64), true) );
+            $user = $this->mapUserToObject(json_decode(base64_decode($bodyb64), true));
         } else {
             $user = $this->mapUserToObject($this->getUserByToken(
                 $token = $this->parseAccessToken($response)
