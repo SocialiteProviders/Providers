@@ -97,6 +97,7 @@ split Microsoft-Live        src/Microsoft-Live:git@github.com:SocialiteProviders
 split Microsoft-TeamService src/Microsoft-TeamService:git@github.com:SocialiteProviders/Microsoft-TeamService.git         "master"
 split Mixcloud              src/Mixcloud:git@github.com:SocialiteProviders/Mixcloud.git                     "master"
 split Mixer                 src/Mixer:git@github.com:SocialiteProviders/Mixer.git                           "master"
+split Mollie                src/Mollie:git@github.com:SocialiteProviders/Mollie.git                         "master"
 split Moves                 src/Moves:git@github.com:SocialiteProviders/Moves.git                           "master"
 split Naver                 src/Naver:git@github.com:SocialiteProviders/Naver.git                           "master"
 split Okta                  src/Okta:git@github.com:SocialiteProviders/Okta.git                             "master"
