@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Mollie;
 
-use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -29,7 +28,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthFromBase(
+        return $this->buildAuthUrlFromBase(
             'https://www.mollie.com/oauth2/authorize', $state
         );
     }
