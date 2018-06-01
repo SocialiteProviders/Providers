@@ -47,7 +47,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            'headers'     => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
             'form_params' => $this->getTokenFields($code),
         ]);
 
@@ -62,7 +62,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
+            'headers'     => ['Accept' => 'application/json'],
             'form_params' => $this->getRefreshTokenFields($refreshToken),
         ]);
 
@@ -87,9 +87,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     public function getRefreshTokenFields($refreshToken)
     {
         return [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'grant_type' => 'refresh_token',
+            'grant_type'    => 'refresh_token',
             'refresh_token' => $refreshToken,
         ];
     }
@@ -100,11 +100,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['name'],
-            'name' => $user['name'],
-            'email' => $user['email'],
-            'avatar' => null,
+            'name'     => $user['name'],
+            'email'    => $user['email'],
+            'avatar'   => null,
         ]);
     }
 
