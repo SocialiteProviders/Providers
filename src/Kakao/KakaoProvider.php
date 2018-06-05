@@ -93,15 +93,15 @@ class KakaoProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        $is_email_valid = $user['kakao_account']['is_email_valid'] ?? false;
-        $is_email_verified = $user['kakao_account']['is_email_verified'] ?? false;
+        $is_email_valid = array_get($user, 'kakao_account.is_email_valid');
+        $is_email_verified = array_get($user, 'kakao_account.is_email_verified');
 
         return (new User())->setRaw($user)->map([
             'id'        => $user['id'],
             'nickname'  => $user['properties']['nickname'],
             'name'      => $user['properties']['nickname'],
-            'email'     => $is_email_valid && $is_email_verified ? $user['kakao_account']['email'] ?? null : null,
-            'avatar'    => $user['properties']['profile_image'] ?? null,
+            'email'     => $is_email_valid && $is_email_verified ? array_get($user, 'kakao_account.email') : null,
+            'avatar'    => array_get($user, 'properties.profile_image'),
         ]);
     }
 }
