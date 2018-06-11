@@ -8,7 +8,6 @@ class DingtalkExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('dingtalk', __NAMESPACE__ . '\Provider');
+        $socialiteWasCalled->extendSocialite('dingtalk', __NAMESPACE__ .'\Provider');
     }
-
 }

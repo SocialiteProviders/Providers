@@ -40,6 +40,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 'sns_token' => $token,
             ],
         ]);
+
         return json_decode($response->getBody(), true)['user_info'];
     }
 
@@ -77,4 +78,5 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return Arr::get($body, 'access_token');
     }
+
 }
