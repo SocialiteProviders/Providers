@@ -11,3 +11,4 @@ class WeiboExtendSocialite
         $socialiteWasCalled->extendSocialite('weibo', __NAMESPACE__.'\Provider');
     }
 }
+
