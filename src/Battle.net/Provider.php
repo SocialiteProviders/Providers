@@ -23,6 +23,8 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected $scopeSeparator = '+';
 
+    protected static $region = null;
+
     /**
      * {@inheritdoc}
      */
@@ -82,6 +84,10 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getRegion()
     {
+        if (self::$region) {
+            return self::$region;
+        }
+
         return $this->getConfig('region', 'us');
     }
 
@@ -91,5 +97,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     public static function additionalConfigKeys()
     {
         return ['region'];
+    }
+
+    public static function setRegion($region)
+    {
+        self::$region = $region;
     }
 }
