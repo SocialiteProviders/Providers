@@ -92,7 +92,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     private function shopifyUrl($uri = null)
     {
         if (!empty($this->parameters['subdomain'])) {
-            return 'https://' . $this->parameters['subdomain'] . '.myshopify.com' . $uri;
+            return 'https://'.$this->parameters['subdomain'].'.myshopify.com'.$uri;
         }
         if ($this->getConfig('subdomain')) {
             return "https://{$this->getConfig('subdomain')}.myshopify.com".$uri;
