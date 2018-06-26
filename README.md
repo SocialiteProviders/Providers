@@ -1,3 +1,5 @@
+**:warning: This package is not maintained anymore due to not having the time anymore. We are looking for a new maintainer that wants to maintain the project and ideally it's someone who already is using the providers. :warning:**
+
 # A Collection of Providers for Laravel Socialite
 
 ## Documentation
