@@ -30,7 +30,7 @@ class Server extends BaseServer
      */
     public function urlAuthorization()
     {
-        return ' https://www.goodreads.com/oauth/authorize';
+        return 'https://www.goodreads.com/oauth/authorize';
     }
 
     /**
