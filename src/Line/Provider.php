@@ -119,7 +119,7 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         if ($jwt = $response['id_token'] ?? null) {
             list($headb64, $bodyb64, $cryptob64) = explode('.', $jwt);
-            $user = $this->mapUserToObject(json_decode(base64_decode($bodyb64), true));
+            $user = $this->mapUserToObject(json_decode(base64_decode(strtr($bodyb64, '-_', '+/')), true));
         } else {
             $user = $this->mapUserToObject($this->getUserByToken(
                 $token = $this->parseAccessToken($response)
