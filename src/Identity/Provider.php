@@ -107,5 +107,4 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return $this->getConfig('identity_directory', null);
     }
-
 }
