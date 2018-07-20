@@ -1,0 +1,3 @@
+[submodule "src/mattermost"]
+	path = src/mattermost
+	url = git@github.com:takuya/SocialiteMattermostProvider.git
