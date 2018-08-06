@@ -72,7 +72,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'id'       => $user['id'],
             'nickname' => null,
             'name'     => $user['displayName'],
-            'email'    => $user['mail'],
+            'email'    => $user['userPrincipalName'],
             'avatar'   => null,
 
             'businessPhones'    => $user['businessPhones'],
