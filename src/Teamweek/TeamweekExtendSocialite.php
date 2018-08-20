@@ -9,7 +9,7 @@ class TeamweekExtendSocialite
     /**
      * Execute the provider.
      *
-     * @param  \SocialiteProviders\Manager\SocialiteWasCalled  $socialiteWasCalled
+     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
      * @return void
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
