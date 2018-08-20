@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Teamweek;
 
 use GuzzleHttp\ClientInterface;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -39,7 +39,7 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => [
-                'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)
+                'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
             ],
             $postKey => $this->getTokenFields($code),
         ]);
@@ -54,7 +54,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->get($this->getInstanceUri().'/api/v4/me', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
