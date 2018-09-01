@@ -138,6 +138,7 @@ split TVShowTime            src/TVShowTime:git@github.com:SocialiteProviders/TVS
 split Twitch                src/Twitch:git@github.com:SocialiteProviders/Twitch.git                         "master"
 split Twitter               src/Twitter:git@github.com:SocialiteProviders/Twitter.git                       "master"
 split Uber                  src/Uber:git@github.com:SocialiteProviders/Uber.git                             "master"
+split UFS                   src/UFS:git@github.com:SocialiteProviders/UFS.git                               "master"
 split Ufutx                 src/Ufutx:git@github.com:SocialiteProviders/Ufutx.git                           "master"
 split Unsplash              src/Unsplash:git@github.com:SocialiteProviders/Unsplash.git                     "master"
 split Untappd               src/Untappd:git@github.com:SocialiteProviders/Untappd.git                       "master"
