@@ -131,6 +131,7 @@ split Steem                 src/Steem:git@github.com:SocialiteProviders/Steem.gi
 split StockTwits            src/StockTwits:git@github.com:SocialiteProviders/StockTwits.git                 "master"
 split Strava                src/Strava:git@github.com:SocialiteProviders/Strava.git                         "master"
 split Stripe                src/Stripe:git@github.com:SocialiteProviders/Stripe.git                         "master"
+split Teamweek              src/Teamweek:git@github.com:SocialiteProviders/Teamweek.git                     "master"
 split Trakt                 src/Trakt:git@github.com:SocialiteProviders/Trakt.git                           "master"
 split Trello                src/Trello:git@github.com:SocialiteProviders/Trello.git                         "master"
 split Tumblr                src/Tumblr:git@github.com:SocialiteProviders/Tumblr.git                         "master"
