@@ -38,7 +38,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://api.mollie.nl/oauth2/tokens';
+        return 'https://api.mollie.com/oauth2/tokens';
     }
 
     /**
@@ -74,7 +74,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://api.mollie.nl/v1/organizations/me', [
+        $response = $this->getHttpClient()->get('https://api.mollie.com/v2/organizations/me', [
             'headers' => ['Authorization' => 'Bearer '.$token],
         ]);
 
