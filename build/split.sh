@@ -88,7 +88,7 @@ split LaravelPassport       src/LaravelPassport:git@github.com:SocialiteProvider
 split Line                  src/Line:git@github.com:SocialiteProviders/Line.git                             "master"
 split LinkedIn              src/LinkedIn:git@github.com:SocialiteProviders/LinkedIn.git                     "master"
 split MailChimp             src/MailChimp:git@github.com:SocialiteProviders/MailChimp.git                   "master"
-split Mattermost            src/Mattermost:git@github.com:takuya/SocialiteMattermostProvider.git            "master"
+split Mattermost            src/Mattermost:git@github.com:SocialiteProviders/Mattermost.git                 "master"
 split Medium                src/Medium:git@github.com:SocialiteProviders/Medium.git                         "master"
 split Meetup                src/Meetup:git@github.com:SocialiteProviders/Meetup.git                         "master"
 split Microsoft             src/Microsoft:git@github.com:SocialiteProviders/Microsoft.git                   "master"
