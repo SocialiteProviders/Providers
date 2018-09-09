@@ -64,6 +64,7 @@ split Etsy                  src/Etsy:git@github.com:SocialiteProviders/Etsy.git 
 split Eventbrite            src/Eventbrite:git@github.com:SocialiteProviders/Eventbrite.git                 "master"
 split Everyplay             src/Everyplay:git@github.com:SocialiteProviders/Everyplay.git                   "master"
 split EyeEm                 src/EyeEm:git@github.com:SocialiteProviders/EyeEm.git                           "master"
+split Facebook              src/Facebook:git@github.com:SocialiteProviders/Facebook.git                     "master"
 split Fitbit                src/Fitbit:git@github.com:SocialiteProviders/Fitbit.git                         "master"
 split Flattr                src/Flattr:git@github.com:SocialiteProviders/Flattr.git                         "master"
 split Flickr                src/Flickr:git@github.com:SocialiteProviders/Flickr.git                         "master"
