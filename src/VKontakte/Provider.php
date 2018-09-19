@@ -24,7 +24,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Last API version.
      */
-    const VERSION = '5.78';
+    const VERSION = '5.85';
 
     /**
      * {@inheritdoc}
@@ -49,6 +49,12 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
+        $from_token = [];
+        if (is_array($token)) {
+            $from_token["email"] = $token["email"];
+            $token = $token["access_token"];
+        }
+
         $params = http_build_query([
             'access_token' => $token,
             'fields'       => implode(',', $this->fields),
@@ -56,7 +62,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'v'            => self::VERSION,
         ]);
 
-        $response = $this->getHttpClient()->get('https://api.vk.com/method/users.get?'.$params);
+        $response = $this->getHttpClient()->get('https://api.vk.com/method/users.get?' . $params);
 
         $contents = $response->getBody()->getContents();
 
@@ -69,7 +75,29 @@ class Provider extends AbstractProvider implements ProviderInterface
             ));
         }
 
-        return $response['response'][0];
+        return array_merge($from_token, $response['response'][0]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function user() {
+        if ($this->hasInvalidState()) {
+            throw new InvalidStateException();
+        }
+
+        $response = $this->getAccessTokenResponse($this->getCode());
+
+        $user = $this->mapUserToObject($this->getUserByToken($response));
+
+        $this->credentialsResponseBody = $response;
+
+        if ($user instanceof User) {
+            $user->setAccessTokenResponseBody($this->credentialsResponseBody);
+        }
+
+        return $user->setToken($this->parseAccessToken($response))
+            ->setExpiresIn($this->parseExpiresIn($response));
     }
 
     /**
