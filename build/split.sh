@@ -141,6 +141,7 @@ split Tumblr                src/Tumblr:git@github.com:SocialiteProviders/Tumblr.
 split TVShowTime            src/TVShowTime:git@github.com:SocialiteProviders/TVShowTime.git                 "master"
 split Twitch                src/Twitch:git@github.com:SocialiteProviders/Twitch.git                         "master"
 split Twitter               src/Twitter:git@github.com:SocialiteProviders/Twitter.git                       "master"
+split UCL                   src/UCL:git@github.com:SocialiteProviders/UCL.git                               "master"
 split Uber                  src/Uber:git@github.com:SocialiteProviders/Uber.git                             "master"
 split UFS                   src/UFS:git@github.com:SocialiteProviders/UFS.git                               "master"
 split Ufutx                 src/Ufutx:git@github.com:SocialiteProviders/Ufutx.git                           "master"
