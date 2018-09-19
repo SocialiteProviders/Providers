@@ -1,0 +1,17 @@
+{
+    "name": "socialiteproviders/ucl",
+    "description": "UCL API OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Balázs Dura-Kovács"
+    }],
+    "require": {
+        "php": ">=7.0",
+        "socialiteproviders/manager": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\UCL\\": "src/"
+        }
+    }
+}
