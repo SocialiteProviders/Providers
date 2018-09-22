@@ -38,6 +38,7 @@ split AngelList             src/AngelList:git@github.com:SocialiteProviders/Ange
 split App.net               src/App.net:git@github.com:SocialiteProviders/App.net.git                       "master"
 split ArcGIS                src/ArcGIS:git@github.com:SocialiteProviders/ArcGIS.git                         "master"
 split Asana                 src/Asana:git@github.com:SocialiteProviders/Asana.git                           "master"
+split Aweber                src/Aweber:git@github.com:SocialiteProviders/Aweber.git                           "master"
 split Battle.net            src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                 "master"
 split Bit.ly                src/Bit.ly:git@github.com:SocialiteProviders/Bit.ly.git                         "master"
 split Box                   src/Box:git@github.com:SocialiteProviders/Box.git                               "master"
