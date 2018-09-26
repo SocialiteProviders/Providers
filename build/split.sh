@@ -104,6 +104,7 @@ split Mollie                src/Mollie:git@github.com:SocialiteProviders/Mollie.
 split Moves                 src/Moves:git@github.com:SocialiteProviders/Moves.git                           "master"
 split Naver                 src/Naver:git@github.com:SocialiteProviders/Naver.git                           "master"
 split Okta                  src/Okta:git@github.com:SocialiteProviders/Okta.git                             "master"
+split Orcid                 src/Orcid:git@github.com:SocialiteProviders/Orcid.git                           "master"
 split Patreon               src/Patreon:git@github.com:SocialiteProviders/Patreon.git                       "master"
 split Paymill               src/Paymill:git@github.com:SocialiteProviders/Paymill.git                       "master"
 split PayPal                src/PayPal:git@github.com:SocialiteProviders/PayPal.git                         "master"
