@@ -4,11 +4,13 @@ namespace SocialiteProviders\Orcid;
 
 use Exception;
 use Illuminate\Support\Arr;
-use Laravel\Socialite\Two\AbstractProvider;
+#use Laravel\Socialite\Two\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
-use Laravel\Socialite\Two\User;
+#use Laravel\Socialite\Two\User;
 
-class OrcidProvider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider implements ProviderInterface
 {
     /**
      * Unique Provider Identifier
@@ -71,7 +73,7 @@ class OrcidProvider extends AbstractProvider implements ProviderInterface
      */
     protected function baseUrl( $path )
     {
-    	return ( $this->useSandbox()  ? OrcidProvider::sandboxURL : OrcidProvider::productionURL ) . $path;
+    	return ( $this->useSandbox()  ? Provider::sandboxURL : Provider::productionURL ) . $path;
     }
 
     /**
@@ -81,7 +83,7 @@ class OrcidProvider extends AbstractProvider implements ProviderInterface
      */
     protected function profileUrl( $path )
     {
-    	return ( $this->useSandbox()  ? OrcidProvider::sandboxProfileURL : OrcidProvider::productionProfileURL ) . $path;
+    	return ( $this->useSandbox()  ? Provider::sandboxProfileURL : Provider::productionProfileURL ) . $path;
     }
 
     /**
@@ -193,10 +195,12 @@ class OrcidProvider extends AbstractProvider implements ProviderInterface
      * @param  string  $code
      * @return string
      */
+     
     public function getAccessToken($code)
     {
         $s = $this->scopes[0];
         $data = "client_id={$this->clientId}&client_secret={$this->clientSecret}&grant_type=client_credentials&scope={$s}";
+	dd($data);
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json','Content-Type' => 'application/x-www-form-urlencoded',],
@@ -215,5 +219,13 @@ class OrcidProvider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return parent::getTokenFields($code) + ['grant_type' => 'authorization_code', 'orcid' => 'orcid'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return [];
     }
 }
