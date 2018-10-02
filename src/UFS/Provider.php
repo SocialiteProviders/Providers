@@ -23,7 +23,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://apisistemas.desenvolvimento.ufs.br/api/rest/authorization', $state);
+        return $this->buildAuthUrlFromBase($this->getBaseUri().'/authorization', $state);
     }
 
     /**
@@ -31,7 +31,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://apisistemas.desenvolvimento.ufs.br/api/rest/token';
+        return $this->getBaseUri().'/token';
     }
 
     /**
@@ -39,7 +39,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://apisistemas.desenvolvimento.ufs.br/api/rest/usuario', [
+        $response = $this->getHttpClient()->get($this->getBaseUri().'/usuario', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -55,10 +55,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'id'       => null,
-            'nickname' => null,
+            'nickname' => $user['login'],
             'name'     => $user['pessoa']['nome'],
             'email'    => $user['pessoa']['email'],
-            'avatar'   => null,
+            'avatar'   => $user['arquivo'],
         ]);
     }
 
@@ -67,8 +67,26 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenFields($code)
     {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
+        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['dev_mode'];
+    }
+
+    /**
+     * Get the base URI based on the environment mode.
+     *
+     * @return string
+     */
+    private function getBaseUri()
+    {
+        return $this->getConfig('dev_mode', false) ?
+            'https://apisistemas.desenvolvimento.ufs.br/api/rest' :
+            'https://www.sistemas.ufs.br/api/rest';
     }
 }
