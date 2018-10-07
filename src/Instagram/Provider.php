@@ -102,6 +102,11 @@ class Provider extends AbstractProvider implements ProviderInterface
 
     /**
      * Allows compatibility for signed API requests.
+     * 
+     * @param string @endpoint
+     * @param array $params
+     *
+     * @return string
      */
     protected function generateSignature($endpoint, array $params)
     {
