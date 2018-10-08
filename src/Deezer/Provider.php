@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Deezer;
 
+use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -24,7 +24,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://connect.deezer.com/oauth/auth.php', $state
+            'https://connect.deezer.com/oauth/auth.php',
+            $state
         );
     }
 
@@ -42,7 +43,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.deezer.com/user/me?access_token='.$token
+            'https://api.deezer.com/user/me?access_token=' . $token
         );
 
         return json_decode($response->getBody()->getContents(), true);
@@ -54,9 +55,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['id'], 'nickname' => $user['name'],
-            'name'  => $user['firstname'].' '.$user['lastname'],
-            'email' => $user['email'], 'avatar' => $user['picture'],
+            'id' => $user['id'],
+            'email' => $user['email'],
+            'nickname' => $user['name'],
+            'avatar' => $user['picture'],
+            'name' => $user['firstname'] . ' ' . $user['lastname'],
         ]);
     }
 
@@ -66,26 +69,31 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getCodeFields($state = null)
     {
         return [
-            'app_id' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
-            'scope'  => $this->formatScopes($this->scopes, $this->scopeSeparator),
-            'state'  => $state, 'response_type' => 'code',
+            'state' => $state,
+            'response_type' => 'code',
+            'app_id' => $this->clientId,
+            'redirect_uri' => $this->redirectUrl,
+            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAccessToken($code)
+    public function getAccessTokenResponse($code)
     {
-        $url = $this->getTokenUrl().'?'.http_build_query(
-            $this->getTokenFields($code), '', '&', $this->encodingType
+        $url = $this->getTokenUrl() . '?' . http_build_query(
+            $this->getTokenFields($code),
+            '',
+            '&',
+            $this->encodingType
         );
 
-        $response = file_get_contents($url);
+        $response = $this->getHttpClient()->get($url);
 
-        $this->credentialsResponseBody = json_decode($response->getBody(), true);
+        parse_str($response->getBody()->getContents(), $data);
 
-        return $this->parseAccessToken($response->getBody());
+        return $data;
     }
 
     /**
@@ -94,19 +102,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return [
+            'code' => $code,
             'app_id' => $this->clientId,
             'secret' => $this->clientSecret,
-            'code'   => $code,
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function parseAccessToken($body)
-    {
-        parse_str($body, $result);
-
-        return $result['access_token'];
     }
 }
