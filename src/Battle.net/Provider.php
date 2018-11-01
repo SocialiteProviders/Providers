@@ -46,7 +46,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://'.$this->getRegion().'.api.battle.net/account/user', [
+        $response = $this->getHttpClient()->get('https://'.$this->getRegion().'.battle.net/oauth/userinfo', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
