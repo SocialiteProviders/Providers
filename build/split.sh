@@ -29,6 +29,7 @@ split()
     popd
 }
 
+split MakerLog              src/MakerLog:git@github.com:SocialiteProviders/MakerLog.git                     "master"
 split 23andme               src/23andme:git@github.com:SocialiteProviders/23andme.git                       "master"
 split 37Signals             src/37Signals:git@github.com:SocialiteProviders/37Signals.git                   "master"
 split 500px                 src/500px:git@github.com:SocialiteProviders/500px.git                           "master"
@@ -168,4 +169,3 @@ split Yiban                 src/Yiban:git@github.com:SocialiteProviders/Yiban.gi
 split YouTube               src/YouTube:git@github.com:SocialiteProviders/YouTube.git                       "master"
 split Zendesk               src/Zendesk:git@github.com:SocialiteProviders/Zendesk.git                       "master"
 split Odnoklassniki         src/Odnoklassniki:git@github.com:SocialiteProviders/Odnoklassniki.git           "master"
-split MakerLog              src/MakerLog:git@github.com/SocialiteProviders/Makerlog.git                     "master"
