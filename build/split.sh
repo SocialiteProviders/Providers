@@ -129,6 +129,7 @@ split SharePoint            src/SharePoint:git@github.com:SocialiteProviders/Sha
 split Shopify               src/Shopify:git@github.com:SocialiteProviders/Shopify.git                       "master"
 split Slack                 src/Slack:git@github.com:SocialiteProviders/Slack.git                           "master"
 split Smashcast             src/Smashcast:git@github.com:SocialiteProviders/Smashcast.git                   "master"
+split Snapchat              src/Snapchat:git@github.com:SocialiteProviders/Snapchat.git                     "master"
 split SoundCloud            src/SoundCloud:git@github.com:SocialiteProviders/SoundCloud.git                 "master"
 split Spotify               src/Spotify:git@github.com:SocialiteProviders/Spotify.git                       "master"
 split StackExchange         src/StackExchange:git@github.com:SocialiteProviders/StackExchange.git           "master"
