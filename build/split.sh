@@ -41,6 +41,7 @@ split ArcGIS                src/ArcGIS:git@github.com:SocialiteProviders/ArcGIS.
 split Asana                 src/Asana:git@github.com:SocialiteProviders/Asana.git                           "master"
 split Aweber                src/Aweber:git@github.com:SocialiteProviders/Aweber.git                           "master"
 split Battle.net            src/Battle.net:git@github.com:SocialiteProviders/Battle.net.git                 "master"
+split Bitbucket             src/Bitbucket:git@github.com:SocialiteProviders/Bitbucket.git                   "master"
 split Bit.ly                src/Bit.ly:git@github.com:SocialiteProviders/Bit.ly.git                         "master"
 split Box                   src/Box:git@github.com:SocialiteProviders/Box.git                               "master"
 split Buffer                src/Buffer:git@github.com:SocialiteProviders/Buffer.git                         "master"
