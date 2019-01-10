@@ -5,6 +5,9 @@
     "authors": [{
         "name": "Pavan Kumar",
         "email": "katakampavan.btech@gmail.com"
+    }, {
+        "name": "Anton Komarev",
+        "email": "ell@cybercog.su"
     }],
     "require": {
         "php": "^5.6 || ^7.0",
@@ -12,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\Acclaim\\": "src/"
+            "SocialiteProviders\\Acclaim\\": ""
         }
     }
 }
