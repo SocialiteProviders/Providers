@@ -130,7 +130,9 @@ class Provider extends AbstractProvider implements ProviderInterface
         ]);
 
         $this->credentialsResponseBody = json_decode($response->getBody(), true);
-        $this->openId = $this->credentialsResponseBody['openid'];
+        if (isset($this->credentialsResponseBody['openid'])){
+            $this->openId = $this->credentialsResponseBody['openid'];
+        }
 
         return $this->credentialsResponseBody;
     }
