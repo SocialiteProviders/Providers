@@ -72,6 +72,7 @@ split Flattr                src/Flattr:git@github.com:SocialiteProviders/Flattr.
 split Flickr                src/Flickr:git@github.com:SocialiteProviders/Flickr.git                         "master"
 split Foursquare            src/Foursquare:git@github.com:SocialiteProviders/Foursquare.git                 "master"
 split GameWisp              src/GameWisp:git@github.com:SocialiteProviders/GameWisp.git                     "master"
+split GitHub                src/GitHub:git@github.com:SocialiteProviders/GitHub.git                         "master"
 split GitLab                src/GitLab:git@github.com:SocialiteProviders/GitLab.git                         "master"
 split Goodreads             src/Goodreads:git@github.com:SocialiteProviders/Goodreads.git                   "master"
 split Google-Plus           src/Google-Plus:git@github.com:SocialiteProviders/Google-Plus.git               "master"
