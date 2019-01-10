@@ -5,6 +5,9 @@
     "authors": [{
         "name": "dingdayu",
         "email": "614422099@qq.com"
+    }, {
+        "name": "Anton Komarev",
+        "email": "ell@cybercog.su"
     }],
     "require": {
         "php": ">=5.5.9",
@@ -12,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\OSChina\\": "src/"
+            "SocialiteProviders\\OSChina\\": ""
         }
     }
 }
