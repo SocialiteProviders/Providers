@@ -1,6 +1,6 @@
 <?php
 
-namespace App\SocialiteProviders\Aweber;
+namespace SocialiteProviders\Aweber;
 
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
@@ -8,7 +8,6 @@ use SocialiteProviders\Manager\OAuth1\User;
 
 class Server extends BaseServer
 {
-
     /**
      * @var string
      */
@@ -53,10 +52,10 @@ class Server extends BaseServer
     {
         $data = $data['entries'][0];
 
-        $user        = new User();
-        $user->id    = $data['id'];
+        $user = new User();
+        $user->id = $data['id'];
         $user->extra = array_diff_key($data, array_flip([
-            'id'
+            'id',
         ]));
 
         return $user;
@@ -85,5 +84,4 @@ class Server extends BaseServer
     {
         return null;
     }
-
 }

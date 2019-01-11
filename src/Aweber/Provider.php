@@ -1,13 +1,12 @@
 <?php
 
-namespace App\SocialiteProviders\Aweber;
+namespace SocialiteProviders\Aweber;
 
 use SocialiteProviders\Manager\OAuth1\AbstractProvider;
 use SocialiteProviders\Manager\OAuth1\User;
 
 class Provider extends AbstractProvider
 {
-
     /**
      * Unique Provider Identifier.
      */
@@ -19,8 +18,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user['extra'])->map([
-            'id' => $user['id']
+            'id' => $user['id'],
         ]);
     }
-
 }
