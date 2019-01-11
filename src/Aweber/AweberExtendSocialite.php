@@ -1,12 +1,11 @@
 <?php
 
-namespace App\SocialiteProviders\Aweber;
+namespace SocialiteProviders\Aweber;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class AweberExtendSocialite
 {
-
     /**
      * Register the provider.
      *
@@ -18,5 +17,4 @@ class AweberExtendSocialite
             'aweber', __NAMESPACE__ . '\Provider', __NAMESPACE__ . '\Server'
         );
     }
-
 }
