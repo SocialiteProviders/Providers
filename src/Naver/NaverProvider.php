@@ -2,11 +2,10 @@
 
 namespace SocialiteProviders\Naver;
 
-use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class NaverProvider extends AbstractProvider implements ProviderInterface
+class NaverProvider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
