@@ -4,13 +4,10 @@ namespace SocialiteProviders\Orcid;
 
 use Exception;
 use Illuminate\Support\Arr;
-#use Laravel\Socialite\Two\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
-use Laravel\Socialite\Two\ProviderInterface;
-#use Laravel\Socialite\Two\User;
 
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier

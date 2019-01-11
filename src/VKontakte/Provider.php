@@ -3,11 +3,10 @@
 namespace SocialiteProviders\VKontakte;
 
 use Illuminate\Support\Arr;
-use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     protected $fields = ['id', 'email', 'first_name', 'last_name', 'screen_name', 'photo'];
 

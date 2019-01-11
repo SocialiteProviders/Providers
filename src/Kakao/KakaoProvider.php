@@ -2,11 +2,10 @@
 
 namespace SocialiteProviders\Kakao;
 
-use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class KakaoProvider extends AbstractProvider implements ProviderInterface
+class KakaoProvider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
