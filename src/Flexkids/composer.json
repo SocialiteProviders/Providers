@@ -1,0 +1,18 @@
+{
+    "name": "socialiteproviders/flexkids",
+    "description": "Flexkids OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Stephan Eizinga",
+        "email": "stephan.eizinga@flexkids.nl"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "socialiteproviders/manager": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Flexkids\\": ""
+        }
+    }
+}
