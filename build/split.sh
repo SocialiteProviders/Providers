@@ -69,7 +69,7 @@ split EyeEm                 src/EyeEm:git@github.com:SocialiteProviders/EyeEm.gi
 split Facebook              src/Facebook:git@github.com:SocialiteProviders/Facebook.git                     "master"
 split Fitbit                src/Fitbit:git@github.com:SocialiteProviders/Fitbit.git                         "master"
 split Flattr                src/Flattr:git@github.com:SocialiteProviders/Flattr.git                         "master"
-split Flexkids              src/Flickr:git@github.com:SocialiteProviders/Flexkids.git                       "master"
+split Flexkids              src/Flexkids:git@github.com:SocialiteProviders/Flexkids.git                       "master"
 split Flickr                src/Flickr:git@github.com:SocialiteProviders/Flickr.git                         "master"
 split Foursquare            src/Foursquare:git@github.com:SocialiteProviders/Foursquare.git                 "master"
 split GameWisp              src/GameWisp:git@github.com:SocialiteProviders/GameWisp.git                     "master"
