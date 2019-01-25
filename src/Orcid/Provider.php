@@ -197,7 +197,6 @@ class Provider extends AbstractProvider
     {
         $s = $this->scopes[0];
         $data = "client_id={$this->clientId}&client_secret={$this->clientSecret}&grant_type=client_credentials&scope={$s}";
-	dd($data);
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json','Content-Type' => 'application/x-www-form-urlencoded',],
