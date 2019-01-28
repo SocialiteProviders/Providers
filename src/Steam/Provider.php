@@ -24,7 +24,7 @@ class Provider extends AbstractProvider
      *
      * @return \LightOpenID
      */
-    private function getOpenID()
+    protected function getOpenID()
     {
         $openID = new LightOpenID(
             $redirect = $this->getConfig('redirect'),
