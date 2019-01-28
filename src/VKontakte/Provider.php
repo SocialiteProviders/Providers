@@ -15,6 +15,11 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'VKONTAKTE';
 
+     /**
+     * {@inheritdoc}
+     */
+    protected $stateless = true;
+
     /**
      * {@inheritdoc}
      */
@@ -23,7 +28,7 @@ class Provider extends AbstractProvider
     /**
      * Last API version.
      */
-    const VERSION = '5.85';
+    const VERSION = '5.92';
 
     /**
      * {@inheritdoc}
