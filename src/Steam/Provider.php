@@ -119,4 +119,9 @@ class Provider extends AbstractProvider
     protected function getTokenUrl()
     {
     }
+
+    public static function additionalConfigKeys()
+    {
+        return ['proxy'];
+    }
 }
