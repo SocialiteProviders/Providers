@@ -81,10 +81,8 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $endpoint = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s';
-
         $response = $this->getHttpClient()->get(
-            sprintf($endpoint, $this->getConfig('client_secret'), $token)
+            sprintf('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s', $this->clientSecret, $token)
         );
 
         $contents = json_decode($response->getBody()->getContents(), true);
