@@ -76,6 +76,7 @@ split GameWisp              src/GameWisp:git@github.com:SocialiteProviders/GameW
 split GitHub                src/GitHub:git@github.com:SocialiteProviders/GitHub.git                         "master"
 split GitLab                src/GitLab:git@github.com:SocialiteProviders/GitLab.git                         "master"
 split Goodreads             src/Goodreads:git@github.com:SocialiteProviders/Goodreads.git                   "master"
+split Google                src/Google:git@github.com:SocialiteProviders/Google.git                         "master"
 split Google-Plus           src/Google-Plus:git@github.com:SocialiteProviders/Google-Plus.git               "master"
 split Harvest               src/Harvest:git@github.com:SocialiteProviders/Harvest.git                       "master"
 split Heroku                src/Heroku:git@github.com:SocialiteProviders/Heroku.git                         "master"
