@@ -15,6 +15,11 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected $scopes = ['user:read'];
+
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -32,7 +37,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://api.getmakerlog.com/oauth/token';
+        return 'https://api.getmakerlog.com/oauth/token/';
     }
 
     /**
@@ -56,8 +61,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['id'], 'nickname' => $user['username'], 'name' => $user['first_name'] . ' '. $user['last_name'],
-            'email' => null, 'avatar' => $user['avatar'],
+            'id'       => $user['id'],
+            'nickname' => $user['username'],
+            'name'     => $user['first_name'] . ' '. $user['last_name'],
+            'email'    => null,
+            'avatar'   => $user['avatar'],
         ]);
     }
 

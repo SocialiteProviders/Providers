@@ -2,10 +2,16 @@
     "name": "socialiteproviders/makerlog",
     "description": "Makerlog OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Miguel Piedrafita",
-        "email": "soy@miguelpiedrafita.com"
-    }],
+    "authors": [
+        {
+            "name": "Miguel Piedrafita",
+            "email": "soy@miguelpiedrafita.com"
+        },
+        {
+            "name": "Peter Thaleikis",
+            "homepage": "https://bringyourownideas.com"
+        }
+    ],
     "require": {
         "php": "^5.6 || ^7.0",
         "socialiteproviders/manager": "~2.0 || ~3.0"
