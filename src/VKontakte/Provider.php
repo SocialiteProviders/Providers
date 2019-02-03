@@ -3,6 +3,7 @@
 namespace SocialiteProviders\VKontakte;
 
 use Illuminate\Support\Arr;
+use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -87,7 +88,7 @@ class Provider extends AbstractProvider
      */
     public function user() {
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException();
+            throw new InvalidStateException;
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
