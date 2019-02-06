@@ -15,7 +15,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['user:read'];
+    protected $scopes = ['user:read user:email'];
 
     /**
      * {@inheritdoc}
@@ -23,12 +23,23 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
+     * return the api base url
+     *
+     * @return string
+     */
+    protected function baseUrl()
+    {
+        return 'https://api.getmakerlog.com';
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.getmakerlog.com/oauth/authorize', $state
+            $this->baseUrl() . '/oauth/authorize',
+            $state
         );
     }
 
@@ -37,7 +48,15 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://api.getmakerlog.com/oauth/token/';
+        return $this->baseUrl() . '/oauth/token/';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getEmailUrl()
+    {
+        return $this->baseUrl() . '/accounts/read_email/';
     }
 
     /**
@@ -45,14 +64,21 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
+        // get the user
         $response = $this->getHttpClient()->get(
-            'https://api.getmakerlog.com/me/?format=json', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            $this->baseUrl() . '/me/?format=json',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
-        return json_decode($response->getBody()->getContents(), true);
+        // parse the response and add the email address in.
+        $result = json_decode($response->getBody()->getContents(), true);
+        $result['email'] = $this->getEmailByToken($token);
+
+        return $result;
     }
 
     /**
@@ -64,7 +90,6 @@ class Provider extends AbstractProvider
             'id'       => $user['id'],
             'nickname' => $user['username'],
             'name'     => $user['first_name'] . ' '. $user['last_name'],
-            'email'    => null,
             'avatar'   => $user['avatar'],
         ]);
     }
@@ -74,8 +99,31 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
+        return array_merge(
+            parent::getTokenFields($code),
+            [
+                'grant_type' => 'authorization_code',
+            ]
+        );
+    }
+
+    /**
+     *  Get the account email of the current user.
+     *
+     * @param string $token
+     * @return string
+     */
+    protected function getEmailByToken($token)
+    {
+        $response = $this->getHttpClient()->get(
+            $this->getEmailUrl(),
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
+
+        return json_decode($response->getBody()->getContents(), true)['email'];
     }
 }
