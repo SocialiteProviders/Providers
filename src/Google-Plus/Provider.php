@@ -2,11 +2,11 @@
 
 namespace SocialiteProviders\Google;
 
-use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use Laravel\Socialite\Two\ProviderInterface;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
-class Provider extends AbstractProvider
+class Provider extends AbstractProvider implements ProviderInterface
 {
     /**
      * Unique Provider Identifier.
@@ -17,9 +17,8 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        'https://www.googleapis.com/auth/plus.me',
-        'https://www.googleapis.com/auth/plus.login',
-        'https://www.googleapis.com/auth/plus.profile.emails.read',
+        'profile',
+        'email',
     ];
 
     /**
@@ -51,10 +50,11 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://www.googleapis.com/plus/v1/people/me', [
+            'https://people.googleapis.com/v1/people/me', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
+            'query'   => array('personFields' => 'emailAddresses,names,photos'),
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -66,10 +66,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['id'], 'nickname' => Arr::get($user, 'nickname'),
-            'name'   => $user['displayName'],
-            'email'  => $user['emails'][0]['value'],
-            'avatar' => Arr::get($user, 'image.url'),
+            'id' => $user['names'][0]['metadata']['source']['id'],
+            'nickname' => $user['names'][0]['displayName'],
+            'name' => $user['names'][0]['displayName'],
+            'email' => $user['emailAddresses'][0]['value'],
+            'avatar' => $user['photos'][0]['url'],
         ]);
     }
 
