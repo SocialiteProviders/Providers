@@ -1,0 +1,20 @@
+{
+    "name": "socialiteproviders/opskins",
+    "description": "Opskins OAuth2 Provider for Laravel Socialite.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "sofwar",
+            "email": "ya.sofwar@yandex.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialProviders\\Opskins\\": ""
+        }
+    }
+}
