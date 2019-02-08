@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Google;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -54,7 +55,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
-            'query'   => array('personFields' => 'emailAddresses,names,photos'),
+            'query'   => ['personFields' => 'emailAddresses,names,photos'],
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -67,10 +68,15 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'id' => $user['names'][0]['metadata']['source']['id'],
-            'nickname' => $user['names'][0]['displayName'],
-            'name' => $user['names'][0]['displayName'],
-            'email' => $user['emailAddresses'][0]['value'],
-            'avatar' => $user['photos'][0]['url'],
+            'nickname' => Arr::get($user, 'names.0.displayName', NULL),
+            'name' => Arr::get($user, 'names.0.displayName', NULL),
+            'email' => Arr::get($user, 'emailAddresses.0.value', NULL),
+            'avatar' =>  ( 
+                    Arr::get($user, 'photos.0.metadata.source.type', NULL) === 'PROFILE'
+                    AND Arr::get($user, 'photos.0.metadata.primary', NULL) === true
+                ) 
+                ? Arr::get($user, 'photos.0.url', NULL) 
+                : NULL,
         ]);
     }
 
