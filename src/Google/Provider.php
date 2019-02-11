@@ -6,12 +6,12 @@ use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends AbstractProvider
+class Provider extends AbstractProvider implements ProviderInterface
 {
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'GOOGLE';
+    const IDENTIFIER = 'GOOGLEOAUTH';
 
     /**
      * {@inheritdoc}
@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://www.googleapis.com/plus/v1/people/me', [
+            'https://www.googleapis.com/oauth2/v3/userinfo', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
             ],
@@ -66,11 +66,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
-            'nickname' => array_get($user, 'nickname'),
-            'name' => $user['displayName'],
-            'email' => $user['emails'][0]['value'],
-            'avatar' => array_get($user, 'image')['url'],
+            'id' => $user['sub'],
+            'nickname' => array_get($user, 'name'),
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => $user['picture'],
         ]);
     }
 
