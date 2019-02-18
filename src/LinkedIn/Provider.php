@@ -4,6 +4,7 @@ namespace SocialiteProviders\LinkedIn;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,7 +19,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['r_basicprofile', 'r_emailaddress'];
+    protected $scopes = ['r_liteprofile', 'r_emailaddress'];
 
     /**
      * Get the GET parameters for the code request.
@@ -59,7 +60,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.linkedin.com/uas/oauth2/authorization', $state
+            'https://www.linkedin.com/oauth/v2/authorization', $state
         );
     }
 
@@ -84,7 +85,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://www.linkedin.com/uas/oauth2/accessToken';
+        return 'https://www.linkedin.com/oauth/v2/accessToken';
     }
 
     /**
@@ -92,16 +93,41 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.linkedin.com/v1/people/~:(id,formatted-name,picture-url,email-address,public-profile-url)', [
-            'headers' => [
+        $requestHeaders = [
                 'Accept-Language' => 'en-US',
-                'x-li-format'     => 'json',
-                'Authorization'   => 'Bearer '.$token,
-            ],
+                'x-li-format' => 'json',
+                'Authorization' => 'Bearer '.$token,
+            ];
+
+        $meResponse = $this->getHttpClient()->get(
+            'https://api.linkedin.com/v2/me?projection=(id,lastName,firstName,vanityName,profilePicture(displayImage~:playableStreams))', [
+            'headers' => $requestHeaders,
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        $meResponseBody = json_decode($meResponse->getBody()->getContents(), true);
+
+        $avatars = new Collection($meResponseBody['profilePicture']['displayImage~']['elements']);
+
+        if ($avatars->count() > 0) {
+            $avatar = $avatars->pop()['identifiers'][0]['identifier'];
+        } else {
+            $avatar = null;
+        }
+
+        $emailResponse = $this->getHttpClient()->get(
+            'https://api.linkedin.com/v2/clientAwareMemberHandles?q=members&projection=(elements*(primary,type,handle~))', [
+            'headers' => $requestHeaders,
+        ]);
+
+        $emailResponseBody = json_decode($emailResponse->getBody()->getContents(), true);
+
+        return [
+            'nickname'  => null,
+            'id'        => $meResponseBody['id'],
+            'name'      => reset($meResponseBody['lastName']['localized']) . ' ' . reset($meResponseBody['firstName']['localized']),
+            'avatar'    => $avatar,
+            'email'     => $emailResponseBody['elements'][0]['handle~']['emailAddress'],
+        ];
     }
 
     /**
@@ -109,12 +135,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id'     => $user['id'], 'nickname' => null,
-            'name'   => $user['formattedName'], 'email' => $user['emailAddress'],
-            'avatar' => Arr::get($user, 'pictureUrl'),
-            'profile_url' => Arr::get($user, 'publicProfileUrl'),
-        ]);
+        return (new User())->setRaw($user)->map($user);
     }
 
     /**
