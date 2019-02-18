@@ -106,12 +106,14 @@ class Provider extends AbstractProvider
 
         $meResponseBody = json_decode($meResponse->getBody()->getContents(), true);
 
-        $avatars = new Collection($meResponseBody['profilePicture']['displayImage~']['elements']);
+        $avatar = null;
 
-        if ($avatars->count() > 0) {
-            $avatar = $avatars->pop()['identifiers'][0]['identifier'];
-        } else {
-            $avatar = null;
+        if (array_key_exists('profilePicture', $meResponseBody)) {
+            $avatars = new Collection($meResponseBody['profilePicture']['displayImage~']['elements']);
+
+            if ($avatars->count() > 0) {
+                $avatar = $avatars->pop()['identifiers'][0]['identifier'];
+            }
         }
 
         $emailResponse = $this->getHttpClient()->get(
