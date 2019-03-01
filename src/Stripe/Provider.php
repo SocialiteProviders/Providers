@@ -55,8 +55,15 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $nickname = null;
+        if (isset($user['settings']['dashboard']['display_name'])) { // 2019-02-19 API change
+            $nickname = $user['settings']['dashboard']['display_name'];
+        } else if (isset($user['display_name'])) { // original location
+            $nickname = $user['display_name'];
+        }
+
         return (new User())->setRaw($user)->map([
-            'id'   => $user['id'], 'nickname' => $user['settings']['dashboard']['display_name'],
+            'id' => $user['id'], 'nickname' => $nickname,
             'name' => null, 'email' => $user['email'], 'avatar' => null,
         ]);
     }
