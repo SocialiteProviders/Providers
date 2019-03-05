@@ -4,7 +4,7 @@ namespace SocialiteProviders\MediaCube;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class LinkedInExtendSocialite
+class MediaCubeExtendSocialite
 {
     /**
      * Register the provider.
