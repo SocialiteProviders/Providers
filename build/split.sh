@@ -99,6 +99,7 @@ split MakerLog              src/MakerLog:git@github.com:SocialiteProviders/Maker
 split Mattermost            src/Mattermost:git@github.com:SocialiteProviders/Mattermost.git                 "master"
 split Medium                src/Medium:git@github.com:SocialiteProviders/Medium.git                         "master"
 split Meetup                src/Meetup:git@github.com:SocialiteProviders/Meetup.git                         "master"
+split Mediacube             src/Mediacube:git@github.com:SocialiteProviders/Mediacube.git                   "master"
 split Microsoft             src/Microsoft:git@github.com:SocialiteProviders/Microsoft.git                   "master"
 split Microsoft-Azure       src/Microsoft-Azure:git@github.com:SocialiteProviders/Microsoft-Azure.git       "master"
 split Microsoft-Graph       src/Microsoft-Graph:git@github.com:SocialiteProviders/Microsoft-Graph.git       "master"
