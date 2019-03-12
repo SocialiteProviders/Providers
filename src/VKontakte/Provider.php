@@ -56,7 +56,8 @@ class Provider extends AbstractProvider
     {
         $from_token = [];
         if (is_array($token)) {
-            $from_token["email"] = $token["email"];
+            $from_token["email"] = isset($token["email"]) ? $token["email"] : null;
+            
             $token = $token["access_token"];
         }
 
