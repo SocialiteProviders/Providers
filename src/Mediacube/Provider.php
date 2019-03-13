@@ -79,7 +79,7 @@ class Provider extends AbstractProvider
      */
     protected function parseAccessToken($body)
     {
-        return json_decode($body, true);
+        return \Arr::get($body, 'access_token');
     }
 
 }
