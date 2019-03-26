@@ -56,14 +56,15 @@ class Provider extends AbstractProvider
     {
         $from_token = [];
         if (is_array($token)) {
-            $from_token["email"] = $token["email"];
+            $from_token["email"] = isset($token["email"]) ? $token["email"] : null;
+            
             $token = $token["access_token"];
         }
 
         $params = http_build_query([
             'access_token' => $token,
             'fields'       => implode(',', $this->fields),
-            'language'     => $this->getConfig('lang', 'en'),
+            'lang'     => $this->getConfig('lang', 'en'),
             'v'            => self::VERSION,
         ]);
 

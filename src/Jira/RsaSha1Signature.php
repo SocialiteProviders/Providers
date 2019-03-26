@@ -9,6 +9,7 @@ use League\OAuth1\Client\Signature\SignatureInterface;
 class RsaSha1Signature extends Signature implements SignatureInterface
 {
     private $certPath = '';
+    private $certPassphrase = '';
 
     /**
      * {@inheritdoc}
@@ -27,7 +28,7 @@ class RsaSha1Signature extends Signature implements SignatureInterface
         $baseString = $this->baseString($url, $method, $parameters);
 
         // Fetch the private key cert based on the request
-        $certificate = openssl_pkey_get_private("file://$this->certPath");
+        $certificate = openssl_pkey_get_private("file://$this->certPath", $this->certPassphrase);
 
         if ($certificate === false) {
             throw new \Exception('Cannot get private key.');
@@ -53,6 +54,16 @@ class RsaSha1Signature extends Signature implements SignatureInterface
     public function setCertPath($certPath)
     {
         $this->certPath = $certPath;
+    }
+
+    /**
+     * Set cert passphrase.
+     *
+     * @param $certPassphrase
+     */
+    public function setCertPassphrase($certPassphrase)
+    {
+        $this->certPassphrase = $certPassphrase;
     }
 
     /**

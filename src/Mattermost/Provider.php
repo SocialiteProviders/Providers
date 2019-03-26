@@ -86,7 +86,7 @@ class Provider extends AbstractProvider
             'nickname' => $user['nickname'],
             'name' => $user['username'],
             'email' => $user['email'],
-            'avatar' => "{$this->getAPIBase()}/users/{$user['id']}/image?time={$user['last_picture_update']}",
+            'avatar' => isset($user['last_picture_update']) ? "{$this->getAPIBase()}/users/{$user['id']}/image?time={$user['last_picture_update']}" : '',
         ]);
 
         return $user;
