@@ -126,7 +126,7 @@ class Provider extends AbstractProvider
         return [
             'nickname'  => null,
             'id'        => $meResponseBody['id'],
-            'name'      => reset($meResponseBody['lastName']['localized']) . ' ' . reset($meResponseBody['firstName']['localized']),
+            'name'      => reset($meResponseBody['firstName']['localized']) . ' ' . reset($meResponseBody['lastName']['localized']),
             'avatar'    => $avatar,
             'email'     => $emailResponseBody['elements'][0]['handle~']['emailAddress'],
         ];
