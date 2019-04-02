@@ -96,6 +96,7 @@ split Line                  src/Line:git@github.com:SocialiteProviders/Line.git 
 split LinkedIn              src/LinkedIn:git@github.com:SocialiteProviders/LinkedIn.git                     "master"
 split MailChimp             src/MailChimp:git@github.com:SocialiteProviders/MailChimp.git                   "master"
 split MakerLog              src/MakerLog:git@github.com:SocialiteProviders/MakerLog.git                     "master"
+split MasterChain           src/MasterChain:git@github.com:SocialiteProviders/MasterChain.git               "master"
 split Mattermost            src/Mattermost:git@github.com:SocialiteProviders/Mattermost.git                 "master"
 split Medium                src/Medium:git@github.com:SocialiteProviders/Medium.git                         "master"
 split Meetup                src/Meetup:git@github.com:SocialiteProviders/Meetup.git                         "master"
