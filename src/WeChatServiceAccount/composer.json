@@ -1,0 +1,18 @@
+{
+    "name": "socialiteproviders/we-chat-service-account",
+    "description": "WeChat Service Account OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "sink",
+        "email": "sinkcup@gmail.com"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "socialiteproviders/manager": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\WeChatServiceAccount\\": ""
+        }
+    }
+}
