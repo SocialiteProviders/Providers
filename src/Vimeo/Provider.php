@@ -15,6 +15,16 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected $scopes = [ 'public' ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
