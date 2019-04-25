@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'WE_CHAT_SERVICE_ACCOUNT';
+    const IDENTIFIER = 'WECHAT_SERVICE_ACCOUNT';
 
     /**
      * {@inheritdoc}

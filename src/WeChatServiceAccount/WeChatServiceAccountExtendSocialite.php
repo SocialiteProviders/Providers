@@ -11,6 +11,6 @@ class WeChatServiceAccountExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('we_chat_service_account', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('wechat_service_account', __NAMESPACE__.'\Provider');
     }
 }
