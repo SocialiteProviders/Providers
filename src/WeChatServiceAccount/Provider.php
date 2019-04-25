@@ -91,12 +91,4 @@ class Provider extends AbstractProvider
 
         return $fields;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAccessTokenResponse($code)
-    {
-        return $this->credentialsResponseBody = parent::getAccessTokenResponse($code);
-    }
 }
