@@ -60,10 +60,10 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['openid'],
-            'nickname' => $user['nickname'],
+            'nickname' => isset($user['nickname']) ? $user['nickname'] : null, // HACK: Tencent scope snsapi_base only return openid
             'name'     => null,
             'email'    => null,
-            'avatar'   => $user['headimgurl'],
+            'avatar'   => isset($user['headimgurl']) ? $user['headimgurl'] : null,
         ]);
     }
 
