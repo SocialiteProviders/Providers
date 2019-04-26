@@ -39,7 +39,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         // HACK: Tencent return id when grant token, and can not get user by this token
-        if (in_array('snsapi_base', $this->scopes)) {
+        if (in_array('snsapi_base', $this->getScopes())) {
             return ['openid' => $this->credentialsResponseBody['openid']];
         }
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
@@ -59,8 +59,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['openid'],
-            'nickname' => isset($user['nickname']) ? $user['nickname'] : null, // HACK: Tencent scope snsapi_base only return openid
+            // HACK: use unionid as user id
+            'id'       => in_array('unionid', $this->getScopes()) ? $user['unionid'] : $user['openid'],
+             // HACK: Tencent scope snsapi_base only return openid
+            'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
             'name'     => null,
             'email'    => null,
             'avatar'   => isset($user['headimgurl']) ? $user['headimgurl'] : null,
@@ -90,5 +92,17 @@ class Provider extends AbstractProvider
         $fields['appid'] = $this->clientId; // HACK: Tencent use appid, not app_id or client_id
 
         return $fields;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function formatScopes(array $scopes, $scopeSeparator)
+    {
+        // HACK: unionid is a faker scope for user id
+        if (in_array('unionid', $scopes)) {
+            unset($scopes[array_search('unionid', $scopes)]);
+        }
+        return implode($scopeSeparator, $scopes);
     }
 }
