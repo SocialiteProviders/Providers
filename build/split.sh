@@ -166,6 +166,8 @@ split Venmo                 src/Venmo:git@github.com:SocialiteProviders/Venmo.gi
 split VersionOne            src/VersionOne:git@github.com:SocialiteProviders/VersionOne.git                 "master"
 split Vimeo                 src/Vimeo:git@github.com:SocialiteProviders/Vimeo.git                           "master"
 split VKontakte             src/VKontakte:git@github.com:SocialiteProviders/VKontakte.git                   "master"
+split WeChatServiceAccount  src/WeChatServiceAccount:git@github.com:SocialiteProviders/WeChatServiceAccount.git "master"
+split WeChatWeb             src/WeChatWeb:git@github.com:SocialiteProviders/WeChatWeb.git                   "master"
 split Weibo                 src/Weibo:git@github.com:SocialiteProviders/Weibo.git                           "master"
 split Weixin                src/Weixin:git@github.com:SocialiteProviders/Weixin.git                         "master"
 split Weixin-Web            src/Weixin-Web:git@github.com:SocialiteProviders/Weixin-Web.git                 "master"
