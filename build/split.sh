@@ -46,6 +46,7 @@ split Box                   src/Box:git@github.com:SocialiteProviders/Box.git   
 split Buffer                src/Buffer:git@github.com:SocialiteProviders/Buffer.git                         "master"
 split CampaignMonitor       src/CampaignMonitor:git@github.com:SocialiteProviders/CampaignMonitor.git       "master"
 split Cheddar               src/Cheddar:git@github.com:SocialiteProviders/Cheddar.git                       "master"
+split ClaveUnica            src/Cheddar:git@github.com:SocialiteProviders/ClaveUnica.git                    "master"
 split Coinbase              src/Coinbase:git@github.com:SocialiteProviders/Coinbase.git                     "master"
 split ConstantContact       src/ConstantContact:git@github.com:SocialiteProviders/ConstantContact.git       "master"
 split Coursera              src/Coursera:git@github.com:SocialiteProviders/Coursera.git                     "master"
