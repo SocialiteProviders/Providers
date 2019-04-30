@@ -79,7 +79,6 @@ split GitHub                src/GitHub:git@github.com:SocialiteProviders/GitHub.
 split GitLab                src/GitLab:git@github.com:SocialiteProviders/GitLab.git                         "master"
 split Goodreads             src/Goodreads:git@github.com:SocialiteProviders/Goodreads.git                   "master"
 split Google                src/Google:git@github.com:SocialiteProviders/Google.git                         "master"
-split Google-Plus           src/Google-Plus:git@github.com:SocialiteProviders/Google-Plus.git               "master"
 split Harvest               src/Harvest:git@github.com:SocialiteProviders/Harvest.git                       "master"
 split Heroku                src/Heroku:git@github.com:SocialiteProviders/Heroku.git                         "master"
 split Hitbox                src/Hitbox:git@github.com:SocialiteProviders/Hitbox.git                         "master"
