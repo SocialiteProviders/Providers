@@ -1,3 +1,10 @@
-composer.lock
-phpunit.xml
-vendor
+*
+!.github
+!.gitattributes
+!.gitignore
+!LICENSE
+!README.md
+!composer.json
+!phpunit.xml.dist
+!build
+!src
