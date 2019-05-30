@@ -17,8 +17,8 @@ class Provider extends AbstractProvider
      *
      * @see http://developer.okta.com/docs/api/resources/oidc.html#scopes
      */
-    const SCOPE_PROFILE  = 'profile';
-    const SCOPE_EMAIL    = 'email';
+    const SCOPE_PROFILE = 'profile';
+    const SCOPE_EMAIL = 'email';
     const SCOPE_NETWORKS = 'networks';
 
     /**
@@ -62,9 +62,9 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'email' => $user['email'],
         ]);
     }
 
@@ -74,7 +74,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
