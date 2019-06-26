@@ -119,6 +119,7 @@ split Patreon               src/Patreon:git@github.com:SocialiteProviders/Patreo
 split Paymill               src/Paymill:git@github.com:SocialiteProviders/Paymill.git                       "master"
 split PayPal                src/PayPal:git@github.com:SocialiteProviders/PayPal.git                         "master"
 split PayPal-Sandbox        src/PayPal-Sandbox:git@github.com:SocialiteProviders/PayPal-Sandbox.git         "master"
+split PeeringDB             src/PeeringDB:git@github.com:SocialiteProviders/PeeringDB.git                   "master"
 split Pinterest             src/Pinterest:git@github.com:SocialiteProviders/Pinterest.git                   "master"
 split Pipedrive             src/Pipedrive:git@github.com:SocialiteProviders/Pipedrive.git                   "master"
 split Podio                 src/Podio:git@github.com:SocialiteProviders/Podio.git                           "master"
