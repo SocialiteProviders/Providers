@@ -11,7 +11,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'GOOGLEOAUTH';
+    const IDENTIFIER = 'GOOGLE';
 
     /**
      * {@inheritdoc}
