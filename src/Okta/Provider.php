@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Okta;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -90,16 +91,16 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'             => array_get($user, 'sub'),
-            'email'          => array_get($user, 'email'),
-            'email_verified' => array_get($user, 'email_verified', false),
-            'nickname'       => array_get($user, 'nickname'),
-            'name'           => array_get($user, 'name'),
-            'first_name'     => array_get($user, 'given_name'),
-            'last_name'      => array_get($user, 'family_name'),
-            'profileUrl'     => array_get($user, 'profile'),
-            'address'        => array_get($user, 'address'),
-            'phone'          => array_get($user, 'phone'),
+            'id'             => Arr::get($user, 'sub'),
+            'email'          => Arr::get($user, 'email'),
+            'email_verified' => Arr::get($user, 'email_verified', false),
+            'nickname'       => Arr::get($user, 'nickname'),
+            'name'           => Arr::get($user, 'name'),
+            'first_name'     => Arr::get($user, 'given_name'),
+            'last_name'      => Arr::get($user, 'family_name'),
+            'profileUrl'     => Arr::get($user, 'profile'),
+            'address'        => Arr::get($user, 'address'),
+            'phone'          => Arr::get($user, 'phone'),
         ]);
     }
 

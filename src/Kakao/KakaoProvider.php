@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Kakao;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -92,15 +93,15 @@ class KakaoProvider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $is_email_valid = array_get($user, 'kakao_account.is_email_valid');
-        $is_email_verified = array_get($user, 'kakao_account.is_email_verified');
+        $is_email_valid = Arr::get($user, 'kakao_account.is_email_valid');
+        $is_email_verified = Arr::get($user, 'kakao_account.is_email_verified');
 
         return (new User())->setRaw($user)->map([
             'id'        => $user['id'],
             'nickname'  => $user['properties']['nickname'],
             'name'      => $user['properties']['nickname'],
-            'email'     => $is_email_valid && $is_email_verified ? array_get($user, 'kakao_account.email') : null,
-            'avatar'    => array_get($user, 'properties.profile_image'),
+            'email'     => $is_email_valid && $is_email_verified ? Arr::get($user, 'kakao_account.email') : null,
+            'avatar'    => Arr::get($user, 'properties.profile_image'),
         ]);
     }
 }

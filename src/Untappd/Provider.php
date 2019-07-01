@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Untappd;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -42,7 +43,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return array_get(json_decode($response->getBody()->getContents(), true), 'response.user');
+        return Arr::get(json_decode($response->getBody()->getContents(), true), 'response.user');
     }
 
     /**
@@ -53,10 +54,10 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'              => $user['id'],
             'nickname'        => $user['user_name'],
-            'name'            => array_get($user, 'first_name').' '.array_get($user, 'last_name'),
-            'email'           => array_get($user, 'settings.email_address'),
-            'avatar'          => array_get($user, 'user_avatar'),
-            'avatar_original' => array_get($user, 'user_avatar_hd'),
+            'name'            => Arr::get($user, 'first_name').' '.Arr::get($user, 'last_name'),
+            'email'           => Arr::get($user, 'settings.email_address'),
+            'avatar'          => Arr::get($user, 'user_avatar'),
+            'avatar_original' => Arr::get($user, 'user_avatar_hd'),
         ]);
     }
 

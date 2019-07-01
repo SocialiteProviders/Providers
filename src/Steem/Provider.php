@@ -82,11 +82,11 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'          => $user['user'],
             'nickname'    => $user['user'],
-            'name'        => array_get($metadata, 'profile.name', $user['user']),
-            'about'       => array_get($metadata, 'profile.about'),
-            'location'    => array_get($metadata, 'profile.location'),
-            'avatar'      => array_get($metadata, 'profile.profile_image'),
-            'cover_image' => array_get($metadata, 'profile.cover_image'),
+            'name'        => Arr::get($metadata, 'profile.name', $user['user']),
+            'about'       => Arr::get($metadata, 'profile.about'),
+            'location'    => Arr::get($metadata, 'profile.location'),
+            'avatar'      => Arr::get($metadata, 'profile.profile_image'),
+            'cover_image' => Arr::get($metadata, 'profile.cover_image'),
         ]);
     }
 
