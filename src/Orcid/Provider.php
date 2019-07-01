@@ -182,7 +182,7 @@ class Provider extends AbstractProvider
             env( 'ORCID_UID_FIELDNAME', 'id' ) => $user['orcid-identifier']['path'], 
             'nickname' => $user["person"]["name"]["given-names"]["value"],
             'name' => sprintf( "%s %s", $user["person"]["name"]["given-names"]["value"], $user["person"]["name"]["family-name"]["value"] ),
-            'email' => array_get($user, 'email'),
+            'email' => Arr::get($user, 'email'),
         ]);
     }
 

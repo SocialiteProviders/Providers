@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Flickr;
 
+use Illuminate\Support\Arr;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 use SocialiteProviders\Manager\OAuth1\User;
@@ -51,7 +52,7 @@ class Server extends BaseServer
         $user = new User();
         $user->id = $data['id'];
         $user->nickname = $data['username']['_content'];
-        $user->name = array_get($data, 'realname._content');
+        $user->name = Arr::get($data, 'realname._content');
         $user->extra = array_diff_key($data, array_flip([
             'id', 'username', 'realname',
         ]));

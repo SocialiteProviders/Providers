@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Twitch;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -67,7 +68,7 @@ class Provider extends AbstractProvider
             'id'       => $user['id'],
             'nickname' => $user['display_name'],
             'name'     => $user['display_name'],
-            'email'    => array_get($user, 'email'),
+            'email'    => Arr::get($user, 'email'),
             'avatar'   => $user['profile_image_url'],
         ]);
     }
