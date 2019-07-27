@@ -174,6 +174,7 @@ split Weibo                 src/Weibo:git@github.com:SocialiteProviders/Weibo.gi
 split Weixin                src/Weixin:git@github.com:SocialiteProviders/Weixin.git                         "master"
 split Weixin-Web            src/Weixin-Web:git@github.com:SocialiteProviders/Weixin-Web.git                 "master"
 split Withings              src/Withings:git@github.com:SocialiteProviders/Withings.git                     "master"
+split Wonderlist              src/Wonderlist:git@github.com:SocialiteProviders/Wonderlist.git                     "master"
 split WordPress             src/WordPress:git@github.com:SocialiteProviders/WordPress.git                   "master"
 split Xing                  src/Xing:git@github.com:SocialiteProviders/Xing.git                             "master"
 split xREL                  src/xREL:git@github.com:SocialiteProviders/xREL.git                             "master"
