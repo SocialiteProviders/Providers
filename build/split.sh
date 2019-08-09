@@ -95,6 +95,7 @@ split LaravelPassport       src/LaravelPassport:git@github.com:SocialiteProvider
 split Line                  src/Line:git@github.com:SocialiteProviders/Line.git                             "master"
 split LinkedIn              src/LinkedIn:git@github.com:SocialiteProviders/LinkedIn.git                     "master"
 split MailChimp             src/MailChimp:git@github.com:SocialiteProviders/MailChimp.git                   "master"
+split Mailru                src/Mailru:git@github.com:SocialiteProviders/Mailru.git                         "master"
 split MakerLog              src/MakerLog:git@github.com:SocialiteProviders/MakerLog.git                     "master"
 split MasterChain           src/MasterChain:git@github.com:SocialiteProviders/MasterChain.git               "master"
 split Mattermost            src/Mattermost:git@github.com:SocialiteProviders/Mattermost.git                 "master"
