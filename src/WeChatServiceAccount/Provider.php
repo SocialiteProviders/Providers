@@ -103,6 +103,11 @@ class Provider extends AbstractProvider
         if (in_array('unionid', $scopes)) {
             unset($scopes[array_search('unionid', $scopes)]);
         }
+        // HACK: use scopes() instead of setScopes()
+        // docs: https://laravel.com/docs/socialite#access-scopes
+        if (in_array('snsapi_base', $scopes)) {
+            unset($scopes[array_search('snsapi_userinfo', $scopes)]);
+        }
         return implode($scopeSeparator, $scopes);
     }
 }
