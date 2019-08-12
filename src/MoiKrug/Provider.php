@@ -15,11 +15,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [];
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://moikrug.ru/integrations/oauth/authorize', $state);
@@ -53,7 +48,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id' => $user['login'],
             'nickname' => $user['login'],
             'name' => trim($user['first_name'].' '.$user['last_name']),
             'email' => $user['email'],
@@ -71,8 +66,8 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    protected function usesState()
+    protected function isStateless()
     {
-        return false;
+        return true;
     }
 }
