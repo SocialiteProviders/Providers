@@ -80,7 +80,7 @@ class NaverProvider extends AbstractProvider
             'headers' => ['Authorization' => 'Bearer '.$token],
         ]);
 
-        return $this->parseXML($response->getBody()->getContents())['response'];
+        return $this->parseXML($response->getBody())['response'];
     }
 
     /**
