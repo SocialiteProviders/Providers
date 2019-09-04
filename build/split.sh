@@ -110,6 +110,7 @@ split Mixcloud              src/Mixcloud:git@github.com:SocialiteProviders/Mixcl
 split Mixer                 src/Mixer:git@github.com:SocialiteProviders/Mixer.git                           "master"
 split Mollie                src/Mollie:git@github.com:SocialiteProviders/Mollie.git                         "master"
 split Naver                 src/Naver:git@github.com:SocialiteProviders/Naver.git                           "master"
+split Netlify               src/Naver:git@github.com:SocialiteProviders/Netlify.git                         "master"
 split OAuthgen              src/OAuthgen:git@github.com:SocialiteProviders/OAuthgen.git                     "master"
 split Odnoklassniki         src/Odnoklassniki:git@github.com:SocialiteProviders/Odnoklassniki.git           "master"
 split Okta                  src/Okta:git@github.com:SocialiteProviders/Okta.git                             "master"
