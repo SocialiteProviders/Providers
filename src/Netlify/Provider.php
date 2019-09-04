@@ -30,7 +30,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'http://app.netlify.com/authorize';
+        return 'https://api.netlify.com/oauth/token';
     }
 
     /**
@@ -54,10 +54,9 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
-            'nickname' => $user['username'],
-            'name'     => $user['name'],
+            'name'     => $user['full_name'],
             'email'    => $user['email'],
-            'avatar'   => $user['avatar'],
+            'avatar'   => $user['avatar_url'],
         ]);
     }
 
