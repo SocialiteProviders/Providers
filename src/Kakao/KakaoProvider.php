@@ -98,8 +98,8 @@ class KakaoProvider extends AbstractProvider
 
         return (new User())->setRaw($user)->map([
             'id'        => $user['id'],
-            'nickname'  => $user['properties']['nickname'],
-            'name'      => $user['properties']['nickname'],
+            'nickname'  => Arr::get($user, 'properties.nickname'),
+            'name'      => Arr::get($user, 'properties.nickname'),
             'email'     => $is_email_valid && $is_email_verified ? Arr::get($user, 'kakao_account.email') : null,
             'avatar'    => Arr::get($user, 'properties.profile_image'),
         ]);
