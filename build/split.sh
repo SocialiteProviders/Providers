@@ -80,6 +80,7 @@ split GitLab                src/GitLab:git@github.com:SocialiteProviders/GitLab.
 split Goodreads             src/Goodreads:git@github.com:SocialiteProviders/Goodreads.git                   "master"
 split Google                src/Google:git@github.com:SocialiteProviders/Google.git                         "master"
 split Harvest               src/Harvest:git@github.com:SocialiteProviders/Harvest.git                       "master"
+split HeadHunter            src/HeadHunter:git@github.com:SocialiteProviders/HeadHunter.git                 "master"
 split Heroku                src/Heroku:git@github.com:SocialiteProviders/Heroku.git                         "master"
 split Hitbox                src/Hitbox:git@github.com:SocialiteProviders/Hitbox.git                         "master"
 split HubSpot               src/HubSpot:git@github.com:SocialiteProviders/Hubspot.git                       "master"
