@@ -56,9 +56,21 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $avatar = null;
+
+        if (!empty($user['icon_img'])) {
+            $avatar = $user['icon_img'];
+
+            // Strip the query segment of the URL if it exists.
+            // It provides resize attributes that we're not interested in.
+            if ($querypos = strpos($avatar, '?')) {
+                $avatar = substr($avatar, 0, $querypos);
+            }
+        }
+
         return (new User())->setRaw($user)->map([
             'id'   => $user['id'], 'nickname' => $user['name'],
-            'name' => null, 'email' => null, 'avatar' => null,
+            'name' => null, 'email' => null, 'avatar' => $avatar,
         ]);
     }
 
