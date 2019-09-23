@@ -44,10 +44,9 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.dlive.tv?query={me{id username displayname avatar private{email}}}', [
+        $response = $this->getHttpClient()->get('https://api.dlive.tv?query={me{id username displayname avatar private{email}}}', [
             'headers' => [
-                'Authorization' => 'Bearer '.$token,
+                'Authorization' => $token,
             ],
         ]);
 
@@ -59,12 +58,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $user = $user['data']['me'];
         return (new User())->setRaw($user)->map([
-            'id'       => Arr::get($user,'id'),
-            'nickname' => Arr::get($user,'displayname'),
-            'name'     => Arr::get($user,'username'),
-            'email'    => Arr::get($user,'email'),
-            'avatar'   => Arr::get($user,'avatar'),
+            'id'       => Arr::get($user, 'id'),
+            'nickname' => Arr::get($user, 'displayname'),
+            'name'     => Arr::get($user, 'username'),
+            'email'    => Arr::get($user['private'], 'email'),
+            'avatar'   => Arr::get($user, 'avatar'),
         ]);
     }
 
