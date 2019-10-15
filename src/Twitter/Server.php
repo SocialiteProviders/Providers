@@ -52,14 +52,14 @@ class Server extends BaseServer
         $user->name = $data['name'];
         $user->location = $data['location'];
         $user->description = $data['description'];
-        $user->avatar = $data['profile_image_url'];
+        $user->avatar = $data['profile_image_url_https'];
         $user->email = null;
 
         if (isset($data['email'])) {
             $user->email = $data['email'];
         }
 
-        $used = ['id', 'screen_name', 'name', 'location', 'description', 'profile_image_url', 'email'];
+        $used = ['id', 'screen_name', 'name', 'location', 'description', 'profile_image_url_https', 'email'];
 
         foreach ($data as $key => $value) {
             if (strpos($key, 'url') !== false) {
