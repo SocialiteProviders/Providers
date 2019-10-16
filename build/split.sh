@@ -188,4 +188,5 @@ split Yandex                src/Yandex:git@github.com:SocialiteProviders/Yandex.
 split Yiban                 src/Yiban:git@github.com:SocialiteProviders/Yiban.git                           "master"
 split YouTube               src/YouTube:git@github.com:SocialiteProviders/YouTube.git                       "master"
 split Zendesk               src/Zendesk:git@github.com:SocialiteProviders/Zendesk.git                       "master"
+split Zeit		    src/Zeit:git@github.com:SocialiteProviders/Zeit.git				    "master"
 split Zoho                  src/Zoho:git@github.com:SocialiteProviders/Zoho.git                             "master"
