@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/instagram-basic",
+    "description": "Instagram Basic Display OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Philipp Mochine",
+        "email": "support@avidofood.com"
+    }],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\InstagramBasic\\": ""
+        }
+    }
+}
