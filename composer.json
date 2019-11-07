@@ -11,5 +11,8 @@
         "psr-4": {
             "SocialiteProviders\\": "src/"
         }
+    },
+    "require-dev": {
+        "symplify/monorepo-builder": "^6.1"
     }
 }

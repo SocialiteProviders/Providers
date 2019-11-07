@@ -1,0 +1,19 @@
+name: Split providers into their individual repos
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  split:
+    name: Split Providers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+          with:
+            fetch-depth: 1
+
+      - name: Split
+        run: ./vendor/bin/monorepo-builder split --max-processes 8
