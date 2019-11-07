@@ -18,7 +18,7 @@ jobs:
         uses: nick-zh/composer@v0.2.0
         with:
           action: 'install'
-          options: '--no-interaction --prefer-dist --optimize-autoloader'
+          options: '-o'
 
       - name: Split
         run: ./vendor/bin/monorepo-builder split --max-processes 8
