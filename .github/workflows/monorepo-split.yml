@@ -15,7 +15,7 @@ jobs:
         with:
             fetch-depth: 1
       - name: composer-php
-        uses: nick-zh/composer@v0.1.0
+        uses: nick-zh/composer@v0.2.0
         with:
           action: 'install'
           options: '--no-interaction --prefer-dist --optimize-autoloader'
