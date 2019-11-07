@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-          with:
+        with:
             fetch-depth: 1
 
       - name: Split
