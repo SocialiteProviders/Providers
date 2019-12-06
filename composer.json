@@ -1,5 +1,5 @@
 {
-    "name": "socialiteproviders/providers",
+    "name": "voenniy/providers",
     "description": "Collection of all OAuth2 Providers for Laravel Socialite",
     "license": "MIT",
     "require": {
