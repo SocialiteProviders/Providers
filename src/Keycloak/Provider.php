@@ -23,7 +23,7 @@ class Provider extends AbstractProvider
      */
     protected function getBaseUrl()
     {
-        return rtrim(rtrim($this->getConfig('base_url').'/') . '/realms/' . $this->getConfig('realms'), '/');
+        return rtrim(rtrim($this->getConfig('base_url').'/') . '/realms/' . $this->getConfig('realms', 'master'), '/');
     }
 
 
