@@ -13,6 +13,11 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'KEYCLOAK';
 
 
+    public static function additionalConfigKeys()
+    {
+        return ['base_url', 'realms'];
+    }
+
     /**
      * {@inheritdoc}
      */
