@@ -49,7 +49,7 @@ parameters:
     src/GitHub: 'git@github.com:SocialiteProviders/GitHub.git'
     src/GitLab: 'git@github.com:SocialiteProviders/GitLab.git'
     src/Goodreads: 'git@github.com:SocialiteProviders/Goodreads.git'
-    src/Google: 'git@github.com:SocialiteProviders/Google.git'
+    src/Google: 'git@github.com:SocialiteProviders/Google-Plus.git'
     src/Harvest: 'git@github.com:SocialiteProviders/Harvest.git'
     src/HeadHunter: 'git@github.com:SocialiteProviders/HeadHunter.git'
     src/Heroku: 'git@github.com:SocialiteProviders/Heroku.git'
