@@ -62,6 +62,7 @@ parameters:
     src/Intercom: 'git@github.com:SocialiteProviders/Intercom.git'
     src/Jawbone: 'git@github.com:SocialiteProviders/Jawbone.git'
     src/Jira: 'git@github.com:SocialiteProviders/Jira.git'
+    src/JohnDeere: 'git@github.com:SocialiteProviders/JohnDeere.git'
     src/Kakao: 'git@github.com:SocialiteProviders/Kakao.git'
     src/LaravelPassport: 'git@github.com:SocialiteProviders/Laravel-Passport.git'
     src/Line: 'git@github.com:SocialiteProviders/Line.git'
