@@ -10,7 +10,6 @@ use SocialiteProviders\Manager\OAuth1\User;
 class Server extends BaseServer
 {
     const SANDBOX_URL = 'https://sandboxapi.deere.com';
-    const PRODUCTION_URL = '';
 
     /**
      * oauth_verifier stored for use with.
@@ -20,23 +19,13 @@ class Server extends BaseServer
     protected $verifier;
 
     /**
-     * Determine if we are currently in sandbox environment based on the service config
-     *
-     * @return boolean
-     */
-    protected function useSandbox()
-    {
-        return config('services.john-deere.env', 'sandbox') !== 'production';
-    }
-
-    /**
-     * Get the base URL between sandbox or production
+     * Get the base URL from services config file
      * 
      * @return string
      */
     protected function baseUrl()
     {
-        return $this->useSandbox() ? self::SANDBOX_URL : self::PRODUCTION_URL;
+        return config('services.john-deere.url', self::SANDBOX_URL);
     }
 
     /**
