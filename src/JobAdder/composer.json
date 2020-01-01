@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/jobadder",
+    "description": "JobAdder OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Roland Kalocsaven",
+        "email": "rolandka@live.com"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\JobAdder\\": ""
+        }
+    }
+}
