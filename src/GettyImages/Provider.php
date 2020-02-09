@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\GetttyImages;
+namespace SocialiteProviders\GettyImages;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
