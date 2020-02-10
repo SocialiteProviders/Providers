@@ -7,14 +7,10 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 class QuickBooksExtendSocialite
 {
     /**
-     * Register the provider.
-     *
-     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
+     * Execute the provider.
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'quickbooks', __NAMESPACE__.'\Provider', __NAMESPACE__.'\Server'
-        );
+        $socialiteWasCalled->extendSocialite('quickbooks', __NAMESPACE__.'\Provider');
     }
 }
