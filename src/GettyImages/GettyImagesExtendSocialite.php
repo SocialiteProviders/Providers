@@ -4,7 +4,7 @@ namespace SocialiteProviders\GettyImages;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class GetttyImagesExtendSocialite
+class GettyImagesExtendSocialite
 {
     /**
      * Execute the provider.
