@@ -78,15 +78,4 @@ class Provider extends AbstractProvider
             'grant_type' => 'authorization_code',
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function user($token = null)
-    {
-        if (!$token) {
-            return parent::user();
-        }
-        return $this->mapUserToObject($this->getUserByToken($token));
-    }
 }
