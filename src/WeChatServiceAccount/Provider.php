@@ -17,6 +17,8 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['snsapi_userinfo'];
 
+    private $openId;
+
     /**
      * {@inheritdoc}
      */
@@ -38,14 +40,17 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
+        $openId = isset($this->credentialsResponseBody['openid']) ?
+            $this->credentialsResponseBody['openid'] : $this->openId;
+
         // HACK: Tencent return id when grant token, and can not get user by this token
         if (in_array('snsapi_base', $this->getScopes())) {
-            return ['openid' => $this->credentialsResponseBody['openid']];
+            return ['openid' => $openId];
         }
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
             'query' => [
                 'access_token' => $token, // HACK: Tencent use token in Query String, not in Header Authorization
-                'openid'       => $this->credentialsResponseBody['openid'],
+                'openid'       => $openId, // HACK: Tencent need id, but other platforms don't need
                 'lang'         => 'zh_CN',
             ],
         ]);
@@ -103,6 +108,17 @@ class Provider extends AbstractProvider
         if (in_array('unionid', $scopes)) {
             unset($scopes[array_search('unionid', $scopes)]);
         }
+        // HACK: use scopes() instead of setScopes()
+        // docs: https://laravel.com/docs/socialite#access-scopes
+        if (in_array('snsapi_base', $scopes)) {
+            unset($scopes[array_search('snsapi_userinfo', $scopes)]);
+        }
         return implode($scopeSeparator, $scopes);
+    }
+
+    public function setOpenId($openId)
+    {
+        $this->openId = $openId;
+        return $this;
     }
 }

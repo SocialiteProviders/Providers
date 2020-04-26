@@ -1,16 +1,16 @@
 <?php
 
-namespace SocialiteProviders\Zeit;
+namespace SocialiteProviders\Vercel;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class ZeitExtendSocialite
+class VercelExtendSocialite
 {
     /**
      * Execute the provider.
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('zeit', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('vercel', __NAMESPACE__.'\Provider');
     }
 }

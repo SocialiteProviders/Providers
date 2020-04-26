@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\Zeit;
+namespace SocialiteProviders\Vercel;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -10,14 +10,14 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'ZEIT';
+    const IDENTIFIER = 'vercel';
 
     /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://zeit.co/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://vercel.com/oauth/authorize', $state);
     }
 
     /**
@@ -25,7 +25,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://api.zeit.co/v2/oauth/access_token';
+        return 'https://api.vercel.com/v2/oauth/access_token';
     }
 
     /**
@@ -33,7 +33,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://api.zeit.co/www/user', [
+        $response = $this->getHttpClient()->get('https://api.vercel.com/www/user', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -52,7 +52,7 @@ class Provider extends AbstractProvider
             'nickname' => $user['user']['username'],
             'name'     => $user['user']['name'],
             'email'    => $user['user']['email'],
-            'avatar'   => 'https://zeit.co/api/www/avatar/'.$user['user']['uid'],
+            'avatar'   => 'https://api.vercel.com/www/avatar/'.$user['user']['uid'],
         ]);
     }
 }

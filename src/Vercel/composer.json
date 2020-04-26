@@ -1,6 +1,6 @@
 {
-    "name": "socialiteproviders/zeit",
-    "description": "Zeit OAuth2 Provider for Laravel Socialite",
+    "name": "socialiteproviders/vercel",
+    "description": "Vercel OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "authors": [{
         "name": "Miguel Piedrafita",
@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\Zeit\\": ""
+            "SocialiteProviders\\Vercel\\": ""
         }
     }
 }

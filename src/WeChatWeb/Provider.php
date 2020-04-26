@@ -17,6 +17,8 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['snsapi_login'];
 
+    private $openId;
+
     /**
      * {@inheritdoc}
      */
@@ -41,7 +43,8 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
             'query' => [
                 'access_token' => $token, // HACK: Tencent use token in Query String, not in Header Authorization
-                'openid'       => $this->credentialsResponseBody['openid'],
+                'openid'       => isset($this->credentialsResponseBody['openid']) ?
+                    $this->credentialsResponseBody['openid'] : $this->openId, // HACK: Tencent need id
                 'lang'         => 'zh_CN',
             ],
         ]);
@@ -100,5 +103,11 @@ class Provider extends AbstractProvider
             unset($scopes[array_search('unionid', $scopes)]);
         }
         return implode($scopeSeparator, $scopes);
+    }
+
+    public function setOpenId($openId)
+    {
+        $this->openId = $openId;
+        return $this;
     }
 }
