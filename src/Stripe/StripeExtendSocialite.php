@@ -14,7 +14,8 @@ class StripeExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'stripe', __NAMESPACE__.'\Provider'
+            'stripe',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

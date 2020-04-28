@@ -32,7 +32,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.producthunt.com/v1/oauth/authorize', $state
+            'https://api.producthunt.com/v1/oauth/authorize',
+            $state
         );
     }
 
@@ -50,13 +51,15 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.producthunt.com/v1/me?access_token='.$token, [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.producthunt.com/v1/me?access_token='.$token,
+            [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

@@ -18,9 +18,11 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.wunderlist.com/oauth/authorize', $state
+            'https://www.wunderlist.com/oauth/authorize',
+            $state
         );
     }
+
     /**
      * {@inheritdoc}
      */
@@ -28,6 +30,7 @@ class Provider extends AbstractProvider
     {
         return 'https://www.wunderlist.com/oauth/access_token';
     }
+
     /**
      * {@inheritdoc}
      */
@@ -37,20 +40,22 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('a.wunderlist.com/api/v1/user', [
             'headers' => [
                 'X-Access-Token' => $token,
-                'X-Client-ID' => $config->get('services.wonderlist.client_id')
+                'X-Client-ID'    => $config->get('services.wonderlist.client_id'),
             ],
         ]);
+
         return json_decode($response->getBody()->getContents(), true);
     }
+
     /**
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
             'name'     => $user['name'],
-            'email'    => $user['email']
+            'email'    => $user['email'],
         ]);
     }
 }

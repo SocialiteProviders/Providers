@@ -14,7 +14,8 @@ class StravaExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'strava', __NAMESPACE__.'\Provider'
+            'strava',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

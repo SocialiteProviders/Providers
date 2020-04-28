@@ -16,7 +16,7 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'VKONTAKTE';
 
-     /**
+    /**
      * {@inheritdoc}
      */
     protected $stateless = true;
@@ -37,7 +37,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://oauth.vk.com/authorize', $state
+            'https://oauth.vk.com/authorize',
+            $state
         );
     }
 
@@ -56,19 +57,19 @@ class Provider extends AbstractProvider
     {
         $from_token = [];
         if (is_array($token)) {
-            $from_token["email"] = isset($token["email"]) ? $token["email"] : null;
-            
-            $token = $token["access_token"];
+            $from_token['email'] = isset($token['email']) ? $token['email'] : null;
+
+            $token = $token['access_token'];
         }
 
         $params = http_build_query([
             'access_token' => $token,
             'fields'       => implode(',', $this->fields),
-            'lang'     => $this->getConfig('lang', 'en'),
+            'lang'         => $this->getConfig('lang', 'en'),
             'v'            => self::VERSION,
         ]);
 
-        $response = $this->getHttpClient()->get('https://api.vk.com/method/users.get?' . $params);
+        $response = $this->getHttpClient()->get('https://api.vk.com/method/users.get?'.$params);
 
         $contents = $response->getBody()->getContents();
 
@@ -87,9 +88,10 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function user() {
+    public function user()
+    {
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException;
+            throw new InvalidStateException();
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());

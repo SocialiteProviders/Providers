@@ -14,7 +14,8 @@ class UfutxExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'ufutx', __NAMESPACE__.'\Provider'
+            'ufutx',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

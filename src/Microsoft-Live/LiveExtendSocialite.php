@@ -14,7 +14,8 @@ class LiveExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'live', __NAMESPACE__.'\Provider'
+            'live',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

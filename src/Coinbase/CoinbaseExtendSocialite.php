@@ -14,7 +14,8 @@ class CoinbaseExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'coinbase', __NAMESPACE__.'\Provider'
+            'coinbase',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

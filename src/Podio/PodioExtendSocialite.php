@@ -14,7 +14,8 @@ class PodioExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'podio', __NAMESPACE__.'\Provider'
+            'podio',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

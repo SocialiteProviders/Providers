@@ -36,27 +36,29 @@ class Provider extends AbstractProvider
     public function user()
     {
         if ($this->hasInvalidState() || !$this->getCode()) {
-            throw new InvalidStateException;
+            throw new InvalidStateException();
         }
         $response = $this->getAccessTokenResponse($this->getCode());
         $user = $this->mapUserToObject($this->getUserByToken(
             $token = Arr::get($response, 'token')
         ));
+
         return $user->setToken($token);
     }
 
     /**
      * Get the POST fields for the token request.
      *
-     * @param  string  $code
+     * @param string $code
+     *
      * @return array
      */
     protected function getTokenFields($code)
     {
         return [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'code' => $code,
+            'code'          => $code,
         ];
     }
 
@@ -66,9 +68,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://uclapi.com/oauth/user/data', ['query' => [
-            "client_secret" => $this->clientSecret,
-            "token"         => $token,
+            'client_secret' => $this->clientSecret,
+            'token'         => $token,
         ]]);
+
         return json_decode($response->getBody(), true);
     }
 
@@ -77,11 +80,11 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
-            'id' => Arr::get($user, 'upi'),
-            'name' => Arr::get($user, 'full_name'),
+        return (new User())->setRaw($user)->map([
+            'id'       => Arr::get($user, 'upi'),
+            'name'     => Arr::get($user, 'full_name'),
             'nickname' => Arr::get($user, 'given_name'),
-            'email' => Arr::get($user, 'email'),
+            'email'    => Arr::get($user, 'email'),
         ]);
     }
 }

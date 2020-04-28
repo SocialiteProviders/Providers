@@ -14,7 +14,8 @@ class AngelListExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'angellist', __NAMESPACE__.'\Provider'
+            'angellist',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

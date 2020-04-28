@@ -14,7 +14,8 @@ class DropboxExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'dropbox', __NAMESPACE__.'\Provider'
+            'dropbox',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

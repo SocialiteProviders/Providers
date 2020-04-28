@@ -14,7 +14,8 @@ class HerokuExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'heroku', __NAMESPACE__.'\Provider'
+            'heroku',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

@@ -12,7 +12,9 @@ class JiraExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'jira', __NAMESPACE__.'\Provider', __NAMESPACE__.'\Server'
+            'jira',
+            __NAMESPACE__.'\Provider',
+            __NAMESPACE__.'\Server'
         );
     }
 }

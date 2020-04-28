@@ -11,6 +11,6 @@ class OpskinsExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('opskins', __NAMESPACE__ . '\Provider');
+        $socialiteWasCalled->extendSocialite('opskins', __NAMESPACE__.'\Provider');
     }
 }

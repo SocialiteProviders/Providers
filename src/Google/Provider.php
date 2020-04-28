@@ -33,7 +33,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://accounts.google.com/o/oauth2/auth', $state
+            'https://accounts.google.com/o/oauth2/auth',
+            $state
         );
     }
 
@@ -51,11 +52,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://www.googleapis.com/oauth2/v3/userinfo', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-            ],
-        ]);
+            'https://www.googleapis.com/oauth2/v3/userinfo',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -66,11 +69,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['sub'],
+            'id'       => $user['sub'],
             'nickname' => Arr::get($user, 'name'),
-            'name' => $user['name'],
-            'email' => $user['email'],
-            'avatar' => $user['picture'],
+            'name'     => $user['name'],
+            'email'    => $user['email'],
+            'avatar'   => $user['picture'],
         ]);
     }
 

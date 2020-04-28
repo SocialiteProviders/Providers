@@ -14,7 +14,8 @@ class LineExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'line', __NAMESPACE__.'\Provider'
+            'line',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

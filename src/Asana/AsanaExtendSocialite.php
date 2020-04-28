@@ -14,7 +14,8 @@ class AsanaExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'asana', __NAMESPACE__.'\Provider'
+            'asana',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

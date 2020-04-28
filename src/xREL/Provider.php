@@ -34,9 +34,11 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.xrel.to/v2/user/info.json', [
-            'headers' => ['Authorization' => 'Bearer '.$token],
-        ]);
+            'https://api.xrel.to/v2/user/info.json',
+            [
+                'headers' => ['Authorization' => 'Bearer '.$token],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }
