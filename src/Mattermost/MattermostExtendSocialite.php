@@ -4,7 +4,7 @@ namespace SocialiteProviders\Mattermost;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class MatterMostExtendSocialite
+class MattermostExtendSocialite
 {
     /**
      * Execute the provider.
