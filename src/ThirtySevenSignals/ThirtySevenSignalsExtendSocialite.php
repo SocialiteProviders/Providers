@@ -14,7 +14,8 @@ class ThirtySevenSignalsExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            '37signals', __NAMESPACE__.'\Provider'
+            '37signals',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

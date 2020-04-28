@@ -18,7 +18,7 @@ class Provider extends AbstractProvider
      */
     protected $scopes = [
         'https://auth.snapchat.com/oauth2/api/user.display_name',
-        'https://auth.snapchat.com/oauth2/api/user.bitmoji.avatar'
+        'https://auth.snapchat.com/oauth2/api/user.bitmoji.avatar',
     ];
 
     /**
@@ -47,13 +47,13 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://kit.snapchat.com/v1/me?',[
+        $response = $this->getHttpClient()->get('https://kit.snapchat.com/v1/me?', [
             'query' => [
-                'query' => '{me{externalId displayName bitmoji{avatar id}}}'
+                'query' => '{me{externalId displayName bitmoji{avatar id}}}',
             ],
             'headers' => [
-                'Authorization' => 'Bearer '.$token
-            ]
+                'Authorization' => 'Bearer '.$token,
+            ],
         ]);
 
         return json_decode($response->getBody(), true);

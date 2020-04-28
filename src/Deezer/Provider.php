@@ -2,9 +2,8 @@
 
 namespace SocialiteProviders\Deezer;
 
-use SocialiteProviders\Manager\OAuth2\User;
-
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
@@ -43,7 +42,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.deezer.com/user/me?access_token=' . $token
+            'https://api.deezer.com/user/me?access_token='.$token
         );
 
         return json_decode($response->getBody()->getContents(), true);
@@ -55,11 +54,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
-            'email' => $user['email'],
+            'id'       => $user['id'],
+            'email'    => $user['email'],
             'nickname' => $user['name'],
-            'avatar' => $user['picture'],
-            'name' => $user['firstname'] . ' ' . $user['lastname'],
+            'avatar'   => $user['picture'],
+            'name'     => $user['firstname'].' '.$user['lastname'],
         ]);
     }
 
@@ -69,11 +68,11 @@ class Provider extends AbstractProvider
     protected function getCodeFields($state = null)
     {
         return [
-            'state' => $state,
+            'state'         => $state,
             'response_type' => 'code',
-            'app_id' => $this->clientId,
-            'redirect_uri' => $this->redirectUrl,
-            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
+            'app_id'        => $this->clientId,
+            'redirect_uri'  => $this->redirectUrl,
+            'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
         ];
     }
 
@@ -82,7 +81,7 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
-        $url = $this->getTokenUrl() . '?' . http_build_query(
+        $url = $this->getTokenUrl().'?'.http_build_query(
             $this->getTokenFields($code),
             '',
             '&',
@@ -102,7 +101,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'code' => $code,
+            'code'   => $code,
             'app_id' => $this->clientId,
             'secret' => $this->clientSecret,
         ];

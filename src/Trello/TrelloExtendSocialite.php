@@ -14,7 +14,9 @@ class TrelloExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'trello', __NAMESPACE__.'\Provider', __NAMESPACE__.'\Server'
+            'trello',
+            __NAMESPACE__.'\Provider',
+            __NAMESPACE__.'\Server'
         );
     }
 }

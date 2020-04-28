@@ -2,10 +2,10 @@
 
 namespace SocialiteProviders\GarminConnect;
 
-use SocialiteProviders\Manager\OAuth1\User;
-use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
+use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
+use SocialiteProviders\Manager\OAuth1\User;
 
 /**
  * Garmin Connect OAuth 1.0.
@@ -69,7 +69,7 @@ class Server extends BaseServer
         $used = ['id', 'nickname', 'name', 'email', 'avatar'];
 
         foreach ($data as $key => $value) {
-            if (! in_array($key, $used)) {
+            if (!in_array($key, $used)) {
                 $used[] = $key;
             }
         }

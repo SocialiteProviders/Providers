@@ -38,7 +38,8 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://'.$this->getAccount().'.vssps.visualstudio.com/_apis/profile/profiles/me?api-version=5.0-preview.3', [
+            'https://'.$this->getAccount().'.vssps.visualstudio.com/_apis/profile/profiles/me?api-version=5.0-preview.3',
+            [
                 'headers' => [
                     'Authorization' => 'Bearer '.$token,
                 ],

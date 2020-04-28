@@ -14,7 +14,9 @@ class FiveHundredPixelExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            '500px', __NAMESPACE__.'\Provider', __NAMESPACE__.'\Server'
+            '500px',
+            __NAMESPACE__.'\Provider',
+            __NAMESPACE__.'\Server'
         );
     }
 }

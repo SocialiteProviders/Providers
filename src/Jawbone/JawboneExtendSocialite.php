@@ -14,7 +14,8 @@ class JawboneExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'jawbone', __NAMESPACE__.'\Provider'
+            'jawbone',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

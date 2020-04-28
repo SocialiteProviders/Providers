@@ -14,7 +14,8 @@ class BitbucketExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'bitbucket', __NAMESPACE__.'\Provider'
+            'bitbucket',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

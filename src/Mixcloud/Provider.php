@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.mixcloud.com/oauth/authorize', $state
+            'https://www.mixcloud.com/oauth/authorize',
+            $state
         );
     }
 

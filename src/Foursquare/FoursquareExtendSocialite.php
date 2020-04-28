@@ -14,7 +14,8 @@ class FoursquareExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'foursquare', __NAMESPACE__.'\Provider'
+            'foursquare',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

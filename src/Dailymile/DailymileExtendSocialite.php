@@ -14,7 +14,8 @@ class DailymileExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'dailymile', __NAMESPACE__.'\Provider'
+            'dailymile',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

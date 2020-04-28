@@ -4,7 +4,7 @@ namespace SocialiteProviders\Mattermost;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class MattermostExtendSocialite
+class MatterMostExtendSocialite
 {
     /**
      * Execute the provider.
@@ -12,7 +12,8 @@ class MattermostExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'mattermost', __NAMESPACE__.'\Provider'
+            'mattermost',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

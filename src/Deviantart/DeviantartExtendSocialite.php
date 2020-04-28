@@ -14,7 +14,8 @@ class DeviantartExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'deviantart', __NAMESPACE__.'\Provider'
+            'deviantart',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

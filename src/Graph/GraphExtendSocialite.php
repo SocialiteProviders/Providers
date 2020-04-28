@@ -12,7 +12,8 @@ class GraphExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'graph', __NAMESPACE__.'\Provider'
+            'graph',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

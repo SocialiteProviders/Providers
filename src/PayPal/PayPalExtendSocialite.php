@@ -14,7 +14,8 @@ class PayPalExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'paypal', __NAMESPACE__.'\Provider'
+            'paypal',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

@@ -14,7 +14,8 @@ class ZendeskExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'zendesk', __NAMESPACE__.'\Provider'
+            'zendesk',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

@@ -20,7 +20,7 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * BASE_URL
+     * BASE_URL.
      */
     protected $oauth_url = 'https://auth.oauthgen.com';
     protected $graph_url = 'https://graph.oauthgen.com/api/v1';
@@ -79,7 +79,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }

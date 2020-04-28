@@ -14,7 +14,8 @@ class VimeoExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'vimeo', __NAMESPACE__.'\Provider'
+            'vimeo',
+            __NAMESPACE__.'\Provider'
         );
     }
 }
