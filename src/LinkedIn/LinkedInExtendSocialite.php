@@ -14,7 +14,8 @@ class LinkedInExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'linkedin', __NAMESPACE__.'\Provider'
+            'linkedin',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

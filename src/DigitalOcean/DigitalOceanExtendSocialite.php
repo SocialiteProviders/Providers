@@ -14,7 +14,8 @@ class DigitalOceanExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'digitalocean', __NAMESPACE__.'\Provider'
+            'digitalocean',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

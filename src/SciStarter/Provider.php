@@ -50,8 +50,8 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Bearer '.$token,
             ],
             'query' => [
-              'client_id' => $this->clientId,
-              'key'       => $this->clientSecret,
+                'client_id' => $this->clientId,
+                'key'       => $this->clientSecret,
             ],
         ]);
 
@@ -64,13 +64,13 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-          'id'          => Arr::get($user, 'user_id'),
-          'nickname'    => Arr::get($user, 'handle'),
-          'email'       => Arr::get($user, 'email'),
-          'first_name'  => Arr::get($user, 'first_name'),
-          'last_name'   => Arr::get($user, 'last_name'),
-          'profile_id'  => Arr::get($user, 'profile_id'),
-          'profile_url' => Arr::get($user, 'url'),
+            'id'          => Arr::get($user, 'user_id'),
+            'nickname'    => Arr::get($user, 'handle'),
+            'email'       => Arr::get($user, 'email'),
+            'first_name'  => Arr::get($user, 'first_name'),
+            'last_name'   => Arr::get($user, 'last_name'),
+            'profile_id'  => Arr::get($user, 'profile_id'),
+            'profile_url' => Arr::get($user, 'url'),
         ]);
     }
 
@@ -80,9 +80,9 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-          'client_id'  => $this->clientId,
-          'code'       => $code,
-          'grant_type' => 'authorization_code',
+            'client_id'  => $this->clientId,
+            'code'       => $code,
+            'grant_type' => 'authorization_code',
         ];
     }
 
@@ -97,7 +97,7 @@ class Provider extends AbstractProvider
             'headers' => ['Accept' => 'application/json'],
             $postKey  => $this->getTokenFields($code),
             'query'   => [
-              'key' => $this->clientSecret, // key instead of client_secret
+                'key' => $this->clientSecret, // key instead of client_secret
             ],
         ]);
 

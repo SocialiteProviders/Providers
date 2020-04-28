@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\MasterChain;
 
-use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -26,7 +25,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://member.masterchain.work/oauth/authorize', $state
+            'https://member.masterchain.work/oauth/authorize',
+            $state
         );
     }
 
@@ -44,12 +44,14 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://member.masterchain.work/api/v1/users/info', [
-            'headers' => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'Bearer ' . $token,
-            ],
-        ]);
+            'https://member.masterchain.work/api/v1/users/info',
+            [
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

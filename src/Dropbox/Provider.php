@@ -19,7 +19,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.dropbox.com/oauth2/authorize', $state
+            'https://www.dropbox.com/oauth2/authorize',
+            $state
         );
     }
 
@@ -37,11 +38,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->post(
-            'https://api.dropboxapi.com/2/users/get_current_account', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.dropboxapi.com/2/users/get_current_account',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

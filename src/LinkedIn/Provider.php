@@ -2,9 +2,8 @@
 
 namespace SocialiteProviders\LinkedIn;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -60,7 +59,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.linkedin.com/oauth/v2/authorization', $state
+            'https://www.linkedin.com/oauth/v2/authorization',
+            $state
         );
     }
 
@@ -94,15 +94,17 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $requestHeaders = [
-                'Accept-Language' => 'en-US',
-                'x-li-format' => 'json',
-                'Authorization' => 'Bearer '.$token,
-            ];
+            'Accept-Language' => 'en-US',
+            'x-li-format'     => 'json',
+            'Authorization'   => 'Bearer '.$token,
+        ];
 
         $meResponse = $this->getHttpClient()->get(
-            'https://api.linkedin.com/v2/me?projection=(id,lastName,firstName,vanityName,profilePicture(displayImage~:playableStreams))', [
-            'headers' => $requestHeaders,
-        ]);
+            'https://api.linkedin.com/v2/me?projection=(id,lastName,firstName,vanityName,profilePicture(displayImage~:playableStreams))',
+            [
+                'headers' => $requestHeaders,
+            ]
+        );
 
         $meResponseBody = json_decode($meResponse->getBody()->getContents(), true);
 
@@ -117,16 +119,18 @@ class Provider extends AbstractProvider
         }
 
         $emailResponse = $this->getHttpClient()->get(
-            'https://api.linkedin.com/v2/clientAwareMemberHandles?q=members&projection=(elements*(primary,type,handle~))', [
-            'headers' => $requestHeaders,
-        ]);
+            'https://api.linkedin.com/v2/clientAwareMemberHandles?q=members&projection=(elements*(primary,type,handle~))',
+            [
+                'headers' => $requestHeaders,
+            ]
+        );
 
         $emailResponseBody = json_decode($emailResponse->getBody()->getContents(), true);
 
         return [
             'nickname'  => null,
             'id'        => $meResponseBody['id'],
-            'name'      => reset($meResponseBody['firstName']['localized']) . ' ' . reset($meResponseBody['lastName']['localized']),
+            'name'      => reset($meResponseBody['firstName']['localized']).' '.reset($meResponseBody['lastName']['localized']),
             'avatar'    => $avatar,
             'email'     => $emailResponseBody['elements'][0]['handle~']['emailAddress'],
         ];

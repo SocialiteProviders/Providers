@@ -14,7 +14,9 @@ class GoodreadsExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'goodreads', __NAMESPACE__.'\Provider', __NAMESPACE__.'\Server'
+            'goodreads',
+            __NAMESPACE__.'\Provider',
+            __NAMESPACE__.'\Server'
         );
     }
 }

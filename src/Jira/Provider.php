@@ -25,15 +25,15 @@ class Provider extends AbstractProvider
         }
 
         return $userObject->map([
-             'id'       => Arr::get($user, 'key'),
-             'nickname' => Arr::get($user, 'nickname', Arr::get($user, 'name')),
-             'name'     => Arr::get($user, 'displayName', Arr::get($user, 'name')),
-             'email'    => Arr::get($user, 'emailAddress', Arr::get($user, 'email')),
-             'avatar'   => Arr::get($user, 'avatarUrls.48x48', Arr::get($user, 'avatar')),
-             'active'   => Arr::get($user, 'active'),
-             'timezone' => Arr::get($user, 'timeZone'),
-             'locale'   => Arr::get($user, 'locale'),
-         ]);
+            'id'       => Arr::get($user, 'key'),
+            'nickname' => Arr::get($user, 'nickname', Arr::get($user, 'name')),
+            'name'     => Arr::get($user, 'displayName', Arr::get($user, 'name')),
+            'email'    => Arr::get($user, 'emailAddress', Arr::get($user, 'email')),
+            'avatar'   => Arr::get($user, 'avatarUrls.48x48', Arr::get($user, 'avatar')),
+            'active'   => Arr::get($user, 'active'),
+            'timezone' => Arr::get($user, 'timeZone'),
+            'locale'   => Arr::get($user, 'locale'),
+        ]);
 
         return $userObject;
     }

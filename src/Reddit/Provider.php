@@ -23,7 +23,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://ssl.reddit.com/api/v1/authorize', $state
+            'https://ssl.reddit.com/api/v1/authorize',
+            $state
         );
     }
 
@@ -41,12 +42,14 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://oauth.reddit.com/api/v1/me', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-                'User-Agent'    => $this->getUserAgent(),
-            ],
-        ]);
+            'https://oauth.reddit.com/api/v1/me',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                    'User-Agent'    => $this->getUserAgent(),
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

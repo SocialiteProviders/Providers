@@ -23,7 +23,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.deviantart.com/oauth2/authorize', $state
+            'https://www.deviantart.com/oauth2/authorize',
+            $state
         );
     }
 
@@ -41,11 +42,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://www.deviantart.com/api/v1/oauth2/user/whoami?access_token='.$token, [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://www.deviantart.com/api/v1/oauth2/user/whoami?access_token='.$token,
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

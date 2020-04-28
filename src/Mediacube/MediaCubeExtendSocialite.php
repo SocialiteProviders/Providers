@@ -14,7 +14,8 @@ class MediaCubeExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'mediacube', __NAMESPACE__.'\Provider'
+            'mediacube',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

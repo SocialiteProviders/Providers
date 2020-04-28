@@ -14,7 +14,8 @@ class BattlenetExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'battlenet', __NAMESPACE__.'\Provider'
+            'battlenet',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

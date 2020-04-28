@@ -89,7 +89,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://slack.com/oauth/authorize', $state
+            'https://slack.com/oauth/authorize',
+            $state
         );
     }
 

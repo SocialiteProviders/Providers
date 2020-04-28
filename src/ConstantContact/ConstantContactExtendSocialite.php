@@ -14,7 +14,8 @@ class ConstantContactExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'constantcontact', __NAMESPACE__.'\Provider'
+            'constantcontact',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

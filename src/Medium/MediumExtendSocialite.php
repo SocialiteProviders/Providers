@@ -14,7 +14,8 @@ class MediumExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'medium', __NAMESPACE__.'\Provider'
+            'medium',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

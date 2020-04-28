@@ -14,7 +14,8 @@ class HumanApiExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'humanapi', __NAMESPACE__.'\Provider'
+            'humanapi',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

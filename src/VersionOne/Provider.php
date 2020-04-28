@@ -76,7 +76,8 @@ class Provider extends AbstractProvider
             ];
 
             $response = $this->getHttpClient()->post(
-                'https://www11.v1host.com/V1Integrations/query.v1', $requestOptions
+                'https://www11.v1host.com/V1Integrations/query.v1',
+                $requestOptions
             );
         } catch (BadResponseException $e) {
             echo $e->getMessage().PHP_EOL;

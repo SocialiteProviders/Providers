@@ -17,7 +17,10 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://app.asana.com/-/oauth_authorize', $state);
+        return $this->buildAuthUrlFromBase(
+            'https://app.asana.com/-/oauth_authorize',
+            $state
+        );
     }
 
     /**
@@ -33,11 +36,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://app.asana.com/api/1.0/users/me', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+        $response = $this->getHttpClient()->get(
+            'https://app.asana.com/api/1.0/users/me',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true)['data'];
     }

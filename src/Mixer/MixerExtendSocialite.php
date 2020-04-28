@@ -14,7 +14,8 @@ class MixerExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'mixer', __NAMESPACE__.'\Provider'
+            'mixer',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

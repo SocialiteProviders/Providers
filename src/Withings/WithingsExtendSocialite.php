@@ -14,7 +14,9 @@ class WithingsExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'withings', __NAMESPACE__.'\Provider', __NAMESPACE__.'\Server'
+            'withings',
+            __NAMESPACE__.'\Provider',
+            __NAMESPACE__.'\Server'
         );
     }
 }
