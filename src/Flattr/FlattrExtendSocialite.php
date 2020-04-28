@@ -14,7 +14,8 @@ class FlattrExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'flattr', __NAMESPACE__.'\Provider'
+            'flattr',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

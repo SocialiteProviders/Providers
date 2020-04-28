@@ -14,7 +14,8 @@ class TwentyThreeAndMeExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            '23andme', __NAMESPACE__.'\Provider'
+            '23andme',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

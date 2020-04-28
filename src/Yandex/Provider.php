@@ -3,7 +3,6 @@
 namespace SocialiteProviders\Yandex;
 
 use Illuminate\Support\Arr;
-
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -20,7 +19,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://oauth.yandex.ru/authorize', $state
+            'https://oauth.yandex.ru/authorize',
+            $state
         );
     }
 
@@ -38,11 +38,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://login.yandex.ru/info?format=json', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://login.yandex.ru/info?format=json',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

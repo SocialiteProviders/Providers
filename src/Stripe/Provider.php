@@ -23,7 +23,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://connect.stripe.com/oauth/authorize', $state
+            'https://connect.stripe.com/oauth/authorize',
+            $state
         );
     }
 
@@ -41,11 +42,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.stripe.com/v1/account', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.stripe.com/v1/account',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -58,12 +61,12 @@ class Provider extends AbstractProvider
         $nickname = null;
         if (isset($user['settings']['dashboard']['display_name'])) { // 2019-02-19 API change
             $nickname = $user['settings']['dashboard']['display_name'];
-        } else if (isset($user['display_name'])) { // original location
+        } elseif (isset($user['display_name'])) { // original location
             $nickname = $user['display_name'];
         }
 
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'], 'nickname' => $nickname,
+            'id'   => $user['id'], 'nickname' => $nickname,
             'name' => null, 'email' => $user['email'], 'avatar' => null,
         ]);
     }

@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace SocialiteProviders\OAuthgen;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;

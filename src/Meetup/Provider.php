@@ -40,11 +40,13 @@ class Provider extends AbstractProvider
     {
         // http://www.meetup.com/meetup_api/auth/#oauth2-resources
         $response = $this->getHttpClient()->get(
-            'https://api.meetup.com/'.$this->version.'/member/self?access_token='.$token, [
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-        ]);
+            'https://api.meetup.com/'.$this->version.'/member/self?access_token='.$token,
+            [
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

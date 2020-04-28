@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.eyeem.com/oauth/authorize', $state
+            'https://www.eyeem.com/oauth/authorize',
+            $state
         );
     }
 
@@ -36,11 +37,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.eyeem.com/v2/users/me', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.eyeem.com/v2/users/me',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true)['user'];
     }

@@ -28,7 +28,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.mollie.com/oauth2/authorize', $state
+            'https://www.mollie.com/oauth2/authorize',
+            $state
         );
     }
 

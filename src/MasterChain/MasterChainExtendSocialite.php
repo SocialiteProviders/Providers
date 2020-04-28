@@ -14,7 +14,8 @@ class MasterChainExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'masterchain', __NAMESPACE__.'\Provider'
+            'masterchain',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

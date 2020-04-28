@@ -14,7 +14,8 @@ class HubSpotExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'hubspot', __NAMESPACE__.'\Provider'
+            'hubspot',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

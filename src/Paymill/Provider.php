@@ -23,7 +23,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://connect.paymill.com/authorize', $state
+            'https://connect.paymill.com/authorize',
+            $state
         );
     }
 

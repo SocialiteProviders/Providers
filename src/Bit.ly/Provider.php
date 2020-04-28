@@ -19,7 +19,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://bitly.com/oauth/authorize', $state
+            'https://bitly.com/oauth/authorize',
+            $state
         );
     }
 
@@ -37,10 +38,11 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api-ssl.bitly.com/v4/user', [
+            'https://api-ssl.bitly.com/v4/user',
+            [
                 'headers'   => [
-                  'Accept' => 'application/json',
-                  'Authorization' => 'Bearer ' . $token,
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
                 ],
             ]
         );

@@ -66,7 +66,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             // HACK: use unionid as user id
             'id'       => in_array('unionid', $this->getScopes()) ? $user['unionid'] : $user['openid'],
-             // HACK: Tencent scope snsapi_base only return openid
+            // HACK: Tencent scope snsapi_base only return openid
             'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
             'name'     => null,
             'email'    => null,
@@ -80,9 +80,9 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'appid' => $this->clientId,
-            'secret' => $this->clientSecret,
-            'code' => $code,
+            'appid'      => $this->clientId,
+            'secret'     => $this->clientSecret,
+            'code'       => $code,
             'grant_type' => 'authorization_code',
         ];
     }
@@ -113,12 +113,14 @@ class Provider extends AbstractProvider
         if (in_array('snsapi_base', $scopes)) {
             unset($scopes[array_search('snsapi_userinfo', $scopes)]);
         }
+
         return implode($scopeSeparator, $scopes);
     }
 
     public function setOpenId($openId)
     {
         $this->openId = $openId;
+
         return $this;
     }
 }

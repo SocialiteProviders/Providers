@@ -12,7 +12,9 @@ class TwitterExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'twitter', __NAMESPACE__.'\Provider', __NAMESPACE__.'\Server'
+            'twitter',
+            __NAMESPACE__.'\Provider',
+            __NAMESPACE__.'\Server'
         );
     }
 }

@@ -19,7 +19,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://foursquare.com/oauth2/authenticate', $state
+            'https://foursquare.com/oauth2/authenticate',
+            $state
         );
     }
 

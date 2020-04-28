@@ -14,7 +14,8 @@ class MakerLogExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'makerlog', __NAMESPACE__.'\Provider'
+            'makerlog',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

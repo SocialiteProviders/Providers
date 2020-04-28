@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://jawbone.com/auth/oauth2/auth', $state
+            'https://jawbone.com/auth/oauth2/auth',
+            $state
         );
     }
 
@@ -36,11 +37,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://jawbone.com/nudge/api/users/@me', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://jawbone.com/nudge/api/users/@me',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true)['data'];
     }

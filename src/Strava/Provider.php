@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.strava.com/oauth/authorize', $state
+            'https://www.strava.com/oauth/authorize',
+            $state
         );
     }
 
@@ -36,11 +37,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://www.strava.com/api/v3/athlete', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://www.strava.com/api/v3/athlete',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -51,11 +54,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['id'],
+            'id'       => $user['id'],
             'nickname' => null,
-            'name'  => $user['firstname'].' '.$user['lastname'],
-            'email' => null,
-            'avatar' => $user['profile_medium'],
+            'name'     => $user['firstname'].' '.$user['lastname'],
+            'email'    => null,
+            'avatar'   => $user['profile_medium'],
         ]);
     }
 

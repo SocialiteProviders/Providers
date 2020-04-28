@@ -14,7 +14,8 @@ class CampaignMonitorExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'campaignmonitor', __NAMESPACE__.'\Provider'
+            'campaignmonitor',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

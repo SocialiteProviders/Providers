@@ -14,7 +14,8 @@ class GoogleExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'google', __NAMESPACE__.'\Provider'
+            'google',
+            __NAMESPACE__.'\Provider'
         );
     }
 }
