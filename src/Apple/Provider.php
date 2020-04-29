@@ -188,7 +188,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             if (array_key_exists('name', $userRequest)) {
                 $user['name'] = $userRequest['name'];
                 $fullName = trim(
-                ($user['name']['firstName'] ?? '')
+                    ($user['name']['firstName'] ?? '')
                     .' '
                     .($user['name']['lastName'] ?? '')
                 );
