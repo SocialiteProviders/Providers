@@ -49,11 +49,11 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $meUrl = 'https://graph.instagram.com/me?access_token=' . $token . '&fields=' . implode(',', $this->fields);
+        $meUrl = 'https://graph.instagram.com/me?access_token='.$token.'&fields='.implode(',', $this->fields);
 
         if (!empty($this->clientSecret)) {
             $appSecretProof = hash_hmac('sha256', $token, $this->clientSecret);
-            $meUrl .= '&appsecret_proof=' . $appSecretProof;
+            $meUrl .= '&appsecret_proof='.$appSecretProof;
         }
         $response = $this->getHttpClient()->get($meUrl, [
             'headers' => [
@@ -70,13 +70,13 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
-            'nickname' => $user['username'],
-            'name' => null,
-            'email' => null,
-            'avatar' => null,
+            'id'           => $user['id'],
+            'nickname'     => $user['username'],
+            'name'         => null,
+            'email'        => null,
+            'avatar'       => null,
             'account_type' => $user['account_type'],
-            'media_count' => $user['media_count'],
+            'media_count'  => $user['media_count'],
         ]);
     }
 
@@ -86,11 +86,11 @@ class Provider extends AbstractProvider
     protected function getCodeFields($state = null)
     {
         return [
-            'state' => $state,
+            'state'         => $state,
             'response_type' => 'code',
-            'app_id' => $this->clientId,
-            'redirect_uri' => $this->redirectUrl,
-            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
+            'app_id'        => $this->clientId,
+            'redirect_uri'  => $this->redirectUrl,
+            'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
         ];
     }
 
@@ -114,10 +114,10 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'code' => $code,
-            'app_id' => $this->clientId,
-            'app_secret' => $this->clientSecret,
-            'grant_type' => 'authorization_code',
+            'code'         => $code,
+            'app_id'       => $this->clientId,
+            'app_secret'   => $this->clientSecret,
+            'grant_type'   => 'authorization_code',
             'redirect_uri' => $this->redirectUrl,
         ];
     }

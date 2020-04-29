@@ -15,7 +15,7 @@ class InstagramBasicExtendSocialite
     {
         $socialiteWasCalled->extendSocialite(
             'instagrambasic',
-            __NAMESPACE__ . '\Provider'
+            __NAMESPACE__.'\Provider'
         );
     }
 }
