@@ -24,7 +24,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://dribbble.com/oauth/authorize', $state
+            'https://dribbble.com/oauth/authorize',
+            $state
         );
     }
 

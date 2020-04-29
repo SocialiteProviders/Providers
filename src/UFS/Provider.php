@@ -70,7 +70,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function additionalConfigKeys()
     {

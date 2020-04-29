@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/amazon",
+    "description": "Amazon OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "atymic",
+        "email": "atymicq@gmail.com",
+        "homepage": "https://atymic.dev"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "socialiteproviders/manager": "^2.0|^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Amazon\\": ""
+        }
+    }
+}

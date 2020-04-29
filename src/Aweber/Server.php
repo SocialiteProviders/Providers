@@ -18,7 +18,7 @@ class Server extends BaseServer
      */
     public function urlTemporaryCredentials()
     {
-        return $this->authBaseUrl . 'request_token';
+        return $this->authBaseUrl.'request_token';
     }
 
     /**
@@ -26,7 +26,7 @@ class Server extends BaseServer
      */
     public function urlAuthorization()
     {
-        return $this->authBaseUrl . 'authorize';
+        return $this->authBaseUrl.'authorize';
     }
 
     /**
@@ -34,7 +34,7 @@ class Server extends BaseServer
      */
     public function urlTokenCredentials()
     {
-        return $this->authBaseUrl . 'access_token';
+        return $this->authBaseUrl.'access_token';
     }
 
     /**

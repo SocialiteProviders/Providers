@@ -23,7 +23,7 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * return the api base url
+     * return the api base url.
      *
      * @return string
      */
@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            $this->baseUrl() . '/oauth/authorize',
+            $this->baseUrl().'/oauth/authorize',
             $state
         );
     }
@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->baseUrl() . '/oauth/token/';
+        return $this->baseUrl().'/oauth/token/';
     }
 
     /**
@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
      */
     protected function getEmailUrl()
     {
-        return $this->baseUrl() . '/accounts/read_email/';
+        return $this->baseUrl().'/accounts/read_email/';
     }
 
     /**
@@ -66,7 +66,7 @@ class Provider extends AbstractProvider
     {
         // get the user
         $response = $this->getHttpClient()->get(
-            $this->baseUrl() . '/me/?format=json',
+            $this->baseUrl().'/me/?format=json',
             [
                 'headers' => [
                     'Authorization' => 'Bearer '.$token,
@@ -89,7 +89,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['username'],
-            'name'     => $user['first_name'] . ' '. $user['last_name'],
+            'name'     => $user['first_name'].' '.$user['last_name'],
             'avatar'   => $user['avatar'],
         ]);
     }
@@ -111,6 +111,7 @@ class Provider extends AbstractProvider
      *  Get the account email of the current user.
      *
      * @param string $token
+     *
      * @return string
      */
     protected function getEmailByToken($token)

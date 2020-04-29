@@ -11,5 +11,13 @@
         "psr-4": {
             "SocialiteProviders\\": "src/"
         }
+    },
+    "require-dev": {
+        "symplify/monorepo-builder": "^6.1",
+        "phpunit/phpunit": "^8.0"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:ci": "phpunit --coverage-clover build/logs/clover.xml"
     }
 }

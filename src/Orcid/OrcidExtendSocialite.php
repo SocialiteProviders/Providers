@@ -14,7 +14,8 @@ class OrcidExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'orcid', __NAMESPACE__.'\Provider'
+            'orcid',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

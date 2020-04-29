@@ -14,7 +14,8 @@ class MollieExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'mollie', __NAMESPACE__.'\Provider'
+            'mollie',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

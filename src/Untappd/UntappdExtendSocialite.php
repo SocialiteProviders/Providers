@@ -14,7 +14,8 @@ class UntappdExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'untappd', __NAMESPACE__.'\Provider'
+            'untappd',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

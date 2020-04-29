@@ -14,7 +14,8 @@ class WonderlistExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'wonderlist', __NAMESPACE__.'\Provider'
+            'wonderlist',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

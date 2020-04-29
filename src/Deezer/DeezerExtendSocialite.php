@@ -14,7 +14,8 @@ class DeezerExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'deezer', __NAMESPACE__.'\Provider'
+            'deezer',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

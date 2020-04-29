@@ -14,7 +14,8 @@ class PaymillExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'paymill', __NAMESPACE__.'\Provider'
+            'paymill',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

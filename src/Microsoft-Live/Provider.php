@@ -28,7 +28,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://login.microsoftonline.com/common/oauth2/v2.0/authorize', $state
+            'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+            $state
         );
     }
 
@@ -51,7 +52,8 @@ class Provider extends AbstractProvider
                 'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
-        ]);
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

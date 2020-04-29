@@ -27,7 +27,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->domain . '/action/oauth2/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->domain.'/action/oauth2/authorize', $state);
     }
 
     /**
@@ -35,7 +35,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->domain . '/action/openapi/token';
+        return $this->domain.'/action/openapi/token';
     }
 
     /**
@@ -43,10 +43,10 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->domain . '/action/openapi/user', [
+        $response = $this->getHttpClient()->get($this->domain.'/action/openapi/user', [
             'query' => [
                 'access_token' => $token,
-                'dataType' => 'json',
+                'dataType'     => 'json',
             ],
         ]);
 
@@ -77,7 +77,7 @@ class Provider extends AbstractProvider
     {
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
-            'dataType' => 'json'
+            'dataType'   => 'json',
         ]);
     }
 }

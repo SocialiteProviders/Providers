@@ -12,7 +12,8 @@ class AzureExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'azure', __NAMESPACE__.'\Provider'
+            'azure',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

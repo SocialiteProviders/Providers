@@ -2,10 +2,11 @@
 
 namespace SocialiteProviders\Coinbase;
 
+use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends AbstractProvider
+class Provider extends AbstractProvider implements ProviderInterface
 {
     /**
      * Unique Provider Identifier.
@@ -15,10 +16,16 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected $scopes = ['wallet:user:read', 'wallet:user:email'];
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.coinbase.com/oauth/authorize', $state
+            'https://www.coinbase.com/oauth/authorize',
+            $state
         );
     }
 
@@ -27,7 +34,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://www.coinbase.com/oauth/token';
+        return 'https://api.coinbase.com/oauth/token';
     }
 
     /**
@@ -36,11 +43,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.coinbase.com/v1/users/self', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.coinbase.com/v2/user',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -50,9 +59,14 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $user = $user['data'];
+
         return (new User())->setRaw($user)->map([
-            'id'   => $user['user']['id'], 'nickname' => $user['user']['username'],
-            'name' => null, 'email' => $user['user']['email'], 'avatar' => null,
+            'id'       => $user['id'],
+            'nickname' => $user['username'],
+            'name'     => $user['name'],
+            'email'    => $user['email'],
+            'avatar'   => $user['avatar_url'],
         ]);
     }
 

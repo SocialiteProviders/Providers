@@ -78,7 +78,8 @@ class Provider extends AbstractProvider
     {
         $userUrl = 'https://openapi.yiban.cn/user/real_me?access_token='.$token;
         $response = $this->getHttpClient()->get(
-            $userUrl, $this->getRequestOptions()
+            $userUrl,
+            $this->getRequestOptions()
         );
         $user = json_decode($response->getBody(), true);
 

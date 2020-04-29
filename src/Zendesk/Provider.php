@@ -23,7 +23,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://'.$this->getSubdomain().'.zendesk.com/oauth/authorizations/new', $state
+            'https://'.$this->getSubdomain().'.zendesk.com/oauth/authorizations/new',
+            $state
         );
     }
 
@@ -41,11 +42,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://'.$this->getSubdomain().'.zendesk.com/api/v2/users/me.json', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://'.$this->getSubdomain().'.zendesk.com/api/v2/users/me.json',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true)['user'];
     }
