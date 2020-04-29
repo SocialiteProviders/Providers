@@ -1,4 +1,5 @@
 <?php
+
 namespace SocialiteProviders\Keycloak;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -23,7 +24,6 @@ class Provider extends AbstractProvider
     {
         return rtrim(rtrim($this->getConfig('base_url'), '/').'/realms/'.$this->getConfig('realms', 'master'), '/');
     }
-
 
     /**
      * {@inheritdoc}
@@ -51,6 +51,7 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
+
         return json_decode($response->getBody(), true);
     }
 

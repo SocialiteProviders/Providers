@@ -1,6 +1,5 @@
 <?php
 
-
 namespace SocialiteProviders\Keycloak;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
