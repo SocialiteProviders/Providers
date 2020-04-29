@@ -5,6 +5,7 @@ namespace SocialiteProviders\Apple;
 use Firebase\JWT\JWK;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use Laravel\Socialite\Two\ProviderInterface;
 use Lcobucci\JWT\Parser;
@@ -67,7 +68,7 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         if ($this->usesState()) {
             $fields['state'] = $state;
-            $fields['nonce'] = time().'-'.$state;
+            $fields['nonce'] = Str::uuid().'-'.$state;
         }
 
         return array_merge($fields, $this->parameters);
