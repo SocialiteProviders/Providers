@@ -67,7 +67,7 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         if ($this->usesState()) {
             $fields['state'] = $state;
-            $fields['nonce'] = strtotime('12:00:00').'-'.$state;
+            $fields['nonce'] = time().'-'.$state;
         }
 
         return array_merge($fields, $this->parameters);
@@ -125,9 +125,6 @@ class Provider extends AbstractProvider implements ProviderInterface
         if ($token->getClaim('iss') !== self::URL) {
             throw new InvalidStateException('Invalid Issuer', Response::HTTP_UNAUTHORIZED);
         }
-        /*if ($token->getClaim('aud') !== config('services.apple.client_id')) {
-            throw new InvalidStateException('Invalid Client ID', Response::HTTP_UNAUTHORIZED);
-        }*/
         if ($token->isExpired()) {
             throw new InvalidStateException('Token Expired', Response::HTTP_UNAUTHORIZED);
         }
