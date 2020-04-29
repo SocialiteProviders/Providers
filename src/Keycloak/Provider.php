@@ -1,5 +1,4 @@
 <?php
-
 namespace SocialiteProviders\Keycloak;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -12,7 +11,6 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'KEYCLOAK';
 
-
     public static function additionalConfigKeys()
     {
         return ['base_url', 'realms'];
@@ -23,7 +21,7 @@ class Provider extends AbstractProvider
      */
     protected function getBaseUrl()
     {
-        return rtrim(rtrim($this->getConfig('base_url'), '/') . '/realms/' . $this->getConfig('realms', 'master'), '/');
+        return rtrim(rtrim($this->getConfig('base_url'), '/').'/realms/'.$this->getConfig('realms', 'master'), '/');
     }
 
 
@@ -32,7 +30,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getBaseUrl() . '/protocol/openid-connect/auth', $state);
+        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/protocol/openid-connect/auth', $state);
     }
 
     /**
@@ -40,7 +38,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getBaseUrl() . '/protocol/openid-connect/token';
+        return $this->getBaseUrl().'/protocol/openid-connect/token';
     }
 
     /**
@@ -48,9 +46,9 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getBaseUrl() . '/protocol/openid-connect/userinfo', [
+        $response = $this->getHttpClient()->get($this->getBaseUrl().'/protocol/openid-connect/userinfo', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
         return json_decode($response->getBody(), true);
@@ -62,10 +60,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user['sub']),
-            'nickname' => Arr::get($user['preferred_username']),
-            'name' => Arr::get($user['given_name']),
-            'email' => Arr::get($user['email']),
+            'id'        => Arr::get($user['sub']),
+            'nickname'  => Arr::get($user['preferred_username']),
+            'name'      => Arr::get($user['given_name']),
+            'email'     => Arr::get($user['email']),
         ]);
     }
 
