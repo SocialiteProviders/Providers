@@ -7,7 +7,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 class AppleExtendSocialite
 {
     /**
-     * Register the Provider
+     * Register the Provider.
      *
      * @param SocialiteWasCalled $socialiteWasCalled
      */

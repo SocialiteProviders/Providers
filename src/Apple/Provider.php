@@ -2,15 +2,15 @@
 
 namespace SocialiteProviders\Apple;
 
-use Illuminate\Support\Arr;
-use Illuminate\Http\Response;
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
-use Laravel\Socialite\Two\ProviderInterface;
-use Laravel\Socialite\Two\InvalidStateException;
 use Firebase\JWT\JWK;
+use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Laravel\Socialite\Two\InvalidStateException;
+use Laravel\Socialite\Two\ProviderInterface;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -26,7 +26,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected $scopes = [
         'name',
-        'email'
+        'email',
     ];
 
     /**
@@ -58,16 +58,16 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getCodeFields($state = null)
     {
         $fields = [
-            'client_id' => $this->clientId,
-            'redirect_uri' => $this->redirectUrl,
-            'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+            'client_id'     => $this->clientId,
+            'redirect_uri'  => $this->redirectUrl,
+            'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
             'response_type' => 'code',
             'response_mode' => 'form_post',
         ];
 
         if ($this->usesState()) {
             $fields['state'] = $state;
-            $fields['nonce'] = strtotime('12:00:00') . "-" . $state;
+            $fields['nonce'] = strtotime('12:00:00').'-'.$state;
         }
 
         return array_merge($fields, $this->parameters);
@@ -79,7 +79,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)],
+            'headers'        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
             'form_params'    => $this->getTokenFields($code),
         ]);
 
@@ -87,7 +87,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getTokenFields($code)
     {
@@ -108,11 +108,12 @@ class Provider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * Verify apple jwt
+     * Verify apple jwt.
      *
      * @param $jwt
      *
      * @return object
+     *
      * @see https://appleid.apple.com/auth/keys
      */
     public static function verify($jwt)
@@ -122,13 +123,13 @@ class Provider extends AbstractProvider implements ProviderInterface
         $token = (new Parser())->parse((string) $jwt);
 
         if ($token->getClaim('iss') !== self::URL) {
-            throw new InvalidStateException("Invalid Issuer", Response::HTTP_UNAUTHORIZED);
+            throw new InvalidStateException('Invalid Issuer', Response::HTTP_UNAUTHORIZED);
         }
         /*if ($token->getClaim('aud') !== config('services.apple.client_id')) {
-            throw new InvalidStateException("Invalid Client ID", Response::HTTP_UNAUTHORIZED);
+            throw new InvalidStateException('Invalid Client ID', Response::HTTP_UNAUTHORIZED);
         }*/
         if ($token->isExpired()) {
-            throw new InvalidStateException("Token Expired", Response::HTTP_UNAUTHORIZED);
+            throw new InvalidStateException('Token Expired', Response::HTTP_UNAUTHORIZED);
         }
 
         $data = json_decode(file_get_contents(self::URL.'/auth/keys'), true);
@@ -144,12 +145,12 @@ class Provider extends AbstractProvider implements ProviderInterface
             }
         }
         if (!$signature_verified) {
-            throw new InvalidStateException("Invalid JWT Signature");
+            throw new InvalidStateException('Invalid JWT Signature');
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function user()
     {
@@ -157,7 +158,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         if ($this->usesState()) {
             $this->request->session()->put('state', $this->request->input('state'));
             if ($this->hasInvalidState()) {
-                throw new InvalidStateException;
+                throw new InvalidStateException();
             }
         }
 
@@ -181,25 +182,25 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        if (request()->filled("user")) {
-            $userRequest = json_decode(request("user"), true);
+        if (request()->filled('user')) {
+            $userRequest = json_decode(request('user'), true);
 
-            if (array_key_exists("name", $userRequest)) {
-                $user["name"] = $userRequest["name"];
+            if (array_key_exists('name', $userRequest)) {
+                $user['name'] = $userRequest['name'];
                 $fullName = trim(
-                    ($user["name"]['firstName'] ?? "")
-                    . " "
-                    . ($user["name"]['lastName'] ?? "")
+                    ($user['name']['firstName'] ?? '')
+                    . ' '
+                    . ($user['name']['lastName'] ?? '')
                 );
             }
         }
 
-        return (new User)
+        return (new User())
             ->setRaw($user)
             ->map([
-                "id" => $user["sub"],
-                "name" => $fullName ?? null,
-                "email" => $user["email"] ?? null,
+                'id' => $user['sub'],
+                'name' => $fullName ?? null,
+                'email' => $user['email'] ?? null,
             ]);
     }
 }
