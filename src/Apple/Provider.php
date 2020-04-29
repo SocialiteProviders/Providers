@@ -188,9 +188,9 @@ class Provider extends AbstractProvider implements ProviderInterface
             if (array_key_exists('name', $userRequest)) {
                 $user['name'] = $userRequest['name'];
                 $fullName = trim(
-                    ($user['name']['firstName'] ?? '')
-                    . ' '
-                    . ($user['name']['lastName'] ?? '')
+                ($user['name']['firstName'] ?? '')
+                    .' '
+                    .($user['name']['lastName'] ?? '')
                 );
             }
         }
@@ -198,8 +198,8 @@ class Provider extends AbstractProvider implements ProviderInterface
         return (new User())
             ->setRaw($user)
             ->map([
-                'id' => $user['sub'],
-                'name' => $fullName ?? null,
+                'id'    => $user['sub'],
+                'name'  => $fullName ?? null,
                 'email' => $user['email'] ?? null,
             ]);
     }
