@@ -12,7 +12,8 @@ class PinterestExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'pinterest', __NAMESPACE__.'\Provider'
+            'pinterest',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

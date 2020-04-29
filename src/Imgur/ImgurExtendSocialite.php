@@ -14,7 +14,8 @@ class ImgurExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'imgur', __NAMESPACE__.'\Provider'
+            'imgur',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

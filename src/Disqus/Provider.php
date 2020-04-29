@@ -24,7 +24,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://disqus.com/api/oauth/2.0/authorize', $state
+            'https://disqus.com/api/oauth/2.0/authorize',
+            $state
         );
     }
 
@@ -42,12 +43,14 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://disqus.com/api/3.0/users/details.json', [
-            'query' => [
-                'access_token' => $token, 'api_key' => $this->clientId,
-                'api_secret'   => $this->clientSecret,
-            ],
-        ]);
+            'https://disqus.com/api/3.0/users/details.json',
+            [
+                'query' => [
+                    'access_token' => $token, 'api_key' => $this->clientId,
+                    'api_secret'   => $this->clientSecret,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true)['response'];
     }

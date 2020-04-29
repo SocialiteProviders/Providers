@@ -29,7 +29,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            $this->getBaseUrl().'/sharing/rest/oauth2/authorize', $state
+            $this->getBaseUrl().'/sharing/rest/oauth2/authorize',
+            $state
         );
     }
 
@@ -47,12 +48,14 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            $this->getBaseUrl().'/sharing/rest/community/self', [
-            'query' => [
-                'token' => $token,
-                'f'     => 'json',
-            ],
-        ]);
+            $this->getBaseUrl().'/sharing/rest/community/self',
+            [
+                'query' => [
+                    'token' => $token,
+                    'f'     => 'json',
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

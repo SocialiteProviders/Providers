@@ -14,7 +14,8 @@ class YandexExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'yandex', __NAMESPACE__.'\Provider'
+            'yandex',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

@@ -29,7 +29,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.gamewisp.com/pub/v1/oauth/authorize', $state
+            'https://api.gamewisp.com/pub/v1/oauth/authorize',
+            $state
         );
     }
 
@@ -52,13 +53,15 @@ class Provider extends AbstractProvider
         ];
 
         $response = $this->getHttpClient()->get(
-            'https://api.gamewisp.com/pub/v1/user/information', [
-            'query'   => $query,
-            'headers' => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.gamewisp.com/pub/v1/user/information',
+            [
+                'query'   => $query,
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

@@ -14,7 +14,8 @@ class ProductHuntExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'producthunt', __NAMESPACE__.'\Provider'
+            'producthunt',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

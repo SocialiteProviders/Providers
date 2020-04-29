@@ -19,7 +19,7 @@ class Provider extends AbstractProvider
         'openid',
         'run',
         'name',
-        'email'
+        'email',
     ];
 
     protected $scopeSeparator = ' ';
@@ -59,13 +59,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id'         => $user['RolUnico']['numero'],
             'name'       => $user['name'],
             'first_name' => implode(' ', $user['name']['nombres']),
             'last_name'  => implode(' ', $user['name']['apellidos']),
             'run'        => $user['RolUnico']['numero'],
-            'dv'         => $user['RolUnico']['DV']
+            'dv'         => $user['RolUnico']['DV'],
         ]);
     }
 
@@ -75,7 +75,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }

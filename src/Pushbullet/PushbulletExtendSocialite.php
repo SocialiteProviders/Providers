@@ -14,7 +14,8 @@ class PushbulletExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'pushbullet', __NAMESPACE__.'\Provider'
+            'pushbullet',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

@@ -14,7 +14,8 @@ class EyeEmExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'eyeem', __NAMESPACE__.'\Provider'
+            'eyeem',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

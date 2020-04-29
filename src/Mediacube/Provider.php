@@ -15,7 +15,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://mediacube.id/oauth/authorize', $state
+            'https://mediacube.id/oauth/authorize',
+            $state
         );
     }
 
@@ -30,40 +31,42 @@ class Provider extends AbstractProvider
     /**
      * Get the raw user for the given access token.
      *
-     * @param  string $token
+     * @param string $token
+     *
      * @return array
      */
     protected function getUserByToken($token)
     {
         $requestHeaders = [
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token,
+            'Accept'        => 'application/json',
+            'Authorization' => 'Bearer '.$token,
         ];
 
         $response = $this->getHttpClient()->get(
-            'https://mediacube.id/oauth/user', [
-                'headers' => $requestHeaders
+            'https://mediacube.id/oauth/user',
+            [
+                'headers' => $requestHeaders,
             ]
         );
 
         $userData = json_decode($response->getBody(), true);
 
         return [
-            'id' => $userData['id'],
+            'id'         => $userData['id'],
             'first_name' => $userData['first_name'],
-            'last_name' => $userData['last_name'],
-            'email' => $userData['email']
-         ];
+            'last_name'  => $userData['last_name'],
+            'email'      => $userData['email'],
+        ];
     }
 
     protected function getTokenFields($code)
     {
         return [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'code' => $code,
-            'redirect_uri' => $this->redirectUrl,
-            'grant_type' => 'authorization_code'
+            'code'          => $code,
+            'redirect_uri'  => $this->redirectUrl,
+            'grant_type'    => 'authorization_code',
         ];
     }
 
@@ -73,7 +76,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Return all decoded data in order to retrieve additional params like 'email'
+     * Return all decoded data in order to retrieve additional params like 'email'.
      *
      * {@inheritdoc}
      */
@@ -81,5 +84,4 @@ class Provider extends AbstractProvider
     {
         return \Arr::get($body, 'access_token');
     }
-
 }

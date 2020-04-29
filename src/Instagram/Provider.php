@@ -28,7 +28,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.instagram.com/oauth/authorize', $state
+            'https://api.instagram.com/oauth/authorize',
+            $state
         );
     }
 
@@ -53,12 +54,14 @@ class Provider extends AbstractProvider
 
         $query['sig'] = $signature;
         $response = $this->getHttpClient()->get(
-            'https://api.instagram.com/v1/users/self', [
-            'query'   => $query,
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-        ]);
+            'https://api.instagram.com/v1/users/self',
+            [
+                'query'   => $query,
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true)['data'];
     }
@@ -101,7 +104,7 @@ class Provider extends AbstractProvider
 
     /**
      * Allows compatibility for signed API requests.
-     * 
+     *
      * @param string @endpoint
      * @param array $params
      *

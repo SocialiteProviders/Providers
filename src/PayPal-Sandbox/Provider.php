@@ -28,7 +28,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize', $state
+            'https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize',
+            $state
         );
     }
 
@@ -46,11 +47,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.sandbox.paypal.com/v1/identity/openidconnect/userinfo/?schema=openid', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.sandbox.paypal.com/v1/identity/openidconnect/userinfo/?schema=openid',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

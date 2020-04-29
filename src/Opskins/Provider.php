@@ -24,7 +24,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://oauth.opskins.com/v1/authorize', $state
+            'https://oauth.opskins.com/v1/authorize',
+            $state
         );
     }
 
@@ -44,7 +45,7 @@ class Provider extends AbstractProvider
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'auth' => [$this->clientId, $this->clientSecret],
+            'auth'   => [$this->clientId, $this->clientSecret],
             $postKey => $this->getTokenFields($code),
         ]);
 
@@ -58,7 +59,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('http://api.opskins.com/IUser/GetProfile/v1/', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -82,11 +83,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['username'],
-            'name' => isset($user['name']['first']) ? ($user['name']['first'] . ' ' . $user['name']['last']) : null,
-            'email' => isset($user['email']['contact_email']) ? $user['email']['contact_email'] : null,
-            'avatar' => $user['avatar'],
+            'name'     => isset($user['name']['first']) ? ($user['name']['first'].' '.$user['name']['last']) : null,
+            'email'    => isset($user['email']['contact_email']) ? $user['email']['contact_email'] : null,
+            'avatar'   => $user['avatar'],
         ]);
     }
 
@@ -96,7 +97,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 

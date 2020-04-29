@@ -14,7 +14,8 @@ class GameWispExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'gamewisp', __NAMESPACE__.'\Provider'
+            'gamewisp',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.dailymile.com/oauth/authorize', $state
+            'https://api.dailymile.com/oauth/authorize',
+            $state
         );
     }
 

@@ -12,7 +12,9 @@ class EtsyExtendSocialite
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'etsy', __NAMESPACE__.'\Provider', __NAMESPACE__.'\Server'
+            'etsy',
+            __NAMESPACE__.'\Provider',
+            __NAMESPACE__.'\Server'
         );
     }
 }
