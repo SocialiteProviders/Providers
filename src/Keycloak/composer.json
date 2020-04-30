@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/keycloak",
+    "description": "Keycloak OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Oleg Kuchumov",
+        "email": "voenniy@gmail.com"
+    }],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Keycloak\\": ""
+        }
+    }
+}

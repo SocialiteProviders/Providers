@@ -63,6 +63,7 @@ parameters:
     src/Jawbone: 'git@github.com:SocialiteProviders/Jawbone.git'
     src/Jira: 'git@github.com:SocialiteProviders/Jira.git'
     src/Kakao: 'git@github.com:SocialiteProviders/Kakao.git'
+    src/Keycloak: 'git@github.com:SocialiteProviders/Keycloak.git'
     src/LaravelPassport: 'git@github.com:SocialiteProviders/Laravel-Passport.git'
     src/Line: 'git@github.com:SocialiteProviders/Line.git'
     src/LinkedIn: 'git@github.com:SocialiteProviders/LinkedIn.git'
