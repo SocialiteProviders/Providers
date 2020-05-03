@@ -30,7 +30,9 @@ class Provider extends AbstractProvider
     */
    protected function getAuthUrl($state)
    {
-       return $this->buildAuthUrlFromBase('https://api.gettyimages.com/oauth2/auth/', $state);
+       return $this->buildAuthUrlFromBase(
+           'https://api.gettyimages.com/oauth2/auth/', $state
+        );
    }
 
    /**
@@ -46,10 +48,14 @@ class Provider extends AbstractProvider
     */
    public function getAccessToken($code)
    {
-       $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-           'headers' => ['Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)],
-           'body'    => $this->getTokenFields($code),
-       ]);
+       $response = $this->getHttpClient()->post(
+           $this->getTokenUrl(), [
+           'headers' => [
+               'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)
+            ],
+           'body'    => $this->getTokenFields($code)
+           ]
+        );
 
        return json_decode($response->getBody()->getContents(), true);
    }
@@ -69,12 +75,13 @@ class Provider extends AbstractProvider
     */
    protected function getUserByToken($token)
    {
-       $response = $this->getHttpClient()->get('https://api.gettyimages.com/v3/customers/current', [
+       $response = $this->getHttpClient()->get(
+           'https://api.gettyimages.com/v3/customers/current', 
+           [
            'headers' => [
                'Authorization' => 'Bearer ' . $token,
-               "Api-Key" =>  $this->clientId,
-           ],
-       ]);
+               'Api-Key'  =>  $this->clientId,
+           ]]);
 
        return json_decode($response->getBody(), true);
    }
