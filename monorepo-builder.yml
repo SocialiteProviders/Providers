@@ -59,6 +59,7 @@ parameters:
     src/IFSP: 'git@github.com:SocialiteProviders/IFSP.git'
     src/Imgur: 'git@github.com:SocialiteProviders/Imgur.git'
     src/Instagram: 'git@github.com:SocialiteProviders/Instagram.git'
+    src/InstagramBasic: 'git@github.com:SocialiteProviders/InstagramBasic.git'
     src/Intercom: 'git@github.com:SocialiteProviders/Intercom.git'
     src/Jawbone: 'git@github.com:SocialiteProviders/Jawbone.git'
     src/Jira: 'git@github.com:SocialiteProviders/Jira.git'
