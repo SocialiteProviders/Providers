@@ -51,7 +51,9 @@ class Provider extends AbstractProvider
        $response = $this->getHttpClient()->post(
            $this->getTokenUrl(), [
            'headers' => [
-               'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)
+               'Authorization' => 'Basic ' . base64_encode(
+                   $this->clientId . ':' . $this->clientSecret
+                   )
             ],
            'body'    => $this->getTokenFields($code)
            ]
