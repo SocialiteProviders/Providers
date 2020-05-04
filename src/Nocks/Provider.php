@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
-     * Please see https://docs.nocks.com/#users
+     * Please see https://docs.nocks.com/#users.
      */
     protected function mapUserToObject(array $user)
     {
