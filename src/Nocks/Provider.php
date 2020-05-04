@@ -50,26 +50,29 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
+     * Please see https://docs.nocks.com/#users
      */
     protected function mapUserToObject(array $user)
     {
+        $data = $user['data'][0];
+
         return (new User())->setRaw($user)->map([
-            'id'                => $user['data'][0]['uuid'],
+            'id'                => $data['uuid'],
             'nickname'          => null,
             'name'              => null,
-            'email'             => $user['data'][0]['email'],
+            'email'             => $data['email'],
             'avatar'            => null,
-            'email_verified'    => $user['data'][0]['email_verified'],
-            'gender'            => $user['data'][0]['gender'],
-            'first_name'        => $user['data'][0]['first_name'],
-            'last_name'         => $user['data'][0]['last_name'],
-            'mobile'            => $user['data'][0]['mobile'],
-            'mobile_verified'   => $user['data'][0]['mobile_verified'],
-            'is_active'         => $user['data'][0]['is_active'],
-            'is_verified'       => $user['data'][0]['is_verified'],
-            '2fa_enabled'       => $user['data'][0]['2fa_enabled'],
-            'identity_verified' => $user['data'][0]['identity_verified'],
-            'locale'            => $user['data'][0]['locale'],
+            'email_verified'    => $data['email_verified'],
+            'gender'            => $data['gender'],
+            'first_name'        => $data['first_name'],
+            'last_name'         => $data['last_name'],
+            'mobile'            => $data['mobile'],
+            'mobile_verified'   => $data['mobile_verified'],
+            'is_active'         => $data['is_active'],
+            'is_verified'       => $data['is_verified'],
+            '2fa_enabled'       => $data['2fa_enabled'],
+            'identity_verified' => $data['identity_verified'],
+            'locale'            => $data['locale'],
         ]);
     }
 
