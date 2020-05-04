@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\deviantART;
+namespace SocialiteProviders\Deviantart;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;

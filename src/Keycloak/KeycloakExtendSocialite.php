@@ -1,18 +1,20 @@
 <?php
 
-namespace SocialiteProviders\Mattermost;
+namespace SocialiteProviders\Keycloak;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class MatterMostExtendSocialite
+class KeycloakExtendSocialite
 {
     /**
      * Execute the provider.
+     *
+     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite(
-            'mattermost',
+            'keycloak',
             __NAMESPACE__.'\Provider'
         );
     }
