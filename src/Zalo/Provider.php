@@ -77,9 +77,6 @@ class Provider extends AbstractProvider
             'id' => $user['id'],
             'nickname' => null,
             'name' => $user['name'],
-            // Emails are not officially supported in Zalo API
-            // This is a hypothetical email identified with the type "ID@zalo.me"
-            'email' => $user['id'] . '@zalo.me',
             'avatar' => preg_replace('/^http:/i', 'https:', $user['picture']['data']['url']),
         ]);
     }
