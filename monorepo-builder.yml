@@ -162,4 +162,5 @@ parameters:
     src/Yiban: 'git@github.com:SocialiteProviders/Yiban.git'
     src/YouTube: 'git@github.com:SocialiteProviders/YouTube.git'
     src/Zendesk: 'git@github.com:SocialiteProviders/Zendesk.git'
+    src/Zalo: 'git@github.com:SocialiteProviders/Zalo.git'
     src/Zoho: 'git@github.com:SocialiteProviders/Zoho.git'
