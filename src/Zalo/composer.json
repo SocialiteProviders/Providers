@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/zalo",
+    "description": "Zalo OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "tmtung144",
+        "email": "tmtung144@gmail.com"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Zalo\\": ""
+        }
+    }
+}
