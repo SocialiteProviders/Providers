@@ -53,6 +53,7 @@ class Provider extends AbstractProvider
                 'headers' => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
+                    'Client-ID'     => $this->clientId,
                 ],
             ]
         );
