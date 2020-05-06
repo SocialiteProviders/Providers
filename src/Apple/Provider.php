@@ -5,6 +5,7 @@ namespace SocialiteProviders\Apple;
 use Firebase\JWT\JWK;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use Laravel\Socialite\Two\ProviderInterface;
@@ -67,8 +68,8 @@ class Provider extends AbstractProvider implements ProviderInterface
         ];
 
         if ($this->usesState()) {
-            $fields['state'] = $state;
-            $fields['nonce'] = Str::uuid().'-'.$state;
+            $fields['state'] = md5($state);
+            $fields['nonce'] = Str::uuid().'.'.$state;
         }
 
         return array_merge($fields, $this->parameters);
@@ -130,7 +131,9 @@ class Provider extends AbstractProvider implements ProviderInterface
             throw new InvalidStateException('Token Expired', Response::HTTP_UNAUTHORIZED);
         }
 
-        $data = json_decode(file_get_contents(self::URL.'/auth/keys'), true);
+        $data = Cache::remember('socialite:Apple-JWKSet', 5*60, function () {
+            return json_decode(file_get_contents(self::URL.'/auth/keys'), true);
+        });
 
         $public_keys = JWK::parseKeySet($data);
 
@@ -155,18 +158,24 @@ class Provider extends AbstractProvider implements ProviderInterface
     public function user()
     {
         //Temporary fix to enable stateless
+        $response = $this->getAccessTokenResponse($this->getCode());
+
+        $apple_user_token = $this->getUserByToken(
+            $token = Arr::get($response, 'id_token')
+        );
+
         if ($this->usesState()) {
-            $this->request->session()->put('state', $this->request->input('state'));
+            list($uuid, $state) = explode('.', $apple_user_token['nonce']);
+            if(md5($state) == $this->request->input('state')) {
+                $this->request->session()->put('state', md5($state));
+                $this->request->session()->put('state_verify', $state);
+            }
             if ($this->hasInvalidState()) {
-                throw new InvalidStateException();
+                throw new InvalidStateException;
             }
         }
 
-        $response = $this->getAccessTokenResponse($this->getCode());
-
-        $user = $this->mapUserToObject($this->getUserByToken(
-            $token = Arr::get($response, 'id_token')
-        ));
+        $user = $this->mapUserToObject($apple_user_token);
 
         if ($user instanceof User) {
             $user->setAccessTokenResponseBody($response);
