@@ -111,9 +111,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Verify apple jwt.
      *
-     * @param $jwt
-     *
-     * @return object
+     * @param string $jwt
+     * @return boolean
      *
      * @see https://appleid.apple.com/auth/keys
      */
@@ -145,6 +144,8 @@ class Provider extends AbstractProvider implements ProviderInterface
         if (!$signature_verified) {
             throw new InvalidStateException('Invalid JWT Signature');
         }
+
+        return true;
     }
 
     /**
