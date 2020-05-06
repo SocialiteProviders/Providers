@@ -112,7 +112,8 @@ class Provider extends AbstractProvider implements ProviderInterface
      * Verify apple jwt.
      *
      * @param string $jwt
-     * @return boolean
+     * 
+     * @return bool
      *
      * @see https://appleid.apple.com/auth/keys
      */
