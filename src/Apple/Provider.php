@@ -131,7 +131,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             throw new InvalidStateException('Token Expired', Response::HTTP_UNAUTHORIZED);
         }
 
-        $data = Cache::remember('socialite:Apple-JWKSet', 5*60, function () {
+        $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
             return json_decode(file_get_contents(self::URL.'/auth/keys'), true);
         });
 
@@ -166,12 +166,12 @@ class Provider extends AbstractProvider implements ProviderInterface
 
         if ($this->usesState()) {
             list($uuid, $state) = explode('.', $apple_user_token['nonce']);
-            if(md5($state) == $this->request->input('state')) {
+            if (md5($state) == $this->request->input('state')) {
                 $this->request->session()->put('state', md5($state));
                 $this->request->session()->put('state_verify', $state);
             }
             if ($this->hasInvalidState()) {
-                throw new InvalidStateException;
+                throw new InvalidStateException();
             }
         }
 
