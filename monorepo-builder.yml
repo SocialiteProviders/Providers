@@ -88,6 +88,7 @@ parameters:
     src/Mollie: 'git@github.com:SocialiteProviders/Mollie.git'
     src/Naver: 'git@github.com:SocialiteProviders/Naver.git'
     src/Netlify: 'git@github.com:SocialiteProviders/Netlify.git'
+    src/Nocks: 'git@github.com:SocialiteProviders/Nocks.git'
     src/OAuthgen: 'git@github.com:SocialiteProviders/OAuthgen.git'
     src/Odnoklassniki: 'git@github.com:SocialiteProviders/Odnoklassniki.git'
     src/Okta: 'git@github.com:SocialiteProviders/Okta.git'
