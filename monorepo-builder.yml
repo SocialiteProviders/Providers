@@ -6,6 +6,7 @@ parameters:
     src/Acclaim: 'git@github.com:SocialiteProviders/Acclaim.git'
     src/Admitad: 'git@github.com:SocialiteProviders/Admitad.git'
     src/AngelList: 'git@github.com:SocialiteProviders/AngelList.git'
+    src/Apple: 'git@github.com:SocialiteProviders/Apple.git'
     src/AppNet: 'git@github.com:SocialiteProviders/App.net.git'
     src/ArcGIS: 'git@github.com:SocialiteProviders/ArcGIS.git'
     src/Asana: 'git@github.com:SocialiteProviders/Asana.git'
