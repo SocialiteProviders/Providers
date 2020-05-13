@@ -3,8 +3,8 @@
 namespace SocialiteProviders\SciStarter;
 
 use Illuminate\Support\Arr;
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
@@ -80,7 +80,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Get the POST fields for the token request.
      *
-     * @param  string $code
+     * @param string $code
      * @return array
      */
     protected function getTokenFields($code)
