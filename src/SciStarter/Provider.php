@@ -55,7 +55,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             ],
             'headers' => [
                 'Accept'        => 'application/json',
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -81,6 +81,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      * Get the POST fields for the token request.
      *
      * @param string $code
+     * 
      * @return array
      */
     protected function getTokenFields($code)
