@@ -154,7 +154,6 @@ parameters:
     src/Weixin: 'git@github.com:SocialiteProviders/Weixin.git'
     src/WeixinWeb: 'git@github.com:SocialiteProviders/Weixin-Web.git'
     src/Withings: 'git@github.com:SocialiteProviders/Withings.git'
-    src/Wonderlist: 'git@github.com:SocialiteProviders/Wonderlist.git'
     src/WordPress: 'git@github.com:SocialiteProviders/WordPress.git'
     src/Xing: 'git@github.com:SocialiteProviders/Xing.git'
     src/xREL: 'git@github.com:SocialiteProviders/xREL.git'
