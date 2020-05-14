@@ -5,6 +5,10 @@ namespace SocialiteProviders\Wonderlist;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @deprecated Wunderlist is shutting down
+ * @see        https://www.wunderlist.com/blog/goodbye-from-wunderlist/
+ */
 class Provider extends AbstractProvider
 {
     /**
