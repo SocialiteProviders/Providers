@@ -25,4 +25,9 @@ class Provider extends AbstractProvider
             'avatar'   => null,
         ]);
     }
+
+    protected function hasNecessaryVerifier()
+    {
+        return $this->request->has('oauth_token');
+    }
 }
