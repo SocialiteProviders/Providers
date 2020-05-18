@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Auth0;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
@@ -44,7 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getAuth0Url().'/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->getAuth0Url() . '/authorize', $state);
     }
 
     /**
@@ -52,7 +53,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getAuth0Url().'/oauth/token';
+        return $this->getAuth0Url() . '/oauth/token';
 
     }
 
@@ -61,7 +62,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getAuth0Url().'/userinfo', [
+        $response = $this->getHttpClient()->get($this->getAuth0Url() . '/userinfo', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
             ],
@@ -78,7 +79,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id' => $user['sub'],
             'nickname' => $user['nickname'],
-            'name' => $user['given_name'] . ' ' . $user['family_name'],
+            'name' => Arr::get($user, 'given_name', '') . ' ' . Arr::get($user, 'family_name', ''),
             'email' => $user['email'],
             'avatar' => null,
         ]);
