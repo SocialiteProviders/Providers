@@ -10,6 +10,7 @@ parameters:
     src/AppNet: 'git@github.com:SocialiteProviders/App.net.git'
     src/ArcGIS: 'git@github.com:SocialiteProviders/ArcGIS.git'
     src/Asana: 'git@github.com:SocialiteProviders/Asana.git'
+    src/Auth0: 'git@github.com:SocialiteProviders/Auth0.git'
     src/Aweber: 'git@github.com:SocialiteProviders/Aweber.git'
     src/Battlenet: 'git@github.com:SocialiteProviders/Battle.net.git'
     src/Bitly: 'git@github.com:SocialiteProviders/Bit.ly.git'

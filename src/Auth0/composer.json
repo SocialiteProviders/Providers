@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/auth0",
+    "description": "Auth0 OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chase Coney",
+            "email": "chase.coney@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Auth0\\": ""
+        }
+    }
+}
