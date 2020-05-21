@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\Quickbooks2;
+namespace SocialiteProviders\Quickbooks;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -29,7 +29,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [];
+    protected $scopes = ['com.intuit.quickbooks.accounting openid profile email phone address'];
 
     /**
      * {@inheritdoc}
