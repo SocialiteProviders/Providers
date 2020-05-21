@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\Quickbooks;
+namespace SocialiteProviders\QuickBooks;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
