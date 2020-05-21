@@ -2,10 +2,16 @@
     "name": "socialiteproviders/quickbooks",
     "description": "Intuit QuickBooks OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Alex House",
-        "email": "house.alexander@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "Alex House",
+            "email": "house.alexander@gmail.com"
+        },
+        {
+            "name": "Luke Curtis",
+            "email": "lukesimoncurtis@gmail.com"
+        }
+    ],
     "require": {
         "php": "^5.6 || ^7.1",
         "socialiteproviders/manager": "~2.0 || ~3.0"
