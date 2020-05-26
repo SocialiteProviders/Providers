@@ -54,7 +54,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $endpoint = self::USER_PRODUCTION_ENDPOINT;
 
-        if(env('QUICKBOOKS_ENV') === 'development') {
+        if (env('QUICKBOOKS_ENV') === 'development') {
             $endpoint = self::USER_SANDBOX_ENDPOINT;
         }
 
