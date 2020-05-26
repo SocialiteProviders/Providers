@@ -15,6 +15,16 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'TELEGRAM';
 
     /**
+     * @return array
+     */
+    public static function additionalConfigKeys()
+    {
+        return [
+            'bot',
+        ];
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
@@ -38,12 +48,30 @@ class Provider extends AbstractProvider
         return null;
     }
 
+    public function getButton()
+    {
+        $botname = $this->config['bot'];
+        $callbackUrl = $this->config['redirect'];
+
+        return '<script async src="https://telegram.org/js/telegram-widget.js" data-telegram-login="'.$botname.'" data-size="large" data-userpic="false" data-auth-url="'.$callbackUrl.'" data-request-access="write"></script>';
+    }
+
     /**
      * {@inheritdoc}
      */
     public function redirect()
     {
-        abort(404, 'There is no redirect() for Telegram provider');
+        return '<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>Login using Telegram</title>
+    </head>
+    <body>
+        '.$this->getButton().'
+    </body>
+</html>';
     }
 
     /**
