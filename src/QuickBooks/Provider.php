@@ -7,7 +7,7 @@ use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
-{
+{    
     /**
      * Unique Provider Identifier.
      */
@@ -51,7 +51,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $endpoint = self::USER_PRODUCTION_ENDPOINT;
 
-        if (env('QUICKBOOKS_ENV') === 'development') {
+        if ($this->getConfig('services.quickbooks.env') === 'development') {
             $endpoint = self::USER_SANDBOX_ENDPOINT;
         }
 
