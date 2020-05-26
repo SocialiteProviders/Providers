@@ -2,10 +2,10 @@
 
 namespace SocialiteProviders\QuickBooks;
 
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\ConfigTrait;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -19,12 +19,12 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Sandbox endpoint for retrieving user info.
      */
-    const USERSANDBOXENDPOINT = 'https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo';
+    const USER_SANDBOX_ENDPOINT = 'https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo';
 
     /**
      * Production endpoint for retrieving user info.
      */
-    const USERPRODUCTIONENDPOINT = 'https://accounts.platform.intuit.com/v1/openid_connect/userinfo';
+    const USER_PRODUCTION_ENDPOINT = 'https://accounts.platform.intuit.com/v1/openid_connect/userinfo';
 
     /**
      * {@inheritdoc}
@@ -52,11 +52,15 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $endpoint = $this->getConfig('app.env', 'local') == 'production' ? self::USERPRODUCTIONENDPOINT : self::USERSANDBOXENDPOINT;
+        $endpoint = self::USER_PRODUCTION_ENDPOINT;
+
+        if(env('QUICKBOOKS_ENV') === 'development') {
+            $endpoint = self::USER_SANDBOX_ENDPOINT;
+        }
 
         $response = $this->getHttpClient()->get($endpoint, [
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -71,7 +75,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['sub'],
-            'name'     => $user['givenName'] ?? '' . ' ' . $user['familyName'] ?? '',
+            'name'     => $user['givenName'] ?? ''.' '.$user['familyName'] ?? '',
             'email'    => $user['email'],
         ]);
     }
@@ -82,7 +86,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
