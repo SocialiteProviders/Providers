@@ -3,14 +3,11 @@
 namespace SocialiteProviders\QuickBooks;
 
 use Laravel\Socialite\Two\ProviderInterface;
-use SocialiteProviders\Manager\ConfigTrait;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
-    use ConfigTrait;
-
     /**
      * Unique Provider Identifier.
      */
