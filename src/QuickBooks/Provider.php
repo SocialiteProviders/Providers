@@ -51,7 +51,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $endpoint = self::USER_PRODUCTION_ENDPOINT;
 
-        if ($this->getConfig('services.quickbooks.env') === 'development') {
+        if ($this->getConfig('env', 'production') === 'development') {
             $endpoint = self::USER_SANDBOX_ENDPOINT;
         }
 
@@ -72,7 +72,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['sub'],
-            'name'     => $user['givenName'] ?? ''.' '.$user['familyName'] ?? '',
+            'name'     => trim(sprintf('%s %s', $user['givenName'], $user['familyName'])),
             'email'    => $user['email'],
         ]);
     }
@@ -85,5 +85,10 @@ class Provider extends AbstractProvider implements ProviderInterface
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
+    }
+
+    public function additionalConfigKeys()
+    {
+        return ['env'];
     }
 }
