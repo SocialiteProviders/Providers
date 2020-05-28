@@ -87,7 +87,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         ]);
     }
 
-    public function additionalConfigKeys()
+    public static function additionalConfigKeys()
     {
         return ['env'];
     }
