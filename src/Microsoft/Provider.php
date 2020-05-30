@@ -3,7 +3,7 @@
 namespace SocialiteProviders\Microsoft;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
+use SocialiteProviders\Microsoft\MicrosoftUser as User;
 
 class Provider extends AbstractProvider
 {
