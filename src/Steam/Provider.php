@@ -2,11 +2,18 @@
 
 namespace SocialiteProviders\Steam;
 
+use GuzzleHttp\RequestOptions;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use LightOpenID;
+use RuntimeException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * Steam socialite provider, based on `laravel-steam-auth` by @invisnik.
+ *
+ * @see https://github.com/invisnik/laravel-steam-auth
+ */
 class Provider extends AbstractProvider
 {
     /**
@@ -15,37 +22,56 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'STEAM';
 
     /**
+     * @var string
+     */
+    public $steamId;
+
+    /**
+     * @var array
+     */
+    protected $customRequestOptions = [];
+
+    /**
+     * @var string
+     */
+    const OPENID_URL = 'https://steamcommunity.com/openid/login';
+
+    /**
+     * @var string
+     */
+    const STEAM_INFO_URL = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s';
+
+    /**
+     * @var string
+     */
+    const OPENID_SIG = 'openid_sig';
+
+    /**
+     * @var string
+     */
+    const OPENID_SIGNED = 'openid_signed';
+
+    /**
+     * @var string
+     */
+    const OPENID_ASSOC_HANDLE = 'openid_assoc_handle';
+
+    /**
+     * @var string
+     */
+    const OPENID_NS = 'http://specs.openid.net/auth/2.0';
+
+    /**
      * {@inheritdoc}
      */
     protected $stateless = true;
-
-    /**
-     * Returns the Open ID object.
-     *
-     * @return \LightOpenID
-     */
-    protected function getOpenID()
-    {
-        $openID = new LightOpenID(
-            $redirect = $this->redirectUrl,
-            $this->getConfig('proxy')
-        );
-
-        $openID->returnUrl = $redirect;
-
-        return $openID;
-    }
 
     /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        $openID = $this->getOpenID();
-
-        $openID->identity = 'https://steamcommunity.com/openid';
-
-        return $openID->authUrl();
+        return $this->buildUrl();
     }
 
     /**
@@ -53,17 +79,11 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        $openID = $this->getOpenID();
-
-        if (!$openID->validate()) {
-            throw new OpenIDValidationException();
+        if (!$this->validate()) {
+            throw new OpenIDValidationException('Failed to validate openID login');
         }
 
-        $user = $this->mapUserToObject($this->getUserByToken(
-            $this->parseAccessToken($openID->identity)
-        ));
-
-        return $user;
+        return $this->mapUserToObject($this->getUserByToken($this->steamId));
     }
 
     /**
@@ -71,9 +91,7 @@ class Provider extends AbstractProvider
      */
     protected function parseAccessToken($body)
     {
-        preg_match('/\/id\/(\d+)$/i', $body, $matches);
-
-        return $matches[1];
+        return null;
     }
 
     /**
@@ -81,8 +99,17 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            sprintf('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s', $this->clientSecret, $token)
+        if (is_null($this->steamId)) {
+            return null;
+        }
+
+        if (empty($this->getConfig('api_key'))) {
+            throw new RuntimeException('The Steam API key has not been specified.');
+        }
+
+        $response = $this->getHttpClient()->request(
+            'GET',
+            sprintf(self::STEAM_INFO_URL, $this->getConfig('api_key'), $this->steamId)
         );
 
         $contents = json_decode($response->getBody()->getContents(), true);
@@ -105,6 +132,149 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Build the Steam login URL.
+     *
+     * @return string
+     */
+    private function buildUrl()
+    {
+        $realm = $this->getConfig('realm', $this->request->server('HTTP_HOST'));
+
+        $params = [
+            'openid.ns'         => self::OPENID_NS,
+            'openid.mode'       => 'checkid_setup',
+            'openid.return_to'  => $this->redirectUrl,
+            'openid.realm'      => sprintf('https://%s', $realm),
+            'openid.identity'   => 'http://specs.openid.net/auth/2.0/identifier_select',
+            'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select',
+        ];
+
+        return self::OPENID_URL.'?'.http_build_query($params, '', '&');
+    }
+
+    /**
+     * Checks the steam login.
+     *
+     * @return bool
+     */
+    public function validate()
+    {
+        if (!$this->requestIsValid()) {
+            return false;
+        }
+
+        $requestOptions = $this->getDefaultRequestOptions();
+        $customOptions = $this->getCustomRequestOptions();
+
+        if (!empty($customOptions) && is_array($customOptions)) {
+            $requestOptions = array_merge($requestOptions, $customOptions);
+        }
+
+        $response = $this->getHttpClient()->request('POST', self::OPENID_URL, $requestOptions);
+
+        $results = $this->parseResults($response->getBody()->getContents());
+
+        $this->parseSteamID();
+
+        return $results['is_valid'] === 'true';
+    }
+
+    /**
+     * Validates if the request object has required stream attributes.
+     *
+     * @return bool
+     */
+    private function requestIsValid()
+    {
+        return $this->request->has(self::OPENID_ASSOC_HANDLE)
+            && $this->request->has(self::OPENID_SIGNED)
+            && $this->request->has(self::OPENID_SIG);
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultRequestOptions()
+    {
+        return [
+            RequestOptions::FORM_PARAMS => $this->getParams(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomRequestOptions()
+    {
+        return $this->customRequestOptions;
+    }
+
+    /**
+     * Get param list for openId validation.
+     *
+     * @return array
+     */
+    public function getParams()
+    {
+        $params = [
+            'openid.assoc_handle' => $this->request->get(self::OPENID_ASSOC_HANDLE),
+            'openid.signed'       => $this->request->get(self::OPENID_SIGNED),
+            'openid.sig'          => $this->request->get(self::OPENID_SIG),
+            'openid.ns'           => self::OPENID_NS,
+            'openid.mode'         => 'check_authentication',
+        ];
+
+        $signedParams = explode(',', $this->request->get(self::OPENID_SIGNED));
+
+        foreach ($signedParams as $item) {
+            $value = $this->request->get('openid_'.str_replace('.', '_', $item));
+            $params['openid.'.$item] = $value;
+        }
+
+        return $params;
+    }
+
+    /**
+     * Parse openID response to an array.
+     *
+     * @param string $results openid response body
+     *
+     * @return array
+     */
+    public function parseResults($results)
+    {
+        $parsed = [];
+        $lines = explode("\n", $results);
+
+        foreach ($lines as $line) {
+            if (empty($line)) {
+                continue;
+            }
+
+            $line = explode(':', $line, 2);
+            $parsed[$line[0]] = $line[1];
+        }
+
+        return $parsed;
+    }
+
+    /**
+     * Parse the steamID from the OpenID response.
+     *
+     * @return void
+     */
+    public function parseSteamID()
+    {
+        preg_match(
+            '#^https?://steamcommunity.com/openid/id/([0-9]{17,25})#',
+            $this->request->get('openid_claimed_id'),
+            $matches
+        );
+
+        $this->steamId = is_numeric($matches[1]) ? $matches[1] : 0;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getAccessTokenResponse($code)
@@ -120,6 +290,6 @@ class Provider extends AbstractProvider
 
     public static function additionalConfigKeys()
     {
-        return ['proxy'];
+        return ['api_key', 'realm', 'https'];
     }
 }
