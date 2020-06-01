@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Todoist;
 
-use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
