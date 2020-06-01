@@ -11,6 +11,6 @@ class TodoistExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('auth0', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('todoist', __NAMESPACE__.'\Provider');
     }
 }
