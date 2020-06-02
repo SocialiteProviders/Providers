@@ -6,7 +6,6 @@ use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider
 {
-
     /**
      * API URLs.
      */
@@ -17,7 +16,7 @@ class Provider extends AbstractProvider
      * Unique Provider Identifier.
      */
     const IDENTIFIER = 'FRANCECONNECT';
-    
+
     /**
      * The scopes being requested.
      *
@@ -31,17 +30,17 @@ class Provider extends AbstractProvider
         'birthplace',
         'birthcountry',
         'email',
-        'preferred_username'
+        'preferred_username',
     ];
 
     /**
      * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
-    
+
     /**
-     * Return API Base URL
-     * 
+     * Return API Base URL.
+     *
      * @return string
      */
     protected function getBaseUrl()
@@ -61,7 +60,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
-    {   
+    {
         //It is used to prevent replay attacks
         $this->parameters['nonce'] = str_random(20);
 
@@ -74,7 +73,7 @@ class Provider extends AbstractProvider
     protected function getTokenUrl()
     {
         return $this->getBaseUrl().'/token';
-    }    
+    }
 
     /**
      * {@inheritdoc}
@@ -82,10 +81,10 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getBaseUrl().'/token', [
-            'headers'     => ['Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)],
+            'headers'     => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
             'form_params' => $this->getTokenFields($code),
         ]);
-        
+
         return json_decode($response->getBody(), true);
     }
 
@@ -95,17 +94,19 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_add(
-            parent::getTokenFields($code), 'grant_type', 'authorization_code'
+            parent::getTokenFields($code),
+            'grant_type',
+            'authorization_code'
         );
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function user()
     {
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException;
+            throw new InvalidStateException();
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
@@ -127,10 +128,10 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected function getUserByToken($token)
-    {        
+    {
         $response = $this->getHttpClient()->get($this->getBaseUrl().'/userinfo', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -141,31 +142,29 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
-    {        
-        return (new User)->setRaw($user)->map([
-            'id'       => $user['sub'],
-            'given_name' => $user['given_name'],
-            'family_name'     => $user['family_name'],
-            'gender'     => $user['gender'],
-            'birthplace'     => $user['birthplace'],
-            'birthcountry'     => $user['birthcountry'],
-            'email'     => $user['email'],
-            'preferred_username'     => $user['preferred_username']
+    {
+        return (new User())->setRaw($user)->map([
+            'id'                     => $user['sub'],
+            'given_name'             => $user['given_name'],
+            'family_name'            => $user['family_name'],
+            'gender'                 => $user['gender'],
+            'birthplace'             => $user['birthplace'],
+            'birthcountry'           => $user['birthcountry'],
+            'email'                  => $user['email'],
+            'preferred_username'     => $user['preferred_username'],
         ]);
     }
 
     /**
-     *  Generate logout URL for redirection to FranceConnect
+     *  Generate logout URL for redirection to FranceConnect.
      */
-
     public function generateLogoutURL()
     {
         $params = [
             'post_logout_redirect_uri' => config('services.franceconnect.logout_redirect'),
-            'id_token_hint' => session('fc_token_id')
+            'id_token_hint'            => session('fc_token_id'),
         ];
 
-        return $this->getBaseUrl().'/logout?'.http_build_query($params);      
+        return $this->getBaseUrl().'/logout?'.http_build_query($params);
     }
-
 }
