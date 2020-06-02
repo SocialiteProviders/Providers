@@ -15,6 +15,13 @@ class Provider extends AbstractProvider implements ProviderInterface
     const IDENTIFIER = 'SCISTARTER';
 
     /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
      * {@inheritdoc}
      */
     protected $scopes = [
@@ -55,7 +62,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             ],
             'headers' => [
                 'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
+                'Authorization' => "Bearer $token",
             ],
         ]);
 
