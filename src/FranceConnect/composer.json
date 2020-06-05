@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/franceconnect",
+    "description": "France-Connect OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Adil Kachbat",
+        "email": "contact@akachbat.com"
+    }],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\FranceConnect\\": ""
+        }
+    }
+}
