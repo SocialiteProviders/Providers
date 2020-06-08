@@ -140,11 +140,17 @@ class Provider extends AbstractProvider
     {
         $realm = $this->getConfig('realm', $this->request->server('HTTP_HOST'));
 
+        if ($this->request->secure()) {
+            $realm = sprintf('https://%s', $realm);
+        } else {
+            $realm = sprintf('http://%s', $realm);
+        }
+
         $params = [
             'openid.ns'         => self::OPENID_NS,
             'openid.mode'       => 'checkid_setup',
             'openid.return_to'  => $this->redirectUrl,
-            'openid.realm'      => sprintf('https://%s', $realm),
+            'openid.realm'      => $realm,
             'openid.identity'   => 'http://specs.openid.net/auth/2.0/identifier_select',
             'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select',
         ];
