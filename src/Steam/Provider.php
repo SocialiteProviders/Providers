@@ -228,7 +228,7 @@ class Provider extends AbstractProvider
             'openid.sig'          => $this->request->get(self::OPENID_SIG),
             'openid.ns'           => self::OPENID_NS,
             'openid.mode'         => 'check_authentication',
-            'openid.error'       => $this->request->get(self::OPENID_ERROR),
+            'openid.error'        => $this->request->get(self::OPENID_ERROR),
         ];
 
         $signedParams = explode(',', $this->request->get(self::OPENID_SIGNED));
