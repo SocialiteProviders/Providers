@@ -86,7 +86,7 @@ class Provider extends AbstractProvider
     {
         if (!$this->validate()) {
             $error = $this->getParams()['openid.error'] ?? 'unknown error';
-            throw new OpenIDValidationException('Failed to validate OpenID login: ' . $error);
+            throw new OpenIDValidationException('Failed to validate OpenID login: '.$error);
         }
 
         return $this->mapUserToObject($this->getUserByToken($this->steamId));
@@ -234,7 +234,7 @@ class Provider extends AbstractProvider
             'openid.sig'          => $this->request->get(self::OPENID_SIG),
             'openid.ns'           => self::OPENID_NS,
             'openid.mode'         => 'check_authentication',
-            'openid.error'      => $this->request->get(self::OPENID_ERROR),
+            'openid.error'       => $this->request->get(self::OPENID_ERROR),
         ];
 
         $signedParams = explode(',', $this->request->get(self::OPENID_SIGNED));
