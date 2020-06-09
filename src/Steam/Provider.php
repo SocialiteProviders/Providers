@@ -86,6 +86,7 @@ class Provider extends AbstractProvider
     {
         if (!$this->validate()) {
             $error = $this->getParams()['openid.error'] ?? 'unknown error';
+
             throw new OpenIDValidationException('Failed to validate OpenID login: '.$error);
         }
 
