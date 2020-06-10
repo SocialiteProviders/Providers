@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Xero;
 
+use Firebase\JWT\JWT;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
-use \Firebase\JWT\JWT;
 
 class Provider extends AbstractProvider
 {
@@ -23,7 +23,14 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['openid','profile','email','accounting.transactions','accounting.settings','accounting.contacts'];
+    protected $scopes = [
+        'openid',
+        'profile',
+        'email',
+        'accounting.transactions',
+        'accounting.settings',
+        'accounting.contacts',
+    ];
 
     /**
      * {@inheritdoc}
@@ -48,10 +55,10 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://api.xero.com/connections', [
             'headers' => [
-                'Authorization' => 'Bearer '.$token,
+                'Authorization' => 'Bearer ' . $token,
             ],
         ]);
-        
+
         return json_decode($response->getBody(), true);
     }
 
@@ -63,14 +70,14 @@ class Provider extends AbstractProvider
         $idToken = $this->credentialsResponseBody['id_token'];
         $tks = explode('.', $idToken);
         list($headb64, $bodyb64, $cryptob64) = $tks;
-        $jwtDecoded = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64),true);
+        $jwtDecoded = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64), true);
 
         return (new User())->map([
-            'id'       => $jwtDecoded->xero_userid,
+            'id' => $jwtDecoded->xero_userid,
             'nickname' => $jwtDecoded->given_name,
-            'name'     => $jwtDecoded->given_name . ' ' . $jwtDecoded->family_name,
-            'email'    => $jwtDecoded->email,
-            'tenants' => $connections
+            'name' => $jwtDecoded->given_name . ' ' . $jwtDecoded->family_name,
+            'email' => $jwtDecoded->email,
+            'tenants' => $connections,
         ]);
     }
 
