@@ -1,0 +1,86 @@
+<?php
+
+namespace SocialiteProviders\Xero;
+
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
+use \Firebase\JWT\JWT;
+
+class Provider extends AbstractProvider
+{
+    /**
+     * Unique Provider Identifier.
+     */
+    const IDENTIFIER = 'XERO';
+
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopes = ['openid','profile','email','accounting.transactions','accounting.settings','accounting.contacts'];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAuthUrl($state)
+    {
+        return $this->buildAuthUrlFromBase('https://login.xero.com/identity/connect/authorize', $state);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenUrl()
+    {
+        return 'https://identity.xero.com/connect/token';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getUserByToken($token)
+    {
+        $response = $this->getHttpClient()->get('https://api.xero.com/connections', [
+            'headers' => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
+        
+        return json_decode($response->getBody(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function mapUserToObject(array $connections)
+    {
+        $idToken = $this->credentialsResponseBody['id_token'];
+        $tks = explode('.', $idToken);
+        list($headb64, $bodyb64, $cryptob64) = $tks;
+        $jwtDecoded = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64),true);
+
+        return (new User())->map([
+            'id'       => $jwtDecoded->xero_userid,
+            'nickname' => $jwtDecoded->given_name,
+            'name'     => $jwtDecoded->given_name . ' ' . $jwtDecoded->family_name,
+            'email'    => $jwtDecoded->email,
+            'tenants' => $connections
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenFields($code)
+    {
+        return array_merge(parent::getTokenFields($code), [
+            'grant_type' => 'authorization_code',
+        ]);
+    }
+}
