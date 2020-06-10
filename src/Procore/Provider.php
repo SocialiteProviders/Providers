@@ -74,7 +74,7 @@ class Provider extends AbstractProvider
             [
                 'headers' => [
                     'Accept'        => 'application/json',
-                    'Authorization' => 'Bearer ' . $token,
+                    'Authorization' => 'Bearer '.$token,
                 ],
             ]
         );

@@ -15,7 +15,7 @@ class ProcoreExtendSocialite
     {
         $socialiteWasCalled->extendSocialite(
             'procore',
-            __NAMESPACE__ . '\Provider'
+            __NAMESPACE__.'\Provider'
         );
     }
 }
