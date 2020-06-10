@@ -159,6 +159,7 @@ parameters:
     src/Withings: 'git@github.com:SocialiteProviders/Withings.git'
     src/WordPress: 'git@github.com:SocialiteProviders/WordPress.git'
     src/Xing: 'git@github.com:SocialiteProviders/Xing.git'
+    src/Xero: 'git@github.com:SocialiteProviders/Xero.git'
     src/xREL: 'git@github.com:SocialiteProviders/xREL.git'
     src/Yahoo: 'git@github.com:SocialiteProviders/Yahoo.git'
     src/Yammer: 'git@github.com:SocialiteProviders/Yammer.git'
