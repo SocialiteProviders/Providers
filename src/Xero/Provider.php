@@ -70,7 +70,7 @@ class Provider extends AbstractProvider
             'nickname' => $jwtDecoded->given_name,
             'name'     => $jwtDecoded->given_name . ' ' . $jwtDecoded->family_name,
             'email'    => $jwtDecoded->email,
-            'tenant_id' => $connections[0]['tenantId']
+            'tenants' => $connections
         ]);
     }
 
