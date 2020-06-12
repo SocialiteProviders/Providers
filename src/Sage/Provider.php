@@ -13,16 +13,9 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'SAGE';
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
-    protected $scopeSeparator = ' ';
-
-    /**
      * {@inheritdoc}
      */
-    protected $scopes = [ ];
+    protected $scopes = ['full_access'];
 
     /**
      * {@inheritdoc}
