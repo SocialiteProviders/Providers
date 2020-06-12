@@ -115,6 +115,7 @@ parameters:
     src/Redbooth: 'git@github.com:SocialiteProviders/Redbooth.git'
     src/Reddit: 'git@github.com:SocialiteProviders/Reddit.git'
     src/RunKeeper: 'git@github.com:SocialiteProviders/RunKeeper.git'
+    src/Sage: 'git@github.com:SocialiteProviders/Sage.git'
     src/SalesForce: 'git@github.com:SocialiteProviders/SalesForce.git'
     src/SciStarter: 'git@github.com:SocialiteProviders/SciStarter.git'
     src/SharePoint: 'git@github.com:SocialiteProviders/SharePoint.git'
