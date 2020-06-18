@@ -30,6 +30,11 @@ class Provider extends AbstractProvider implements ProviderInterface
         'name',
         'email',
     ];
+    
+    /**
+     * {@inheritdoc}
+     */
+    protected $encodingType = PHP_QUERY_RFC3986;
 
     /**
      * The separating character for the requested scopes.
