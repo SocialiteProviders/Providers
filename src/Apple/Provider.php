@@ -30,7 +30,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         'name',
         'email',
     ];
-    
+
     /**
      * {@inheritdoc}
      */
