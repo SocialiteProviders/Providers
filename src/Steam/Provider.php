@@ -205,6 +205,7 @@ class Provider extends AbstractProvider
     {
         return [
             RequestOptions::FORM_PARAMS => $this->getParams(),
+            RequestOptions::PROXY       => $this->getConfig('proxy'),
         ];
     }
 
@@ -298,6 +299,6 @@ class Provider extends AbstractProvider
 
     public static function additionalConfigKeys()
     {
-        return ['api_key', 'realm', 'https'];
+        return ['api_key', 'realm', 'https', 'proxy'];
     }
 }
