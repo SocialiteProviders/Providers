@@ -205,7 +205,7 @@ class Provider extends AbstractProvider
     {
         return [
             RequestOptions::FORM_PARAMS => $this->getParams(),
-            RequestOptions::PROXY => $this->getConfig('proxy')
+            RequestOptions::PROXY       => $this->getConfig('proxy')
         ];
     }
 
