@@ -19,7 +19,7 @@ class Provider extends AbstractProvider
 
     protected function buildAuthUrlFromBase($url, $state)
     {
-        return $url . '?' . http_build_query($this->getCodeFields($state), '', '&', $this->encodingType) . '&redirect_popup=true';
+        return $url.'?'.http_build_query($this->getCodeFields($state), '', '&', $this->encodingType).'&redirect_popup=true';
     }
 
     protected function getTokenUrl()
@@ -33,7 +33,7 @@ class Provider extends AbstractProvider
             'https://api.faceit.com/auth/v1/resources/userinfo',
             [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $token,
+                    'Authorization' => 'Bearer '.$token,
                 ],
             ]
         );
@@ -46,10 +46,10 @@ class Provider extends AbstractProvider
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            $postKey => $this->getTokenFields($code),
+            $postKey  => $this->getTokenFields($code),
             'headers' => [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)
+                'Content-Type'  => 'application/x-www-form-urlencoded',
+                'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
             ]
         ]);
 
@@ -61,7 +61,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'code' => $code,
+            'code'       => $code,
             'grant_type' => 'authorization_code',
         ];
     }
@@ -69,11 +69,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['guid'],
+            'id'       => $user['guid'],
             'nickname' => $user['nickname'],
-            'avatar' => isset($user['picture']) ? $user['picture'] : null,
-            'name' => isset($user['given_name']) ? ($user['given_name'] . ' ' . $user['family_name']) : null,
-            'email' => isset($user['email']) ? $user['email'] : null,
+            'avatar'   => isset($user['picture']) ? $user['picture'] : null,
+            'name'     => isset($user['given_name']) ? ($user['given_name'].' '.$user['family_name']) : null,
+            'email'    => isset($user['email']) ? $user['email'] : null,
         ]);
     }
 }
