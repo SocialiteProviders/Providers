@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
             'headers' => [
                 'Content-Type'  => 'application/x-www-form-urlencoded',
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
-            ]
+            ],
         ]);
 
         $this->credentialsResponseBody = json_decode($response->getBody(), true);
