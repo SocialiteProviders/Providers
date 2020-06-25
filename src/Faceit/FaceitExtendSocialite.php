@@ -8,6 +8,6 @@ class FaceitExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('faceit', __NAMESPACE__ . '\Provider');
+        $socialiteWasCalled->extendSocialite('faceit', __NAMESPACE__.'\Provider');
     }
 }
