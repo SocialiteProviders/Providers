@@ -7,7 +7,7 @@
         "email": "ya.sofwar@yandex.com"
     }],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.0",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },
