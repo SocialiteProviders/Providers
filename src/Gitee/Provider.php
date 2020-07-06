@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
         $user = json_decode($response->getBody(), true);
 
         if (in_array('emails', $this->scopes)) {
-            $user['email'] = $this->getEmailByToken($token);;
+            $user['email'] = $this->getEmailByToken($token);
         }
 
         return $user;
@@ -60,7 +60,7 @@ class Provider extends AbstractProvider
     /**
      * Get the email for the given access token.
      *
-     * @param  string  $token
+     * @param string $token
      * @return string|null
      */
     protected function getEmailByToken($token)
@@ -69,7 +69,8 @@ class Provider extends AbstractProvider
 
         try {
             $response = $this->getHttpClient()->get(
-                $emailsUrl, $this->getRequestOptions($token)
+                $emailsUrl, 
+                $this->getRequestOptions($token)
             );
         } catch (Exception $e) {
             return null;
@@ -102,7 +103,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 
@@ -110,6 +111,7 @@ class Provider extends AbstractProvider
      * Get the default options for an HTTP request.
      *
      * @param string $token
+     * 
      * @return array
      */
     protected function getRequestOptions($token)
