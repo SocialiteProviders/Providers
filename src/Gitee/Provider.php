@@ -61,7 +61,7 @@ class Provider extends AbstractProvider
      * Get the email for the given access token.
      *
      * @param string $token
-     * 
+     *
      * @return string|null
      */
     protected function getEmailByToken($token)
