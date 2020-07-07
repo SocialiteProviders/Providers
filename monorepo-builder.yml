@@ -51,6 +51,7 @@ parameters:
     src/GameWisp: 'git@github.com:SocialiteProviders/GameWisp.git'
     src/GarminConnect: 'git@github.com:SocialiteProviders/GarminConnect.git'
     src/GettyImages: 'git@github.com:SocialiteProviders/GettyImages.git'
+    src/Gitee: 'git@github.com:SocialiteProviders/Gitee.git'
     src/GitHub: 'git@github.com:SocialiteProviders/GitHub.git'
     src/GitLab: 'git@github.com:SocialiteProviders/GitLab.git'
     src/Goodreads: 'git@github.com:SocialiteProviders/Goodreads.git'
