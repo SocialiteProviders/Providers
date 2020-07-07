@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
             'id'       => $user['ZUID'],
             'email'    => $user['Email'],
             'nickname' => $user['Display_Name'],
-            'name'     => $user['First_Name'] . ' ' . $user['Last_Name'],
+            'name'     => $user['First_Name'].' '.$user['Last_Name'],
             'avatar'   => !empty($user['images']) ? $user['images'][0]['url'] : null,
         ]);
     }
