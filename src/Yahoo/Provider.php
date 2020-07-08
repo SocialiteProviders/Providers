@@ -14,11 +14,6 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'YAHOO';
 
     /**
-     * @var string
-     */
-    protected $xoauth_yahoo_guid;
-
-    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
@@ -83,8 +78,6 @@ class Provider extends AbstractProvider
      */
     protected function parseAccessToken($body)
     {
-        $this->xoauth_yahoo_guid = Arr::get($body, 'xoauth_yahoo_guid');
-
         return Arr::get($body, 'access_token');
     }
 }
