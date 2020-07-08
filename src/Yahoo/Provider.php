@@ -14,15 +14,18 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'YAHOO';
 
     /**
-     * @var string
+     * {@inheritdoc}
      */
-    protected $xoauth_yahoo_guid;
+    protected $scopes = ['openid2'];
 
     /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
+        $parseUrl = parse_url($this->redirectUrl);
+        $this->with(['openid2_realm' => $parseUrl['scheme'].'://'.$parseUrl['host']]);
+
         return $this->buildAuthUrlFromBase('https://api.login.yahoo.com/oauth2/request_auth', $state);
     }
 
@@ -39,13 +42,13 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://social.yahooapis.com/v1/user/'.$this->xoauth_yahoo_guid.'/profile?format=json', [
+        $response = $this->getHttpClient()->get('https://api.login.yahoo.com/openid/v1/userinfo', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true)['profile'];
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -57,11 +60,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['guid'],
-            'nickname' => $user['nickname'],
-            'name'     => trim(sprintf('%s %s', Arr::get($user, 'givenName'), Arr::get($user, 'familyName'))),
-            'email'    => Arr::get($user, 'emails.0.handle'),
-            'avatar'   => Arr::get($user, 'image.imageUrl'),
+            'id'       => Arr::get($user, 'sub'),
+            'nickname' => Arr::get($user, 'nickname', Arr::get($user, 'sub')),
+            'name'     => trim(sprintf('%s %s', Arr::get($user, 'given_name'), Arr::get($user, 'family_name'))),
+            'email'    => Arr::get($user, 'email'),
+            'avatar'   => Arr::get($user, 'picture'),
         ]);
     }
 
@@ -80,8 +83,6 @@ class Provider extends AbstractProvider
      */
     protected function parseAccessToken($body)
     {
-        $this->xoauth_yahoo_guid = Arr::get($body, 'xoauth_yahoo_guid');
-
         return Arr::get($body, 'access_token');
     }
 }
