@@ -26,7 +26,12 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['com.intuit.quickbooks.accounting openid profile email phone address'];
+    protected $scopes = ['openid', 'profile', 'email'];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
@@ -71,9 +76,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['sub'],
-            'name'     => trim(sprintf('%s %s', $user['givenName'], $user['familyName'])),
-            'email'    => $user['email'],
+            'id'    => $user['sub'],
+            'name'  => trim(sprintf('%s %s', $user['givenName'], $user['familyName'])),
+            'email' => $user['email'],
         ]);
     }
 
