@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Line;
 
+use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -87,11 +88,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['userId'] ?? $user['sub'] ?? null,
+            'id'       =>  Arr::get($user, 'userId', Arr::get($user, 'sub')),
             'nickname' => null,
-            'name'     => $user['displayName'] ?? $user['name'] ?? null,
-            'avatar'   => $user['pictureUrl'] ?? $user['picture'] ?? null,
-            'email'    => $user['email'] ?? null,
+            'name'     => Arr::get($user, 'displayName', Arr::get($user, 'name')),
+            'avatar'   => Arr::get($user, 'pictureUrl', Arr::get($user, 'picture')),
+            'email'    => Arr::get($user, 'email'),
         ]);
     }
 

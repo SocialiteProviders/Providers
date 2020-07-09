@@ -21,7 +21,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     const IDENTIFIER = 'APPLE';
 
-    private const URL = 'https://appleid.apple.com';
+    const URL = 'https://appleid.apple.com';
 
     /**
      * {@inheritdoc}
@@ -196,15 +196,17 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
+        $fullName = '';
+
         if (request()->filled('user')) {
             $userRequest = json_decode(request('user'), true);
 
             if (array_key_exists('name', $userRequest)) {
                 $user['name'] = $userRequest['name'];
                 $fullName = trim(
-                    ($user['name']['firstName'] ?? '')
+                    Arr::get($user, 'name.firstName', '')
                     .' '
-                    .($user['name']['lastName'] ?? '')
+                    .Arr::get($user, 'name.lastName', '')
                 );
             }
         }
@@ -213,8 +215,8 @@ class Provider extends AbstractProvider implements ProviderInterface
             ->setRaw($user)
             ->map([
                 'id'    => $user['sub'],
-                'name'  => $fullName ?? null,
-                'email' => $user['email'] ?? null,
+                'name'  => $fullName !== '' ? $fullName : null,
+                'email' => Arr::get($user, 'email'),
             ]);
     }
 }

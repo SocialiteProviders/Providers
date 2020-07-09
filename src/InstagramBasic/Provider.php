@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    public const IDENTIFIER = 'INSTAGRAMBASIC';
+    const IDENTIFIER = 'INSTAGRAMBASIC';
 
     /**
      * The user fields being requested.

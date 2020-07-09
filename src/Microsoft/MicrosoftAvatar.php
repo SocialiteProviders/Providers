@@ -32,7 +32,7 @@ class MicrosoftAvatar
      *
      * @return string
      */
-    public function getContentType(): string
+    public function getContentType()
     {
         return $this->response->getHeader('content-type')[0];
     }
@@ -52,7 +52,7 @@ class MicrosoftAvatar
      *
      * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         return 'data:'.$this->getContentType().';base64,'.base64_encode($this->getContents());
     }

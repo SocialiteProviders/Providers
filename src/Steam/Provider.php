@@ -85,7 +85,7 @@ class Provider extends AbstractProvider
     public function user()
     {
         if (!$this->validate()) {
-            $error = $this->getParams()['openid.error'] ?? 'unknown error';
+            $error = Arr::get($this->getParams(), 'openid.error', 'unknown error');
 
             throw new OpenIDValidationException('Failed to validate OpenID login: '.$error);
         }
