@@ -11,6 +11,6 @@ class UFSExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('ufs', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('ufs', Provider::class);
     }
 }

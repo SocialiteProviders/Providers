@@ -13,6 +13,6 @@ class AcclaimExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('acclaim', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('acclaim', Provider::class);
     }
 }

@@ -11,6 +11,6 @@ class MailruExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('mailru', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('mailru', Provider::class);
     }
 }

@@ -13,9 +13,6 @@ class WeixinWebExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'weixinweb',
-            __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('weixinweb', Provider::class);
     }
 }

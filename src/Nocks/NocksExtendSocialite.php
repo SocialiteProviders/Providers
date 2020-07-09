@@ -11,6 +11,6 @@ class NocksExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('nocks', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('nocks', Provider::class);
     }
 }

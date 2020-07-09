@@ -11,6 +11,6 @@ class OSChinaExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('oschina', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('oschina', Provider::class);
     }
 }

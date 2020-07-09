@@ -11,6 +11,6 @@ class WeChatWebExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('wechat_web', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('wechat_web', Provider::class);
     }
 }

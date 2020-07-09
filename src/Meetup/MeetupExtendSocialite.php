@@ -8,6 +8,6 @@ class MeetupExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('meetup', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('meetup', Provider::class);
     }
 }

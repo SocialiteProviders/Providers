@@ -11,6 +11,6 @@ class ZohoExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('zoho', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('zoho', Provider::class);
     }
 }

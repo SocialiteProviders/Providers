@@ -13,9 +13,6 @@ class RunKeeperExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'runkeeper',
-            __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('runkeeper', Provider::class);
     }
 }

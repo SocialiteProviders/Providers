@@ -13,6 +13,6 @@ class QuickBooksExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('quickbooks', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('quickbooks', Provider::class);
     }
 }

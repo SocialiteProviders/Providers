@@ -11,6 +11,6 @@ class GiteeExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('gitee', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('gitee', Provider::class);
     }
 }

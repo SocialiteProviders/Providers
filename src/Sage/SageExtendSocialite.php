@@ -11,6 +11,6 @@ class SageExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('sage', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('sage', Provider::class);
     }
 }

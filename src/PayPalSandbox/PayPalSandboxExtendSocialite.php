@@ -13,9 +13,6 @@ class PayPalSandboxExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'paypal_sandbox',
-            __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('paypal_sandbox', Provider::class);
     }
 }

@@ -11,6 +11,6 @@ class SharePointExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('sharepoint', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('sharepoint', Provider::class);
     }
 }

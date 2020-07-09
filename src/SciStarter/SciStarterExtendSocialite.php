@@ -11,6 +11,6 @@ class SciStarterExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('scistarter', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('scistarter', Provider::class);
     }
 }

@@ -8,6 +8,6 @@ class WordPressExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('wordpress', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('wordpress', Provider::class);
     }
 }

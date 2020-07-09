@@ -11,6 +11,6 @@ class XeroExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('xero', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('xero', Provider::class);
     }
 }

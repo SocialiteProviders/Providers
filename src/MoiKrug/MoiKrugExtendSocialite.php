@@ -11,6 +11,6 @@ class MoiKrugExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('moikrug', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('moikrug', Provider::class);
     }
 }
