@@ -19,12 +19,15 @@ class Provider extends AbstractProvider
     protected $scopes = ['openid2'];
 
     /**
+     * Note: When redirectUrl is OOB, it will not add openid2_realm in params
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
         $parseUrl = parse_url($this->redirectUrl);
-        $this->with(['openid2_realm' => $parseUrl['scheme'].'://'.$parseUrl['host']]);
+        if (array_key_exists('scheme', $parseUrl) && array_key_exists('host', $parseUrl)) {
+            $this->with(['openid2_realm' => $parseUrl['scheme'].'://'.$parseUrl['host']]);
+        }
 
         return $this->buildAuthUrlFromBase('https://api.login.yahoo.com/oauth2/request_auth', $state);
     }
