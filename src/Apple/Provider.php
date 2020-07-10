@@ -8,13 +8,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
-use Laravel\Socialite\Two\ProviderInterface;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.

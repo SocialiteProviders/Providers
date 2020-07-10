@@ -4,9 +4,8 @@ namespace SocialiteProviders\Jira;
 
 use GuzzleHttp\Psr7\Uri;
 use League\OAuth1\Client\Signature\Signature;
-use League\OAuth1\Client\Signature\SignatureInterface;
 
-class RsaSha1Signature extends Signature implements SignatureInterface
+class RsaSha1Signature extends Signature
 {
     private $certPath = '';
     private $certPassphrase = '';

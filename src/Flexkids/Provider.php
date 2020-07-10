@@ -3,14 +3,13 @@
 namespace SocialiteProviders\Flexkids;
 
 use Illuminate\Auth\AuthenticationException;
-use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 /**
  * Class Provider.
  */
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
