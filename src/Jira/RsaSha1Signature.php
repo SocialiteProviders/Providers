@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Jira;
 
+use Exception;
 use GuzzleHttp\Psr7\Uri;
 use League\OAuth1\Client\Signature\Signature;
 use League\OAuth1\Client\Signature\SignatureInterface;
@@ -31,7 +32,7 @@ class RsaSha1Signature extends Signature implements SignatureInterface
         $certificate = openssl_pkey_get_private("file://$this->certPath", $this->certPassphrase);
 
         if ($certificate === false) {
-            throw new \Exception('Cannot get private key.');
+            throw new Exception('Cannot get private key.');
         }
 
         // Pull the private key ID from the certificate

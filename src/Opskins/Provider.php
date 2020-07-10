@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Opskins;
 
 use GuzzleHttp\ClientInterface;
+use RuntimeException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -68,7 +69,7 @@ class Provider extends AbstractProvider
         $response = json_decode($contents, true);
 
         if (!is_array($response) || !isset($response['response'])) {
-            throw new \RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Invalid JSON response from OPSKINS: %s',
                 $contents
             ));
