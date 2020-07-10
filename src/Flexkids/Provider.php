@@ -35,9 +35,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         $bashUrl = $this->buildAuthUrlFromBase($this->getConfig('authurl'), $state);
-        $url = sprintf('%s&resource=%s', $bashUrl, urlencode($this->getConfig('resource')));
 
-        return $url;
+        return sprintf('%s&resource=%s', $bashUrl, urlencode($this->getConfig('resource')));
     }
 
     /**

@@ -75,9 +75,7 @@ class RsaSha1Signature extends Signature implements SignatureInterface
      */
     protected function createUrl($uri)
     {
-        $theUri = new Uri($uri);
-
-        return $theUri;
+        return new Uri($uri);
     }
 
     /**

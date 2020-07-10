@@ -81,9 +81,8 @@ class Provider extends AbstractProvider
             $userUrl,
             $this->getRequestOptions()
         );
-        $user = json_decode($response->getBody(), true);
 
-        return $user;
+        return json_decode($response->getBody(), true);
     }
 
     /**

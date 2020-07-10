@@ -99,9 +99,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        $a = parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
-
-        return $a;
+        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
     }
 
     /**
