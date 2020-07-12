@@ -1,6 +1,8 @@
 name: Test
 
-on: [push]
+on:
+  - push
+  - pull_request
 
 jobs:
   run:
@@ -9,7 +11,13 @@ jobs:
       max-parallel: 15
       fail-fast: false
       matrix:
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions:
+        - '5.6
+        - '7.0'
+        - '7.1'
+        - '7.2'
+        - '7.3'
+        - '7.4'
     name: PHP ${{ matrix.php-versions }}
     steps:
       - name: Checkout
@@ -25,14 +33,15 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-suggest
 
-      - name: Lint composer.json
-        run: composer validate
+      - name: Validate all composer.json files
+        if: matrix.php-versions == '7.4'
+        run: sh .github/workflows/composer_validate.sh
 
       - name: Run Tests
         run: composer test:ci
 
       - name: Upload code coverage
-        if: matrix.php-versions == '7.3'
+        if: matrix.php-versions == '7.4'
         run: |
           wget https://scrutinizer-ci.com/ocular.phar
           php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
