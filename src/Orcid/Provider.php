@@ -162,7 +162,7 @@ class Provider extends AbstractProvider
     protected function getEmail($user)
     {
         foreach ($user['person']['emails']['email'] as $m) {
-            if ($m['primary'] == true and $m['verified'] == true) {
+            if ($m['primary'] == true && $m['verified'] == true) {
                 return $m['email'];
             }
         }
@@ -211,13 +211,5 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return parent::getTokenFields($code) + ['grant_type' => 'authorization_code', 'orcid' => 'orcid'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
-    {
-        return [];
     }
 }
