@@ -14,7 +14,7 @@
     },
     "require-dev": {
         "symplify/monorepo-builder": "^6.1",
-        "phpunit/phpunit": "^8.0"
+        "phpunit/phpunit": "^6.0 || ^8.0"
     },
     "scripts": {
         "test": "phpunit",
