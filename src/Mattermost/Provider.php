@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Mattermost;
 
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -109,7 +110,7 @@ class Provider extends AbstractProvider
     {
         $uri = $this->getConfig('instance_uri', null);
         if (!$uri) {
-            throw new \InvalidArgumentException('No instance_uri. ENV['.self::IDENTIFIER.'_INSTANCE_URI]=https://mm.example.com/ must be provided.');
+            throw new InvalidArgumentException('No instance_uri. ENV['.self::IDENTIFIER.'_INSTANCE_URI]=https://mm.example.com/ must be provided.');
         }
 
         return $uri;

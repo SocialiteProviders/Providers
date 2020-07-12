@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\MediaCube;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -82,6 +83,6 @@ class Provider extends AbstractProvider
      */
     protected function parseAccessToken($body)
     {
-        return \Arr::get($body, 'access_token');
+        return Arr::get($body, 'access_token');
     }
 }

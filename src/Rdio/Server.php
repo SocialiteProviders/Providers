@@ -2,6 +2,8 @@
 
 namespace SocialiteProviders\Rdio;
 
+use Exception;
+use InvalidArgumentException;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 use SocialiteProviders\Manager\OAuth1\User;
@@ -102,7 +104,7 @@ class Server extends BaseServer
                 $body = $response->getBody();
                 $statusCode = $response->getStatusCode();
 
-                throw new \Exception(
+                throw new Exception(
                     "Received error [$body] with status code [$statusCode] when retrieving token credentials."
                 );
             }
@@ -121,7 +123,7 @@ class Server extends BaseServer
                     break;
 
                 default:
-                    throw new \InvalidArgumentException("Invalid response type [{$this->responseType}].");
+                    throw new InvalidArgumentException("Invalid response type [{$this->responseType}].");
             }
         }
 
