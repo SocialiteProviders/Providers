@@ -34,8 +34,6 @@ class Provider extends AbstractProvider
             'timezone' => Arr::get($user, 'timeZone'),
             'locale'   => Arr::get($user, 'locale'),
         ]);
-
-        return $userObject;
     }
 
     public static function additionalConfigKeys()
