@@ -11,6 +11,6 @@ class TVShowTimeExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('tvshowtime', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('tvshowtime', Provider::class);
     }
 }

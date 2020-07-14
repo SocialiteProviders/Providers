@@ -8,6 +8,6 @@ class DoubanExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('douban', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('douban', Provider::class);
     }
 }

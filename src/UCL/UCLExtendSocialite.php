@@ -11,6 +11,6 @@ class UCLExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('uclapi', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('uclapi', Provider::class);
     }
 }

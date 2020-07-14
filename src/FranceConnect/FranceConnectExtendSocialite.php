@@ -13,9 +13,6 @@ class FranceConnectExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'franceconnect',
-            __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('franceconnect', Provider::class);
     }
 }

@@ -11,6 +11,6 @@ class TeamServiceExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('teamservice', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('teamservice', Provider::class);
     }
 }

@@ -15,7 +15,7 @@ class TumblrExtendSocialite
     {
         $socialiteWasCalled->extendSocialite(
             'tumblr',
-            __NAMESPACE__.'\Provider',
+            Provider::class,
             \SocialiteProviders\Tumblr\Server::class
         );
     }

@@ -11,6 +11,6 @@ class SmashcastExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('hitbox', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('hitbox', Provider::class);
     }
 }

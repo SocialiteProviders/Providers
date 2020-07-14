@@ -11,10 +11,6 @@ class EtsyExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'etsy',
-            __NAMESPACE__.'\Provider',
-            __NAMESPACE__.'\Server'
-        );
+        $socialiteWasCalled->extendSocialite('etsy', Provider::class, Server::class);
     }
 }

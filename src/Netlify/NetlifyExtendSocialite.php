@@ -11,6 +11,6 @@ class NetlifyExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('netlify', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('netlify', Provider::class);
     }
 }

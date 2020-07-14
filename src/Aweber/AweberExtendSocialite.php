@@ -13,10 +13,6 @@ class AweberExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'aweber',
-            __NAMESPACE__.'\Provider',
-            __NAMESPACE__.'\Server'
-        );
+        $socialiteWasCalled->extendSocialite('aweber', Provider::class, Server::class);
     }
 }

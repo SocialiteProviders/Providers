@@ -11,6 +11,6 @@ class ShopifyExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('shopify', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('shopify', Provider::class);
     }
 }

@@ -11,6 +11,6 @@ class AmazonExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('amazon', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('amazon', Provider::class);
     }
 }

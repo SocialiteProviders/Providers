@@ -8,6 +8,6 @@ class WeiboExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('weibo', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('weibo', Provider::class);
     }
 }

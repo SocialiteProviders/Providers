@@ -11,6 +11,6 @@ class ZaloExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('zalo', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('zalo', Provider::class);
     }
 }

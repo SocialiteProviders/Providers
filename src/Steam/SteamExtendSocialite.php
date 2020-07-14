@@ -13,6 +13,6 @@ class SteamExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('steam', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('steam', Provider::class);
     }
 }

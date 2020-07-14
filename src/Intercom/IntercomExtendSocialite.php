@@ -11,6 +11,6 @@ class IntercomExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('intercom', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('intercom', Provider::class);
     }
 }

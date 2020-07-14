@@ -11,6 +11,6 @@ class PeeringDBExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('peeringdb', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('peeringdb', Provider::class);
     }
 }

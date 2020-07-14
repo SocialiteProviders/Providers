@@ -11,6 +11,6 @@ class EnvatoExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('envato', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('envato', Provider::class);
     }
 }

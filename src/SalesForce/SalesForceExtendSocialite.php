@@ -15,7 +15,7 @@ class SalesForceExtendSocialite
     {
         $socialiteWasCalled->extendSocialite(
             Provider::PROVIDER_NAME,
-            __NAMESPACE__.'\Provider'
+            Provider::class
         );
     }
 }

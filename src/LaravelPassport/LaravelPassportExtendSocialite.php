@@ -11,6 +11,6 @@ class LaravelPassportExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('laravelpassport', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('laravelpassport', Provider::class);
     }
 }
