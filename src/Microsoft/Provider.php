@@ -41,7 +41,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://login.microsoftonline.com/common/oauth2/v2.0/token';
+        return 'https://login.microsoftonline.com/'.($this->config['tenant'] ?: 'common').'/oauth2/v2.0/token';
     }
 
     /**
