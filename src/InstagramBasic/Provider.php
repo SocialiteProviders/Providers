@@ -75,6 +75,7 @@ class Provider extends AbstractProvider
             'email'        => null,
             'avatar'       => null,
             'account_type' => $user['account_type'],
+            'media_count'  => $user['media_count'] ?? null,
         ]);
     }
 
