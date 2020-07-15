@@ -17,12 +17,12 @@ class Provider extends AbstractProvider
      *
      * @var array
      */
-    protected $fields = ['account_type', 'id', 'media_count', 'username'];
+    protected $fields = ['account_type', 'id', 'username'];
 
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['user_profile', 'user_media'];
+    protected $scopes = ['user_profile'];
 
     /**
      * {@inheritdoc}
@@ -75,7 +75,6 @@ class Provider extends AbstractProvider
             'email'        => null,
             'avatar'       => null,
             'account_type' => $user['account_type'],
-            'media_count'  => $user['media_count'],
         ]);
     }
 
