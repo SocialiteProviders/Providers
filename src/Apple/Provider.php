@@ -139,17 +139,17 @@ class Provider extends AbstractProvider
             return json_decode(file_get_contents(self::URL.'/auth/keys'), true);
         });
 
-        $public_keys = JWK::parseKeySet($data);
+        $publicKeys = JWK::parseKeySet($data);
 
-        $signature_verified = false;
+        $signatureVerified = false;
 
-        foreach ($public_keys as $res) {
+        foreach ($publicKeys as $res) {
             $publicKey = openssl_pkey_get_details($res);
             if ($token->verify($signer, $publicKey['key'])) {
-                $signature_verified = true;
+                $signatureVerified = true;
             }
         }
-        if (!$signature_verified) {
+        if (!$signatureVerified) {
             throw new InvalidStateException('Invalid JWT Signature');
         }
 
@@ -164,12 +164,12 @@ class Provider extends AbstractProvider
         //Temporary fix to enable stateless
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        $apple_user_token = $this->getUserByToken(
+        $appleUserToken = $this->getUserByToken(
             $token = Arr::get($response, 'id_token')
         );
 
         if ($this->usesState()) {
-            list($uuid, $state) = explode('.', $apple_user_token['nonce']);
+            list($uuid, $state) = explode('.', $appleUserToken['nonce']);
             if (md5($state) == $this->request->input('state')) {
                 $this->request->session()->put('state', md5($state));
                 $this->request->session()->put('state_verify', $state);
@@ -179,7 +179,7 @@ class Provider extends AbstractProvider
             }
         }
 
-        $user = $this->mapUserToObject($apple_user_token);
+        $user = $this->mapUserToObject($appleUserToken);
 
         if ($user instanceof User) {
             $user->setAccessTokenResponseBody($response);
