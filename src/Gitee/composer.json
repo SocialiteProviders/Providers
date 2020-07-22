@@ -2,12 +2,14 @@
     "name": "socialiteproviders/gitee",
     "description": "Gitee OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "mowangjuanzi",
-        "email": "baoguoxiao0538@hotmail.com"
-    }],
+    "authors": [
+        {
+            "name": "mowangjuanzi",
+            "email": "baoguoxiao0538@hotmail.com"
+        }
+    ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

@@ -2,13 +2,16 @@
     "name": "socialiteproviders/claveunica",
     "description": "ClaveUnica OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Rodrigore",
-        "email": "rodrigopcg@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "Rodrigore",
+            "email": "rodrigopcg@gmail.com"
+        }
+    ],
     "require": {
-        "php": ">=5.5.9",
-        "socialiteproviders/manager": "^2.0"
+        "php": "^7.2",
+        "socialiteproviders/manager": "~2.0 || ~3.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

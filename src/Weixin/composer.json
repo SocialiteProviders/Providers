@@ -2,15 +2,18 @@
     "name": "socialiteproviders/weixin",
     "description": "Weixin OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "xyxu",
-        "email": "techxu@gmail.com"
-    }, {
-        "name": "xiami",
-        "email": "jhdxr@php.net"
-    }],
+    "authors": [
+        {
+            "name": "xyxu",
+            "email": "techxu@gmail.com"
+        },
+        {
+            "name": "xiami",
+            "email": "jhdxr@php.net"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

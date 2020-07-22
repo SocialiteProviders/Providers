@@ -4,11 +4,12 @@
     "license": "MIT",
     "authors": [
         {
-        "name": "Kevin Xu",
-        "email": "kevin830802@gmail.com"
-    }],
+            "name": "Kevin Xu",
+            "email": "kevin830802@gmail.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

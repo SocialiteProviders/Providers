@@ -2,12 +2,14 @@
     "name": "socialiteproviders/venmo",
     "description": "Venmo OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Daniel Abernathy",
-        "email": "dabernathy89@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "Daniel Abernathy",
+            "email": "dabernathy89@gmail.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },
