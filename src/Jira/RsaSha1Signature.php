@@ -92,10 +92,10 @@ class RsaSha1Signature extends Signature
     {
         $baseString = rawurlencode($method).'&';
         $schemeHostPath = $url->getScheme().'://'.$url->getHost();
-        if ($url->getPort() != '') {
+        if ($url->getPort() !== '') {
             $schemeHostPath .= ':'.$url->getPort();
         }
-        if ($url->getPath() != '') {
+        if ($url->getPath() !== '') {
             $schemeHostPath .= $url->getPath();
         }
         $baseString .= rawurlencode($schemeHostPath).'&';

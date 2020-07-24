@@ -78,7 +78,7 @@ class Provider extends AbstractProvider
         }
 
         foreach (json_decode($response->getBody(), true) as $email) {
-            if ($email['state'] == 'confirmed' && in_array('primary', $email['scope'])) {
+            if ($email['state'] === 'confirmed' && in_array('primary', $email['scope'])) {
                 return $email['email'];
             }
         }
