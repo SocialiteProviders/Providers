@@ -103,9 +103,7 @@ class Provider extends AbstractProvider
         return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     protected function getInstanceUri()
     {
         $uri = $this->getConfig('instance_uri', null);

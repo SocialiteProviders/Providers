@@ -71,9 +71,7 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     protected function getInstanceUri()
     {
         return $this->getConfig('instance_uri', 'https://account.ufutx.com/');

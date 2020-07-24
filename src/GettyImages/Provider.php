@@ -22,9 +22,7 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
+
 
     /**
      * {@inheritdoc}
@@ -45,9 +43,7 @@ class Provider extends AbstractProvider
         return 'https://api.gettyimages.com/oauth2/token';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post(

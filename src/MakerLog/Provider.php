@@ -51,9 +51,7 @@ class Provider extends AbstractProvider
         return $this->baseUrl().'/oauth/token/';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     protected function getEmailUrl()
     {
         return $this->baseUrl().'/accounts/read_email/';

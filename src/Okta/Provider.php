@@ -39,9 +39,7 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
+
     protected function getOktaUrl()
     {
         return $this->getConfig('base_url');
