@@ -12,7 +12,7 @@ use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 
 class Server extends BaseServer
 {
-    const JIRA_BASE_URL = 'http://example.jira.com';
+    const JIRA_BASE_URL = 'https://example.jira.com';
 
     private $jiraBaseUrl;
     private $jiraCertPath;

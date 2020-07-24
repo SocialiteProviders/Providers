@@ -22,7 +22,7 @@ class Server extends BaseServer
      */
     public function urlTemporaryCredentials()
     {
-        return 'http://www.goodreads.com/oauth/request_token';
+        return 'https://www.goodreads.com/oauth/request_token';
     }
 
     /**
@@ -38,7 +38,7 @@ class Server extends BaseServer
      */
     public function urlTokenCredentials()
     {
-        return 'http://www.goodreads.com/oauth/access_token';
+        return 'https://www.goodreads.com/oauth/access_token';
     }
 
     /**
@@ -46,7 +46,7 @@ class Server extends BaseServer
      */
     public function urlUserDetails()
     {
-        return 'http://www.goodreads.com/api/auth_user';
+        return 'https://www.goodreads.com/api/auth_user';
     }
 
     /**

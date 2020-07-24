@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('http://api.opskins.com/IUser/GetProfile/v1/', [
+        $response = $this->getHttpClient()->get('https://api.opskins.com/IUser/GetProfile/v1/', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
