@@ -41,7 +41,6 @@ class Provider extends AbstractProvider
         return 'https://api.mollie.com/oauth2/tokens';
     }
 
-
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
@@ -53,7 +52,6 @@ class Provider extends AbstractProvider
 
         return $this->parseAccessToken($response->getBody());
     }
-
 
     public function getRefreshTokenResponse($refreshToken)
     {
@@ -76,7 +74,6 @@ class Provider extends AbstractProvider
 
         return json_decode($response->getBody(), true);
     }
-
 
     public function getRefreshTokenFields($refreshToken)
     {

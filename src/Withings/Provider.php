@@ -12,7 +12,6 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'WITHINGS';
 
-
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user['extra'])->map([

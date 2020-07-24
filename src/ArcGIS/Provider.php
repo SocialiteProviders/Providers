@@ -12,7 +12,6 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'ARCGIS';
 
-
     protected function getBaseUrl()
     {
         $port = is_null($this->getServerPort()) ? '' : ':'.$this->getServerPort();
@@ -82,18 +81,15 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
     protected function getServerHost()
     {
         return $this->getConfig('arcgis_host', 'www.arcgis.com');
     }
 
-
     protected function getServerPort()
     {
         return $this->getConfig('arcgis_port', null);
     }
-
 
     protected function getServerDirectory()
     {

@@ -51,7 +51,6 @@ class Provider extends AbstractProvider
         return json_decode($response->getBody(), true);
     }
 
-
     public function getRefreshTokenFields($refreshToken)
     {
         return [

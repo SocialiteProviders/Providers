@@ -107,7 +107,6 @@ class Provider extends AbstractProvider
         ];
     }
 
-
     protected function getUserAgent()
     {
         return implode(':', [

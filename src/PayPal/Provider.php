@@ -70,7 +70,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [

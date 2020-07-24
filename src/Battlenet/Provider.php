@@ -78,7 +78,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
     protected function getRegion()
     {
         if (self::$region) {

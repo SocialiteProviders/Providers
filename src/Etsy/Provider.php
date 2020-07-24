@@ -12,7 +12,6 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'ETSY';
 
-
     protected function mapUserToObject(array $user)
     {
         return (new User())->map([
