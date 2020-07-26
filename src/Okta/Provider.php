@@ -16,7 +16,7 @@ class Provider extends AbstractProvider
     /**
      * Scopes defintions.
      *
-     * @see http://developer.okta.com/docs/api/resources/oidc.html#scopes
+     * @see https://developer.okta.com/docs/reference/api/oidc/#scopes
      */
     const SCOPE_OPENID = 'openid';
     const SCOPE_PROFILE = 'profile';

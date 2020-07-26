@@ -22,7 +22,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('http://app.netlify.com/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://app.netlify.com/authorize', $state);
     }
 
     /**

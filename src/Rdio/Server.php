@@ -15,7 +15,7 @@ class Server extends BaseServer
      */
     public function urlTemporaryCredentials()
     {
-        return 'http://api.rdio.com/oauth/request_token';
+        return 'https://api.rdio.com/oauth/request_token';
     }
 
     /**
@@ -31,7 +31,7 @@ class Server extends BaseServer
      */
     public function urlTokenCredentials()
     {
-        return 'http://api.rdio.com/oauth/access_token';
+        return 'https://api.rdio.com/oauth/access_token';
     }
 
     /**
@@ -39,7 +39,7 @@ class Server extends BaseServer
      */
     public function urlUserDetails()
     {
-        return 'http://api.rdio.com/1/';
+        return 'https://api.rdio.com/1/';
     }
 
     /**
