@@ -24,9 +24,6 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuth0Url()
     {
         return $this->getConfig('base_url');

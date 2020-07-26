@@ -144,9 +144,6 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map($user);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [

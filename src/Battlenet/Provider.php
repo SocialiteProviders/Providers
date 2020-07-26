@@ -78,9 +78,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getRegion()
     {
         if (self::$region) {

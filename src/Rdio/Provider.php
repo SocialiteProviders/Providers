@@ -12,9 +12,6 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'RDIO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user['extra'])->map([

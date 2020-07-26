@@ -107,9 +107,6 @@ class Provider extends AbstractProvider
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getUserAgent()
     {
         return implode(':', [

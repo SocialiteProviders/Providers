@@ -86,9 +86,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getWebsiteUrl()
     {
         if ($this->getConfig('test')) {
@@ -98,9 +95,6 @@ class Provider extends AbstractProvider
         return 'https://www.nocks.com/';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getApiUrl()
     {
         if ($this->getConfig('test')) {

@@ -25,10 +25,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
@@ -45,9 +41,6 @@ class Provider extends AbstractProvider
         return 'https://api.gettyimages.com/oauth2/token';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post(
