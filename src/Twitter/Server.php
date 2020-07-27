@@ -63,7 +63,7 @@ class Server extends BaseServer
 
         foreach ($data as $key => $value) {
             if (strpos($key, 'url') !== false) {
-                if (!in_array($key, $used)) {
+                if (!in_array($key, $used, true)) {
                     $used[] = $key;
                 }
 

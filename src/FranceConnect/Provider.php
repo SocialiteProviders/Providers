@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function getBaseUrl()
     {
-        return config('app.env') == 'production' ? self::PROD_BASE_URL : self::TEST_BASE_URL;
+        return config('app.env') === 'production' ? self::PROD_BASE_URL : self::TEST_BASE_URL;
     }
 
     /**

@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
 
         $user = json_decode($response->getBody(), true);
 
-        if (in_array('emails', $this->scopes)) {
+        if (in_array('emails', $this->scopes, true)) {
             $user['email'] = $this->getEmailByToken($token);
         }
 
@@ -78,7 +78,7 @@ class Provider extends AbstractProvider
         }
 
         foreach (json_decode($response->getBody(), true) as $email) {
-            if ($email['state'] == 'confirmed' && in_array('primary', $email['scope'])) {
+            if ($email['state'] === 'confirmed' && in_array('primary', $email['scope'], true)) {
                 return $email['email'];
             }
         }

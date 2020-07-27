@@ -76,7 +76,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        if (in_array('snsapi_base', $this->scopes)) {
+        if (in_array('snsapi_base', $this->scopes, true)) {
             $user = ['openid' => $this->openId];
         } else {
             $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
