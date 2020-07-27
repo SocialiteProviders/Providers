@@ -59,7 +59,7 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             // HACK: use unionid as user id
-            'id'       => in_array('unionid', $this->getScopes()) ? $user['unionid'] : $user['openid'],
+            'id'       => in_array('unionid', $this->getScopes(), true) ? $user['unionid'] : $user['openid'],
             // HACK: Tencent scope snsapi_base only return openid
             'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
             'name'     => null,
@@ -99,7 +99,7 @@ class Provider extends AbstractProvider
     protected function formatScopes(array $scopes, $scopeSeparator)
     {
         // HACK: unionid is a faker scope for user id
-        if (in_array('unionid', $scopes)) {
+        if (in_array('unionid', $scopes, true)) {
             unset($scopes[array_search('unionid', $scopes)]);
         }
 
