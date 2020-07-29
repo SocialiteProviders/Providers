@@ -17,8 +17,9 @@
         }
     ],
     "require": {
-        "php": "^5.6 || ^7.1",
-        "socialiteproviders/manager": "~2.0 || ~3.0"
+        "php": "^7.2",
+        "socialiteproviders/manager": "~2.0 || ~3.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

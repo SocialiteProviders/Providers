@@ -2,14 +2,16 @@
     "name": "socialiteproviders/nocks",
     "description": "Nocks OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Paul Wijnberg",
-        "email": "contact@wijnberg.dev"
-    }],
+    "authors": [
+        {
+            "name": "Paul Wijnberg",
+            "email": "contact@wijnberg.dev"
+        }
+    ],
     "require": {
-        "php": ">=5.5.9",
+        "php": "^7.2",
         "ext-json": "*",
-        "socialiteproviders/manager": "^2.0|^3.0"
+        "socialiteproviders/manager": "~2.0 || ~3.0"
     },
     "autoload": {
         "psr-4": {

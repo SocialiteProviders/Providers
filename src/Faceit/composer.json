@@ -2,12 +2,14 @@
     "name": "socialiteproviders/faceit",
     "description": "Faceit OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Dzmitry Bekish",
-        "email": "ya.sofwar@yandex.com"
-    }],
+    "authors": [
+        {
+            "name": "Dzmitry Bekish",
+            "email": "ya.sofwar@yandex.com"
+        }
+    ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

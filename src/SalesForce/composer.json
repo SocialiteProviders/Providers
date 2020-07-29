@@ -2,12 +2,14 @@
     "name": "socialiteproviders/salesforce",
     "description": "SalesForce OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Andy Wendt",
-        "email": "andy@awendt.com"
-    }],
+    "authors": [
+        {
+            "name": "Andy Wendt",
+            "email": "andy@awendt.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

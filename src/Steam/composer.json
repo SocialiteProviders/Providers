@@ -2,12 +2,14 @@
     "name": "socialiteproviders/steam",
     "description": "Steam OpenID Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Christopher Eklund",
-        "email": "eklundchristopher@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "Christopher Eklund",
+            "email": "eklundchristopher@gmail.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

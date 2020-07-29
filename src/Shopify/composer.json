@@ -2,12 +2,14 @@
     "name": "socialiteproviders/shopify",
     "description": "Shopify OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "James Cullen",
-        "email": "hello@jamescullen.me"
-    }],
+    "authors": [
+        {
+            "name": "James Cullen",
+            "email": "hello@jamescullen.me"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

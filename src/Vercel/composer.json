@@ -2,14 +2,16 @@
     "name": "socialiteproviders/vercel",
     "description": "Vercel OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Miguel Piedrafita",
-        "email": "soy@miguelpiedrafita.com"
-    }],
+    "authors": [
+        {
+            "name": "Miguel Piedrafita",
+            "email": "soy@miguelpiedrafita.com"
+        }
+    ],
     "require": {
-        "php": ">=5.5.9",
+        "php": "^7.2",
         "ext-json": "*",
-        "socialiteproviders/manager": "^3.0"
+        "socialiteproviders/manager": "~2.0 || ~3.0"
     },
     "autoload": {
         "psr-4": {

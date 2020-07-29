@@ -2,12 +2,14 @@
     "name": "socialiteproviders/battlenet",
     "description": "Battlenet OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Anand Capur",
-        "email": "github@anand.io"
-    }],
+    "authors": [
+        {
+            "name": "Anand Capur",
+            "email": "github@anand.io"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },
