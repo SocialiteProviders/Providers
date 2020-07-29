@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
     {
         $idToken = $this->credentialsResponseBody['id_token'];
         $tks = explode('.', $idToken);
-        list($headb64, $bodyb64, $cryptob64) = $tks;
+        [$headb64, $bodyb64, $cryptob64] = $tks;
         $jwtDecoded = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64), true);
 
         return (new User())->map([
