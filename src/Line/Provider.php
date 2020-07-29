@@ -121,7 +121,7 @@ class Provider extends AbstractProvider
         $response = $this->getAccessTokenResponse($this->getCode());
 
         if ($jwt = $response['id_token'] ?? null) {
-            [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
+            $bodyb64 = explode('.', $jwt)[1];
             $user = $this->mapUserToObject(json_decode(base64_decode(strtr($bodyb64, '-_', '+/')), true));
         } else {
             $user = $this->mapUserToObject($this->getUserByToken(
