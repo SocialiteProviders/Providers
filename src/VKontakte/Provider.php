@@ -56,9 +56,10 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $from_token = [];
+        $formToken = [];
+
         if (is_array($token)) {
-            $from_token['email'] = isset($token['email']) ? $token['email'] : null;
+            $formToken['email'] = isset($token['email']) ? $token['email'] : null;
 
             $token = $token['access_token'];
         }
@@ -83,7 +84,7 @@ class Provider extends AbstractProvider
             ));
         }
 
-        return array_merge($from_token, $response['response'][0]);
+        return array_merge($formToken, $response['response'][0]);
     }
 
     /**
