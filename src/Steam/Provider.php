@@ -3,7 +3,6 @@
 namespace SocialiteProviders\Steam;
 
 use GuzzleHttp\RequestOptions;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use RuntimeException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
