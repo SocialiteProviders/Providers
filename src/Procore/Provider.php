@@ -12,8 +12,6 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'PROCORE';
 
-
-
     /**
      * {@inheritdoc}
      */

@@ -13,8 +13,6 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'MATTERMOST';
 
-
-
     /**
      * {@inheritdoc}
      */

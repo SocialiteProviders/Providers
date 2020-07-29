@@ -17,8 +17,6 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'SLACK';
 
-
-
     /**
      * {@inheritdoc}
      */
@@ -48,7 +46,7 @@ class Provider extends AbstractProvider
                 }
 
                 return $handler($request, $options)->then(
-                    function (ResponseInterface $response) use ($request, $handler) {
+                    function (ResponseInterface $response) use ($request) {
                         $body = json_decode($response->getBody()->getContents(), true);
                         $response->getBody()->rewind();
 
