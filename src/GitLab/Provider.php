@@ -12,10 +12,7 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'GITLAB';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+
 
     /**
      * {@inheritdoc}

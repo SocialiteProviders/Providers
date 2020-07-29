@@ -12,10 +12,7 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'GETTYIMAGES';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+
 
     /**
      * {@inheritdoc}

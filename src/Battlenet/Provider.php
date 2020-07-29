@@ -12,17 +12,14 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'BATTLENET';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+
 
     /**
      * {@inheritdoc}
      */
     protected $scopeSeparator = '+';
 
-    protected static $region = null;
+    protected static $region;
 
     /**
      * {@inheritdoc}

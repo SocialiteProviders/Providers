@@ -12,10 +12,7 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'SHOPIFY';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+
 
     /**
      * {@inheritdoc}

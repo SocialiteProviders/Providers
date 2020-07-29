@@ -12,10 +12,7 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'UFUTX';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+
 
     /**
      * {@inheritdoc}

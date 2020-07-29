@@ -12,10 +12,6 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'DATAPORTEN';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
 
     /**
      * {@inheritdoc}

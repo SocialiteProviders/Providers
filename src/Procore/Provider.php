@@ -12,10 +12,7 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'PROCORE';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+
 
     /**
      * {@inheritdoc}

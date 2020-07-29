@@ -20,13 +20,10 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = ['basic'];
+    
+    protected $idToken;
 
-    /**
-     * @var null
-     */
-    protected $idToken = null;
-
-    protected $uniqueUserId = null;
+    protected $uniqueUserId;
 
     /**
      * {@inheritdoc}

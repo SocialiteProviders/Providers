@@ -13,10 +13,7 @@ class Provider extends AbstractProvider
      */
     const IDENTIFIER = 'MATTERMOST';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+
 
     /**
      * {@inheritdoc}

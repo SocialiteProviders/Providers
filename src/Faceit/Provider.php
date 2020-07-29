@@ -10,7 +10,6 @@ class Provider extends AbstractProvider
 {
     const IDENTIFIER = 'FACEIT';
 
-    protected $scopes = [];
 
     protected function getAuthUrl($state)
     {
