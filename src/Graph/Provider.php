@@ -102,7 +102,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'    => $user['id'],
             'name'  => $user['displayName'],
-            'email' => $user['mail'],
+            'email' => $user['mail'] ?? $user['userPrincipalName'],
 
             // The following values are not always required by the provider. We
             // cannot guarantee they will exist in the $user array.
