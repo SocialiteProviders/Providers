@@ -64,7 +64,6 @@ parameters:
     src/Instagram: 'git@github.com:SocialiteProviders/Instagram.git'
     src/InstagramBasic: 'git@github.com:SocialiteProviders/InstagramBasic.git'
     src/Intercom: 'git@github.com:SocialiteProviders/Intercom.git'
-    src/Jawbone: 'git@github.com:SocialiteProviders/Jawbone.git'
     src/Jira: 'git@github.com:SocialiteProviders/Jira.git'
     src/Kakao: 'git@github.com:SocialiteProviders/Kakao.git'
     src/Keycloak: 'git@github.com:SocialiteProviders/Keycloak.git'
