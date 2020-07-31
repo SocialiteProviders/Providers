@@ -108,7 +108,6 @@ parameters:
     src/Pushbullet: 'git@github.com:SocialiteProviders/Pushbullet.git'
     src/QQ: 'git@github.com:SocialiteProviders/QQ.git'
     src/QuickBooks: 'git@github.com:SocialiteProviders/QuickBooks.git'
-    src/Rdio: 'git@github.com:SocialiteProviders/Rdio.git'
     src/Readability: 'git@github.com:SocialiteProviders/Readability.git'
     src/Redbooth: 'git@github.com:SocialiteProviders/Redbooth.git'
     src/Reddit: 'git@github.com:SocialiteProviders/Reddit.git'
