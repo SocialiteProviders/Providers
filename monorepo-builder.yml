@@ -39,7 +39,6 @@ parameters:
     src/Envato: 'git@github.com:SocialiteProviders/Envato.git'
     src/Etsy: 'git@github.com:SocialiteProviders/Etsy.git'
     src/Eventbrite: 'git@github.com:SocialiteProviders/Eventbrite.git'
-    src/Everyplay: 'git@github.com:SocialiteProviders/Everyplay.git'
     src/EyeEm: 'git@github.com:SocialiteProviders/EyeEm.git'
     src/Facebook: 'git@github.com:SocialiteProviders/Facebook.git'
     src/Fitbit: 'git@github.com:SocialiteProviders/Fitbit.git'
