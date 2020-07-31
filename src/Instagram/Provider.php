@@ -115,8 +115,6 @@ class Provider extends AbstractProvider
             $sig .= "|$key=$val";
         }
 
-        $signingKey = $this->clientSecret;
-
-        return hash_hmac('sha256', $sig, $signingKey, false);
+        return hash_hmac('sha256', $sig, $this->clientSecret, false);
     }
 }
