@@ -18,13 +18,6 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'SLACK';
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
-    protected $scopeSeparator = ',';
-
-    /**
      * {@inheritdoc}
      */
     public function getScopes()

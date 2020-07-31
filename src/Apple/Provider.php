@@ -169,7 +169,7 @@ class Provider extends AbstractProvider
         );
 
         if ($this->usesState()) {
-            list($uuid, $state) = explode('.', $appleUserToken['nonce']);
+            $state = explode('.', $appleUserToken['nonce'])[1];
             if (md5($state) === $this->request->input('state')) {
                 $this->request->session()->put('state', md5($state));
                 $this->request->session()->put('state_verify', $state);

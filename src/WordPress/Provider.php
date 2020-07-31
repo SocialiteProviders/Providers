@@ -14,13 +14,6 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'WORDPRESS';
 
     /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
-    protected $scopes = [];
-
-    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)

@@ -114,8 +114,7 @@ class Provider extends AbstractProvider
         foreach ($params as $key => $val) {
             $sig .= "|$key=$val";
         }
-        $signing_key = $this->clientSecret;
 
-        return hash_hmac('sha256', $sig, $signing_key, false);
+        return hash_hmac('sha256', $sig, $this->clientSecret, false);
     }
 }

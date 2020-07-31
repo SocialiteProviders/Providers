@@ -22,8 +22,8 @@ class Provider extends AbstractProvider
     /**
      * BASE_URL.
      */
-    protected $oauth_url = 'https://auth.oauthgen.com';
-    protected $graph_url = 'https://graph.oauthgen.com/api/v1';
+    protected $oauthUrl = 'https://auth.oauthgen.com';
+    protected $graphUrl = 'https://graph.oauthgen.com/api/v1';
 
     /**
      * {@inheritdoc}
@@ -35,7 +35,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->oauth_url.'/oauth2/auth', $state);
+        return $this->buildAuthUrlFromBase($this->oauthUrl.'/oauth2/auth', $state);
     }
 
     /**
@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->oauth_url.'/oauth2/token';
+        return $this->oauthUrl.'/oauth2/token';
     }
 
     /**
@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->graph_url.'/me', [
+        $response = $this->getHttpClient()->get($this->graphUrl.'/me', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],

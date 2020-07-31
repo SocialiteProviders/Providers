@@ -15,14 +15,9 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [];
-
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = '+';
 
-    protected static $region = null;
+    protected static $region;
 
     /**
      * {@inheritdoc}

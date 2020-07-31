@@ -68,8 +68,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $connections)
     {
         $idToken = $this->credentialsResponseBody['id_token'];
-        $tks = explode('.', $idToken);
-        list($headb64, $bodyb64, $cryptob64) = $tks;
+        $bodyb64 = explode('.', $idToken)[1];
         $jwtDecoded = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64), true);
 
         return (new User())->map([

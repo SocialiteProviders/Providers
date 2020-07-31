@@ -10,8 +10,6 @@ class Provider extends AbstractProvider
 {
     const IDENTIFIER = 'FACEIT';
 
-    protected $scopes = [];
-
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://cdn.faceit.com/widgets/sso/index.html', $state);

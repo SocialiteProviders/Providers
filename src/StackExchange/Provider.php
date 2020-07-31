@@ -33,8 +33,6 @@ class Provider extends AbstractProvider
     {
         // https://api.stackexchange.com/docs/authentication
 
-        $session = $this->request->getSession();
-
         return $url.'?'.http_build_query(
             [
                 'client_id'    => $this->clientId,
