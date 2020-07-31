@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'JIRA';
+    public const IDENTIFIER = 'JIRA';
 
     protected function mapUserToObject(array $user)
     {

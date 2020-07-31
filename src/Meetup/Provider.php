@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MEETUP';
+    public const IDENTIFIER = 'MEETUP';
 
     protected $version = '2';
     protected $scopes = ['ageless'];

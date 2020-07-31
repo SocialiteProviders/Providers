@@ -13,5 +13,5 @@ class Provider extends BitbucketProvider implements ProviderInterface
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'BITBUCKET';
+    public const IDENTIFIER = 'BITBUCKET';
 }

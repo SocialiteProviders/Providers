@@ -10,16 +10,16 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'PEERINGDB';
+    public const IDENTIFIER = 'PEERINGDB';
 
     /**
      * Scopes defintions.
      *
      * @see https://developer.okta.com/docs/reference/api/oidc/#scopes
      */
-    const SCOPE_PROFILE = 'profile';
-    const SCOPE_EMAIL = 'email';
-    const SCOPE_NETWORKS = 'networks';
+    public const SCOPE_PROFILE = 'profile';
+    public const SCOPE_EMAIL = 'email';
+    public const SCOPE_NETWORKS = 'networks';
 
     /**
      * {@inheritdoc}

@@ -13,5 +13,5 @@ class Provider extends FacebookProvider implements ProviderInterface
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'FACEBOOK';
+    public const IDENTIFIER = 'FACEBOOK';
 }

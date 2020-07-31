@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'ETSY';
+    public const IDENTIFIER = 'ETSY';
 
     protected function mapUserToObject(array $user)
     {

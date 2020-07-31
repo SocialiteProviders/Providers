@@ -10,7 +10,7 @@ class NaverProvider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'NAVER';
+    public const IDENTIFIER = 'NAVER';
 
     /**
      * Get the authentication URL for the provider.

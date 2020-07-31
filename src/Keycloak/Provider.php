@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'KEYCLOAK';
+    public const IDENTIFIER = 'KEYCLOAK';
 
     public static function additionalConfigKeys()
     {

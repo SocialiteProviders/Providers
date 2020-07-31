@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'WORDPRESS';
+    public const IDENTIFIER = 'WORDPRESS';
 
     /**
      * {@inheritdoc}

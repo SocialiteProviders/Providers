@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MASTERCHAIN';
+    public const IDENTIFIER = 'MASTERCHAIN';
 
     /**
      * The separating character for the requested scopes.

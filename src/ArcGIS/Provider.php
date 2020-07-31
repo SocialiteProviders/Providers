@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'ARCGIS';
+    public const IDENTIFIER = 'ARCGIS';
 
     protected function getBaseUrl()
     {

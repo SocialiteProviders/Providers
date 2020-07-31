@@ -11,9 +11,9 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'SALESFORCE';
+    public const IDENTIFIER = 'SALESFORCE';
 
-    const PROVIDER_NAME = 'salesforce';
+    public const PROVIDER_NAME = 'salesforce';
 
     /**
      * The separating character for the requested scopes.

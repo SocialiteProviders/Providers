@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'TEAMSERVICE';
+    public const IDENTIFIER = 'TEAMSERVICE';
 
     protected $encodingType = PHP_QUERY_RFC3986;
 

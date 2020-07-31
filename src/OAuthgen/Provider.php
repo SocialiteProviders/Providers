@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'OAUTHGEN';
+    public const IDENTIFIER = 'OAUTHGEN';
 
     /**
      * The separating character for the requested scopes.

@@ -8,7 +8,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    const IDENTIFIER = 'MEDIACUBE';
+    public const IDENTIFIER = 'MEDIACUBE';
 
     /**
      * {@inheritdoc}
