@@ -27,12 +27,16 @@ jobs:
           extensions: mbstring, xdebug
           coverage: xdebug
 
-      - name: Cache dependencies installed with composer
-        uses: actions/cache@v1.0.3
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Restore composer cache
+        uses: actions/cache@v2
         with:
-          path: ~/.composer/cache
-          key: php-${{ matrix.php-versions }}-composer
-          restore-keys: php-${{ matrix.php-versions }}-composer-
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ matric.php_versions }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matric.php_versions }}-composer-
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-suggest
