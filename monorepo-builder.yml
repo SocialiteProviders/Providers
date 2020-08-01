@@ -56,7 +56,6 @@ parameters:
     src/Harvest: 'git@github.com:SocialiteProviders/Harvest.git'
     src/HeadHunter: 'git@github.com:SocialiteProviders/HeadHunter.git'
     src/Heroku: 'git@github.com:SocialiteProviders/Heroku.git'
-    src/Hitbox: 'git@github.com:SocialiteProviders/Hitbox.git'
     src/HubSpot: 'git@github.com:SocialiteProviders/Hubspot.git'
     src/HumanApi: 'git@github.com:SocialiteProviders/Human-API.git'
     src/IFSP: 'git@github.com:SocialiteProviders/IFSP.git'
