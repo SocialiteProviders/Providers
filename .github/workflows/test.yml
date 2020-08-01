@@ -24,8 +24,15 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-versions }}
-          extension: mbstring, xdebug
+          extensions: mbstring, xdebug
           coverage: xdebug
+
+      - name: Cache dependencies installed with composer
+        uses: actions/cache@v1.0.3
+        with:
+          path: ~/.composer/cache
+          key: php-${{ matrix.php-versions }}-composer
+          restore-keys: php-${{ matrix.php-versions }}-composer-
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-suggest
@@ -34,7 +41,7 @@ jobs:
         if: matrix.php-versions == '7.4'
         run: .github/workflows/composer_normalize.sh
 
-      - name: Validate composer.json files
+      - name: Normalize composer.json files
         if: matrix.php-versions == '7.4'
         run: .github/workflows/composer_normalize.sh
 
