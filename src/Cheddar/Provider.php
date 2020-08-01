@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'CHEDDAR';
+    public const IDENTIFIER = 'CHEDDAR';
 
     /**
      * {@inheritdoc}

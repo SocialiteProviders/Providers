@@ -13,7 +13,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'LINKEDIN';
+    public const IDENTIFIER = 'LINKEDIN';
 
     /**
      * {@inheritdoc}

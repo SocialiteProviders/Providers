@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'GITLAB';
+    public const IDENTIFIER = 'GITLAB';
 
     /**
      * {@inheritdoc}

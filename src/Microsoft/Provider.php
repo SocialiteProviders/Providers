@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MICROSOFT';
+    public const IDENTIFIER = 'MICROSOFT';
 
     /**
      * {@inheritdoc}

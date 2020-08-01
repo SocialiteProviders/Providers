@@ -8,7 +8,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    const IDENTIFIER = 'FACEIT';
+    public const IDENTIFIER = 'FACEIT';
 
     protected function getAuthUrl($state)
     {

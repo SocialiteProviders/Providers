@@ -10,11 +10,11 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'TODOIST';
+    public const IDENTIFIER = 'TODOIST';
 
-    const AUTH_URL = 'https://todoist.com/oauth/authorize';
-    const TOKEN_URL = 'https://todoist.com/oauth/access_token';
-    const SYNC_URL = 'https://api.todoist.com/sync/v8/sync';
+    public const AUTH_URL = 'https://todoist.com/oauth/authorize';
+    public const TOKEN_URL = 'https://todoist.com/oauth/access_token';
+    public const SYNC_URL = 'https://api.todoist.com/sync/v8/sync';
 
     /**
      * {@inheritdoc}

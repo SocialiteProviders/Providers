@@ -14,7 +14,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'STACKEXCHANGE';
+    public const IDENTIFIER = 'STACKEXCHANGE';
 
     protected $version = '2.2';
 

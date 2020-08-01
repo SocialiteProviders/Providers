@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'PRODUCTHUNT';
+    public const IDENTIFIER = 'PRODUCTHUNT';
 
     /**
      * The scopes being requested.

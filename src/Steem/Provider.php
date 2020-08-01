@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'STEEM';
+    public const IDENTIFIER = 'STEEM';
 
     /**
      * {@inheritdoc}

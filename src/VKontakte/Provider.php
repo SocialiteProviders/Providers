@@ -15,7 +15,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'VKONTAKTE';
+    public const IDENTIFIER = 'VKONTAKTE';
 
     /**
      * {@inheritdoc}
@@ -30,7 +30,7 @@ class Provider extends AbstractProvider
     /**
      * Last API version.
      */
-    const VERSION = '5.92';
+    public const VERSION = '5.92';
 
     /**
      * {@inheritdoc}

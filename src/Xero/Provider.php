@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'XERO';
+    public const IDENTIFIER = 'XERO';
 
     /**
      * The separating character for the requested scopes.
