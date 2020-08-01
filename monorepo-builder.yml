@@ -1,7 +1,6 @@
 parameters:
   directories_to_repositories:
     src/TwentyThreeAndMe: 'git@github.com:SocialiteProviders/23andme.git'
-    src/ThirtySevenSignals: 'git@github.com:SocialiteProviders/37Signals.git'
     src/Faceit: 'git@github.com:SocialiteProviders/Faceit.git'
     src/FiveHundredPixel: 'git@github.com:SocialiteProviders/500px.git'
     src/Acclaim: 'git@github.com:SocialiteProviders/Acclaim.git'
