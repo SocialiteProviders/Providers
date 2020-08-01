@@ -7,14 +7,15 @@
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.6",
+        "phpunit/phpunit": "^8.0",
+        "symplify/monorepo-builder": "^6.1"
+    },
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\": "src/"
         }
-    },
-    "require-dev": {
-        "symplify/monorepo-builder": "^6.1",
-        "phpunit/phpunit": "^8.0"
     },
     "scripts": {
         "test": "phpunit",

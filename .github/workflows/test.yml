@@ -1,6 +1,8 @@
 name: Test
 
-on: [push]
+on:
+  - pull_request
+  - push
 
 jobs:
   run:
@@ -9,7 +11,10 @@ jobs:
       max-parallel: 15
       fail-fast: false
       matrix:
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions:
+        - '7.2'
+        - '7.3'
+        - '7.4'
     name: PHP ${{ matrix.php-versions }}
     steps:
       - name: Checkout
@@ -19,14 +24,19 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-versions }}
-          extension-csv: mbstring, xdebug
+          extension: mbstring, xdebug
           coverage: xdebug
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-suggest
 
-      - name: Lint composer.json
-        run: composer validate
+      - name: Validate composer.json files
+        if: matrix.php-versions == '7.4'
+        run: .github/workflows/composer_normalize.sh
+
+      - name: Validate composer.json files
+        if: matrix.php-versions == '7.4'
+        run: .github/workflows/composer_normalize.sh
 
       - name: Run Tests
         run: composer test:ci
