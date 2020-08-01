@@ -18,6 +18,7 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
+        "ext-openssl": "*",
         "firebase/php-jwt": "^5.2",
         "lcobucci/jwt": "^3.3",
         "socialiteproviders/manager": "~2.0 || ~3.0"
