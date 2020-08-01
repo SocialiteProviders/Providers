@@ -73,7 +73,6 @@ parameters:
     src/MailChimp: 'git@github.com:SocialiteProviders/MailChimp.git'
     src/Mailru: 'git@github.com:SocialiteProviders/Mailru.git'
     src/MakerLog: 'git@github.com:SocialiteProviders/MakerLog.git'
-    src/MasterChain: 'git@github.com:SocialiteProviders/MasterChain.git'
     src/Mattermost: 'git@github.com:SocialiteProviders/Mattermost.git'
     src/Medium: 'git@github.com:SocialiteProviders/Medium.git'
     src/Meetup: 'git@github.com:SocialiteProviders/Meetup.git'
