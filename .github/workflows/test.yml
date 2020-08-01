@@ -39,7 +39,7 @@ jobs:
 
       - name: Validate composer.json files
         if: matrix.php-versions == '7.4'
-        run: .github/workflows/composer_normalize.sh
+        run: .github/workflows/composer_validate.sh
 
       - name: Normalize composer.json files
         if: matrix.php-versions == '7.4'
