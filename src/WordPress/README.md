@@ -8,7 +8,7 @@ composer require socialiteproviders/wordpress
 
 ## Installation & Basic Usage
 
-Please see the [Base Installation Guide](https://socialiteproviders.com/usage.html), then follow the provider specific instructions below.
+Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
 
 ### Add configuration to `config/services.php`.
 
@@ -24,7 +24,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage.ht
 
 Configure the package's listener to the listen for `SocialiteWasCalled` events. 
 
-Add the event to your `listen[]` array  in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage.html) for detailed instructions.
+Add the event to your `listen[]` array  in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
 
 ```php
 protected $listen = [
