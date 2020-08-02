@@ -11,7 +11,7 @@ class KakaoProvider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'KAKAO';
+    public const IDENTIFIER = 'KAKAO';
 
     /**
      * Get the authentication URL for the provider.

@@ -11,27 +11,27 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'ORCID';
+    public const IDENTIFIER = 'ORCID';
 
     /**
      * Base URL for ORCID Sandpit Environment.
      */
-    const sandboxURL = 'https://sandbox.orcid.org/';
+    public const sandboxURL = 'https://sandbox.orcid.org/';
 
     /**
      * Base URL for ORCID Production Environment.
      */
-    const productionURL = 'https://orcid.org/';
+    public const productionURL = 'https://orcid.org/';
 
     /**
      * Profile Data URL for ORCID Sandpit Environment.
      */
-    const sandboxProfileURL = 'https://pub.sandbox.orcid.org/v2.1/';
+    public const sandboxProfileURL = 'https://pub.sandbox.orcid.org/v2.1/';
 
     /**
      * Profile Data URL for ORCID Production Environment.
      */
-    const productionProfileURL = 'https://pub.orcid.org/v2.1/';
+    public const productionProfileURL = 'https://pub.orcid.org/v2.1/';
 
     /**
      * The scopes being requested.

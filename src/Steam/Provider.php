@@ -18,7 +18,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'STEAM';
+    public const IDENTIFIER = 'STEAM';
 
     /**
      * @var string
@@ -33,37 +33,37 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    const OPENID_URL = 'https://steamcommunity.com/openid/login';
+    public const OPENID_URL = 'https://steamcommunity.com/openid/login';
 
     /**
      * @var string
      */
-    const STEAM_INFO_URL = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s';
+    public const STEAM_INFO_URL = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s';
 
     /**
      * @var string
      */
-    const OPENID_SIG = 'openid_sig';
+    public const OPENID_SIG = 'openid_sig';
 
     /**
      * @var string
      */
-    const OPENID_SIGNED = 'openid_signed';
+    public const OPENID_SIGNED = 'openid_signed';
 
     /**
      * @var string
      */
-    const OPENID_ASSOC_HANDLE = 'openid_assoc_handle';
+    public const OPENID_ASSOC_HANDLE = 'openid_assoc_handle';
 
     /**
      * @var string
      */
-    const OPENID_NS = 'https://specs.openid.net/auth/2.0';
+    public const OPENID_NS = 'https://specs.openid.net/auth/2.0';
 
     /**
      * @var string
      */
-    const OPENID_ERROR = 'openid_error';
+    public const OPENID_ERROR = 'openid_error';
 
     /**
      * {@inheritdoc}

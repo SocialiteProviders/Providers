@@ -11,19 +11,19 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'OKTA';
+    public const IDENTIFIER = 'OKTA';
 
     /**
      * Scopes defintions.
      *
      * @see https://developer.okta.com/docs/reference/api/oidc/#scopes
      */
-    const SCOPE_OPENID = 'openid';
-    const SCOPE_PROFILE = 'profile';
-    const SCOPE_EMAIL = 'email';
-    const SCOPE_ADDRESS = 'address';
-    const SCOPE_PHONE = 'phone';
-    const SCOPE_OFFLINE_ACCESS = 'offline_access';
+    public const SCOPE_OPENID = 'openid';
+    public const SCOPE_PROFILE = 'profile';
+    public const SCOPE_EMAIL = 'email';
+    public const SCOPE_ADDRESS = 'address';
+    public const SCOPE_PHONE = 'phone';
+    public const SCOPE_OFFLINE_ACCESS = 'offline_access';
 
     /**
      * {@inheritdoc}

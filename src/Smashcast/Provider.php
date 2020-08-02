@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'SMASHCAST';
+    public const IDENTIFIER = 'SMASHCAST';
 
     /**
      * {@inheritdoc}

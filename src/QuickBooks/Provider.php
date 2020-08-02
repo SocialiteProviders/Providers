@@ -10,17 +10,17 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'QUICKBOOKS';
+    public const IDENTIFIER = 'QUICKBOOKS';
 
     /**
      * Sandbox endpoint for retrieving user info.
      */
-    const USER_SANDBOX_ENDPOINT = 'https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo';
+    public const USER_SANDBOX_ENDPOINT = 'https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo';
 
     /**
      * Production endpoint for retrieving user info.
      */
-    const USER_PRODUCTION_ENDPOINT = 'https://accounts.platform.intuit.com/v1/openid_connect/userinfo';
+    public const USER_PRODUCTION_ENDPOINT = 'https://accounts.platform.intuit.com/v1/openid_connect/userinfo';
 
     /**
      * {@inheritdoc}

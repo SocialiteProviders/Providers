@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'PIPEDRIVE';
+    public const IDENTIFIER = 'PIPEDRIVE';
 
     /**
      * {@inheritdoc}

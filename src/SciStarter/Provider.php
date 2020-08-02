@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'SCISTARTER';
+    public const IDENTIFIER = 'SCISTARTER';
 
     /**
      * The separating character for the requested scopes.

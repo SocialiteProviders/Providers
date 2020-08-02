@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'LINE';
+    public const IDENTIFIER = 'LINE';
 
     /**
      * The separating character for the requested scopes.
