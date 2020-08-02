@@ -41,7 +41,7 @@ protected \$listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::with('%PROVIDER%')->redirect();
+return Socialite::with('%PROVIDER_LOWER%')->redirect();
 ```
 
 DOC;
@@ -51,7 +51,7 @@ $directories = array_map('basename', glob('../src'.'/*', GLOB_ONLYDIR));
 foreach ($directories as $provider) {
     $path = sprintf('%s/../src/%s/README.md', __DIR__, $provider);
     if (file_exists($path)) {
-        continue;
+        //continue;
     }
 
     $doc = str_replace(

@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`.
 
 ```php
-'wechat_service_account' => [    
+'wechatserviceaccount' => [    
   'client_id' => env('WECHATSERVICEACCOUNT_CLIENT_ID'),  
   'client_secret' => env('WECHATSERVICEACCOUNT_CLIENT_SECRET'),  
   'redirect' => env('WECHATSERVICEACCOUNT_REDIRECT_URI') 
@@ -38,5 +38,5 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::with('wechat_service_account')->redirect();
+return Socialite::with('wechatserviceaccount')->redirect();
 ```
