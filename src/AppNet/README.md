@@ -1,5 +1,5 @@
 ---
-title: "App.net"
+title: "App.Net"
 ---
 
 ```bash
@@ -8,7 +8,7 @@ composer require socialiteproviders/appnet
 
 ## Installation & Basic Usage
 
-Please see the [Base Installation Guide](/INSTALL.md), then follow the provider specific instructions below.
+Please see the [Base Installation Guide](https://socialiteproviders.com/usage.html), then follow the provider specific instructions below.
 
 ### Add configuration to `config/services.php`.
 
@@ -24,7 +24,7 @@ Please see the [Base Installation Guide](/INSTALL.md), then follow the provider 
 
 Configure the package's listener to the listen for `SocialiteWasCalled` events. 
 
-Add the event to your `listen[]` array  in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](/INSTALL.md) for detailed instructions.
+Add the event to your `listen[]` array  in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage.html) for detailed instructions.
 
 ```php
 protected $listen = [
@@ -40,5 +40,5 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::with('AppNet')->redirect();
+return Socialite::with('App.net')->redirect();
 ```
