@@ -48,7 +48,7 @@ return Socialite::with('%PROVIDER%')->redirect();
 
 DOC;
 
-$directories = array_map('basename', glob('../src' . '/*' , GLOB_ONLYDIR));
+$directories = array_map('basename', glob('../src'.'/*', GLOB_ONLYDIR));
 
 foreach ($directories as $provider) {
     $path = sprintf('%s/../src/%s/README.md', __DIR__, $provider);
@@ -66,4 +66,3 @@ foreach ($directories as $provider) {
 
     echo sprintf("Generated doc for provider: %s\n", $provider);
 }
-
