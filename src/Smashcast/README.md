@@ -1,6 +1,4 @@
----
-title: "Smashcast"
----
+# Smashcast
 
 ```bash
 composer require socialiteproviders/smashcast

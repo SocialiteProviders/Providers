@@ -1,6 +1,4 @@
----
-title: "Live"
----
+# Live
 
 ```bash
 composer require socialiteproviders/live

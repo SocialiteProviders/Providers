@@ -1,6 +1,4 @@
----
-title: "InstagramBasic"
----
+# InstagramBasic
 
 ```bash
 composer require socialiteproviders/instagrambasic

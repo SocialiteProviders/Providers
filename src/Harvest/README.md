@@ -1,6 +1,4 @@
----
-title: "Harvest"
----
+# Harvest
 
 ```bash
 composer require socialiteproviders/harvest

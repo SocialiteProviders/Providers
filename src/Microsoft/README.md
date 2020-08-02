@@ -1,6 +1,4 @@
----
-title: "Microsoft"
----
+# Microsoft
 
 ```bash
 composer require socialiteproviders/microsoft

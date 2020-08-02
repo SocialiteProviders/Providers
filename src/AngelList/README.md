@@ -1,6 +1,4 @@
----
-title: "AngelList"
----
+# AngelList
 
 ```bash
 composer require socialiteproviders/angellist

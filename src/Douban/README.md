@@ -1,6 +1,4 @@
----
-title: "Douban"
----
+# Douban
 
 ```bash
 composer require socialiteproviders/douban

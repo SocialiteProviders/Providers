@@ -1,6 +1,4 @@
----
-title: "MailChimp"
----
+# MailChimp
 
 ```bash
 composer require socialiteproviders/mailchimp

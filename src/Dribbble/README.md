@@ -1,6 +1,4 @@
----
-title: "Dribbble"
----
+# Dribbble
 
 ```bash
 composer require socialiteproviders/dribbble

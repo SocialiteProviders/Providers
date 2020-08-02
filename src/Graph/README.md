@@ -1,6 +1,4 @@
----
-title: "Graph"
----
+# Graph
 
 ```bash
 composer require socialiteproviders/graph

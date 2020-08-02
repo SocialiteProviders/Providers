@@ -1,6 +1,4 @@
----
-title: "VKontakte"
----
+# VKontakte
 
 ```bash
 composer require socialiteproviders/vkontakte

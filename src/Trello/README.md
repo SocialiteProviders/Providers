@@ -1,6 +1,4 @@
----
-title: "Trello"
----
+# Trello
 
 ```bash
 composer require socialiteproviders/trello

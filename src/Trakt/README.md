@@ -1,6 +1,4 @@
----
-title: "Trakt"
----
+# Trakt
 
 ```bash
 composer require socialiteproviders/trakt

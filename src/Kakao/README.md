@@ -1,6 +1,4 @@
----
-title: "Kakao"
----
+# Kakao
 
 ```bash
 composer require socialiteproviders/kakao

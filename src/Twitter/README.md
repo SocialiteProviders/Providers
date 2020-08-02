@@ -1,6 +1,4 @@
----
-title: "Twitter"
----
+# Twitter
 
 ```bash
 composer require socialiteproviders/twitter

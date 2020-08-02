@@ -1,6 +1,4 @@
----
-title: "DigitalOcean"
----
+# DigitalOcean
 
 ```bash
 composer require socialiteproviders/digitalocean

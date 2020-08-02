@@ -1,6 +1,4 @@
----
-title: "Flickr"
----
+# Flickr
 
 ```bash
 composer require socialiteproviders/flickr

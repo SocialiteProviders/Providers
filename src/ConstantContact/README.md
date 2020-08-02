@@ -1,6 +1,4 @@
----
-title: "ConstantContact"
----
+# ConstantContact
 
 ```bash
 composer require socialiteproviders/constantcontact

@@ -1,6 +1,4 @@
----
-title: "SalesForce"
----
+# SalesForce
 
 ```bash
 composer require socialiteproviders/salesforce

@@ -1,6 +1,4 @@
----
-title: "SciStarter"
----
+# SciStarter
 
 ```bash
 composer require socialiteproviders/scistarter

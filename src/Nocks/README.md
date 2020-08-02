@@ -1,6 +1,4 @@
----
-title: "Nocks"
----
+# Nocks
 
 ```bash
 composer require socialiteproviders/nocks

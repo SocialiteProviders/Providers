@@ -1,6 +1,4 @@
----
-title: "Ufutx"
----
+# Ufutx
 
 ```bash
 composer require socialiteproviders/ufutx

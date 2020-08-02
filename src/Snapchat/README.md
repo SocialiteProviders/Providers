@@ -1,6 +1,4 @@
----
-title: "Snapchat"
----
+# Snapchat
 
 ```bash
 composer require socialiteproviders/snapchat

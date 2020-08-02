@@ -1,6 +1,4 @@
----
-title: "Slack"
----
+# Slack
 
 ```bash
 composer require socialiteproviders/slack

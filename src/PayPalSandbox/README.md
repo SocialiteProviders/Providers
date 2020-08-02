@@ -1,6 +1,4 @@
----
-title: "PayPalSandbox"
----
+# PayPalSandbox
 
 ```bash
 composer require socialiteproviders/paypalsandbox

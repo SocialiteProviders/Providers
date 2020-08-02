@@ -1,6 +1,4 @@
----
-title: "Weibo"
----
+# Weibo
 
 ```bash
 composer require socialiteproviders/weibo

@@ -1,6 +1,4 @@
----
-title: "TwentyThreeAndMe"
----
+# TwentyThreeAndMe
 
 ```bash
 composer require socialiteproviders/twentythreeandme

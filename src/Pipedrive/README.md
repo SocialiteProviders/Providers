@@ -1,6 +1,4 @@
----
-title: "Pipedrive"
----
+# Pipedrive
 
 ```bash
 composer require socialiteproviders/pipedrive

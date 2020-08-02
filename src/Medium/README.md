@@ -1,6 +1,4 @@
----
-title: "Medium"
----
+# Medium
 
 ```bash
 composer require socialiteproviders/medium

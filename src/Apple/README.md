@@ -1,6 +1,4 @@
----
-title: "Apple"
----
+# Apple
 
 ```bash
 composer require socialiteproviders/apple

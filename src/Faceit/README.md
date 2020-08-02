@@ -1,6 +1,4 @@
----
-title: "Faceit"
----
+# Faceit
 
 ```bash
 composer require socialiteproviders/faceit

@@ -1,6 +1,4 @@
----
-title: "Dropbox"
----
+# Dropbox
 
 ```bash
 composer require socialiteproviders/dropbox

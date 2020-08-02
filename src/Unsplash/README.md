@@ -1,6 +1,4 @@
----
-title: "Unsplash"
----
+# Unsplash
 
 ```bash
 composer require socialiteproviders/unsplash

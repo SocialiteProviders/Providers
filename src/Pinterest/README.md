@@ -1,6 +1,4 @@
----
-title: "Pinterest"
----
+# Pinterest
 
 ```bash
 composer require socialiteproviders/pinterest

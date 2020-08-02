@@ -1,6 +1,4 @@
----
-title: "Strava"
----
+# Strava
 
 ```bash
 composer require socialiteproviders/strava

@@ -1,6 +1,4 @@
----
-title: "TeamService"
----
+# TeamService
 
 ```bash
 composer require socialiteproviders/teamservice

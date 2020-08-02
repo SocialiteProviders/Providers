@@ -1,6 +1,4 @@
----
-title: "Jira"
----
+# Jira
 
 ```bash
 composer require socialiteproviders/jira

@@ -1,6 +1,4 @@
----
-title: "FiveHundredPixel"
----
+# FiveHundredPixel
 
 ```bash
 composer require socialiteproviders/fivehundredpixel

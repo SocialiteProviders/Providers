@@ -1,6 +1,4 @@
----
-title: "Imgur"
----
+# Imgur
 
 ```bash
 composer require socialiteproviders/imgur

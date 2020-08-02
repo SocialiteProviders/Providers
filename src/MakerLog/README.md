@@ -1,6 +1,4 @@
----
-title: "MakerLog"
----
+# MakerLog
 
 ```bash
 composer require socialiteproviders/makerlog

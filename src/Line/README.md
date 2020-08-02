@@ -1,6 +1,4 @@
----
-title: "Line"
----
+# Line
 
 ```bash
 composer require socialiteproviders/line

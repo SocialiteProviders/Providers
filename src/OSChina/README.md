@@ -1,6 +1,4 @@
----
-title: "OSChina"
----
+# OSChina
 
 ```bash
 composer require socialiteproviders/oschina

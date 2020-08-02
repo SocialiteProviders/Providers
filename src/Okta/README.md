@@ -1,6 +1,4 @@
----
-title: "Okta"
----
+# Okta
 
 ```bash
 composer require socialiteproviders/okta

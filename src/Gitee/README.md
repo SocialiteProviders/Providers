@@ -1,6 +1,4 @@
----
-title: "Gitee"
----
+# Gitee
 
 ```bash
 composer require socialiteproviders/gitee

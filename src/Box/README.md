@@ -1,6 +1,4 @@
----
-title: "Box"
----
+# Box
 
 ```bash
 composer require socialiteproviders/box

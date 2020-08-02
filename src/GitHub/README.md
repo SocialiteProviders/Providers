@@ -1,6 +1,4 @@
----
-title: "GitHub"
----
+# GitHub
 
 ```bash
 composer require socialiteproviders/github

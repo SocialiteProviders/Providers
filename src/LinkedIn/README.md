@@ -1,6 +1,4 @@
----
-title: "LinkedIn"
----
+# LinkedIn
 
 ```bash
 composer require socialiteproviders/linkedin

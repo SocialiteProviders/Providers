@@ -1,6 +1,4 @@
----
-title: "Acclaim"
----
+# Acclaim
 
 ```bash
 composer require socialiteproviders/acclaim

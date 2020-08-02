@@ -1,6 +1,4 @@
----
-title: "Zendesk"
----
+# Zendesk
 
 ```bash
 composer require socialiteproviders/zendesk

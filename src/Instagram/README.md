@@ -1,6 +1,4 @@
----
-title: "Instagram"
----
+# Instagram
 
 ```bash
 composer require socialiteproviders/instagram

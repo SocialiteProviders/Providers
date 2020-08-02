@@ -1,6 +1,4 @@
----
-title: "GarminConnect"
----
+# GarminConnect
 
 ```bash
 composer require socialiteproviders/garminconnect

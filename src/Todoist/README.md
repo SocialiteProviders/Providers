@@ -1,6 +1,4 @@
----
-title: "Todoist"
----
+# Todoist
 
 ```bash
 composer require socialiteproviders/todoist

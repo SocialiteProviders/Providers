@@ -1,6 +1,4 @@
----
-title: "Pushbullet"
----
+# Pushbullet
 
 ```bash
 composer require socialiteproviders/pushbullet

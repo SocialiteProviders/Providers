@@ -1,6 +1,4 @@
----
-title: "VersionOne"
----
+# VersionOne
 
 ```bash
 composer require socialiteproviders/versionone

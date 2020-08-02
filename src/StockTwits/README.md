@@ -1,6 +1,4 @@
----
-title: "StockTwits"
----
+# StockTwits
 
 ```bash
 composer require socialiteproviders/stocktwits

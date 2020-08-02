@@ -1,6 +1,4 @@
----
-title: "GettyImages"
----
+# GettyImages
 
 ```bash
 composer require socialiteproviders/gettyimages

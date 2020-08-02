@@ -1,6 +1,4 @@
----
-title: "Heroku"
----
+# Heroku
 
 ```bash
 composer require socialiteproviders/heroku

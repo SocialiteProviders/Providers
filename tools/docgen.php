@@ -1,9 +1,7 @@
 <?php
 
 $stub = <<<DOC
----
-title: "%PROVIDER%"
----
+# %PROVIDER%
 
 ```bash
 composer require socialiteproviders/%PROVIDER_LOWER%

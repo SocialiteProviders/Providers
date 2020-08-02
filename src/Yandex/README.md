@@ -1,6 +1,4 @@
----
-title: "Yandex"
----
+# Yandex
 
 ```bash
 composer require socialiteproviders/yandex

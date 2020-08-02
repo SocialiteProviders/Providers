@@ -1,6 +1,4 @@
----
-title: "Auth0"
----
+# Auth0
 
 ```bash
 composer require socialiteproviders/auth0

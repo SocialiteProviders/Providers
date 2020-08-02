@@ -1,6 +1,4 @@
----
-title: "Teamleader"
----
+# Teamleader
 
 ```bash
 composer require socialiteproviders/teamleader

@@ -1,6 +1,4 @@
----
-title: "OAuthgen"
----
+# OAuthgen
 
 ```bash
 composer require socialiteproviders/oauthgen

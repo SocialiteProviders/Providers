@@ -1,6 +1,4 @@
----
-title: "Mixcloud"
----
+# Mixcloud
 
 ```bash
 composer require socialiteproviders/mixcloud

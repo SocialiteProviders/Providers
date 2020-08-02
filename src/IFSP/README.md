@@ -1,6 +1,4 @@
----
-title: "IFSP"
----
+# IFSP
 
 ```bash
 composer require socialiteproviders/ifsp

@@ -1,6 +1,4 @@
----
-title: "QQ"
----
+# QQ
 
 ```bash
 composer require socialiteproviders/qq

@@ -1,6 +1,4 @@
----
-title: "PeeringDB"
----
+# PeeringDB
 
 ```bash
 composer require socialiteproviders/peeringdb

@@ -1,6 +1,4 @@
----
-title: "App.Net"
----
+# App.Net
 
 ```bash
 composer require socialiteproviders/appnet

@@ -1,6 +1,4 @@
----
-title: "Uber"
----
+# Uber
 
 ```bash
 composer require socialiteproviders/uber

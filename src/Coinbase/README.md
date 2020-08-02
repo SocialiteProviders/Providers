@@ -1,6 +1,4 @@
----
-title: "Coinbase"
----
+# Coinbase
 
 ```bash
 composer require socialiteproviders/coinbase

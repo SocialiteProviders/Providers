@@ -1,6 +1,4 @@
----
-title: "Tumblr"
----
+# Tumblr
 
 ```bash
 composer require socialiteproviders/tumblr

@@ -1,6 +1,4 @@
----
-title: "ThirtySevenSignals"
----
+# ThirtySevenSignals
 
 ```bash
 composer require socialiteproviders/thirtysevensignals

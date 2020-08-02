@@ -1,6 +1,4 @@
----
-title: "Facebook"
----
+# Facebook
 
 ```bash
 composer require socialiteproviders/facebook

@@ -1,6 +1,4 @@
----
-title: "Intercom"
----
+# Intercom
 
 ```bash
 composer require socialiteproviders/intercom

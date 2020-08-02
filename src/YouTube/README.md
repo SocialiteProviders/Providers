@@ -1,6 +1,4 @@
----
-title: "YouTube"
----
+# YouTube
 
 ```bash
 composer require socialiteproviders/youtube

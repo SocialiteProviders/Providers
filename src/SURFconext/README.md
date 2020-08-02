@@ -1,6 +1,4 @@
----
-title: "SURFconext"
----
+# SURFconext
 
 ```bash
 composer require socialiteproviders/surfconext

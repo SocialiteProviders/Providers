@@ -1,6 +1,4 @@
----
-title: "UCL"
----
+# UCL
 
 ```bash
 composer require socialiteproviders/ucl

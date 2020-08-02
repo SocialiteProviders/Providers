@@ -1,6 +1,4 @@
----
-title: "Dailymotion"
----
+# Dailymotion
 
 ```bash
 composer require socialiteproviders/dailymotion

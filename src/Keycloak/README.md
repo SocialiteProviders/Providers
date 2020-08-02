@@ -1,6 +1,4 @@
----
-title: "Keycloak"
----
+# Keycloak
 
 ```bash
 composer require socialiteproviders/keycloak

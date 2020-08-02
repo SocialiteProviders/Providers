@@ -1,6 +1,4 @@
----
-title: "Redbooth"
----
+# Redbooth
 
 ```bash
 composer require socialiteproviders/redbooth

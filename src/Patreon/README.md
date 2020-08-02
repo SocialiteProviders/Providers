@@ -1,6 +1,4 @@
----
-title: "Patreon"
----
+# Patreon
 
 ```bash
 composer require socialiteproviders/patreon

@@ -1,6 +1,4 @@
----
-title: "Flattr"
----
+# Flattr
 
 ```bash
 composer require socialiteproviders/flattr

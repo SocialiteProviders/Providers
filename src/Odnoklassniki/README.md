@@ -1,6 +1,4 @@
----
-title: "Odnoklassniki"
----
+# Odnoklassniki
 
 ```bash
 composer require socialiteproviders/odnoklassniki

@@ -1,6 +1,4 @@
----
-title: "Teamweek"
----
+# Teamweek
 
 ```bash
 composer require socialiteproviders/teamweek

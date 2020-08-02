@@ -1,6 +1,4 @@
----
-title: "SharePoint"
----
+# SharePoint
 
 ```bash
 composer require socialiteproviders/sharepoint

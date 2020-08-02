@@ -1,6 +1,4 @@
----
-title: "HeadHunter"
----
+# HeadHunter
 
 ```bash
 composer require socialiteproviders/headhunter

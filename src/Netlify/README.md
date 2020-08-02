@@ -1,6 +1,4 @@
----
-title: "Netlify"
----
+# Netlify
 
 ```bash
 composer require socialiteproviders/netlify

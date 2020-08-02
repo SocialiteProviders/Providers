@@ -1,6 +1,4 @@
----
-title: "Readability"
----
+# Readability
 
 ```bash
 composer require socialiteproviders/readability

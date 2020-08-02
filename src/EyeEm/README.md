@@ -1,6 +1,4 @@
----
-title: "EyeEm"
----
+# EyeEm
 
 ```bash
 composer require socialiteproviders/eyeem

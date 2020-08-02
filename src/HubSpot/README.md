@@ -1,6 +1,4 @@
----
-title: "HubSpot"
----
+# HubSpot
 
 ```bash
 composer require socialiteproviders/hubspot

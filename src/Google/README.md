@@ -1,6 +1,4 @@
----
-title: "Google"
----
+# Google
 
 ```bash
 composer require socialiteproviders/google

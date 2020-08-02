@@ -1,6 +1,4 @@
----
-title: "SoundCloud"
----
+# SoundCloud
 
 ```bash
 composer require socialiteproviders/soundcloud

@@ -1,6 +1,4 @@
----
-title: "WeChatServiceAccount"
----
+# WeChatServiceAccount
 
 ```bash
 composer require socialiteproviders/wechatserviceaccount

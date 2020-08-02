@@ -1,6 +1,4 @@
----
-title: "Vimeo"
----
+# Vimeo
 
 ```bash
 composer require socialiteproviders/vimeo

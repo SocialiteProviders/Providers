@@ -1,6 +1,4 @@
----
-title: "Flexkids"
----
+# Flexkids
 
 ```bash
 composer require socialiteproviders/flexkids

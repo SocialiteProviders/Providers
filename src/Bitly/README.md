@@ -1,6 +1,4 @@
----
-title: "Bitly"
----
+# Bitly
 
 ```bash
 composer require socialiteproviders/bitly

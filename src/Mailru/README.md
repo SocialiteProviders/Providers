@@ -1,6 +1,4 @@
----
-title: "Mailru"
----
+# Mailru
 
 ```bash
 composer require socialiteproviders/mailru

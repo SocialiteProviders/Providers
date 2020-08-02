@@ -1,6 +1,4 @@
----
-title: "Weixin"
----
+# Weixin
 
 ```bash
 composer require socialiteproviders/weixin

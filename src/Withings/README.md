@@ -1,6 +1,4 @@
----
-title: "Withings"
----
+# Withings
 
 ```bash
 composer require socialiteproviders/withings

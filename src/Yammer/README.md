@@ -1,6 +1,4 @@
----
-title: "Yammer"
----
+# Yammer
 
 ```bash
 composer require socialiteproviders/yammer

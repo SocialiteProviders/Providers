@@ -1,6 +1,4 @@
----
-title: "Mollie"
----
+# Mollie
 
 ```bash
 composer require socialiteproviders/mollie

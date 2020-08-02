@@ -1,6 +1,4 @@
----
-title: "Etsy"
----
+# Etsy
 
 ```bash
 composer require socialiteproviders/etsy

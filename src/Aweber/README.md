@@ -1,6 +1,4 @@
----
-title: "Aweber"
----
+# Aweber
 
 ```bash
 composer require socialiteproviders/aweber

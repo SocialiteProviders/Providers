@@ -1,6 +1,4 @@
----
-title: "Spotify"
----
+# Spotify
 
 ```bash
 composer require socialiteproviders/spotify

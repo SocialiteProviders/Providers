@@ -1,6 +1,4 @@
----
-title: "Envato"
----
+# Envato
 
 ```bash
 composer require socialiteproviders/envato

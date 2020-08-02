@@ -1,6 +1,4 @@
----
-title: "Fitbit"
----
+# Fitbit
 
 ```bash
 composer require socialiteproviders/fitbit

@@ -1,6 +1,4 @@
----
-title: "Orcid"
----
+# Orcid
 
 ```bash
 composer require socialiteproviders/orcid

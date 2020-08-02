@@ -1,6 +1,4 @@
----
-title: "Coursera"
----
+# Coursera
 
 ```bash
 composer require socialiteproviders/coursera

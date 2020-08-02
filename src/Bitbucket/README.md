@@ -1,6 +1,4 @@
----
-title: "Bitbucket"
----
+# Bitbucket
 
 ```bash
 composer require socialiteproviders/bitbucket

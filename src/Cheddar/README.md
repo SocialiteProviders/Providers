@@ -1,6 +1,4 @@
----
-title: "Cheddar"
----
+# Cheddar
 
 ```bash
 composer require socialiteproviders/cheddar

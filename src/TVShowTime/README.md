@@ -1,6 +1,4 @@
----
-title: "TVShowTime"
----
+# TVShowTime
 
 ```bash
 composer require socialiteproviders/tvshowtime

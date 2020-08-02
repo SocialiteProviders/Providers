@@ -1,6 +1,4 @@
----
-title: "RunKeeper"
----
+# RunKeeper
 
 ```bash
 composer require socialiteproviders/runkeeper

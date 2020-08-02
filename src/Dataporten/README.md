@@ -1,6 +1,4 @@
----
-title: "Dataporten"
----
+# Dataporten
 
 ```bash
 composer require socialiteproviders/dataporten

@@ -1,6 +1,4 @@
----
-title: "Stripe"
----
+# Stripe
 
 ```bash
 composer require socialiteproviders/stripe

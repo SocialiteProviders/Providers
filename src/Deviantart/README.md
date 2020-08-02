@@ -1,6 +1,4 @@
----
-title: "Deviantart"
----
+# Deviantart
 
 ```bash
 composer require socialiteproviders/deviantart

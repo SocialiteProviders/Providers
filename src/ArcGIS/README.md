@@ -1,6 +1,4 @@
----
-title: "ArcGIS"
----
+# ArcGIS
 
 ```bash
 composer require socialiteproviders/arcgis

@@ -1,6 +1,4 @@
----
-title: "Xing"
----
+# Xing
 
 ```bash
 composer require socialiteproviders/xing

@@ -1,6 +1,4 @@
----
-title: "GitLab"
----
+# GitLab
 
 ```bash
 composer require socialiteproviders/gitlab

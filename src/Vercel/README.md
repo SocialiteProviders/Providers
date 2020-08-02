@@ -1,6 +1,4 @@
----
-title: "Vercel"
----
+# Vercel
 
 ```bash
 composer require socialiteproviders/vercel

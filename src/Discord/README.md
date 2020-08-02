@@ -1,6 +1,4 @@
----
-title: "Discord"
----
+# Discord
 
 ```bash
 composer require socialiteproviders/discord

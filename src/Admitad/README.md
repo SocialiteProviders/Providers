@@ -1,6 +1,4 @@
----
-title: "Admitad"
----
+# Admitad
 
 ```bash
 composer require socialiteproviders/admitad

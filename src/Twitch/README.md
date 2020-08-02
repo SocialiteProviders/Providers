@@ -1,6 +1,4 @@
----
-title: "Twitch"
----
+# Twitch
 
 ```bash
 composer require socialiteproviders/twitch

@@ -1,6 +1,4 @@
----
-title: "Azure"
----
+# Azure
 
 ```bash
 composer require socialiteproviders/azure

@@ -1,6 +1,4 @@
----
-title: "Zoho"
----
+# Zoho
 
 ```bash
 composer require socialiteproviders/zoho

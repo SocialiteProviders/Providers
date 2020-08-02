@@ -1,6 +1,4 @@
----
-title: "PayPal"
----
+# PayPal
 
 ```bash
 composer require socialiteproviders/paypal

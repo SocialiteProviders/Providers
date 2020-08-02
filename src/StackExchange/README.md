@@ -1,6 +1,4 @@
----
-title: "StackExchange"
----
+# StackExchange
 
 ```bash
 composer require socialiteproviders/stackexchange

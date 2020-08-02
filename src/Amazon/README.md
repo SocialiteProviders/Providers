@@ -1,6 +1,4 @@
----
-title: "Amazon"
----
+# Amazon
 
 ```bash
 composer require socialiteproviders/amazon

@@ -1,6 +1,4 @@
----
-title: "Discogs"
----
+# Discogs
 
 ```bash
 composer require socialiteproviders/discogs

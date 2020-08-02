@@ -1,6 +1,4 @@
----
-title: "MediaCube"
----
+# MediaCube
 
 ```bash
 composer require socialiteproviders/mediacube

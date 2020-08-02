@@ -1,6 +1,4 @@
----
-title: "Eventbrite"
----
+# Eventbrite
 
 ```bash
 composer require socialiteproviders/eventbrite

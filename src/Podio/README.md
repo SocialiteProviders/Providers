@@ -1,6 +1,4 @@
----
-title: "Podio"
----
+# Podio
 
 ```bash
 composer require socialiteproviders/podio

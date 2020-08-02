@@ -1,6 +1,4 @@
----
-title: "Sage"
----
+# Sage
 
 ```bash
 composer require socialiteproviders/sage

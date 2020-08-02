@@ -1,6 +1,4 @@
----
-title: "QuickBooks"
----
+# QuickBooks
 
 ```bash
 composer require socialiteproviders/quickbooks

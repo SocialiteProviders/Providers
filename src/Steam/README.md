@@ -1,6 +1,4 @@
----
-title: "Steam"
----
+# Steam
 
 ```bash
 composer require socialiteproviders/steam

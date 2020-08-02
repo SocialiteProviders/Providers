@@ -1,6 +1,4 @@
----
-title: "Yahoo"
----
+# Yahoo
 
 ```bash
 composer require socialiteproviders/yahoo

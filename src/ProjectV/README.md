@@ -1,6 +1,4 @@
----
-title: "ProjectV"
----
+# ProjectV
 
 ```bash
 composer require socialiteproviders/projectv

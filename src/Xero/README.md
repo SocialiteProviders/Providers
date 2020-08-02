@@ -1,6 +1,4 @@
----
-title: "Xero"
----
+# Xero
 
 ```bash
 composer require socialiteproviders/xero

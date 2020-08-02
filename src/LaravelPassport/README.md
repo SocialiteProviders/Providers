@@ -1,6 +1,4 @@
----
-title: "LaravelPassport"
----
+# LaravelPassport
 
 ```bash
 composer require socialiteproviders/laravelpassport

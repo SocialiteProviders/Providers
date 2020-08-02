@@ -1,6 +1,4 @@
----
-title: "MoiKrug"
----
+# MoiKrug
 
 ```bash
 composer require socialiteproviders/moikrug

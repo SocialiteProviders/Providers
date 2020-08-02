@@ -1,6 +1,4 @@
----
-title: "Reddit"
----
+# Reddit
 
 ```bash
 composer require socialiteproviders/reddit

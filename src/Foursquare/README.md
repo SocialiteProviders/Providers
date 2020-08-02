@@ -1,6 +1,4 @@
----
-title: "Foursquare"
----
+# Foursquare
 
 ```bash
 composer require socialiteproviders/foursquare

@@ -1,6 +1,4 @@
----
-title: "UFS"
----
+# UFS
 
 ```bash
 composer require socialiteproviders/ufs

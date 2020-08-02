@@ -1,6 +1,4 @@
----
-title: "WordPress"
----
+# WordPress
 
 ```bash
 composer require socialiteproviders/wordpress

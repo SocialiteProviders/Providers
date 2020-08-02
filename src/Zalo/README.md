@@ -1,6 +1,4 @@
----
-title: "Zalo"
----
+# Zalo
 
 ```bash
 composer require socialiteproviders/zalo

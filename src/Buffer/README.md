@@ -1,6 +1,4 @@
----
-title: "Buffer"
----
+# Buffer
 
 ```bash
 composer require socialiteproviders/buffer

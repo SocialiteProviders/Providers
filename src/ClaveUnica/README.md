@@ -1,6 +1,4 @@
----
-title: "ClaveUnica"
----
+# ClaveUnica
 
 ```bash
 composer require socialiteproviders/claveunica

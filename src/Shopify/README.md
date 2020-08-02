@@ -1,6 +1,4 @@
----
-title: "Shopify"
----
+# Shopify
 
 ```bash
 composer require socialiteproviders/shopify

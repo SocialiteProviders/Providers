@@ -1,6 +1,4 @@
----
-title: "Paymill"
----
+# Paymill
 
 ```bash
 composer require socialiteproviders/paymill

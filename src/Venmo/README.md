@@ -1,6 +1,4 @@
----
-title: "Venmo"
----
+# Venmo
 
 ```bash
 composer require socialiteproviders/venmo

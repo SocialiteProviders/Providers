@@ -1,6 +1,4 @@
----
-title: "Meetup"
----
+# Meetup
 
 ```bash
 composer require socialiteproviders/meetup

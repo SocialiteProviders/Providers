@@ -1,6 +1,4 @@
----
-title: "Steem"
----
+# Steem
 
 ```bash
 composer require socialiteproviders/steem

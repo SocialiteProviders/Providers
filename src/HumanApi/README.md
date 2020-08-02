@@ -1,6 +1,4 @@
----
-title: "HumanApi"
----
+# HumanApi
 
 ```bash
 composer require socialiteproviders/humanapi

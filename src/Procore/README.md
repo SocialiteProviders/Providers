@@ -1,6 +1,4 @@
----
-title: "Procore"
----
+# Procore
 
 ```bash
 composer require socialiteproviders/procore

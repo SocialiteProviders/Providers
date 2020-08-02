@@ -1,6 +1,4 @@
----
-title: "Deezer"
----
+# Deezer
 
 ```bash
 composer require socialiteproviders/deezer

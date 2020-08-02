@@ -1,6 +1,4 @@
----
-title: "Naver"
----
+# Naver
 
 ```bash
 composer require socialiteproviders/naver

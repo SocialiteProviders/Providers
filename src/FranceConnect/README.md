@@ -1,6 +1,4 @@
----
-title: "FranceConnect"
----
+# FranceConnect
 
 ```bash
 composer require socialiteproviders/franceconnect

@@ -1,6 +1,4 @@
----
-title: "Mattermost"
----
+# Mattermost
 
 ```bash
 composer require socialiteproviders/mattermost

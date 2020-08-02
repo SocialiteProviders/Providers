@@ -1,6 +1,4 @@
----
-title: "Battle.net"
----
+# Battle.net
 
 ```bash
 composer require socialiteproviders/battlenet

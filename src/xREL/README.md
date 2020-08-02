@@ -1,6 +1,4 @@
----
-title: "xREL"
----
+# xREL
 
 ```bash
 composer require socialiteproviders/xrel

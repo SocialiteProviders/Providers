@@ -1,6 +1,4 @@
----
-title: "Yiban"
----
+# Yiban
 
 ```bash
 composer require socialiteproviders/yiban

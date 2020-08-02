@@ -1,6 +1,4 @@
----
-title: "WeChatWeb"
----
+# WeChatWeb
 
 ```bash
 composer require socialiteproviders/wechatweb

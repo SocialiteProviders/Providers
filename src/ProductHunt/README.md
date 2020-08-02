@@ -1,6 +1,4 @@
----
-title: "ProductHunt"
----
+# ProductHunt
 
 ```bash
 composer require socialiteproviders/producthunt

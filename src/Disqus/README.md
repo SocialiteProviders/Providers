@@ -1,6 +1,4 @@
----
-title: "Disqus"
----
+# Disqus
 
 ```bash
 composer require socialiteproviders/disqus

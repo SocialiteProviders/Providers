@@ -1,6 +1,4 @@
----
-title: "Goodreads"
----
+# Goodreads
 
 ```bash
 composer require socialiteproviders/goodreads

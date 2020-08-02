@@ -1,6 +1,4 @@
----
-title: "Untappd"
----
+# Untappd
 
 ```bash
 composer require socialiteproviders/untappd

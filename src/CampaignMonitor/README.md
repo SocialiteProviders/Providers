@@ -1,6 +1,4 @@
----
-title: "CampaignMonitor"
----
+# CampaignMonitor
 
 ```bash
 composer require socialiteproviders/campaignmonitor
