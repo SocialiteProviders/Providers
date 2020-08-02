@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`.
 
 ```php
-'salesforce' => [    
+'SalesForce' => [    
   'client_id' => env('SALESFORCE_CLIENT_ID'),  
   'client_secret' => env('SALESFORCE_CLIENT_SECRET'),  
   'redirect' => env('SALESFORCE_REDIRECT_URI') 
