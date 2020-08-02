@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`.
 
 ```php
-'twentythreeandme' => [    
+'23andme' => [    
   'client_id' => env('TWENTYTHREEANDME_CLIENT_ID'),  
   'client_secret' => env('TWENTYTHREEANDME_CLIENT_SECRET'),  
   'redirect' => env('TWENTYTHREEANDME_REDIRECT_URI') 
@@ -38,5 +38,5 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::with('twentythreeandme')->redirect();
+return Socialite::with('23andme')->redirect();
 ```
