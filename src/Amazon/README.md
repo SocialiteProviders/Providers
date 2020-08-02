@@ -1,9 +1,9 @@
 ---
-title: "Acclaim"
+title: "Amazon"
 ---
 
 ```bash
-composer require socialiteproviders/acclaim
+composer require socialiteproviders/amazon
 ```
 
 ## Installation & Basic Usage
@@ -13,10 +13,10 @@ Please see the [Base Installation Guide](/INSTALL.md), then follow the provider 
 ### Add configuration to `config/services.php`.
 
 ```php
-'acclaim' => [
-    'client_id' => env('ACCLAIM_KEY'),
-    'client_secret' => env('ACCLAIM_SECRET'),
-    'redirect' => env('ACCLAIM_REDIRECT_URI')
+'amazon' => [
+    'client_id' => env('AMAZON_SIGNIN_CLIENT_ID'),
+    'client_secret' => env('AMAZON_SIGNIN_SECRET'),
+    'redirect' => env('AMAZON_SIGNIN_REDIRECT_URI')
 ],
 ```
 
@@ -30,7 +30,7 @@ Add the event to your `listen[]` array  in `app/Providers/EventServiceProvider`.
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\Acclaim\\AcclaimExtendSocialite@handle',
+        'SocialiteProviders\\Amazon\\AmazonExtendSocialite@handle',
     ],
 ];
 ```
@@ -40,5 +40,5 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::with('Acclaim')->redirect();
+return Socialite::with('Amazon')->redirect();
 ```

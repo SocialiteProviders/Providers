@@ -3,7 +3,6 @@ title: "Admitad"
 ---
 
 ```bash
-// This assumes that you have composer installed globally
 composer require socialiteproviders/admitad
 ```
 
@@ -34,4 +33,12 @@ protected $listen = [
         'SocialiteProviders\\Admitad\\AdmitadExtendSocialite@handle',
     ],
 ];
+```
+
+### Usage
+
+You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
+
+```php
+return Socialite::with('Admitad')->redirect();
 ```

@@ -1,9 +1,9 @@
 ---
-title: "Acclaim"
+title: "Apple"
 ---
 
 ```bash
-composer require socialiteproviders/acclaim
+composer require socialiteproviders/apple
 ```
 
 ## Installation & Basic Usage
@@ -13,10 +13,10 @@ Please see the [Base Installation Guide](/INSTALL.md), then follow the provider 
 ### Add configuration to `config/services.php`.
 
 ```php
-'acclaim' => [
-    'client_id' => env('ACCLAIM_KEY'),
-    'client_secret' => env('ACCLAIM_SECRET'),
-    'redirect' => env('ACCLAIM_REDIRECT_URI')
+'apple' => [    
+  'client_id' => env('APPLE_CLIENT_ID'),  
+  'client_secret' => env('APPLE_CLIENT_SECRET'),  
+  'redirect' => env('APPLE_REDIRECT_URI') 
 ],
 ```
 
@@ -30,7 +30,7 @@ Add the event to your `listen[]` array  in `app/Providers/EventServiceProvider`.
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\Acclaim\\AcclaimExtendSocialite@handle',
+        'SocialiteProviders\\Apple\\AppleExtendSocialite@handle',
     ],
 ];
 ```
@@ -40,5 +40,5 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::with('Acclaim')->redirect();
+return Socialite::with('Apple')->redirect();
 ```
