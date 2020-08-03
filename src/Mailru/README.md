@@ -1,8 +1,12 @@
-# Mailru
+# Mail.ru
 
 ```bash
 composer require socialiteproviders/mailru
 ```
+
+## Register an application 
+
+Add new application at [mail.ru](https://oauth.mail.ru/app/).
 
 ## Installation & Basic Usage
 
@@ -40,3 +44,15 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('mailru')->redirect();
 ```
+
+### Returned User fields
+
+- ``id`` (same as ``email``)
+- ``nickname``
+- ``name``
+- ``email``
+- ``avatar``
+
+### Reference
+
+- [Mail.ru API Reference](https://oauth.mail.ru/docs/)

@@ -4,6 +4,10 @@
 composer require socialiteproviders/vkontakte
 ```
 
+## Register an application 
+
+Add new application at [vk.com](https://vk.com/editapp?act=create).
+
 ## Installation & Basic Usage
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
@@ -40,3 +44,15 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('vkontakte')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``nickname``
+- ``name``
+- ``email``
+- ``avatar``
+
+### Reference
+
+- [Vk.com API Reference](https://vk.com/dev/methods)

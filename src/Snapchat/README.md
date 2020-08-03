@@ -40,3 +40,9 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('snapchat')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``name``
+- ``avatar``

@@ -4,6 +4,10 @@
 composer require socialiteproviders/zoho
 ```
 
+## Register an application 
+
+Add new application at [zoho.com](https://accounts.zoho.com/developerconsole).
+
 ## Installation & Basic Usage
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
@@ -40,3 +44,14 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('zoho')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``nickname``
+- ``name``
+- ``avatar``
+
+### Reference
+
+- [Zoho API Reference](https://www.zoho.com/developer/rest-api.html)

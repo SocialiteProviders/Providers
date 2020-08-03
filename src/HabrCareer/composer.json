@@ -1,6 +1,6 @@
 {
-    "name": "socialiteproviders/moikrug",
-    "description": "MoiKrug.ru OAuth2 Provider for Laravel Socialite",
+    "name": "socialiteproviders/habrcareer",
+    "description": "Habr Career OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\MoiKrug\\": ""
+            "SocialiteProviders\\HabrCareer\\": ""
         }
     }
 }

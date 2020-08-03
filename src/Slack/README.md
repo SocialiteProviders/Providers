@@ -40,3 +40,11 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('slack')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``name``
+- ``email``
+- ``avatar``
+- ``organization_id``
