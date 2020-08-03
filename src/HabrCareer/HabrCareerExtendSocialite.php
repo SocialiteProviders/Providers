@@ -1,16 +1,16 @@
 <?php
 
-namespace SocialiteProviders\MoiKrug;
+namespace SocialiteProviders\HabrCareer;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class MoiKrugExtendSocialite
+class HabrCareerExtendSocialite
 {
     /**
      * Execute the provider.
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('moikrug', Provider::class);
+        $socialiteWasCalled->extendSocialite('habrcareer', Provider::class);
     }
 }

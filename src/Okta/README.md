@@ -40,3 +40,16 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('okta')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``email``
+- ``email_verified``
+- ``nickname``
+- ``name``
+- ``first_name``
+- ``last_name``
+- ``profileUrl``
+- ``address``
+- ``phone``

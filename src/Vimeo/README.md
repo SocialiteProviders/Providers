@@ -40,3 +40,8 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('vimeo')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``name``

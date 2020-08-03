@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\MoiKrug;
+namespace SocialiteProviders\HabrCareer;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -10,14 +10,14 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    public const IDENTIFIER = 'MOIKRUG';
+    public const IDENTIFIER = 'HABRCAREER';
 
     /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://moikrug.ru/integrations/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://career.habr.com/integrations/oauth/authorize', $state);
     }
 
     /**
@@ -25,7 +25,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://moikrug.ru/integrations/oauth/token';
+        return 'https://career.habr.com/integrations/oauth/token';
     }
 
     /**
@@ -37,7 +37,7 @@ class Provider extends AbstractProvider
             'access_token' => $token,
         ]);
 
-        $response = $this->getHttpClient()->get('https://api.moikrug.ru/v1/integrations/users/me?'.$params);
+        $response = $this->getHttpClient()->get('https://career.habr.com/api/v1/integrations/users/me?'.$params);
 
         return json_decode($response->getBody(), true);
     }

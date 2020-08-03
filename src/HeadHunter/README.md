@@ -4,6 +4,11 @@
 composer require socialiteproviders/headhunter
 ```
 
+## Register an application 
+
+Add new application at [hh.ru](https://dev.hh.ru/admin).
+In rare cases, the review timeout can reach 20 working days.
+
 ## Installation & Basic Usage
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
@@ -40,3 +45,14 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('headhunter')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``nickname`` (same as ``email``)
+- ``name``
+- ``email``
+
+### Reference
+
+- [HeadHunter API Reference](https://github.com/hhru/api/blob/master/docs_eng/general.md)

@@ -40,3 +40,7 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('hubspot')->redirect();
 ```
+
+### Returned User fields
+
+- ``email``

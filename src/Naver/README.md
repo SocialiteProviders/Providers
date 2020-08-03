@@ -40,3 +40,11 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('naver')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``name``
+- ``nickname``
+- ``email``
+- ``avatar``

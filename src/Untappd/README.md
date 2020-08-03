@@ -40,3 +40,12 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('untappd')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``nickname``
+- ``name``
+- ``email``
+- ``avatar``
+- ``avatar_original``

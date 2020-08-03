@@ -40,3 +40,14 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('jira')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``nickname``
+- ``name``
+- ``email``
+- ``avatar``
+- ``active``
+- ``timezone``
+- ``locale``

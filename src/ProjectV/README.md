@@ -40,3 +40,20 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('projectv')->redirect();
 ```
+
+### Returned User fields
+
+- ``gid``
+- ``vid``
+- ``nickname``
+- ``forename``
+- ``lastname``
+- ``avatarurl``
+- ``email``
+- ``vlevel``
+- ``vpoints``
+- ``quarantine``
+- ``active``
+- ``blacklisted``
+- ``verified``
+- ``flagged``

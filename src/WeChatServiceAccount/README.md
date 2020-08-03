@@ -40,3 +40,9 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('wechat_service_account')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``nickname``
+- ``avatar``

@@ -40,3 +40,11 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('mattermost')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``nickname`` (same as ``name``)
+- ``name``
+- ``email``
+- ``avatar``
