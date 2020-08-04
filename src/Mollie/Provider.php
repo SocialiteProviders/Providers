@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers'     => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            'headers'          => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
             self::getPostKey() => $this->getTokenFields($code),
         ]);
 
@@ -62,7 +62,7 @@ class Provider extends AbstractProvider
     public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers'     => ['Accept' => 'application/json'],
+            'headers'          => ['Accept' => 'application/json'],
             self::getPostKey() => $this->getRefreshTokenFields($refreshToken),
         ]);
 

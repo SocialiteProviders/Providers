@@ -197,7 +197,7 @@ class Provider extends AbstractProvider
         $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'],
+            'headers'   => ['Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'],
             $postKey    => $data,
         ]);
 

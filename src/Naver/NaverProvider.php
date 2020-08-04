@@ -48,7 +48,7 @@ class NaverProvider extends AbstractProvider
 
         $response = $this->getHttpClient()->request('POST', $this->getTokenUrl(), [
             'headers'     => ['Accept' => 'application/json'],
-            $postKey => $this->getTokenFields($code),
+            $postKey      => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode($response->getBody(), true);

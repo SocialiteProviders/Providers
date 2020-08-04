@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers'     => ['Accept' => 'application/json'],
-            $postKey => $this->getRefreshTokenFields($refreshToken),
+            $postKey      => $this->getRefreshTokenFields($refreshToken),
         ]);
 
         return json_decode($response->getBody(), true);

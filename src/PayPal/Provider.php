@@ -78,7 +78,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers'     => ['Accept' => 'application/json'],
             'auth'        => [$this->clientId, $this->clientSecret],
-            $postKey => $this->getTokenFields($code),
+            $postKey      => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode($response->getBody(), true);

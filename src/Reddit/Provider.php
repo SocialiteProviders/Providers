@@ -91,7 +91,7 @@ class Provider extends AbstractProvider
                 'User-Agent' => $this->getUserAgent(),
             ],
             'auth'        => [$this->clientId, $this->clientSecret],
-            $postKey => $this->getTokenFields($code),
+            $postKey      => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode($response->getBody(), true);
