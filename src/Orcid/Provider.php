@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Orcid;
 
+use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -193,9 +194,11 @@ class Provider extends AbstractProvider
         $s = $this->scopes[0];
         $data = "client_id={$this->clientId}&client_secret={$this->clientSecret}&grant_type=client_credentials&scope={$s}";
 
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'],
-            'body'    => $data,
+            $postKey    => $data,
         ]);
 
         return json_decode($response->getBody(), true)['access_token'];

@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Mollie;
 
+use GuzzleHttp\ClientInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -41,11 +42,16 @@ class Provider extends AbstractProvider
         return 'https://api.mollie.com/oauth2/tokens';
     }
 
+    protected static function getPostKey()
+    {
+        return  (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+    }
+
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers'     => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            'form_params' => $this->getTokenFields($code),
+            self::getPostKey() => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode($response->getBody(), true);
@@ -57,7 +63,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers'     => ['Accept' => 'application/json'],
-            'form_params' => $this->getRefreshTokenFields($refreshToken),
+            self::getPostKey() => $this->getRefreshTokenFields($refreshToken),
         ]);
 
         return json_decode($response->getBody(), true);

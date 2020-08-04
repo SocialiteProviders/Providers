@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Procore;
 
+use GuzzleHttp\ClientInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -38,9 +39,11 @@ class Provider extends AbstractProvider
 
     public function getRefreshTokenResponse($refreshToken)
     {
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers'     => ['Accept' => 'application/json'],
-            'form_params' => $this->getRefreshTokenFields($refreshToken),
+            $postKey => $this->getRefreshTokenFields($refreshToken),
         ]);
 
         return json_decode($response->getBody(), true);

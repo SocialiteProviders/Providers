@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Apple;
 
 use Firebase\JWT\JWK;
+use GuzzleHttp\ClientInterface;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -84,9 +85,11 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers'        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            'form_params'    => $this->getTokenFields($code),
+            $postKey    => $this->getTokenFields($code),
         ]);
 
         return json_decode($response->getBody(), true);
