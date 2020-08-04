@@ -8,21 +8,30 @@ composer require socialiteproviders/auth0
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
 
-### Add configuration to `config/services.php`.
+### Add configuration to `config/services.php`
 
 ```php
-'auth0' => [    
-  'client_id' => env('AUTH0_CLIENT_ID'),  
-  'client_secret' => env('AUTH0_CLIENT_SECRET'),  
-  'redirect' => env('AUTH0_REDIRECT_URI') 
+'auth0' => [
+  'client_id' => env('AUTH0_CLIENT_ID'),
+  'client_secret' => env('AUTH0_CLIENT_SECRET'),
+  'redirect' => env('AUTH0_REDIRECT_URI'),
+  'base_url' => env('AUTH0_BASE_URL'),
 ],
+```
+
+### Add base URL to `.env`
+
+Auth0 may require you to autorize against a custom URL, which you may provide as the base URL.
+
+```bash
+AUTH0_BASE_URL=https://example.auth0.com/
 ```
 
 ### Add provider event listener
 
-Configure the package's listener to the listen for `SocialiteWasCalled` events. 
+Configure the package's listener to the listen for `SocialiteWasCalled` events.
 
-Add the event to your `listen[]` array  in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
+Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
 
 ```php
 protected $listen = [
