@@ -82,7 +82,7 @@ parameters:
     src/Live: 'git@github.com:SocialiteProviders/Microsoft-Live.git'
     src/TeamService: 'git@github.com:SocialiteProviders/Microsoft-TeamService.git'
     src/Mixcloud: 'git@github.com:SocialiteProviders/Mixcloud.git'
-    src/MoiKrug: 'git@github.com:SocialiteProviders/MoiKrug.git'
+    src/HabrCareer: 'git@github.com:SocialiteProviders/HabrCareer.git'
     src/Mollie: 'git@github.com:SocialiteProviders/Mollie.git'
     src/Naver: 'git@github.com:SocialiteProviders/Naver.git'
     src/Netlify: 'git@github.com:SocialiteProviders/Netlify.git'
