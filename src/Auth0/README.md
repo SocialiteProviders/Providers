@@ -29,7 +29,7 @@ AUTH0_BASE_URL=https://example.auth0.com/
 
 ### Add provider event listener
 
-Configure the package's listener to the listen for `SocialiteWasCalled` events.
+Configure the package's listener to listen for `SocialiteWasCalled` events.
 
 Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
 
