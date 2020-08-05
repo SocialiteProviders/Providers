@@ -71,7 +71,7 @@ class Provider extends AbstractProvider
         }
         
         $name = null;
-        //Check if user have display name
+        //Check if user has a display name
         if (!empty($user['subreddit']['title'])) {
             $name = $user['subreddit']['title'];
         }
