@@ -46,3 +46,7 @@ return Socialite::with('apple')->redirect();
 - ``id``
 - ``name``
 - ``email``
+
+### Reference
+
+- [Apple API Reference](https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api)

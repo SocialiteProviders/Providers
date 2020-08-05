@@ -46,3 +46,7 @@ return Socialite::with('bitly')->redirect();
 - ``nickname``
 - ``name``
 - ``email``
+
+### Reference
+
+- [Bitly API Reference](https://dev.bitly.com/api-reference)

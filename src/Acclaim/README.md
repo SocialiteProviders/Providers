@@ -48,3 +48,7 @@ return Socialite::with('acclaim')->redirect();
 - ``name`` (same as ``nickname``)
 - ``email``
 - ``avatar``
+
+### Reference
+
+- [Acclaim API Reference](https://www.youracclaim.com/docs/web_service_api)

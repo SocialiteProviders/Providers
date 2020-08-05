@@ -47,3 +47,7 @@ return Socialite::with('asana')->redirect();
 - ``name``
 - ``email``
 - ``avatar``
+
+### Reference
+
+- [Asana API Reference](https://developers.asana.com/docs)

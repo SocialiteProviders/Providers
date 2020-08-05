@@ -45,3 +45,7 @@ return Socialite::with('battlenet')->redirect();
 
 - ``id``
 - ``nickname``
+
+### Reference
+
+- [Blizzard API Reference](https://develop.battle.net/documentation/guides)

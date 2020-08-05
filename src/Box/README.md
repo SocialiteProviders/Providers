@@ -47,3 +47,7 @@ return Socialite::with('box')->redirect();
 - ``name``
 - ``email``
 - ``avatar``
+
+### Reference
+
+- [Box API Reference](https://developer.box.com/reference/)

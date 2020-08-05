@@ -44,3 +44,7 @@ return Socialite::with('aweber')->redirect();
 ### Returned User fields
 
 - ``id``
+
+### Reference
+
+- [Aweber API Reference](https://api.aweber.com/)
