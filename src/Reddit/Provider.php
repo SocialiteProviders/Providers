@@ -60,7 +60,6 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         $avatar = null;
-
         if (!empty($user['icon_img'])) {
             $avatar = $user['icon_img'];
 
@@ -71,9 +70,15 @@ class Provider extends AbstractProvider
             }
         }
 
+        $name = null;
+        //Check if user has a display name
+        if (!empty($user['subreddit']['title'])) {
+            $name = $user['subreddit']['title'];
+        }
+
         return (new User())->setRaw($user)->map([
             'id'   => $user['id'], 'nickname' => $user['name'],
-            'name' => null, 'email' => null, 'avatar' => $avatar,
+            'name' => $name, 'email' => null, 'avatar' => $avatar,
         ]);
     }
 
