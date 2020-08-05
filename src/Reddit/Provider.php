@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
                 $avatar = substr($avatar, 0, $querypos);
             }
         }
-        
+
         $name = null;
         //Check if user has a display name
         if (!empty($user['subreddit']['title'])) {
