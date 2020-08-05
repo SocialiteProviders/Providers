@@ -1,7 +1,7 @@
 # Graph
 
 ```bash
-composer require socialiteproviders/graph
+composer require socialiteproviders/microsoft-graph
 ```
 
 ## Installation & Basic Usage

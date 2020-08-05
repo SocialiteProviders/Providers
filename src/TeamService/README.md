@@ -1,7 +1,7 @@
 # TeamService
 
 ```bash
-composer require socialiteproviders/teamservice
+composer require socialiteproviders/microsoft-teamservice
 ```
 
 ## Installation & Basic Usage

@@ -1,7 +1,7 @@
 # Azure
 
 ```bash
-composer require socialiteproviders/azure
+composer require socialiteproviders/microsoft-azure
 ```
 
 ## Installation & Basic Usage

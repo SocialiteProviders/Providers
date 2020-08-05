@@ -1,7 +1,7 @@
 # InstagramBasic
 
 ```bash
-composer require socialiteproviders/instagrambasic
+composer require socialiteproviders/instagram-basic
 ```
 
 ## Installation & Basic Usage

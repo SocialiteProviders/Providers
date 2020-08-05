@@ -1,7 +1,7 @@
 # Live
 
 ```bash
-composer require socialiteproviders/live
+composer require socialiteproviders/microsoft-live
 ```
 
 ## Installation & Basic Usage
