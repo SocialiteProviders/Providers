@@ -13,7 +13,7 @@ In rare cases, the review timeout can reach 20 working days.
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
 
-### Add configuration to `config/services.php`.
+### Add configuration to `config/services.php`
 
 ```php
 'habrcareer' => [    
@@ -25,9 +25,9 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ### Add provider event listener
 
-Configure the package's listener to listen for `SocialiteWasCalled` events. 
+Configure the package's listener to listen for `SocialiteWasCalled` events.
 
-Add the event to your `listen[]` array  in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
+Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
 
 ```php
 protected $listen = [
