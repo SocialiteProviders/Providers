@@ -40,3 +40,15 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::with('bitbucket')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``nickname``
+- ``name``
+- ``email``
+- ``avatar``
+
+### Reference
+
+- [Bitbucket API Reference](https://developer.atlassian.com/bitbucket/api/2/reference/)

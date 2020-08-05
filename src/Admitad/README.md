@@ -41,10 +41,13 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::with('admitad')->redirect();
 ```
 
-
 ### Returned User fields
 
 - ``id``
 - ``nickname``
 - ``name``
 - ``email``
+
+### Reference
+
+- [Admitad API Reference](https://account.admitad.com/en/developers/doc/advertiser-api/)

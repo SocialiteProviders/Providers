@@ -4,6 +4,12 @@
 composer require socialiteproviders/buffer
 ```
 
+::: warning 
+As of October 14th, 2019, Buffer no longer supports the registration of new developer applications. 
+Applications created prior to this date will retain access to the Buffer Publish API. 
+Please visit our [Changelog](https://buffer.com/developers/api/logs) page for more details.
+:::
+
 ## Installation & Basic Usage
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
@@ -45,3 +51,7 @@ return Socialite::with('buffer')->redirect();
 
 - ``id``
 - ``name``
+
+### Reference
+
+- [Buffer API Reference](https://buffer.com/developers/api)
