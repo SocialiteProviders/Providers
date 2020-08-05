@@ -73,7 +73,7 @@ class Provider extends AbstractProvider
 
         return (new User())->setRaw($user)->map([
             'id'   => $user['id'], 'nickname' => $user['name'],
-            'name' => null, 'email' => null, 'avatar' => $avatar,
+            'name' => $user['subreddit'][0]['title'], 'email' => null, 'avatar' => strtok($user['icon_img'], '?'),
         ]);
     }
 
