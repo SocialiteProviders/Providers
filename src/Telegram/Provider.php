@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
     public function getButton()
     {
         $botname = $this->config['bot'];
-        $callbackUrl = $this->config['redirect'];
+        $callbackUrl = $this->getConfig('redirect');
 
         return sprintf(
             '<script async src="https://telegram.org/js/telegram-widget.js" data-telegram-login="%s" data-size="large" data-userpic="false" data-auth-url="%s" data-request-access="write"></script>',
