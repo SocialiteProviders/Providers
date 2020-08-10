@@ -53,7 +53,11 @@ class Provider extends AbstractProvider
         $botname = $this->config['bot'];
         $callbackUrl = $this->config['redirect'];
 
-        return '<script async src="https://telegram.org/js/telegram-widget.js" data-telegram-login="'.$botname.'" data-size="large" data-userpic="false" data-auth-url="'.$callbackUrl.'" data-request-access="write"></script>';
+        return sprintf(
+            '<script async src="https://telegram.org/js/telegram-widget.js" data-telegram-login="%s" data-size="large" data-userpic="false" data-auth-url="%s" data-request-access="write"></script>',
+            $botname,
+            $callbackUrl
+        );
     }
 
     /**
