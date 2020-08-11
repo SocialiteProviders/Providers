@@ -128,6 +128,7 @@ parameters:
     src/SURFconext: 'git@github.com:SocialiteProviders/SURFconext.git'
     src/Teamleader: 'git@github.com:SocialiteProviders/Teamleader.git'
     src/Teamweek: 'git@github.com:SocialiteProviders/Teamweek.git'
+    src/Telegram: 'git@github.com:SocialiteProviders/Telegram.git'
     src/Todoist: 'git@github.com:SocialiteProviders/Todoist.git'
     src/Trakt: 'git@github.com:SocialiteProviders/Trakt.git'
     src/Trello: 'git@github.com:SocialiteProviders/Trello.git'

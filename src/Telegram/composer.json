@@ -1,0 +1,25 @@
+{
+    "name": "socialiteproviders/telegram",
+    "description": "Telegram Authentication Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Adnan RIHAN",
+        "email": "adnan@rihan.fr"
+    }],
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Telegram\\": ""
+        }
+    },
+    "extra": {
+        "laravel": {
+            "aliases": {
+                "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
+            }
+        }
+    },
+    "require": {
+        "php": "^7.2",
+        "socialiteproviders/manager": "~3.0"
+    }
+}
