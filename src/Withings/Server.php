@@ -139,7 +139,7 @@ class Server extends BaseServer
         if (!$this->cachedUserDetailsResponse || $force) {
 
             // The user-endpoint
-            $endpoint = 'http://wbsapi.withings.net/user';
+            $endpoint = 'https://wbsapi.withings.net/user';
 
             // Parse the parameters
             $parameters = $this->getOauthParameters($endpoint, $tokenCredentials, [

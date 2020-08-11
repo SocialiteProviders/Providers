@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'WECHAT_SERVICE_ACCOUNT';
+    public const IDENTIFIER = 'WECHAT_SERVICE_ACCOUNT';
 
     /**
      * {@inheritdoc}
@@ -44,7 +44,7 @@ class Provider extends AbstractProvider
             $this->credentialsResponseBody['openid'] : $this->openId;
 
         // HACK: Tencent return id when grant token, and can not get user by this token
-        if (in_array('snsapi_base', $this->getScopes())) {
+        if (in_array('snsapi_base', $this->getScopes(), true)) {
             return ['openid' => $openId];
         }
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
@@ -65,7 +65,7 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             // HACK: use unionid as user id
-            'id'       => in_array('unionid', $this->getScopes()) ? $user['unionid'] : $user['openid'],
+            'id'       => in_array('unionid', $this->getScopes(), true) ? $user['unionid'] : $user['openid'],
             // HACK: Tencent scope snsapi_base only return openid
             'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
             'name'     => null,
@@ -105,12 +105,12 @@ class Provider extends AbstractProvider
     protected function formatScopes(array $scopes, $scopeSeparator)
     {
         // HACK: unionid is a faker scope for user id
-        if (in_array('unionid', $scopes)) {
+        if (in_array('unionid', $scopes, true)) {
             unset($scopes[array_search('unionid', $scopes)]);
         }
         // HACK: use scopes() instead of setScopes()
         // docs: https://laravel.com/docs/socialite#access-scopes
-        if (in_array('snsapi_base', $scopes)) {
+        if (in_array('snsapi_base', $scopes, true)) {
             unset($scopes[array_search('snsapi_userinfo', $scopes)]);
         }
 

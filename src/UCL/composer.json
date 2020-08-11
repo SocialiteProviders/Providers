@@ -2,15 +2,19 @@
     "name": "socialiteproviders/ucl",
     "description": "UCL API OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Balázs Dura-Kovács"
-    }, {
-        "name": "Anton Komarev",
-        "email": "ell@cybercog.su"
-    }],
+    "authors": [
+        {
+            "name": "Bal\u00e1zs Dura-Kov\u00e1cs"
+        },
+        {
+            "name": "Anton Komarev",
+            "email": "ell@cybercog.su"
+        }
+    ],
     "require": {
-        "php": ">=7.0",
-        "socialiteproviders/manager": "^3.0"
+        "php": "^7.2",
+        "socialiteproviders/manager": "~2.0 || ~3.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

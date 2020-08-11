@@ -11,6 +11,6 @@ class DataportenExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('dataporten', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('dataporten', Provider::class);
     }
 }

@@ -13,9 +13,6 @@ class UnsplashExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'unsplash',
-            __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('unsplash', Provider::class);
     }
 }

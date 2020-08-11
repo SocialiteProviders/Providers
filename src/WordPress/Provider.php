@@ -11,14 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'WORDPRESS';
-
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
-    protected $scopes = [];
+    public const IDENTIFIER = 'WORDPRESS';
 
     /**
      * {@inheritdoc}

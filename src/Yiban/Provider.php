@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'YIBAN';
+    public const IDENTIFIER = 'YIBAN';
 
     /**
      * @var string
@@ -81,9 +81,8 @@ class Provider extends AbstractProvider
             $userUrl,
             $this->getRequestOptions()
         );
-        $user = json_decode($response->getBody(), true);
 
-        return $user;
+        return json_decode($response->getBody(), true);
     }
 
     /**

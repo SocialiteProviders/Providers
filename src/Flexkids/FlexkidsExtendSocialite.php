@@ -11,6 +11,6 @@ class FlexkidsExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('flexkids', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('flexkids', Provider::class);
     }
 }

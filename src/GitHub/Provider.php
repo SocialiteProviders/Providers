@@ -13,5 +13,5 @@ class Provider extends GithubProvider implements ProviderInterface
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'GITHUB';
+    public const IDENTIFIER = 'GITHUB';
 }

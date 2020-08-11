@@ -2,12 +2,14 @@
     "name": "socialiteproviders/orcid",
     "description": "ORCID OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Ben Cornwell",
-        "email": "ben@bencornwell.com"
-    }],
+    "authors": [
+        {
+            "name": "Ben Cornwell",
+            "email": "ben@bencornwell.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

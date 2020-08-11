@@ -10,19 +10,14 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'BATTLENET';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+    public const IDENTIFIER = 'BATTLENET';
 
     /**
      * {@inheritdoc}
      */
     protected $scopeSeparator = '+';
 
-    protected static $region = null;
+    protected static $region;
 
     /**
      * {@inheritdoc}
@@ -78,9 +73,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getRegion()
     {
         if (self::$region) {

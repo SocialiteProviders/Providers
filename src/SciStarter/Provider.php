@@ -3,16 +3,22 @@
 namespace SocialiteProviders\SciStarter;
 
 use Illuminate\Support\Arr;
-use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'SCISTARTER';
+    public const IDENTIFIER = 'SCISTARTER';
+
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
@@ -55,7 +61,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             ],
             'headers' => [
                 'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
+                'Authorization' => "Bearer $token",
             ],
         ]);
 

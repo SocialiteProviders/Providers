@@ -3,6 +3,8 @@
 namespace SocialiteProviders\Jira;
 
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
+use League\OAuth1\Client\Credentials\ClientCredentialsInterface;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use League\OAuth1\Client\Signature\SignatureInterface;
@@ -10,7 +12,7 @@ use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 
 class Server extends BaseServer
 {
-    const JIRA_BASE_URL = 'http://example.jira.com';
+    public const JIRA_BASE_URL = 'https://example.jira.com';
 
     private $jiraBaseUrl;
     private $jiraCertPath;
@@ -39,7 +41,7 @@ class Server extends BaseServer
 
             $clientCredentials = $this->createClientCredentials($clientCredentials);
         } elseif (!$clientCredentials instanceof ClientCredentialsInterface) {
-            throw new \InvalidArgumentException('Client credentials must be an array or valid object.');
+            throw new InvalidArgumentException('Client credentials must be an array or valid object.');
         }
 
         $this->clientCredentials = $clientCredentials;
@@ -64,7 +66,7 @@ class Server extends BaseServer
     public function getTokenCredentials(TemporaryCredentials $temporaryCredentials, $temporaryIdentifier, $verifier)
     {
         if ($temporaryIdentifier !== $temporaryCredentials->getIdentifier()) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Temporary identifier passed back by server does not match that of stored temporary credentials.
                 Potential man-in-the-middle.'
             );

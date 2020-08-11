@@ -2,16 +2,18 @@
     "name": "socialiteproviders/smashcast",
     "description": "Smashcast OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Jérôme Foray",
-        "email": "moi@foray-jero.me"
-    },
-    {
-        "name": "Valentin Hutter",
-        "email": "contact@valentinhutter.ch"
-    }],
+    "authors": [
+        {
+            "name": "J\u00e9r\u00f4me Foray",
+            "email": "moi@foray-jero.me"
+        },
+        {
+            "name": "Valentin Hutter",
+            "email": "contact@valentinhutter.ch"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

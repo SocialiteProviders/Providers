@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MEDIUM';
+    public const IDENTIFIER = 'MEDIUM';
 
     protected $scopes = ['basicProfile'];
 

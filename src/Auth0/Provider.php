@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'AUTH0';
+    public const IDENTIFIER = 'AUTH0';
 
     /**
      * {@inheritdoc}
@@ -24,9 +24,6 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuth0Url()
     {
         return $this->getConfig('base_url');

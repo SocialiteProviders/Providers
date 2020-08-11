@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'AZURE';
+    public const IDENTIFIER = 'AZURE';
 
     /**
      * The base Azure Graph URL.

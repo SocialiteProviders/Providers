@@ -2,16 +2,15 @@
 
 namespace SocialiteProviders\Coinbase;
 
-use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'COINBASE';
+    public const IDENTIFIER = 'COINBASE';
 
     /**
      * {@inheritdoc}

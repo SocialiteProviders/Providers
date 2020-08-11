@@ -3,31 +3,27 @@
 namespace SocialiteProviders\Flexkids;
 
 use Illuminate\Auth\AuthenticationException;
-use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 /**
  * Class Provider.
  */
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'FLEXKIDS';
+    public const IDENTIFIER = 'FLEXKIDS';
 
     /**
      * {@inheritdoc}
      */
     protected $scopes = ['basic'];
 
-    /**
-     * @var null
-     */
-    protected $idToken = null;
+    protected $idToken;
 
-    protected $uniqueUserId = null;
+    protected $uniqueUserId;
 
     /**
      * {@inheritdoc}
@@ -35,9 +31,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         $bashUrl = $this->buildAuthUrlFromBase($this->getConfig('authurl'), $state);
-        $url = sprintf('%s&resource=%s', $bashUrl, urlencode($this->getConfig('resource')));
 
-        return $url;
+        return sprintf('%s&resource=%s', $bashUrl, urlencode($this->getConfig('resource')));
     }
 
     /**

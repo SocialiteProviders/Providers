@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'makerlog';
+    public const IDENTIFIER = 'makerlog';
 
     /**
      * {@inheritdoc}
@@ -51,9 +51,6 @@ class Provider extends AbstractProvider
         return $this->baseUrl().'/oauth/token/';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getEmailUrl()
     {
         return $this->baseUrl().'/accounts/read_email/';

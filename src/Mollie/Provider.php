@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MOLLIE';
+    public const IDENTIFIER = 'MOLLIE';
 
     /**
      * {@inheritdoc}
@@ -41,9 +41,6 @@ class Provider extends AbstractProvider
         return 'https://api.mollie.com/oauth2/tokens';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
@@ -56,9 +53,6 @@ class Provider extends AbstractProvider
         return $this->parseAccessToken($response->getBody());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
@@ -81,9 +75,6 @@ class Provider extends AbstractProvider
         return json_decode($response->getBody(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRefreshTokenFields($refreshToken)
     {
         return [

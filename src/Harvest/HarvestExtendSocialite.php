@@ -11,6 +11,6 @@ class HarvestExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('harvest', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('harvest', Provider::class);
     }
 }

@@ -11,27 +11,27 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'ORCID';
+    public const IDENTIFIER = 'ORCID';
 
     /**
      * Base URL for ORCID Sandpit Environment.
      */
-    const sandboxURL = 'https://sandbox.orcid.org/';
+    public const sandboxURL = 'https://sandbox.orcid.org/';
 
     /**
      * Base URL for ORCID Production Environment.
      */
-    const productionURL = 'https://orcid.org/';
+    public const productionURL = 'https://orcid.org/';
 
     /**
      * Profile Data URL for ORCID Sandpit Environment.
      */
-    const sandboxProfileURL = 'https://pub.sandbox.orcid.org/v2.1/';
+    public const sandboxProfileURL = 'https://pub.sandbox.orcid.org/v2.1/';
 
     /**
      * Profile Data URL for ORCID Production Environment.
      */
-    const productionProfileURL = 'https://pub.orcid.org/v2.1/';
+    public const productionProfileURL = 'https://pub.orcid.org/v2.1/';
 
     /**
      * The scopes being requested.
@@ -59,7 +59,7 @@ class Provider extends AbstractProvider
      */
     protected function useSandbox()
     {
-        return  env('ORCID_ENVIRONMENT') != 'production';
+        return  env('ORCID_ENVIRONMENT') !== 'production';
     }
 
     /**
@@ -162,7 +162,7 @@ class Provider extends AbstractProvider
     protected function getEmail($user)
     {
         foreach ($user['person']['emails']['email'] as $m) {
-            if ($m['primary'] == true and $m['verified'] == true) {
+            if ($m['primary'] === true && $m['verified'] === true) {
                 return $m['email'];
             }
         }
@@ -211,13 +211,5 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return parent::getTokenFields($code) + ['grant_type' => 'authorization_code', 'orcid' => 'orcid'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
-    {
-        return [];
     }
 }

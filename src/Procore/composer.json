@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/procore",
+    "description": "Procore OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chris Forrence",
+            "email": "chrisforrence@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Procore\\": ""
+        }
+    }
+}

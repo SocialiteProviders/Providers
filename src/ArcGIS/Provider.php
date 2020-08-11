@@ -10,11 +10,8 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'ARCGIS';
+    public const IDENTIFIER = 'ARCGIS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getBaseUrl()
     {
         $port = is_null($this->getServerPort()) ? '' : ':'.$this->getServerPort();
@@ -84,25 +81,16 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getServerHost()
     {
         return $this->getConfig('arcgis_host', 'www.arcgis.com');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getServerPort()
     {
         return $this->getConfig('arcgis_port', null);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getServerDirectory()
     {
         return $this->getConfig('arcgis_directory', null);

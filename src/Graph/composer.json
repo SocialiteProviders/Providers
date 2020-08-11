@@ -2,12 +2,14 @@
     "name": "socialiteproviders/microsoft-graph",
     "description": "Microsoft Graph OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Chris Edgerton",
-        "email": "cjedgerton@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "Chris Edgerton",
+            "email": "cjedgerton@gmail.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

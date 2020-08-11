@@ -8,7 +8,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    const IDENTIFIER = 'SURFconext';
+    public const IDENTIFIER = 'SURFconext';
 
     protected $scopes = ['openid'];
 

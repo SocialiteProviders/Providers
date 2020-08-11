@@ -11,6 +11,6 @@ class VenmoExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('venmo', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('venmo', Provider::class);
     }
 }

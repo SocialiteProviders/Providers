@@ -2,12 +2,14 @@
     "name": "socialiteproviders/dataporten",
     "description": "Dataporten OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Jørgen Birkhaug",
-        "email": "jorgen.birkhaug@uib.no"
-    }],
+    "authors": [
+        {
+            "name": "J\u00f8rgen Birkhaug",
+            "email": "jorgen.birkhaug@uib.no"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

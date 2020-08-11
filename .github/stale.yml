@@ -14,6 +14,8 @@ onlyLabels: []
 exemptLabels:
   - pinned
   - security
+  - provider suggestion
+  - bug
 
 # Set to true to ignore issues in a project (defaults to false)
 exemptProjects: true

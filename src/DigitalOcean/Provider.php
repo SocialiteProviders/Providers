@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'DIGITALOCEAN';
+    public const IDENTIFIER = 'DIGITALOCEAN';
 
     /**
      * {@inheritdoc}
@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'     => $user['uuid'], 'nickname' => null, 'name' => null,
             'email'  => $user['email'],
-            'avatar' => 'http://www.gravatar.com/avatar/'.md5($user['email']),
+            'avatar' => 'https://www.gravatar.com/avatar/'.md5($user['email']),
         ]);
     }
 

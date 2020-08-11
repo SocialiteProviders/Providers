@@ -11,6 +11,6 @@ class Auth0ExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('auth0', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('auth0', Provider::class);
     }
 }

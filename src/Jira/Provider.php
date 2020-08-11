@@ -11,11 +11,8 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'JIRA';
+    public const IDENTIFIER = 'JIRA';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function mapUserToObject(array $user)
     {
         $userObject = new User();
@@ -34,8 +31,6 @@ class Provider extends AbstractProvider
             'timezone' => Arr::get($user, 'timeZone'),
             'locale'   => Arr::get($user, 'locale'),
         ]);
-
-        return $userObject;
     }
 
     public static function additionalConfigKeys()

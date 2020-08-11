@@ -17,10 +17,10 @@ jobs:
       - name: Prepare repository
         run: git checkout "${GITHUB_REF:11}"
 
-      - name:  Set up PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: '7.3'
+          php-version: '7.4'
           coverage: none
 
       - name: Composer Install

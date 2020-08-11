@@ -11,9 +11,6 @@ class GettyImagesExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'gettyimages',
-            __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('gettyimages', Provider::class);
     }
 }

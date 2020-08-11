@@ -2,13 +2,16 @@
     "name": "socialiteproviders/jira",
     "description": "Jira OAuth1 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Julia Grishchenko",
-        "email": "yulia.grischenko@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "Julia Grishchenko",
+            "email": "yulia.grischenko@gmail.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
+        "ext-openssl": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },
     "autoload": {

@@ -63,7 +63,7 @@ class Server extends BaseServer
 
         foreach ($data as $key => $value) {
             if (strpos($key, 'url') !== false) {
-                if (!in_array($key, $used)) {
+                if (!in_array($key, $used, true)) {
                     $used[] = $key;
                 }
 
@@ -109,10 +109,10 @@ class Server extends BaseServer
         if ($temporaryIdentifier instanceof TemporaryCredentials) {
             $temporaryIdentifier = $temporaryIdentifier->getIdentifier();
         }
-        $query_oauth_token = ['oauth_token' => $temporaryIdentifier];
+        $queryOauthToken = ['oauth_token' => $temporaryIdentifier];
         $parameters = (isset($this->parameters))
-            ? array_merge($query_oauth_token, $this->parameters)
-            : $query_oauth_token;
+            ? array_merge($queryOauthToken, $this->parameters)
+            : $queryOauthToken;
 
         $url = $this->urlAuthorization();
         $queryString = http_build_query($parameters);

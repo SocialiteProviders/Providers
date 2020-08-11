@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

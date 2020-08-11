@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\GarminConnect;
 
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth1\AbstractProvider;
 use SocialiteProviders\Manager\OAuth1\User;
 
@@ -10,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'GARMIN_CONNECT';
+    public const IDENTIFIER = 'GARMIN_CONNECT';
 
     /**
      * {@inheritdoc}
@@ -18,7 +19,7 @@ class Provider extends AbstractProvider
     public function user()
     {
         if (!$this->hasNecessaryVerifier()) {
-            throw new \InvalidArgumentException('Invalid request. Missing OAuth verifier.');
+            throw new InvalidArgumentException('Invalid request. Missing OAuth verifier.');
         }
 
         $token = $this->getToken();

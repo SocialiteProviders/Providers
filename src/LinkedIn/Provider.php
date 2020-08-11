@@ -13,7 +13,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'LINKEDIN';
+    public const IDENTIFIER = 'LINKEDIN';
 
     /**
      * {@inheritdoc}
@@ -144,9 +144,6 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map($user);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [

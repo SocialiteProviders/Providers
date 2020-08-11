@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Mattermost;
 
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -10,12 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MATTERMOST';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+    public const IDENTIFIER = 'MATTERMOST';
 
     /**
      * {@inheritdoc}
@@ -99,19 +95,14 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        $a = parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
-
-        return $a;
+        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInstanceUri()
     {
         $uri = $this->getConfig('instance_uri', null);
         if (!$uri) {
-            throw new \InvalidArgumentException('No instance_uri. ENV['.self::IDENTIFIER.'_INSTANCE_URI]=https://mm.example.com/ must be provided.');
+            throw new InvalidArgumentException('No instance_uri. ENV['.self::IDENTIFIER.'_INSTANCE_URI]=https://mm.example.com/ must be provided.');
         }
 
         return $uri;

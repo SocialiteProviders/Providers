@@ -11,6 +11,6 @@ class AdmitadExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('admitad', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('admitad', Provider::class);
     }
 }

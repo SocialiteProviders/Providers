@@ -11,16 +11,13 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'KEYCLOAK';
+    public const IDENTIFIER = 'KEYCLOAK';
 
     public static function additionalConfigKeys()
     {
         return ['base_url', 'realms'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getBaseUrl()
     {
         return rtrim(rtrim($this->getConfig('base_url'), '/').'/realms/'.$this->getConfig('realms', 'master'), '/');

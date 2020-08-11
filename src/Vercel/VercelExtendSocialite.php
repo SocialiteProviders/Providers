@@ -11,6 +11,6 @@ class VercelExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('vercel', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('vercel', Provider::class);
     }
 }

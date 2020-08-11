@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MEETUP';
+    public const IDENTIFIER = 'MEETUP';
 
     protected $version = '2';
     protected $scopes = ['ageless'];
@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        // http://www.meetup.com/meetup_api/auth/#oauth2-resources
+        // https://www.meetup.com/meetup_api/auth/#oauth2-resources
         $response = $this->getHttpClient()->get(
             'https://api.meetup.com/'.$this->version.'/member/self?access_token='.$token,
             [
@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        // see http://www.meetup.com/meetup_api/auth/#oauth2server-access
+        // see https://www.meetup.com/meetup_api/auth/#oauth2server-access
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);

@@ -8,18 +8,17 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
-use Laravel\Socialite\Two\ProviderInterface;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'APPLE';
+    public const IDENTIFIER = 'APPLE';
 
     private const URL = 'https://appleid.apple.com';
 
@@ -30,6 +29,11 @@ class Provider extends AbstractProvider implements ProviderInterface
         'name',
         'email',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $encodingType = PHP_QUERY_RFC3986;
 
     /**
      * The separating character for the requested scopes.
@@ -135,17 +139,17 @@ class Provider extends AbstractProvider implements ProviderInterface
             return json_decode(file_get_contents(self::URL.'/auth/keys'), true);
         });
 
-        $public_keys = JWK::parseKeySet($data);
+        $publicKeys = JWK::parseKeySet($data);
 
-        $signature_verified = false;
+        $signatureVerified = false;
 
-        foreach ($public_keys as $res) {
+        foreach ($publicKeys as $res) {
             $publicKey = openssl_pkey_get_details($res);
             if ($token->verify($signer, $publicKey['key'])) {
-                $signature_verified = true;
+                $signatureVerified = true;
             }
         }
-        if (!$signature_verified) {
+        if (!$signatureVerified) {
             throw new InvalidStateException('Invalid JWT Signature');
         }
 
@@ -160,13 +164,13 @@ class Provider extends AbstractProvider implements ProviderInterface
         //Temporary fix to enable stateless
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        $apple_user_token = $this->getUserByToken(
+        $appleUserToken = $this->getUserByToken(
             $token = Arr::get($response, 'id_token')
         );
 
         if ($this->usesState()) {
-            list($uuid, $state) = explode('.', $apple_user_token['nonce']);
-            if (md5($state) == $this->request->input('state')) {
+            $state = explode('.', $appleUserToken['nonce'])[1];
+            if (md5($state) === $this->request->input('state')) {
                 $this->request->session()->put('state', md5($state));
                 $this->request->session()->put('state_verify', $state);
             }
@@ -175,7 +179,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             }
         }
 
-        $user = $this->mapUserToObject($apple_user_token);
+        $user = $this->mapUserToObject($appleUserToken);
 
         if ($user instanceof User) {
             $user->setAccessTokenResponseBody($response);
@@ -191,8 +195,10 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        if (request()->filled('user')) {
-            $userRequest = json_decode(request('user'), true);
+        $value = trim((string) request('user'));
+
+        if ($value !== '') {
+            $userRequest = json_decode($value, true);
 
             if (array_key_exists('name', $userRequest)) {
                 $user['name'] = $userRequest['name'];

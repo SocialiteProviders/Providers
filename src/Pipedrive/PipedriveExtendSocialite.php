@@ -11,6 +11,6 @@ class PipedriveExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('pipedrive', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('pipedrive', Provider::class);
     }
 }

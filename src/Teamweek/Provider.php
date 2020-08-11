@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'TEAMWEEK';
+    public const IDENTIFIER = 'TEAMWEEK';
 
     /**
      * {@inheritdoc}
@@ -84,9 +84,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInstanceUri()
     {
         return $this->getConfig('instance_uri', 'https://teamweek.com');

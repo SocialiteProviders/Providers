@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'PINTEREST';
+    public const IDENTIFIER = 'PINTEREST';
 
     /**
      * {@inheritdoc}

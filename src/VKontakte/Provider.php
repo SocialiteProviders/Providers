@@ -4,6 +4,7 @@ namespace SocialiteProviders\VKontakte;
 
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\InvalidStateException;
+use RuntimeException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -14,7 +15,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'VKONTAKTE';
+    public const IDENTIFIER = 'VKONTAKTE';
 
     /**
      * {@inheritdoc}
@@ -29,7 +30,7 @@ class Provider extends AbstractProvider
     /**
      * Last API version.
      */
-    const VERSION = '5.92';
+    public const VERSION = '5.92';
 
     /**
      * {@inheritdoc}
@@ -55,9 +56,10 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $from_token = [];
+        $formToken = [];
+
         if (is_array($token)) {
-            $from_token['email'] = isset($token['email']) ? $token['email'] : null;
+            $formToken['email'] = isset($token['email']) ? $token['email'] : null;
 
             $token = $token['access_token'];
         }
@@ -76,13 +78,13 @@ class Provider extends AbstractProvider
         $response = json_decode($contents, true);
 
         if (!is_array($response) || !isset($response['response'][0])) {
-            throw new \RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Invalid JSON response from VK: %s',
                 $contents
             ));
         }
 
-        return array_merge($from_token, $response['response'][0]);
+        return array_merge($formToken, $response['response'][0]);
     }
 
     /**

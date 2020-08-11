@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'WEIXINWEB';
+    public const IDENTIFIER = 'WEIXINWEB';
 
     /**
      * @var string

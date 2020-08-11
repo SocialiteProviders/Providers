@@ -11,6 +11,6 @@ class RedBoothExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('redbooth', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('redbooth', Provider::class);
     }
 }
