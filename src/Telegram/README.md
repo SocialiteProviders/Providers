@@ -8,13 +8,19 @@ composer require socialiteproviders/telegram
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
 
-### Add configuration to `config/services.php`
+## Configuration
+
+First of all, you must create a bot by contacting [@BotFather](http://t.me/BotFather) (https://core.telegram.org/bots#6-botfather)
+
+> Don't forget to set your website URL using `/setdomain`
+
+Then, you need to add your bot's configuration to `config/services.php`. The bot username is required, `client_id` must be `null`. The provider will also ask permission for the bot to write to the user.
 
 ```php
-'telegram' => [    
-  'bot' => env('TELEGRAM_BOT'),  
-  'client_secret' => env('TELEGRAM_CLIENT_SECRET'),  
-  'redirect' => env('TELEGRAM_REDIRECT_URI') 
+'telegram' => [
+    'bot' => env('TELEGRAM_TOKEN'),
+    'client_secret' => null,
+    'redirect' => env('TELEGRAM_REDIRECT_URI'),
 ],
 ```
 
@@ -35,8 +41,24 @@ protected $listen = [
 
 ### Usage
 
-You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
+Now, Telegram is technically using `OAuth`, but not the usual workflow.
+
+First or all, you **must** add a javascript to your page, anywhere you want (in the `<head>` or bottom of page) with this snippet:
 
 ```php
-return Socialite::with('telegram')->redirect();
+{!! Socialite::driver('telegram')->getScript() !!}
 ```
+
+You also **must** call `_TWidgetLogin.auth()` on click on your login button, which will open a popup showing the Telegram OAuth access request. Because of browser's security, you can't automatically call this, it must be called as a result of a user's action.
+
+If the user **accept** the access request, the browser is redirected to your `services.telegram.redirect` config key and you will have access to the logged-in user data the classic `Socialite` way:
+
+```php
+Socialite::driver('telegram')->user();
+```
+
+If the user **declines**, an `InvalidArgumentException` exception will be thrown.
+
+Using `Socialite::driver('telegram')->redirect()` will show you a blank page with only the login button.
+
+If you want to see the Telegram Widget configuration page: https://core.telegram.org/widgets/login
