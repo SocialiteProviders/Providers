@@ -6,8 +6,9 @@ use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 /**
- * https://docs.whmcs.com/OpenID_Connect_Developer_Guide
  * Class Provider.
+ *
+ * @see https://docs.whmcs.com/OpenID_Connect_Developer_Guide
  */
 class Provider extends AbstractProvider
 {
