@@ -152,6 +152,7 @@ parameters:
     src/Weibo: 'git@github.com:SocialiteProviders/Weibo.git'
     src/Weixin: 'git@github.com:SocialiteProviders/Weixin.git'
     src/WeixinWeb: 'git@github.com:SocialiteProviders/Weixin-Web.git'
+    src/Whmcs: 'git@github.com:SocialiteProviders/Whmcs.git'
     src/Withings: 'git@github.com:SocialiteProviders/Withings.git'
     src/WordPress: 'git@github.com:SocialiteProviders/WordPress.git'
     src/Xing: 'git@github.com:SocialiteProviders/Xing.git'
