@@ -91,6 +91,7 @@ parameters:
     src/Odnoklassniki: 'git@github.com:SocialiteProviders/Odnoklassniki.git'
     src/Okta: 'git@github.com:SocialiteProviders/Okta.git'
     src/OSChina: 'git@github.com:SocialiteProviders/OSChina.git'
+    src/Ovh: 'git@github.com:SocialiteProviders/Ovh.git'
     src/Patreon: 'git@github.com:SocialiteProviders/Patreon.git'
     src/Paymill: 'git@github.com:SocialiteProviders/Paymill.git'
     src/PayPal: 'git@github.com:SocialiteProviders/PayPal.git'
