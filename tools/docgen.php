@@ -14,10 +14,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'%PROVIDER_ALIAS%' => [    
-  'client_id' => env('%PROVIDER_UPPER%_CLIENT_ID'),  
-  'client_secret' => env('%PROVIDER_UPPER%_CLIENT_SECRET'),  
-  'redirect' => env('%PROVIDER_UPPER%_REDIRECT_URI') 
+'%PROVIDER_ALIAS%' => [
+  'client_id' => env('%PROVIDER_UPPER%_CLIENT_ID'),
+  'client_secret' => env('%PROVIDER_UPPER%_CLIENT_SECRET'),
+  'redirect' => env('%PROVIDER_UPPER%_REDIRECT_URI')
 ],
 ```
 
@@ -41,7 +41,7 @@ protected \$listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::with('%PROVIDER_ALIAS%')->redirect();
+return Socialite::driver('%PROVIDER_ALIAS%')->redirect();
 ```
 
 DOC;

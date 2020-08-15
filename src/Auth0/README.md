@@ -47,7 +47,7 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::with('auth0')->redirect();
+return Socialite::driver('auth0')->redirect();
 ```
 
 ### Returned User fields

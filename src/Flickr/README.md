@@ -38,7 +38,7 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::with('flickr')->redirect();
+return Socialite::driver('flickr')->redirect();
 ```
 
 ### Returned User fields
