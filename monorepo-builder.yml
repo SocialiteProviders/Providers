@@ -125,6 +125,7 @@ parameters:
     src/Steem: 'git@github.com:SocialiteProviders/Steem.git'
     src/StockTwits: 'git@github.com:SocialiteProviders/StockTwits.git'
     src/Strava: 'git@github.com:SocialiteProviders/Strava.git'
+    src/StreamElements: 'git@github.com:SocialiteProviders/StreamElements.git'
     src/Stripe: 'git@github.com:SocialiteProviders/Stripe.git'
     src/SURFconext: 'git@github.com:SocialiteProviders/SURFconext.git'
     src/Teamleader: 'git@github.com:SocialiteProviders/Teamleader.git'
