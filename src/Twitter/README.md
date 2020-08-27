@@ -18,6 +18,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
+### Add URL to Twitter
+
+Your redirect or callback URL needs to be added to your app in the [Twitter Developers Dashboard](https://developer.twitter.com/en/apps).
+
 ### Add provider event listener
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
