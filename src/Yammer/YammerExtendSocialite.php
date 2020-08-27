@@ -13,8 +13,6 @@ class YammerExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'yammer', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('yammer', Provider::class);
     }
 }

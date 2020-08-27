@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'IFSP';
+    public const IDENTIFIER = 'IFSP';
 
     /**
      * {@inheritdoc}
@@ -52,7 +52,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        if ($user['name'] != null) {
+        if ($user['name'] !== null) {
             $name = $user['name'];
         } else {
             $name = $user['username'];

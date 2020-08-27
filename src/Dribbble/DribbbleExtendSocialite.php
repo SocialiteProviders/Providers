@@ -13,8 +13,6 @@ class DribbbleExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'dribbble', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('dribbble', Provider::class);
     }
 }

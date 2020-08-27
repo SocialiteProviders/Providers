@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'TWITCH';
+    public const IDENTIFIER = 'TWITCH';
 
     /**
      * {@inheritdoc}
@@ -29,7 +29,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://id.twitch.tv/oauth2/authorize', $state
+            'https://id.twitch.tv/oauth2/authorize',
+            $state
         );
     }
 
@@ -47,12 +48,15 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.twitch.tv/helix/users', [
-            'headers' => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.twitch.tv/helix/users',
+            [
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
+                    'Client-ID'     => $this->clientId,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

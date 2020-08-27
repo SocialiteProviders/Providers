@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/mediacube",
+    "description": "MediaCube OAuth2 Provider for Laravel Socialite.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kladislav",
+            "email": "kim@mediacube.network"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "socialiteproviders/manager": "~2.0 || ~3.0",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialProviders\\MediaCube\\": ""
+        }
+    }
+}

@@ -13,8 +13,6 @@ class TwitchExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'twitch', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('twitch', Provider::class);
     }
 }

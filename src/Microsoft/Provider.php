@@ -3,14 +3,14 @@
 namespace SocialiteProviders\Microsoft;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
+use SocialiteProviders\Microsoft\MicrosoftUser as User;
 
 class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MICROSOFT';
+    public const IDENTIFIER = 'MICROSOFT';
 
     /**
      * {@inheritdoc}
@@ -30,7 +30,10 @@ class Provider extends AbstractProvider
     {
         return
             $this->buildAuthUrlFromBase(
-                'https://login.microsoftonline.com/'.($this->config['tenant'] ?: 'common').'/oauth2/v2.0/authorize',
+                sprintf(
+                    'https://login.microsoftonline.com/%s/oauth2/v2.0/authorize',
+                    $this->config['tenant'] ?: 'common'
+                ),
                 $state
             );
     }
@@ -41,7 +44,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://login.microsoftonline.com/common/oauth2/v2.0/token';
+        return sprintf('https://login.microsoftonline.com/%s/oauth2/v2.0/token', $this->config['tenant'] ?: 'common');
     }
 
     /**

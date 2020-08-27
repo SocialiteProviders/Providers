@@ -2,15 +2,18 @@
     "name": "socialiteproviders/teamleader",
     "description": "Teamleader OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "13°",
-        "email": "dev@13-grad.com"
-    }, {
-        "name": "Anton Komarev",
-        "email": "ell@cybercog.su"
-    }],
+    "authors": [
+        {
+            "name": "13\u00b0",
+            "email": "dev@13-grad.com"
+        },
+        {
+            "name": "Anton Komarev",
+            "email": "ell@cybercog.su"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

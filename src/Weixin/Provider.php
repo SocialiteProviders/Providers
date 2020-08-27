@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'WEIXIN';
+    public const IDENTIFIER = 'WEIXIN';
 
     /**
      * @var string
@@ -76,7 +76,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        if (in_array('snsapi_base', $this->scopes)) {
+        if (in_array('snsapi_base', $this->scopes, true)) {
             $user = ['openid' => $this->openId];
         } else {
             $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
@@ -100,7 +100,7 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['openid'],
-            'unionid' => isset($user['unionid']) ? $user['unionid'] : null,
+            'unionid'  => isset($user['unionid']) ? $user['unionid'] : null,
             'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
             'avatar'   => isset($user['headimgurl']) ? $user['headimgurl'] : null,
             'name'     => null,
@@ -129,7 +129,7 @@ class Provider extends AbstractProvider
         ]);
 
         $this->credentialsResponseBody = json_decode($response->getBody(), true);
-        if (isset($this->credentialsResponseBody['openid'])){
+        if (isset($this->credentialsResponseBody['openid'])) {
             $this->openId = $this->credentialsResponseBody['openid'];
         }
 

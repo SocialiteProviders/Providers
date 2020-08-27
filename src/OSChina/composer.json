@@ -2,16 +2,20 @@
     "name": "socialiteproviders/oschina",
     "description": "OSChina OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "dingdayu",
-        "email": "614422099@qq.com"
-    }, {
-        "name": "Anton Komarev",
-        "email": "ell@cybercog.su"
-    }],
+    "authors": [
+        {
+            "name": "dingdayu",
+            "email": "614422099@qq.com"
+        },
+        {
+            "name": "Anton Komarev",
+            "email": "ell@cybercog.su"
+        }
+    ],
     "require": {
-        "php": ">=5.5.9",
-        "socialiteproviders/manager": "^2.0"
+        "php": "^7.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
     },
     "autoload": {
         "psr-4": {

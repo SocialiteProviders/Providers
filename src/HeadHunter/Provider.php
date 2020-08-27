@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'HEADHUNTER';
+    public const IDENTIFIER = 'HEADHUNTER';
 
     /**
      * {@inheritdoc}
@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://api.hh.ru/me', [
             'headers' => [
-                'User-Agent' => config('services.headhunter.user_agent'),
+                'User-Agent'    => config('services.headhunter.user_agent'),
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -54,11 +54,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['email'],
-            'name' => trim($user['last_name'].' '.$user['first_name']),
-            'email' => $user['email'],
-            'avatar' => null,
+            'name'     => trim($user['last_name'].' '.$user['first_name']),
+            'email'    => $user['email'],
+            'avatar'   => null,
         ]);
     }
 

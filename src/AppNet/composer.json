@@ -1,0 +1,25 @@
+{
+    "name": "socialiteproviders/appnet",
+    "description": "App.net OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "DraperStudio",
+            "email": "hello@draperstud.io"
+        },
+        {
+            "name": "Anton Komarev",
+            "email": "ell@cybercog.su"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\AppNet\\": ""
+        }
+    }
+}

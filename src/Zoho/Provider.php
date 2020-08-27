@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'ZOHO';
+    public const IDENTIFIER = 'ZOHO';
 
     /**
      * {@inheritdoc}
@@ -53,10 +53,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['ZUID'],
+            'id'       => $user['ZUID'],
+            'email'    => $user['Email'],
             'nickname' => $user['Display_Name'],
-            'name' => $user['First_Name'],
-            'avatar' => !empty($user['images']) ? $user['images'][0]['url'] : null,
+            'name'     => $user['First_Name'].' '.$user['Last_Name'],
+            'avatar'   => !empty($user['images']) ? $user['images'][0]['url'] : null,
         ]);
     }
 

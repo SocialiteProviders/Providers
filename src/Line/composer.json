@@ -2,12 +2,14 @@
     "name": "socialiteproviders/line",
     "description": "Line Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Sorrawut Kittikeereechaikun",
-        "email": "mix5003@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "Sorrawut Kittikeereechaikun",
+            "email": "mix5003@gmail.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

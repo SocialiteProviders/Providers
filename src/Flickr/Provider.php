@@ -10,11 +10,8 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'FLICKR';
+    public const IDENTIFIER = 'FLICKR';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user['extra'])->map([

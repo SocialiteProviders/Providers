@@ -13,8 +13,6 @@ class DailymotionExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'dailymotion', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('dailymotion', Provider::class);
     }
 }

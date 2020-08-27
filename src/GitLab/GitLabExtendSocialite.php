@@ -11,6 +11,6 @@ class GitLabExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('gitlab', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('gitlab', Provider::class);
     }
 }

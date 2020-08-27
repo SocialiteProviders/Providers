@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'HUBSPOT';
+    public const IDENTIFIER = 'HUBSPOT';
 
     /**
      * {@inheritdoc}
@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://app.hubspot.com/oauth/authorize', $state
+            'https://app.hubspot.com/oauth/authorize',
+            $state
         );
     }
 

@@ -10,7 +10,7 @@ class NaverProvider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'NAVER';
+    public const IDENTIFIER = 'NAVER';
 
     /**
      * Get the authentication URL for the provider.
@@ -93,11 +93,11 @@ class NaverProvider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => array_key_exists('id', $user) ? $user['id'] : null,
-            'name' => array_key_exists('name', $user) ? $user['name'] : null,
+            'id'       => array_key_exists('id', $user) ? $user['id'] : null,
+            'name'     => array_key_exists('name', $user) ? $user['name'] : null,
             'nickname' => array_key_exists('nickname', $user) ? $user['nickname'] : null,
-            'email' => array_key_exists('email', $user) ? $user['email'] : null,
-            'avatar' => array_key_exists('profile_image', $user) ? $user['profile_image'] : null,
+            'email'    => array_key_exists('email', $user) ? $user['email'] : null,
+            'avatar'   => array_key_exists('profile_image', $user) ? $user['profile_image'] : null,
         ]);
     }
 

@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'STEEM';
+    public const IDENTIFIER = 'STEEM';
 
     /**
      * {@inheritdoc}
@@ -50,8 +50,6 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             $postKey => $this->getTokenFields($code),
         ]);
-
-        $data = [];
 
         $data = json_decode($response->getBody(), true);
 

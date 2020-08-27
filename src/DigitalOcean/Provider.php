@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'DIGITALOCEAN';
+    public const IDENTIFIER = 'DIGITALOCEAN';
 
     /**
      * {@inheritdoc}
@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://cloud.digitalocean.com/v1/oauth/authorize', $state
+            'https://cloud.digitalocean.com/v1/oauth/authorize',
+            $state
         );
     }
 
@@ -36,11 +37,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.digitalocean.com/v2/account', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.digitalocean.com/v2/account',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true)['account'];
     }
@@ -53,7 +56,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'     => $user['uuid'], 'nickname' => null, 'name' => null,
             'email'  => $user['email'],
-            'avatar' => 'http://www.gravatar.com/avatar/'.md5($user['email']),
+            'avatar' => 'https://www.gravatar.com/avatar/'.md5($user['email']),
         ]);
     }
 

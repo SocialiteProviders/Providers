@@ -11,14 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'WORDPRESS';
-
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
-    protected $scopes = [];
+    public const IDENTIFIER = 'WORDPRESS';
 
     /**
      * {@inheritdoc}
@@ -42,11 +35,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://public-api.wordpress.com/rest/v1.1/me', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://public-api.wordpress.com/rest/v1.1/me',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

@@ -10,19 +10,16 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'TRELLO';
+    public const IDENTIFIER = 'TRELLO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user['extra'])->map([
-            'id' => $user['extra']['id'],
+            'id'       => $user['extra']['id'],
             'nickname' => $user['nickname'],
-            'name' => $user['extra']['fullName'],
-            'email' => $user['extra']['email'],
-            'avatar' => $user['extra']['uploadedAvatarUrl'],
+            'name'     => $user['extra']['fullName'],
+            'email'    => $user['extra']['email'],
+            'avatar'   => $user['extra']['uploadedAvatarUrl'],
         ]);
     }
 }

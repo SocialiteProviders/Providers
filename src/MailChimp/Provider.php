@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MAILCHIMP';
+    public const IDENTIFIER = 'MAILCHIMP';
 
     /**
      * {@inheritdoc}
@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://login.mailchimp.com/oauth2/authorize', $state
+            'https://login.mailchimp.com/oauth2/authorize',
+            $state
         );
     }
 
@@ -36,12 +37,14 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://login.mailchimp.com/oauth2/metadata', [
-            'headers' => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'OAuth '.$token,
-            ],
-        ]);
+            'https://login.mailchimp.com/oauth2/metadata',
+            [
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'OAuth '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

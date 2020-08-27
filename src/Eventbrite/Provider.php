@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'EVENTBRITE';
+    public const IDENTIFIER = 'EVENTBRITE';
 
     /**
      * {@inheritdoc}
@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.eventbrite.com/oauth/authorize', $state
+            'https://www.eventbrite.com/oauth/authorize',
+            $state
         );
     }
 
@@ -36,11 +37,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://www.eventbriteapi.com/v3/users/me', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://www.eventbriteapi.com/v3/users/me',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

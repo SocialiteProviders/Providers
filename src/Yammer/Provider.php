@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'YAMMER';
+    public const IDENTIFIER = 'YAMMER';
 
     /**
      * {@inheritdoc}
@@ -19,7 +19,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.yammer.com/dialog/oauth', $state
+            'https://www.yammer.com/dialog/oauth',
+            $state
         );
     }
 
@@ -37,11 +38,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://www.yammer.com/api/v1/users/current.json', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://www.yammer.com/api/v1/users/current.json',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

@@ -12,13 +12,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+
+      # Required due to GH detached head bug https://github.com/actions/checkout/issues/6
+      - name: Prepare repository
+        run: git checkout "${GITHUB_REF:11}"
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@master
         with:
-            fetch-depth: 1
-      - name: composer-php
-        uses: nick-zh/composer@v0.2.0
-        with:
-          action: 'install'
-          options: '-o'
+          php-version: '7.4'
+          coverage: none
+
+      - name: Composer Install
+        run: composer install -vvv
 
       - name: Split
         run: ./vendor/bin/monorepo-builder split --max-processes 8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}

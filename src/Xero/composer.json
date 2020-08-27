@@ -1,0 +1,22 @@
+{
+    "name": "socialiteproviders/xero",
+    "description": "Xero OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Marshall",
+            "email": "ryan@schmoove.co.nz"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0",
+        "firebase/php-jwt": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Xero\\": ""
+        }
+    }
+}

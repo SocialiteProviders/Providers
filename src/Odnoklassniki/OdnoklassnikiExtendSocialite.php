@@ -13,9 +13,6 @@ class OdnoklassnikiExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'odnoklassniki',
-            __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('odnoklassniki', Provider::class);
     }
 }

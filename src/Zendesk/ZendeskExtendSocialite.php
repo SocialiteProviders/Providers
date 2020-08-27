@@ -13,8 +13,6 @@ class ZendeskExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'zendesk', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('zendesk', Provider::class);
     }
 }

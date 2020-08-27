@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Mattermost;
 
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -10,12 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MATTERMOST';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+    public const IDENTIFIER = 'MATTERMOST';
 
     /**
      * {@inheritdoc}
@@ -28,7 +24,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            $this->getInstanceUri().'oauth/authorize', $state
+            $this->getInstanceUri().'oauth/authorize',
+            $state
         );
     }
 
@@ -46,9 +43,9 @@ class Provider extends AbstractProvider
     protected $apiVersion = 'v4';
 
     /**
-     * Mattermost
+     * Mattermost.
      *
-     * @return String
+     * @return string
      */
     protected function getAPIVersion()
     {
@@ -66,7 +63,8 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            "{$this->getInstanceUri()}api/{$this->getAPIVersion()}/users/me", [
+            "{$this->getInstanceUri()}api/{$this->getAPIVersion()}/users/me",
+            [
                 'headers' => [
                     'Authorization' => 'BEARER '.$token,
                 ],
@@ -82,11 +80,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         $user = (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['nickname'],
-            'name' => $user['username'],
-            'email' => $user['email'],
-            'avatar' => isset($user['last_picture_update']) ? "{$this->getAPIBase()}/users/{$user['id']}/image?time={$user['last_picture_update']}" : '',
+            'name'     => $user['username'],
+            'email'    => $user['email'],
+            'avatar'   => isset($user['last_picture_update']) ? "{$this->getAPIBase()}/users/{$user['id']}/image?time={$user['last_picture_update']}" : '',
         ]);
 
         return $user;
@@ -97,19 +95,14 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        $a = parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
-
-        return $a;
+        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInstanceUri()
     {
         $uri = $this->getConfig('instance_uri', null);
-        if (! $uri) {
-            throw new \InvalidArgumentException('No instance_uri. ENV['.self::IDENTIFIER.'_INSTANCE_URI]=https://mm.example.com/ must be provided.');
+        if (!$uri) {
+            throw new InvalidArgumentException('No instance_uri. ENV['.self::IDENTIFIER.'_INSTANCE_URI]=https://mm.example.com/ must be provided.');
         }
 
         return $uri;

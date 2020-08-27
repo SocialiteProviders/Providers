@@ -10,7 +10,12 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'COINBASE';
+    public const IDENTIFIER = 'COINBASE';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopes = ['wallet:user:read', 'wallet:user:email'];
 
     /**
      * {@inheritdoc}
@@ -18,7 +23,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.coinbase.com/oauth/authorize', $state
+            'https://www.coinbase.com/oauth/authorize',
+            $state
         );
     }
 
@@ -27,7 +33,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://www.coinbase.com/oauth/token';
+        return 'https://api.coinbase.com/oauth/token';
     }
 
     /**
@@ -36,11 +42,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.coinbase.com/v1/users/self', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.coinbase.com/v2/user',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -50,9 +58,14 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $user = $user['data'];
+
         return (new User())->setRaw($user)->map([
-            'id'   => $user['user']['id'], 'nickname' => $user['user']['username'],
-            'name' => null, 'email' => $user['user']['email'], 'avatar' => null,
+            'id'       => $user['id'],
+            'nickname' => $user['username'],
+            'name'     => $user['name'],
+            'email'    => $user['email'],
+            'avatar'   => $user['avatar_url'],
         ]);
     }
 

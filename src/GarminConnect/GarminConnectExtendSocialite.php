@@ -11,10 +11,6 @@ class GarminConnectExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'garmin-connect',
-            __NAMESPACE__.'\Provider',
-            __NAMESPACE__.'\Server'
-        );
+        $socialiteWasCalled->extendSocialite('garmin-connect', Provider::class, Server::class);
     }
 }

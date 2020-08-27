@@ -13,8 +13,6 @@ class DisqusExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'disqus', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('disqus', Provider::class);
     }
 }

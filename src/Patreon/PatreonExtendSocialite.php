@@ -13,8 +13,6 @@ class PatreonExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'patreon', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('patreon', Provider::class);
     }
 }

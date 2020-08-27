@@ -2,12 +2,14 @@
     "name": "socialiteproviders/google",
     "description": "Google OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "xstoop",
-        "email": "myenglishnameisx@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "xstoop",
+            "email": "myenglishnameisx@gmail.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

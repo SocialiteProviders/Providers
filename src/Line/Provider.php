@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'LINE';
+    public const IDENTIFIER = 'LINE';
 
     /**
      * The separating character for the requested scopes.
@@ -41,7 +41,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://access.line.me/oauth2/v2.1/authorize', $state
+            'https://access.line.me/oauth2/v2.1/authorize',
+            $state
         );
     }
 
@@ -65,11 +66,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.line.me/v2/profile', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.line.me/v2/profile',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -118,7 +121,7 @@ class Provider extends AbstractProvider
         $response = $this->getAccessTokenResponse($this->getCode());
 
         if ($jwt = $response['id_token'] ?? null) {
-            list($headb64, $bodyb64, $cryptob64) = explode('.', $jwt);
+            $bodyb64 = explode('.', $jwt)[1];
             $user = $this->mapUserToObject(json_decode(base64_decode(strtr($bodyb64, '-_', '+/')), true));
         } else {
             $user = $this->mapUserToObject($this->getUserByToken(

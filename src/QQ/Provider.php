@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'QQ';
+    public const IDENTIFIER = 'QQ';
 
     /**
      * @var string

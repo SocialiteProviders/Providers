@@ -11,6 +11,6 @@ class HeadHunterExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('headhunter', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('headhunter', Provider::class);
     }
 }

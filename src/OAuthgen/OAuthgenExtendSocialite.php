@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace SocialiteProviders\OAuthgen;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
@@ -10,6 +11,6 @@ class OAuthgenExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('oauthgen', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('oauthgen', Provider::class);
     }
 }

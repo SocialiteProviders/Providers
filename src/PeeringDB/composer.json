@@ -2,13 +2,16 @@
     "name": "socialiteproviders/peeringdb",
     "description": "PeeringDB OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Barry O'Donovan",
-        "email": "barry@opensolutions.ie"
-    }],
+    "authors": [
+        {
+            "name": "Barry O'Donovan",
+            "email": "barry@opensolutions.ie"
+        }
+    ],
     "require": {
-        "php": ">=5.5.9",
-        "socialiteproviders/manager": "^2.0"
+        "php": "^7.2",
+        "socialiteproviders/manager": "~2.0 || ~3.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

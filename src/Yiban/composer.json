@@ -2,12 +2,14 @@
     "name": "socialiteproviders/yiban",
     "description": "yiban.cn OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "zhengAn,dingding",
-        "email": "568004158@qq.com"
-    }],
+    "authors": [
+        {
+            "name": "zhengAn,dingding",
+            "email": "568004158@qq.com"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "ext-json": "*",
         "socialiteproviders/manager": "~2.0 || ~3.0"
     },

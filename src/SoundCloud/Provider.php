@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'SOUNDCLOUD';
+    public const IDENTIFIER = 'SOUNDCLOUD';
 
     /**
      * {@inheritdoc}
@@ -23,7 +23,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://soundcloud.com/connect', $state
+            'https://soundcloud.com/connect',
+            $state
         );
     }
 

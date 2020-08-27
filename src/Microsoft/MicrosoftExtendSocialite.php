@@ -13,9 +13,6 @@ class MicrosoftExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'microsoft',
-            __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('microsoft', Provider::class);
     }
 }

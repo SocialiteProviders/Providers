@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'PAYPAL';
+    public const IDENTIFIER = 'PAYPAL';
 
     /**
      * {@inheritdoc}
@@ -28,7 +28,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize', $state
+            'https://www.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize',
+            $state
         );
     }
 
@@ -46,11 +47,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.paypal.com/v1/identity/openidconnect/userinfo/?schema=openid', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.paypal.com/v1/identity/openidconnect/userinfo/?schema=openid',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -67,9 +70,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [

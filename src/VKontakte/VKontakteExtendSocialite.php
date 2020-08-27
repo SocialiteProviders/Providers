@@ -13,8 +13,6 @@ class VKontakteExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'vkontakte', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('vkontakte', Provider::class);
     }
 }

@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'DISCORD';
+    public const IDENTIFIER = 'DISCORD';
 
     /**
      * {@inheritdoc}
@@ -31,7 +31,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://discordapp.com/api/oauth2/authorize', $state
+            'https://discord.com/api/oauth2/authorize',
+            $state
         );
     }
 
@@ -40,7 +41,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://discordapp.com/api/oauth2/token';
+        return 'https://discord.com/api/oauth2/token';
     }
 
     /**
@@ -49,11 +50,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://discordapp.com/api/users/@me', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://discord.com/api/users/@me',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

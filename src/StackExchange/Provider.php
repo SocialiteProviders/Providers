@@ -14,7 +14,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'STACKEXCHANGE';
+    public const IDENTIFIER = 'STACKEXCHANGE';
 
     protected $version = '2.2';
 
@@ -32,8 +32,6 @@ class Provider extends AbstractProvider
     protected function buildAuthUrlFromBase($url, $state)
     {
         // https://api.stackexchange.com/docs/authentication
-
-        $session = $this->request->getSession();
 
         return $url.'?'.http_build_query(
             [

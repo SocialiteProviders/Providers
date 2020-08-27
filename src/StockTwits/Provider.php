@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'STOCKTWITS';
+    public const IDENTIFIER = 'STOCKTWITS';
 
     /**
      * {@inheritdoc}
@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.stocktwits.com/api/2/oauth/authorize', $state
+            'https://api.stocktwits.com/api/2/oauth/authorize',
+            $state
         );
     }
 

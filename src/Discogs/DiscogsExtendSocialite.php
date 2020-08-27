@@ -11,10 +11,6 @@ class DiscogsExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'discogs',
-            __NAMESPACE__.'\Provider',
-            __NAMESPACE__.'\Server'
-        );
+        $socialiteWasCalled->extendSocialite('discogs', Provider::class, Server::class);
     }
 }

@@ -2,13 +2,16 @@
     "name": "socialiteproviders/wechat-web",
     "description": "WeChat Web OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "sink",
-        "email": "sinkcup@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "sink",
+            "email": "sinkcup@gmail.com"
+        }
+    ],
     "require": {
-        "php": ">=5.5.9",
-        "socialiteproviders/manager": "^3.3.6"
+        "php": "^7.2",
+        "socialiteproviders/manager": "~2.0 || ~3.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/gettyimages",
+    "description": "Getty Images OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bhuwan Bashel",
+            "email": "bhuwan_bibek@yahoo.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\GettyImages\\": ""
+        }
+    }
+}

@@ -13,8 +13,6 @@ class HubSpotExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'hubspot', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('hubspot', Provider::class);
     }
 }

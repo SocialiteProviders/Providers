@@ -15,14 +15,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'SLACK';
-
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
-    protected $scopeSeparator = ',';
+    public const IDENTIFIER = 'SLACK';
 
     /**
      * {@inheritdoc}
@@ -53,7 +46,7 @@ class Provider extends AbstractProvider
                 }
 
                 return $handler($request, $options)->then(
-                    function (ResponseInterface $response) use ($request, $handler) {
+                    function (ResponseInterface $response) use ($request) {
                         $body = json_decode($response->getBody()->getContents(), true);
                         $response->getBody()->rewind();
 
@@ -89,7 +82,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://slack.com/oauth/authorize', $state
+            'https://slack.com/oauth/authorize',
+            $state
         );
     }
 

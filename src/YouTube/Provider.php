@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'YOUTUBE';
+    public const IDENTIFIER = 'YOUTUBE';
 
     /**
      * {@inheritdoc}
@@ -28,7 +28,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://accounts.google.com/o/oauth2/auth', $state
+            'https://accounts.google.com/o/oauth2/auth',
+            $state
         );
     }
 
@@ -46,11 +47,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true)['items'][0];
     }

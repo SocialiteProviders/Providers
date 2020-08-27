@@ -8,6 +8,6 @@ class YibanExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('yiban', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('yiban', Provider::class);
     }
 }

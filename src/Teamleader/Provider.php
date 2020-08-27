@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'TEAMLEADER';
+    public const IDENTIFIER = 'TEAMLEADER';
 
     /**
      * {@inheritdoc}
@@ -55,7 +55,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['data']['id'],
             'nickname' => $user['data']['first_name'],
-            'name'     => $user['data']['first_name'] . ' ' . $user['data']['last_name'],
+            'name'     => $user['data']['first_name'].' '.$user['data']['last_name'],
             'email'    => $user['data']['email'],
             'avatar'   => null,
         ]);
@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }

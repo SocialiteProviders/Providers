@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'UNSPLASH';
+    public const IDENTIFIER = 'UNSPLASH';
 
     /**
      * {@inheritdoc}
@@ -28,7 +28,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://unsplash.com/oauth/authorize', $state
+            'https://unsplash.com/oauth/authorize',
+            $state
         );
     }
 
@@ -46,12 +47,14 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.unsplash.com/me', [
-            'headers' => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.unsplash.com/me',
+            [
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody(), true);
     }

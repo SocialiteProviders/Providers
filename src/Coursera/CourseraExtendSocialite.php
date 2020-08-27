@@ -11,6 +11,6 @@ class CourseraExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('coursera', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('coursera', Provider::class);
     }
 }

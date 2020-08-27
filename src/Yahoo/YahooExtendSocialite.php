@@ -11,6 +11,6 @@ class YahooExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('yahoo', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('yahoo', Provider::class);
     }
 }

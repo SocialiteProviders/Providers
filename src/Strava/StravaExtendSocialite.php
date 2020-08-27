@@ -13,8 +13,6 @@ class StravaExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'strava', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('strava', Provider::class);
     }
 }

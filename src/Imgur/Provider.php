@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'IMGUR';
+    public const IDENTIFIER = 'IMGUR';
 
     /**
      * {@inheritdoc}
@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.imgur.com/oauth2/authorize', $state
+            'https://api.imgur.com/oauth2/authorize',
+            $state
         );
     }
 
@@ -36,17 +37,21 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.imgur.com/3/account/me', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.imgur.com/3/account/me',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
         $response2 = $this->getHttpClient()->get(
-            'https://api.imgur.com/3/account/me/settings', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.imgur.com/3/account/me/settings',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return array_merge(json_decode($response->getBody()->getContents(), true)['data'], json_decode($response2->getBody()->getContents(), true)['data']);
     }

@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'UNTAPPD';
+    public const IDENTIFIER = 'UNTAPPD';
 
     /**
      * {@inheritdoc}
@@ -19,7 +19,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://untappd.com/oauth/authenticate/', $state
+            'https://untappd.com/oauth/authenticate/',
+            $state
         );
     }
 
@@ -37,11 +38,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.untappd.com/v4/user/info?access_token='.$token, [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.untappd.com/v4/user/info?access_token='.$token,
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return Arr::get(json_decode($response->getBody()->getContents(), true), 'response.user');
     }

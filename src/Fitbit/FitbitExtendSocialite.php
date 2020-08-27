@@ -11,6 +11,6 @@ class FitbitExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('fitbit', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('fitbit', Provider::class);
     }
 }

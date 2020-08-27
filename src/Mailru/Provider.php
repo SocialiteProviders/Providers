@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MAILRU';
+    public const IDENTIFIER = 'MAILRU';
 
     /**
      * {@inheritdoc}
@@ -53,11 +53,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['email'],
+            'id'       => $user['email'],
             'nickname' => $user['nickname'],
-            'name' => $user['name'],
-            'email' => $user['email'],
-            'avatar' => $user['image'],
+            'name'     => $user['name'],
+            'email'    => $user['email'],
+            'avatar'   => $user['image'],
         ]);
     }
 

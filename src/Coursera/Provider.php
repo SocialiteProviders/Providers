@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'COURSERA';
+    public const IDENTIFIER = 'COURSERA';
 
     /**
      * {@inheritdoc}
@@ -39,11 +39,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.coursera.org/api/externalBasicProfiles.v1?q=me&fields=timezone,locale,privacy,name', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.coursera.org/api/externalBasicProfiles.v1?q=me&fields=timezone,locale,privacy,name',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody(), true);
     }

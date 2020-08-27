@@ -13,8 +13,6 @@ class FlattrExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'flattr', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('flattr', Provider::class);
     }
 }

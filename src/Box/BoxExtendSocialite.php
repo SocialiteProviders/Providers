@@ -13,8 +13,6 @@ class BoxExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'box', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('box', Provider::class);
     }
 }

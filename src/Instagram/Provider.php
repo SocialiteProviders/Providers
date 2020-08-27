@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'INSTAGRAM';
+    public const IDENTIFIER = 'INSTAGRAM';
 
     /**
      * {@inheritdoc}
@@ -28,7 +28,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.instagram.com/oauth/authorize', $state
+            'https://api.instagram.com/oauth/authorize',
+            $state
         );
     }
 
@@ -53,12 +54,14 @@ class Provider extends AbstractProvider
 
         $query['sig'] = $signature;
         $response = $this->getHttpClient()->get(
-            'https://api.instagram.com/v1/users/self', [
-            'query'   => $query,
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-        ]);
+            'https://api.instagram.com/v1/users/self',
+            [
+                'query'   => $query,
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true)['data'];
     }
@@ -75,9 +78,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
@@ -101,7 +101,7 @@ class Provider extends AbstractProvider
 
     /**
      * Allows compatibility for signed API requests.
-     * 
+     *
      * @param string @endpoint
      * @param array $params
      *
@@ -114,8 +114,7 @@ class Provider extends AbstractProvider
         foreach ($params as $key => $val) {
             $sig .= "|$key=$val";
         }
-        $signing_key = $this->clientSecret;
 
-        return hash_hmac('sha256', $sig, $signing_key, false);
+        return hash_hmac('sha256', $sig, $this->clientSecret, false);
     }
 }

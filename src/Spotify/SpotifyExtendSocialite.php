@@ -13,8 +13,6 @@ class SpotifyExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'spotify', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('spotify', Provider::class);
     }
 }

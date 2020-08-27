@@ -13,8 +13,6 @@ class SoundCloudExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'soundcloud', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('soundcloud', Provider::class);
     }
 }

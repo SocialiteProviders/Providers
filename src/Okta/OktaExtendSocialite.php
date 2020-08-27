@@ -11,6 +11,6 @@ class OktaExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('okta', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('okta', Provider::class);
     }
 }

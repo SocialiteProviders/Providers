@@ -10,12 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'UFUTX';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+    public const IDENTIFIER = 'UFUTX';
 
     /**
      * {@inheritdoc}
@@ -71,9 +66,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInstanceUri()
     {
         return $this->getConfig('instance_uri', 'https://account.ufutx.com/');

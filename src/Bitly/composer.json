@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/bitly",
+    "description": "Bitly OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brian Faust",
+            "email": "hello@brianfaust.de"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Bitly\\": ""
+        }
+    }
+}

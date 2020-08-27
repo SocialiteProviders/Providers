@@ -11,6 +11,6 @@ class SnapchatExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('snapchat', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('snapchat', Provider::class);
     }
 }

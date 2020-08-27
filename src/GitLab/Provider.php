@@ -10,12 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'GITLAB';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
+    public const IDENTIFIER = 'GITLAB';
 
     /**
      * {@inheritdoc}
@@ -76,9 +71,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInstanceUri()
     {
         return $this->getConfig('instance_uri', 'https://gitlab.com/');

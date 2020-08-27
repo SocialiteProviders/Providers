@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'PAYMILL';
+    public const IDENTIFIER = 'PAYMILL';
 
     /**
      * {@inheritdoc}
@@ -23,7 +23,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://connect.paymill.com/authorize', $state
+            'https://connect.paymill.com/authorize',
+            $state
         );
     }
 

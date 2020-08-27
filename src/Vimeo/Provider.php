@@ -10,12 +10,12 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'VIMEO';
+    public const IDENTIFIER = 'VIMEO';
 
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [ 'public' ];
+    protected $scopes = ['public'];
 
     /**
      * {@inheritdoc}
@@ -28,7 +28,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.vimeo.com/oauth/authorize', $state
+            'https://api.vimeo.com/oauth/authorize',
+            $state
         );
     }
 
@@ -46,11 +47,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.vimeo.com/me', [
-            'headers' => [
-                'Authorization' => 'bearer '.$token,
-            ],
-        ]);
+            'https://api.vimeo.com/me',
+            [
+                'headers' => [
+                    'Authorization' => 'bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

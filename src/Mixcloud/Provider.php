@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MIXCLOUD';
+    public const IDENTIFIER = 'MIXCLOUD';
 
     /**
      * {@inheritdoc}
@@ -18,7 +18,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.mixcloud.com/oauth/authorize', $state
+            'https://www.mixcloud.com/oauth/authorize',
+            $state
         );
     }
 

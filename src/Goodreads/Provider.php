@@ -10,11 +10,8 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'GOODREADS';
+    public const IDENTIFIER = 'GOODREADS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user['extra'])->map([
@@ -24,5 +21,10 @@ class Provider extends AbstractProvider
             'email'    => null,
             'avatar'   => null,
         ]);
+    }
+
+    protected function hasNecessaryVerifier()
+    {
+        return $this->request->has('oauth_token');
     }
 }

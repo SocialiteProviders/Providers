@@ -10,11 +10,8 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'XING';
+    public const IDENTIFIER = 'XING';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user['extra'])->map([

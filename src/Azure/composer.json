@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/microsoft-azure",
+    "description": "Microsoft Azure OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chris Hemmings",
+            "email": "chris@hemmin.gs"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~2.0 || ~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Azure\\": ""
+        }
+    }
+}

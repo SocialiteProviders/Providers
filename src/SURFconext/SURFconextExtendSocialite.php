@@ -13,9 +13,6 @@ class SURFconextExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'surfconext',
-            __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('surfconext', Provider::class);
     }
 }

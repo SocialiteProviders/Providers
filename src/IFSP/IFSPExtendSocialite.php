@@ -11,6 +11,6 @@ class IFSPExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('ifsp', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('ifsp', Provider::class);
     }
 }

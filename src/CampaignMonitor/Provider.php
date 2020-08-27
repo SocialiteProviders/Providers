@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'CAMPAIGNMONITOR';
+    public const IDENTIFIER = 'CAMPAIGNMONITOR';
 
     /**
      * {@inheritdoc}
@@ -23,7 +23,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.createsend.com/oauth', $state
+            'https://api.createsend.com/oauth',
+            $state
         );
     }
 

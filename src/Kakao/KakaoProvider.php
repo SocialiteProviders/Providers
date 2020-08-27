@@ -11,7 +11,7 @@ class KakaoProvider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'KAKAO';
+    public const IDENTIFIER = 'KAKAO';
 
     /**
      * Get the authentication URL for the provider.
@@ -93,14 +93,14 @@ class KakaoProvider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $is_email_valid = Arr::get($user, 'kakao_account.is_email_valid');
-        $is_email_verified = Arr::get($user, 'kakao_account.is_email_verified');
+        $validEmail = Arr::get($user, 'kakao_account.is_email_valid');
+        $verifiedEmail = Arr::get($user, 'kakao_account.is_email_verified');
 
         return (new User())->setRaw($user)->map([
             'id'        => $user['id'],
             'nickname'  => Arr::get($user, 'properties.nickname'),
             'name'      => Arr::get($user, 'properties.nickname'),
-            'email'     => $is_email_valid && $is_email_verified ? Arr::get($user, 'kakao_account.email') : null,
+            'email'     => $validEmail && $verifiedEmail ? Arr::get($user, 'kakao_account.email') : null,
             'avatar'    => Arr::get($user, 'properties.profile_image'),
         ]);
     }

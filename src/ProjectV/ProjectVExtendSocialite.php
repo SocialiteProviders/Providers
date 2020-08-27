@@ -13,8 +13,6 @@ class ProjectVExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'projectv', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('projectv', Provider::class);
     }
 }

@@ -8,7 +8,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    const IDENTIFIER = 'SURFconext';
+    public const IDENTIFIER = 'SURFconext';
 
     protected $scopes = ['openid'];
 
@@ -49,11 +49,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://'.$this->getHostname().'/userinfo', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://'.$this->getHostname().'/userinfo',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

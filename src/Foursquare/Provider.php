@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'FOURSQUARE';
+    public const IDENTIFIER = 'FOURSQUARE';
 
     /**
      * {@inheritdoc}
@@ -19,7 +19,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://foursquare.com/oauth2/authenticate', $state
+            'https://foursquare.com/oauth2/authenticate',
+            $state
         );
     }
 

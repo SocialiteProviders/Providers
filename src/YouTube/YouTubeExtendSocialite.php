@@ -13,8 +13,6 @@ class YouTubeExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'youtube', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('youtube', Provider::class);
     }
 }

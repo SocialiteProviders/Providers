@@ -1,0 +1,22 @@
+{
+    "name": "socialiteproviders/ovh",
+    "description": "OVH OAuth2 Provider for SocialiteProviders",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adnan RIHAN",
+            "email": "adnan@rihan.fr"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "ovh/ovh": "^2.0",
+        "socialiteproviders/manager": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Ovh\\": ""
+        }
+    }
+}

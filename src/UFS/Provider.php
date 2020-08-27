@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'UFS';
+    public const IDENTIFIER = 'UFS';
 
     /**
      * {@inheritdoc}
@@ -70,7 +70,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function additionalConfigKeys()
     {

@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'SPOTIFY';
+    public const IDENTIFIER = 'SPOTIFY';
 
     /**
      * The separating character for the requested scopes.
@@ -26,7 +26,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://accounts.spotify.com/authorize', $state
+            'https://accounts.spotify.com/authorize',
+            $state
         );
     }
 
@@ -44,12 +45,14 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.spotify.com/v1/me', [
-            'headers' => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+            'https://api.spotify.com/v1/me',
+            [
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

@@ -11,6 +11,6 @@ class ClaveUnicaExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('claveunica', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('claveunica', Provider::class);
     }
 }

@@ -32,7 +32,9 @@ jobs:
         run: composer test:ci
 
       - name: Upload code coverage
-        if: matrix.php-versions == '7.3'
+        if: matrix.php-versions == '7.4'
         run: |
           wget https://scrutinizer-ci.com/ocular.phar
           php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

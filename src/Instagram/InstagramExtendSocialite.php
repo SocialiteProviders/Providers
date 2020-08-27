@@ -13,8 +13,6 @@ class InstagramExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite(
-            'instagram', __NAMESPACE__.'\Provider'
-        );
+        $socialiteWasCalled->extendSocialite('instagram', Provider::class);
     }
 }

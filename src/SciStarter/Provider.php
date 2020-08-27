@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\SciStarter;
 
-use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -12,12 +11,23 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'SCISTARTER';
+    public const IDENTIFIER = 'SCISTARTER';
+
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['login extensive'];
+    protected $scopes = [
+        'openid',
+        'profile',
+        'email',
+    ];
 
     /**
      * {@inheritdoc}
@@ -29,7 +39,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://scistarter.com/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://scistarter.org/authorize', $state);
     }
 
     /**
@@ -37,7 +47,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://scistarter.com/token';
+        return 'https://scistarter.org/token';
     }
 
     /**
@@ -45,13 +55,13 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://scistarter.com/api/user_info', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
+        $response = $this->getHttpClient()->get('https://scistarter.org/userinfo', [
             'query' => [
-              'client_id' => $this->clientId,
-              'key'       => $this->clientSecret,
+                'prettyPrint' => 'false',
+            ],
+            'headers' => [
+                'Accept'        => 'application/json',
+                'Authorization' => "Bearer $token",
             ],
         ]);
 
@@ -64,43 +74,28 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-          'id'          => Arr::get($user, 'user_id'),
-          'nickname'    => Arr::get($user, 'handle'),
-          'email'       => Arr::get($user, 'email'),
-          'first_name'  => Arr::get($user, 'first_name'),
-          'last_name'   => Arr::get($user, 'last_name'),
-          'profile_id'  => Arr::get($user, 'profile_id'),
-          'profile_url' => Arr::get($user, 'url'),
+            'id'                => Arr::get($user, 'sub'),
+            'nickname'          => Arr::get($user, 'nickname'),
+            'name'              => Arr::get($user, 'name'),
+            'email'             => Arr::get($user, 'email'),
+            'avatar'            => $avatarUrl = Arr::get($user, 'picture'),
+            'avatar_original'   => $avatarUrl,
         ]);
     }
 
     /**
-     * {@inheritdoc}
+     * Get the POST fields for the token request.
+     *
+     * @param string $code
+     *
+     * @return array
      */
     protected function getTokenFields($code)
     {
-        return [
-          'client_id'  => $this->clientId,
-          'code'       => $code,
-          'grant_type' => 'authorization_code',
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAccessTokenResponse($code)
-    {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
-
-        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
-            $postKey  => $this->getTokenFields($code),
-            'query'   => [
-              'key' => $this->clientSecret, // key instead of client_secret
-            ],
-        ]);
-
-        return json_decode($response->getBody(), true);
+        return Arr::add(
+            parent::getTokenFields($code),
+            'grant_type',
+            'authorization_code'
+        );
     }
 }

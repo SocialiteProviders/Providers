@@ -13,6 +13,6 @@ class xRELExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('xrel', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('xrel', Provider::class);
     }
 }
