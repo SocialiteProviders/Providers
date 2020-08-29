@@ -141,7 +141,7 @@ class Provider extends AbstractProvider
 
         $publicKeys = JWK::parseKeySet($data);
 
-        $kid = $token->getClaim('kid');
+        $kid = $token->getHeader('kid');
 
         if (isset($publicKeys[$kid])) {
             $publicKey = openssl_pkey_get_details($publicKeys[$kid]);
