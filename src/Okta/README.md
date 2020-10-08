@@ -12,6 +12,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 'okta' => [    
+  'base_url' => env('OKTA_BASE_URL'),
   'client_id' => env('OKTA_CLIENT_ID'),  
   'client_secret' => env('OKTA_CLIENT_SECRET'),  
   'redirect' => env('OKTA_REDIRECT_URI') 
