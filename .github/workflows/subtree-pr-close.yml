@@ -3,7 +3,7 @@ name: Close Subtree PRs
 on:
   schedule:
     - cron:  '0 */12 * * *'
-
+  workflow_dispatch:
 jobs:
   close:
     name: Close Subtree PRs
