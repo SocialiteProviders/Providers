@@ -22,6 +22,6 @@ jobs:
         run: composer install -vvv
 
       - name: Close PRs
-        run: ./tools/close-subtree-prs.php
+        run: php tools/close-subtree-prs.php
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}
