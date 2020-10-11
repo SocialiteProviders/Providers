@@ -13,6 +13,13 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'HUBSPOT';
 
     /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
