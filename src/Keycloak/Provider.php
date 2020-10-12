@@ -13,6 +13,8 @@ class Provider extends AbstractProvider
      */
     public const IDENTIFIER = 'KEYCLOAK';
 
+    protected $scopeSeparator = ' ';
+
     public static function additionalConfigKeys()
     {
         return ['base_url', 'realms'];
