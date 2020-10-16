@@ -1,8 +1,17 @@
-# Reddit
+# Rekono
 
 ```bash
 composer require socialiteproviders/rekono
 ```
+
+## About Rekono
+
+[Rekono](https://rekono.si) is an electronic identity service that allows you to create and manage a single user account to log in to all services included in the Rekono system.
+
+## Register an application
+
+Client ID and secret can be obtained by requesting via Rekono Support email [mailto:support@rekono.si](support@rekono.si).
+After registering a new client, access to technical documentation will be provided.
 
 ## Installation & Basic Usage
 
@@ -47,7 +56,7 @@ return Socialite::driver('rekono')->redirect();
 - ``name``
 - ``email``
 
-More fields are available under the user subkey:
+More fields - defined upon client registration - are available under the user subkey:
 
 ```php
 $user = Socialite::driver('rekono')->user();
