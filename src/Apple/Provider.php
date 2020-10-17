@@ -201,7 +201,7 @@ class Provider extends AbstractProvider
         if ($value !== '') {
             $userRequest = json_decode($value, true);
 
-            if (array_key_exists('name', $userRequest)) {
+            if (isset($userRequest['name'])) {
                 $user['name'] = $userRequest['name'];
                 $fullName = trim(
                     ($user['name']['firstName'] ?? '')
