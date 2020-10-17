@@ -6,11 +6,12 @@
  */
 require_once __DIR__.'/../vendor/autoload.php';
 
-$repos = collect(range(1, 1))
+$repos = collect(range(1, 5))
     ->map(function (int $page) {
         return \Zttp\Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json();
     })
     ->flatten(1)
+    ->sortBy('name')
     ->filter(function (array $repo) {
         return $repo['has_issues'] === false;
     })
