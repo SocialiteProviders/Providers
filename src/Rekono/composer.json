@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/rekono",
+    "description": "Rekono OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anze Nunar",
+            "email": "anze@nunar.si"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Rekono\\": ""
+        }
+    }
+}
