@@ -45,6 +45,9 @@ return Socialite::with('streamlabs')->redirect();
 
 - ``id``
 - ``name``
+- ``accounts``
+
+> Note: ``accounts`` is an array of providers that the user has signed-in with Streamlabs; included values are Twitch (``twitch``), YouTube (``youtube``), and Facebook (``facebook``).
 
 ### Reference
 
