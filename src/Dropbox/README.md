@@ -38,9 +38,7 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('dropbox')
-    ->scopes(['account_info.read'])
-    ->redirect();
+return Socialite::driver('dropbox')->redirect();
 ```
 
 ### Returned User fields
