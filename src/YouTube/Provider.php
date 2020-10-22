@@ -15,7 +15,9 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['https://www.googleapis.com/auth/youtube.readonly'];
+    protected $scopes = [
+        'https://www.googleapis.com/auth/youtube.readonly',
+    ];
 
     /**
      * {@inheritdoc}
@@ -28,7 +30,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://accounts.google.com/o/oauth2/auth',
+            'https://accounts.google.com/o/oauth2/v2/auth',
             $state
         );
     }
@@ -38,7 +40,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://accounts.google.com/o/oauth2/token';
+        return 'https://oauth2.googleapis.com/token';
     }
 
     /**
@@ -64,9 +66,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['id'], 'nickname' => $user['snippet']['title'],
-            'name'   => null, 'email' => null,
-            'avatar' => $user['snippet']['thumbnails']['high']['url'],
+            'id'        => $user['id'],
+            'nickname'  => $user['snippet']['title'],
+            'name'      => null,
+            'email'     => null,
+            'avatar'    => $user['snippet']['thumbnails']['high']['url'],
         ]);
     }
 
