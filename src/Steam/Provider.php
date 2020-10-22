@@ -105,7 +105,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        if (is_null($this->steamId)) {
+        if (is_null($token)) {
             return null;
         }
 
@@ -115,7 +115,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->request(
             'GET',
-            sprintf(self::STEAM_INFO_URL, $this->getConfig('client_secret'), $this->steamId)
+            sprintf(self::STEAM_INFO_URL, $this->getConfig('client_secret'), $token)
         );
 
         $contents = json_decode($response->getBody()->getContents(), true);
