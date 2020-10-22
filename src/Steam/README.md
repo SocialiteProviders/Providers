@@ -11,10 +11,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'steam' => [    
-  'client_id' => env('STEAM_CLIENT_ID'),  
-  'client_secret' => env('STEAM_CLIENT_SECRET'),  
-  'redirect' => env('STEAM_REDIRECT_URI') 
+'steam' => [
+  'client_id' => null,
+  'client_secret' => env('STEAM_CLIENT_SECRET'),
+  'redirect' => env('STEAM_REDIRECT_URI')
 ],
 ```
 

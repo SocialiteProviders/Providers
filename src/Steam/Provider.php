@@ -105,17 +105,17 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        if (is_null($this->steamId)) {
+        if (is_null($token)) {
             return null;
         }
 
-        if (empty($this->getConfig('api_key'))) {
+        if (empty($this->getConfig('client_secret'))) {
             throw new RuntimeException('The Steam API key has not been specified.');
         }
 
         $response = $this->getHttpClient()->request(
             'GET',
-            sprintf(self::STEAM_INFO_URL, $this->getConfig('api_key'), $this->steamId)
+            sprintf(self::STEAM_INFO_URL, $this->getConfig('client_secret'), $token)
         );
 
         $contents = json_decode($response->getBody()->getContents(), true);
@@ -298,6 +298,6 @@ class Provider extends AbstractProvider
 
     public static function additionalConfigKeys()
     {
-        return ['api_key', 'realm', 'https', 'proxy'];
+        return ['client_secret', 'realm', 'https', 'proxy'];
     }
 }
