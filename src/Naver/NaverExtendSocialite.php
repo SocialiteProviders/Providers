@@ -13,6 +13,6 @@ class NaverExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('naver', NaverProvider::class);
+        $socialiteWasCalled->extendSocialite('naver', Provider::class);
     }
 }
