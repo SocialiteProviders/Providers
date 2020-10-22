@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'naver' => [    
+'naver' => [
   'client_id' => env('NAVER_CLIENT_ID'),  
   'client_secret' => env('NAVER_CLIENT_SECRET'),  
   'redirect' => env('NAVER_REDIRECT_URI') 
@@ -48,3 +48,7 @@ return Socialite::driver('naver')->redirect();
 - ``nickname``
 - ``email``
 - ``avatar``
+
+### Reference
+
+- [Naver API Reference](https://developers.naver.com/docs/common/openapiguide/)
