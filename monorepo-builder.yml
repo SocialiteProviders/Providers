@@ -2,6 +2,7 @@ parameters:
   directories_to_repositories:
     src/Acclaim: 'git@github.com:SocialiteProviders/Acclaim.git'
     src/Admitad: 'git@github.com:SocialiteProviders/Admitad.git'
+    src/Amazon: 'git@github.com:SocialiteProviders/Amazon.git'
     src/AngelList: 'git@github.com:SocialiteProviders/AngelList.git'
     src/Apple: 'git@github.com:SocialiteProviders/Apple.git'
     src/AppNet: 'git@github.com:SocialiteProviders/App.net.git'
@@ -89,6 +90,7 @@ parameters:
     src/OAuthgen: 'git@github.com:SocialiteProviders/OAuthgen.git'
     src/Odnoklassniki: 'git@github.com:SocialiteProviders/Odnoklassniki.git'
     src/Okta: 'git@github.com:SocialiteProviders/Okta.git'
+    src/Orcid: 'git@github.com:SocialiteProviders/Orcid.git'
     src/OSChina: 'git@github.com:SocialiteProviders/OSChina.git'
     src/Ovh: 'git@github.com:SocialiteProviders/Ovh.git'
     src/Patreon: 'git@github.com:SocialiteProviders/Patreon.git'
