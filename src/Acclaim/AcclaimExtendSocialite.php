@@ -7,7 +7,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 class AcclaimExtendSocialite
 {
     /**
-     * Execute the provider.
+     * Register the provider.
      *
      * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
      */

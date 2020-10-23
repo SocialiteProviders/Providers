@@ -7,7 +7,9 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 class ClaveUnicaExtendSocialite
 {
     /**
-     * Execute the provider.
+     * Register the provider.
+     *
+     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {

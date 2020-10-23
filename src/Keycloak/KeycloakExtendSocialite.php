@@ -7,7 +7,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 class KeycloakExtendSocialite
 {
     /**
-     * Execute the provider.
+     * Register the provider.
      *
      * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
      */
