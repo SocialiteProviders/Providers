@@ -7,7 +7,9 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 class WeChatServiceAccountExtendSocialite
 {
     /**
-     * Execute the provider.
+     * Register the provider.
+     *
+     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
