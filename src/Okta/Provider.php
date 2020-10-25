@@ -29,9 +29,9 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        'openid',
-        'profile',
-        'email',
+        self::SCOPE_OPENID,
+        self::SCOPE_PROFILE,
+        self::SCOPE_EMAIL,
     ];
 
     /**
