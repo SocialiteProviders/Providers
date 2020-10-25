@@ -56,6 +56,7 @@ parameters:
     src/Goodreads: 'git@github.com:SocialiteProviders/Goodreads.git'
     src/Google: 'git@github.com:SocialiteProviders/Google-Plus.git'
     src/Graph: 'git@github.com:SocialiteProviders/Microsoft-Graph.git'
+    src/Gumroad: 'git@github.com:SocialiteProviders/Gumroad.git'
     src/HabrCareer: 'git@github.com:SocialiteProviders/HabrCareer.git'
     src/Harvest: 'git@github.com:SocialiteProviders/Harvest.git'
     src/HeadHunter: 'git@github.com:SocialiteProviders/HeadHunter.git'
