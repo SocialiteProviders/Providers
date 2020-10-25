@@ -22,6 +22,7 @@ $repos = collect(range(1, 5))
     ->filter(function (array $repo) use ($excludedRepos) {
         return !$repo['archived'] && !in_array($repo['name'], $excludedRepos, true);
     })
+    ->sortBy('name')
     ->each(function (array $repo) {
         $res = \Zttp\Zttp::withHeaders([
             'Accept'        => 'application/vnd.github.v3+json',
