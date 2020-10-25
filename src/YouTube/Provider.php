@@ -57,7 +57,9 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return json_decode($response->getBody()->getContents(), true)['items'][0];
+        $responseJson = json_decode($response->getBody()->getContents(), true);
+
+        return $responseJson['items'][0] ?? [];
     }
 
     /**
@@ -66,11 +68,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'        => $user['id'],
-            'nickname'  => $user['snippet']['title'],
+            'id'        => $user['id'] ?? null,
+            'nickname'  => $user['snippet']['title'] ?? null,
             'name'      => null,
             'email'     => null,
-            'avatar'    => $user['snippet']['thumbnails']['high']['url'],
+            'avatar'    => $user['snippet']['thumbnails']['high']['url'] ?? null,
         ]);
     }
 
