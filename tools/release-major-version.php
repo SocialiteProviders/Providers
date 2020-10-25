@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Release a new major version across all providers
+ * Release a new major version across all providers.
  */
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -14,7 +14,6 @@ $excludedRepos = [
 ];
 
 define('NEW_VERSION', '4.0.0');
-
 
 $repos = collect(range(1, 1))
     ->map(function (int $page) {
@@ -29,7 +28,7 @@ $repos = collect(range(1, 1))
         $res = \Zttp\Zttp::withHeaders([
             'Accept'        => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
-        ])->get($repo['url'] . '/releases');
+        ])->get($repo['url'].'/releases');
 
         $higherThanNew = collect($res->json())->filter(function (array $rel) {
             return \Composer\Semver\Comparator::greaterThanOrEqualTo($rel['tag_name'], NEW_VERSION);
@@ -37,17 +36,18 @@ $repos = collect(range(1, 1))
 
         if ($higherThanNew->isNotEmpty()) {
             echo sprintf("Found Higher Release %s for provider %s, skipping\n", $higherThanNew->first()['tag_name'], $repo['name']);
+
             return;
         }
 
         $res = \Zttp\Zttp::withHeaders([
             'Accept'        => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
-        ])->post($repo['url'] . '/releases', [
-            'tag_name' => NEW_VERSION,
+        ])->post($repo['url'].'/releases', [
+            'tag_name'         => NEW_VERSION,
             'target_commitish' => 'master',
-            'name' => 'Release V4',
-            'body' => "- Drop PHP < 7.2\n- Drop Laravel < 6"
+            'name'             => 'Release V4',
+            'body'             => "- Drop PHP < 7.2\n- Drop Laravel < 6",
         ]);
 
         echo sprintf("Released Version for Repo: %s, response code: %s\n", $repo['name'], $res->status());
