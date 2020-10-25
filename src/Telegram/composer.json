@@ -20,6 +20,6 @@
     },
     "require": {
         "php": "^7.2",
-        "socialiteproviders/manager": "~3.0"
+        "socialiteproviders/manager": "~4.0"
     }
 }
