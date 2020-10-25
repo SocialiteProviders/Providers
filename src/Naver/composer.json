@@ -11,7 +11,9 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
-        "socialiteproviders/manager": "~3.0"
+        "ext-libxml": "*",
+        "ext-simplexml": "*",
+        "socialiteproviders/manager": "~4.0"
     },
     "autoload": {
         "psr-4": {
