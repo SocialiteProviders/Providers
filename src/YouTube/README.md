@@ -4,6 +4,10 @@
 composer require socialiteproviders/youtube
 ```
 
+### Important Note
+
+If the user does not have a youtube channel, all the user object fields will be `null`. Youtube no longer automatically creates channels. Consider using the main Google provider instead.
+
 ## Installation & Basic Usage
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
