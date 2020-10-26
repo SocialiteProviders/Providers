@@ -19,6 +19,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
+#### Custom Auth Server
+
+If you're using a custom auth server, pass the `auth_server_id` config option. For more information, see the [okta docs](https://developer.okta.com/docs/concepts/auth-servers/).
+
 ### Add provider event listener
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.

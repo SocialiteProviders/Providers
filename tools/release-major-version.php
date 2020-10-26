@@ -15,13 +15,13 @@ $excludedRepos = [
 
 define('NEW_VERSION', '4.0.0');
 
-$repos = collect(range(1, 1))
+$repos = collect(range(1, 5))
     ->map(function (int $page) {
         return \Zttp\Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json();
     })
     ->flatten(1)
     ->filter(function (array $repo) {
-        return str_contains($repo['description'], '[READ ONLY] Subtree split');
+        return $repo['description'] && str_contains($repo['description'], '[READ ONLY] Subtree split');
     })
     ->sortBy('name')
     ->each(function (array $repo) {
