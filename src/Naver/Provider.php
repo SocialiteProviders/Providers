@@ -51,6 +51,7 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
+     * @see https://developers.naver.com/docs/login/profile/
      */
     protected function mapUserToObject(array $user)
     {
