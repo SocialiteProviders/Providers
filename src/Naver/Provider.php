@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Naver;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -53,14 +54,12 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $user = $user['response'];
-
         return (new User())->setRaw($user)->map([
-            'id'        => $user['id'],
-            'name'      => $user['name'],
-            'nickname'  => $user['nickname'],
-            'email'     => $user['email'],
-            'avatar'    => $user['profile_image'],
+            'id'        => Arr::get($user, 'response.id'),
+            'name'      => Arr::get($user, 'response.name'),
+            'nickname'  => Arr::get($user, 'response.nickname'),
+            'email'     => Arr::get($user, 'response.email'),
+            'avatar'    => Arr::get($user, 'response.profile_image'),
         ]);
     }
 
