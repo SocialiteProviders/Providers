@@ -48,8 +48,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         $url = self::DOMAIN[config('services.mercadolibre.country')] ?? 'https://auth.mercadolibre.com.ar';
-        
-        return $this->buildAuthUrlFromBase( $url . '/authorization', $state);
+
+        return $this->buildAuthUrlFromBase($url.'/authorization', $state);
     }
 
     /**
@@ -80,10 +80,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['nickname'],
-            'name'  => $user['first_name'] . ' ' . $user['last_name'],
-            'email' => $user['email'],
+            'name'     => $user['first_name'].' '.$user['last_name'],
+            'email'    => $user['email'],
             'avatar'   => $user['thumbnail']['picture_url'],
         ]);
     }
