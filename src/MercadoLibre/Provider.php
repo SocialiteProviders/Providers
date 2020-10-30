@@ -5,12 +5,16 @@ namespace SocialiteProviders\MercadoLibre;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://developers.mercadolibre.com.ar/es_ar/autenticacion-y-autorizacion
+ */
 class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
      */
     const IDENTIFIER = 'MERCADOLIBRE';
+
     const DOMAIN = [
         'AR' => 'https://auth.mercadolibre.com.ar',
         'BO' => 'https://auth.mercadolibre.com.bo',
