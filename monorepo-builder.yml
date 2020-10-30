@@ -82,6 +82,7 @@ parameters:
     src/MediaCube: 'git@github.com:SocialiteProviders/Mediacube.git'
     src/Medium: 'git@github.com:SocialiteProviders/Medium.git'
     src/Meetup: 'git@github.com:SocialiteProviders/Meetup.git'
+    src/MercadoLibre: 'git@github.com:SocialiteProviders/MercadoLibre.git'
     src/Microsoft: 'git@github.com:SocialiteProviders/Microsoft.git'
     src/Mixcloud: 'git@github.com:SocialiteProviders/Mixcloud.git'
     src/Mollie: 'git@github.com:SocialiteProviders/Mollie.git'
