@@ -58,7 +58,6 @@ class Provider extends AbstractProvider
             'id'       => $user['user_id'],
             'nickname' => $user['twitter_handle'],
             'name'     => $user['name'],
-            'email'    => $user['email'],
         ]);
     }
 
