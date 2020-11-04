@@ -1,7 +1,7 @@
 # ThirtySevenSignals
 
 ```bash
-composer require socialiteproviders/thirtysevensignals
+composer require socialiteproviders/37signals
 ```
 
 ## Installation & Basic Usage
