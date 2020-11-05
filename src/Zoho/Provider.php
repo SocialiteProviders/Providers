@@ -24,7 +24,6 @@ class Provider extends AbstractProvider
     {
         return $this->buildAuthUrlFromBase('https://accounts.zoho.com/oauth/v2/auth', $state);
     }
-    
     /**
      * Gets the Accounts Server to use from Zoho provider.
      */
