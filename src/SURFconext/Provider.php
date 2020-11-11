@@ -13,18 +13,18 @@ class Provider extends AbstractProvider
     protected $scopes = ['openid'];
 
     /**
-     * @see https://oidc.surfconext.nl/.well-known/openid-configuration
-     * @see https://oidc.test.surfconext.nl/.well-known/openid-configuration
+     * @see https://connect.surfconext.nl/.well-known/openid-configuration
+     * @see https://connect.test.surfconext.nl/.well-known/openid-configuration
      *
      * @return string
      */
     protected function getHostname()
     {
         if ($this->getConfig('test')) {
-            return 'oidc.test.surfconext.nl';
+            return 'connect.test.surfconext.nl/iodc';
         }
 
-        return 'oidc.surfconext.nl';
+        return 'connect.surfconext.nl/iodc';
     }
 
     /**
@@ -67,24 +67,24 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'                            => Arr::get($user, 'sub'),
-            'name'                          => Arr::get($user, 'name'),
-            'nickname'                      => Arr::get($user, 'nickname'),
-            'email'                         => Arr::get($user, 'email'),
-            'avatar'                        => Arr::get($user, 'picture'),
-            'sub'                           => Arr::get($user, 'sub'),
-            'preferred_username'            => Arr::get($user, 'preferred_username'),
-            'given_name'                    => Arr::get($user, 'given_name'),
-            'family_name'                   => Arr::get($user, 'family_name'),
-            'schac_home_organization'       => Arr::get($user, 'schac_home_organization'),
-            'schac_home_organization_type'  => Arr::get($user, 'schac_home_organization_type'),
-            'edu_person_affiliations'       => Arr::get($user, 'edu_person_affiliations'),
-            'edu_person_scoped_affiliations'=> Arr::get($user, 'edu_person_scoped_affiliations'),
-            'edu_person_targeted_id'        => Arr::get($user, 'edu_person_targeted_id'),
-            'uids'                          => Arr::get($user, 'uids'),
-            'schac_personal_unique_codes'   => Arr::get($user, 'schac_personal_unique_codes'),
-            'edu_person_principal_name'     => Arr::get($user, 'edu_person_principal_name'),
-            'edu_person_entitlements'       => Arr::get($user, 'edu_person_entitlements'),
+            'id'                           => Arr::get($user, 'sub'),
+            'name'                         => Arr::get($user, 'name'),
+            'nickname'                     => Arr::get($user, 'nickname'),
+            'email'                        => Arr::get($user, 'email'),
+            'avatar'                       => Arr::get($user, 'picture'),
+            'sub'                          => Arr::get($user, 'sub'),
+            'preferred_username'           => Arr::get($user, 'preferred_username'),
+            'given_name'                   => Arr::get($user, 'given_name'),
+            'family_name'                  => Arr::get($user, 'family_name'),
+            'schac_home_organization'      => Arr::get($user, 'schac_home_organization'),
+            'schac_home_organization_type' => Arr::get($user, 'schac_home_organization_type'),
+            'eduperson_affiliation'        => Arr::get($user, 'eduperson_affiliation'),
+            'eduperson_scoped_affiliation' => Arr::get($user, 'eduperson_scoped_affiliation'),
+            'eduperson_targeted_id'        => Arr::get($user, 'eduperson_targeted_id'),
+            'uids'                         => Arr::get($user, 'uids'),
+            'schac_personal_unique_code'   => Arr::get($user, 'schac_personal_unique_code'),
+            'eduperson_principal_name'     => Arr::get($user, 'eduperson_principal_name'),
+            'eduperson_entitlement'        => Arr::get($user, 'eduperson_entitlement'),
         ]);
     }
 
