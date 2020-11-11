@@ -21,10 +21,10 @@ class Provider extends AbstractProvider
     protected function getHostname()
     {
         if ($this->getConfig('test')) {
-            return 'connect.test.surfconext.nl/iodc';
+            return 'connect.test.surfconext.nl/oidc';
         }
 
-        return 'connect.surfconext.nl/iodc';
+        return 'connect.surfconext.nl/oidc';
     }
 
     /**
