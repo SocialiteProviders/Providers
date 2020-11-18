@@ -133,6 +133,7 @@ parameters:
     src/StreamElements: 'git@github.com:SocialiteProviders/StreamElements.git'
     src/Streamlabs: 'git@github.com:SocialiteProviders/Streamlabs.git'
     src/Stripe: 'git@github.com:SocialiteProviders/Stripe.git'
+    src/SuperOffice: 'git@github.com:SocialiteProviders/SuperOffice.git'
     src/SURFconext: 'git@github.com:SocialiteProviders/SURFconext.git'
     src/Teamleader: 'git@github.com:SocialiteProviders/Teamleader.git'
     src/TeamService: 'git@github.com:SocialiteProviders/Microsoft-TeamService.git'
