@@ -29,7 +29,10 @@ class Provider extends AbstractProvider
 	{
 		return
 			$this->buildAuthUrlFromBase(
-				'https://'.($this->config['environment'] ?: 'sod').'.superoffice.com/login/common/oauth/authorize',
+				sprintf(
+				    'https://%s.superoffice.com/login/common/oauth/authorize',
+                    $this->config['environment'] ?: 'sod'
+                ),
 				$state
 			);
 	}
@@ -39,7 +42,10 @@ class Provider extends AbstractProvider
 	 */
 	protected function getTokenUrl(): string
 	{
-		return 'https://'.($this->config['environment'] ?: 'sod').'.superoffice.com/login/common/oauth/tokens';
+		return sprintf(
+		    'https://%s.superoffice.com/login/common/oauth/tokens',
+            $this->config['environment'] ?: 'sod'
+        );
 	}
 
 	/**
@@ -61,7 +67,11 @@ class Provider extends AbstractProvider
 	protected function getUserByToken($token): array
 	{
 		$response = $this->getHttpClient()->get(
-			'https://'.$this->config['environment'].'.superoffice.com/'.$this->config['customer_id'].'/api/v1/User/currentPrincipal',
+			sprintf(
+			    'https://%s.superoffice.com/%s/api/v1/User/currentPrincipal',
+			     $this->config['environment'] ?: 'sod',
+			     $this->config['customer_id']
+            ),
 			     [
 			     	'headers' => [
 			     		'Accept' => 'application/json',
@@ -72,7 +82,7 @@ class Provider extends AbstractProvider
 		return (array)json_decode($response->getBody());
 	}
 
-	protected function mapUserToObject(array $user): \Laravel\Socialite\Two\User
+	protected function mapUserToObject(array $user): \SocialiteProviders\Manager\OAuth2\User
 	{
 		return (new User())->setRaw($user)->map([
 			'id' => $user['EjUserId'],
@@ -83,7 +93,7 @@ class Provider extends AbstractProvider
 	}
 
 	/**
-	 * Add the additional configuration key 'tenant' to enable the branded sign-in experience.
+	 * Add the additional configuration keys 'environment' and 'customer_id'.
 	 *
 	 * @return array
 	 */

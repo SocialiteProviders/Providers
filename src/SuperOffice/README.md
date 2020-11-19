@@ -1,7 +1,7 @@
-# Microsoft
+# SuperOffice
 
 ```bash
-composer require socialiteproviders/microsoft
+composer require socialiteproviders/superoffice
 ```
 
 ## Installation & Basic Usage
@@ -42,3 +42,14 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('superoffice')->redirect();
 ```
+  
+### Returned user fields
+- `id`
+- `name`
+- `email`
+- `username`
+
+### Reference
+- [Authorization](https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/Reference-WebAPI-Authentication-Online.htm);
+- [User fields](https://community.superoffice.com/documentation/sdk/SO.NetServer.Web.Services/html/v1User_GetCurrentPrincipal.htm);
+- [URI variables](https://community.superoffice.com/en/developer/create-apps/overview/application-environments/);
