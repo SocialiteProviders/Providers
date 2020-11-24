@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/superoffice",
+    "description": "SuperOffice OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Derkjan Super",
+            "email": "d.super@cadix.nl"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^3.6|^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\SuperOffice\\": ""
+        }
+    }
+}
