@@ -64,8 +64,9 @@ class Provider extends AbstractProvider
     /**
      * @param string $token
      *
-     * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return array
      */
     protected function getUserByToken($token): array
     {
@@ -83,7 +84,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return (array)json_decode($response->getBody());
+        return (array) json_decode($response->getBody());
     }
 
     protected function mapUserToObject(array $user): \SocialiteProviders\Manager\OAuth2\User
