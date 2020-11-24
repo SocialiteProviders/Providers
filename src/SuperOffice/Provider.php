@@ -15,7 +15,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [ 'openid' ];
+    protected $scopes = ['openid'];
 
     /**
      * {@inheritdoc}
@@ -31,7 +31,7 @@ class Provider extends AbstractProvider
             $this->buildAuthUrlFromBase(
                 sprintf(
                     'https://%s.superoffice.com/login/common/oauth/authorize',
-                    $this->config['environment'] ? : 'sod'
+                    $this->config['environment'] ?: 'sod'
                 ),
                 $state
             );
@@ -44,7 +44,7 @@ class Provider extends AbstractProvider
     {
         return sprintf(
             'https://%s.superoffice.com/login/common/oauth/tokens',
-            $this->config['environment'] ? : 'sod'
+            $this->config['environment'] ?: 'sod'
         );
     }
 
@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             sprintf(
                 'https://%s.superoffice.com/%s/api/v1/User/currentPrincipal',
-                $this->config['environment'] ? : 'sod',
+                $this->config['environment'] ?: 'sod',
                 $this->config['customer_id']
             ),
             [
@@ -83,17 +83,17 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return (array)json_decode($response->getBody() );
+        return (array)json_decode($response->getBody());
     }
 
     protected function mapUserToObject(array $user): \SocialiteProviders\Manager\OAuth2\User
     {
-        return (new User())->setRaw($user)->map( [
+        return (new User())->setRaw($user)->map([
             'id'       => $user['EjUserId'],
             'name'     => $user['FullName'],
             'email'    => $user['EMailAddress'],
             'username' => $user['UserName'],
-        ] );
+        ]);
     }
 
     /**
