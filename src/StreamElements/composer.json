@@ -3,7 +3,7 @@
     "description": "StreamElements OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "require": {
-        "php": "^7.2|^8.0",
+        "php": "^7.2 || ^8.0",
         "ext-json": "*",
         "socialiteproviders/manager": "~4.0"
     },

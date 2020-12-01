@@ -3,7 +3,7 @@
     "description": "Collection of all OAuth2 Providers for Laravel Socialite",
     "license": "MIT",
     "require": {
-        "php": "^7.2|^8.0",
+        "php": "^7.2 || ^8.0",
         "ext-json": "*",
         "socialiteproviders/manager": "~4.0",
         "kitetail/zttp": "^0.6.0"
