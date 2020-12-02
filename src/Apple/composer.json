@@ -20,7 +20,7 @@
         "ext-json": "*",
         "ext-openssl": "*",
         "firebase/php-jwt": "^5.2",
-        "lcobucci/jwt": "^3.3",
+        "lcobucci/jwt": "^3.4",
         "socialiteproviders/manager": "~4.0"
     },
     "autoload": {

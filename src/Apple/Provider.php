@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -132,7 +133,7 @@ class Provider extends AbstractProvider
         if ($token->getClaim('iss') !== self::URL) {
             throw new InvalidStateException('Invalid Issuer', Response::HTTP_UNAUTHORIZED);
         }
-        if ($token->isExpired()) {
+        if ($token->isExpired(new \DateTime())) {
             throw new InvalidStateException('Token Expired', Response::HTTP_UNAUTHORIZED);
         }
 
@@ -149,7 +150,7 @@ class Provider extends AbstractProvider
         if (isset($publicKeys[$kid])) {
             $publicKey = openssl_pkey_get_details($publicKeys[$kid]);
 
-            if ($token->verify($signer, $publicKey['key'])) {
+            if ($token->verify($signer, new Key($publicKey['key']))) {
                 return true;
             }
         }
