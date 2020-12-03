@@ -7,7 +7,6 @@ use Zttp\Zttp;
 /**
  * Create a new repo with preset information.
  */
-
 $repoName = $argv[1] ?? null;
 
 if (empty($repoName)) {

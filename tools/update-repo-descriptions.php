@@ -8,7 +8,6 @@ use Zttp\Zttp;
  * Automatically update all of the repos to have a consistent description/URL and point people to the correct
  * documentation.
  */
-
 $excludedRepos = [
     'Providers',
     'Manager',

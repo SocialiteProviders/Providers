@@ -8,7 +8,6 @@ use Zttp\Zttp;
 /**
  * Release a new major version across all providers.
  */
-
 $excludedRepos = [
     'Providers',
     'Manager',

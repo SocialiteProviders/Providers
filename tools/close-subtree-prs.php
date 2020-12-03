@@ -8,7 +8,6 @@ use Zttp\Zttp;
  * Automatically update all of the repos to have a consistent description/URL and point people to the correct
  * documentation.
  */
-
 $repos = collect(range(1, 5))
     ->map(function (int $page) {
         return Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json();
