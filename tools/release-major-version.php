@@ -1,9 +1,13 @@
 <?php
 
+require_once __DIR__.'/../vendor/autoload.php';
+
+use Composer\Semver\Comparator;
+use Zttp\Zttp;
+
 /**
  * Release a new major version across all providers.
  */
-require_once __DIR__.'/../vendor/autoload.php';
 
 $excludedRepos = [
     'Providers',
@@ -17,7 +21,7 @@ define('NEW_VERSION', '4.0.0');
 
 $repos = collect(range(1, 5))
     ->map(function (int $page) {
-        return \Zttp\Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json();
+        return Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json();
     })
     ->flatten(1)
     ->filter(function (array $repo) {
@@ -25,13 +29,13 @@ $repos = collect(range(1, 5))
     })
     ->sortBy('name')
     ->each(function (array $repo) {
-        $res = \Zttp\Zttp::withHeaders([
+        $res = Zttp::withHeaders([
             'Accept'        => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])->get($repo['url'].'/releases');
 
         $higherThanNew = collect($res->json())->filter(function (array $rel) {
-            return \Composer\Semver\Comparator::greaterThanOrEqualTo($rel['tag_name'], NEW_VERSION);
+            return Comparator::greaterThanOrEqualTo($rel['tag_name'], NEW_VERSION);
         });
 
         if ($higherThanNew->isNotEmpty()) {
@@ -40,7 +44,7 @@ $repos = collect(range(1, 5))
             return;
         }
 
-        $res = \Zttp\Zttp::withHeaders([
+        $res = Zttp::withHeaders([
             'Accept'        => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])->post($repo['url'].'/releases', [
