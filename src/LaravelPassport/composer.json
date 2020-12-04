@@ -13,10 +13,6 @@
         "ext-json": "*",
         "socialiteproviders/manager": "~4.0"
     },
-    "require-dev": {
-        "mockery/mockery": "~0.9.4",
-        "phpunit/phpunit": "~4.8|~5.4|~6.1"
-    },
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\LaravelPassport\\": ""
