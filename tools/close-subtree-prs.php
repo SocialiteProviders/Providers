@@ -1,14 +1,16 @@
 <?php
 
+require_once __DIR__.'/../vendor/autoload.php';
+
+use Zttp\Zttp;
+
 /**
  * Automatically update all of the repos to have a consistent description/URL and point people to the correct
  * documentation.
  */
-require_once __DIR__.'/../vendor/autoload.php';
-
 $repos = collect(range(1, 5))
     ->map(function (int $page) {
-        return \Zttp\Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json();
+        return Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json();
     })
     ->flatten(1)
     ->sortBy('name')
@@ -16,7 +18,7 @@ $repos = collect(range(1, 5))
         return $repo['has_issues'] === false;
     })
     ->each(function (array $repo) {
-        $res = \Zttp\Zttp::withHeaders([
+        $res = Zttp::withHeaders([
             'Accept'        => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])->get(sprintf('https://api.github.com/repos/SocialiteProviders/%s/pulls?state=open', $repo['name']));
@@ -30,14 +32,14 @@ $repos = collect(range(1, 5))
         }
 
         $prs->map(function (array $pr) {
-            $res = \Zttp\Zttp::withHeaders([
+            Zttp::withHeaders([
                 'Accept'        => 'application/vnd.github.v3+json',
                 'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
             ])->patch($pr['url'], [
                 'state' => 'closed',
             ]);
 
-            $res = \Zttp\Zttp::withHeaders([
+            Zttp::withHeaders([
                 'Accept'        => 'application/vnd.github.v3+json',
                 'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
             ])->post($pr['comments_url'], [
