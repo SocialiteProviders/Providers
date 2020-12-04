@@ -14,8 +14,7 @@
     },
     "require-dev": {
         "kitetail/zttp": "^0.6.0",
-        "symplify/monorepo-builder": "^6.1",
-        "phpunit/phpunit": "^8.0"
+        "symplify/monorepo-builder": "^6.1 || ^8.0"
     },
     "scripts": {
         "test": "phpunit",
