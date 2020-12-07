@@ -84,7 +84,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $userEndpointVersion = $this->getConfig('user_endpoint_version', 'v1.0');
-        $response = $this->getHttpClient()->get("https://graph.microsoft.com/$userEndpointVersion/me", [
+        $response = $this->getHttpClient()->get("https://graph.microsoft.com/$userEndpointVersion/me/", [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
