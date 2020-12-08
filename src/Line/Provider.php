@@ -29,6 +29,7 @@ class Provider extends AbstractProvider
         'openid',
         'profile',
         'email',
+        'phone'
     ];
 
     /**
@@ -92,6 +93,7 @@ class Provider extends AbstractProvider
             'name'     => $user['displayName'] ?? $user['name'] ?? null,
             'avatar'   => $user['pictureUrl'] ?? $user['picture'] ?? null,
             'email'    => $user['email'] ?? null,
+            'phone'    => $user['phone_number'] ?? null
         ]);
     }
 
