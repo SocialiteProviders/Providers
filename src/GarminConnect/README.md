@@ -1,7 +1,7 @@
 # GarminConnect
 
 ```bash
-composer require socialiteproviders/garminconnect
+composer require socialiteproviders/garmin-connect
 ```
 
 ## Installation & Basic Usage
