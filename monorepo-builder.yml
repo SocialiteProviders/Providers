@@ -87,6 +87,7 @@ parameters:
     src/Microsoft: 'git@github.com:SocialiteProviders/Microsoft.git'
     src/Mixcloud: 'git@github.com:SocialiteProviders/Mixcloud.git'
     src/Mollie: 'git@github.com:SocialiteProviders/Mollie.git'
+    src/Monzo: 'git@github.com:SocialiteProviders/Monzo.git'
     src/Naver: 'git@github.com:SocialiteProviders/Naver.git'
     src/Netlify: 'git@github.com:SocialiteProviders/Netlify.git'
     src/Nocks: 'git@github.com:SocialiteProviders/Nocks.git'
