@@ -23,8 +23,8 @@ class Provider extends AbstractProvider
     protected function getCodeFields($state = null)
     {
         $fields = [
-            'client_id' => $this->clientId,
-            'redirect_uri' => $this->redirectUrl,
+            'client_id'     => $this->clientId,
+            'redirect_uri'  => $this->redirectUrl,
             'response_type' => 'code',
         ];
 
@@ -42,8 +42,8 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => [
-                'Accept' => 'application/json',
-                'User-Agent' => env('APP_NAME'),
+                'Accept'                => 'application/json',
+                'User-Agent'            => env('APP_NAME'),
                 'X-SparkApi-User-Agent' => 'ThinkerySocialite',
             ],
             'form_params' => $this->getTokenFields($code),
@@ -75,8 +75,8 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://sparkapi.com/v1/my/account', [
             'headers' => [
-                'Authorization' => 'Bearer '.$token,
-                'User-Agent' => env('APP_NAME'),
+                'Authorization'         => 'Bearer '.$token,
+                'User-Agent'            => env('APP_NAME'),
                 'X-SparkApi-User-Agent' => 'ThinkerySocialite',
             ],
         ]);
@@ -103,7 +103,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
