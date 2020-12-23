@@ -65,6 +65,8 @@ class Provider extends AbstractProvider
      * @param array $user
      *
      * @return string|null
+     *
+     * @see https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints
      */
     protected function formatAvatar(array $user)
     {
