@@ -68,13 +68,13 @@ class Provider extends AbstractProvider
      */
     protected function formatAvatar(array $user)
     {
-        if (is_null($user['avatar'])) {
+        if (empty($user['avatar'])) {
             return null;
         }
 
         $isGif = preg_match('/a_.+/m', $user['avatar']) === 1;
-        $extension = $this->getConfig('avatar_gifs', true) && $isGif ? 'gif' :
-            $this->getConfig('avatar_default_extension', 'webp');
+        $extension = $this->getConfig('allow_gif_avatars', true) && $isGif ? 'gif' :
+            $this->getConfig('avatar_default_extension', 'jpg');
 
         return sprintf('https://cdn.discordapp.com/avatars/%s/%s.%s', $user['id'], $user['avatar'], $extension);
     }
@@ -105,6 +105,6 @@ class Provider extends AbstractProvider
 
     public static function additionalConfigKeys()
     {
-        return ['avatar_gifs', 'avatar_default_extension'];
+        return ['allow_gif_avatars', 'avatar_default_extension'];
     }
 }
