@@ -63,6 +63,7 @@ class Provider extends AbstractProvider
 
     /**
      * @param array $user
+     *
      * @return string|null
      */
     protected function formatAvatar(array $user)
@@ -75,7 +76,7 @@ class Provider extends AbstractProvider
         $extension = $this->getConfig('avatar_gifs', true) && $isGif ? 'gif' :
             $this->getConfig('avatar_default_extension', 'webp');
 
-        return sprintf("https://cdn.discordapp.com/avatars/%s/%s.%s", $user['id'], $user['avatar'], $extension);
+        return sprintf('https://cdn.discordapp.com/avatars/%s/%s.%s', $user['id'], $user['avatar'], $extension);
     }
 
     /**
