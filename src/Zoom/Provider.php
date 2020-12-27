@@ -5,6 +5,9 @@ namespace SocialiteProviders\Zoom;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://marketplace.zoom.us/docs/guides/auth/oauth
+ */
 class Provider extends AbstractProvider
 {
     /**
@@ -60,7 +63,7 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
-            'nickname' => $user['first_name'],
+            'nickname' => $user['first_name'].' '.$user['last_name'],
             'name'     => $user['first_name'].' '.$user['last_name'],
             'email'    => $user['email'],
             'avatar'   => $user['pic_url'],
