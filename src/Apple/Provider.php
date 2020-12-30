@@ -144,7 +144,7 @@ class Provider extends AbstractProvider
         if (isset($publicKeys[$kid])) {
             $publicKey = openssl_pkey_get_details($publicKeys[$kid]);
             $constraints = [
-                new SignedWith(new Sha256, InMemory::plainText($publicKey['key'])),
+                new SignedWith(new Sha256(), InMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
                 new ValidAt(SystemClock::fromUTC()),
             ];
