@@ -77,7 +77,7 @@ class Provider extends AbstractProvider
         ];
 
         if ($this->usesState()) {
-            $fields['state'] = md5($state);
+            $fields['state'] = $state;
             $fields['nonce'] = Str::uuid().'.'.$state;
         }
 
