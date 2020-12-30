@@ -149,7 +149,9 @@ class Provider extends AbstractProvider
                 new ValidAt(SystemClock::fromUTC()),
             ];
 
-            return $jwtContainer->validator()->validate($token, ...$constraints);
+            if ($jwtContainer->validator()->validate($token, ...$constraints)) {
+                return true;
+            }
         }
 
         throw new InvalidStateException('Invalid JWT Signature');
