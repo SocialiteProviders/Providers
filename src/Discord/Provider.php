@@ -62,6 +62,26 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * @param array $user
+     *
+     * @return string|null
+     *
+     * @see https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints
+     */
+    protected function formatAvatar(array $user)
+    {
+        if (empty($user['avatar'])) {
+            return null;
+        }
+
+        $isGif = preg_match('/a_.+/m', $user['avatar']) === 1;
+        $extension = $this->getConfig('allow_gif_avatars', true) && $isGif ? 'gif' :
+            $this->getConfig('avatar_default_extension', 'jpg');
+
+        return sprintf('https://cdn.discordapp.com/avatars/%s/%s.%s', $user['id'], $user['avatar'], $extension);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
@@ -71,7 +91,7 @@ class Provider extends AbstractProvider
             'nickname' => sprintf('%s#%s', $user['username'], $user['discriminator']),
             'name'     => $user['username'],
             'email'    => (array_key_exists('email', $user)) ? $user['email'] : null,
-            'avatar'   => (is_null($user['avatar'])) ? null : sprintf('https://cdn.discordapp.com/avatars/%s/%s.jpg', $user['id'], $user['avatar']),
+            'avatar'   => $this->formatAvatar($user),
         ]);
     }
 
@@ -83,5 +103,10 @@ class Provider extends AbstractProvider
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
+    }
+
+    public static function additionalConfigKeys()
+    {
+        return ['allow_gif_avatars', 'avatar_default_extension'];
     }
 }
