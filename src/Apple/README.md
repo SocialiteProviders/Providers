@@ -18,7 +18,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
-See [Configure Apple ID Authentication](https://docs.mongodb.com/realm/authentication/apple)
+See [Configure Apple ID Authentication](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple)
 
 ### Add provider event listener
 
