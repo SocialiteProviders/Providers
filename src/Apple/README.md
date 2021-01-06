@@ -11,12 +11,14 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'apple' => [    
-  'client_id' => env('APPLE_CLIENT_ID'),  
-  'client_secret' => env('APPLE_CLIENT_SECRET'),  
-  'redirect' => env('APPLE_REDIRECT_URI') 
+'apple' => [
+  'client_id' => env('APPLE_CLIENT_ID'),
+  'client_secret' => env('APPLE_CLIENT_SECRET'),
+  'redirect' => env('APPLE_REDIRECT_URI')
 ],
 ```
+
+See [Configure Apple ID Authentication](https://docs.mongodb.com/realm/authentication/apple)
 
 ### Add provider event listener
 
