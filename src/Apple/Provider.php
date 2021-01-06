@@ -53,7 +53,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(self::URL . '/auth/authorize', $state);
+        return $this->buildAuthUrlFromBase(self::URL.'/auth/authorize', $state);
     }
 
     /**
@@ -61,7 +61,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return self::URL . '/auth/token';
+        return self::URL.'/auth/token';
     }
 
     /**
@@ -79,7 +79,7 @@ class Provider extends AbstractProvider
 
         if ($this->usesState()) {
             $fields['state'] = $state;
-            $fields['nonce'] = Str::uuid() . '.' . $state;
+            $fields['nonce'] = Str::uuid().'.'.$state;
         }
 
         return array_merge($fields, $this->parameters);
@@ -134,7 +134,7 @@ class Provider extends AbstractProvider
         $token = $jwtContainer->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
-            $res = (new Client())->get(self::URL . '/auth/keys');
+            $res = (new Client())->get(self::URL.'/auth/keys');
 
             return json_decode((string) $res->getBody(), true);
         });
@@ -211,8 +211,8 @@ class Provider extends AbstractProvider
                 $user['name'] = $userRequest['name'];
                 $fullName = trim(
                     ($user['name']['firstName'] ?? '')
-                    . ' '
-                    . ($user['name']['lastName'] ?? '')
+                    .' '
+                    .($user['name']['lastName'] ?? '')
                 );
             }
         }
