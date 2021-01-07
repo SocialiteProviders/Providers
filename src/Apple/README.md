@@ -11,12 +11,14 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'apple' => [    
-  'client_id' => env('APPLE_CLIENT_ID'),  
-  'client_secret' => env('APPLE_CLIENT_SECRET'),  
-  'redirect' => env('APPLE_REDIRECT_URI') 
+'apple' => [
+  'client_id' => env('APPLE_CLIENT_ID'),
+  'client_secret' => env('APPLE_CLIENT_SECRET'),
+  'redirect' => env('APPLE_REDIRECT_URI')
 ],
 ```
+
+See [Configure Apple ID Authentication](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple)
 
 ### Add provider event listener
 

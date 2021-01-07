@@ -15,6 +15,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -146,11 +147,15 @@ class Provider extends AbstractProvider
             $constraints = [
                 new SignedWith(new Sha256(), InMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
-                new ValidAt(SystemClock::fromUTC()),
+                new ValidAt(SystemClock::fromSystemTimezone()),
             ];
 
-            if ($jwtContainer->validator()->validate($token, ...$constraints)) {
+            try {
+                $jwtContainer->validator()->assert($token, ...$constraints);
+
                 return true;
+            } catch (RequiredConstraintsViolated $e) {
+                throw new InvalidStateException($e->getMessage());
             }
         }
 
@@ -171,10 +176,11 @@ class Provider extends AbstractProvider
 
         if ($this->usesState()) {
             $state = explode('.', $appleUserToken['nonce'])[1];
-            if (md5($state) === $this->request->input('state')) {
-                $this->request->session()->put('state', md5($state));
+            if ($state === $this->request->input('state')) {
+                $this->request->session()->put('state', $state);
                 $this->request->session()->put('state_verify', $state);
             }
+
             if ($this->hasInvalidState()) {
                 throw new InvalidStateException();
             }
@@ -196,7 +202,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $value = trim((string) request('user'));
+        $value = trim((string) $this->request->input('user'));
 
         if ($value !== '') {
             $userRequest = json_decode($value, true);
