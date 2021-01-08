@@ -2,9 +2,8 @@
 
 namespace SocialiteProviders\ProSanteConnect;
 
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-
 use Illuminate\Support\Str;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider
 {
@@ -59,6 +58,7 @@ class Provider extends AbstractProvider
     {
         //It is used to prevent replay attacks
         $this->parameters['nonce'] = str::random(20);
+
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/', $state);
     }
 
