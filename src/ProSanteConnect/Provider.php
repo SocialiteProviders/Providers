@@ -58,6 +58,8 @@ class Provider extends AbstractProvider
     {
         //It is used to prevent replay attacks
         $this->parameters['nonce'] = str::random(20);
+        //the acr values that the Authorization Server is being requested to use to process this authentication request
+        $this->parameters['acr_values'] = "eidas2";
 
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/', $state);
     }
