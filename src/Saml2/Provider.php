@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\Provider as SocialiteProvider;
+use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
 use LightSaml\Binding\BindingFactory;
@@ -58,6 +60,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
      * @var array
      */
     protected $config;
+
+    const CACHE_KEY = 'socialite_saml2_metadata';
+    const CACHE_KEY_TTL = self::CACHE_KEY . '_ttl';
 
     public function __construct(Request $request)
     {
@@ -132,10 +137,16 @@ class Provider extends AbstractProvider implements SocialiteProvider
             throw new MissingConfigException('When using "acs", both "entityid" and "certificate" must be set');
         }
 
+        if (!Str::startsWith($certificate, '-----BEGIN CERTIFICATE-----')) {
+            $certificate = "-----BEGIN CERTIFICATE-----\r\n".
+                implode("\r\n", str_split($certificate, 80)).
+                "\r\n-----END CERTIFICATE-----\r\n";
+        }
+
         $x509 = new X509Certificate();
         $x509->loadPem($certificate);
 
-        $builder = new SimpleEntityDescriptorBuilder($entityId, $acs, '', $x509);
+        $builder = new SimpleEntityDescriptorBuilder($entityId, $acs, $acs, $x509);
 
         return $builder->get();
     }
@@ -147,20 +158,17 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function getIdentityProviderEntityDescriptorFromUrl(): EntityDescriptor
     {
-        $key = 'socialite.saml2.metadata';
-        $fetchTimeKey = $key.'.ttl';
-
         $metadataUrl = $this->getConfig('metadata');
-        $xml = Cache::get($key);
-        $ttl = Cache::get($fetchTimeKey);
+        $xml = Cache::get(self::CACHE_KEY);
+        $ttl = Cache::get(self::CACHE_KEY_TTL);
 
         $deserializationContext = new DeserializationContext();
 
-        if ($xml && $ttl && $ttl + $this->getConfig('ttl', 86400) < time()) {
+        if ($xml && $ttl && $ttl + $this->getConfig('ttl', 86400) > time()) {
             return Metadata::fromXML($xml, $deserializationContext);
         }
 
-        Cache::forever($fetchTimeKey, time());
+        Cache::forever(self::CACHE_KEY_TTL, time());
 
         try {
             $xml = $this->getHttpClient()
@@ -168,7 +176,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
                 ->getBody()
                 ->getContents();
 
-            Cache::forever($key, $xml);
+            Cache::forever(self::CACHE_KEY, $xml);
         } catch (GuzzleException $e) {
             if (!$xml) {
                 throw $e;
@@ -201,6 +209,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
         throw new MissingConfigException('Either the "metadata" or "acs" config keys must be set');
     }
 
+    /**
+     * @return EntityDescriptor
+     */
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
         $entityDescriptor = new EntityDescriptor();
@@ -219,7 +230,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $entityDescriptor;
     }
 
-    public function getServiceProviderAssertionConsumerUrl()
+    public function getServiceProviderAssertionConsumerUrl(): string
     {
         return $this->getServiceProviderEntityDescriptor()
             ->getFirstSpSsoDescriptor()
@@ -227,7 +238,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->getLocation();
     }
 
-    public function getServiceProviderEntityId()
+    public function getServiceProviderEntityId(): string
     {
         return $this->getServiceProviderEntityDescriptor()
             ->getEntityID();
@@ -235,7 +246,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function getAssertionConsumerServiceRoute(): string
     {
-        return $this->getConfig('sp_acs', 'auth/callback');
+        return Str::of($this->getConfig('sp_acs', 'auth/callback'))->ltrim('/');
     }
 
     protected function getAssertionConsumerServiceBinding(): string
@@ -248,6 +259,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
             SamlConstants::BINDING_SAML2_HTTP_POST;
     }
 
+    /**
+     * @return SocialiteUser|User
+     */
     public function user()
     {
         if ($this->user) {
@@ -321,6 +335,10 @@ class Provider extends AbstractProvider implements SocialiteProvider
             $messageContext->getMessage()->getSignature() :
             $messageContext->asResponse()->getFirstAssertion()->getSignature();
 
+        if (!$signatureReader) {
+            return true;
+        }
+
         return !$signatureReader->validate($key);
     }
 
@@ -335,19 +353,28 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setContent($serializationContext->getDocument()->saveXML());
     }
 
+    public function clearIdentityProviderMetadataCache() {
+        Cache::forget(self::CACHE_KEY);
+        Cache::forget(self::CACHE_KEY_TTL);
+    }
+
     protected function getTokenUrl()
     {
+        throw new NotSupportedException;
     }
 
     protected function getAuthUrl($state)
     {
+        throw new NotSupportedException;
     }
 
     protected function getUserByToken($token)
     {
+        throw new NotSupportedException;
     }
 
     protected function mapUserToObject(array $user)
     {
+        throw new NotSupportedException;
     }
 }
