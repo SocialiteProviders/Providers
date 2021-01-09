@@ -55,14 +55,14 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected $user;
 
     /**
-     * The configuration
+     * The configuration.
      *
      * @var array
      */
     protected $config;
 
     const CACHE_KEY = 'socialite_saml2_metadata';
-    const CACHE_KEY_TTL = self::CACHE_KEY . '_ttl';
+    const CACHE_KEY_TTL = self::CACHE_KEY.'_ttl';
 
     public function __construct(Request $request)
     {
@@ -187,7 +187,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
     }
 
     /**
-     * @return EntityDescriptor
      * @throws MissingConfigException
      * @throws GuzzleException
      */
@@ -209,9 +208,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
         throw new MissingConfigException('Either the "metadata" or "acs" config keys must be set');
     }
 
-    /**
-     * @return EntityDescriptor
-     */
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
         $entityDescriptor = new EntityDescriptor();
@@ -269,11 +265,11 @@ class Provider extends AbstractProvider implements SocialiteProvider
         }
 
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException;
+            throw new InvalidStateException();
         }
 
         if ($this->hasInvalidSignature()) {
-            throw new InvalidSignatureException;
+            throw new InvalidSignatureException();
         }
 
         $bindingFactory = new BindingFactory();
@@ -331,7 +327,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         );
 
         /** @var SignatureXmlReader $signatureReader */
-        $signatureReader = $this->getAssertionConsumerServiceBinding() === SamlConstants::BINDING_SAML2_HTTP_REDIRECT ?
+        $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->getAssertionConsumerServiceBinding() ?
             $messageContext->getMessage()->getSignature() :
             $messageContext->asResponse()->getFirstAssertion()->getSignature();
 
@@ -353,28 +349,29 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setContent($serializationContext->getDocument()->saveXML());
     }
 
-    public function clearIdentityProviderMetadataCache() {
+    public function clearIdentityProviderMetadataCache()
+    {
         Cache::forget(self::CACHE_KEY);
         Cache::forget(self::CACHE_KEY_TTL);
     }
 
     protected function getTokenUrl()
     {
-        throw new NotSupportedException;
+        throw new NotSupportedException();
     }
 
     protected function getAuthUrl($state)
     {
-        throw new NotSupportedException;
+        throw new NotSupportedException();
     }
 
     protected function getUserByToken($token)
     {
-        throw new NotSupportedException;
+        throw new NotSupportedException();
     }
 
     protected function mapUserToObject(array $user)
     {
-        throw new NotSupportedException;
+        throw new NotSupportedException();
     }
 }

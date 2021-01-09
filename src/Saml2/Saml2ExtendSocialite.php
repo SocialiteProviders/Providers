@@ -8,8 +8,6 @@ class Saml2ExtendSocialite
 {
     /**
      * Register the provider.
-     *
-     * @param  SocialiteWasCalled  $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {

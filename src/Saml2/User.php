@@ -21,4 +21,3 @@ class User extends AbstractUser
         return $this;
     }
 }
-
