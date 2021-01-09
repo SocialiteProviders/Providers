@@ -157,3 +157,13 @@ The entity ID and assertion consumer URL of the service provider can also be pro
 Socialite::driver('saml2')->getServiceProviderEntityId()
 Socialite::driver('saml2')->getServiceProviderAssertionConsumerUrl()
 ```
+
+### User attributes and Name ID
+
+By SAML convention, the "Name ID" sent by the identity provider is used as the ID in the `User` class instance returned in the callback.
+
+The two well-known SAML attributes 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name' and 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress' are mapped into Name and Email Address respectively in the `User` class.
+
+All other attributes returned by the identity provider are stored in the "raw" property of the `User` class and can be retrieved with `$user->getRaw()`.
+
+The entire assertion is also stored in the `User` instance and can be retrieved with `$user->getAssertion()`.
