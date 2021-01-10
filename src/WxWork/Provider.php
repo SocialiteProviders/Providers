@@ -9,7 +9,6 @@ use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-
 class Provider extends AbstractProvider
 {
     /**
@@ -17,10 +16,6 @@ class Provider extends AbstractProvider
      */
     public const IDENTIFIER = 'WEIXINWORK';
 
-
-    /**
-     * {@inheritdoc}.
-     */
     protected $scopes = ['snsapi_base'];
 
     protected $userid;
@@ -30,7 +25,6 @@ class Provider extends AbstractProvider
      */
     public function setConfig(ConfigInterface $config)
     {
-
         $config = config('services.weixinwork');
 
         $this->config = $config;
@@ -47,7 +41,6 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        
         $isWxWork = Str::is('*wxwork*', request()->userAgent());
 
         if ($isWxWork) {
@@ -66,7 +59,7 @@ class Provider extends AbstractProvider
     {
         $query = http_build_query($this->getCodeFields($state), '', '&', $this->encodingType);
 
-        return $url . '?' . $query;
+        return $url.'?'.$query;
     }
 
     /**
