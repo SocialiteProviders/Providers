@@ -1,8 +1,9 @@
 <?php
 
-namespace SocialiteProviders\WxWork;
+namespace SocialiteProviders\WeixinWork;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -13,7 +14,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    public const IDENTIFIER = 'WXWORK';
+    public const IDENTIFIER = 'WEIXINWORK';
 
 
     /**
@@ -29,7 +30,7 @@ class Provider extends AbstractProvider
     public function setConfig(ConfigInterface $config)
     {
 
-        $config = config("services.wxwork");
+        $config = config("services.weixinwork");
 
         $this->config       = $config;
         $this->corpid       = $config['corpid'];
@@ -45,7 +46,17 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://open.work.weixin.qq.com/wwopen/sso/qrConnect', $state);
+        
+        $isWxWork = Str::is('*wxwork*',request()->userAgent());
+
+        if($isWxWork){
+            //企业微信内部静默授权
+            return $this->buildAuthUrlFromBase('https://open.weixin.qq.com/connect/oauth2/authorize', $state).'#wechat_redirect';
+        }else{
+            //非企业微信客户端 使用扫码登录
+            return $this->buildAuthUrlFromBase('https://open.work.weixin.qq.com/wwopen/sso/qrConnect', $state);
+        }
+        
     }
 
     /**
@@ -133,7 +144,7 @@ class Provider extends AbstractProvider
      */
     protected function getAccessToken()
     {
-        $cache_key = 'WXWORK_' . $this->clientId;
+        $cache_key = 'WEIXIN_WORK_' . $this->clientId;
         $access_token = Cache::remember($cache_key, 7200, function () {
             $response = $this->getHttpClient()->get('https://qyapi.weixin.qq.com/cgi-bin/gettoken', [
                 'query' => [
