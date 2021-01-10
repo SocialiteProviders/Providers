@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/weixin-work",
+    "description": "Weixin Work OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "keller",
+            "email": "xiaowei.vip@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\WeixinWork\\": ""
+        }
+    }
+}
