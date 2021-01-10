@@ -6,9 +6,6 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class WxWorkExtendSocialite
 {
-
-    
-
     /**
      * Register the provider.
      *

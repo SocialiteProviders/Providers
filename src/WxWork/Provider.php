@@ -3,11 +3,12 @@
 namespace SocialiteProviders\WeixinWork;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\Contracts\ConfigInterface;
-use SocialiteProviders\Manager\OAuth2\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+use SocialiteProviders\Manager\Contracts\ConfigInterface;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
+
 
 class Provider extends AbstractProvider
 {
@@ -30,13 +31,13 @@ class Provider extends AbstractProvider
     public function setConfig(ConfigInterface $config)
     {
 
-        $config = config("services.weixinwork");
+        $config = config('services.weixinwork');
 
-        $this->config       = $config;
-        $this->corpid       = $config['corpid'];
-        $this->clientId     = $config['client_id'];
+        $this->config = $config;
+        $this->corpid = $config['corpid'];
+        $this->clientId = $config['client_id'];
         $this->clientSecret = $config['client_secret'];
-        $this->redirectUrl  = $config['redirect'];
+        $this->redirectUrl = $config['redirect'];
 
         return $this;
     }
@@ -47,16 +48,15 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         
-        $isWxWork = Str::is('*wxwork*',request()->userAgent());
+        $isWxWork = Str::is('*wxwork*', request()->userAgent());
 
-        if($isWxWork){
+        if ($isWxWork) {
             //企业微信内部静默授权
             return $this->buildAuthUrlFromBase('https://open.weixin.qq.com/connect/oauth2/authorize', $state).'#wechat_redirect';
-        }else{
+        } else {
             //非企业微信客户端 使用扫码登录
             return $this->buildAuthUrlFromBase('https://open.work.weixin.qq.com/wwopen/sso/qrConnect', $state);
         }
-        
     }
 
     /**
@@ -78,7 +78,7 @@ class Provider extends AbstractProvider
             'appid'         => $this->corpid,
             'agentid'       => $this->clientId,
             'redirect_uri'  => $this->redirectUrl,
-            'state'         => $state
+            'state'         => $state,
         ];
     }
 
@@ -98,7 +98,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://qyapi.weixin.qq.com/cgi-bin/user/get', [
             'query' => [
                 'access_token' => $token,
-                'userid'       => $this->userid
+                'userid'       => $this->userid,
             ],
         ]);
 
@@ -117,7 +117,7 @@ class Provider extends AbstractProvider
             'avatar'    => $user['avatar'],
             'email'     => $user['email'],
             'mobile'    => $user['mobile'],
-            'gender'    => $user['gender']
+            'gender'    => $user['gender'],
         ]);
     }
 
@@ -129,27 +129,28 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
             'query' => [
                 'access_token'  => $this->getAccessToken()['access_token'],
-                'code'          => $code
+                'code'          => $code,
             ],
         ]);
         $this->userid = json_decode($response->getBody(), true)['UserId'];
         $this->credentialsResponseBody = $this->getAccessToken();
+
         return $this->credentialsResponseBody;
     }
 
     /**
-     * get access token
+     * get access token.
      *
      * @return void
      */
     protected function getAccessToken()
     {
-        $cache_key = 'WEIXIN_WORK_' . $this->clientId;
+        $cache_key = 'WXWORK_'.$this->clientId;
         $access_token = Cache::remember($cache_key, 7200, function () {
             $response = $this->getHttpClient()->get('https://qyapi.weixin.qq.com/cgi-bin/gettoken', [
                 'query' => [
                     'corpid'        => $this->corpid,
-                    'corpsecret'    => $this->clientSecret
+                    'corpsecret'    => $this->clientSecret,
                 ],
             ]);
 
