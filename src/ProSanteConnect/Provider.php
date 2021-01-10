@@ -145,5 +145,4 @@ class Provider extends AbstractProvider
             'preferred_username'     => $user['preferred_username'],
         ]);
     }
-
 }
