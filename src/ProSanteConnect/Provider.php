@@ -3,6 +3,7 @@
 namespace SocialiteProviders\ProSanteConnect;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider
@@ -10,8 +11,10 @@ class Provider extends AbstractProvider
     /**
      * API URLs.
      */
-    public const PROD_BASE_URL = 'https://wallet.esw.esante.gouv.fr/auth';
-    public const TEST_BASE_URL = 'https://wallet.bas.esw.esante.gouv.fr/auth';
+    public const PROD_AUTH_BASE_URL = 'https://wallet.esw.esante.gouv.fr/auth';
+    public const TEST_AUTH_BASE_URL = 'https://wallet.bas.esw.esante.gouv.fr/auth';
+    public const PROD_BASE_URL = 'https://auth.esw.esante.gouv.fr/auth/realms/esante-wallet/protocol/openid-connect';
+    public const TEST_BASE_URL = 'https://auth.bas.esw.esante.gouv.fr/auth/realms/esante-wallet/protocol/openid-connect';
 
     /**
      * Unique Provider Identifier.
@@ -34,21 +37,23 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
+     * Return API auth Base URL.
+     *
+     * @return string
+     */
+    protected function getAuthBaseUrl(): string
+    {
+        return config('app.env') === 'production' ? self::PROD_AUTH_BASE_URL : self::TEST_AUTH_BASE_URL;
+    }
+
+    /**
      * Return API Base URL.
      *
      * @return string
      */
-    protected function getBaseUrl()
+    protected function getBaseUrl(): string
     {
         return config('app.env') === 'production' ? self::PROD_BASE_URL : self::TEST_BASE_URL;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
-    {
-        return ['logout_redirect'];
     }
 
     /**
@@ -61,13 +66,13 @@ class Provider extends AbstractProvider
         //the acr values that the Authorization Server is being requested to use to process this authentication request
         $this->parameters['acr_values'] = 'eidas2';
 
-        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/', $state);
+        return $this->buildAuthUrlFromBase($this->getAuthBaseUrl().'/', $state);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getBaseUrl().'/token';
     }
@@ -77,7 +82,7 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
-        $response = $this->getHttpClient()->post($this->getBaseUrl().'/token', [
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers'     => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
             'form_params' => $this->getTokenFields($code),
         ]);
@@ -88,12 +93,12 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenFields($code)
+    protected function getTokenFields($code): array
     {
-        return array_add(
+        return Arr::add(
             parent::getTokenFields($code),
             'grant_type',
-            'authorization_code'
+            'authorization_code',
         );
     }
 
@@ -102,23 +107,16 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        if ($this->hasInvalidState()) {
-            throw new InvalidStateException();
-        }
-
         $response = $this->getAccessTokenResponse($this->getCode());
 
         $user = $this->mapUserToObject($this->getUserByToken(
             $token = Arr::get($response, 'access_token')
         ));
 
-        //store tokenId session for logout url generation
-        session()->put('fc_token_id', Arr::get($response, 'id_token'));
-
         return  $user->setTokenId(Arr::get($response, 'id_token'))
-                    ->setToken($token)
-                    ->setRefreshToken(Arr::get($response, 'refresh_token'))
-                    ->setExpiresIn(Arr::get($response, 'expires_in'));
+            ->setToken($token)
+            ->setRefreshToken(Arr::get($response, 'refresh_token'))
+            ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
 
     /**
@@ -142,26 +140,10 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'                     => $user['sub'],
-            'given_name'             => $user['given_name'],
+            'name'                   => $user['given_name'],
             'family_name'            => $user['family_name'],
-            'gender'                 => $user['gender'],
-            'birthplace'             => $user['birthplace'],
-            'birthcountry'           => $user['birthcountry'],
-            'email'                  => $user['email'],
             'preferred_username'     => $user['preferred_username'],
         ]);
     }
 
-    /**
-     *  Generate logout URL for redirection to ProSanteConnect.
-     */
-    public function generateLogoutURL()
-    {
-        $params = [
-            'post_logout_redirect_uri' => config('services.prosanteconnect.logout_redirect'),
-            'id_token_hint'            => session('fc_token_id'),
-        ];
-
-        return $this->getBaseUrl().'/logout?'.http_build_query($params);
-    }
 }

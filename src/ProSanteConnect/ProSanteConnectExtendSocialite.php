@@ -9,7 +9,7 @@ class ProSanteConnectExtendSocialite
     /**
      * Register the provider.
      *
-     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
+     * @param SocialiteWasCalled $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
