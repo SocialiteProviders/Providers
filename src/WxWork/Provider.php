@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\WeixinWork;
+namespace SocialiteProviders\WxWork;
 
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -13,7 +13,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    public const IDENTIFIER = 'WEIXINWORK';
+    public const IDENTIFIER = 'WXWORK';
 
 
     /**
@@ -29,7 +29,7 @@ class Provider extends AbstractProvider
     public function setConfig(ConfigInterface $config)
     {
 
-        $config = config("services.weixinwork");
+        $config = config("services.wxwork");
 
         $this->config       = $config;
         $this->corpid       = $config['corpid'];
@@ -133,7 +133,7 @@ class Provider extends AbstractProvider
      */
     protected function getAccessToken()
     {
-        $cache_key = 'WEIXIN_WORK_' . $this->clientId;
+        $cache_key = 'WXWORK_' . $this->clientId;
         $access_token = Cache::remember($cache_key, 7200, function () {
             $response = $this->getHttpClient()->get('https://qyapi.weixin.qq.com/cgi-bin/gettoken', [
                 'query' => [

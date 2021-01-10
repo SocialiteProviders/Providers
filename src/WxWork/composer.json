@@ -1,6 +1,6 @@
 {
-    "name": "socialiteproviders/weixin-work",
-    "description": "Weixin Work OAuth2 Provider for Laravel Socialite",
+    "name": "socialiteproviders/wxwork",
+    "description": "WxWork OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\WeixinWork\\": ""
+            "SocialiteProviders\\WxWork\\": ""
         }
     }
 }

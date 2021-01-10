@@ -1,10 +1,10 @@
 <?php
 
-namespace SocialiteProviders\WeixinWork;
+namespace SocialiteProviders\WxWork;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class WeixinWorkExtendSocialite
+class WxWorkExtendSocialite
 {
 
     
@@ -16,6 +16,6 @@ class WeixinWorkExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('weixinwork', Provider::class);
+        $socialiteWasCalled->extendSocialite('wxwork', Provider::class);
     }
 }

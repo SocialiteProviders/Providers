@@ -1,7 +1,7 @@
-# WeixinWork
+# WxWork
 
 ```bash
-composer require socialiteproviders/weixinwork
+composer require socialiteproviders/wxwork
 ```
 
 ## Installation & Basic Usage
@@ -11,11 +11,11 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'weixinwork' => [    
-  'corpid' => env('WEIXINWORK_CORPID'),  //企业ID
-  'client_id' => env('WEIXINWORK_CLIENT_ID'),  //应用ID
-  'client_secret' => env('WEIXINWORK_CLIENT_SECRET'),  //企业自建应用Secret
-  'redirect' => env('WEIXINWORK_REDIRECT_URI') 
+'wxwork' => [    
+  'corpid' => env('WXWORK_CORPID'),  //企业ID
+  'client_id' => env('WXWORK_CLIENT_ID'),  //应用ID
+  'client_secret' => env('WXWORK_CLIENT_SECRET'),  //企业自建应用Secret
+  'redirect' => env('WXWORK_REDIRECT_URI') 
 ],
 ```
 
@@ -29,7 +29,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\WeixinWork\\WeixinWorkExtendSocialite@handle',
+        'SocialiteProviders\\WxWork\\WxWorkExtendSocialite@handle',
     ],
 ];
 ```
@@ -39,7 +39,7 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('weixinwork')->redirect();
+return Socialite::driver('wxwork')->redirect();
 ```
 
 ### Returned User fields
