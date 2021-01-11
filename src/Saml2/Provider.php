@@ -324,17 +324,17 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->getFirstIdpSsoDescriptor()
             ->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING);
 
+        /** @var SignatureXmlReader $signatureReader */
+        $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->getAssertionConsumerServiceBinding() ?
+            $messageContext->getMessage()->getSignature() :
+            $messageContext->asResponse()->getFirstAssertion()->getSignature();
+
+        if (!$signatureReader) {
+            return true;
+        }
+
         foreach ($keyDescriptors as $keyDescriptor) {
             $key = KeyHelper::createPublicKey($keyDescriptor->getCertificate());
-
-            /** @var SignatureXmlReader $signatureReader */
-            $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->getAssertionConsumerServiceBinding() ?
-                $messageContext->getMessage()->getSignature() :
-                $messageContext->asResponse()->getFirstAssertion()->getSignature();
-
-            if (!$signatureReader) {
-                continue;
-            }
 
             try {
                 if ($signatureReader->validate($key)) {
