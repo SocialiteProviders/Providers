@@ -34,6 +34,7 @@ use LightSaml\Model\Metadata\KeyDescriptor;
 use LightSaml\Model\Metadata\Metadata;
 use LightSaml\Model\Metadata\SpSsoDescriptor;
 use LightSaml\Model\Protocol\AuthnRequest;
+use LightSaml\Model\Protocol\NameIDPolicy;
 use LightSaml\Model\XmlDSig\SignatureXmlReader;
 use LightSaml\SamlConstants;
 use SocialiteProviders\Manager\Contracts\ConfigInterface;
@@ -118,6 +119,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setRelayState($state)
             ->setIssueInstant(new DateTime())
             ->setDestination($identityProviderConsumerService->getLocation())
+            ->setNameIDPolicy((new NameIDPolicy())->setFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT))
             ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()));
 
         $redirectBinding = new HttpRedirectBinding();
