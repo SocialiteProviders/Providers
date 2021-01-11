@@ -23,6 +23,7 @@ use LightSaml\ClaimTypes;
 use LightSaml\Context\Profile\MessageContext;
 use LightSaml\Credential\KeyHelper;
 use LightSaml\Credential\X509Certificate;
+use LightSaml\Error\LightSamlSecurityException;
 use LightSaml\Helper;
 use LightSaml\Model\Assertion\Issuer;
 use LightSaml\Model\Context\DeserializationContext;
@@ -319,23 +320,32 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $messageContext = new MessageContext();
         $binding->receive($this->request, $messageContext);
 
-        $key = KeyHelper::createPublicKey(
-            $this->getIdentityProviderEntityDescriptor()
-                ->getFirstIdpSsoDescriptor()
-                ->getFirstKeyDescriptor(KeyDescriptor::USE_SIGNING)
-                ->getCertificate()
-        );
+        $keyDescriptors = $this->getIdentityProviderEntityDescriptor()
+            ->getFirstIdpSsoDescriptor()
+            ->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING);
 
-        /** @var SignatureXmlReader $signatureReader */
-        $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->getAssertionConsumerServiceBinding() ?
-            $messageContext->getMessage()->getSignature() :
-            $messageContext->asResponse()->getFirstAssertion()->getSignature();
+        foreach ($keyDescriptors as $keyDescriptor) {
+            $key = KeyHelper::createPublicKey($keyDescriptor->getCertificate());
 
-        if (!$signatureReader) {
-            return true;
+            /** @var SignatureXmlReader $signatureReader */
+            $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->getAssertionConsumerServiceBinding() ?
+                $messageContext->getMessage()->getSignature() :
+                $messageContext->asResponse()->getFirstAssertion()->getSignature();
+
+            if (!$signatureReader) {
+                continue;
+            }
+
+            try {
+                if ($signatureReader->validate($key)) {
+                    return false;
+                }
+            } catch (LightSamlSecurityException $e) {
+                continue;
+            }
         }
 
-        return !$signatureReader->validate($key);
+        return true;
     }
 
     public function getServiceProviderMetadata(): Response
