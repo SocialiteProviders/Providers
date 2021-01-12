@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Returns the Auth Server ID based on config option 'auth_server_id'
+     * Returns the Auth Server ID based on config option 'auth_server_id'.
      *
      * @return string
      */
@@ -53,11 +53,11 @@ class Provider extends AbstractProvider
     {
         $auth_server_id = $this->getConfig('auth_server_id', null);
 
-        if($auth_server_id) {
-            return $auth_server_id . "/";
+        if ($auth_server_id) {
+            return $auth_server_id.'/';
         }
 
-        return "";
+        return '';
     }
 
     /**
