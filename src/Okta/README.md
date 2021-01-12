@@ -21,7 +21,9 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 #### Custom Auth Server
 
-If you're using a custom auth server, pass the `auth_server_id` config option. For more information, see the [okta docs](https://developer.okta.com/docs/concepts/auth-servers/).
+If you're using Okta Developer you should set `auth_server_id` config option appropriately. It should be set to "default", or to the server id of your Custom Authorization Server.
+
+For more information, see the [okta docs](https://developer.okta.com/docs/concepts/auth-servers/).
 
 ### Add provider event listener
 
