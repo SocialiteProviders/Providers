@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/basecamp",
+    "description": "Basecamp OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Mahmudul Hasan",
+        "email": "mahmudbappy.pri@gmail.com"
+    }],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "socialiteproviders/manager": "^4.0",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Basecamp\\": ""
+        }
+    }
+}

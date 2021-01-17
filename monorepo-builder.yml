@@ -11,6 +11,7 @@ parameters:
     src/Auth0: 'git@github.com:SocialiteProviders/Auth0.git'
     src/Aweber: 'git@github.com:SocialiteProviders/Aweber.git'
     src/Azure: 'git@github.com:SocialiteProviders/Microsoft-Azure.git'
+    src/Basecamp: 'git@github.com:SocialiteProviders/Basecamp.git'
     src/Battlenet: 'git@github.com:SocialiteProviders/Battle.net.git'
     src/Binance: 'git@github.com:SocialiteProviders/Binance.git'
     src/Bitbucket: 'git@github.com:SocialiteProviders/Bitbucket.git'
