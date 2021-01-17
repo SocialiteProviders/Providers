@@ -13,7 +13,7 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'BASECAMP';
 
     protected $parameters = [
-        'type' => 'web_server'
+        'type' => 'web_server',
     ];
 
     /**
@@ -59,7 +59,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'          => $user['identity']['id'],
             'name'        => $user['identity']['first_name'] . ' ' . $user['identity']['last_name'],
-            'email'       => $user['identity']['email_address']
+            'email'       => $user['identity']['email_address'],
         ]);
     }
 
@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
