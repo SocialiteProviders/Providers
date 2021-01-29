@@ -5,7 +5,8 @@
     "require": {
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
-        "socialiteproviders/manager": "~4.0"
+        "socialiteproviders/manager": "~4.0",
+        "league/oauth1-client": "^1.9"
     },
     "autoload": {
         "psr-4": {
