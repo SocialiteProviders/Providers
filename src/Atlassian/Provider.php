@@ -16,7 +16,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $parameters = [
-        'prompt' => 'consent',
+        'prompt'   => 'consent',
         'audience' => 'api.atlassian.com',
     ];
 
@@ -75,7 +75,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
