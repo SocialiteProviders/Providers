@@ -8,6 +8,7 @@ parameters:
     src/AppNet: 'git@github.com:SocialiteProviders/App.net.git'
     src/ArcGIS: 'git@github.com:SocialiteProviders/ArcGIS.git'
     src/Asana: 'git@github.com:SocialiteProviders/Asana.git'
+    src/Atlassian: 'git@github.com:SocialiteProviders/Atlassian.git'
     src/Auth0: 'git@github.com:SocialiteProviders/Auth0.git'
     src/Aweber: 'git@github.com:SocialiteProviders/Aweber.git'
     src/Azure: 'git@github.com:SocialiteProviders/Microsoft-Azure.git'
