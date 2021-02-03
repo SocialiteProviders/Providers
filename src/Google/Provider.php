@@ -32,10 +32,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(
-            'https://accounts.google.com/o/oauth2/auth',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://accounts.google.com/o/oauth2/auth', $state);
     }
 
     /**
@@ -43,7 +40,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://oauth2.googleapis.com/token';
+        return 'https://www.googleapis.com/oauth2/v4/token';
     }
 
     /**
@@ -54,13 +51,17 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://www.googleapis.com/oauth2/v3/userinfo',
             [
+                'query' => [
+                    'prettyPrint'   => 'false',
+                ],
                 'headers' => [
+                    'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -69,11 +70,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['sub'],
-            'nickname' => Arr::get($user, 'name'),
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => $user['picture'],
+            'id'       => Arr::get($user, 'sub'),
+            'nickname' => Arr::get($user, 'nickname'),
+            'name'     => Arr::get($user, 'name'),
+            'email'    => Arr::get($user, 'email'),
+            'avatar'   => Arr::get($user, 'picture'),
         ]);
     }
 
