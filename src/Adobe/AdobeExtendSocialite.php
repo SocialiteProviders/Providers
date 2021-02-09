@@ -7,7 +7,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 class AdobeExtendSocialite
 {
     /**
-     * Register the provider
+     * Register the provider.
      *
      * @param SocialiteWasCalled $event
      */
