@@ -45,7 +45,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             $response = $this->httpClient->post(self::BASE_URL.'/userinfo', [
                 'headers' => [
                     'Authorization' => "Bearer $token",
-                    'Accept' => 'application/json',
+                    'Accept'        => 'application/json',
                 ],
             ]);
 
