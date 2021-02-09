@@ -16,19 +16,19 @@ class Provider extends AbstractProvider implements ProviderInterface
 
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(self::BASE_URL . '/authorize', $state);
+        return $this->buildAuthUrlFromBase(self::BASE_URL.'/authorize', $state);
     }
 
     protected function getTokenUrl(): string
     {
-        return self::BASE_URL . '/token';
+        return self::BASE_URL.'/token';
     }
 
     protected function getTokenFields($code): array
     {
         return [
             ...parent::getTokenFields(),
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ];
     }
 
@@ -42,11 +42,11 @@ class Provider extends AbstractProvider implements ProviderInterface
         // Check if the credentials response body already has the data provided to us
         // If not, fetch the data from their API
         if (empty($this->credentialsResponseBody) || empty($this->credentialsResponseBody['sub'])) {
-            $response = $this->httpClient->post(self::BASE_URL . '/userinfo', [
+            $response = $this->httpClient->post(self::BASE_URL.'/userinfo', [
                 'headers' => [
                     'Authorization' => "Bearer $token",
-                    'Accept' => 'application/json'
-                ]
+                    'Accept' => 'application/json',
+                ],
             ]);
 
             return json_decode($response->getBody(), true);
@@ -57,12 +57,12 @@ class Provider extends AbstractProvider implements ProviderInterface
 
     protected function mapUserToObject(array $user): User
     {
-        return (new User)
+        return (new User())
             ->setRaw($user)
             ->map([
-                'id' => $user['sub'],
-                'name' => $user['name'],
-                'email' => $user['email']
+                'id'    => $user['sub'],
+                'name'  => $user['name'],
+                'email' => $user['email'],
             ]);
     }
 }
