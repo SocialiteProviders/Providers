@@ -1,0 +1,23 @@
+{
+  "name": "socialiteproviders/adobe",
+  "description": "Adobe OAuth2 Provider for Laravel Socialite",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mex de Loo",
+      "email": "mex@zeodev.cc",
+      "homepage": "https://zeodev.cc",
+      "role": "developer"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "ext-json": "*",
+    "socialiteproviders/manager": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SocialiteProviders\\Adobe\\": ""
+    }
+  }
+}
