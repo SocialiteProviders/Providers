@@ -62,10 +62,18 @@ class KakaoProvider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        return [
-            'grant_type'   => 'authorization_code', 'client_id' => $this->clientId,
-            'redirect_uri' => $this->redirectUrl, 'code' => $code,
+        $array = [
+            'grant_type'   => 'authorization_code',
+            'client_id'    => $this->clientId,
+            'redirect_uri' => $this->redirectUrl,
+            'code'         => $code,
         ];
+
+        if ($this->clientSecret) {
+            $array['client_secret'] = $this->clientSecret;
+        }
+
+        return $array;
     }
 
     /**
