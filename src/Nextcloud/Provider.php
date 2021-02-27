@@ -26,7 +26,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getInstanceUri().'/index.php/apps/oauth2/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->getInstanceUri().'/apps/oauth2/authorize', $state);
     }
 
     /**
@@ -34,7 +34,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getInstanceUri().'/index.php/apps/oauth2/api/v1/token';
+        return $this->getInstanceUri().'/apps/oauth2/api/v1/token';
     }
 
     /**
