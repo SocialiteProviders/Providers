@@ -45,6 +45,7 @@ parameters:
     src/FiveHundredPixel: 'git@github.com:SocialiteProviders/500px.git'
     src/Flattr: 'git@github.com:SocialiteProviders/Flattr.git'
     src/Flexkids: 'git@github.com:SocialiteProviders/Flexkids.git'
+    src/Flexmls: 'git@github.com:SocialiteProviders/Flexmls.git'
     src/Flickr: 'git@github.com:SocialiteProviders/Flickr.git'
     src/Foursquare: 'git@github.com:SocialiteProviders/Foursquare.git'
     src/FranceConnect: 'git@github.com:SocialiteProviders/FranceConnect.git'
