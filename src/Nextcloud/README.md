@@ -14,9 +14,12 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'nextcloud' => [    
   'client_id' => env('NEXTCLOUD_CLIENT_ID'),  
   'client_secret' => env('NEXTCLOUD_CLIENT_SECRET'),  
-  'redirect' => env('NEXTCLOUD_REDIRECT_URI') 
+  'redirect' => env('NEXTCLOUD_REDIRECT_URI'),
+  'instance_uri'  => env('NEXTCLOUD_BASE_URI')
 ],
 ```
+
+You must include `index.php` in `instance_uri` if pretty URL is not configured.
 
 ### Add provider event listener
 
