@@ -5,16 +5,16 @@ namespace SocialiteProviders\Nextcloud;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ *
+ * @see https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/oauth2.html
+ */
 class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
      */
     public const IDENTIFIER = 'NEXTCLOUD';
-
-    /**
-     * {@inheritdoc}
-     */
 
     /**
      * {@inheritdoc}
