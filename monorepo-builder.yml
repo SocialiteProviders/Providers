@@ -90,6 +90,7 @@ parameters:
     src/Monzo: 'git@github.com:SocialiteProviders/Monzo.git'
     src/Naver: 'git@github.com:SocialiteProviders/Naver.git'
     src/Netlify: 'git@github.com:SocialiteProviders/Netlify.git'
+    src/Nextcloud: 'git@github.com:SocialiteProviders/Nextcloud.git'
     src/Nocks: 'git@github.com:SocialiteProviders/Nocks.git'
     src/OAuthgen: 'git@github.com:SocialiteProviders/OAuthgen.git'
     src/Odnoklassniki: 'git@github.com:SocialiteProviders/Odnoklassniki.git'
