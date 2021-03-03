@@ -140,14 +140,17 @@ class Provider extends AbstractProvider implements SocialiteProvider
             throw new MissingConfigException('When using "acs", both "entityid" and "certificate" must be set');
         }
 
-        if (!Str::startsWith($certificate, '-----BEGIN CERTIFICATE-----')) {
-            $certificate = "-----BEGIN CERTIFICATE-----\r\n".
-                implode("\r\n", str_split($certificate, 80)).
-                "\r\n-----END CERTIFICATE-----\r\n";
-        }
-
         $x509 = new X509Certificate();
-        $x509->loadPem($certificate);
+
+        /**
+         * The SAML certificate may be provided as either a properly formatted certificate with header and line breaks
+         * or as a string containing only the body
+         */
+        if (Str::startsWith($certificate, '-----BEGIN CERTIFICATE-----')) {
+            $x509->loadPem($certificate);
+        } else {
+            $x509->setData($certificate);
+        }
 
         $builder = new SimpleEntityDescriptorBuilder($entityId, $acs, $acs, $x509);
 
