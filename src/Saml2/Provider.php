@@ -144,7 +144,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         /**
          * The SAML certificate may be provided as either a properly formatted certificate with header and line breaks
-         * or as a string containing only the body
+         * or as a string containing only the body.
          */
         if (Str::startsWith($certificate, '-----BEGIN CERTIFICATE-----')) {
             $x509->loadPem($certificate);
