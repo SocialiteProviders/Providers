@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/saml",
+    "description": "SAML Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Ryan Cooley",
+        "email": "ryan.cooley@processmaker.com",
+        "homepage": "https://www.processmaker.com"
+    }],
+    "require": {
+        "php": "^7.2",
+        "socialiteproviders/manager": "^4.0",
+        "ext-json": "*",
+        "aacotroneo/laravel-saml2": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\SAML\\": ""
+        }
+    }
+}
