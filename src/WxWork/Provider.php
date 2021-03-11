@@ -5,10 +5,13 @@ namespace SocialiteProviders\WeixinWork;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
-use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * Wxwork provider class
+ * @see https://open.work.weixin.qq.com/api/doc/90000/90135/91020
+ */
 class Provider extends AbstractProvider
 {
     /**
@@ -18,23 +21,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['snsapi_base'];
 
-    protected $userid;
+    protected $userid = '';
 
-    /**
-     * @param \SocialiteProviders\Manager\Contracts\OAuth1\ProviderInterface|\SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface $config
-     */
-    public function setConfig(ConfigInterface $config)
-    {
-        $config = config('services.weixinwork');
-
-        $this->config = $config;
-        $this->corpid = $config['corpid'];
-        $this->clientId = $config['client_id'];
-        $this->clientSecret = $config['client_secret'];
-        $this->redirectUrl = $config['redirect'];
-
-        return $this;
-    }
 
     /**
      * {@inheritdoc}.
@@ -151,5 +139,15 @@ class Provider extends AbstractProvider
         });
 
         return $access_token;
+    }
+
+    /**
+     * Add config key 'corpid'.
+     *
+     * @return array
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['corpid'];
     }
 }
