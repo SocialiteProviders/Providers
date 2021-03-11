@@ -9,7 +9,8 @@ use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 /**
- * Wxwork provider class
+ * Wxwork provider class.
+ * 
  * @see https://open.work.weixin.qq.com/api/doc/90000/90135/91020
  */
 class Provider extends AbstractProvider
@@ -22,7 +23,6 @@ class Provider extends AbstractProvider
     protected $scopes = ['snsapi_base'];
 
     protected $userid = '';
-
 
     /**
      * {@inheritdoc}.
