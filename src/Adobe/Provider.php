@@ -7,6 +7,9 @@ use SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/OAuth/OAuth.md
+ */
 class Provider extends AbstractProvider implements ProviderInterface
 {
     public const IDENTIFIER = 'ADOBE';
@@ -26,10 +29,9 @@ class Provider extends AbstractProvider implements ProviderInterface
 
     protected function getTokenFields($code): array
     {
-        return [
-            ...parent::getTokenFields(),
+        return array_merge([
             'grant_type' => 'authorization_code',
-        ];
+        ], parent::getTokenFields());
     }
 
     /**
