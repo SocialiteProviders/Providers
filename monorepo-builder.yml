@@ -2,6 +2,7 @@ parameters:
   directories_to_repositories:
     src/Acclaim: 'git@github.com:SocialiteProviders/Acclaim.git'
     src/Admitad: 'git@github.com:SocialiteProviders/Admitad.git'
+    src/Adobe: 'git@github.com:SocialiteProviders/Adobe.git'
     src/Amazon: 'git@github.com:SocialiteProviders/Amazon.git'
     src/AngelList: 'git@github.com:SocialiteProviders/AngelList.git'
     src/Apple: 'git@github.com:SocialiteProviders/Apple.git'
