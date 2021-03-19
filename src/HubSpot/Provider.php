@@ -5,6 +5,9 @@ namespace SocialiteProviders\HubSpot;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/** 
+ * @see https://legacydocs.hubspot.com/docs/methods/oauth2/oauth2-overview
+ */
 class Provider extends AbstractProvider
 {
     /**
