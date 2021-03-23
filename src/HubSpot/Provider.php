@@ -5,6 +5,9 @@ namespace SocialiteProviders\HubSpot;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://legacydocs.hubspot.com/docs/methods/oauth2/oauth2-overview
+ */
 class Provider extends AbstractProvider
 {
     /**
@@ -56,8 +59,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'nickname' => null, 'name' => null,
-            'email'    => $user['user'], 'avatar' => null,
+            'nickname' => null,
+            'name'     => null,
+            'email'    => $user['user'],
+            'avatar'   => null,
+            'id'       => $user['user_id'],
         ]);
     }
 
