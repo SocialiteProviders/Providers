@@ -202,19 +202,15 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $value = trim((string) $this->request->input('user'));
+        $userRequest = $this->getUserRequest();
 
-        if ($value !== '') {
-            $userRequest = json_decode($value, true);
-
-            if (isset($userRequest['name'])) {
-                $user['name'] = $userRequest['name'];
-                $fullName = trim(
-                    ($user['name']['firstName'] ?? '')
-                    .' '
-                    .($user['name']['lastName'] ?? '')
-                );
-            }
+        if (isset($userRequest['name'])) {
+            $user['name'] = $userRequest['name'];
+            $fullName = trim(
+                ($user['name']['firstName'] ?? '')
+                .' '
+                .($user['name']['lastName'] ?? '')
+            );
         }
 
         return (new User())
@@ -224,5 +220,22 @@ class Provider extends AbstractProvider
                 'name'  => $fullName ?? null,
                 'email' => $user['email'] ?? null,
             ]);
+    }
+
+    private function getUserRequest(): array
+    {
+        $value = $this->request->input('user');
+
+        if (is_array($value)) {
+            return $value;
+        }
+
+        $value = trim((string) $value);
+
+        if ($value === '') {
+            return [];
+        }
+
+        return json_decode($value, true);
     }
 }
