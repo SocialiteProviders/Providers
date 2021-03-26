@@ -102,7 +102,12 @@ class Provider extends AbstractProvider
     {
         try {
             $response = $this->getHttpClient()->get(
-                'https://slack.com/api/users.identity?token='.$token
+                'https://slack.com/api/users.identity',
+                [
+                    'headers' => [
+                        'Authorization' => 'Bearer '.$token,
+                    ],
+                ]
             );
         } catch (RequestException $exception) {
             // Getting user informations requires the "identity.*" scopes, however we might want to not add them to the
