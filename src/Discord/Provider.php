@@ -90,7 +90,7 @@ class Provider extends AbstractProvider
             'id'       => $user['id'],
             'nickname' => sprintf('%s#%s', $user['username'], $user['discriminator']),
             'name'     => $user['username'],
-            'email'    => (array_key_exists('email', $user)) ? $user['email'] : null,
+            'email'    => $user['email'] ?? null,
             'avatar'   => $this->formatAvatar($user),
         ]);
     }

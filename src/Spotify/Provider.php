@@ -66,9 +66,9 @@ class Provider extends AbstractProvider
             'id'         => $user['id'],
             'nickname'   => null,
             'name'       => $user['display_name'],
-            'email'      => isset($user['email']) ? $user['email'] : null,
+            'email'      => $user['email'] ?? null,
             'avatar'     => Arr::get($user, 'images.0.url'),
-            'profileUrl' => isset($user['href']) ? $user['href'] : null,
+            'profileUrl' => $user['href'] ?? null,
         ]);
     }
 

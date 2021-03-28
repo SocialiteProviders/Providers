@@ -59,7 +59,7 @@ class Provider extends AbstractProvider
         $formToken = [];
 
         if (is_array($token)) {
-            $formToken['email'] = isset($token['email']) ? $token['email'] : null;
+            $formToken['email'] = $token['email'] ?? null;
 
             $token = $token['access_token'];
         }
