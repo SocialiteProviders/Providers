@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Jira;
 
+use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use League\OAuth1\Client\Credentials\ClientCredentialsInterface;

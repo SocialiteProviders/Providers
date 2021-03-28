@@ -2,6 +2,8 @@
 
 namespace SocialiteProviders\FranceConnect;
 
+use Illuminate\Support\Arr;
+use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider
