@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Steem;
 
-use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -45,10 +44,8 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
-
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            $postKey => $this->getTokenFields($code),
+            'form_params' => $this->getTokenFields($code),
         ]);
 
         $data = json_decode($response->getBody(), true);

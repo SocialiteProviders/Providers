@@ -37,11 +37,9 @@ class Provider extends AbstractProvider
      */
     public function RevokeToken($token)
     {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
-
         $response = $this->getHttpClient()->post($this->getRevokeUrl(), [
             'headers' => ['Accept' => 'application/json'],
-            $postKey  => ['client_id' => $this->clientId, 'access_token' => $token],
+            'form_params' => ['client_id' => $this->clientId, 'access_token' => $token],
         ]);
 
         return json_decode($response->getBody(), true);
