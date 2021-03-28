@@ -11,6 +11,6 @@ class GumroadExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('gumroad', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('gumroad', Provider::class);
     }
 }
