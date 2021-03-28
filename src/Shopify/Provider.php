@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody(), true)['shop'];
+        return json_decode($response->getBody()->getContents(), true)['shop'];
     }
 
     /**

@@ -51,7 +51,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                 ],
             ]);
 
-            return json_decode($response->getBody(), true);
+            return json_decode($response->getBody()->getContents(), true);
         }
 
         return $this->credentialsResponseBody;

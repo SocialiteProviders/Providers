@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
             'form_params' => $this->getTokenFields($code),
         ]);
 
-        $this->credentialsResponseBody = json_decode($response->getBody(), true);
+        $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
 
         return $this->parseAccessToken($response->getBody());
     }
@@ -60,7 +60,7 @@ class Provider extends AbstractProvider
             'form_params' => $this->getRefreshTokenFields($refreshToken),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
             'headers' => ['Authorization' => 'Bearer '.$token],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     public function getRefreshTokenFields($refreshToken)

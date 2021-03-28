@@ -114,7 +114,7 @@ class Provider extends AbstractProvider
             // scope list for various reasons. Instead of throwing an exception on this error, we return an empty user.
 
             if ($exception->hasResponse()) {
-                $data = json_decode($exception->getResponse()->getBody(), true);
+                $data = json_decode($exception->getResponse()->getBody()->getContents(), true);
 
                 if (Arr::get($data, 'error') === 'missing_scope') {
                     return [];

@@ -27,7 +27,7 @@ class Provider extends AbstractProvider
 
     protected function getUserByToken($token)
     {
-        $meResponse = $this->getHttpClient()->get(
+        $response = $this->getHttpClient()->get(
             'https://api.faceit.com/auth/v1/resources/userinfo',
             [
                 'headers' => [
@@ -36,7 +36,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return json_decode($meResponse->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     public function getAccessTokenResponse($code)
@@ -51,9 +51,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        $this->credentialsResponseBody = json_decode($response->getBody(), true);
-
-        return json_decode($response->getBody(), true);
+        return $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
     }
 
     protected function getTokenFields($code)

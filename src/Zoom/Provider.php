@@ -80,7 +80,7 @@ class Provider extends AbstractProvider
             'query'   => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
