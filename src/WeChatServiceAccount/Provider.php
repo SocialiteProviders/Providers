@@ -40,8 +40,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $openId = isset($this->credentialsResponseBody['openid']) ?
-            $this->credentialsResponseBody['openid'] : $this->openId;
+        $openId = $this->credentialsResponseBody['openid'] ?? $this->openId;
 
         // HACK: Tencent return id when grant token, and can not get user by this token
         if (in_array('snsapi_base', $this->getScopes(), true)) {
@@ -67,10 +66,10 @@ class Provider extends AbstractProvider
             // HACK: use unionid as user id
             'id'       => in_array('unionid', $this->getScopes(), true) ? $user['unionid'] : $user['openid'],
             // HACK: Tencent scope snsapi_base only return openid
-            'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
+            'nickname' => $user['nickname'] ?? null,
             'name'     => null,
             'email'    => null,
-            'avatar'   => isset($user['headimgurl']) ? $user['headimgurl'] : null,
+            'avatar'   => $user['headimgurl'] ?? null,
         ]);
     }
 

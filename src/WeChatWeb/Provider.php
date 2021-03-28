@@ -43,8 +43,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
             'query' => [
                 'access_token' => $token, // HACK: Tencent use token in Query String, not in Header Authorization
-                'openid'       => isset($this->credentialsResponseBody['openid']) ?
-                    $this->credentialsResponseBody['openid'] : $this->openId, // HACK: Tencent need id
+                'openid'       => $this->credentialsResponseBody['openid'] ?? $this->openId, // HACK: Tencent need id
                 'lang'         => 'zh_CN',
             ],
         ]);
@@ -61,10 +60,10 @@ class Provider extends AbstractProvider
             // HACK: use unionid as user id
             'id'       => in_array('unionid', $this->getScopes(), true) ? $user['unionid'] : $user['openid'],
             // HACK: Tencent scope snsapi_base only return openid
-            'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
+            'nickname' => $user['nickname'] ?? null,
             'name'     => null,
             'email'    => null,
-            'avatar'   => isset($user['headimgurl']) ? $user['headimgurl'] : null,
+            'avatar'   => $user['headimgurl'] ?? null,
         ]);
     }
 
