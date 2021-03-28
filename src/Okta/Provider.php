@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthServerId()
     {
-        $auth_server_id = $this->getConfig('auth_server_id', null);
+        $auth_server_id = $this->getConfig('auth_server_id');
 
         if ($auth_server_id) {
             return $auth_server_id.'/';

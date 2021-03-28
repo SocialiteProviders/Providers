@@ -155,7 +155,7 @@ class Provider extends AbstractProvider
             'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select',
         ];
 
-        return self::OPENID_URL.'?'.http_build_query($params, '', '&');
+        return self::OPENID_URL.'?'.http_build_query($params);
     }
 
     /**
