@@ -13,9 +13,9 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'MERCADOLIBRE';
+    public const IDENTIFIER = 'MERCADOLIBRE';
 
-    const DOMAIN = [
+    public const DOMAIN = [
         'AR' => 'https://auth.mercadolibre.com.ar',
         'BO' => 'https://auth.mercadolibre.com.bo',
         'BR' => 'https://auth.mercadolivre.com.br',
