@@ -3,14 +3,13 @@
 namespace SocialiteProviders\Adobe;
 
 use GuzzleHttp\Exception\GuzzleException;
-use SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 /**
  * @see https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/OAuth/OAuth.md
  */
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ADOBE';
     public const BASE_URL = 'https://ims-na1.adobelogin.com/ims';
