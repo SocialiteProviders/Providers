@@ -22,7 +22,9 @@ class Server extends BaseServer
      */
     public function urlAuthorization()
     {
-        return 'https://www.flickr.com/services/oauth/authorize';
+        $perms = env('FLICKR_AUTHORIZATION_PERMS');
+
+        return 'https://www.flickr.com/services/oauth/authorize'.($perms ? "?perms={$perms}" : '');
     }
 
     /**
