@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'TELEGRAM';
+    public const IDENTIFIER = 'TELEGRAM';
 
     /**
      * @return array
