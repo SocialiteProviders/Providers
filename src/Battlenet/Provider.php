@@ -92,7 +92,7 @@ class Provider extends AbstractProvider
 
     protected function isChina()
     {
-        return strtolower($this->getRegion()) == 'cn';
+        return strtolower($this->getRegion()) === 'cn';
     }
 
     /**
