@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
     public function RevokeToken($token)
     {
         $response = $this->getHttpClient()->post($this->getRevokeUrl(), [
-            'headers' => ['Accept' => 'application/json'],
+            'headers'     => ['Accept' => 'application/json'],
             'form_params' => ['client_id' => $this->clientId, 'access_token' => $token],
         ]);
 
