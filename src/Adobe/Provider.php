@@ -15,7 +15,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     public const IDENTIFIER = 'ADOBE';
     public const BASE_URL = 'https://ims-na1.adobelogin.com/ims';
 
-    protected array $scopes = ['openid', 'email', 'profile'];
+    protected $scopes = ['openid', 'email', 'profile'];
 
     protected function getAuthUrl($state): string
     {
