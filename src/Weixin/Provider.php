@@ -87,7 +87,7 @@ class Provider extends AbstractProvider
                 ],
             ]);
 
-            $user = json_decode($response->getBody(), true);
+            $user = json_decode($response->getBody()->getContents(), true);
         }
 
         return $user;
@@ -128,7 +128,7 @@ class Provider extends AbstractProvider
             'query' => $this->getTokenFields($code),
         ]);
 
-        $this->credentialsResponseBody = json_decode($response->getBody(), true);
+        $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
         if (isset($this->credentialsResponseBody['openid'])) {
             $this->openId = $this->credentialsResponseBody['openid'];
         }

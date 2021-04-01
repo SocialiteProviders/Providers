@@ -84,7 +84,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return (array) json_decode($response->getBody());
+        return (array) json_decode($response->getBody()->getContents(), true);
     }
 
     protected function mapUserToObject(array $user): \SocialiteProviders\Manager\OAuth2\User

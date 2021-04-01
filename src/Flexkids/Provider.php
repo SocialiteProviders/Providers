@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        $data = json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
         if (array_key_exists('data', $data)) {
             return $data['data'];
         }
@@ -95,7 +95,7 @@ class Provider extends AbstractProvider
             'json' => $this->getTokenFields($code),
         ]);
 
-        $data = json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
 
         if (array_key_exists('data', $data)) {
             $this->setIdToken($data['data']['id_token']);

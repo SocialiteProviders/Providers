@@ -45,14 +45,14 @@ class Provider extends AbstractProvider
             'query' => ['authToken' => $token],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     protected function getUserNameByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.smashcast.tv/userfromtoken/'.$token);
 
-        return Arr::get(json_decode($response->getBody(), true), 'user_name');
+        return Arr::get(json_decode($response->getBody()->getContents(), true), 'user_name');
     }
 
     /**

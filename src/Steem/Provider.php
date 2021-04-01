@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
             'form_params' => $this->getTokenFields($code),
         ]);
 
-        $data = json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
 
         return Arr::add($data, 'expires_in', Arr::pull($data, 'expires'));
     }
@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**

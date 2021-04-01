@@ -50,9 +50,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        $contents = $response->getBody()->getContents();
-
-        return json_decode($contents, true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**

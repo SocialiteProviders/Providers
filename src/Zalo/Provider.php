@@ -49,7 +49,7 @@ class Provider extends AbstractProvider
             'query'   => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://graph.zalo.me/v2.0/me?access_token='.$token.'&fields=id,birthday,name,gender,picture');
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
