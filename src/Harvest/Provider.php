@@ -20,6 +20,15 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    public static function additionalConfigKeys()
+    {
+        return ['client_account'];
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://id.getharvest.com/oauth2/authorize', $state);
@@ -40,7 +49,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://api.harvestapp.com/v2/users/me', [
             'headers' => [
-                'Harvest-Account-ID' => env('HARVEST_CLIENT_ACCOUNT'),
+                'Harvest-Account-ID' => $this->getConfig('client_account'),
                 'Authorization'      => 'Bearer '.$token,
             ],
         ]);

@@ -53,6 +53,17 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return [
+            'environment',
+            'uid_fieldname',
+        ];
+    }
+
+    /**
      * Tests whether we are integrating to the ORCID Sandbox or Production environments
      * Change the value of ORCID_ENVIRONMENT in your .env to switch.
      *
@@ -60,7 +71,7 @@ class Provider extends AbstractProvider
      */
     protected function useSandbox()
     {
-        return  env('ORCID_ENVIRONMENT') !== 'production';
+        return  $this->getConfig('environment') !== 'production';
     }
 
     /**
@@ -175,7 +186,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            env('ORCID_UID_FIELDNAME', 'id') => $user['orcid-identifier']['path'],
+            $this->getConfig('uid_fieldname', 'id') => $user['orcid-identifier']['path'],
             'nickname' => $user['person']['name']['given-names']['value'],
             'name'     => sprintf('%s %s', $user['person']['name']['given-names']['value'], $user['person']['name']['family-name']['value']),
             'email'    => Arr::get($user, 'email'),
