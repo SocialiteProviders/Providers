@@ -25,7 +25,6 @@ class Provider extends AbstractProvider
         return ['client_account'];
     }
 
-
     /**
      * {@inheritdoc}
      */
