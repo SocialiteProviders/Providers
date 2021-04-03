@@ -12,6 +12,14 @@ class Server extends BaseServer
     /**
      * {@inheritdoc}
      */
+    public static function additionalConfigKeys()
+    {
+        return ['perms'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function urlTemporaryCredentials()
     {
         return 'https://www.flickr.com/services/oauth/request_token';
@@ -22,9 +30,13 @@ class Server extends BaseServer
      */
     public function urlAuthorization()
     {
-        $perms = env('FLICKR_AUTHORIZATION_PERMS');
+        $authorizeUrl = 'https://www.flickr.com/services/oauth/authorize';
 
-        return 'https://www.flickr.com/services/oauth/authorize'.($perms ? "?perms={$perms}" : '');
+        if ($perms = $this->getConfig('perms')) {
+            return $authorizeUrl."?perms={$perms}";
+        }
+
+        return $authorizeUrl;
     }
 
     /**
