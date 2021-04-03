@@ -33,7 +33,7 @@ class Server extends BaseServer
         $authorizeUrl = 'https://www.flickr.com/services/oauth/authorize';
 
         if ($perms = $this->getConfig('perms')) {
-            return $authorizeUrl."?perms={$perms}";
+            return "{$authorizeUrl}?perms={$perms}";
         }
 
         return $authorizeUrl;
