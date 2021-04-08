@@ -5,8 +5,8 @@
     "require": {
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
-        "socialiteproviders/manager": "~4.0",
-        "league/oauth1-client": "^1.9"
+        "league/oauth1-client": "^1.9",
+        "socialiteproviders/manager": "~4.0"
     },
     "autoload": {
         "psr-4": {
@@ -20,5 +20,8 @@
     "scripts": {
         "test": "phpunit",
         "test:ci": "phpunit --coverage-clover build/logs/clover.xml"
+    },
+    "config": {
+        "sort-packages": true
     }
 }
