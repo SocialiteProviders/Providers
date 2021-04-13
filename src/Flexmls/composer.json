@@ -2,14 +2,16 @@
     "name": "socialiteproviders/flexmls",
     "description": "Flexmls OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Tim Kramer",
-        "email": "tim@thethinkery.net"
-    }],
+    "authors": [
+        {
+            "name": "Tim Kramer",
+            "email": "tim@thethinkery.net"
+        }
+    ],
     "require": {
         "php": "^7.2 || ^8.0",
-        "socialiteproviders/manager": "^4.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.0"
     },
     "autoload": {
         "psr-4": {

@@ -2,10 +2,12 @@
     "name": "socialiteproviders/fablabs",
     "description": "Fablabs.io OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Julian Gallimore",
-        "email": "it@fabacademy.org"
-    }],
+    "authors": [
+        {
+            "name": "Julian Gallimore",
+            "email": "it@fabacademy.org"
+        }
+    ],
     "require": {
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
