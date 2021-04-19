@@ -11,10 +11,11 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'quickbooks' => [    
-  'client_id' => env('QUICKBOOKS_CLIENT_ID'),  
-  'client_secret' => env('QUICKBOOKS_CLIENT_SECRET'),  
-  'redirect' => env('QUICKBOOKS_REDIRECT_URI') 
+'quickbooks' => [
+  'client_id' => env('QUICKBOOKS_CLIENT_ID'),
+  'client_secret' => env('QUICKBOOKS_CLIENT_SECRET'),
+  'redirect' => env('QUICKBOOKS_REDIRECT_URI'),
+  'env' => env('APP_ENV'),
 ],
 ```
 
