@@ -19,6 +19,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
+The `env`-value should be `development` for the sandbox environment and `production` for production environment.
+
 ### Add provider event listener
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
