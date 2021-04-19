@@ -15,7 +15,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_id' => env('QUICKBOOKS_CLIENT_ID'),
   'client_secret' => env('QUICKBOOKS_CLIENT_SECRET'),
   'redirect' => env('QUICKBOOKS_REDIRECT_URI'),
-  'env' => env('APP_ENV'),
+  'env' => env('QUICKBOOKS_ENV'),
 ],
 ```
 
