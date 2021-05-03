@@ -81,7 +81,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getOktaUrl().'/oauth2/'.$this->getAuthServerId().'/v1/token';
+        return $this->getOktaUrl().'/oauth2/'.$this->getAuthServerId().'v1/token';
     }
 
     /**
