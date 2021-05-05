@@ -51,13 +51,19 @@ class Provider extends AbstractProvider
      */
     protected function getAuthServerId()
     {
-        $auth_server_id = $this->getConfig('auth_server_id', null);
+        $authServerId = (string) $this->getConfig('auth_server_id');
 
-        if ($auth_server_id) {
-            return $auth_server_id.'/';
-        }
+        return $authServerId === '' ? $authServerId : $authServerId.'/';
+    }
 
-        return '';
+    /**
+     * Get the Okta sever URL.
+     *
+     * @return string
+     */
+    protected function getOktaServerUrl(): string
+    {
+        return $this->getOktaUrl().'/oauth2/'.$this->getAuthServerId();
     }
 
     /**
@@ -73,7 +79,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getOktaUrl().'/oauth2/'.$this->getAuthServerId().'v1/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->getOktaServerUrl().'v1/authorize', $state);
     }
 
     /**
@@ -81,7 +87,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getOktaUrl().'/oauth2/'.$this->getAuthServerId().'/v1/token';
+        return $this->getOktaServerUrl().'v1/token';
     }
 
     /**
@@ -89,7 +95,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getOktaUrl().'/oauth2/'.$this->getAuthServerId().'v1/userinfo', [
+        $response = $this->getHttpClient()->get($this->getOktaServerUrl().'v1/userinfo', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
