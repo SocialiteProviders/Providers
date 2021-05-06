@@ -4,6 +4,7 @@ namespace SocialiteProviders\SAML;
 
 use Aacotroneo\Saml2\Saml2Auth;
 use Aacotroneo\Saml2\Saml2User;
+use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\SAML\SAMLController;
@@ -154,28 +155,19 @@ class Provider extends AbstractProvider
     {
         $saml2Auth = $this->getSaml2Auth();
         $errors = $saml2Auth->acs();
-
+        
         if (!empty($errors)) {
-            throw new InvalidStateException();
+            $message = 'SAML Error';
+            
+            if (isset($errors['last_error_reason'])) {
+                $message .= ': ' . $errors['last_error_reason'];
+            }
+            
+            throw new InvalidStateException($message);
         }
         
         $user = $this->mapUserToObject($saml2Auth->getSaml2User());
         
         return $user;
-        
-        $samlUser = $saml2Auth->getSaml2User();
-        $user = new User;
-        
-        dd('hi', $samlUser);
-        
-        foreach (config('services.saml.variables') as $property => $samlAttribute) {
-            if ($samlAttribute) {
-                if ($value = $samlUser->getAttribute($samlAttribute)[0]) {
-                    $user->{$property} = $value;
-                }
-            }
-        }
-        
-        return $this->user = $user;
     }
 }
