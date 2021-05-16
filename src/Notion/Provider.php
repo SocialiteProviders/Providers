@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
      */
     public const IDENTIFIER = 'NOTION';
 
-   /**
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
@@ -56,13 +56,13 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => [
-                'Accept' => 'application/json',
-                'Authorization' => 'Basic '. base64_encode($this->clientId.':'.$this->clientSecret),
-                'Content-Type' => 'application/json',
+                'Accept'        => 'application/json',
+                'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
+                'Content-Type'  => 'application/json',
             ],
             'json' => [
-                'grant_type' => 'authorization_code',
-                'code' => $code,
+                'grant_type'   => 'authorization_code',
+                'code'         => $code,
                 'redirect_uri' => $this->redirectUrl,
             ],
         ]);
