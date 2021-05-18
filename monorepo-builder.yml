@@ -184,3 +184,4 @@ parameters:
     src/Zendesk: 'git@github.com:SocialiteProviders/Zendesk.git'
     src/Zoho: 'git@github.com:SocialiteProviders/Zoho.git'
     src/Zoom: 'git@github.com:SocialiteProviders/Zoom.git'
+    src/Notion: 'git@github.com:SocialiteProviders/Notion.git'
