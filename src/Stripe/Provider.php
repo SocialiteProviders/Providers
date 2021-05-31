@@ -64,7 +64,6 @@ class Provider extends AbstractProvider
         } elseif (isset($user['display_name'])) { // original location
             $nickname = $user['display_name'];
         }
-        
         $email = null;
         if (isset($user['email'])) {
             $email = $user['email'];
