@@ -45,4 +45,4 @@ return Socialite::driver('stripe')->redirect();
 
 - ``id``
 - ``nickname``
-- ``email``
+- ``email`` (optional)
