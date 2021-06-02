@@ -10,11 +10,14 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ### Add configuration to `config/services.php`
 
+**Please note, the latest version of this package requires you to use `services` config file. Previously enviroment variables were read directly, which is no longer supported**
+
 ```php
 'sharepoint' => [    
   'client_id' => env('SHAREPOINT_CLIENT_ID'),  
   'client_secret' => env('SHAREPOINT_CLIENT_SECRET'),  
-  'redirect' => env('SHAREPOINT_REDIRECT_URI') 
+  'redirect' => env('SHAREPOINT_REDIRECT_URI'),
+  'site_url' => env('SHAREPOINT_SITE_URL'), // Optional
 ],
 ```
 
