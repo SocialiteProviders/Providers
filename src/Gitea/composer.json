@@ -2,10 +2,12 @@
     "name": "socialiteproviders/gitea",
     "description": "Gitea OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "Eric de Ruiter",
-        "email": "eric@thisisdevelopment.nl"
-    }],
+    "authors": [
+        {
+            "name": "Eric de Ruiter",
+            "email": "eric@thisisdevelopment.nl"
+        }
+    ],
     "require": {
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
