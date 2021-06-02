@@ -15,11 +15,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = null;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getCodeFields($state = null)
     {
         $fields = [
@@ -43,7 +38,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => [
                 'Accept'                => 'application/json',
-                'User-Agent'            => env('APP_NAME'),
+                'User-Agent'            => config('app.name'),
                 'X-SparkApi-User-Agent' => 'ThinkerySocialite',
             ],
             'form_params' => $this->getTokenFields($code),
@@ -76,7 +71,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://sparkapi.com/v1/my/account', [
             'headers' => [
                 'Authorization'         => 'Bearer '.$token,
-                'User-Agent'            => env('APP_NAME'),
+                'User-Agent'            => config('app.name'),
                 'X-SparkApi-User-Agent' => 'ThinkerySocialite',
             ],
         ]);

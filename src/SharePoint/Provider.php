@@ -20,9 +20,17 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    public static function additionalConfigKeys()
+    {
+        return ['site_url'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(env('SHAREPOINT_SITE_URL').'/_layouts/15/OAuthAuthorize.aspx', $state);
+        return $this->buildAuthUrlFromBase($this->getConfig('site_url').'/_layouts/15/OAuthAuthorize.aspx', $state);
     }
 
     /**
