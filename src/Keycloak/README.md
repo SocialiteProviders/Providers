@@ -42,3 +42,13 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('keycloak')->redirect();
 ```
+
+#### Keycloak <= 3.2
+
+Keycloak below v3.2 requires no scopes to be set. Later versions require the `openid` scope for all requests.
+
+```php
+return Socialite::driver('keycloak')->scopes([])->redirect();
+```
+
+See [the upgrade guide](https://www.keycloak.org/docs/12.0/upgrading/#migrating-to-3-2-0).
