@@ -8,20 +8,20 @@
         "league/oauth1-client": "^1.9",
         "socialiteproviders/manager": "~4.0"
     },
+    "require-dev": {
+        "kitetail/zttp": "^0.6.0",
+        "symplify/monorepo-builder": "^6.1 || ^8.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\": "src/"
         }
     },
-    "require-dev": {
-        "kitetail/zttp": "^0.6.0",
-        "symplify/monorepo-builder": "^6.1 || ^8.0"
-    },
     "scripts": {
         "test": "phpunit",
         "test:ci": "phpunit --coverage-clover build/logs/clover.xml"
-    },
-    "config": {
-        "sort-packages": true
     }
 }

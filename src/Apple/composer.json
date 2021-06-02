@@ -1,6 +1,19 @@
 {
     "name": "socialiteproviders/apple",
     "description": "Apple OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "apple client key",
+        "apple sign in",
+        "apple",
+        "client key generator",
+        "client key refresh",
+        "laravel apple",
+        "laravel socialite",
+        "laravel",
+        "sign in with apple",
+        "socialite apple",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -23,26 +36,13 @@
         "lcobucci/jwt": "^4.0",
         "socialiteproviders/manager": "~4.0"
     },
+    "suggest": {
+        "ahilmurugesan/socialite-apple-helper": "Automatic Apple client key generation and management."
+    },
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\Apple\\": ""
         }
     },
-    "minimum-stability": "stable",
-    "suggest": {
-        "ahilmurugesan/socialite-apple-helper": "Automatic Apple client key generation and management."
-    },
-    "keywords": [
-        "laravel",
-        "socialite",
-        "apple",
-        "sign in with apple",
-        "laravel socialite",
-        "socialite apple",
-        "client key generator",
-        "client key refresh",
-        "apple client key",
-        "apple sign in",
-        "laravel apple"
-    ]
+    "minimum-stability": "stable"
 }
