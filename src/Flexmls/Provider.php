@@ -15,11 +15,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = null;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getCodeFields($state = null)
     {
         $fields = [
