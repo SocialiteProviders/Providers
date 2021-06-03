@@ -3,13 +3,14 @@ name: Test
 on: [ pull_request, push ]
 
 jobs:
-  run:
+  test:
     runs-on: ubuntu-20.04
     strategy:
       max-parallel: 15
       fail-fast: false
       matrix:
         php-versions: [ '7.2', '7.3', '7.4', '8.0' ]
+
     name: PHP ${{ matrix.php-versions }}
     steps:
       - name: Checkout
@@ -24,5 +25,9 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction  --prefer-dist
 
+      - name: Lint the code
+        run: vendor/bin/parallel-lint --exclude vendor .
+
       - name: Lint composer.json
+        if: matrix.php-versions >= 8
         run: composer validate --strict
