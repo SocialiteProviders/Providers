@@ -32,7 +32,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://login.microsoftonline.com/'.(isset($this->config['tenant']) ? $this->config['tenant'] : 'common').'/oauth2/authorize',
+            'https://login.microsoftonline.com/'.($this->config['tenant'] ?? 'common').'/oauth2/authorize',
             $state
         );
     }
