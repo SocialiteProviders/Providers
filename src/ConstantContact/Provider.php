@@ -5,6 +5,9 @@ namespace SocialiteProviders\ConstantContact;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://v3.developer.constantcontact.com/api_guide/server_flow.html
+ */
 class Provider extends AbstractProvider
 {
     /**
