@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\GitLab;
+namespace SocialiteProviders\Notion;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
