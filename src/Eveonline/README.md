@@ -46,3 +46,12 @@ To add scopes to your Authentication you can use the below:
 ```php
 return Socialite::driver('eveonline')->scopes(['esi-clones.read_clones.v1','esi-characters.read_blueprints.v1'])->redirect();
 ```
+
+### Returned User fields
+- ``character_owner_hash``
+- ``character_name``
+- ``character_id``
+- ``token``
+- ``refreshToken``
+- ``expiresIn``
+- ``user`` (Holds jwt)
