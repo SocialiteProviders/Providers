@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Eveonline;
 
-use GuzzleHttp\Client;
-use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
+use GuzzleHttp\Client;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
