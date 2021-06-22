@@ -2,12 +2,13 @@
 
 namespace SocialiteProviders\Eveonline;
 
-use Laravel\Socialite\Two\InvalidStateException;
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use SocialiteProviders\Manager\OAuth2\User;
 use GuzzleHttp\Client;
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
+use Laravel\Socialite\Two\InvalidStateException;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
+
 
 class Provider extends AbstractProvider
 {
@@ -59,17 +60,17 @@ class Provider extends AbstractProvider
         $endpoint = 'https://login.eveonline.com/v2/oauth/token';
 
         $response = $this->getHttpClient()->post($endpoint, [
-         'headers' => [
-           'Authorization' => 'Basic '.base64_encode(config('services.eveonline.client_id').':'.config('services.eveonline.client_secret')),
-         ],
-         'form_params' => [
-           'grant_type' => 'authorization_code',
-           'code' => $code
-         ],
+             'headers' => [
+               'Authorization' => 'Basic '.base64_encode(config('services.eveonline.client_id').':'.config('services.eveonline.client_secret')),
+             ],
+             'form_params' => [
+               'grant_type' => 'authorization_code',
+               'code' => $code
+             ],
        ]);
 
         return json_decode($response->getBody(), true);
-        ## Vaules are access_token // expires_in // token_type // refresh_token
+        // Vaules are access_token // expires_in // token_type // refresh_token
     }
 
     /**
@@ -88,10 +89,10 @@ class Provider extends AbstractProvider
         ## GETJWT information
         $response_jwks = (new Client())->get($endpoint);
         $response_jwks_info = json_decode($response_jwks->getBody(), true);
-        $decoded = JWT::decode($jwt, JWK::parseKeySet($response_jwks_info), ["RS256"]);
+        $decoded = JWT::decode($jwt, JWK::parseKeySet($response_jwks_info), ['RS256']);
         $decoded_array = (array) $decoded;
         if ($decoded_array['iss'] === 'login.eveonline.com' or $decoded_array['iss'] === 'https://login.eveonline.com') {
-            if (strtotime("now") < $decoded_array['exp']) {
+            if (strtotime('now') < $decoded_array['exp']) {
                 return $decoded_array;
             } else {
                 throw new InvalidStateException('Error with token expiration');
@@ -107,9 +108,9 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-           'character_owner_hash' => $user['owner'],
-           'character_name'       => $user['name'],
-           'character_id'         => ltrim($user['sub'], 'CHARACTER:EVE:')
-       ]);
+             'character_owner_hash' => $user['owner'],
+             'character_name'       => $user['name'],
+             'character_id'         => ltrim($user['sub'], 'CHARACTER:EVE:')
+         ]);
     }
 }
