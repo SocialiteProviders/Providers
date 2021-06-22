@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
             ],
             'form_params' => [
                 'grant_type' => 'authorization_code',
-                'code'       => $code
+                'code'       => $code,
             ],
         ]);
 
