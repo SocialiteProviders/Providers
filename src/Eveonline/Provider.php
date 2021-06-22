@@ -31,7 +31,6 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
-
     /**
      * {@inheritdoc}
      */
@@ -51,7 +50,6 @@ class Provider extends AbstractProvider
 
         return $endpoint;
     }
-
 
     /**
      * {@inheritdoc}
@@ -80,7 +78,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $userinfo = static::verify($token);
-        
+
         return $userinfo;
     }
 
