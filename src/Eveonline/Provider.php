@@ -38,6 +38,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         $endpoint = 'https://login.eveonline.com/v2/oauth/authorize/';
+
         return$this->buildAuthUrlFromBase($endpoint, $state);
     }
 
@@ -47,6 +48,7 @@ class Provider extends AbstractProvider
     protected function getTokenUrl()
     {
         $endpoint = 'https://login.eveonline.com/v2/oauth/token';
+
         return $endpoint;
     }
 
@@ -78,6 +80,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $userinfo = static::verify($token);
+        
         return $userinfo;
     }
 
