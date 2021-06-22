@@ -60,13 +60,13 @@ class Provider extends AbstractProvider
         $endpoint = 'https://login.eveonline.com/v2/oauth/token';
 
         $response = $this->getHttpClient()->post($endpoint, [
-             'headers' => [
-               'Authorization' => 'Basic '.base64_encode(config('services.eveonline.client_id').':'.config('services.eveonline.client_secret')),
-             ],
-             'form_params' => [
-               'grant_type' => 'authorization_code',
-               'code' => $code
-             ],
+           'headers' => [
+             'Authorization' => 'Basic '.base64_encode(config('services.eveonline.client_id').':'.config('services.eveonline.client_secret')),
+           ],
+           'form_params' => [
+             'grant_type' => 'authorization_code',
+             'code' => $code
+           ],
        ]);
 
         return json_decode($response->getBody(), true);
@@ -86,7 +86,7 @@ class Provider extends AbstractProvider
     {
         $endpoint = 'https://login.eveonline.com/oauth/jwks';
 
-        ## GETJWT information
+        // GETJWT information
         $response_jwks = (new Client())->get($endpoint);
         $response_jwks_info = json_decode($response_jwks->getBody(), true);
         $decoded = JWT::decode($jwt, JWK::parseKeySet($response_jwks_info), ['RS256']);
@@ -108,9 +108,9 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-             'character_owner_hash' => $user['owner'],
-             'character_name'       => $user['name'],
-             'character_id'         => ltrim($user['sub'], 'CHARACTER:EVE:')
-         ]);
+           'character_owner_hash' => $user['owner'],
+           'character_name'       => $user['name'],
+           'character_id'         => ltrim($user['sub'], 'CHARACTER:EVE:')
+       ]);
     }
 }
