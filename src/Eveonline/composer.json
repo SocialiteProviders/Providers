@@ -6,7 +6,6 @@
         "name": "James Gerstenberg",
         "email": "grasume0@gmail.com"
     }],
-    "license": "MIT",
     "require": {
         "php": "^7.4 || ^8.0",
         "socialiteproviders/manager": "^4.0",
