@@ -44,9 +44,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        $endpoint = 'https://login.eveonline.com/v2/oauth/token';
-
-        return $endpoint;
+        return 'https://login.eveonline.com/v2/oauth/token';
     }
 
     /**
