@@ -36,9 +36,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        $endpoint = 'https://login.eveonline.com/v2/oauth/authorize/';
-
-        return$this->buildAuthUrlFromBase($endpoint, $state);
+        return $this->buildAuthUrlFromBase('https://login.eveonline.com/v2/oauth/authorize/', $state);
     }
 
     /**
