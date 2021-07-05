@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\Facebook;
+namespace SocialiteProviders\TikTok;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
