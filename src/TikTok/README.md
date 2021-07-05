@@ -1,4 +1,4 @@
-# Facebook
+# TikTok
 
 ```bash
 composer require socialiteproviders/tiktok
@@ -11,10 +11,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'tiktok' => [    
-  'client_id' => env('TIKTOK_CLIENT_ID'),  
-  'client_secret' => env('TIKTOK_CLIENT_SECRET'),  
-  'redirect' => env('TIKTOK_REDIRECT_URI') 
+'tiktok' => [
+  'client_id' => env('TIKTOK_CLIENT_ID'),
+  'client_secret' => env('TIKTOK_CLIENT_SECRET'),
+  'redirect' => env('TIKTOK_REDIRECT_URI')
 ],
 ```
 
@@ -40,3 +40,14 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('tiktok')->redirect();
 ```
+
+# Returned User Fields
+
+- id
+- union_id
+- name
+- avatar
+
+# Reference
+
+- [TikTok Login Kit](https://developers.tiktok.com/doc/login-kit-web)
