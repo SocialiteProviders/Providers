@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\Facebook;
+namespace SocialiteProviders\TikTok;
 
 use Illuminate\Support\Arr;
 
@@ -20,7 +20,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        'user.info.basic'
+        "user.info.basic"
     ];
 
     /**
@@ -59,6 +59,14 @@ class Provider extends AbstractProvider
         return $this->user->setToken($token)
             ->setExpiresIn(Arr::get($response, "data.expires_in"))
             ->setRefreshToken(Arr::get($response, "data.refresh_token"));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTokenUrl()
+    {
+        return "https://open-api.tiktok.com/oauth/access_token/";
     }
 
     /**
