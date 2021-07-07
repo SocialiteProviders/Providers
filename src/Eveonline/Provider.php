@@ -59,7 +59,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        // Vaules are access_token // expires_in // token_type // refresh_token
+        // Values are access_token // expires_in // token_type // refresh_token
         return json_decode($response->getBody()->getContents(), true);
     }
 
