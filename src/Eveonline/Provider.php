@@ -69,10 +69,10 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        return static::verify($token);
+        return $this->verify($token);
     }
 
-    public static function verify($jwt)
+    public function verify($jwt)
     {
         $responseJwks = (new Client())->get('https://login.eveonline.com/oauth/jwks');
         $responseJwksInfo = json_decode($responseJwks->getBody()->getContents(), true);
