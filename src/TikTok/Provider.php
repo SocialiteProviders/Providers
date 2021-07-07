@@ -19,7 +19,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        'user.info.basic'
+        'user.info.basic',
     ];
 
     /**
@@ -27,7 +27,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return 'https://open-api.tiktok.com/platform/oauth/connect?' . http_build_query([
+        return 'https://open-api.tiktok.com/platform/oauth/connect?'.http_build_query([
             'client_key'    => $this->clientId,
             'state'         => $state,
             'response_type' => 'code',
@@ -87,8 +87,9 @@ class Provider extends AbstractProvider
 
     /**
      * Get TikTok user by token.
-     * 
+     *
      * @param array $data
+     *
      * @return mixed
      */
     protected function getUserByToken($data)
@@ -98,7 +99,7 @@ class Provider extends AbstractProvider
         // $data[0] = $token, $data[1] = $open_id
 
         $response = $this->getHttpClient()->get(
-            'https://open-api.tiktok.com/oauth/userinfo?' . http_build_query([
+            'https://open-api.tiktok.com/oauth/userinfo?'.http_build_query([
                 'open_id'      => $data[1],
                 'access_token' => $data[0]
             ])
