@@ -2,12 +2,12 @@
 
 namespace SocialiteProviders\Eveonline;
 
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
-use GuzzleHttp\Client;
-use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use UnexpectedValueException;
 
 class Provider extends AbstractProvider
 {
@@ -20,11 +20,6 @@ class Provider extends AbstractProvider
      * Tranquility endpoint for retrieving user info.
      */
     public const TRANQUILITY_ENDPOINT = 'https://login.eveonline.com';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
 
     /**
      * {@inheritdoc}
@@ -52,11 +47,11 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
-        $endpoint = 'https://login.eveonline.com/v2/oauth/token';
+        $authorization = 'Basic '.base64_encode($this->getConfig('client_id').':'.$this->getConfig('client_secret'));
 
-        $response = $this->getHttpClient()->post($endpoint, [
+        $response = $this->getHttpClient()->post('https://login.eveonline.com/v2/oauth/token', [
             'headers' => [
-                'Authorization' => 'Basic '.base64_encode(config('services.eveonline.client_id').':'.config('services.eveonline.client_secret')),
+                'Authorization' => $authorization,
             ],
             'form_params' => [
                 'grant_type' => 'authorization_code',
@@ -64,8 +59,8 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
-        // Vaules are access_token // expires_in // token_type // refresh_token
+        // Values are access_token // expires_in // token_type // refresh_token
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -73,29 +68,31 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $userinfo = static::verify($token);
-
-        return $userinfo;
+        return $this->verify($token);
     }
 
-    public static function verify($jwt)
+    /**
+     * @param string $jwt
+     *
+     * @throws \UnexpectedValueException|\Firebase\JWT\ExpiredException
+     *
+     * @return array
+     */
+    public function verify($jwt)
     {
-        $endpoint = 'https://login.eveonline.com/oauth/jwks';
+        $responseJwks = $this->getHttpClient()->get('https://login.eveonline.com/oauth/jwks');
+        $responseJwksInfo = json_decode($responseJwks->getBody()->getContents(), true);
+        $decodedArray = (array) JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo), ['RS256']);
 
-        // GETJWT information
-        $response_jwks = (new Client())->get($endpoint);
-        $response_jwks_info = json_decode($response_jwks->getBody(), true);
-        $decoded = JWT::decode($jwt, JWK::parseKeySet($response_jwks_info), ['RS256']);
-        $decoded_array = (array) $decoded;
-        if ($decoded_array['iss'] === 'login.eveonline.com' or $decoded_array['iss'] === 'https://login.eveonline.com') {
-            if (strtotime('now') < $decoded_array['exp']) {
-                return $decoded_array;
-            } else {
-                throw new InvalidStateException('Error with token expiration');
-            }
-        } else {
-            throw new InvalidStateException('Access token issuer mismatch');
+        if ($decodedArray['iss'] !== 'login.eveonline.com' && $decodedArray['iss'] !== self::TRANQUILITY_ENDPOINT) {
+            throw new UnexpectedValueException('Access token issuer mismatch');
         }
+
+        if (time() >= $decodedArray['exp']) {
+            throw new ExpiredException();
+        }
+
+        return $decodedArray;
     }
 
     /**
