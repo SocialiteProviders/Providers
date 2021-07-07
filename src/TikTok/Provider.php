@@ -3,7 +3,6 @@
 namespace SocialiteProviders\TikTok;
 
 use Illuminate\Support\Arr;
-
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -101,7 +100,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://open-api.tiktok.com/oauth/userinfo?'.http_build_query([
                 'open_id'      => $data[1],
-                'access_token' => $data[0]
+                'access_token' => $data[0],
             ])
         );
 
