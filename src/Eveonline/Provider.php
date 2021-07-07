@@ -5,7 +5,6 @@ namespace SocialiteProviders\Eveonline;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
-use GuzzleHttp\Client;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 use UnexpectedValueException;
@@ -74,7 +73,7 @@ class Provider extends AbstractProvider
 
     public function verify($jwt)
     {
-        $responseJwks = (new Client())->get('https://login.eveonline.com/oauth/jwks');
+        $responseJwks = $this->getHttpClient()->get('https://login.eveonline.com/oauth/jwks');
         $responseJwksInfo = json_decode($responseJwks->getBody()->getContents(), true);
         $decoded = JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo), ['RS256']);
         $decodedArray = (array) $decoded;
