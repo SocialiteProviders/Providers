@@ -2,15 +2,17 @@
     "name": "socialiteproviders/eveonline",
     "description": "Eveonline OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "James Gerstenberg",
-        "email": "grasume0@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "James Gerstenberg",
+            "email": "grasume0@gmail.com"
+        }
+    ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "socialiteproviders/manager": "^4.0",
+        "ext-json": "*",
         "firebase/php-jwt": "^5.2",
-        "ext-json": "*"
+        "socialiteproviders/manager": "^4.0"
     },
     "autoload": {
         "psr-4": {
