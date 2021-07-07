@@ -72,9 +72,11 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param  string  $jwt
-     * @return array
+     * @param string $jwt
+     *
      * @throws \UnexpectedValueException|\Firebase\JWT\ExpiredException
+     *
+     * @return array
      */
     public function verify($jwt)
     {
