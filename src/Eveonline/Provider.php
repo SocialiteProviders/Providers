@@ -74,10 +74,7 @@ class Provider extends AbstractProvider
 
     public static function verify($jwt)
     {
-        $endpoint = 'https://login.eveonline.com/oauth/jwks';
-
-        // GETJWT information
-        $responseJwks = (new Client())->get($endpoint);
+        $responseJwks = (new Client())->get('https://login.eveonline.com/oauth/jwks');
         $responseJwksInfo = json_decode($responseJwks->getBody()->getContents(), true);
         $decoded = JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo), ['RS256']);
         $decodedArray = (array) $decoded;
