@@ -9,7 +9,13 @@ jobs:
       max-parallel: 15
       fail-fast: false
       matrix:
+        validate: [ false ]
         php-versions: [ '7.2', '7.3', '7.4', '8.0' ]
+        exclude:
+          - php-versions: '8.0'
+        include:
+          - php-versions: '8.0'
+            validate: true
 
     name: PHP ${{ matrix.php-versions }}
     steps:
@@ -29,5 +35,5 @@ jobs:
         run: vendor/bin/parallel-lint --exclude vendor .
 
       - name: Lint composer.json
-        if: matrix.php-versions >= 8
+        if: matrix.validate == true
         run: composer validate --strict
