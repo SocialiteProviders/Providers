@@ -61,7 +61,7 @@ class Provider extends AbstractProvider
     public function user()
     {
         $user = $this->mapUserToObject($this->getUserByToken(
-            $token = $this->getAccessToken($this->getCode())
+            $token = $this->parseAccessToken($this->getAccessTokenResponse($this->getCode()))
         ));
 
         return $user->setToken($token);

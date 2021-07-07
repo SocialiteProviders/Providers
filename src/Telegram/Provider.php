@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'TELEGRAM';
+    public const IDENTIFIER = 'TELEGRAM';
 
     /**
      * @return array
@@ -83,11 +83,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $name = trim(sprintf('%s %s', $user['first_name'] ?? '', $user['last_name'] ?? ''));
+
         return (new User())->setRaw($user)->map([
             'id'        => $user['id'],
-            'nickname'  => $user['username'],
-            'name'      => $user['first_name'].' '.$user['last_name'],
-            'avatar'    => $user['photo_url'],
+            'nickname'  => $user['username'] ?? $user['first_name'],
+            'name'      => !empty($name) ? $name : null,
+            'avatar'    => $user['photo_url'] ?? null,
         ]);
     }
 

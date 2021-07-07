@@ -83,13 +83,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://graph.microsoft.com/v1.0/me/', [
+        $userEndpointVersion = $this->getConfig('user_endpoint_version', 'v1.0');
+        $response = $this->getHttpClient()->get("https://graph.microsoft.com/$userEndpointVersion/me/", [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -134,6 +135,9 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant_id'];
+        return [
+            'tenant_id',
+            'user_endpoint_version',
+        ];
     }
 }

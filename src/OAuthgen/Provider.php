@@ -57,7 +57,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
             'id'       => $user['id'],
             'name'     => $user['name'],
             'email'    => $user['email'],
-            'avatar'   => isset($user['avatar']) ? $user['avatar'] : null,
+            'avatar'   => $user['avatar'] ?? null,
         ]);
     }
 

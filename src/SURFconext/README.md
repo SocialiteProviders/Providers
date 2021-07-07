@@ -14,7 +14,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'surfconext' => [    
   'client_id' => env('SURFCONEXT_CLIENT_ID'),  
   'client_secret' => env('SURFCONEXT_CLIENT_SECRET'),  
-  'redirect' => env('SURFCONEXT_REDIRECT_URI') 
+  'redirect' => env('SURFCONEXT_REDIRECT_URI'),
+  'test' => env('SURFCONEXT_TEST')
 ],
 ```
 

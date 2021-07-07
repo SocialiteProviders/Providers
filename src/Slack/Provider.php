@@ -102,14 +102,19 @@ class Provider extends AbstractProvider
     {
         try {
             $response = $this->getHttpClient()->get(
-                'https://slack.com/api/users.identity?token='.$token
+                'https://slack.com/api/users.identity',
+                [
+                    'headers' => [
+                        'Authorization' => 'Bearer '.$token,
+                    ],
+                ]
             );
         } catch (RequestException $exception) {
             // Getting user informations requires the "identity.*" scopes, however we might want to not add them to the
             // scope list for various reasons. Instead of throwing an exception on this error, we return an empty user.
 
             if ($exception->hasResponse()) {
-                $data = json_decode($exception->getResponse()->getBody(), true);
+                $data = json_decode($exception->getResponse()->getBody()->getContents(), true);
 
                 if (Arr::get($data, 'error') === 'missing_scope') {
                     return [];

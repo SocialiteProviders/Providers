@@ -24,7 +24,9 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://'.$this->getRegion().'.battle.net/oauth/authorize', $state);
+        $url = $this->isChina() ? 'https://www.battlenet.com.cn/oauth/authorize' : 'https://'.$this->getRegion().'.battle.net/oauth/authorize';
+
+        return $this->buildAuthUrlFromBase($url, $state);
     }
 
     /**
@@ -32,6 +34,10 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
+        if ($this->isChina()) {
+            return 'https://www.battlenet.com.cn/oauth/token';
+        }
+
         return "https://{$this->getRegion()}.battle.net/oauth/token";
     }
 
@@ -40,13 +46,15 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://'.$this->getRegion().'.battle.net/oauth/userinfo', [
+        $url = $this->isChina() ? 'https://www.battlenet.com.cn/oauth/userinfo' : 'https://'.$this->getRegion().'.battle.net/oauth/userinfo';
+
+        $response = $this->getHttpClient()->get($url, [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -80,6 +88,11 @@ class Provider extends AbstractProvider
         }
 
         return $this->getConfig('region', 'us');
+    }
+
+    protected function isChina()
+    {
+        return strtolower($this->getRegion()) === 'cn';
     }
 
     /**

@@ -13,6 +13,10 @@ class Provider extends AbstractProvider
      */
     public const IDENTIFIER = 'KEYCLOAK';
 
+    protected $scopeSeparator = ' ';
+
+    protected $scopes = ['openid'];
+
     public static function additionalConfigKeys()
     {
         return ['base_url', 'realms'];
@@ -50,7 +54,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**

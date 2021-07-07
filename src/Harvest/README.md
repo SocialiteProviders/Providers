@@ -10,6 +10,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ### Add configuration to `config/services.php`
 
+**Please note, the latest version of this package requires you to use `services` config file. Previously enviroment variables were read directly, which is no longer supported**
+
 ```php
 'harvest' => [    
   'client_id' => env('HARVEST_CLIENT_ID'),  

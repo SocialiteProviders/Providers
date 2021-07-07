@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -67,8 +67,8 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'         => $user['id'],
             'nickname'   => $user['username'],
-            'name'       => isset($user['name']) ? $user['name'] : null,
-            'email'      => isset($user['email']) ? $user['email'] : null,
+            'name'       => $user['name'] ?? null,
+            'email'      => $user['email'] ?? null,
             'avatar'     => $user['profile_image']['medium'],
             'profileUrl' => $user['links']['html'],
         ]);

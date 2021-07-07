@@ -48,7 +48,7 @@ class KakaoProvider extends AbstractProvider
             'form_params' => $this->getTokenFields($code),
         ]);
 
-        $this->credentialsResponseBody = json_decode($response->getBody(), true);
+        $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
 
         return $this->parseAccessToken($response->getBody());
     }
@@ -62,10 +62,18 @@ class KakaoProvider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        return [
-            'grant_type'   => 'authorization_code', 'client_id' => $this->clientId,
-            'redirect_uri' => $this->redirectUrl, 'code' => $code,
+        $array = [
+            'grant_type'   => 'authorization_code',
+            'client_id'    => $this->clientId,
+            'redirect_uri' => $this->redirectUrl,
+            'code'         => $code,
         ];
+
+        if ($this->clientSecret) {
+            $array['client_secret'] = $this->clientSecret;
+        }
+
+        return $array;
     }
 
     /**
@@ -81,7 +89,7 @@ class KakaoProvider extends AbstractProvider
             'headers' => ['Authorization' => 'Bearer '.$token],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**

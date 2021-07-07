@@ -1,15 +1,16 @@
 name: Test
 
-on: [push]
+on: [ pull_request, push ]
 
 jobs:
-  run:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-20.04
     strategy:
       max-parallel: 15
       fail-fast: false
       matrix:
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: [ '7.2', '7.3', '7.4', '8.0' ]
+
     name: PHP ${{ matrix.php-versions }}
     steps:
       - name: Checkout
@@ -19,22 +20,14 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-versions }}
-          extension-csv: mbstring, xdebug
-          coverage: xdebug
+          extensions: mbstring
 
       - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --no-suggest
+        run: composer install --no-interaction  --prefer-dist
+
+      - name: Lint the code
+        run: vendor/bin/parallel-lint --exclude vendor .
 
       - name: Lint composer.json
-        run: composer validate
-
-      - name: Run Tests
-        run: composer test:ci
-
-      - name: Upload code coverage
-        if: matrix.php-versions == '7.4'
-        run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        if: matrix.php-versions >= 8
+        run: composer validate --strict

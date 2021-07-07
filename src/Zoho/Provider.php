@@ -26,11 +26,19 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Gets the Accounts Server to use from Zoho provider.
+     */
+    protected function getAccountsServerUrl()
+    {
+        return $this->request->input('accounts-server', 'https://accounts.zoho.com');
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getTokenUrl()
     {
-        return 'https://accounts.zoho.com/oauth/v2/token';
+        return $this->getAccountsServerUrl().'/oauth/v2/token';
     }
 
     /**
@@ -38,13 +46,13 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://accounts.zoho.com/oauth/user/info', [
+        $response = $this->getHttpClient()->get($this->getAccountsServerUrl().'/oauth/user/info', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**

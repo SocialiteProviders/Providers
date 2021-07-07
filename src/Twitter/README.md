@@ -18,9 +18,9 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
-### Add URL to Twitter
+### Enable Sign in With Twitter
 
-Your redirect or callback URL needs to be added to your app in the [Twitter Developers Dashboard](https://developer.twitter.com/en/apps).
+You will need to enable **3-legged OAuth** in the [Twitter Developers Dashboard](https://developer.twitter.com/en/apps). Make sure to also add your callback URL.
 
 ### Add provider event listener
 

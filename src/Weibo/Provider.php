@@ -70,7 +70,7 @@ class Provider extends AbstractProvider
             'query' => $this->getTokenFields($code),
         ]);
 
-        $this->credentialsResponseBody = json_decode($response->getBody(), true);
+        $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
 
         return $this->parseAccessToken($response->getBody());
     }
@@ -102,6 +102,6 @@ class Provider extends AbstractProvider
             'query' => ['access_token' => $token],
         ]);
 
-        return json_decode($response->getBody(), true)['uid'];
+        return json_decode($response->getBody()->getContents(), true)['uid'];
     }
 }

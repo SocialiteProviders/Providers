@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/monzo",
+    "description": "Monzo OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew Westrope",
+            "email": "andrew@warwickshire.it"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Monzo\\": ""
+        }
+    }
+}

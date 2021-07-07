@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Fitbit;
 
-use GuzzleHttp\ClientInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -44,16 +43,12 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
-
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json', 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            $postKey  => $this->getTokenFields($code),
+            'headers'      => ['Accept' => 'application/json', 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            'form_params'  => $this->getTokenFields($code),
         ]);
 
-        $this->credentialsResponseBody = json_decode($response->getBody(), true);
-
-        return json_decode($response->getBody(), true);
+        return $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -67,7 +62,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -77,7 +72,7 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['user']['encodedId'],
-            'nickname' => isset($user['user']['nickname']) ? $user['user']['nickname'] : '',
+            'nickname' => $user['user']['nickname'] ?? '',
             'name'     => $user['user']['fullName'],
             'email'    => null,
             'avatar'   => $user['user']['avatar150'],

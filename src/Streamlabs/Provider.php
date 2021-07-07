@@ -58,11 +58,16 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $user = $user['streamlabs'];
+        $mainAccount = $user['streamlabs'];
 
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'name'     => $user['display_name'],
+            'id'        => $mainAccount['id'],
+            'name'      => $mainAccount['display_name'],
+            'accounts'  => [
+                'twitch'    => $user['twitch'] ?? null,
+                'youtube'   => $user['youtube'] ?? null,
+                'facebook'  => $user['facebook'] ?? null,
+            ],
         ]);
     }
 

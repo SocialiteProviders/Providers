@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Faceit;
 
-use GuzzleHttp\ClientInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -27,7 +26,7 @@ class Provider extends AbstractProvider
 
     protected function getUserByToken($token)
     {
-        $meResponse = $this->getHttpClient()->get(
+        $response = $this->getHttpClient()->get(
             'https://api.faceit.com/auth/v1/resources/userinfo',
             [
                 'headers' => [
@@ -36,24 +35,20 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return json_decode($meResponse->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     public function getAccessTokenResponse($code)
     {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
-
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            $postKey  => $this->getTokenFields($code),
-            'headers' => [
+            'form_params' => $this->getTokenFields($code),
+            'headers'     => [
                 'Content-Type'  => 'application/x-www-form-urlencoded',
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
             ],
         ]);
 
-        $this->credentialsResponseBody = json_decode($response->getBody(), true);
-
-        return json_decode($response->getBody(), true);
+        return $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
     }
 
     protected function getTokenFields($code)
@@ -69,9 +64,9 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['guid'],
             'nickname' => $user['nickname'],
-            'avatar'   => isset($user['picture']) ? $user['picture'] : null,
+            'avatar'   => $user['picture'] ?? null,
             'name'     => isset($user['given_name']) ? ($user['given_name'].' '.$user['family_name']) : null,
-            'email'    => isset($user['email']) ? $user['email'] : null,
+            'email'    => $user['email'] ?? null,
         ]);
     }
 }

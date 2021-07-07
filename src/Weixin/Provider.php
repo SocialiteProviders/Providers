@@ -87,7 +87,7 @@ class Provider extends AbstractProvider
                 ],
             ]);
 
-            $user = json_decode($response->getBody(), true);
+            $user = json_decode($response->getBody()->getContents(), true);
         }
 
         return $user;
@@ -100,9 +100,9 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['openid'],
-            'unionid'  => isset($user['unionid']) ? $user['unionid'] : null,
-            'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
-            'avatar'   => isset($user['headimgurl']) ? $user['headimgurl'] : null,
+            'unionid'  => $user['unionid'] ?? null,
+            'nickname' => $user['nickname'] ?? null,
+            'avatar'   => $user['headimgurl'] ?? null,
             'name'     => null,
             'email'    => null,
         ]);
@@ -128,7 +128,7 @@ class Provider extends AbstractProvider
             'query' => $this->getTokenFields($code),
         ]);
 
-        $this->credentialsResponseBody = json_decode($response->getBody(), true);
+        $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
         if (isset($this->credentialsResponseBody['openid'])) {
             $this->openId = $this->credentialsResponseBody['openid'];
         }

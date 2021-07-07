@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'SalesForce' => [    
+'salesforce' => [    
   'client_id' => env('SALESFORCE_CLIENT_ID'),  
   'client_secret' => env('SALESFORCE_CLIENT_SECRET'),  
   'redirect' => env('SALESFORCE_REDIRECT_URI') 
@@ -38,7 +38,7 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('SalesForce')->redirect();
+return Socialite::driver('salesforce')->redirect();
 ```
 
 ### Returned User fields

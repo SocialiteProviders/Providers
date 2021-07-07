@@ -3,13 +3,19 @@
 namespace SocialiteProviders\Apple;
 
 use Firebase\JWT\JWK;
-use Illuminate\Http\Response;
+use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
-use Lcobucci\JWT\Parser;
+use Lcobucci\Clock\SystemClock;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\Constraint\ValidAt;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -72,7 +78,7 @@ class Provider extends AbstractProvider
         ];
 
         if ($this->usesState()) {
-            $fields['state'] = md5($state);
+            $fields['state'] = $state;
             $fields['nonce'] = Str::uuid().'.'.$state;
         }
 
@@ -89,7 +95,7 @@ class Provider extends AbstractProvider
             'form_params'    => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -124,30 +130,32 @@ class Provider extends AbstractProvider
      */
     public static function verify($jwt)
     {
-        $signer = new Sha256();
-
-        $token = (new Parser())->parse((string) $jwt);
-
-        if ($token->getClaim('iss') !== self::URL) {
-            throw new InvalidStateException('Invalid Issuer', Response::HTTP_UNAUTHORIZED);
-        }
-        if ($token->isExpired()) {
-            throw new InvalidStateException('Token Expired', Response::HTTP_UNAUTHORIZED);
-        }
+        $jwtContainer = Configuration::forUnsecuredSigner();
+        $token = $jwtContainer->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
-            return json_decode(file_get_contents(self::URL.'/auth/keys'), true);
+            $response = (new Client())->get(self::URL.'/auth/keys');
+
+            return json_decode($response->getBody()->getContents(), true);
         });
 
         $publicKeys = JWK::parseKeySet($data);
-
-        $kid = $token->getHeader('kid');
+        $kid = $token->headers()->get('kid');
 
         if (isset($publicKeys[$kid])) {
             $publicKey = openssl_pkey_get_details($publicKeys[$kid]);
+            $constraints = [
+                new SignedWith(new Sha256(), InMemory::plainText($publicKey['key'])),
+                new IssuedBy(self::URL),
+                new ValidAt(SystemClock::fromSystemTimezone()),
+            ];
 
-            if ($token->verify($signer, $publicKey['key'])) {
+            try {
+                $jwtContainer->validator()->assert($token, ...$constraints);
+
                 return true;
+            } catch (RequiredConstraintsViolated $e) {
+                throw new InvalidStateException($e->getMessage());
             }
         }
 
@@ -168,10 +176,11 @@ class Provider extends AbstractProvider
 
         if ($this->usesState()) {
             $state = explode('.', $appleUserToken['nonce'])[1];
-            if (md5($state) === $this->request->input('state')) {
-                $this->request->session()->put('state', md5($state));
+            if ($state === $this->request->input('state')) {
+                $this->request->session()->put('state', $state);
                 $this->request->session()->put('state_verify', $state);
             }
+
             if ($this->hasInvalidState()) {
                 throw new InvalidStateException();
             }
@@ -193,19 +202,15 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $value = trim((string) request('user'));
+        $userRequest = $this->getUserRequest();
 
-        if ($value !== '') {
-            $userRequest = json_decode($value, true);
-
-            if (array_key_exists('name', $userRequest)) {
-                $user['name'] = $userRequest['name'];
-                $fullName = trim(
-                    ($user['name']['firstName'] ?? '')
-                    .' '
-                    .($user['name']['lastName'] ?? '')
-                );
-            }
+        if (isset($userRequest['name'])) {
+            $user['name'] = $userRequest['name'];
+            $fullName = trim(
+                ($user['name']['firstName'] ?? '')
+                .' '
+                .($user['name']['lastName'] ?? '')
+            );
         }
 
         return (new User())
@@ -215,5 +220,22 @@ class Provider extends AbstractProvider
                 'name'  => $fullName ?? null,
                 'email' => $user['email'] ?? null,
             ]);
+    }
+
+    private function getUserRequest(): array
+    {
+        $value = $this->request->input('user');
+
+        if (is_array($value)) {
+            return $value;
+        }
+
+        $value = trim((string) $value);
+
+        if ($value === '') {
+            return [];
+        }
+
+        return json_decode($value, true);
     }
 }

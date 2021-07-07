@@ -7,10 +7,12 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 class GiteaExtendSocialite
 {
     /**
-     * Execute the provider.
+     * Register the provider.
+     *
+     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('gitea', __NAMESPACE__.'\Provider');
+        $socialiteWasCalled->extendSocialite('gitea', Provider::class);
     }
 }

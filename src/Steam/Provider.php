@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    public const STEAM_INFO_URL = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s';
+    public const STEAM_INFO_URL = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s';
 
     /**
      * @var string
@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    public const OPENID_NS = 'https://specs.openid.net/auth/2.0';
+    public const OPENID_NS = 'http://specs.openid.net/auth/2.0';
 
     /**
      * @var string
@@ -105,17 +105,17 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        if (is_null($this->steamId)) {
+        if (is_null($token)) {
             return null;
         }
 
-        if (empty($this->getConfig('api_key'))) {
+        if (empty($this->getConfig('client_secret'))) {
             throw new RuntimeException('The Steam API key has not been specified.');
         }
 
         $response = $this->getHttpClient()->request(
             'GET',
-            sprintf(self::STEAM_INFO_URL, $this->getConfig('api_key'), $this->steamId)
+            sprintf(self::STEAM_INFO_URL, $this->getConfig('client_secret'), $token)
         );
 
         $contents = json_decode($response->getBody()->getContents(), true);
@@ -151,8 +151,8 @@ class Provider extends AbstractProvider
             'openid.mode'       => 'checkid_setup',
             'openid.return_to'  => $this->redirectUrl,
             'openid.realm'      => sprintf('%s://%s', $this->request->getScheme(), $realm),
-            'openid.identity'   => 'https://specs.openid.net/auth/2.0/identifier_select',
-            'openid.claimed_id' => 'https://specs.openid.net/auth/2.0/identifier_select',
+            'openid.identity'   => 'http://specs.openid.net/auth/2.0/identifier_select',
+            'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select',
         ];
 
         return self::OPENID_URL.'?'.http_build_query($params, '', '&');
@@ -180,9 +180,13 @@ class Provider extends AbstractProvider
 
         $results = $this->parseResults($response->getBody()->getContents());
 
-        $this->parseSteamID();
+        $isValid = $results['is_valid'] === 'true';
 
-        return $results['is_valid'] === 'true';
+        if ($isValid) {
+            $this->parseSteamID();
+        }
+
+        return $isValid;
     }
 
     /**
@@ -279,7 +283,7 @@ class Provider extends AbstractProvider
             $matches
         );
 
-        $this->steamId = is_numeric($matches[1]) ? $matches[1] : 0;
+        $this->steamId = isset($matches[1]) && is_numeric($matches[1]) ? $matches[1] : 0;
     }
 
     /**
@@ -298,6 +302,6 @@ class Provider extends AbstractProvider
 
     public static function additionalConfigKeys()
     {
-        return ['api_key', 'realm', 'https', 'proxy'];
+        return ['client_secret', 'realm', 'https', 'proxy'];
     }
 }

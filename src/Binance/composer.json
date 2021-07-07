@@ -3,9 +3,9 @@
     "description": "Binance OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.2 || ^8.0",
         "ext-json": "*",
-        "socialiteproviders/manager": "~3.0"
+        "socialiteproviders/manager": "~4.0"
     },
     "autoload": {
         "psr-4": {

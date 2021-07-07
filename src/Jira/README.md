@@ -1,5 +1,9 @@
 # Jira
 
+## Deprecated
+
+This provider is deprecated. You should use the [Atlassian](https://github.com/SocialiteProviders/Atlassian) provider instead.
+
 ```bash
 composer require socialiteproviders/jira
 ```

@@ -1,10 +1,12 @@
 <?php
 
+require_once __DIR__.'/../vendor/autoload.php';
+
+use Zttp\Zttp;
+
 /**
  * Create a new repo with preset information.
  */
-require_once __DIR__.'/../vendor/autoload.php';
-
 $repoName = $argv[1] ?? null;
 
 if (empty($repoName)) {
@@ -12,7 +14,7 @@ if (empty($repoName)) {
     exit(1);
 }
 
-$res = \Zttp\Zttp::withHeaders([
+$res = Zttp::withHeaders([
     'Accept'        => 'application/vnd.github.v3+json',
     'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
 ])->post('https://api.github.com/orgs/SocialiteProviders/repos', [
@@ -28,7 +30,7 @@ if (!$res->isOk()) {
     exit(1);
 }
 
-$res = \Zttp\Zttp::withHeaders([
+$res = Zttp::withHeaders([
     'Accept'        => 'application/vnd.github.mercy-preview+json',
     'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
 ])->put($res->json()['url'].'/topics', [

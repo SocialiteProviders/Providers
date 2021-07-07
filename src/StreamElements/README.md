@@ -46,8 +46,13 @@ return Socialite::driver('streamelements')->redirect();
 - ``id``
 - ``nickname``
 - ``name``
+- ``alias``
 - ``email``
 - ``avatar``
+- ``type``
+- ``verified``
+- ``partner``
+- ``suspended``
 
 ### Reference
 

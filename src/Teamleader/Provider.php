@@ -22,7 +22,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://app.teamleader.eu/oauth2/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://focus.teamleader.eu/oauth2/authorize', $state);
     }
 
     /**
@@ -30,7 +30,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://app.teamleader.eu/oauth2/access_token';
+        return 'https://focus.teamleader.eu/oauth2/access_token';
     }
 
     /**
@@ -38,13 +38,13 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://api.teamleader.eu/users.me', [
+        $response = $this->getHttpClient()->get('https://api.focus.teamleader.eu/users.me', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
