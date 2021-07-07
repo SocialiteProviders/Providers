@@ -77,15 +77,15 @@ class Provider extends AbstractProvider
         $responseJwksInfo = json_decode($responseJwks->getBody()->getContents(), true);
         $decodedArray = (array) JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo), ['RS256']);
 
-        if ($decodedArray['iss'] === 'login.eveonline.com' || $decodedArray['iss'] === self::TRANQUILITY_ENDPOINT) {
-            if (strtotime('now') < $decodedArray['exp']) {
-                return $decodedArray;
-            } else {
-                throw new ExpiredException();
-            }
-        } else {
+        if ($decodedArray['iss'] !== 'login.eveonline.com' && $decodedArray['iss'] !== self::TRANQUILITY_ENDPOINT) {
             throw new UnexpectedValueException('Access token issuer mismatch');
         }
+
+        if (strtotime('now') >= $decodedArray['exp']) {
+            throw new ExpiredException();
+        }
+
+        return $decodedArray;
     }
 
     /**
