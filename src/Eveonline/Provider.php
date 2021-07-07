@@ -76,10 +76,11 @@ class Provider extends AbstractProvider
         $endpoint = 'https://login.eveonline.com/oauth/jwks';
 
         // GETJWT information
-        $response_jwks = (new Client())->get($endpoint);
-        $response_jwks_info = json_decode($response_jwks->getBody()->getContents(), true);
-        $decoded = JWT::decode($jwt, JWK::parseKeySet($response_jwks_info), ['RS256']);
+        $responseJwks = (new Client())->get($endpoint);
+        $responseJwksInfo = json_decode($responseJwks->getBody()->getContents(), true);
+        $decoded = JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo), ['RS256']);
         $decoded_array = (array) $decoded;
+
         if ($decoded_array['iss'] === 'login.eveonline.com' or $decoded_array['iss'] === self::TRANQUILITY_ENDPOINT) {
             if (strtotime('now') < $decoded_array['exp']) {
                 return $decoded_array;
