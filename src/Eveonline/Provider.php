@@ -81,7 +81,7 @@ class Provider extends AbstractProvider
             throw new UnexpectedValueException('Access token issuer mismatch');
         }
 
-        if (strtotime('now') >= $decodedArray['exp']) {
+        if (time() >= $decodedArray['exp']) {
             throw new ExpiredException();
         }
 
