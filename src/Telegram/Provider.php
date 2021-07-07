@@ -15,12 +15,14 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'TELEGRAM';
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public static function additionalConfigKeys()
     {
         return [
             'bot',
+            'redirect',
+            'client_secret',
         ];
     }
 
@@ -50,7 +52,7 @@ class Provider extends AbstractProvider
 
     public function getButton()
     {
-        $botname = $this->config['bot'];
+        $botname = $this->getConfig('bot');
         $callbackUrl = $this->getConfig('redirect');
 
         return sprintf(
@@ -113,7 +115,7 @@ class Provider extends AbstractProvider
                         ->sort()
                         ->join("\n");
 
-        $hash_key = hash('sha256', $this->config['client_secret'], true);
+        $hash_key = hash('sha256', $this->getConfig('client_secret'), true);
         $hash_hmac = hash_hmac('sha256', $dataToHash, $hash_key);
 
         throw_if(

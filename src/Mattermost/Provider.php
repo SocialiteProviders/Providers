@@ -113,6 +113,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['instance_uri'];
+        return ['api_version', 'instance_uri'];
     }
 }

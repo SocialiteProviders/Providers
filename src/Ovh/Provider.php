@@ -22,7 +22,10 @@ class Provider extends AbstractProvider
     public static function additionalConfigKeys()
     {
         return [
+            'client_id',
+            'client_secret',
             'endpoint',
+            'redirect',
         ];
     }
 

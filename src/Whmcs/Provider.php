@@ -28,7 +28,7 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public static function additionalConfigKeys()
     {
@@ -142,14 +142,6 @@ class Provider extends AbstractProvider
         );
 
         return json_decode($response->getBody()->getContents(), true);
-    }
-
-    /**
-     * @param string $arrayKey
-     */
-    protected function getFromConfig($arrayKey)
-    {
-        return app()['config']['services.whmcs'][$arrayKey];
     }
 
     /**

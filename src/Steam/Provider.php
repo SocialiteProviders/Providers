@@ -300,8 +300,11 @@ class Provider extends AbstractProvider
     {
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function additionalConfigKeys()
     {
-        return ['client_secret', 'realm', 'https', 'proxy'];
+        return ['client_secret', 'realm', 'proxy'];
     }
 }

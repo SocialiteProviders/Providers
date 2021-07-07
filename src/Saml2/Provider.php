@@ -80,6 +80,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function additionalConfigKeys(): array
     {
         return [
