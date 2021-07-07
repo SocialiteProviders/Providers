@@ -80,11 +80,11 @@ class Provider extends AbstractProvider
         $responseJwks = (new Client())->get($endpoint);
         $responseJwksInfo = json_decode($responseJwks->getBody()->getContents(), true);
         $decoded = JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo), ['RS256']);
-        $decoded_array = (array) $decoded;
+        $decodedArray = (array) $decoded;
 
-        if ($decoded_array['iss'] === 'login.eveonline.com' || $decoded_array['iss'] === self::TRANQUILITY_ENDPOINT) {
-            if (strtotime('now') < $decoded_array['exp']) {
-                return $decoded_array;
+        if ($decodedArray['iss'] === 'login.eveonline.com' || $decodedArray['iss'] === self::TRANQUILITY_ENDPOINT) {
+            if (strtotime('now') < $decodedArray['exp']) {
+                return $decodedArray;
             } else {
                 throw new ExpiredException();
             }
