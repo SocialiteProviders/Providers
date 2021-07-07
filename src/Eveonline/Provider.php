@@ -47,9 +47,7 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
-        $endpoint = 'https://login.eveonline.com/v2/oauth/token';
-
-        $response = $this->getHttpClient()->post($endpoint, [
+        $response = $this->getHttpClient()->post('https://login.eveonline.com/v2/oauth/token', [
             'headers' => [
                 'Authorization' => 'Basic '.base64_encode(config('services.eveonline.client_id').':'.config('services.eveonline.client_secret')),
             ],
@@ -68,9 +66,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $userinfo = static::verify($token);
-
-        return $userinfo;
+        return static::verify($token);
     }
 
     public static function verify($jwt)
