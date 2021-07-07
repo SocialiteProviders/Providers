@@ -4,10 +4,9 @@ namespace SocialiteProviders\TikTok;
 
 use Illuminate\Support\Arr;
 
-use SocialiteProviders\Manager\OAuth2\User;
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-
 use Laravel\Socialite\Two\InvalidStateException;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
@@ -20,7 +19,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        "user.info.basic"
+        'user.info.basic'
     ];
 
     /**
@@ -28,12 +27,12 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return "https://open-api.tiktok.com/platform/oauth/connect?" . http_build_query([
-            "client_key" => $this->clientId,
-            "state" => $state,
-            "response_type" => "code",
-            "scope" => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
-            "redirect_uri" => $this->redirectUrl,
+        return 'https://open-api.tiktok.com/platform/oauth/connect?' . http_build_query([
+            'client_key'    => $this->clientId,
+            'state'         => $state,
+            'response_type' => 'code',
+            'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+            'redirect_uri'  => $this->redirectUrl,
         ]);
     }
 
@@ -42,23 +41,25 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        if($this->user) { return $this->user; }
+        if ($this->user) {
+            return $this->user;
+        }
 
-        if($this->hasInvalidState()) {
+        if ($this->hasInvalidState()) {
             throw new InvalidStateException();
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        $token = Arr::get($response, "data.access_token");
+        $token = Arr::get($response, 'data.access_token');
 
         $this->user = $this->mapUserToObject(
-            $this->getUserByToken([$token, Arr::get($response, "data.open_id")])
+            $this->getUserByToken([$token, Arr::get($response, 'data.open_id')])
         );
 
         return $this->user->setToken($token)
-            ->setExpiresIn(Arr::get($response, "data.expires_in"))
-            ->setRefreshToken(Arr::get($response, "data.refresh_token"));
+            ->setExpiresIn(Arr::get($response, 'data.expires_in'))
+            ->setRefreshToken(Arr::get($response, 'data.refresh_token'));
     }
 
     /**
@@ -66,7 +67,7 @@ class Provider extends AbstractProvider
      */
     public function getTokenUrl()
     {
-        return "https://open-api.tiktok.com/oauth/access_token/";
+        return 'https://open-api.tiktok.com/oauth/access_token/';
     }
 
     /**
@@ -75,10 +76,10 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         $fields = [
-            "client_key" => $this->clientId,
-            "client_secret" => $this->clientSecret,
-            "code" => $code,
-            "grant_type" => "authorization_code",
+            'client_key'    => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'code'          => $code,
+            'grant_type'    => 'authorization_code',
         ];
 
         return $fields;
@@ -92,13 +93,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($data)
     {
-        // Note: The TikTok api does not currently have a way to get the user data
-        // with only the access token.
+        // Note: The TikTok api does not have an endpoint to get a user by the access
+        // token only. Open id is also required therefore:
+        // $data[0] = $token, $data[1] = $open_id
 
         $response = $this->getHttpClient()->get(
-            "https://open-api.tiktok.com/oauth/userinfo?" . http_build_query([
-                "open_id" => $data[1],
-                "access_token" => $data[0]
+            'https://open-api.tiktok.com/oauth/userinfo?' . http_build_query([
+                'open_id'      => $data[1],
+                'access_token' => $data[0]
             ])
         );
 
@@ -113,10 +115,10 @@ class Provider extends AbstractProvider
         $user = $user['data'];
 
         return (new User())->setRaw($user)->map([
-            'id' => $user['open_id'],
+            'id'       => $user['open_id'],
             'union_id' => $user['union_id'],
-            'name' => $user['display_name'],
-            'avatar' => $user['avatar_larger'],
+            'name'     => $user['display_name'],
+            'avatar'   => $user['avatar_larger'],
         ]);
     }
 }
