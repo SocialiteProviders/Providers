@@ -67,7 +67,9 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject($user)
     {
-        if (!isset($user['name'])) { $user['name'] = null; }
+        if (!isset($user['name'])) {
+            $user['name'] = null;
+        }
 
         return (new User())->setRaw($user)->map([
             'id'    => $user['sub'],
