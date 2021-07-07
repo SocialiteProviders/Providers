@@ -71,6 +71,11 @@ class Provider extends AbstractProvider
         return $this->verify($token);
     }
 
+    /**
+     * @param  string  $jwt
+     * @return array
+     * @throws \UnexpectedValueException|\Firebase\JWT\ExpiredException
+     */
     public function verify($jwt)
     {
         $responseJwks = $this->getHttpClient()->get('https://login.eveonline.com/oauth/jwks');
