@@ -2,12 +2,13 @@
 
 namespace SocialiteProviders\Eveonline;
 
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
-use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use UnexpectedValueException;
 
 class Provider extends AbstractProvider
 {
@@ -85,10 +86,10 @@ class Provider extends AbstractProvider
             if (strtotime('now') < $decoded_array['exp']) {
                 return $decoded_array;
             } else {
-                throw new InvalidStateException('Error with token expiration');
+                throw new ExpiredException();
             }
         } else {
-            throw new InvalidStateException('Access token issuer mismatch');
+            throw new UnexpectedValueException('Access token issuer mismatch');
         }
     }
 
