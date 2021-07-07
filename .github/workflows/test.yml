@@ -26,7 +26,18 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring
+          extensions: json, mbstring
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: "php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}"
 
       - name: Install dependencies
         run: composer install --no-interaction  --prefer-dist
