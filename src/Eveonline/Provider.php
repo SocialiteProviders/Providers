@@ -82,7 +82,7 @@ class Provider extends AbstractProvider
         $decoded = JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo), ['RS256']);
         $decoded_array = (array) $decoded;
 
-        if ($decoded_array['iss'] === 'login.eveonline.com' or $decoded_array['iss'] === self::TRANQUILITY_ENDPOINT) {
+        if ($decoded_array['iss'] === 'login.eveonline.com' || $decoded_array['iss'] === self::TRANQUILITY_ENDPOINT) {
             if (strtotime('now') < $decoded_array['exp']) {
                 return $decoded_array;
             } else {
