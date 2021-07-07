@@ -47,9 +47,11 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
+        $authorization = 'Basic '.base64_encode($this->getConfig('client_id').':'.$this->getConfig('client_secret'));
+
         $response = $this->getHttpClient()->post('https://login.eveonline.com/v2/oauth/token', [
             'headers' => [
-                'Authorization' => 'Basic '.base64_encode(config('services.eveonline.client_id').':'.config('services.eveonline.client_secret')),
+                'Authorization' => $authorization,
             ],
             'form_params' => [
                 'grant_type' => 'authorization_code',
