@@ -17,16 +17,11 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'OVH';
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public static function additionalConfigKeys()
     {
-        return [
-            'client_id',
-            'client_secret',
-            'endpoint',
-            'redirect',
-        ];
+        return ['endpoint'];
     }
 
     /**
@@ -35,8 +30,8 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         $ovh = new Ovh(
-            $this->getConfig('client_id'),
-            $this->getConfig('client_secret'),
+            $this->clientId,
+            $this->clientSecret,
             $this->getConfig('endpoint')
         );
 
@@ -47,7 +42,7 @@ class Provider extends AbstractProvider
                     'path'      => '/me',
                 ],
             ],
-            $this->getConfig('redirect').'?state='.$state
+            $this->redirectUrl.'?state='.$state
         );
 
         app()['session']->flash($state, $request['consumerKey']);
@@ -87,8 +82,8 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $ovh = new Ovh(
-            $this->getConfig('client_id'),
-            $this->getConfig('client_secret'),
+            $this->clientId,
+            $this->clientSecret,
             $this->getConfig('endpoint'),
             $token
         );
