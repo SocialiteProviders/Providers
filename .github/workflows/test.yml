@@ -9,7 +9,13 @@ jobs:
       max-parallel: 15
       fail-fast: false
       matrix:
+        validate: [ false ]
         php-versions: [ '7.2', '7.3', '7.4', '8.0' ]
+        exclude:
+          - php-versions: '8.0'
+        include:
+          - php-versions: '8.0'
+            validate: true
 
     name: PHP ${{ matrix.php-versions }}
     steps:
@@ -20,7 +26,18 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring
+          extensions: json, mbstring
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: "php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}"
 
       - name: Install dependencies
         run: composer install --no-interaction  --prefer-dist
@@ -29,5 +46,5 @@ jobs:
         run: vendor/bin/parallel-lint --exclude vendor .
 
       - name: Lint composer.json
-        if: matrix.php-versions >= 8
+        if: matrix.validate == true
         run: composer validate --strict
