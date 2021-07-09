@@ -91,6 +91,9 @@ class Provider extends AbstractProvider
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function additionalConfigKeys()
     {
         return ['env'];

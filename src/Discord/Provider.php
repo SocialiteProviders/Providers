@@ -105,6 +105,9 @@ class Provider extends AbstractProvider
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function additionalConfigKeys()
     {
         return ['allow_gif_avatars', 'avatar_default_extension'];

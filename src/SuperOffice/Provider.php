@@ -31,7 +31,7 @@ class Provider extends AbstractProvider
             $this->buildAuthUrlFromBase(
                 sprintf(
                     'https://%s.superoffice.com/login/common/oauth/authorize',
-                    $this->config['environment'] ?: 'sod'
+                    $this->getConfig('environment', 'sod')
                 ),
                 $state
             );
@@ -44,7 +44,7 @@ class Provider extends AbstractProvider
     {
         return sprintf(
             'https://%s.superoffice.com/login/common/oauth/tokens',
-            $this->config['environment'] ?: 'sod'
+            $this->getConfig('environment', 'sod')
         );
     }
 
@@ -73,8 +73,8 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             sprintf(
                 'https://%s.superoffice.com/%s/api/v1/User/currentPrincipal',
-                $this->config['environment'] ?: 'sod',
-                $this->config['customer_id']
+                $this->getConfig('environment', 'sod'),
+                $this->getConfig('customer_id')
             ),
             [
                 'headers' => [
@@ -98,9 +98,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Add the additional configuration keys 'environment' and 'customer_id'.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public static function additionalConfigKeys(): array
     {

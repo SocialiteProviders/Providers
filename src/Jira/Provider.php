@@ -33,6 +33,9 @@ class Provider extends AbstractProvider
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function additionalConfigKeys()
     {
         return ['base_uri', 'cert_path', 'cert_passphrase'];

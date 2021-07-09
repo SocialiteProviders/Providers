@@ -15,13 +15,11 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'TELEGRAM';
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public static function additionalConfigKeys()
     {
-        return [
-            'bot',
-        ];
+        return ['bot'];
     }
 
     /**
@@ -50,8 +48,8 @@ class Provider extends AbstractProvider
 
     public function getButton()
     {
-        $botname = $this->config['bot'];
-        $callbackUrl = $this->getConfig('redirect');
+        $botname = $this->getConfig('bot');
+        $callbackUrl = $this->redirectUrl;
 
         return sprintf(
             '<script async src="https://telegram.org/js/telegram-widget.js" data-telegram-login="%s" data-size="large" data-userpic="false" data-auth-url="%s" data-request-access="write"></script>',
@@ -113,7 +111,7 @@ class Provider extends AbstractProvider
                         ->sort()
                         ->join("\n");
 
-        $hash_key = hash('sha256', $this->config['client_secret'], true);
+        $hash_key = hash('sha256', $this->clientSecret, true);
         $hash_hmac = hash_hmac('sha256', $dataToHash, $hash_key);
 
         throw_if(

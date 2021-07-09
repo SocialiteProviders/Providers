@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
             'headers' => [
                 'Authorization'     => 'Bearer '.$token,
                 'trakt-api-version' => $this->getConfig('api_version', '2'),
-                'trakt-api-key'     => $this->getConfig('client_id'),
+                'trakt-api-key'     => $this->clientId,
             ],
         ]);
 

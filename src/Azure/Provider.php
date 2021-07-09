@@ -97,9 +97,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Add the additional configuration key 'tenant' to enable the branded sign-in experience.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public static function additionalConfigKeys()
     {

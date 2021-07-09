@@ -74,4 +74,12 @@ class Provider extends AbstractProvider
     {
         return $this->getConfig('instance_uri', 'https://api.notion.com/v1/');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['instance_uri'];
+    }
 }

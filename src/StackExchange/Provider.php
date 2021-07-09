@@ -79,9 +79,9 @@ class Provider extends AbstractProvider
             'https://api.stackexchange.com/'.$this->version.
             '/me?'.http_build_query(
                 [
-                    'site'         => $this->getFromConfig('site'),
+                    'site'         => $this->getConfig('site'),
                     'access_token' => $token,
-                    'key'          => $this->getFromConfig('key'),
+                    'key'          => $this->getConfig('key'),
                 ]
             ),
             [
@@ -95,11 +95,11 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $arrayKey
+     * {@inheritdoc}
      */
-    protected function getFromConfig($arrayKey)
+    public static function additionalConfigKeys()
     {
-        return app()['config']['services.stackexchange'][$arrayKey];
+        return ['site', 'key'];
     }
 
     /**

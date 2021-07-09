@@ -49,9 +49,17 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    public static function additionalConfigKeys()
+    {
+        return ['country'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
-        $url = self::DOMAIN[config('services.mercadolibre.country')] ?? 'https://auth.mercadolibre.com.ar';
+        $url = self::DOMAIN[$this->getConfig('country')] ?? 'https://auth.mercadolibre.com.ar';
 
         return $this->buildAuthUrlFromBase($url.'/authorization', $state);
     }

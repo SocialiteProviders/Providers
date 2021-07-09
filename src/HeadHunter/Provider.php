@@ -20,6 +20,14 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    public static function additionalConfigKeys()
+    {
+        return ['user_agent'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://hh.ru/oauth/authorize', $state);
@@ -40,7 +48,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://api.hh.ru/me', [
             'headers' => [
-                'User-Agent'    => config('services.headhunter.user_agent'),
+                'User-Agent'    => $this->getConfig('user_agent'),
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
