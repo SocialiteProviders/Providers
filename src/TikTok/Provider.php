@@ -55,7 +55,7 @@ class Provider extends AbstractProvider
         $this->user = $this->mapUserToObject(
             $this->getUserByToken([
                 'access_token' => $token, 
-                'open_id'      => Arr::get($response, 'data.open_id')
+                'open_id'      => Arr::get($response, 'data.open_id'),
             ])
         );
 
