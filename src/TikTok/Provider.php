@@ -53,7 +53,10 @@ class Provider extends AbstractProvider
         $token = Arr::get($response, 'data.access_token');
 
         $this->user = $this->mapUserToObject(
-            $this->getUserByToken([$token, Arr::get($response, 'data.open_id')])
+            $this->getUserByToken([
+                'access_token' => $token, 
+                'open_id'      => Arr::get($response, 'data.open_id')
+            ])
         );
 
         return $this->user->setToken($token)
@@ -95,13 +98,10 @@ class Provider extends AbstractProvider
     {
         // Note: The TikTok api does not have an endpoint to get a user by the access
         // token only. Open id is also required therefore:
-        // $data[0] = $token, $data[1] = $open_id
+        // $data['access_token'] = $token, $data['open_id'] = $open_id
 
         $response = $this->getHttpClient()->get(
-            'https://open-api.tiktok.com/oauth/userinfo?'.http_build_query([
-                'open_id'      => $data[1],
-                'access_token' => $data[0],
-            ])
+            'https://open-api.tiktok.com/oauth/userinfo?'.http_build_query($data)
         );
 
         return json_decode($response->getBody()->getContents(), true);
