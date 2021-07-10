@@ -147,6 +147,7 @@ parameters:
     src/TeamService: 'git@github.com:SocialiteProviders/Microsoft-TeamService.git'
     src/Teamweek: 'git@github.com:SocialiteProviders/Teamweek.git'
     src/Telegram: 'git@github.com:SocialiteProviders/Telegram.git'
+    src/TikTok: 'git@github.com:SocialiteProviders/TikTok.git'
     src/ThirtySevenSignals: 'git@github.com:SocialiteProviders/37Signals.git'
     src/Todoist: 'git@github.com:SocialiteProviders/Todoist.git'
     src/Trakt: 'git@github.com:SocialiteProviders/Trakt.git'
