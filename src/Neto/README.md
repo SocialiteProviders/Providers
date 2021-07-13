@@ -15,7 +15,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_id'         => env('NETO_CLIENT_ID'),
   'client_secret'     => env('NETO_CLIENT_SECRET'),
   'redirect'          => env('NETO_REDIRECT_URI'),
-  'app_portal_domain' => env('NETTO_APP_PORTAL_DOMAIN'),
+  'app_portal_domain' => env('NETO_APP_PORTAL_DOMAIN'),
 ],
 ```
 
