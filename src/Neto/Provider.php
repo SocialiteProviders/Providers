@@ -79,4 +79,12 @@ class Provider extends AbstractProvider
             'grant_type' => 'authorization_code',
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['app_portal_domain'];
+    }
 }
