@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://' . $this->getConfig('app_portal_domain') . '/oauth/v2/token';
+        return 'https://'.$this->getConfig('app_portal_domain').'/oauth/v2/token';
     }
 
     /**
@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://' . $this->getConfig('app_portal_domain') . '/oauth/v2/token', [
+        $response = $this->getHttpClient()->get('https://'.$this->getConfig('app_portal_domain').'/oauth/v2/token', [
             'headers' => [
                 'X_ACCESS_KEY' => $this->getConfig('client_id'),
                 'X_SECRET_KEY' => $token,
@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['user']['id'],
             'nickname' => null,
-            'name'     => $user['user']['first_name'] . ' ' . $user['user']['last_name'],
+            'name'     => $user['user']['first_name'].' '.$user['user']['last_name'],
             'email'    => $user['user']['email'],
             'avatar'   => null,
         ]);
@@ -76,7 +76,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
