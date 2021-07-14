@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
             'form_params' => $this->getRefreshTokenFields($refreshToken),
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     public function getRefreshTokenFields($refreshToken)
@@ -71,7 +71,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

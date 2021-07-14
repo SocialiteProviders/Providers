@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
         );
 
         // parse the response and add the email address in.
-        $result = json_decode($response->getBody()->getContents(), true);
+        $result = json_decode((string) $response->getBody(), true);
         $result['email'] = $this->getEmailByToken($token);
 
         return $result;
@@ -122,6 +122,6 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return json_decode($response->getBody()->getContents(), true)['email'];
+        return json_decode((string) $response->getBody(), true)['email'];
     }
 }

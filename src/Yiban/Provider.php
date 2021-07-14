@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
             'form_params' => ['client_id' => $this->clientId, 'access_token' => $token],
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -80,7 +80,7 @@ class Provider extends AbstractProvider
             $this->getRequestOptions()
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

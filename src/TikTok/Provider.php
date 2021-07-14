@@ -102,7 +102,7 @@ class Provider extends AbstractProvider
             'https://open-api.tiktok.com/oauth/userinfo?'.http_build_query($data)
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

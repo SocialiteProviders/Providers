@@ -73,7 +73,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->get('https://api.vk.com/method/users.get?'.$params);
 
-        $contents = $response->getBody()->getContents();
+        $contents = (string) $response->getBody();
 
         $response = json_decode($contents, true);
 

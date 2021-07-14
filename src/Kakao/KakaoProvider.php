@@ -48,7 +48,7 @@ class KakaoProvider extends AbstractProvider
             'form_params' => $this->getTokenFields($code),
         ]);
 
-        $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
+        $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
 
         return $this->parseAccessToken($response->getBody());
     }
@@ -89,7 +89,7 @@ class KakaoProvider extends AbstractProvider
             'headers' => ['Authorization' => 'Bearer '.$token],
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

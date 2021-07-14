@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
             'https://api.soundcloud.com/me.json?oauth_token='.$token
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

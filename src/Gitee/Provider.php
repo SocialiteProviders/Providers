@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://gitee.com/api/v5/user', $this->getRequestOptions($token));
 
-        $user = json_decode($response->getBody()->getContents(), true);
+        $user = json_decode((string) $response->getBody(), true);
 
         if (in_array('emails', $this->scopes, true)) {
             $user['email'] = $this->getEmailByToken($token);
@@ -77,7 +77,7 @@ class Provider extends AbstractProvider
             return null;
         }
 
-        foreach (json_decode($response->getBody()->getContents(), true) as $email) {
+        foreach (json_decode((string) $response->getBody(), true) as $email) {
             if ($email['state'] === 'confirmed' && in_array('primary', $email['scope'], true)) {
                 return $email['email'];
             }

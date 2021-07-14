@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
             'token'         => $token,
         ]]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

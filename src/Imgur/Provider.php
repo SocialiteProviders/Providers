@@ -53,7 +53,10 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return array_merge(json_decode($response->getBody()->getContents(), true)['data'], json_decode($response2->getBody()->getContents(), true)['data']);
+        return array_merge(
+            json_decode((string) $response->getBody(), true)['data'],
+            json_decode((string) $response2->getBody(), true)['data']
+        );
     }
 
     /**

@@ -39,7 +39,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        $response = json_decode($response->getBody()->getContents(), true)['account'];
+        $response = json_decode((string) $response->getBody(), true)['account'];
         $response['email'] = $this->getEmailByToken($token);
         $response['username'] = $this->getUsernameByToken($token);
 
@@ -83,7 +83,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody()->getContents(), true)['email'];
+        return json_decode((string) $response->getBody(), true)['email'];
     }
 
     /**
@@ -101,6 +101,6 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody()->getContents(), true)['username'];
+        return json_decode((string) $response->getBody(), true)['username'];
     }
 }

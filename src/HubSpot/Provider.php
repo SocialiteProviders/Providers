@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
             'https://api.hubspot.com/oauth/v1/access-tokens/'.$token
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

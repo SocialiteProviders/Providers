@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
             'https://api.stocktwits.com/api/2/account/verify.json?access_token='.$token
         );
 
-        return json_decode($response->getBody()->getContents(), true)['user'];
+        return json_decode((string) $response->getBody(), true)['user'];
     }
 
     /**

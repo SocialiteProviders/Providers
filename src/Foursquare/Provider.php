@@ -41,7 +41,7 @@ class Provider extends AbstractProvider
             'https://api.foursquare.com/v2/users/self?oauth_token='.$token.'&v=20150214'
         );
 
-        return json_decode($response->getBody()->getContents(), true)['response']['user'];
+        return json_decode((string) $response->getBody(), true)['response']['user'];
     }
 
     /**

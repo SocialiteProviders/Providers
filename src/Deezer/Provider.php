@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
             'https://api.deezer.com/user/me?access_token='.$token
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -90,7 +90,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->get($url);
 
-        parse_str($response->getBody()->getContents(), $data);
+        parse_str((string) $response->getBody(), $data);
 
         return $data;
     }

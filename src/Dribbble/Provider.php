@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
             'https://api.dribbble.com/v2/user?access_token='.$token
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

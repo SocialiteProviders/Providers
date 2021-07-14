@@ -39,7 +39,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->get('https://career.habr.com/api/v1/integrations/users/me?'.$params);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

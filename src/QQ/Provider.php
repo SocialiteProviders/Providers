@@ -82,7 +82,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->get($url);
 
-        $me = json_decode($this->removeCallback($response->getBody()->getContents()), true);
+        $me = json_decode($this->removeCallback((string) $response->getBody()), true);
         $this->openId = $me['openid'];
         $this->unionId = $me['unionid'] ?? '';
 
@@ -90,7 +90,7 @@ class Provider extends AbstractProvider
             "https://graph.qq.com/user/get_user_info?access_token=$token&openid={$this->openId}&oauth_consumer_key={$this->clientId}"
         );
 
-        return json_decode($this->removeCallback($response->getBody()->getContents()), true);
+        return json_decode($this->removeCallback((string) $response->getBody()), true);
     }
 
     /**
@@ -134,7 +134,7 @@ class Provider extends AbstractProvider
          * Not like "{'access_token':'FE04************************CCE2','expires_in':7776000,'refresh_token':'88E4************************BE14'}"
          * So it can't be decode by json_decode!
         */
-        $content = $response->getBody()->getContents();
+        $content = (string) $response->getBody();
         parse_str($content, $result);
 
         return $result;

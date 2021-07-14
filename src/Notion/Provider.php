@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     protected function getInstanceUri()

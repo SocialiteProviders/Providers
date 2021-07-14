@@ -60,7 +60,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->get('https://api.odnoklassniki.ru/fb.do?'.$params);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
