@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
      * Unique Provider Identifier.
      */
     public const IDENTIFIER = 'vercel';
-    
+
     protected static $authUrl = 'https://vercel.com/oauth/authorize';
 
     /**
@@ -35,7 +35,9 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://api.vercel.com/www/user', [
+        $teamId = $this->credentialsResponseBody['team_id'];
+
+        $response = $this->getHttpClient()->get('https://api.vercel.com/www/user'.($teamId ? "?teamId={$teamId}" : ''), [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
