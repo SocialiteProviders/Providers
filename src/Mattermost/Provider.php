@@ -79,15 +79,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $user = (new User())->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['nickname'],
             'name'     => $user['username'],
             'email'    => $user['email'],
             'avatar'   => isset($user['last_picture_update']) ? "{$this->getAPIBase()}/users/{$user['id']}/image?time={$user['last_picture_update']}" : '',
         ]);
-
-        return $user;
     }
 
     /**
