@@ -11,13 +11,15 @@ class Provider extends AbstractProvider
      * Unique Provider Identifier.
      */
     public const IDENTIFIER = 'vercel';
+    
+    protected static $authUrl = 'https://vercel.com/oauth/authorize';
 
     /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://vercel.com/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase(static::$authUrl, $state);
     }
 
     /**
@@ -54,5 +56,13 @@ class Provider extends AbstractProvider
             'email'    => $user['user']['email'],
             'avatar'   => 'https://api.vercel.com/www/avatar/'.$user['user']['uid'],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function setAuthUrl(string $url)
+    {
+        static::$authUrl = $url;
     }
 }
