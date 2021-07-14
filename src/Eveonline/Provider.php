@@ -60,7 +60,7 @@ class Provider extends AbstractProvider
         ]);
 
         // Values are access_token // expires_in // token_type // refresh_token
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -81,7 +81,7 @@ class Provider extends AbstractProvider
     public function verify($jwt)
     {
         $responseJwks = $this->getHttpClient()->get('https://login.eveonline.com/oauth/jwks');
-        $responseJwksInfo = json_decode($responseJwks->getBody()->getContents(), true);
+        $responseJwksInfo = json_decode((string) $responseJwks->getBody(), true);
         $decodedArray = (array) JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo), ['RS256']);
 
         if ($decodedArray['iss'] !== 'login.eveonline.com' && $decodedArray['iss'] !== self::TRANQUILITY_ENDPOINT) {

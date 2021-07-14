@@ -118,7 +118,7 @@ class Provider extends AbstractProvider
             sprintf(self::STEAM_INFO_URL, $this->clientSecret, $token)
         );
 
-        $contents = json_decode($response->getBody()->getContents(), true);
+        $contents = json_decode((string) $response->getBody(), true);
 
         return Arr::get($contents, 'response.players.0');
     }
@@ -178,7 +178,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->request('POST', self::OPENID_URL, $requestOptions);
 
-        $results = $this->parseResults($response->getBody()->getContents());
+        $results = $this->parseResults((string) $response->getBody());
 
         $isValid = $results['is_valid'] === 'true';
 

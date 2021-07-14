@@ -35,7 +35,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     public function getAccessTokenResponse($code)
@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return $this->credentialsResponseBody = json_decode($response->getBody()->getContents(), true);
+        return $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
     }
 
     protected function getTokenFields($code)

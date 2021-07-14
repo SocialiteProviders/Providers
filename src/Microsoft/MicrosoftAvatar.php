@@ -40,11 +40,11 @@ class MicrosoftAvatar
     /**
      * Return the avatar in binary.
      *
-     * @return binary
+     * @return string
      */
     public function getContents()
     {
-        return $this->response->getBody()->getContents();
+        return (string) $this->response->getBody();
     }
 
     /**

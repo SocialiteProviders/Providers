@@ -153,7 +153,7 @@ class Provider extends AbstractProvider
                         ]
                     );
 
-        $user = json_decode($response->getBody()->getContents(), true);
+        $user = json_decode((string) $response->getBody(), true);
 
         $user['email'] = $this->getEmail($user);
 
@@ -210,7 +210,7 @@ class Provider extends AbstractProvider
             'body'    => $data,
         ]);
 
-        return json_decode($response->getBody()->getContents(), true)['access_token'];
+        return json_decode((string) $response->getBody(), true)['access_token'];
     }
 
     /**

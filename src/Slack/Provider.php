@@ -47,7 +47,7 @@ class Provider extends AbstractProvider
 
                 return $handler($request, $options)->then(
                     function (ResponseInterface $response) use ($request) {
-                        $body = json_decode($response->getBody()->getContents(), true);
+                        $body = json_decode((string) $response->getBody(), true);
                         $response->getBody()->rewind();
 
                         if ($body['ok']) {
@@ -114,7 +114,7 @@ class Provider extends AbstractProvider
             // scope list for various reasons. Instead of throwing an exception on this error, we return an empty user.
 
             if ($exception->hasResponse()) {
-                $data = json_decode($exception->getResponse()->getBody()->getContents(), true);
+                $data = json_decode((string) $exception->getResponse()->getBody(), true);
 
                 if (Arr::get($data, 'error') === 'missing_scope') {
                     return [];
@@ -124,7 +124,7 @@ class Provider extends AbstractProvider
             throw $exception;
         }
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

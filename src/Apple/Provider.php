@@ -95,7 +95,7 @@ class Provider extends AbstractProvider
             'form_params'    => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -136,7 +136,7 @@ class Provider extends AbstractProvider
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
             $response = (new Client())->get(self::URL.'/auth/keys');
 
-            return json_decode($response->getBody()->getContents(), true);
+            return json_decode((string) $response->getBody(), true);
         });
 
         $publicKeys = JWK::parseKeySet($data);

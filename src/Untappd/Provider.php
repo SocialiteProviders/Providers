@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return Arr::get(json_decode($response->getBody()->getContents(), true), 'response.user');
+        return Arr::get(json_decode((string) $response->getBody(), true), 'response.user');
     }
 
     /**
@@ -88,6 +88,6 @@ class Provider extends AbstractProvider
             'query'   => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 }

@@ -44,7 +44,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->get('https://oauth.mail.ru/userinfo?'.$params);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
             'form_params' => $this->getTokenFields($code),
         ]);
 
-        parse_str($response->getBody()->getContents(), $data);
+        parse_str((string) $response->getBody(), $data);
 
         return $data;
     }
@@ -91,7 +91,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
