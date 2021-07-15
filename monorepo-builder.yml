@@ -189,3 +189,4 @@ parameters:
     src/Zoho: 'git@github.com:SocialiteProviders/Zoho.git'
     src/Zoom: 'git@github.com:SocialiteProviders/Zoom.git'
     src/Notion: 'git@github.com:SocialiteProviders/Notion.git'
+    src/Neto: 'git@github.com:SocialiteProviders/Neto.git'
