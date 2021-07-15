@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://'.$this->getConfig('app_portal_domain').'/oauth/v2/token', [
+        $response = $this->getHttpClient()->get($this->getTokenUrl(), [
             'headers' => [
                 'X_ACCESS_KEY' => $this->getConfig('client_id'),
                 'X_SECRET_KEY' => $token,
