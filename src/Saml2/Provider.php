@@ -92,6 +92,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'entityid',
             'certificate',
             'sp_acs',
+            'sp_entityid',
         ];
     }
 
@@ -218,7 +219,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $entityDescriptor = new EntityDescriptor();
         $entityDescriptor
-            ->setEntityID(URL::to('auth/saml2'))
+            ->setEntityID($this->getConfig('sp_entityid', URL::to('auth/saml2')))
             ->addItem(
                 (new SpSsoDescriptor())
                     ->setWantAssertionsSigned(true)

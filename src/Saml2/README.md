@@ -151,6 +151,14 @@ the ACS route should be configured in `config/services.php` as:
 ],
 ```
 
+The default entity ID of the service provider is a url to '/auth/saml2' (for example `https://your.domain.com/auth/saml2`), if you need it can be manually configured in `config/services.php` as:
+```php
+'saml2' => [
+  'metadata' => 'https://idp.co/metadata/xml',
+  'sp_entityid' => 'my_custom_entity_id',
+],
+```
+
 The entity ID and assertion consumer URL of the service provider can also be programmatically retrieved using:
 
 ```php
