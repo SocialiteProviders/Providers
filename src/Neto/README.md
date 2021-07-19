@@ -15,7 +15,6 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_id'         => env('NETO_CLIENT_ID'),
   'client_secret'     => env('NETO_CLIENT_SECRET'),
   'redirect'          => env('NETO_REDIRECT_URI'),
-  'app_portal_domain' => env('NETO_APP_PORTAL_DOMAIN'),
 ],
 ```
 
@@ -36,8 +35,10 @@ protected $listen = [
 
 ### Usage
 
-You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
+You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed).
+
+Make sure to set the `store_name` to the domain of the user's store
 
 ```php
-return Socialite::driver('neto')->redirect();
+return Socialite::driver('neto')->with(['store_domain' => 'mystore.neto.com.au'])->redirect();
 ```
