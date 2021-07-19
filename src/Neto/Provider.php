@@ -50,14 +50,16 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $accessTokenResponse)
+    protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($accessTokenResponse)->map([
-            'id'       => $user['user']['id'],
+        $name = trim(($user['user']['first_name'] ?? '') . ' ' . ($user['user']['last_name'] ?? ''));
+
+        return (new User())->setRaw($user)->map([
+            'id' => $user['user']['id'] ?? null,
             'nickname' => null,
-            'name'     => $user['user']['first_name'].' '.$user['user']['last_name'],
-            'email'    => $user['user']['email'],
-            'avatar'   => null,
+            'name' => !empty($name) ? $name : null,
+            'email' => $user['user']['email'] ?? null,
+            'avatar' => null,
         ]);
     }
 
