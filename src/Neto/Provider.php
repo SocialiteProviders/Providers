@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Neto;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -15,21 +16,8 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [
-        'api',
-        'user',
-        'address',
-    ];
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state)
     {
-        $this->with([
-            'store_domain' => $this->getConfig('app_portal_domain'),
-        ]);
-
         return $this->buildAuthUrlFromBase('https://apps.getneto.com/oauth/v2/auth', $state);
     }
 
@@ -38,7 +26,17 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://'.$this->getConfig('app_portal_domain').'/oauth/v2/token';
+        return 'https://apps.getneto.com/oauth/v2/token';
+    }
+
+    public function getAccessTokenResponse($code)
+    {
+        $response = $this->getHttpClient()->get($this->getTokenUrl(), [
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::QUERY   => $this->getTokenFields($code),
+        ]);
+
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -46,14 +44,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            'headers' => [
-                'X_ACCESS_KEY' => $this->getConfig('client_id'),
-                'X_SECRET_KEY' => $token,
-            ],
-        ]);
-
-        return json_decode((string) $response->getBody(), true);
+        return $this->credentialsResponseBody;
     }
 
     /**
@@ -61,11 +52,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $name = trim(($user['user']['firstName'] ?? '').' '.($user['user']['lastName'] ?? ''));
+
         return (new User())->setRaw($user)->map([
-            'id'       => $user['user']['id'],
+            'id'       => $user['user']['id'] ?? null,
             'nickname' => null,
-            'name'     => $user['user']['first_name'].' '.$user['user']['last_name'],
-            'email'    => $user['user']['email'],
+            'name'     => !empty($name) ? $name : null,
+            'email'    => $user['user']['email'] ?? null,
             'avatar'   => null,
         ]);
     }
@@ -78,13 +71,5 @@ class Provider extends AbstractProvider
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
-    {
-        return ['app_portal_domain'];
     }
 }
