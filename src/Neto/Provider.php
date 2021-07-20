@@ -33,7 +33,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
             RequestOptions::HEADERS => ['Accept' => 'application/json'],
-            RequestOptions::QUERY => $this->getTokenFields($code),
+            RequestOptions::QUERY   => $this->getTokenFields($code),
         ]);
 
         return json_decode($response->getBody(), true);
@@ -52,14 +52,14 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $name = trim(($user['user']['first_name'] ?? '') . ' ' . ($user['user']['last_name'] ?? ''));
+        $name = trim(($user['user']['first_name'] ?? '').' '.($user['user']['last_name'] ?? ''));
 
         return (new User())->setRaw($user)->map([
-            'id' => $user['user']['id'] ?? null,
+            'id'       => $user['user']['id'] ?? null,
             'nickname' => null,
-            'name' => !empty($name) ? $name : null,
-            'email' => $user['user']['email'] ?? null,
-            'avatar' => null,
+            'name'     => !empty($name) ? $name : null,
+            'email'    => $user['user']['email'] ?? null,
+            'avatar'   => null,
         ]);
     }
 
