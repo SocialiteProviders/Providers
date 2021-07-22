@@ -11,6 +11,14 @@ class Provider extends AbstractProvider
      * Unique Provider Identifier.
      */
     public const IDENTIFIER = 'FLICKR';
+    
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['perms'];
+    }    
 
     protected function mapUserToObject(array $user)
     {
