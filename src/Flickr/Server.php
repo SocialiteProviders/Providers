@@ -12,14 +12,6 @@ class Server extends BaseServer
     /**
      * {@inheritdoc}
      */
-    public static function additionalConfigKeys()
-    {
-        return ['perms'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function urlTemporaryCredentials()
     {
         return 'https://www.flickr.com/services/oauth/request_token';
