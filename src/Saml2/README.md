@@ -155,7 +155,7 @@ The default entity ID of the service provider is a url to '/auth/saml2' (for exa
 ```php
 'saml2' => [
   'metadata' => 'https://idp.co/metadata/xml',
-  'sp_entityid' => 'my_custom_entity_id',
+  'sp_entityid' => 'https://my.domain.com/my/custom/entityid',
 ],
 ```
 
