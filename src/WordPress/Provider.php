@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\WordPress;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -37,7 +38,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://public-api.wordpress.com/rest/v1.1/me',
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

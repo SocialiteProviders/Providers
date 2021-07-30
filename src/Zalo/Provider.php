@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Zalo;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -45,8 +46,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
-            'query'   => $this->getTokenFields($code),
+            RequestOptions::HEADERS =>  ['Accept' => 'application/json'],
+            RequestOptions::QUERY   =>  $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);

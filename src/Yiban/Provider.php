@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Yiban;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -38,8 +39,8 @@ class Provider extends AbstractProvider
     public function RevokeToken($token)
     {
         $response = $this->getHttpClient()->post($this->getRevokeUrl(), [
-            'headers'     => ['Accept' => 'application/json'],
-            'form_params' => ['client_id' => $this->clientId, 'access_token' => $token],
+            RequestOptions::HEADERS     =>  ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS =>  ['client_id' => $this->clientId, 'access_token' => $token],
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -106,7 +107,7 @@ class Provider extends AbstractProvider
     protected function getRequestOptions()
     {
         return [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Accept' => 'application/json',
             ],
         ];

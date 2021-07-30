@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Nextcloud;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -42,7 +43,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->getInstanceUri().'/ocs/v2.php/cloud/user?format=json', [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

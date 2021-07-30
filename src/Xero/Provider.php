@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Xero;
 
 use Firebase\JWT\JWT;
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -54,7 +55,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.xero.com/connections', [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

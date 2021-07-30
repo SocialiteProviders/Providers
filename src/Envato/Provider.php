@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Envato;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -34,7 +35,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.envato.com/v1/market/private/user/account.json', [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -78,7 +79,7 @@ class Provider extends AbstractProvider
     protected function getEmailByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.envato.com/v1/market/private/user/email.json', [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -96,7 +97,7 @@ class Provider extends AbstractProvider
     protected function getUsernameByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.envato.com/v1/market/private/user/username.json', [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

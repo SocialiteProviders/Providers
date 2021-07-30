@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Microsoft;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class MicrosoftUser extends User
@@ -16,7 +17,7 @@ class MicrosoftUser extends User
         $response = $client->get(
             'https://graph.microsoft.com/v1.0/me/photo/$value',
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Accept'        => 'image/*',
                     'Authorization' => 'Bearer '.$this->token,
                 ],

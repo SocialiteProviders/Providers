@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\ArcGIS;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -47,7 +48,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             $this->getBaseUrl().'/sharing/rest/community/self',
             [
-                'query' => [
+                RequestOptions::QUERY =>  [
                     'token' => $token,
                     'f'     => 'json',
                 ],

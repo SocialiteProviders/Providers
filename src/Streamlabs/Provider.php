@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Streamlabs;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -44,7 +45,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://streamlabs.com/api/v1.0/user',
             [
-                'query' => [
+                RequestOptions::QUERY =>  [
                     'access_token' => $token,
                 ],
             ]

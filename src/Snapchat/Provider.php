@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Snapchat;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -48,10 +49,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://kit.snapchat.com/v1/me?', [
-            'query' => [
-                'query' => '{me{externalId displayName bitmoji{avatar id}}}',
+            RequestOptions::QUERY =>  [
+                RequestOptions::QUERY =>  '{me{externalId displayName bitmoji{avatar id}}}',
             ],
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

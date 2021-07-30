@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Weixin;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -80,7 +81,7 @@ class Provider extends AbstractProvider
             $user = ['openid' => $this->openId];
         } else {
             $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
-                'query' => [
+                RequestOptions::QUERY =>  [
                     'access_token' => $token,
                     'openid'       => $this->openId,
                     'lang'         => 'zh_CN',
@@ -125,7 +126,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            'query' => $this->getTokenFields($code),
+            RequestOptions::QUERY =>  $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);

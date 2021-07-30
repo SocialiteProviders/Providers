@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\StackExchange;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -60,8 +61,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers'     => ['Accept' => 'application/json'],
-            'form_params' => $this->getTokenFields($code),
+            RequestOptions::HEADERS     =>  ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS =>  $this->getTokenFields($code),
         ]);
 
         parse_str((string) $response->getBody(), $data);
@@ -85,7 +86,7 @@ class Provider extends AbstractProvider
                 ]
             ),
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Accept' => 'application/json',
                 ],
             ]

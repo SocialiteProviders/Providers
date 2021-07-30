@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Saml2;
 
+use _HumbugBox58fd4d9e2a25\Assert\Assertion;
 use Laravel\Socialite\AbstractUser;
 use LightSaml\Model\Assertion\Assertion;
 

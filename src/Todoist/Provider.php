@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Todoist;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -48,7 +49,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(self::SYNC_URL, [
-            'query' => [
+            RequestOptions::QUERY =>  [
                 'token'          => $token,
                 'sync_token'     => '*',
                 'resource_types' => json_encode(['user']),

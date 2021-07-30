@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Intercom;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -34,7 +35,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.intercom.io/me', [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Authorization' => 'Bearer '.$token,
                 'Accept'        => 'application/json',
             ],

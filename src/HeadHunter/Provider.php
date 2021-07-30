@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\HeadHunter;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -47,7 +48,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.hh.ru/me', [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'User-Agent'    => $this->getConfig('user_agent'),
                 'Authorization' => 'Bearer '.$token,
             ],

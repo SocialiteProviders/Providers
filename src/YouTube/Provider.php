@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\YouTube;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -51,7 +52,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true',
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

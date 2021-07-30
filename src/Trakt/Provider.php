@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Trakt;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -39,7 +40,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.trakt.tv/users/me?extended=full', [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Authorization'     => 'Bearer '.$token,
                 'trakt-api-version' => $this->getConfig('api_version', '2'),
                 'trakt-api-key'     => $this->clientId,

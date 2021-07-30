@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Disqus;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -45,7 +46,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://disqus.com/api/3.0/users/details.json',
             [
-                'query' => [
+                RequestOptions::QUERY =>  [
                     'access_token' => $token, 'api_key' => $this->clientId,
                     'api_secret'   => $this->clientSecret,
                 ],

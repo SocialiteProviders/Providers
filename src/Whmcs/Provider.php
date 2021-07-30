@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Whmcs;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -97,8 +98,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers'     => ['Accept' => 'application/json'],
-            'form_params' => array_merge(
+            RequestOptions::HEADERS     =>  ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS =>  array_merge(
                 $this->getTokenFields($code),
                 [
                     'grant_type' => 'authorization_code',
@@ -131,7 +132,7 @@ class Provider extends AbstractProvider
                 ]
             ),
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Accept' => 'application/json',
                 ],
             ]

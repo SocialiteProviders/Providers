@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Saml2;
 
+use _HumbugBox58fd4d9e2a25\RdKafka\Metadata;
 use DateTime;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;

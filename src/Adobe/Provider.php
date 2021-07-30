@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Adobe;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -43,7 +44,7 @@ class Provider extends AbstractProvider
         // If not, fetch the data from their API
         if (empty($this->credentialsResponseBody) || empty($this->credentialsResponseBody['sub'])) {
             $response = $this->httpClient->post(self::BASE_URL.'/userinfo', [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Authorization' => "Bearer $token",
                     'Accept'        => 'application/json',
                 ],

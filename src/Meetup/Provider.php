@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Meetup;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -42,7 +43,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.meetup.com/'.$this->version.'/member/self?access_token='.$token,
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Accept' => 'application/json',
                 ],
             ]

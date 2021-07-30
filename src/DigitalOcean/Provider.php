@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\DigitalOcean;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -39,7 +40,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.digitalocean.com/v2/account',
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

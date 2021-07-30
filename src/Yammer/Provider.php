@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Yammer;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -40,7 +41,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://www.yammer.com/api/v1/users/current.json',
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

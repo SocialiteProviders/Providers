@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\GettyImages;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -41,12 +42,12 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post(
             $this->getTokenUrl(),
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Authorization' => 'Basic '.base64_encode(
                         $this->clientId.':'.$this->clientSecret
                     ),
                 ],
-                'body'    => $this->getTokenFields($code),
+                RequestOptions::BODY    =>  $this->getTokenFields($code),
             ]
         );
 
@@ -71,7 +72,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.gettyimages.com/v3/customers/current',
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Authorization' => 'Bearer '.$token,
                     'Api-Key'       => $this->clientId,
                 ], ]

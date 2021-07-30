@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\xREL;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -36,7 +37,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.xrel.to/v2/user/info.json',
             [
-                'headers' => ['Authorization' => 'Bearer '.$token],
+                RequestOptions::HEADERS =>  ['Authorization' => 'Bearer '.$token],
             ]
         );
 

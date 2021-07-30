@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Battlenet;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -49,7 +50,7 @@ class Provider extends AbstractProvider
         $url = $this->isChina() ? 'https://www.battlenet.com.cn/oauth/userinfo' : 'https://'.$this->getRegion().'.battle.net/oauth/userinfo';
 
         $response = $this->getHttpClient()->get($url, [
-            'headers' => [
+            RequestOptions::HEADERS =>  [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

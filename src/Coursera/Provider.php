@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Coursera;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -41,7 +42,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.coursera.org/api/externalBasicProfiles.v1?q=me&fields=timezone,locale,privacy,name',
             [
-                'headers' => [
+                RequestOptions::HEADERS =>  [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
