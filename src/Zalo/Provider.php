@@ -46,8 +46,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            RequestOptions::HEADERS =>  ['Accept' => 'application/json'],
-            RequestOptions::QUERY   =>  $this->getTokenFields($code),
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::QUERY   => $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);

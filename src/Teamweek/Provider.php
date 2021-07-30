@@ -35,10 +35,10 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
             ],
-            RequestOptions::FORM_PARAMS =>  $this->getTokenFields($code),
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->getInstanceUri().'/api/v4/me', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

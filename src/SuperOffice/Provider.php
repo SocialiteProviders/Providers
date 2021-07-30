@@ -78,7 +78,7 @@ class Provider extends AbstractProvider
                 $this->getConfig('customer_id')
             ),
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],

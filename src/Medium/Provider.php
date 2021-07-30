@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.medium.com/v1/me',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

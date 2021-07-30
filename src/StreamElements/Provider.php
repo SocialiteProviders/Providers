@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.streamelements.com/kappa/v2/channels/me',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

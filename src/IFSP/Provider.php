@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://suap.ifsp.edu.br/comum/user_info/', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

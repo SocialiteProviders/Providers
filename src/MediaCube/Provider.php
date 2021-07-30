@@ -47,7 +47,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://mediacube.id/oauth/user',
             [
-                RequestOptions::HEADERS =>  $requestHeaders,
+                RequestOptions::HEADERS => $requestHeaders,
             ]
         );
 

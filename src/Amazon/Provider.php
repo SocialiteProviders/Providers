@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.amazon.com/user/profile', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => "Bearer $token",
             ],
         ]);

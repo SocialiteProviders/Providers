@@ -41,7 +41,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.untappd.com/v4/user/info?access_token='.$token,
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -85,8 +85,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS =>  ['Accept' => 'application/json'],
-            RequestOptions::QUERY   =>  $this->getTokenFields($code),
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::QUERY   => $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);

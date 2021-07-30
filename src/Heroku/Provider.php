@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.heroku.com/account',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

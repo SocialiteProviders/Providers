@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.cc.email/v3/account/summary',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

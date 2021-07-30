@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://launchpad.37signals.com/authorization.json',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

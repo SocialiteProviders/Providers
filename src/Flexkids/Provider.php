@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->getConfig('server').'/v2/application-user', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'Accept'        => 'application/json',
                 'Content-Type'  => 'application/json',
@@ -89,7 +89,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Accept'       => 'application/json',
                 'Content-Type' => 'application/json',
             ],

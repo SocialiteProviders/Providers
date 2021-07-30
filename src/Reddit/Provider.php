@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://oauth.reddit.com/api/v1/me',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                     'User-Agent'    => $this->getUserAgent(),
                 ],
@@ -89,12 +89,12 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Accept'     => 'application/json',
                 'User-Agent' => $this->getUserAgent(),
             ],
-            RequestOptions::AUTH        =>  [$this->clientId, $this->clientSecret],
-            RequestOptions::FORM_PARAMS =>  $this->getTokenFields($code),
+            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);

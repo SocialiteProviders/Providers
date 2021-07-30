@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://www.eventbriteapi.com/v3/users/me',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

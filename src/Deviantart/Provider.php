@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://www.deviantart.com/api/v1/oauth2/user/whoami?access_token='.$token,
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

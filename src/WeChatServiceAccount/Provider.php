@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
             return ['openid' => $openId];
         }
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
-            RequestOptions::QUERY =>  [
+            RequestOptions::QUERY => [
                 'access_token' => $token, // HACK: Tencent use token in Query String, not in Header Authorization
                 'openid'       => $openId, // HACK: Tencent need id, but other platforms don't need
                 'lang'         => 'zh_CN',

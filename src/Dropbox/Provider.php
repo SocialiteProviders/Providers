@@ -53,7 +53,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post(
             'https://api.dropboxapi.com/2/users/get_current_account',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

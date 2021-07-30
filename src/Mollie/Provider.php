@@ -45,8 +45,8 @@ class Provider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     =>  ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            RequestOptions::FORM_PARAMS =>  $this->getTokenFields($code),
+            RequestOptions::HEADERS     => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
@@ -57,8 +57,8 @@ class Provider extends AbstractProvider
     public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     =>  ['Accept' => 'application/json'],
-            RequestOptions::FORM_PARAMS =>  $this->getRefreshTokenFields($refreshToken),
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => $this->getRefreshTokenFields($refreshToken),
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -70,7 +70,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.mollie.com/v2/organizations/me', [
-            RequestOptions::HEADERS =>  ['Authorization' => 'Bearer '.$token],
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
         ]);
 
         return json_decode((string) $response->getBody(), true);

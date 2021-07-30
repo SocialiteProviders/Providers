@@ -54,7 +54,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post(
             'https://idp.rekono.si/openid-connect-server-webapp/userinfo',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

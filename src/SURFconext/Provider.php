@@ -52,7 +52,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://'.$this->getHostname().'/userinfo',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

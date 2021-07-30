@@ -105,7 +105,7 @@ class Provider extends AbstractProvider
             $response = $this->getHttpClient()->get(
                 'https://slack.com/api/users.identity',
                 [
-                    RequestOptions::HEADERS =>  [
+                    RequestOptions::HEADERS => [
                         'Authorization' => 'Bearer '.$token,
                     ],
                 ]

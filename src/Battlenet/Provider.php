@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
         $url = $this->isChina() ? 'https://www.battlenet.com.cn/oauth/userinfo' : 'https://'.$this->getRegion().'.battle.net/oauth/userinfo';
 
         $response = $this->getHttpClient()->get($url, [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

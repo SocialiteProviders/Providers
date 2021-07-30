@@ -51,10 +51,10 @@ class Provider extends AbstractProvider
         $authorization = 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret);
 
         $response = $this->getHttpClient()->post('https://login.eveonline.com/v2/oauth/token', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => $authorization,
             ],
-            RequestOptions::FORM_PARAMS =>  [
+            RequestOptions::FORM_PARAMS => [
                 'grant_type' => 'authorization_code',
                 'code'       => $code,
             ],

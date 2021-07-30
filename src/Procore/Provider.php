@@ -40,8 +40,8 @@ class Provider extends AbstractProvider
     public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     =>  ['Accept' => 'application/json'],
-            RequestOptions::FORM_PARAMS =>  $this->getRefreshTokenFields($refreshToken),
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => $this->getRefreshTokenFields($refreshToken),
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -65,7 +65,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.procore.com/vapid/me',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],

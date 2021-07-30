@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
         $username = $this->getUserNameByToken($token);
 
         $response = $this->getHttpClient()->get('https://api.smashcast.tv/user/'.$username, [
-            RequestOptions::QUERY =>  ['authToken' => $token],
+            RequestOptions::QUERY => ['authToken' => $token],
         ]);
 
         return json_decode((string) $response->getBody(), true);

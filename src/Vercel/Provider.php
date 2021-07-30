@@ -39,7 +39,7 @@ class Provider extends AbstractProvider
         $teamId = $this->credentialsResponseBody['team_id'];
 
         $response = $this->getHttpClient()->get('https://api.vercel.com/www/user'.($teamId ? "?teamId={$teamId}" : ''), [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

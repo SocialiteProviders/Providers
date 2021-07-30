@@ -98,8 +98,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     =>  ['Accept' => 'application/json'],
-            RequestOptions::FORM_PARAMS =>  array_merge(
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => array_merge(
                 $this->getTokenFields($code),
                 [
                     'grant_type' => 'authorization_code',
@@ -132,7 +132,7 @@ class Provider extends AbstractProvider
                 ]
             ),
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Accept' => 'application/json',
                 ],
             ]

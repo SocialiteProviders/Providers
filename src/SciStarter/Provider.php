@@ -57,10 +57,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://scistarter.org/userinfo', [
-            RequestOptions::QUERY =>  [
+            RequestOptions::QUERY => [
                 'prettyPrint' => 'false',
             ],
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
                 'Authorization' => "Bearer $token",
             ],

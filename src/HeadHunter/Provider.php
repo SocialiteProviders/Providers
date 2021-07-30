@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.hh.ru/me', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'User-Agent'    => $this->getConfig('user_agent'),
                 'Authorization' => 'Bearer '.$token,
             ],

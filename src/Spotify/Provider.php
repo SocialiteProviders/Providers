@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.spotify.com/v1/me',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],

@@ -55,7 +55,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://v.enl.one/oauth/verify',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

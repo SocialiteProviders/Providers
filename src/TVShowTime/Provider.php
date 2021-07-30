@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.tvshowtime.com/v1/user', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'TVST_ACCESS_TOKEN' => $token,
             ],
         ]);

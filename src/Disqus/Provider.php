@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://disqus.com/api/3.0/users/details.json',
             [
-                RequestOptions::QUERY =>  [
+                RequestOptions::QUERY => [
                     'access_token' => $token, 'api_key' => $this->clientId,
                     'api_secret'   => $this->clientSecret,
                 ],

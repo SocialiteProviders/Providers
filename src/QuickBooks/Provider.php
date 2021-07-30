@@ -61,7 +61,7 @@ class Provider extends AbstractProvider
         }
 
         $response = $this->getHttpClient()->get($endpoint, [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],

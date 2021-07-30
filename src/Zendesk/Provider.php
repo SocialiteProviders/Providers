@@ -53,7 +53,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://'.$this->getSubdomain().'.zendesk.com/api/v2/users/me.json',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

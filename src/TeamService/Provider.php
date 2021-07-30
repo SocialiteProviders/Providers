@@ -41,7 +41,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://'.$this->getAccount().'.vssps.visualstudio.com/_apis/profile/profiles/me?api-version=5.0-preview.3',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

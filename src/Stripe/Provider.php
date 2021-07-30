@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.stripe.com/v1/account',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

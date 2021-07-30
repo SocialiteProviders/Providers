@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.harvestapp.com/v2/users/me', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Harvest-Account-ID' => $this->getConfig('client_account'),
                 'Authorization'      => 'Bearer '.$token,
             ],

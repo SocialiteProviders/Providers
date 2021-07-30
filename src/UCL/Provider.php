@@ -68,7 +68,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://uclapi.com/oauth/user/data', [RequestOptions::QUERY =>  [
+        $response = $this->getHttpClient()->get('https://uclapi.com/oauth/user/data', [RequestOptions::QUERY => [
             'client_secret' => $this->clientSecret,
             'token'         => $token,
         ]]);

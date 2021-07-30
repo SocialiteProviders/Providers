@@ -41,7 +41,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.bufferapp.com/1/user.json',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             $this->getBaseUrl().'/sharing/rest/community/self',
             [
-                RequestOptions::QUERY =>  [
+                RequestOptions::QUERY => [
                     'token' => $token,
                     'f'     => 'json',
                 ],

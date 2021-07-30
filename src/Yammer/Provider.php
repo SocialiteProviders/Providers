@@ -41,7 +41,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://www.yammer.com/api/v1/users/current.json',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

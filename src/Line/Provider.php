@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.line.me/v2/profile',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

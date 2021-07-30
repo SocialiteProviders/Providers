@@ -86,7 +86,7 @@ class Provider extends AbstractProvider
     {
         $userEndpointVersion = $this->getConfig('user_endpoint_version', 'v1.0');
         $response = $this->getHttpClient()->get("https://graph.microsoft.com/$userEndpointVersion/me/", [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.twitch.tv/helix/users',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                     'Client-ID'     => $this->clientId,

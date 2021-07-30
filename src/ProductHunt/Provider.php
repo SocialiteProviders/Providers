@@ -54,7 +54,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.producthunt.com/v1/me?access_token='.$token,
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Content-Type'  => 'application/json',
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,

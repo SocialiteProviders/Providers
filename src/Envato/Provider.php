@@ -35,7 +35,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.envato.com/v1/market/private/user/account.json', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -79,7 +79,7 @@ class Provider extends AbstractProvider
     protected function getEmailByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.envato.com/v1/market/private/user/email.json', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -97,7 +97,7 @@ class Provider extends AbstractProvider
     protected function getUsernameByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.envato.com/v1/market/private/user/username.json', [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

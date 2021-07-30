@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.patreon.com/oauth2/api/current_user',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],

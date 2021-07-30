@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.coursera.org/api/externalBasicProfiles.v1?q=me&fields=timezone,locale,privacy,name',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

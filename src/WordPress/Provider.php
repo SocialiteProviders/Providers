@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://public-api.wordpress.com/rest/v1.1/me',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

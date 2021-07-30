@@ -66,7 +66,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             $this->baseUrl().'/me/?format=json',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -117,7 +117,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             $this->getEmailUrl(),
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

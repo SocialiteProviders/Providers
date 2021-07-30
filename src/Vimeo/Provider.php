@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.vimeo.com/me',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'bearer '.$token,
                 ],
             ]

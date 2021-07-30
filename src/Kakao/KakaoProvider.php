@@ -46,7 +46,7 @@ class KakaoProvider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->request('POST', $this->getTokenUrl(), [
-            RequestOptions::FORM_PARAMS =>  $this->getTokenFields($code),
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
@@ -87,7 +87,7 @@ class KakaoProvider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->request('POST', 'https://kapi.kakao.com/v2/user/me', [
-            RequestOptions::HEADERS =>  ['Authorization' => 'Bearer '.$token],
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
         ]);
 
         return json_decode((string) $response->getBody(), true);

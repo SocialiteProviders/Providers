@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.meetup.com/'.$this->version.'/member/self?access_token='.$token,
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Accept' => 'application/json',
                 ],
             ]

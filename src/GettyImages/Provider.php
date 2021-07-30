@@ -42,12 +42,12 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post(
             $this->getTokenUrl(),
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Basic '.base64_encode(
                         $this->clientId.':'.$this->clientSecret
                     ),
                 ],
-                RequestOptions::BODY    =>  $this->getTokenFields($code),
+                RequestOptions::BODY    => $this->getTokenFields($code),
             ]
         );
 
@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.gettyimages.com/v3/customers/current',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                     'Api-Key'       => $this->clientId,
                 ], ]

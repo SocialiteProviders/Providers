@@ -35,7 +35,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->shopifyUrl('/admin/shop.json'), [
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Accept'                 => 'application/json',
                 'X-Shopify-Access-Token' => $token,
             ],

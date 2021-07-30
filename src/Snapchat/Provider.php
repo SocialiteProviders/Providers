@@ -49,10 +49,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://kit.snapchat.com/v1/me?', [
-            RequestOptions::QUERY =>  [
-                RequestOptions::QUERY =>  '{me{externalId displayName bitmoji{avatar id}}}',
+            RequestOptions::QUERY => [
+                RequestOptions::QUERY => '{me{externalId displayName bitmoji{avatar id}}}',
             ],
-            RequestOptions::HEADERS =>  [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

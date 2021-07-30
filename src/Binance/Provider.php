@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://accounts.binance.com/oauth-api/user-info',
             [
-                RequestOptions::QUERY =>  [
+                RequestOptions::QUERY => [
                     'access_token' => $token,
                 ],
             ]

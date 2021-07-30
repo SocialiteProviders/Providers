@@ -47,7 +47,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://emma.pixnet.cc/account',
             [
-                RequestOptions::QUERY =>  ['access_token' => $token],
+                RequestOptions::QUERY => ['access_token' => $token],
             ]
         );
 

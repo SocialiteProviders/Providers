@@ -30,7 +30,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.faceit.com/auth/v1/resources/userinfo',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -42,8 +42,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::FORM_PARAMS =>  $this->getTokenFields($code),
-            RequestOptions::HEADERS     =>  [
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
+            RequestOptions::HEADERS     => [
                 'Content-Type'  => 'application/x-www-form-urlencoded',
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
             ],

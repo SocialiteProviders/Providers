@@ -127,7 +127,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            RequestOptions::QUERY =>  $this->getTokenFields($code),
+            RequestOptions::QUERY => $this->getTokenFields($code),
         ]);
 
         /*

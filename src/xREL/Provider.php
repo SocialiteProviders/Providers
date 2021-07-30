@@ -37,7 +37,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.xrel.to/v2/user/info.json',
             [
-                RequestOptions::HEADERS =>  ['Authorization' => 'Bearer '.$token],
+                RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
             ]
         );
 

@@ -119,7 +119,7 @@ class Provider extends AbstractProvider
     protected function getRequestOptions($token)
     {
         return [
-            RequestOptions::QUERY =>  [
+            RequestOptions::QUERY => [
                 'access_token' => $token,
             ],
         ];

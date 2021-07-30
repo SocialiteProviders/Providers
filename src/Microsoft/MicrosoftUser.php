@@ -17,7 +17,7 @@ class MicrosoftUser extends User
         $response = $client->get(
             'https://graph.microsoft.com/v1.0/me/photo/$value',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'image/*',
                     'Authorization' => 'Bearer '.$this->token,
                 ],

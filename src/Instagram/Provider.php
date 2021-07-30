@@ -57,8 +57,8 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.instagram.com/v1/users/self',
             [
-                RequestOptions::QUERY   =>  $query,
-                RequestOptions::HEADERS =>  [
+                RequestOptions::QUERY   => $query,
+                RequestOptions::HEADERS => [
                     'Accept' => 'application/json',
                 ],
             ]
@@ -82,7 +82,7 @@ class Provider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::FORM_PARAMS =>  $this->getTokenFields($code),
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);

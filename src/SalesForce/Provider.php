@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             $this->getInstanceURL().'/services/oauth2/userinfo',
             [
-                RequestOptions::HEADERS =>  [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],

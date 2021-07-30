@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
-            RequestOptions::QUERY =>  [
+            RequestOptions::QUERY => [
                 'access_token' => $token, // HACK: Tencent use token in Query String, not in Header Authorization
                 'openid'       => $this->credentialsResponseBody['openid'] ?? $this->openId, // HACK: Tencent need id
                 'lang'         => 'zh_CN',
