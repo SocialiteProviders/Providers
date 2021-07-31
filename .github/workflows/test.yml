@@ -10,12 +10,16 @@ jobs:
       fail-fast: false
       matrix:
         validate: [ false ]
-        php-versions: [ '7.2', '7.3', '7.4', '8.0' ]
+        fail-fast: [ false ]
+        php-versions: [ '7.2', '7.3', '7.4', '8.0', '8.1' ]
         exclude:
           - php-versions: '8.0'
+          - php-versions: '8.1'
         include:
           - php-versions: '8.0'
             validate: true
+          - php-versions: '8.1'
+            fail-fast: true
 
     name: PHP ${{ matrix.php-versions }}
     steps:
@@ -23,10 +27,13 @@ jobs:
         uses: actions/checkout@master
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@v2
         with:
+          coverage: none
           php-version: ${{ matrix.php-versions }}
           extensions: json, mbstring
+        env:
+          fail-fast: ${{ matrix.fail-fast }}
 
       - name: Get composer cache directory
         id: composer-cache
