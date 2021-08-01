@@ -5,6 +5,7 @@ namespace SocialiteProviders\Eveonline;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 use UnexpectedValueException;
@@ -50,10 +51,10 @@ class Provider extends AbstractProvider
         $authorization = 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret);
 
         $response = $this->getHttpClient()->post('https://login.eveonline.com/v2/oauth/token', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => $authorization,
             ],
-            'form_params' => [
+            RequestOptions::FORM_PARAMS => [
                 'grant_type' => 'authorization_code',
                 'code'       => $code,
             ],

@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\WeChatWeb;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -41,7 +42,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
-            'query' => [
+            RequestOptions::QUERY => [
                 'access_token' => $token, // HACK: Tencent use token in Query String, not in Header Authorization
                 'openid'       => $this->credentialsResponseBody['openid'] ?? $this->openId, // HACK: Tencent need id
                 'lang'         => 'zh_CN',

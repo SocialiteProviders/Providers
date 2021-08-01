@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Zendesk;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -52,7 +53,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://'.$this->getSubdomain().'.zendesk.com/api/v2/users/me.json',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

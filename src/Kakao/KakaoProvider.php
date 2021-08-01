@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Kakao;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -45,7 +46,7 @@ class KakaoProvider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->request('POST', $this->getTokenUrl(), [
-            'form_params' => $this->getTokenFields($code),
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
@@ -86,7 +87,7 @@ class KakaoProvider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->request('POST', 'https://kapi.kakao.com/v2/user/me', [
-            'headers' => ['Authorization' => 'Bearer '.$token],
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
         ]);
 
         return json_decode((string) $response->getBody(), true);

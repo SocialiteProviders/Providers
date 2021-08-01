@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Binance;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -44,7 +45,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://accounts.binance.com/oauth-api/user-info',
             [
-                'query' => [
+                RequestOptions::QUERY => [
                     'access_token' => $token,
                 ],
             ]

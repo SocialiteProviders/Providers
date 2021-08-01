@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Netlify;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -39,7 +40,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.netlify.com/api/v1/user', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => "Bearer $token",
             ],
         ]);

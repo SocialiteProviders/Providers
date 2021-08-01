@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\OSChina;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -44,7 +45,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->domain.'/action/openapi/user', [
-            'query' => [
+            RequestOptions::QUERY => [
                 'access_token' => $token,
                 'dataType'     => 'json',
             ],

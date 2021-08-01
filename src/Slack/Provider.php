@@ -5,6 +5,7 @@ namespace SocialiteProviders\Slack;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -104,7 +105,7 @@ class Provider extends AbstractProvider
             $response = $this->getHttpClient()->get(
                 'https://slack.com/api/users.identity',
                 [
-                    'headers' => [
+                    RequestOptions::HEADERS => [
                         'Authorization' => 'Bearer '.$token,
                     ],
                 ]

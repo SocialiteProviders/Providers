@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Mattermost;
 
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -65,7 +66,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             "{$this->getInstanceUri()}api/{$this->getAPIVersion()}/users/me",
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'BEARER '.$token,
                 ],
             ]

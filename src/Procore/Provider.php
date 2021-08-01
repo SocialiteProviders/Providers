@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Procore;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -39,8 +40,8 @@ class Provider extends AbstractProvider
     public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers'     => ['Accept' => 'application/json'],
-            'form_params' => $this->getRefreshTokenFields($refreshToken),
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => $this->getRefreshTokenFields($refreshToken),
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -64,7 +65,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.procore.com/vapid/me',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],

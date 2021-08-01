@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Deviantart;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -44,7 +45,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://www.deviantart.com/api/v1/oauth2/user/whoami?access_token='.$token,
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

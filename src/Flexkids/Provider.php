@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Flexkids;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Auth\AuthenticationException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -49,7 +50,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->getConfig('server').'/v2/application-user', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'Accept'        => 'application/json',
                 'Content-Type'  => 'application/json',
@@ -88,7 +89,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Accept'       => 'application/json',
                 'Content-Type' => 'application/json',
             ],

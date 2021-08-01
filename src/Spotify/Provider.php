@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Spotify;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -47,7 +48,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.spotify.com/v1/me',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],

@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Faceit;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -29,7 +30,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.faceit.com/auth/v1/resources/userinfo',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -41,8 +42,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'form_params' => $this->getTokenFields($code),
-            'headers'     => [
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
+            RequestOptions::HEADERS     => [
                 'Content-Type'  => 'application/x-www-form-urlencoded',
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
             ],

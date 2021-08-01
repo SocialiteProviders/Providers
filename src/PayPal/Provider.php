@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\PayPal;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -49,7 +50,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.paypal.com/v1/identity/openidconnect/userinfo/?schema=openid',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -73,9 +74,9 @@ class Provider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers'     => ['Accept' => 'application/json'],
-            'auth'        => [$this->clientId, $this->clientSecret],
-            'form_params' => $this->getTokenFields($code),
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);

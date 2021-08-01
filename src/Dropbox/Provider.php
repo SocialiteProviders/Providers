@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Dropbox;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -52,7 +53,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post(
             'https://api.dropboxapi.com/2/users/get_current_account',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

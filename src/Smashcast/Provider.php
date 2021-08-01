@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Smashcast;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -42,7 +43,7 @@ class Provider extends AbstractProvider
         $username = $this->getUserNameByToken($token);
 
         $response = $this->getHttpClient()->get('https://api.smashcast.tv/user/'.$username, [
-            'query' => ['authToken' => $token],
+            RequestOptions::QUERY => ['authToken' => $token],
         ]);
 
         return json_decode((string) $response->getBody(), true);

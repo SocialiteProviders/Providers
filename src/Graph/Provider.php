@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Graph;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -85,7 +86,7 @@ class Provider extends AbstractProvider
     {
         $userEndpointVersion = $this->getConfig('user_endpoint_version', 'v1.0');
         $response = $this->getHttpClient()->get("https://graph.microsoft.com/$userEndpointVersion/me/", [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

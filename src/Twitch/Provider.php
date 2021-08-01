@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Twitch;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -50,7 +51,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.twitch.tv/helix/users',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                     'Client-ID'     => $this->clientId,

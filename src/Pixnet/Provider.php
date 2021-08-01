@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Pixnet;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -46,7 +47,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://emma.pixnet.cc/account',
             [
-                'query' => ['access_token' => $token],
+                RequestOptions::QUERY => ['access_token' => $token],
             ]
         );
 

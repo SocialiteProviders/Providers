@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\SciStarter;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -56,10 +57,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://scistarter.org/userinfo', [
-            'query' => [
+            RequestOptions::QUERY => [
                 'prettyPrint' => 'false',
             ],
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
                 'Authorization' => "Bearer $token",
             ],

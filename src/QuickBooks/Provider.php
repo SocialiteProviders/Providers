@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\QuickBooks;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -60,7 +61,7 @@ class Provider extends AbstractProvider
         }
 
         $response = $this->getHttpClient()->get($endpoint, [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],

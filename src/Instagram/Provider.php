@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Instagram;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -56,8 +57,8 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.instagram.com/v1/users/self',
             [
-                'query'   => $query,
-                'headers' => [
+                RequestOptions::QUERY   => $query,
+                RequestOptions::HEADERS => [
                     'Accept' => 'application/json',
                 ],
             ]
@@ -81,7 +82,7 @@ class Provider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'form_params' => $this->getTokenFields($code),
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);

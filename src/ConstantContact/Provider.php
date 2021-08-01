@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\ConstantContact;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -47,7 +48,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.cc.email/v3/account/summary',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

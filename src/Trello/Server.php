@@ -4,6 +4,7 @@ namespace SocialiteProviders\Trello;
 
 use Illuminate\Support\Arr;
 use League\OAuth1\Client\Credentials\TokenCredentials;
+use League\OAuth1\Client\Server\Trello;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
 use SocialiteProviders\Manager\OAuth1\User;
 

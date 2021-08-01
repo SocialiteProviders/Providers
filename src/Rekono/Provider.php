@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Rekono;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -53,7 +54,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post(
             'https://idp.rekono.si/openid-connect-server-webapp/userinfo',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

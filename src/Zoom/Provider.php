@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Zoom;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -47,7 +48,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.zoom.us/v2/users/me',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -76,8 +77,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            'query'   => $this->getTokenFields($code),
+            RequestOptions::HEADERS => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::QUERY   => $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);

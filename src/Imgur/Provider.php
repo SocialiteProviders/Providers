@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Imgur;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -39,7 +40,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.imgur.com/3/account/me',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -47,7 +48,7 @@ class Provider extends AbstractProvider
         $response2 = $this->getHttpClient()->get(
             'https://api.imgur.com/3/account/me/settings',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Vercel;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -38,7 +39,7 @@ class Provider extends AbstractProvider
         $teamId = $this->credentialsResponseBody['team_id'];
 
         $response = $this->getHttpClient()->get('https://api.vercel.com/www/user'.($teamId ? "?teamId={$teamId}" : ''), [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

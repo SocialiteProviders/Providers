@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Gitee;
 
 use Exception;
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -118,7 +119,7 @@ class Provider extends AbstractProvider
     protected function getRequestOptions($token)
     {
         return [
-            'query' => [
+            RequestOptions::QUERY => [
                 'access_token' => $token,
             ],
         ];

@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\MakerLog;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -65,7 +66,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             $this->baseUrl().'/me/?format=json',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -116,7 +117,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             $this->getEmailUrl(),
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

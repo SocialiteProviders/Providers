@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Line;
 
+use GuzzleHttp\RequestOptions;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -68,7 +69,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.line.me/v2/profile',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]

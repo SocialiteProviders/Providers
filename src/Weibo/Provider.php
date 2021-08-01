@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Weibo;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -34,7 +35,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://api.weibo.com/2/users/show.json', [
-            'query' => [
+            RequestOptions::QUERY => [
                 'access_token' => $token,
                 'uid'          => $this->getUid($token),
             ],
@@ -67,7 +68,7 @@ class Provider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'query' => $this->getTokenFields($code),
+            RequestOptions::QUERY => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
@@ -99,7 +100,7 @@ class Provider extends AbstractProvider
     protected function getUid($token)
     {
         $response = $this->getHttpClient()->get('https://api.weibo.com/2/account/get_uid.json', [
-            'query' => ['access_token' => $token],
+            RequestOptions::QUERY => ['access_token' => $token],
         ]);
 
         return json_decode((string) $response->getBody(), true)['uid'];

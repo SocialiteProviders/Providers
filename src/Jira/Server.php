@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Jira;
 
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use League\OAuth1\Client\Credentials\ClientCredentialsInterface;
@@ -81,7 +82,7 @@ class Server extends BaseServer
         $headers = $this->getHeaders($temporaryCredentials, 'POST', $uri, $bodyParameters);
 
         try {
-            $response = $client->post($uri, ['headers' => $headers], ['body' => $bodyParameters]);
+            $response = $client->post($uri, [RequestOptions::HEADERS =>  $headers], [RequestOptions::BODY =>  $bodyParameters]);
         } catch (BadResponseException $e) {
             return $this->handleTokenCredentialsBadResponse($e);
         }

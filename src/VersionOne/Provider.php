@@ -3,6 +3,7 @@
 namespace SocialiteProviders\VersionOne;
 
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -43,10 +44,10 @@ class Provider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
             ],
-            'form_params' => $this->getTokenFields($code),
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
@@ -67,12 +68,12 @@ class Provider extends AbstractProvider
             ]);
 
             $requestOptions = [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Content-Type'  => 'application/json',
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
-                'body' => $data,
+                RequestOptions::BODY => $data,
             ];
 
             $response = $this->getHttpClient()->post(

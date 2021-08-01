@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Orcid;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -146,10 +147,10 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()
                     ->get(
                         $userUrl,
-                        ['headers' => ['Content-Type' => 'application/vnd.orcid+xml',
-                            'Accept'                  => 'application/json',
-                            'Authorization type'      => 'Bearer',
-                            'Access token'            => $token, ],
+                        [RequestOptions::HEADERS => ['Content-Type' => 'application/vnd.orcid+xml',
+                            'Accept'                                => 'application/json',
+                            'Authorization type'                    => 'Bearer',
+                            'Access token'                          => $token, ],
                         ]
                     );
 
@@ -206,8 +207,8 @@ class Provider extends AbstractProvider
         $data = "client_id={$this->clientId}&client_secret={$this->clientSecret}&grant_type=client_credentials&scope={$s}";
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'],
-            'body'    => $data,
+            RequestOptions::HEADERS => ['Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'],
+            RequestOptions::BODY    => $data,
         ]);
 
         return json_decode((string) $response->getBody(), true)['access_token'];
