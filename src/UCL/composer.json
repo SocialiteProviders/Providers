@@ -20,5 +20,10 @@
         "psr-4": {
             "SocialiteProviders\\UCL\\": ""
         }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/ucl"
     }
 }
