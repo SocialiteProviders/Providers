@@ -46,5 +46,10 @@
             "SocialiteProviders\\Apple\\": ""
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/apple"
+    }
 }
