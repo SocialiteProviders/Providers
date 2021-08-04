@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/pushbullet",
     "description": "Pushbullet OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "pushbullet",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

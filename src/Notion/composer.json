@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/notion",
     "description": "Notion OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "notion",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

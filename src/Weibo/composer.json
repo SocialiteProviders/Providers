@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/weibo",
     "description": "weibo.com OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "weibo"
+    ],
     "license": "MIT",
     "authors": [
         {

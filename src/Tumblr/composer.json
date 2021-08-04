@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/tumblr",
     "description": "Tumblr OAuth1 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "tumblr"
+    ],
     "license": "MIT",
     "authors": [
         {

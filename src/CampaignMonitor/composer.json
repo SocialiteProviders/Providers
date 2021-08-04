@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/campaignmonitor",
     "description": "CampaignMonitor OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "campaignmonitor",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

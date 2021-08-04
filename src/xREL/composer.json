@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/xrel",
     "description": "xREL.to OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "xrel"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/stocktwits",
     "description": "StockTwits OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "stocktwits"
+    ],
     "license": "MIT",
     "authors": [
         {

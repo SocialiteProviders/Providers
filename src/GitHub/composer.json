@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/github",
     "description": "GitHub OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "github",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

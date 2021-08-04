@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/zendesk",
     "description": "Zendesk OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "zendesk"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/yahoo",
     "description": "Yahoo OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "yahoo"
+    ],
     "license": "MIT",
     "authors": [
         {

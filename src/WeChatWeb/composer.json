@@ -1,6 +1,14 @@
 {
     "name": "socialiteproviders/wechat-web",
     "description": "WeChat Web OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "web",
+        "wechat"
+    ],
     "license": "MIT",
     "authors": [
         {

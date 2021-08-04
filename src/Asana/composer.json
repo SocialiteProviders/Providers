@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/asana",
     "description": "Asana OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "asana",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

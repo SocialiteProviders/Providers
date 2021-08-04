@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/battlenet",
     "description": "Battlenet OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "battlenet",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

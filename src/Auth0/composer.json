@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/auth0",
     "description": "Auth0 OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "auth0",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

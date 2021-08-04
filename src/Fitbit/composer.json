@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/fitbit",
     "description": "Fitbit OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "fitbit",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

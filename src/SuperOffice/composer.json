@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/superoffice",
     "description": "SuperOffice OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "superoffice"
+    ],
     "license": "MIT",
     "authors": [
         {

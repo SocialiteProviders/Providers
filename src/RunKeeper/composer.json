@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/runkeeper",
     "description": "RunKeeper OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "runkeeper",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

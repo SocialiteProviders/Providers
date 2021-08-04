@@ -2,17 +2,19 @@
     "name": "socialiteproviders/apple",
     "description": "Apple OAuth2 Provider for Laravel Socialite",
     "keywords": [
+        "apple",
         "apple client key",
         "apple sign in",
-        "apple",
         "client key generator",
         "client key refresh",
+        "laravel",
         "laravel apple",
         "laravel socialite",
-        "laravel",
+        "oauth",
+        "provider",
         "sign in with apple",
-        "socialite apple",
-        "socialite"
+        "socialite",
+        "socialite apple"
     ],
     "license": "MIT",
     "authors": [

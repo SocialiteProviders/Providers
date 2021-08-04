@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/kakao",
     "description": "Kakao OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "kakao",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

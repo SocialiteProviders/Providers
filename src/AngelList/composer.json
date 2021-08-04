@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/angellist",
     "description": "AngelList OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "angellist",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

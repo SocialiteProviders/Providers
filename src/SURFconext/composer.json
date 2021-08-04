@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/surfconext",
     "description": "SURFconext OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "surfconext"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/acclaim",
     "description": "Acclaim OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "acclaim",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

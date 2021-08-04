@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/qq",
     "description": "Qq.com OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "qq",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

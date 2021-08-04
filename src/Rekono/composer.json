@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/rekono",
     "description": "Rekono OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "rekono",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

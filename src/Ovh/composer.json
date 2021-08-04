@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/ovh",
     "description": "OVH OAuth2 Provider for SocialiteProviders",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "ovh",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

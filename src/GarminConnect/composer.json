@@ -1,6 +1,14 @@
 {
     "name": "socialiteproviders/garmin-connect",
     "description": "Garmin Connect OAuth1 Provider for Laravel Socialite",
+    "keywords": [
+        "connect",
+        "garmin",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/flickr",
     "description": "Flickr OAuth1 Provider for Laravel Socialite",
+    "keywords": [
+        "flickr",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

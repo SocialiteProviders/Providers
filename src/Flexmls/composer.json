@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/flexmls",
     "description": "Flexmls OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "flexmls",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

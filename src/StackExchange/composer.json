@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/stackexchange",
     "description": "StackExchange OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "stackexchange"
+    ],
     "license": "MIT",
     "authors": [
         {

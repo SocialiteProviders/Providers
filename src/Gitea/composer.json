@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/gitea",
     "description": "Gitea OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "gitea",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

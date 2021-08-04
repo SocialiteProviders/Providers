@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/disqus",
     "description": "Disqus OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "disqus",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

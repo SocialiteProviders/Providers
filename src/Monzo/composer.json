@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/monzo",
     "description": "Monzo OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "monzo",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

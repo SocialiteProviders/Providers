@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/untappd",
     "description": "Untappd OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "untappd"
+    ],
     "license": "MIT",
     "authors": [
         {

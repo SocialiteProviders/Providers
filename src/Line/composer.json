@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/line",
     "description": "Line Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "line",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

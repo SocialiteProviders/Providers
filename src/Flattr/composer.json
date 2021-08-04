@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/flattr",
     "description": "Flattr OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "flattr",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

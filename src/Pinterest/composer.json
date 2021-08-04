@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/pinterest",
     "description": "Pinterest OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "pinterest",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

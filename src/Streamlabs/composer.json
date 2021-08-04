@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/streamlabs",
     "description": "Streamlabs OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "streamlabs"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.2 || ^8.0",

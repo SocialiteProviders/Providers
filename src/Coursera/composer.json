@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/coursera",
     "description": "Coursera OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "coursera",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

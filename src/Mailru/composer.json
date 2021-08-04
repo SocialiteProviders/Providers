@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/mailru",
     "description": "Mail.ru OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "mailru",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/withings",
     "description": "Withings OAuth1 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "withings"
+    ],
     "license": "MIT",
     "authors": [
         {

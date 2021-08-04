@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/soundcloud",
     "description": "SoundCloud OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "soundcloud"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/steam",
     "description": "Steam OpenID Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "openid",
+        "provider",
+        "socialite",
+        "steam"
+    ],
     "license": "MIT",
     "authors": [
         {

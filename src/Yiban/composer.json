@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/yiban",
     "description": "yiban.cn OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "yiban"
+    ],
     "license": "MIT",
     "authors": [
         {

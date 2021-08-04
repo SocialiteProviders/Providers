@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/google",
     "description": "Google OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "google",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

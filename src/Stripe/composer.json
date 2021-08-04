@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/stripe",
     "description": "Stripe OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "stripe"
+    ],
     "license": "MIT",
     "authors": [
         {

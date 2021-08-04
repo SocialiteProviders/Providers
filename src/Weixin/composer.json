@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/weixin",
     "description": "Weixin OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "weixin"
+    ],
     "license": "MIT",
     "authors": [
         {
