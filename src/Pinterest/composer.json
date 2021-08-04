@@ -17,5 +17,10 @@
         "psr-4": {
             "SocialiteProviders\\Pinterest\\": ""
         }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/pinterest"
     }
 }

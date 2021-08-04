@@ -18,5 +18,10 @@
         "psr-4": {
             "SocialiteProviders\\Eveonline\\": ""
         }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/eveonline"
     }
 }
