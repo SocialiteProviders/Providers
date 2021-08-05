@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/vercel",
     "description": "Vercel OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "vercel"
+    ],
     "license": "MIT",
     "authors": [
         {

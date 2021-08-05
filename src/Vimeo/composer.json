@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/vimeo",
     "description": "Vimeo OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "vimeo"
+    ],
     "license": "MIT",
     "authors": [
         {

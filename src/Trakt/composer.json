@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/trakt",
     "description": "Trakt OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "trakt"
+    ],
     "license": "MIT",
     "authors": [
         {

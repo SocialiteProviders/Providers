@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/steem",
     "description": "Steem OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "steem"
+    ],
     "license": "MIT",
     "authors": [
         {

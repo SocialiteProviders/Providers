@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/scistarter",
     "description": "SciStarter OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "scistarter",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

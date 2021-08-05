@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/yammer",
     "description": "Yammer OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "yammer"
+    ],
     "license": "MIT",
     "authors": [
         {

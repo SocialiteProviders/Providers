@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/readability",
     "description": "Readability OAuth1 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "readability",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

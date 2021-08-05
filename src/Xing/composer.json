@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/xing",
     "description": "Xing OAuth1 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "xing"
+    ],
     "license": "MIT",
     "authors": [
         {

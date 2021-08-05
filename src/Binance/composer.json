@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/binance",
     "description": "Binance OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "binance",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.2 || ^8.0",

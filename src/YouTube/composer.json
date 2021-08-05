@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/youtube",
     "description": "YouTube OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "youtube"
+    ],
     "license": "MIT",
     "authors": [
         {

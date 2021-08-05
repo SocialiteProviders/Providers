@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/strava",
     "description": "Strava OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "strava"
+    ],
     "license": "MIT",
     "authors": [
         {

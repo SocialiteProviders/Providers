@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/linkedin",
     "description": "LinkedIn OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "linkedin",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

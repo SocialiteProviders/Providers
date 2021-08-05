@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/ucl",
     "description": "UCL API OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "ucl"
+    ],
     "license": "MIT",
     "authors": [
         {

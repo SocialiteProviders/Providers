@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/atlassian",
     "description": "Atlassian OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "atlassian",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

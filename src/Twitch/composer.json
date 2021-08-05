@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/twitch",
     "description": "Twitch OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "twitch"
+    ],
     "license": "MIT",
     "authors": [
         {

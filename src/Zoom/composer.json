@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/zoom",
     "description": "Zoom Oauth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "zoom"
+    ],
     "license": "MIT",
     "authors": [
         {

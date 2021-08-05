@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/zalo",
     "description": "Zalo OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "zalo"
+    ],
     "license": "MIT",
     "authors": [
         {

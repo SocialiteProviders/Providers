@@ -1,6 +1,14 @@
 {
     "name": "socialiteproviders/microsoft-live",
     "description": "Microsoft Live OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "live",
+        "microsoft",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

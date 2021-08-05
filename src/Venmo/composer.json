@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/venmo",
     "description": "Venmo OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "venmo"
+    ],
     "license": "MIT",
     "authors": [
         {

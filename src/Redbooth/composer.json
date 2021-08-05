@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/redbooth",
     "description": "Redbooth OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "redbooth",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

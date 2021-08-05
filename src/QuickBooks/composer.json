@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/quickbooks",
     "description": "Intuit QuickBooks OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "quickbooks",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

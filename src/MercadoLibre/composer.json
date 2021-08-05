@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/mercadolibre",
     "description": "MercadoLibre OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "mercadolibre",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

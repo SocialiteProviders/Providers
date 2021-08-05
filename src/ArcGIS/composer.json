@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/arcgis",
     "description": "ArcGIS Online OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "arcgis",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

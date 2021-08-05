@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/streamelements",
     "description": "StreamElements OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "streamelements"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.2 || ^8.0",

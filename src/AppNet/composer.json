@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/appnet",
     "description": "App.net OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "appnet",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

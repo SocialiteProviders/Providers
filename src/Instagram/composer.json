@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/instagram",
     "description": "Instagram OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "instagram",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

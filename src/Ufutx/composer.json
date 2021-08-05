@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/ufutx-socialite",
     "description": "Ufutx OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "ufutx"
+    ],
     "license": "MIT",
     "authors": [
         {

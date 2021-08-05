@@ -1,6 +1,14 @@
 {
     "name": "socialiteproviders/microsoft-azure",
     "description": "Microsoft Azure OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "azure",
+        "laravel",
+        "microsoft",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

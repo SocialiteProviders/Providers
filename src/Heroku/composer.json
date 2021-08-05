@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/heroku",
     "description": "Heroku OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "heroku",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

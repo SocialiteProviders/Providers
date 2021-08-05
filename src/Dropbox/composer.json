@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/dropbox",
     "description": "Dropbox OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "dropbox",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

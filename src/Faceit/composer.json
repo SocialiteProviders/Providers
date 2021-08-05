@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/faceit",
     "description": "Faceit OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "faceit",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

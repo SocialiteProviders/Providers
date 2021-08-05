@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/vkontakte",
     "description": "VKontakte OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "vkontakte"
+    ],
     "license": "MIT",
     "authors": [
         {

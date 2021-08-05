@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/nocks",
     "description": "Nocks OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "nocks",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,15 @@
 {
     "name": "socialiteproviders/wechat-service-account",
     "description": "WeChat Service Account OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "account",
+        "laravel",
+        "oauth",
+        "provider",
+        "service",
+        "socialite",
+        "wechat"
+    ],
     "license": "MIT",
     "authors": [
         {

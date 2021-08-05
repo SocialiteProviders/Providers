@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/yandex",
     "description": "Yandex OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "yandex"
+    ],
     "license": "MIT",
     "authors": [
         {

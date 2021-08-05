@@ -1,6 +1,14 @@
 {
     "name": "socialiteproviders/microsoft-teamservice",
     "description": "Microsoft TeamService OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "microsoft",
+        "oauth",
+        "provider",
+        "socialite",
+        "teamservice"
+    ],
     "license": "MIT",
     "authors": [
         {

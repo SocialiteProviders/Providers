@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/sage",
     "description": "Sage OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "sage",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/amazon",
     "description": "Amazon OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "amazon",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

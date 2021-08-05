@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/mollie",
     "description": "Mollie OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "mollie",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.2 || ^8.0",

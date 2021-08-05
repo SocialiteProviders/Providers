@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/teamleader",
     "description": "Teamleader OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "teamleader"
+    ],
     "license": "MIT",
     "authors": [
         {

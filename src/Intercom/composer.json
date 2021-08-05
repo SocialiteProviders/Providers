@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/intercom",
     "description": "Intercom OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "intercom",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

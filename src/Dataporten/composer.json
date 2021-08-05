@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/dataporten",
     "description": "Dataporten OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "dataporten",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

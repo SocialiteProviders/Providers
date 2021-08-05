@@ -1,6 +1,14 @@
 {
     "name": "socialiteproviders/paypal-sandbox",
     "description": "PayPal Sandbox OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "paypal",
+        "provider",
+        "sandbox",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

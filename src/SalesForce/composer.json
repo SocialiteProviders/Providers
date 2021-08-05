@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/salesforce",
     "description": "SalesForce OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "salesforce",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

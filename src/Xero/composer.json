@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/xero",
     "description": "Xero OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "xero"
+    ],
     "license": "MIT",
     "authors": [
         {

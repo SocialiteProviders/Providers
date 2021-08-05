@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/gumroad",
     "description": "Gumroad OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "gumroad",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

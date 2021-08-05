@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/franceconnect",
     "description": "France-Connect OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "franceconnect",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

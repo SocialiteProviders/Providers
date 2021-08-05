@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/twitter",
     "description": "Twitter OAuth1 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "twitter"
+    ],
     "license": "MIT",
     "authors": [
         {

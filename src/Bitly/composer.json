@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/bitly",
     "description": "Bitly OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "bitly",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

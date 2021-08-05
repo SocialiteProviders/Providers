@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/tvshowtime",
     "description": "TVShowTime OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "tvshowtime"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/smashcast",
     "description": "Smashcast OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "smashcast",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

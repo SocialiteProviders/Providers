@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/telegram",
     "description": "Telegram Authentication Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "telegram"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/reddit",
     "description": "Reddit OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "reddit",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

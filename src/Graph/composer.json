@@ -1,6 +1,14 @@
 {
     "name": "socialiteproviders/microsoft-graph",
     "description": "Microsoft Graph OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "graph",
+        "laravel",
+        "microsoft",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "license": "MIT",
     "authors": [
         {

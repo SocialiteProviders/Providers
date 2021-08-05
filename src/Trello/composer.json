@@ -1,6 +1,13 @@
 {
     "name": "socialiteproviders/trello",
     "description": "Trello OAuth1 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "trello"
+    ],
     "license": "MIT",
     "authors": [
         {
