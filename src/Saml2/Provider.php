@@ -63,8 +63,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
      */
     protected $config;
 
-    const CACHE_KEY = 'socialite_saml2_metadata';
-    const CACHE_KEY_TTL = self::CACHE_KEY.'_ttl';
+    public const CACHE_KEY = 'socialite_saml2_metadata';
+    public const CACHE_KEY_TTL = self::CACHE_KEY.'_ttl';
 
     public function __construct(Request $request)
     {
