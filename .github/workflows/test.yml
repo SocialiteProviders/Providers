@@ -43,8 +43,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: "php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}"
-          restore-keys: "php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}"
+          key: "php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.json') }}"
 
       - name: Install dependencies
         run: composer install --no-interaction  --prefer-dist
