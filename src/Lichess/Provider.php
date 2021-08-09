@@ -49,7 +49,7 @@ class Provider extends AbstractProvider
      * Get profile of the logged in user.
      *
      * @param string $token
-     * 
+     *
      * @return array $user
      */
     protected function getUserByToken($token)
@@ -74,7 +74,7 @@ class Provider extends AbstractProvider
      * Get the default options for an HTTP request.
      *
      * @param string $token
-     * 
+     *
      * @return array
      */
     protected function getRequestOptions($token)
@@ -90,7 +90,7 @@ class Provider extends AbstractProvider
      * Get the email address for the user.
      *
      * @param string $token
-     * 
+     *
      * @return string
      */
     protected function getEmailByToken($token)
@@ -104,7 +104,7 @@ class Provider extends AbstractProvider
         ]);
 
         $email = json_decode($response->getBody(), true);
-        
+
         return Arr::get($email, 'email');
     }
 
@@ -119,5 +119,4 @@ class Provider extends AbstractProvider
             'email'    => $user['email'],
         ]);
     }
-
 }
