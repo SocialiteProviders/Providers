@@ -8,7 +8,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    const IDENTIFIER = 'LICHESS';
+    public const IDENTIFIER = 'LICHESS';
 
     /**
      * The scopes being requested.
