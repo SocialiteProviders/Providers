@@ -16,7 +16,7 @@ class Provider extends AbstractProvider
      * @var array
      */
     protected $scopes = [
-        'email:read'
+        'email:read',
     ];
 
     /**
@@ -34,7 +34,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://lichess.org/oauth',$state);
+        return $this->buildAuthUrlFromBase('https://lichess.org/oauth', $state);
     }
 
     /**
@@ -48,7 +48,8 @@ class Provider extends AbstractProvider
     /**
      * Get profile of the logged in user.
      *
-     * @param string  $token
+     * @param string $token
+     * 
      * @return array $user
      */
     protected function getUserByToken($token)
@@ -61,12 +62,10 @@ class Provider extends AbstractProvider
         );
 
         $user = json_decode($response->getBody(), true);
-        
 
         if (in_array('email:read', $this->scopes)) {
             $user = Arr::prepend($user, $this->getEmailByToken($token), 'email');
         }
-        
 
         return $user;
     }
@@ -90,7 +89,7 @@ class Provider extends AbstractProvider
     /**
      * Get the email address for the user.
      *
-     * @param  string  $token
+     * @param string $token
      * 
      * @return string
      */
@@ -103,11 +102,9 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
-        
 
         $email = json_decode($response->getBody(), true);
         
-
         return Arr::get($email, 'email');
     }
 
@@ -122,4 +119,5 @@ class Provider extends AbstractProvider
             'email'    => $user['email'],
         ]);
     }
+
 }
