@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/lichess",
+    "description": "Lichess OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Waxmatuct",
+        "email": "alvheim@rambler.ru"
+    }],
+    "require": {
+        "php": "^7.2",
+        "socialiteproviders/manager": "^4.0",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Lichess\\": ""
+        }
+    }
+}
