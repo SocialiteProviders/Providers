@@ -2,9 +2,9 @@
 
 namespace SocialiteProviders\Lichess;
 
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
-use Illuminate\Support\Arr;
 
 class Provider extends AbstractProvider
 {
@@ -46,9 +46,9 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Get profile of the logged in user
+     * Get profile of the logged in user.
      *
-     * @param  string  $token
+     * @param string  $token
      * @return array $user
      */
     protected function getUserByToken($token)
@@ -56,15 +56,18 @@ class Provider extends AbstractProvider
         $userUrl = 'https://lichess.org/api/account';
 
         $response = $this->getHttpClient()->get(
-            $userUrl, $this->getRequestOptions($token)
+            $userUrl,
+            $this->getRequestOptions($token)
         );
 
         $user = json_decode($response->getBody(), true);
         
+
         if (in_array('email:read', $this->scopes)) {
             $user = Arr::prepend($user, $this->getEmailByToken($token), 'email');
         }
         
+
         return $user;
     }
 
@@ -72,6 +75,7 @@ class Provider extends AbstractProvider
      * Get the default options for an HTTP request.
      *
      * @param string $token
+     * 
      * @return array
      */
     protected function getRequestOptions($token)
@@ -87,6 +91,7 @@ class Provider extends AbstractProvider
      * Get the email address for the user.
      *
      * @param  string  $token
+     * 
      * @return string
      */
     protected function getEmailByToken($token)
@@ -99,8 +104,10 @@ class Provider extends AbstractProvider
             ],
         ]);
         
+
         $email = json_decode($response->getBody(), true);
         
+
         return Arr::get($email, 'email');
     }
 
@@ -115,5 +122,4 @@ class Provider extends AbstractProvider
             'email'    => $user['email'],
         ]);
     }
-
 }
