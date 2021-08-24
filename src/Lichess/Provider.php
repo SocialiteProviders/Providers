@@ -97,15 +97,12 @@ class Provider extends AbstractProvider
     {
         $url = 'https://lichess.org/api/account/email';
 
-        $response = $this->getHttpClient()->get($url, [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+        $response = $this->getHttpClient()->get(
+            $url,
+            $this->getRequestOptions($token)
+        );
 
-        $email = json_decode($response->getBody(), true);
-
-        return Arr::get($email, 'email');
+        return json_decode((string) $response->getBody(), true)['email'] ?? null;
     }
 
     /**
