@@ -61,7 +61,7 @@ class Provider extends AbstractProvider
             $this->getRequestOptions($token)
         );
 
-        $user = json_decode($response->getBody(), true);
+        $user = json_decode((string) $response->getBody(), true);
 
         if (in_array('email:read', $this->scopes)) {
             $user['email'] = $this->getEmailByToken($token);
