@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Lichess;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -53,16 +54,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $userUrl = 'https://lichess.org/api/account';
-
         $response = $this->getHttpClient()->get(
-            $userUrl,
+            'https://lichess.org/api/account',
             $this->getRequestOptions($token)
         );
 
         $user = json_decode((string) $response->getBody(), true);
 
-        if (in_array('email:read', $this->scopes)) {
+        if (in_array('email:read', $this->scopes, true)) {
             $user['email'] = $this->getEmailByToken($token);
         }
 
@@ -79,7 +78,7 @@ class Provider extends AbstractProvider
     protected function getRequestOptions($token)
     {
         return [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ];
@@ -94,10 +93,8 @@ class Provider extends AbstractProvider
      */
     protected function getEmailByToken($token)
     {
-        $url = 'https://lichess.org/api/account/email';
-
         $response = $this->getHttpClient()->get(
-            $url,
+            'https://lichess.org/api/account/email',
             $this->getRequestOptions($token)
         );
 
