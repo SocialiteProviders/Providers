@@ -29,7 +29,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\SURFconext\\SURFconextExtendSocialite@handle',
+        \SocialiteProviders\SURFconext\SURFconextExtendSocialite::class.'@handle',
     ],
 ];
 ```
