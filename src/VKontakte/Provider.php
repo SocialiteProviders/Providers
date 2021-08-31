@@ -30,7 +30,7 @@ class Provider extends AbstractProvider
     /**
      * Last API version.
      */
-    public const VERSION = '5.92';
+    public const VERSION = '5.131';
 
     /**
      * {@inheritdoc}
