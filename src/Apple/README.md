@@ -20,6 +20,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 See [Configure Apple ID Authentication](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple)
 
+> Note: the client secret used for "Sign In with Apple" is a JWT token that can have a maximum lifetime of 6 months. The article above explains how to generate the client secret on demand and you'll need to update this every 6 months. To generate the client secret for each request, see [Generating A Client Secret For Sign In With Apple On Each Request](https://bannister.me/blog/generating-a-client-secret-for-sign-in-with-apple-on-each-request)
+
 ### Add provider event listener
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
