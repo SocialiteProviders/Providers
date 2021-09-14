@@ -5,7 +5,6 @@ namespace SocialiteProviders\AzureADB2C;
 use Firebase\JWT\JWK;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
@@ -28,7 +27,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        'openid'
+        'openid',
     ];
 
     /**
@@ -42,7 +41,7 @@ class Provider extends AbstractProvider
                 $this->getConfig('domain'),
                 $this->getConfig('domain'),
                 $this->getConfig('policy')
-                ),
+            ),
             $state
         );
     }
@@ -69,7 +68,6 @@ class Provider extends AbstractProvider
         $claims = explode('.', $token)[1];
 
         return json_decode(base64_decode($claims), true);
-
     }
 
     private function verifyIdToken($jwt)
@@ -84,7 +82,9 @@ class Provider extends AbstractProvider
                     $this->getConfig('domain'),
                     $this->getConfig('domain'),
                     $this->getConfig('policy')
-                ));
+                )
+            );
+
             return json_decode((string) $response->getBody(), true);
         });
 
@@ -100,7 +100,8 @@ class Provider extends AbstractProvider
                         'https://%s.b2clogin.com/%s/v2.0/',
                         $this->getConfig('domain'),
                         $this->getConfig('tenantid')
-                        )),
+                    )
+                ),
                 new LooseValidAt(SystemClock::fromSystemTimezone()),
             ];
 
@@ -147,7 +148,7 @@ class Provider extends AbstractProvider
         return [
             'domain',
             'policy',
-            'tenantid'
+            'tenantid',
         ];
     }
 }
