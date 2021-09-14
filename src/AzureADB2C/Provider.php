@@ -117,7 +117,6 @@ class Provider extends AbstractProvider
         throw new InvalidStateException('Invalid JWT Signature');
     }
 
-
     public function user()
     {
         $response = $this->getAccessTokenResponse($this->getCode());
