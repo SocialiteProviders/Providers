@@ -2,11 +2,36 @@
 
 // If you choose to use ENV vars to define these values, give this IdP its own env var names
 // so you can define different values for each IdP, all starting with 'SAML2_'.$this_idp_env_id
+
 $this_idp_env_id = 'TEST';
 
 //This is variable is for simplesaml example only.
 // For real IdP, you must set the url values in the 'idp' config to conform to the IdP's real urls.
 $idp_host = env('SAML2_'.$this_idp_env_id.'_IDP_HOST', 'http://localhost:8000/simplesaml');
+
+$signed = config('services.saml.adfs_crt') && config('services.saml.adfs_key');
+
+
+function getCertificateContent($setting)
+{
+    if (empty(config('services.saml.' . $setting))) {
+        return null;
+    }
+    return file_get_contents(getcwd().'/../storage/app/private/settings/' .'services.saml.' . $setting);
+}
+
+function stripCertificateDelimiters($cert)
+{
+    if (empty($cert)) {
+        return null;
+    }
+    $result = $cert;
+    $result = str_replace('-----BEGIN CERTIFICATE-----', "", $result);
+    $result = str_replace('-----END CERTIFICATE-----', "", $result);
+    $result = str_replace(' ', '', $result);
+    return $result;
+}
+
 
 return $settings = array(
 
@@ -57,6 +82,8 @@ return $settings = array(
             // Leave blank to use the '{idpName}_sls' route, e.g. 'test_sls'
             'url' => '',
         ),
+        'x509cert' => stripCertificateDelimiters(getCertificateContent('adfs_crt')),
+        'privateKey' => getCertificateContent('adfs_key')
     ),
 
     // Identity Provider Data that we want connect with our SP
@@ -103,11 +130,11 @@ return $settings = array(
 
         // Indicates whether the <samlp:AuthnRequest> messages sent by this SP
         // will be signed.              [The Metadata of the SP will offer this info]
-        'authnRequestsSigned' => false,
+        'authnRequestsSigned' => $signed,
 
         // Indicates whether the <samlp:logoutRequest> messages sent by this SP
         // will be signed.
-        'logoutRequestSigned' => false,
+        'logoutRequestSigned' => $signed,
 
         // Indicates whether the <samlp:logoutResponse> messages sent by this SP
         // will be signed.
@@ -140,7 +167,9 @@ return $settings = array(
         // Set to false and no AuthContext will be sent in the AuthNRequest,
         // Set true or don't present thi parameter and you will get an AuthContext 'exact' 'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport'
         // Set an array with the possible auth context values: array ('urn:oasis:names:tc:SAML:2.0:ac:classes:Password', 'urn:oasis:names:tc:SAML:2.0:ac:classes:X509'),
-        'requestedAuthnContext' => true,
+        'signatureAlgorithm' => config('encryption_type'),
+        'requestedAuthnContext' => config('services.saml.auth_context'),
+        'lowercaseUrlencoding' => true,
     ),
 
     // Contact information template, it is recommended to suply a technical and support contacts
@@ -164,13 +193,13 @@ return $settings = array(
         ),
     ),
 
-/* Interoperable SAML 2.0 Web Browser SSO Profile [saml2int]   http://saml2int.org/profile/current
+    /* Interoperable SAML 2.0 Web Browser SSO Profile [saml2int]   http://saml2int.org/profile/current
 
-   'authnRequestsSigned' => false,    // SP SHOULD NOT sign the <samlp:AuthnRequest>,
-                                      // MUST NOT assume that the IdP validates the sign
-   'wantAssertionsSigned' => true,
-   'wantAssertionsEncrypted' => true, // MUST be enabled if SSL/HTTPs is disabled
-   'wantNameIdEncrypted' => false,
-*/
+       'authnRequestsSigned' => false,    // SP SHOULD NOT sign the <samlp:AuthnRequest>,
+                                          // MUST NOT assume that the IdP validates the sign
+       'wantAssertionsSigned' => true,
+       'wantAssertionsEncrypted' => true, // MUST be enabled if SSL/HTTPs is disabled
+       'wantNameIdEncrypted' => false,
+    */
 
 );
