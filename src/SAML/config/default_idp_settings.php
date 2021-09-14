@@ -170,6 +170,7 @@ return $settings = array(
         // Set an array with the possible auth context values: array ('urn:oasis:names:tc:SAML:2.0:ac:classes:Password', 'urn:oasis:names:tc:SAML:2.0:ac:classes:X509'),
         'signatureAlgorithm' => config('encryption_type'),
         'requestedAuthnContext' => config('services.saml.auth_context'),
+        'lowercaseUrlencoding' => true,
     ),
 
     // Contact information template, it is recommended to suply a technical and support contacts
