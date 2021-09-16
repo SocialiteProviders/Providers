@@ -21,6 +21,13 @@ class Provider extends AbstractProvider
     protected $graphUrl = 'https://graph.microsoft.com/v1.0/me';
 
     /**
+     * The scopes being requested.
+     *
+     * @var array
+     */
+    protected $scopes = ['User.Read'];
+
+    /**
      * The Graph API version for the request.
      *
      * @var string
@@ -63,16 +70,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->graphUrl, [
-            // RequestOptions::QUERY => [
-            //     'api-version' => $this->version,
-            // ],
             RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -114,17 +118,7 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant', 'scopes', 'logout_url'];
-    }
-
-    /**
-     * Get the current scopes.
-     *
-     * @return array
-     */
-    public function getScopes() : array
-    {
-        return $this->config['scopes'] ?? [];
+        return ['tenant', 'logout_url'];
     }
 
     /**
