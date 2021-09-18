@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
                 ],
                 RequestOptions::QUERY => [
                     '$select' => implode(',', array_merge(self::DEFAULT_FIELDS, ($this->config['fields'] ?: []))),
-                ]
+                ],
             ]
         );
 
