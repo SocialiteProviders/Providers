@@ -14,6 +14,11 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'MICROSOFT';
 
     /**
+     * Default field list to request from Microsoft.
+     */
+    protected const DEFAULT_FIELDS = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'mail', 'mobilePhone', 'officeLocation', 'preferredLanguage', 'surname', 'userPrincipalName'];
+
+    /**
      * {@inheritdoc}
      * https://msdn.microsoft.com/en-us/library/azure/ad/graph/howto/azure-ad-graph-api-permission-scopes.
      */
@@ -60,6 +65,9 @@ class Provider extends AbstractProvider
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
+                RequestOptions::QUERY => [
+                    '$select' => implode(',', array_merge(self::DEFAULT_FIELDS, ($this->config['fields'] ?: []))),
+                ]
             ]
         );
 
@@ -103,10 +111,13 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
+     * Add the additional configuration key 'tenant' to enable the branded sign-in experience,
+     * and the key 'fields' to request extra fields from the Microsoft Graph.
+     *
+     * @return array
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant'];
+        return ['tenant', 'fields'];
     }
 }
