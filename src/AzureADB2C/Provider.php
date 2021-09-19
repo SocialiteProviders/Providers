@@ -28,7 +28,7 @@ class Provider extends AbstractProvider
      */
     private function getOpenIdConfiguration()
     {
-        return Cache::remember('socialite_' . self::IDENTIFIER . '_openidconfiguration', intval($this->config['cache_time'] ?: 3600), function () {
+        return Cache::remember('socialite_'.self::IDENTIFIER.'_openidconfiguration', intval($this->config['cache_time'] ?: 3600), function () {
             try {
                 $response = $this->getHttpClient()->get(
                     sprintf(
@@ -39,7 +39,7 @@ class Provider extends AbstractProvider
                     ),
                     ['http_errors' => true]
                 );
-            } catch(ClientException $ex) {
+            } catch (ClientException $ex) {
                 throw new Exception("Error on getting OpenID Configuration. {$ex}");
             }
 
@@ -52,7 +52,7 @@ class Provider extends AbstractProvider
      */
     private function getJWTKeys()
     {
-        return Cache::remember('socialite_' . self::IDENTIFIER . '_jwtpublickeys', intval($this->config['cache_time'] ?: 3600), function () {
+        return Cache::remember('socialite_'.self::IDENTIFIER.'_jwks', intval($this->config['cache_time'] ?: 3600), function () {
             $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri);
             return json_decode($response->getBody(), true);
         });
@@ -94,7 +94,7 @@ class Provider extends AbstractProvider
             $response = $this->getAccessTokenResponse($this->getCode());
             $claims = (array) JWT::decode(Arr::get($response, 'id_token'), JWK::parseKeySet($this->getJWTKeys()), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
             return $this->mapUserToObject($claims);
-        } catch(Exeption $ex) {
+        } catch (Exeption $ex) {
             throw new Exception("Error on getting OpenID Configuration. {$ex}");
         }
     }
