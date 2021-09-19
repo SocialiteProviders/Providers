@@ -117,18 +117,15 @@ class Provider extends AbstractProvider
             $payload_json = json_decode(base64_decode(str_pad(strtr($payload[1], '-_', '+/'), strlen($payload[1]) % 4, '=', STR_PAD_RIGHT)), true);
 
             // iss validation
-            if (strcmp($payload_json['iss'], $this->getOpenIdConfiguration()->issuer))
-            {
+            if (strcmp($payload_json['iss'], $this->getOpenIdConfiguration()->issuer)) {
                 throw new Exception("iss on id_token does not match issuer value on the OpenID configuration");
             }
             // aud validation
-            if (strpos($payload_json['aud'], $this->config['client_id']) === false)
-            {
+            if (strpos($payload_json['aud'], $this->config['client_id']) === false) {
                 throw new Exception("aud on id_token does not match the client_id for this application");
             }
             // exp validation
-            if ((int)$payload_json['exp'] < time())
-            {
+            if ((int)$payload_json['exp'] < time()) {
                 throw new Exception("id_token expired");
             }
 
