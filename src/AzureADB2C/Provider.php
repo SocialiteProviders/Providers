@@ -20,13 +20,14 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        'openid'
+        'openid',
     ];
 
     /**
-     * Get OpenID Configuration and store on cache
+     * Get OpenID Configuration and store on cache.
      */
-    private function getOpenIdConfiguration() {
+    private function getOpenIdConfiguration()
+    {
         return Cache::remember('socialite_' . self::IDENTIFIER . '_openidconfiguration', intval($this->config['cache_time'] ?: 3600), function () {
             try {
                 $response = $this->getHttpClient()->get(
@@ -35,19 +36,22 @@ class Provider extends AbstractProvider
                         $this->getConfig('domain'),
                         $this->getConfig('domain'),
                         $this->getConfig('policy')
-                        ),
-                    ['http_errors' => true]);
+                    ),
+                    ['http_errors' => true]
+                );
             } catch(ClientException $ex) {
                 throw new Exception("Error on getting OpenID Configuration. {$ex}");
             }
+
             return json_decode($response->getBody());
         });
     }
 
     /**
-     * Get public keys to verify id_token from jwks_uri
+     * Get public keys to verify id_token from jwks_uri.
      */
-    private function getJWTKeys() {
+    private function getJWTKeys()
+    {
         return Cache::remember('socialite_' . self::IDENTIFIER . '_jwtpublickeys', intval($this->config['cache_time'] ?: 3600), function () {
             $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri);
             return json_decode($response->getBody(), true);
@@ -82,7 +86,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Additional implementation to get user claims from id_token
+     * Additional implementation to get user claims from id_token.
      */
     public function user()
     {
@@ -90,7 +94,6 @@ class Provider extends AbstractProvider
             $response = $this->getAccessTokenResponse($this->getCode());
             $claims = (array) JWT::decode(Arr::get($response, 'id_token'), JWK::parseKeySet($this->getJWTKeys()), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
             return $this->mapUserToObject($claims);
-
         } catch(Exeption $ex) {
             throw new Exception("Error on getting OpenID Configuration. {$ex}");
         }
@@ -108,13 +111,13 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * return logout endpoint with post_logout_uri paramter
+     * return logout endpoint with post_logout_uri paramter.
      */
     public function logout($post_logout_uri)
     {
         return $this->getOpenIdConfiguration()->end_session_endpoint
-            . '?logout&post_logout_redirect_uri='
-            . urlencode($post_logout_uri);
+            .'?logout&post_logout_redirect_uri='
+            .urlencode($post_logout_uri);
     }
 
     /**
@@ -125,7 +128,7 @@ class Provider extends AbstractProvider
         return [
             'domain',
             'policy',
-            'cache_time'
+            'cache_time',
         ];
     }
 }
