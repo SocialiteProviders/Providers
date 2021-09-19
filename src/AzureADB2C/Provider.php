@@ -118,15 +118,15 @@ class Provider extends AbstractProvider
 
             // iss validation
             if (strcmp($payload_json['iss'], $this->getOpenIdConfiguration()->issuer)) {
-                throw new Exception("iss on id_token does not match issuer value on the OpenID configuration");
+                throw new Exception('iss on id_token does not match issuer value on the OpenID configuration');
             }
             // aud validation
             if (strpos($payload_json['aud'], $this->config['client_id']) === false) {
-                throw new Exception("aud on id_token does not match the client_id for this application");
+                throw new Exception('aud on id_token does not match the client_id for this application');
             }
             // exp validation
             if ((int)$payload_json['exp'] < time()) {
-                throw new Exception("id_token expired");
+                throw new Exception('id_token is expired');
             }
 
             // signature validation and return claims
