@@ -147,8 +147,8 @@ class Provider extends AbstractProvider
             $this->getConfig('domain'),
             $this->getConfig('policy')
         )
-            . '?logout&post_logout_redirect_uri='
-            . urlencode($post_logout_uri);
+            .'?logout&post_logout_redirect_uri='
+            .urlencode($post_logout_uri);
     }
 
     /**
