@@ -93,11 +93,49 @@ class Provider extends AbstractProvider
     {
         try {
             $response = $this->getAccessTokenResponse($this->getCode());
-            $claims = (array) JWT::decode(Arr::get($response, 'id_token'), JWK::parseKeySet($this->getJWTKeys()), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
+            $claims = $this->validateIdToken(Arr::get($response, 'id_token'));
 
             return $this->mapUserToObject($claims);
         } catch (Exeption $ex) {
             throw new Exception("Error on getting OpenID Configuration. {$ex}");
+        }
+    }
+
+    /**
+     * validate id_token
+     * - signature validation using firebase/jwt library
+     * - claims validation
+     *   iss: MUST much iss = issuer value on metadata
+     *   aud: MUST include client_id for this client
+     *   exp: MUST time() < exp
+     */
+    private function validateIdToken($id_token)
+    {
+        try {
+            // payload validation
+            $payload = explode('.', $id_token);
+            $payload_json = json_decode(base64_decode(str_pad(strtr($payload[1], '-_', '+/'), strlen($payload[1]) % 4, '=', STR_PAD_RIGHT)), true);
+
+            // iss validation
+            if(strcmp($payload_json['iss'], $this->getOpenIdConfiguration()->issuer))
+            {
+                throw new Exception("iss on id_token does not match issuer value on the OpenID configuration");
+            }
+            // aud validation
+            if(strpos($payload_json['aud'], $this->config['client_id']) === false)
+            {
+                throw new Exception("aud on id_token does not match the client_id for this application");
+            }
+            // exp validation
+            if((int)$payload_json['exp'] < time())
+            {
+                throw new Exception("id_token expired");
+            }
+
+            // signature validation and return claims
+            return (array) JWT::decode($id_token, JWK::parseKeySet($this->getJWTKeys()), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
+        } catch (Exception $ex) {
+            throw new Exception("Error on validationg id_token. {$ex}");
         }
     }
 
