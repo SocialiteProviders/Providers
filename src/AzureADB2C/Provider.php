@@ -139,6 +139,18 @@ class Provider extends AbstractProvider
         ]);
     }
 
+    public function logout($post_logout_uri)
+    {
+        return sprintf(
+                'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/oauth2/v2.0/logout',
+                $this->getConfig('domain'),
+                $this->getConfig('domain'),
+                $this->getConfig('policy')
+            )
+            . '?logout&post_logout_redirect_uri='
+            . urlencode($post_logout_uri);
+    }
+
     /**
      * @return array
      */

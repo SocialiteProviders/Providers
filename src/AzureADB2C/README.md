@@ -40,8 +40,19 @@ protected $listen = [
 
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
+Redirect to Azure AD B2C
 ```php
 return Socialite::driver('azureadb2c')->redirect();
+```
+
+Callback
+```php
+$provided_user = Socialite::driver('azureadb2c')->user();
+```
+
+Logout
+```php
+return redirect(Socialite::driver('azureadb2c')->logout('http://localhost'));
 ```
 
 ### Returned User fields
