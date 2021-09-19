@@ -3,16 +3,9 @@
 namespace SocialiteProviders\AzureADB2C;
 
 use Firebase\JWT\JWK;
-use GuzzleHttp\Client;
+use Firebase\JWT\JWT;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
-use Lcobucci\Clock\SystemClock;
-use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Signer\Rsa\Sha256;
-use Lcobucci\JWT\Validation\Constraint\IssuedBy;
-use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
-use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -27,8 +20,39 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        'openid',
+        'openid'
     ];
+
+    /**
+     * Get OpenID Configuration and store on cache
+     */
+    private function getOpenIdConfiguration() {
+        return Cache::remember('socialite_' . self::IDENTIFIER . '_openidconfiguration', intval($this->config['cache_time'] ?: 3600), function () {
+            try {
+                $response = $this->getHttpClient()->get(
+                    sprintf(
+                        'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
+                        $this->getConfig('domain'),
+                        $this->getConfig('domain'),
+                        $this->getConfig('policy')
+                        ),
+                    ['http_errors' => true]);
+            } catch(ClientException $ex) {
+                throw new Exception("Error on getting OpenID Configuration. {$ex}");
+            }
+            return json_decode($response->getBody());
+        });
+    }
+
+    /**
+     * Get public keys to verify id_token from jwks_uri
+     */
+    private function getJWTKeys() {
+        return Cache::remember('socialite_' . self::IDENTIFIER . '_jwtpublickeys', intval($this->config['cache_time'] ?: 3600), function () {
+            $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri);
+            return json_decode($response->getBody(), true);
+        });
+    }
 
     /**
      * {@inheritdoc}
@@ -36,12 +60,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            sprintf(
-                'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/oauth2/v2.0/authorize',
-                $this->getConfig('domain'),
-                $this->getConfig('domain'),
-                $this->getConfig('policy')
-            ),
+            $this->getOpenIdConfiguration()->authorization_endpoint,
             $state
         );
     }
@@ -51,12 +70,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return sprintf(
-            'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/oauth2/v2.0/token',
-            $this->getConfig('domain'),
-            $this->getConfig('domain'),
-            $this->getConfig('policy')
-        );
+        return $this->getOpenIdConfiguration()->token_endpoint;
     }
 
     /**
@@ -64,68 +78,22 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $this->verifyIdToken($token);
-        $claims = explode('.', $token)[1];
-
-        return json_decode(base64_decode($claims), true);
+        // no implementation required because Azure AD B2C doesn't return access_token
     }
 
-    private function verifyIdToken($jwt)
-    {
-        $jwtContainer = Configuration::forUnsecuredSigner();
-        $token = $jwtContainer->parser()->parse($jwt);
-
-        $data = Cache::remember('socialite:AzureADB2C-JWKSet', 5 * 60, function () {
-            $response = (new Client())->get(
-                sprintf(
-                    'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/discovery/v2.0/keys',
-                    $this->getConfig('domain'),
-                    $this->getConfig('domain'),
-                    $this->getConfig('policy')
-                )
-            );
-
-            return json_decode((string) $response->getBody(), true);
-        });
-
-        $publicKeys = JWK::parseKeySet($data);
-        $kid = $token->headers()->get('kid');
-
-        if (isset($publicKeys[$kid])) {
-            $publicKey = openssl_pkey_get_details($publicKeys[$kid]);
-            $constraints = [
-                new SignedWith(new Sha256(), InMemory::plainText($publicKey['key'])),
-                new IssuedBy(
-                    sprintf(
-                        'https://%s.b2clogin.com/%s/v2.0/',
-                        $this->getConfig('domain'),
-                        $this->getConfig('tenantid')
-                    )
-                ),
-                new LooseValidAt(SystemClock::fromSystemTimezone()),
-            ];
-
-            try {
-                $jwtContainer->validator()->assert($token, ...$constraints);
-
-                return true;
-            } catch (RequiredConstraintsViolated $e) {
-                throw new InvalidStateException($e->getMessage());
-            }
-        }
-
-        throw new InvalidStateException('Invalid JWT Signature');
-    }
-
+    /**
+     * Additional implementation to get user claims from id_token
+     */
     public function user()
     {
-        $response = $this->getAccessTokenResponse($this->getCode());
+        try {
+            $response = $this->getAccessTokenResponse($this->getCode());
+            $claims = (array) JWT::decode(Arr::get($response, 'id_token'), JWK::parseKeySet($this->getJWTKeys()), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
+            return $this->mapUserToObject($claims);
 
-        $claims = $this->getUserByToken(
-            Arr::get($response, 'id_token')
-        );
-
-        return $this->mapUserToObject($claims);
+        } catch(Exeption $ex) {
+            throw new Exception("Error on getting OpenID Configuration. {$ex}");
+        }
     }
 
     /**
@@ -139,16 +107,14 @@ class Provider extends AbstractProvider
         ]);
     }
 
+    /**
+     * return logout endpoint with post_logout_uri paramter
+     */
     public function logout($post_logout_uri)
     {
-        return sprintf(
-            'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/oauth2/v2.0/logout',
-            $this->getConfig('domain'),
-            $this->getConfig('domain'),
-            $this->getConfig('policy')
-        )
-            .'?logout&post_logout_redirect_uri='
-            .urlencode($post_logout_uri);
+        return $this->getOpenIdConfiguration()->end_session_endpoint
+            . '?logout&post_logout_redirect_uri='
+            . urlencode($post_logout_uri);
     }
 
     /**
@@ -159,7 +125,7 @@ class Provider extends AbstractProvider
         return [
             'domain',
             'policy',
-            'tenantid',
+            'cache_time'
         ];
     }
 }

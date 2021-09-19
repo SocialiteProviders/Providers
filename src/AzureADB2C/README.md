@@ -15,9 +15,9 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
     'client_id' => env('AADB2C_ClientId'),
     'client_secret' => env('AADB2C_ClientSecret'),
     'redirect' => env('AADB2C_RedirectUri'),
-    'domain' => env('AADB2C_Domain'),
-    'policy' => env('AADB2C_Policy'),
-    'tenantid' => env('AADB2C_TenantId')
+    'domain' => env('AADB2C_Domain'),  // {your_domain}.b2clogin.com
+    'policy' => env('AADB2C_Policy'),  // such as 'b2c_1_user_susi'
+    'cache_time' => env('AADB2C_CacheTime')  // cache lifetime for storing openid configuration and jwks
 ],
 ```
 
