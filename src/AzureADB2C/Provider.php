@@ -125,7 +125,7 @@ class Provider extends AbstractProvider
                 throw new Exception('aud on id_token does not match the client_id for this application');
             }
             // exp validation
-            if ((int)$payload_json['exp'] < time()) {
+            if ((int) $payload_json['exp'] < time()) {
                 throw new Exception('id_token is expired');
             }
 
