@@ -28,17 +28,17 @@ class Provider extends AbstractProvider
     protected $version = 'v1';
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected $scopes = ['spark:people_read', 'spark:kms'];
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected $encodingType = PHP_QUERY_RFC3986;
 
