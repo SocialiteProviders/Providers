@@ -1,0 +1,35 @@
+{
+    "name": "socialiteproviders/shikimori",
+    "description": "Shikimori OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "shikimori",
+        "laravel",
+        "oauth 2",
+        "oauth",
+        "provider",
+        "socialite",
+        "socialite provider"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Myasnikov Daniel",
+            "email": "den4ic2001@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Shikimori\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/shikimori"
+    }
+}
