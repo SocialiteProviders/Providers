@@ -90,18 +90,4 @@ class Provider extends AbstractProvider
             'avatar'     => !empty($user['avatar']) ? $user['avatar'] : null,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        $fields = parent::getTokenFields($code);
-
-        unset($fields['client_id'], $fields['client_secret']);
-
-        return array_merge($fields, [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }
