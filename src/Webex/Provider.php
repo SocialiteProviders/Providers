@@ -14,20 +14,6 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'WEBEX';
 
     /**
-     * The Webex REST API origin URL.
-     *
-     * @var string
-     */
-    protected $originUrl = 'https://webexapis.com';
-
-    /**
-     * The Webex API version.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
-
-    /**
      * {@inheritdoc}
      */
     protected $scopes = ['spark:people_read', 'spark:kms'];
@@ -47,7 +33,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->originUrl.'/'.$this->version.'/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://webexapis.com/v1/authorize', $state);
     }
 
     /**
@@ -55,7 +41,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->originUrl.'/'.$this->version.'/access_token';
+        return 'https://webexapis.com/v1/access_token';
     }
 
     /**
@@ -63,7 +49,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $url = $this->originUrl.'/'.$this->version.'/people/me?callingData=true';
+        $url = 'https://webexapis.com/v1/people/me?callingData=true';
 
         $response = $this->getHttpClient()->get($url, [
             RequestOptions::HEADERS => [
