@@ -170,6 +170,7 @@ parameters:
     src/Vercel: 'git@github.com:SocialiteProviders/Vercel.git'
     src/VersionOne: 'git@github.com:SocialiteProviders/VersionOne.git'
     src/Vimeo: 'git@github.com:SocialiteProviders/Vimeo.git'
+    src/Webex: 'git@github.com:SocialiteProviders/Webex.git'
     src/WeChatServiceAccount: 'git@github.com:SocialiteProviders/WeChatServiceAccount.git'
     src/WeChatWeb: 'git@github.com:SocialiteProviders/WeChatWeb.git'
     src/Weibo: 'git@github.com:SocialiteProviders/Weibo.git'
