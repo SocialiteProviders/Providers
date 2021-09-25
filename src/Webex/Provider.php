@@ -16,7 +16,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['spark:people_read', 'spark:kms'];
+    protected $scopes = ['spark:kms', 'spark:people_read'];
 
     /**
      * {@inheritdoc}
