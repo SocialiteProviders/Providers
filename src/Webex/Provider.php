@@ -49,9 +49,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $url = 'https://webexapis.com/v1/people/me';
-
-        $response = $this->getHttpClient()->get($url, [
+        $response = $this->getHttpClient()->get('https://webexapis.com/v1/people/me', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'Accept'        => 'application/json',
