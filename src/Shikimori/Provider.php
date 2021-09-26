@@ -21,8 +21,14 @@ class Provider extends AbstractProvider
         'user_rates'
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getShikimoriUrl()
     {
         return $this->getConfig('base_url');
