@@ -82,7 +82,7 @@ COGNITO_LOGIN_SCOPE="openid,profile"
 
 
 
-[Basic project setup tutorial coming soon](https://jamessiebert.com)
+[project setup tutorial](https://blog.jamessiebert.com/laravel-socialite-aws-cognito-tutorial/)
 
 ### Returned User fields
 
