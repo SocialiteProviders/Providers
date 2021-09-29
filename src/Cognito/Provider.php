@@ -24,7 +24,7 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
-     * Adjust the available read / write attributes in cognito client app
+     * Adjust the available read / write attributes in cognito client app.
      */
     protected $scopes = [
         self::SCOPE_OPENID,
@@ -153,6 +153,7 @@ class Provider extends AbstractProvider
         $authHost = config('services.cognito.host');
         $clientId = config('services.cognito.client_id');
         $logoutUri = config('services.cognito.logout_uri');
+
         return "$authHost/logout?client_id=$clientId&logout_uri=$logoutUri";
     }
 
@@ -163,6 +164,7 @@ class Provider extends AbstractProvider
         $clientId = config('services.cognito.client_id');
         $redirectUri = config('services.cognito.redirect');
         $scope = $this->formatScopes($this->getScopes(), $this->scopeSeparator);
+
         return "$authHost/logout?client_id=$clientId&response_type=code&scope=$scope&redirect_uri=$redirectUri";
     }
 }
