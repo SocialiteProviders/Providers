@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\SoundCloud;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -42,7 +43,12 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.soundcloud.com/me.json?oauth_token='.$token
+            'https://api.soundcloud.com/me.json',
+            [
+                RequestOptions::HEADERS => [
+                    'Authorization' => 'OAuth '.$token,
+                ],
+            ]
         );
 
         return json_decode((string) $response->getBody(), true);
