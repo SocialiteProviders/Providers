@@ -80,8 +80,6 @@ COGNITO_LOGIN_SCOPE="openid,profile"
 - .env COGNITO_CALLBACK_URL must in your Cognito client app Callback URL(s)
 - .env COGNITO_SIGN_OUT_URL must in your Cognito client app Sign out URL(s)
 
-
-
 [project setup tutorial](https://blog.jamessiebert.com/laravel-socialite-aws-cognito-tutorial/)
 
 ### Returned User fields
