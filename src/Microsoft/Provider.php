@@ -15,6 +15,7 @@ class Provider extends AbstractProvider
 
     /**
      * Default field list to request from Microsoft.
+     * @see https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions
      */
     protected const DEFAULT_FIELDS = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'mail', 'mobilePhone', 'officeLocation', 'preferredLanguage', 'surname', 'userPrincipalName'];
 
