@@ -30,8 +30,8 @@ class Provider extends AbstractProvider
     {
         return Cache::remember(
             sprintf(
-                    'socialite_%s_openidconfiguration',
-                    self::IDENTIFIER
+                'socialite_%s_openidconfiguration',
+                self::IDENTIFIER
             ),
             intval($this->config['cache_time']),
             function () {
