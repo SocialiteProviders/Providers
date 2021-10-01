@@ -28,23 +28,30 @@ class Provider extends AbstractProvider
      */
     private function getOpenIdConfiguration()
     {
-        return Cache::remember('socialite_'.self::IDENTIFIER.'_openidconfiguration', intval($this->config['cache_time'] ?: 3600), function () {
-            try {
-                $response = $this->getHttpClient()->get(
-                    sprintf(
-                        'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
-                        $this->getConfig('domain'),
-                        $this->getConfig('domain'),
-                        $this->getConfig('policy')
-                    ),
-                    ['http_errors' => true]
-                );
-            } catch (ClientException $ex) {
-                throw new Exception("Error on getting OpenID Configuration. {$ex}");
-            }
+        return Cache::remember(
+            sprintf(
+                    'socialite_%s_openidconfiguration',
+                    self::IDENTIFIER
+            ),
+            intval($this->config['cache_time']),
+            function () {
+                try {
+                    $response = $this->getHttpClient()->get(
+                        sprintf(
+                            'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
+                            $this->getConfig('domain'),
+                            $this->getConfig('domain'),
+                            $this->getConfig('policy')
+                        ),
+                        ['http_errors' => true]
+                    );
+                } catch (ClientException $ex) {
+                    throw new Exception("Error on getting OpenID Configuration. {$ex}");
+                }
 
-            return json_decode($response->getBody());
-        });
+                return json_decode($response->getBody());
+            }
+        );
     }
 
     /**
@@ -52,11 +59,18 @@ class Provider extends AbstractProvider
      */
     private function getJWTKeys()
     {
-        return Cache::remember('socialite_'.self::IDENTIFIER.'_jwks', intval($this->config['cache_time'] ?: 3600), function () {
-            $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri);
+        return Cache::remember(
+            sprintf(
+                'socialite_%s_jwks',
+                self::IDENTIFIER
+            ),
+            intval($this->config['cache_time']),
+            function () {
+                $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri);
 
-            return json_decode($response->getBody(), true);
-        });
+                return json_decode($response->getBody(), true);
+            }
+        );
     }
 
     /**
