@@ -111,7 +111,7 @@ class Provider extends AbstractProvider
         $authHost = $this->getConfig('host');
         $clientId = $this->getConfig('client_id');
         $logoutUri = $this->getConfig('logout_uri');
-        return sprintf("%s/logout?client_id=%s&logout_uri=%s", $authHost, $clientId, $logoutUri);
+        return sprintf('%s/logout?client_id=%s&logout_uri=%s', $authHost, $clientId, $logoutUri);
     }
 
     /**
@@ -125,7 +125,7 @@ class Provider extends AbstractProvider
         $clientId = $this->getConfig('client_id');
         $redirectUri = $this->getConfig('redirect');
         $scope = $this->formatScopes($this->getScopes(), $this->scopeSeparator);
-        return sprintf("%s/logout?client_id=%s&response_type=code&scope=%s&redirect_uri=%s", $authHost, $clientId, $scope, $redirectUri);
+        return sprintf('%s/logout?client_id=%s&response_type=code&scope=%s&redirect_uri=%s', $authHost, $clientId, $scope, $redirectUri);
     }
 
     /**
