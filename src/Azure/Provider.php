@@ -28,21 +28,11 @@ class Provider extends AbstractProvider
     protected $scopes = ['User.Read'];
 
     /**
-     * The Graph API version for the request.
-     *
-     * @var string
-     */
-    protected $version = '1.5';
-
-    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(
-            'https://login.microsoftonline.com/'.($this->config['tenant'] ?? 'common').'/oauth2/v2.0/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/oauth2/v2.0/authorize', $state);
     }
 
     /**
@@ -50,7 +40,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://login.microsoftonline.com/'.($this->config['tenant'] ?? 'common').'/oauth2/v2.0/token';
+        return $this->getBaseUrl().'/oauth2/v2.0/token';
     }
 
     public function getAccessToken($code)
@@ -85,32 +75,12 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['id'],  // $user['objectId'],
-            'nickname' => null,
-            'name' => $user['displayName'],
-            'email' => $user['userPrincipalName'],
-            'avatar' => null,
+            'id'        => $user['id'],
+            'nickname'  => null,
+            'name'      => $user['displayName'],
+            'email'     => $user['userPrincipalName'],
+            'avatar'    => null,
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        $fields = [
-            'grant_type' => 'authorization_code',
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'code' => $code,
-            'redirect_uri' => $this->redirectUrl,
-        ];
-
-        if ($this->usesPKCE()) {
-            $fields['code_verifier'] = $this->request->session()->pull('code_verifier');
-        }
-
-        return $fields;
     }
 
     /**
@@ -118,25 +88,32 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant', 'logout_url'];
+        return ['tenant', 'logout_url', 'proxy'];
     }
 
     /**
      * Get the access token response for the given code.
      *
-     * @param  string  $code
+     * @param string $code
      * @return array
      */
     public function getAccessTokenResponse($code)
     {
-
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
-            'form_params' => $this->getTokenFields($code),
-            'proxy' => config('services.azure.proxy')
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
+            RequestOptions::PROXY       => $this->getConfig('proxy')
         ]);
 
         return json_decode($response->getBody(), true);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getBaseUrl(): string
+    {
+        return 'https://login.microsoftonline.com/'.$this->getConfig('tenant', 'common');
     }
 
 }
