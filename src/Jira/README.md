@@ -32,7 +32,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\Jira\\JiraExtendSocialite@handle',
+        \SocialiteProviders\Jira\JiraExtendSocialite::class.'@handle',
     ],
 ];
 ```
