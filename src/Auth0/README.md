@@ -37,7 +37,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\Auth0\\Auth0ExtendSocialite@handle',
+        \SocialiteProviders\Auth0\Auth0ExtendSocialite::class.'@handle',
     ],
 ];
 ```

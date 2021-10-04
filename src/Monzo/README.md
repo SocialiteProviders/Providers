@@ -28,7 +28,7 @@
  protected $listen = [
      \SocialiteProviders\Manager\SocialiteWasCalled::class => [
          // ... other providers
-         'SocialiteProviders\\Monzo\\MonzoExtendSocialite@handle',
+         \SocialiteProviders\Monzo\MonzoExtendSocialite::class.'@handle',
      ],
  ];
  ```
