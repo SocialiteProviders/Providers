@@ -95,6 +95,7 @@ class Provider extends AbstractProvider
      * Get the access token response for the given code.
      *
      * @param string $code
+     *
      * @return array
      */
     public function getAccessTokenResponse($code)
@@ -115,5 +116,4 @@ class Provider extends AbstractProvider
     {
         return 'https://login.microsoftonline.com/'.$this->getConfig('tenant', 'common');
     }
-
 }
