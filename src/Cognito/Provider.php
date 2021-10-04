@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Cognito;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -14,7 +15,7 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'COGNITO';
 
     /**
-     * Scopes defintions.
+     * Scope definitions.
      */
     public const SCOPE_OPENID = 'openid';
     public const SCOPE_EMAIL = 'email';
@@ -23,8 +24,9 @@ class Provider extends AbstractProvider
     public const SCOPE_ADMIN = 'aws.cognito.signin.user.admin';
 
     /**
-     * {@inheritdoc}
      * Adjust the available read / write attributes in cognito client app.
+     *
+     * {@inheritdoc}
      */
     protected $scopes = [
         self::SCOPE_OPENID,
@@ -36,95 +38,61 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
+
+    protected function getCognitoUrl()
+    {
+        return $this->getConfig('host');
+    }
+
     /**
      * {@inheritdoc}
      */
-    public static function additionalConfigKeys()
-    {
-        return [
-            'host',
-            'authorize_uri',
-            'token_uri',
-            'userinfo_uri',
-            'userinfo_key',
-            'user_id',
-            'user_nickname',
-            'user_name',
-            'user_email',
-            'user_avatar',
-        ];
-    }
-
-    /**
-     * Get the authentication URL for the provider.
-     *
-     * @param string $state
-     *
-     * @return string
-     */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getCognitoUrl('authorize_uri'), $state);
+        return $this->buildAuthUrlFromBase($this->getCognitoUrl().'/oauth2/authorize', $state);
     }
 
     /**
-     * Get the token URL for the provider.
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
-        return $this->getCognitoUrl('token_uri');
+        return $this->getCognitoUrl().'/oauth2/token';
     }
 
     /**
-     * Get the raw user for the given access token.
-     *
-     * @param string $token
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function getUserByToken($token): array
     {
-        $response = $this->getHttpClient()->get($this->getCognitoUrl('userinfo_uri'), [
-            'headers' => [
+        $response = $this->getHttpClient()->get($this->getCognitoUrl().'/oauth2/userInfo', [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return (array) json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
-     * Map the raw user array to a Socialite User instance.
+     * Returned user array containing all available user attributes
+     * Cognito adheres to OIDC standard claims - https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
      *
-     * @param array $user
-     *
-     * @return \Laravel\Socialite\User
+     * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
     {
-        $key = $this->getConfig('userinfo_key', null);
-        $data = is_null($key) === true ? $user : Arr::get($user, $key, []);
-
-        return (new User())->setRaw($data)->map([
-            'id'       => $this->getUserData($data, 'sub'),
-            'nickname' => $this->getUserData($data, 'nickname'),
-            'name'     => $this->getUserData($data, 'name'),
-            'email'    => $this->getUserData($data, 'email'),
-            'avatar'   => $this->getUserData($data, 'picture'),
-
-            // user - array containing all available user attributes
-            // Cognito adheres to OIDC standard claims - https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+        return (new User())->setRaw($user)->map([
+            'id'       => $user['sub'],
+            'nickname' => $user['nickname'],
+            'name'     => Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', ''),
+            'email'    => $user['email'],
+            'avatar'   => null, // $user['picture']
         ]);
     }
 
     /**
-     * Get the POST fields for the token request.
-     *
-     * @param string $code
-     *
-     * @return array
+     * {@inheritdoc}
      */
     protected function getTokenFields($code)
     {
@@ -133,38 +101,43 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    protected function getCognitoUrl($type)
+    /**
+     * Logout the user from cognito (expire SSO tokens), then redirect to url.
+     *
+     * {@inheritdoc}
+     */
+    public function logoutCognitoUser(): string
     {
-        return rtrim($this->getConfig('host'), '/').'/'.ltrim(($this->getConfig($type, Arr::get([
-            'authorize_uri' => 'oauth2/authorize',
-            'token_uri'     => 'oauth2/token',
-            'userinfo_uri'  => 'oauth2/userInfo',
-        ], $type))), '/');
+        $authHost = $this->getConfig('host');
+        $clientId = $this->getConfig('client_id');
+        $logoutUri = $this->getConfig('logout_uri');
+        return sprintf("%s/logout?client_id=%s&logout_uri=%s",$authHost,$clientId,$logoutUri);
     }
 
-    protected function getUserData($user, $key)
+    /**
+     * Logout the user from cognito (expire SSO tokens), then redirect the user to he sign in page.
+     *
+     * {@inheritdoc}
+     */
+    public function switchCognitoUser(): string
     {
-        return Arr::get($user, $this->getConfig('user_'.$key, $key));
-    }
-
-    // Logout the user from cognito (expire SSO tokens), then redirect to url.
-    public function logoutCognitoUser()
-    {
-        $authHost = config('services.cognito.host');
-        $clientId = config('services.cognito.client_id');
-        $logoutUri = config('services.cognito.logout_uri');
-
-        return "$authHost/logout?client_id=$clientId&logout_uri=$logoutUri";
-    }
-
-    // Logout the user from cognito (expire SSO tokens), then redirect the user to he sign in page.
-    public function switchCognitoUser()
-    {
-        $authHost = config('services.cognito.host');
-        $clientId = config('services.cognito.client_id');
-        $redirectUri = config('services.cognito.redirect');
+        $authHost = $this->getConfig('host');
+        $clientId = $this->getConfig('client_id');
+        $redirectUri = $this->getConfig('redirect');
         $scope = $this->formatScopes($this->getScopes(), $this->scopeSeparator);
+        return sprintf("%s/logout?client_id=%s&response_type=code&scope=%s&redirect_uri=%s",$authHost,$clientId,$scope,$redirectUri);
+    }
 
-        return "$authHost/logout?client_id=$clientId&response_type=code&scope=$scope&redirect_uri=$redirectUri";
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys(): array
+    {
+        return [
+            'host',
+            'client_id',
+            'logout_uri',
+            'redirect',
+        ];
     }
 }

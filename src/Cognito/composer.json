@@ -1,17 +1,18 @@
 {
     "name": "socialiteproviders/cognito",
-    "description": "Allow oauth connections from AWS Cognito to Laravel Socialite. This allows laravel to log users in from your cognito user pool. Based on https://socialiteproviders.com/Laravel-Passport, the code closely follows this structure so its not too hard to change to a Laravel Passport identity provider.",
+    "description": "Allow oauth connections from AWS Cognito to Laravel Socialite. This allows laravel to log users in from your cognito user pool.",
     "keywords": [
         "laravel",
         "oauth",
-        "cognito",
         "aws",
+        "cognito",
+        "provider",
         "socialite"
     ],
     "license": "MIT",
     "authors": [
         {
-            "name": "JamesSiebert",
+            "name": "James Siebert",
             "email": "js@media360.com.au"
         }
     ],
@@ -19,10 +20,6 @@
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
         "socialiteproviders/manager": "~4.0"
-    },
-    "require-dev": {
-        "mockery/mockery": "~0.9.4",
-        "phpunit/phpunit": "~4.8|~5.4|~6.1"
     },
     "autoload": {
         "psr-4": {
