@@ -102,7 +102,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS     => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
-            RequestOptions::PROXY       => $this->getConfig('proxy')
+            RequestOptions::PROXY       => $this->getConfig('proxy'),
         ]);
 
         return json_decode($response->getBody(), true);
