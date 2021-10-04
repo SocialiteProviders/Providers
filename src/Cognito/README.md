@@ -31,7 +31,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\Cognito\\CognitoExtendSocialite@handle',
+        \SocialiteProviders\Cognito\CognitoExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -47,18 +47,18 @@ return Socialite::driver('cognito')->redirect();
 
 Logout of app and cognito then redirect to url
 ```php
-public function cognitoLogout(){
+public function cognitoLogout() {
     Auth::logout(); // Log out app
-    return Redirect(Socialite::driver('cognito')->logoutCognitoUser()); // Call cognito logout url
+    return redirect(Socialite::driver('cognito')->logoutCognitoUser()); // Call cognito logout url
 }
 ```
 
 Logout of app and cognito then redirect back to login UI.
 ```php
-public function cognitoSwitchAccount(){
+public function cognitoSwitchAccount() {
     Auth::logout(); // Log out app
     $scopes = explode(",", env('COGNITO_LOGIN_SCOPE')); // Override default scopes if needed
-    return Redirect(Socialite::driver('cognito')->scopes($scopes)->switchCognitoUser()); // Call cognito logout url
+    return redirect(Socialite::driver('cognito')->scopes($scopes)->switchCognitoUser()); // Call cognito logout url
 }
 ```
 
@@ -76,7 +76,7 @@ COGNITO_LOGIN_SCOPE="openid,profile"
 - Cognito requires SSL, try ngrok for local testing (works for everything except logout url).
 - Returned user array contains all available attributes (set these in your cognito client app).
 - If receiving state errors try this `$user = Socialite::driver('cognito')->stateless()->user();`
-- "sub" is cognitos UUID, [more info on attributes](https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims)
+- "sub" is Cognito UUID, [more info on attributes](https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims)
 - .env COGNITO_CALLBACK_URL must in your Cognito client app Callback URL(s)
 - .env COGNITO_SIGN_OUT_URL must in your Cognito client app Sign out URL(s)
 
