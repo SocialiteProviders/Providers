@@ -1,11 +1,11 @@
 {
     "name": "socialiteproviders/cognito",
-    "description": "Allow oauth connections from AWS Cognito to Laravel Socialite. This allows laravel to log users in from your cognito user pool.",
+    "description": "Cognito OAuth2 Provider for Laravel Socialite",
     "keywords": [
-        "laravel",
-        "oauth",
         "aws",
         "cognito",
+        "laravel",
+        "oauth",
         "provider",
         "socialite"
     ],

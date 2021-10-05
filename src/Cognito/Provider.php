@@ -17,11 +17,11 @@ class Provider extends AbstractProvider
     /**
      * Scope definitions.
      */
-    public const SCOPE_OPENID = 'openid';
+    public const SCOPE_ADMIN = 'aws.cognito.signin.user.admin';
     public const SCOPE_EMAIL = 'email';
+    public const SCOPE_OPENID = 'openid';
     public const SCOPE_PHONE = 'phone';
     public const SCOPE_PROFILE = 'profile';
-    public const SCOPE_ADMIN = 'aws.cognito.signin.user.admin';
 
     /**
      * Adjust the available read / write attributes in cognito client app.
@@ -38,6 +38,11 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
+    /**
+     * Get the host URL.
+     *
+     * @return string
+     */
     protected function getCognitoUrl()
     {
         return $this->getConfig('host');
@@ -84,19 +89,9 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['sub'],
             'nickname' => $user['nickname'],
-            'name'     => Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', ''),
+            'name'     => trim(Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', '')),
             'email'    => $user['email'],
-            'avatar'   => null, // $user['picture']
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
+            'avatar'   => null,
         ]);
     }
 
@@ -115,18 +110,20 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Logout the user from cognito (expire SSO tokens), then redirect the user to he sign in page.
+     * Logout the user from cognito (expire SSO tokens), then redirect the user to the sign-in page.
      *
      * {@inheritdoc}
      */
     public function switchCognitoUser(): string
     {
         $authHost = $this->getConfig('host');
-        $clientId = $this->getConfig('client_id');
-        $redirectUri = $this->getConfig('redirect');
-        $scope = $this->formatScopes($this->getScopes(), $this->scopeSeparator);
 
-        return sprintf('%s/logout?client_id=%s&response_type=code&scope=%s&redirect_uri=%s', $authHost, $clientId, $scope, $redirectUri);
+        return sprintf('%s/logout?', $authHost).http_build_query([
+            'client_id' => $this->getConfig('client_id'),
+            'redirect_uri' => $this->getConfig('redirect'),
+            'response_type' => 'code',
+            'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+        ]);
     }
 
     /**
@@ -135,8 +132,8 @@ class Provider extends AbstractProvider
     public static function additionalConfigKeys(): array
     {
         return [
-            'host',
             'client_id',
+            'host',
             'logout_uri',
             'redirect',
         ];
