@@ -18,24 +18,21 @@ class Provider extends AbstractProvider
      *
      * @var string
      */
-    protected $graphUrl = 'https://graph.windows.net/myorganization/me';
+    protected $graphUrl = 'https://graph.microsoft.com/v1.0/me';
 
     /**
-     * The Graph API version for the request.
+     * The scopes being requested.
      *
-     * @var string
+     * @var array
      */
-    protected $version = '1.5';
+    protected $scopes = ['User.Read'];
 
     /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(
-            'https://login.microsoftonline.com/'.($this->config['tenant'] ?? 'common').'/oauth2/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/oauth2/v2.0/authorize', $state);
     }
 
     /**
@@ -43,7 +40,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://login.microsoftonline.com/common/oauth2/token';
+        return $this->getBaseUrl().'/oauth2/v2.0/token';
     }
 
     public function getAccessToken($code)
@@ -63,9 +60,6 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->graphUrl, [
-            RequestOptions::QUERY => [
-                'api-version' => $this->version,
-            ],
             RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
@@ -81,19 +75,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['objectId'], 'nickname' => null, 'name' => $user['displayName'],
-            'email' => $user['userPrincipalName'], 'avatar' => null,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-            'resource'   => 'https://graph.windows.net',
+            'id'        => $user['id'],
+            'nickname'  => null,
+            'name'      => $user['displayName'],
+            'email'     => $user['userPrincipalName'],
+            'avatar'    => null,
         ]);
     }
 
@@ -102,6 +88,32 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant'];
+        return ['tenant', 'logout_url', 'proxy'];
+    }
+
+    /**
+     * Get the access token response for the given code.
+     *
+     * @param string $code
+     *
+     * @return array
+     */
+    public function getAccessTokenResponse($code)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
+            RequestOptions::PROXY       => $this->getConfig('proxy'),
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getBaseUrl(): string
+    {
+        return 'https://login.microsoftonline.com/'.$this->getConfig('tenant', 'common');
     }
 }
