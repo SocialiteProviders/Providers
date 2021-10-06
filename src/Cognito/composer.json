@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/cognito",
+    "description": "Cognito OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "aws",
+        "cognito",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Siebert",
+            "email": "js@media360.com.au"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Cognito\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/cognito"
+    }
+}
