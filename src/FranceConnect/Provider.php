@@ -119,7 +119,7 @@ class Provider extends AbstractProvider
         ));
 
         //store tokenId session for logout url generation
-        session()->put('fc_token_id', Arr::get($response, 'id_token'));
+        $this->request->session()->put('fc_token_id', Arr::get($response, 'id_token'));
 
         return  $user->setTokenId(Arr::get($response, 'id_token'))
                     ->setToken($token)
@@ -165,7 +165,7 @@ class Provider extends AbstractProvider
     {
         $params = [
             'post_logout_redirect_uri' => $this->getConfig('logout_redirect'),
-            'id_token_hint'            => session('fc_token_id'),
+            'id_token_hint'            => $this->request->session()->get('fc_token_id'),
         ];
 
         return $this->getBaseUrl().'/logout?'.http_build_query($params);
