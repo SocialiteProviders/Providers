@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
             $this->redirectUrl.'?state='.$state
         );
 
-        app()['session']->flash($state, $request['consumerKey']);
+        $this->request->session()->flash($state, $request['consumerKey']);
 
         return $request['validationUrl'];
     }
@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($state)
     {
         return [
-            'access_token' => app()['session']->get($state),
+            'access_token' => $this->request->session()->get($state),
         ];
     }
 
