@@ -163,11 +163,9 @@ class Provider extends AbstractProvider
      */
     public function generateLogoutURL()
     {
-        $params = [
+        return $this->getBaseUrl().'/logout?'.http_build_query([
             'post_logout_redirect_uri' => $this->getConfig('logout_redirect'),
             'id_token_hint'            => session('fc_token_id'),
-        ];
-
-        return $this->getBaseUrl().'/logout?'.http_build_query($params);
+        ]);
     }
 }

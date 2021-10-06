@@ -42,9 +42,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getInstanceUri().'/ocs/v2.php/cloud/user?format=json', [
+        $response = $this->getHttpClient()->get($this->getInstanceUri().'/ocs/v2.php/cloud/user', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'format' => 'json',
             ],
         ]);
 

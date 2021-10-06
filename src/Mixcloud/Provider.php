@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Mixcloud;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -36,9 +37,9 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.mixcloud.com/me/?access_token='.$token
-        );
+        $response = $this->getHttpClient()->get('https://api.mixcloud.com/me/', [
+            RequestOptions::QUERY => ['access_token' => $token],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }

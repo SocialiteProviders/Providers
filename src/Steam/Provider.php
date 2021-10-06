@@ -146,16 +146,14 @@ class Provider extends AbstractProvider
     {
         $realm = $this->getConfig('realm', $this->request->server('HTTP_HOST'));
 
-        $params = [
+        return self::OPENID_URL.'?'.http_build_query([
             'openid.ns'         => self::OPENID_NS,
             'openid.mode'       => 'checkid_setup',
             'openid.return_to'  => $this->redirectUrl,
             'openid.realm'      => sprintf('%s://%s', $this->request->getScheme(), $realm),
             'openid.identity'   => 'http://specs.openid.net/auth/2.0/identifier_select',
             'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select',
-        ];
-
-        return self::OPENID_URL.'?'.http_build_query($params, '', '&');
+        ]);
     }
 
     /**

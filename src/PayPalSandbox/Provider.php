@@ -47,14 +47,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.sandbox.paypal.com/v1/identity/openidconnect/userinfo/?schema=openid',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get('https://api.sandbox.paypal.com/v1/identity/openidconnect/userinfo/', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'schema' => 'openid',
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }

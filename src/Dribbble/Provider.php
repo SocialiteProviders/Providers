@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Dribbble;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -42,9 +43,9 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.dribbble.com/v2/user?access_token='.$token
-        );
+        $response = $this->getHttpClient()->get('https://api.dribbble.com/v2/user', [
+            RequestOptions::QUERY => ['access_token' => $token],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }

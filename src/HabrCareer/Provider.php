@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\HabrCareer;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -33,11 +34,9 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $params = http_build_query([
-            'access_token' => $token,
+        $response = $this->getHttpClient()->get('https://career.habr.com/api/v1/integrations/users/me', [
+            RequestOptions::QUERY => ['access_token' => $token],
         ]);
-
-        $response = $this->getHttpClient()->get('https://career.habr.com/api/v1/integrations/users/me?'.$params);
 
         return json_decode((string) $response->getBody(), true);
     }

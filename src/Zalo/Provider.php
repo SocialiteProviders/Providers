@@ -66,7 +66,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://graph.zalo.me/v2.0/me?access_token='.$token.'&fields=id,birthday,name,gender,picture');
+        $response = $this->getHttpClient()->get('https://graph.zalo.me/v2.0/me', [
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+                'fields'       => 'id,birthday,name,gender,picture',
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }

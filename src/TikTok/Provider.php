@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\TikTok;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -103,9 +104,9 @@ class Provider extends AbstractProvider
         // token only. Open id is also required therefore:
         // $data['access_token'] = $token, $data['open_id'] = $open_id
 
-        $response = $this->getHttpClient()->get(
-            'https://open-api.tiktok.com/oauth/userinfo?'.http_build_query($data)
-        );
+        $response = $this->getHttpClient()->get('https://open-api.tiktok.com/oauth/userinfo', [
+            RequestOptions::QUERY => $data,
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }

@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
                     'path'      => '/me',
                 ],
             ],
-            $this->redirectUrl.'?state='.$state
+            $this->redirectUrl.'?'.http_build_query(['state' => $state])
         );
 
         app()['session']->flash($state, $request['consumerKey']);

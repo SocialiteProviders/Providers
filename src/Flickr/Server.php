@@ -25,7 +25,7 @@ class Server extends BaseServer
         $authorizeUrl = 'https://www.flickr.com/services/oauth/authorize';
 
         if ($perms = $this->getConfig('perms')) {
-            return "{$authorizeUrl}?perms={$perms}";
+            $authorizeUrl .= '?'.http_build_query(['perms' => $perms]);
         }
 
         return $authorizeUrl;
@@ -44,7 +44,11 @@ class Server extends BaseServer
      */
     public function urlUserDetails()
     {
-        return 'https://api.flickr.com/services/rest/?method=flickr.test.login&format=json&nojsoncallback=1';
+        return 'https://api.flickr.com/services/rest/?'.http_build_query([
+            'format'         => 'json',
+            'method'         => 'flickr.test.login',
+            'nojsoncallback' => 1,
+        ]);
     }
 
     /**
@@ -99,15 +103,13 @@ class Server extends BaseServer
      */
     public function getProfile($userId)
     {
-        $parameters = [
-            'method'         => 'flickr.people.getInfo',
+        $url = 'https://api.flickr.com/services/rest/?'.http_build_query([
+            'api_key'        => $this->clientCredentials->getIdentifier(),
             'format'         => 'json',
+            'method'         => 'flickr.people.getInfo',
             'nojsoncallback' => 1,
             'user_id'        => $userId,
-            'api_key'        => $this->clientCredentials->getIdentifier(),
-        ];
-
-        $url = 'https://api.flickr.com/services/rest/?'.http_build_query($parameters);
+        ]);
 
         $client = $this->createHttpClient();
 

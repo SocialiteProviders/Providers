@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Odnoklassniki;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -44,21 +45,18 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $secretKey = md5($token.$this->clientSecret);
+        $sig = 'application_key='.$this->getConfig('client_public').'format=jsonmethod=users.getCurrentUser';
+        $sig .= md5($token.$this->clientSecret);
 
-        $publicKey = app()['config']['services.odnoklassniki']['client_public'];
-
-        $sign = 'application_key='.$publicKey.'format=jsonmethod=users.getCurrentUser'.$secretKey;
-
-        $params = http_build_query([
-            'method'          => 'users.getCurrentUser',
-            'format'          => 'json',
-            'application_key' => $publicKey,
-            'sig'             => md5($sign),
-            'access_token'    => $token,
+        $response = $this->getHttpClient()->get('https://api.odnoklassniki.ru/fb.do', [
+            RequestOptions::QUERY => [
+                'method'          => 'users.getCurrentUser',
+                'format'          => 'json',
+                'application_key' => $this->getConfig('client_public'),
+                'sig'             => md5($sig),
+                'access_token'    => $token,
+            ],
         ]);
-
-        $response = $this->getHttpClient()->get('https://api.odnoklassniki.ru/fb.do?'.$params);
 
         return json_decode((string) $response->getBody(), true);
     }

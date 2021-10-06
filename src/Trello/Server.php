@@ -68,7 +68,10 @@ class Server extends BaseServer
      */
     public function urlUserDetails()
     {
-        return 'https://trello.com/1/members/me?key='.$this->applicationKey.'&token='.$this->accessToken;
+        return 'https://trello.com/1/members/me?'.http_build_query([
+            'key'   => $this->applicationKey,
+            'token' => $this->accessToken,
+        ]);
     }
 
     /**

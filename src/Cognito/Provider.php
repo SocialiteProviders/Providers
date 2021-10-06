@@ -103,10 +103,11 @@ class Provider extends AbstractProvider
     public function logoutCognitoUser(): string
     {
         $authHost = $this->getConfig('host');
-        $clientId = $this->getConfig('client_id');
-        $logoutUri = $this->getConfig('logout_uri');
 
-        return sprintf('%s/logout?client_id=%s&logout_uri=%s', $authHost, $clientId, $logoutUri);
+        return sprintf('%s/logout?', $authHost).http_build_query([
+            'client_id'  => $this->getConfig('client_id'),
+            'logout_uri' => $this->getConfig('logout_uri'),
+        ]);
     }
 
     /**

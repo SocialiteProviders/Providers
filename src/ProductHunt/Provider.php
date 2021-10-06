@@ -59,6 +59,9 @@ class Provider extends AbstractProvider
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
+                RequestOptions::QUERY => [
+                    'access_token'        => $token,
+                ],
             ]
         );
 

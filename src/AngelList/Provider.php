@@ -37,14 +37,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.angel.co/1/me?access_token='.$token,
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get('https://api.angel.co/1/me', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }

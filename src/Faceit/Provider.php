@@ -17,7 +17,11 @@ class Provider extends AbstractProvider
 
     protected function buildAuthUrlFromBase($url, $state)
     {
-        return $url.'?'.http_build_query($this->getCodeFields($state), '', '&', $this->encodingType).'&redirect_popup=true';
+        $codeFields = array_merge($this->getCodeFields($state), [
+            'redirect_popup' => 'true',
+        ]);
+
+        return $url.'?'.http_build_query($codeFields, '', '&', $this->encodingType);
     }
 
     protected function getTokenUrl()
