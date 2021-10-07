@@ -21,6 +21,11 @@ class Provider extends AbstractProvider
     protected $graphUrl = 'https://graph.microsoft.com/v1.0/me';
 
     /**
+     * {@inheritdoc}
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
      * The scopes being requested.
      *
      * @var array
@@ -84,14 +89,6 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
-    {
-        return ['tenant', 'logout_url', 'proxy'];
-    }
-
-    /**
      * Get the access token response for the given code.
      *
      * @param string $code
@@ -115,5 +112,13 @@ class Provider extends AbstractProvider
     protected function getBaseUrl(): string
     {
         return 'https://login.microsoftonline.com/'.$this->getConfig('tenant', 'common');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['tenant', 'logout_url', 'proxy'];
     }
 }
