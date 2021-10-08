@@ -24,7 +24,7 @@ class Provider extends AbstractProvider
     ];
 
     /**
-     * Get OpenID Configuration
+     * Get OpenID Configuration.
      */
     private function getOpenIdConfiguration()
     {
