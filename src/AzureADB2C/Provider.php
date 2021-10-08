@@ -5,7 +5,7 @@ namespace SocialiteProviders\AzureADB2C;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
+use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -24,34 +24,24 @@ class Provider extends AbstractProvider
     ];
 
     /**
-     * Get OpenID Configuration and store on cache.
+     * Get OpenID Configuration
      */
     private function getOpenIdConfiguration()
     {
-        return Cache::remember(
-            sprintf(
-                'socialite_%s_openidconfiguration',
-                self::IDENTIFIER
-            ),
-            intval($this->config['cache_time']),
-            function () {
-                try {
-                    $response = $this->getHttpClient()->get(
-                        sprintf(
-                            'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
-                            $this->getConfig('domain'),
-                            $this->getConfig('domain'),
-                            $this->getConfig('policy')
-                        ),
-                        ['http_errors' => true]
-                    );
-                } catch (ClientException $ex) {
-                    throw new Exception("Error on getting OpenID Configuration. {$ex}");
-                }
+        try {
+            $response = $this->getHttpClient()->get(
+                sprintf(
+                    'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
+                    $this->getConfig('domain'),
+                    $this->getConfig('domain'),
+                    $this->getConfig('policy')
+                ),
+            );
+        } catch (Exception $ex) {
+            throw new InvalidStateException("Error on getting OpenID Configuration. {$ex}");
+        }
 
-                return json_decode($response->getBody());
-            }
-        );
+        return json_decode($response->getBody());
     }
 
     /**
@@ -59,18 +49,9 @@ class Provider extends AbstractProvider
      */
     private function getJWTKeys()
     {
-        return Cache::remember(
-            sprintf(
-                'socialite_%s_jwks',
-                self::IDENTIFIER
-            ),
-            intval($this->config['cache_time']),
-            function () {
-                $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri);
+        $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri);
 
-                return json_decode($response->getBody(), true);
-            }
-        );
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -105,14 +86,10 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        try {
-            $response = $this->getAccessTokenResponse($this->getCode());
-            $claims = $this->validateIdToken(Arr::get($response, 'id_token'));
+        $response = $this->getAccessTokenResponse($this->getCode());
+        $claims = $this->validateIdToken(Arr::get($response, 'id_token'));
 
-            return $this->mapUserToObject($claims);
-        } catch (Exeption $ex) {
-            throw new Exception("Error on getting OpenID Configuration. {$ex}");
-        }
+        return $this->mapUserToObject($claims);
     }
 
     /**
@@ -132,21 +109,21 @@ class Provider extends AbstractProvider
 
             // iss validation
             if (strcmp($payload_json['iss'], $this->getOpenIdConfiguration()->issuer)) {
-                throw new Exception('iss on id_token does not match issuer value on the OpenID configuration');
+                throw new InvalidStateException('iss on id_token does not match issuer value on the OpenID configuration');
             }
             // aud validation
             if (strpos($payload_json['aud'], $this->config['client_id']) === false) {
-                throw new Exception('aud on id_token does not match the client_id for this application');
+                throw new InvalidStateException('aud on id_token does not match the client_id for this application');
             }
             // exp validation
             if ((int) $payload_json['exp'] < time()) {
-                throw new Exception('id_token is expired');
+                throw new InvalidStateException('id_token is expired');
             }
 
             // signature validation and return claims
             return (array) JWT::decode($id_token, JWK::parseKeySet($this->getJWTKeys()), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
         } catch (Exception $ex) {
-            throw new Exception("Error on validationg id_token. {$ex}");
+            throw new InvalidStateException("Error on validationg id_token. {$ex}");
         }
     }
 
@@ -179,7 +156,6 @@ class Provider extends AbstractProvider
         return [
             'domain',
             'policy',
-            'cache_time',
         ];
     }
 }
