@@ -49,3 +49,34 @@ return Socialite::driver('azure')->redirect();
 - ``id``
 - ``name``
 - ``email``
+
+## Advanced usage
+
+In order to have multiple / different Active directories on Azure (i.e. multiple tenants) The same driver can be used but with a different config:
+
+```php
+/**
+ * Returns a custom config for this specific Azure AD connection / directory
+ * @return \SocialiteProviders\Manager\Config
+ */
+function getConfig(): \SocialiteProviders\Manager\Config
+{
+  return new \SocialiteProviders\Manager\Config(
+    env('AD_CLIENT_ID', 'some-client-id'), // a different clientID for this separate Azure directory
+    env('AD_CLIENT_SECRET'), // a different secret for this separate Azure directory
+    url(env('AD_REDIRECT_PATH', '/azuread/callback')), // the redirect path i.e. a different callback to the other azureAD callbacks
+    ['tenant' => env('AD_TENTANT_ID', 'common')], // this could be something special if need be, but can also be left out entirely
+  );
+}
+//....//
+Socialite::driver('azure')
+    ->setConfig(getConfig())
+    ->redirect();
+```
+
+This also applies to the callback for getting the user credentials that one has to remember to inject the ```->setConfig($config)```-method i.e.:
+```php
+$socialUser = Socialite::driver('azure')
+    ->setConfig(getConfig())
+    ->user();
+```
