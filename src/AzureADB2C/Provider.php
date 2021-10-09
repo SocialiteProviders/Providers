@@ -29,14 +29,13 @@ class Provider extends AbstractProvider
     private function getOpenIdConfiguration()
     {
         try {
-            $response = $this->getHttpClient()->get(
-                sprintf(
-                    'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
-                    $this->getConfig('domain'),
-                    $this->getConfig('domain'),
-                    $this->getConfig('policy')
-                ),
+            $discovery = sprintf(
+                'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
+                $this->getConfig('domain'),
+                $this->getConfig('domain'),
+                $this->getConfig('policy')
             );
+            $response = $this->getHttpClient()->get($discovery);
         } catch (Exception $ex) {
             throw new InvalidStateException("Error on getting OpenID Configuration. {$ex}");
         }
