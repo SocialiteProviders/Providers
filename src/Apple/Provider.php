@@ -178,8 +178,10 @@ class Provider extends AbstractProvider
         if ($this->usesState()) {
             $state = explode('.', $appleUserToken['nonce'])[1];
             if ($state === $this->request->input('state')) {
-                $this->request->session()->put('state', $state);
-                $this->request->session()->put('state_verify', $state);
+                $this->request->session()->put([
+                    'state'        => $state,
+                    'state_verify' => $state,
+                ]);
             }
 
             if ($this->hasInvalidState()) {
