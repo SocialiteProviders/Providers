@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\AzureADB2C;
 
+use Exception;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Arr;
@@ -25,8 +26,12 @@ class Provider extends AbstractProvider
 
     /**
      * Get OpenID Configuration.
+     *
+     * @throws Laravel\Socialite\Two\InvalidStateException
+     *
+     * @return mixed
      */
-    private function getOpenIdConfiguration()
+     private function getOpenIdConfiguration()
     {
         try {
             $discovery = sprintf(
@@ -40,17 +45,19 @@ class Provider extends AbstractProvider
             throw new InvalidStateException("Error on getting OpenID Configuration. {$ex}");
         }
 
-        return json_decode($response->getBody());
+        return json_decode((string) $response->getBody());
     }
 
     /**
      * Get public keys to verify id_token from jwks_uri.
+     *
+     * @return mixed
      */
     private function getJWTKeys()
     {
         $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -82,6 +89,8 @@ class Provider extends AbstractProvider
 
     /**
      * Additional implementation to get user claims from id_token.
+     *
+     * @return \SocialiteProviders\Manager\OAuth2\User
      */
     public function user()
     {
@@ -98,12 +107,18 @@ class Provider extends AbstractProvider
      *   iss: MUST much iss = issuer value on metadata.
      *   aud: MUST include client_id for this client.
      *   exp: MUST time() < exp.
+     *
+     * @param string $idToken
+     *
+     * @throws Laravel\Socialite\Two\InvalidStateException
+     *
+     * @return array
      */
-    private function validateIdToken($id_token)
+    private function validateIdToken($idToken)
     {
         try {
             // payload validation
-            $payload = explode('.', $id_token);
+            $payload = explode('.', $idToken);
             $payload_json = json_decode(base64_decode(str_pad(strtr($payload[1], '-_', '+/'), strlen($payload[1]) % 4, '=', STR_PAD_RIGHT)), true);
 
             // iss validation
@@ -120,7 +135,7 @@ class Provider extends AbstractProvider
             }
 
             // signature validation and return claims
-            return (array) JWT::decode($id_token, JWK::parseKeySet($this->getJWTKeys()), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
+            return (array) JWT::decode($idToken, JWK::parseKeySet($this->getJWTKeys()), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
         } catch (Exception $ex) {
             throw new InvalidStateException("Error on validationg id_token. {$ex}");
         }
@@ -139,6 +154,8 @@ class Provider extends AbstractProvider
 
     /**
      * return logout endpoint with post_logout_uri paramter.
+     *
+     * @return string
      */
     public function logout($post_logout_uri)
     {
