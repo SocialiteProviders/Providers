@@ -119,18 +119,18 @@ class Provider extends AbstractProvider
         try {
             // payload validation
             $payload = explode('.', $idToken);
-            $payload_json = json_decode(base64_decode(str_pad(strtr($payload[1], '-_', '+/'), strlen($payload[1]) % 4, '=', STR_PAD_RIGHT)), true);
+            $payloadJson = json_decode(base64_decode(str_pad(strtr($payload[1], '-_', '+/'), strlen($payload[1]) % 4, '=', STR_PAD_RIGHT)), true);
 
             // iss validation
-            if (strcmp($payload_json['iss'], $this->getOpenIdConfiguration()->issuer)) {
+            if (strcmp($payloadJson['iss'], $this->getOpenIdConfiguration()->issuer)) {
                 throw new InvalidStateException('iss on id_token does not match issuer value on the OpenID configuration');
             }
             // aud validation
-            if (strpos($payload_json['aud'], $this->config['client_id']) === false) {
+            if (strpos($payloadJson['aud'], $this->config['client_id']) === false) {
                 throw new InvalidStateException('aud on id_token does not match the client_id for this application');
             }
             // exp validation
-            if ((int) $payload_json['exp'] < time()) {
+            if ((int) $payloadJson['exp'] < time()) {
                 throw new InvalidStateException('id_token is expired');
             }
 
