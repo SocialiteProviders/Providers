@@ -31,7 +31,7 @@ class Provider extends AbstractProvider
      *
      * @return mixed
      */
-     private function getOpenIdConfiguration()
+    private function getOpenIdConfiguration()
     {
         try {
             $discovery = sprintf(
