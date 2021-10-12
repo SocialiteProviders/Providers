@@ -6,7 +6,7 @@ use Exception;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Arr;
-use \Laravel\Socialite\Two\InvalidStateException;
+use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
