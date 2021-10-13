@@ -16,7 +16,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['read_public'];
+    protected $scopes = ['user_accounts:read'];
 
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.pinterest.com/oauth/',
+            'https://www.pinterest.com/oauth/',
             $state
         );
     }
@@ -34,7 +34,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://api.pinterest.com/v1/oauth/token';
+        return 'https://api.pinterest.com/v5/oauth/token';
     }
 
     /**
@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.pinterest.com/v1/me/',
+            'https://api.pinterest.com/v5/user_account',
             [
                 RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
@@ -59,14 +59,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        preg_match('#https://www.pinterest.com/(.+?)/#', $user['data']['url'], $matches);
-        $nickname = $matches[1];
-
         return (new User())->setRaw($user)->map(
             [
-                'id'       => $user['data']['id'],
-                'nickname' => $nickname,
-                'name'     => $user['data']['first_name'].' '.$user['data']['last_name'],
+                'id'       => $user['username'],
+                'nickname' => $user['username'],
+                'name'     => null,
+                'email'    => null,
+                'avatar'   => $user['profile_image'],
             ]
         );
     }
