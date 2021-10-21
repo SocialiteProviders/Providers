@@ -42,24 +42,24 @@ protected $listen = [
 
 ### Usage
 
-Now, Telegram is technically using `OAuth`, but not the usual workflow.
-
-First or all, you **must** add a javascript to your page, anywhere you want (in the `<head>` or bottom of page) with this snippet:
+You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-{!! Socialite::driver('telegram')->getScript() !!}
+return Socialite::driver('telegram')->redirect();
 ```
 
-You also **must** call `_TWidgetLogin.auth()` on click on your login button, which will open a popup showing the Telegram OAuth access request. Because of browser's security, you can't automatically call this, it must be called as a result of a user's action.
-
-If the user **accept** the access request, the browser is redirected to your `services.telegram.redirect` config key and you will have access to the logged-in user data the classic `Socialite` way:
+You **can** add the login button to your page, anywhere you want  with this snippet:
 
 ```php
-Socialite::driver('telegram')->user();
-```
-
-If the user **declines**, an `InvalidArgumentException` exception will be thrown.
-
-Using `Socialite::driver('telegram')->redirect()` will show you a blank page with only the login button.
+{!! Socialite::driver('telegram')->getButton() !!}
+``` 
 
 If you want to see the Telegram Widget configuration page: https://core.telegram.org/widgets/login
+
+### Returned User fields
+
+- ``id``
+- ``first_name``
+- ``last_name``
+- ``username``
+- ``photo_url``
