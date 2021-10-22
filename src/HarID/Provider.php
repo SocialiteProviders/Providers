@@ -43,9 +43,10 @@ class Provider extends AbstractProvider
     /**
      * Should use test or live IdP.
      *
-     * @return boolean
+     * @return bool
      */
-    protected function useTestIdp() {
+    protected function useTestIdp()
+    {
         return (bool) $this->getConfig('use_test_idp', false);
     }
 
@@ -111,11 +112,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['sub'],
+            'id' => $user['sub'],
             'nickname' => $user['sub'],
-            'name'     => $user["name"],
-            'email'    => $user['email'],
-            'avatar'   => "",
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => '',
         ]);
     }
 }
