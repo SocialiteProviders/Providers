@@ -194,3 +194,4 @@ parameters:
     src/Zoho: 'git@github.com:SocialiteProviders/Zoho.git'
     src/Zoom: 'git@github.com:SocialiteProviders/Zoom.git'
     src/xREL: 'git@github.com:SocialiteProviders/xREL.git'
+    src/HarID: 'git@github.com:SocialiteProviders/HarID.git'
