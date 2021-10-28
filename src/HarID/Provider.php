@@ -37,23 +37,13 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Should use test or live IdP.
-     *
-     * @return bool
-     */
-    protected function useTestIdp()
-    {
-        return (bool) $this->getConfig('use_test_idp', false);
-    }
-
-    /**
      * Returns well known configuration for IdP.
      *
      * @return array
      */
     protected function getWellKnownConfiguration()
     {
-        $url = $this->useTestIdp() ? 'https://test.harid.ee/.well-known/openid-configuration' : 'https://harid.ee/.well-known/openid-configuration';
+        $url = ($this->getConfig('use_test_idp', false) === true)  ? 'https://test.harid.ee/.well-known/openid-configuration' : 'https://harid.ee/.well-known/openid-configuration';
 
         $response = $this->getHttpClient()->get($url, [
             RequestOptions::QUERY => [
