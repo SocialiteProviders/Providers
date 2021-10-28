@@ -56,19 +56,9 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'     => $user['uid'], 
-            'name' => $user['username'],
+            'name'   => $user['username'],
             'email'  => $user['email'],
             'avatar' => 'https://www.gravatar.com/avatar/'.md5($user['email']),
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }
