@@ -2,7 +2,7 @@
 
 namespace SocialiteProviders\HarID;
 
-use Illuminate\Support\Facades\Cache;
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -14,9 +14,7 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'HARID';
 
     /**
-     * The scopes being requested.
-     *
-     * @var array
+     * {@inheritdoc}
      */
     protected $scopes = [
         'openid',
@@ -26,9 +24,7 @@ class Provider extends AbstractProvider
     ];
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 
@@ -59,17 +55,13 @@ class Provider extends AbstractProvider
     {
         $url = $this->useTestIdp() ? 'https://test.harid.ee/.well-known/openid-configuration' : 'https://harid.ee/.well-known/openid-configuration';
 
-        $value = Cache::remember($url, 60 * 60 * 24, function () use ($url) {
-            $response = $this->getHttpClient()->get($url, [
-                'query' => [
-                    'prettyPrint' => 'false',
-                ],
-            ]);
+        $response = $this->getHttpClient()->get($url, [
+            RequestOptions::QUERY => [
+                'prettyPrint' => 'false',
+            ],
+        ]);
 
-            return (string) $response->getBody();
-        });
-
-        return json_decode($value, true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -94,16 +86,16 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->getWellKnownConfiguration()['userinfo_endpoint'], [
-            'query' => [
+            RequestOptions::QUERY => [
                 'prettyPrint' => 'false',
             ],
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**

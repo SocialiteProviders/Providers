@@ -65,6 +65,7 @@ parameters:
     src/Graph: 'git@github.com:SocialiteProviders/Microsoft-Graph.git'
     src/Gumroad: 'git@github.com:SocialiteProviders/Gumroad.git'
     src/HabrCareer: 'git@github.com:SocialiteProviders/HabrCareer.git'
+    src/HarID: 'git@github.com:SocialiteProviders/HarID.git'
     src/Harvest: 'git@github.com:SocialiteProviders/Harvest.git'
     src/HeadHunter: 'git@github.com:SocialiteProviders/HeadHunter.git'
     src/Heroku: 'git@github.com:SocialiteProviders/Heroku.git'
@@ -194,4 +195,3 @@ parameters:
     src/Zoho: 'git@github.com:SocialiteProviders/Zoho.git'
     src/Zoom: 'git@github.com:SocialiteProviders/Zoom.git'
     src/xREL: 'git@github.com:SocialiteProviders/xREL.git'
-    src/HarID: 'git@github.com:SocialiteProviders/HarID.git'

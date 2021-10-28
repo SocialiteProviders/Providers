@@ -8,6 +8,8 @@ class HarIDExtendSocialite
 {
     /**
      * Register the provider.
+     *
+     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
