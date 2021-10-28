@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
      */
     protected function getWellKnownConfiguration()
     {
-        $url = ($this->getConfig('use_test_idp', false) === true)  ? 'https://test.harid.ee/.well-known/openid-configuration' : 'https://harid.ee/.well-known/openid-configuration';
+        $url = ($this->getConfig('use_test_idp', false) === true) ? 'https://test.harid.ee/.well-known/openid-configuration' : 'https://harid.ee/.well-known/openid-configuration';
 
         $response = $this->getHttpClient()->get($url, [
             RequestOptions::QUERY => [
