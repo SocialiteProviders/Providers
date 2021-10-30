@@ -81,6 +81,7 @@ parameters:
     src/LaravelPassport: 'git@github.com:SocialiteProviders/Laravel-Passport.git'
     src/Lichess: 'git@github.com:SocialiteProviders/Lichess.git'
     src/Line: 'git@github.com:SocialiteProviders/Line.git'
+    src/Linode: 'git@github.com:SocialiteProviders/Linode.git'
     src/LinkedIn: 'git@github.com:SocialiteProviders/LinkedIn.git'
     src/Live: 'git@github.com:SocialiteProviders/Microsoft-Live.git'
     src/MailChimp: 'git@github.com:SocialiteProviders/MailChimp.git'
