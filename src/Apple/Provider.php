@@ -103,6 +103,7 @@ class Provider extends AbstractProvider
      * Get the token response for the given refresh token.
      *
      * @param string $refreshToken
+     *
      * @return array
      */
     protected function getRefreshTokenResponse(string $refreshToken): array
@@ -112,7 +113,7 @@ class Provider extends AbstractProvider
             RequestOptions::FORM_PARAMS => $this->getRefreshTokenFields($refreshToken),
         ]);
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -129,14 +130,15 @@ class Provider extends AbstractProvider
      * Get the GET parameters for the token refresh request.
      *
      * @param string $refreshToken
+     *
      * @return array
      */
     protected function getRefreshTokenFields(string $refreshToken): array
     {
         return [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'grant_type' => 'refresh_token',
+            'grant_type'    => 'refresh_token',
             'refresh_token' => $refreshToken,
         ];
     }
@@ -235,6 +237,7 @@ class Provider extends AbstractProvider
 
     /**
      * @param string $refreshToken
+     *
      * @return \SocialiteProviders\Manager\OAuth2\User
      */
     public function refresh(string $refreshToken): User
