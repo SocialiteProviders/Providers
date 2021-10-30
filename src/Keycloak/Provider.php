@@ -83,4 +83,14 @@ class Provider extends AbstractProvider
             'grant_type' => 'authorization_code',
         ]);
     }
+
+    /**
+     * Return logout endpoint with redirect_uri query parameter.
+     *
+     * @return string
+     */
+    public function getLogoutUrl(string $redirectUri)
+    {
+        return $this->getBaseUrl().'/protocol/openid-connect/logout?redirect_uri='.urlencode($redirectUri);
+    }
 }
