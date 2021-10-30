@@ -37,21 +37,13 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Returns well known configuration for IdP.
+     * Returns base URL for idP endpoints with check for test or live environment.
      *
-     * @return array
+     * @return string
      */
-    protected function getWellKnownConfiguration()
+    protected function getEndpointBaseUrl()
     {
-        $url = ($this->getConfig('use_test_idp', false) === true) ? 'https://test.harid.ee/.well-known/openid-configuration' : 'https://harid.ee/.well-known/openid-configuration';
-
-        $response = $this->getHttpClient()->get($url, [
-            RequestOptions::QUERY => [
-                'prettyPrint' => 'false',
-            ],
-        ]);
-
-        return json_decode((string) $response->getBody(), true);
+        return ($this->getConfig('use_test_idp', false) === true) ? 'https://test.harid.ee/et' : 'https://harid.ee/et';
     }
 
     /**
@@ -59,7 +51,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getWellKnownConfiguration()['authorization_endpoint'], $state);
+        return $this->buildAuthUrlFromBase($this->getEndpointBaseUrl().'/authorizations/new', $state);
     }
 
     /**
@@ -67,7 +59,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getWellKnownConfiguration()['token_endpoint'];
+        return $this->getEndpointBaseUrl().'/access_tokens';
     }
 
     /**
@@ -75,7 +67,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getWellKnownConfiguration()['userinfo_endpoint'], [
+        $response = $this->getHttpClient()->get($this->getEndpointBaseUrl().'/user_info', [
             RequestOptions::QUERY => [
                 'prettyPrint' => 'false',
             ],
