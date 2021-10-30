@@ -15,7 +15,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_id' => env('HARID_CLIENT_ID'),
   'client_secret' => env('HARID_CLIENT_SECRET'),
   'redirect' => env('HARID_REDIRECT_URI'),
-  'use_test_idp' => true,
+  'use_test_idp' => false,
 ],
 ```
 
@@ -45,7 +45,8 @@ return Socialite::driver('harid')->redirect();
 ```
 
 Default scopes are set to `openid profile email session_type`. Additional scopes could be `personal_code`, `roles` and `custodies`.
-Please see the [HarID documentation](https://harid.ee/en/pages/dev-info) for specifications.
+Please see the [HarID documentation](https://harid.ee/en/pages/dev-info) for specifications. If you really want to add
+some additional scopes or replace the default ones, then please read the [documentation](https://laravel.com/docs/8.x/socialite#access-scopes).
 
 ### Returned User fields
 
