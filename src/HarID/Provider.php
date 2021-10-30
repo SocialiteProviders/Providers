@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
      */
     protected function getEndpointBaseUrl()
     {
-        return ($this->getConfig('use_test_idp', false) === true) ? 'https://test.harid.ee/et' : 'https://harid.ee/et';
+        return (bool) $this->getConfig('use_test_idp', false) === true ? 'https://test.harid.ee/et' : 'https://harid.ee/et';
     }
 
     /**
