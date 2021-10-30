@@ -234,7 +234,6 @@ class Provider extends AbstractProvider
             ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
 
-
     /**
      * @param string $refreshToken
      *
