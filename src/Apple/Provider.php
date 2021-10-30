@@ -100,6 +100,22 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Get the token response for the given refresh token.
+     *
+     * @param string $refreshToken
+     * @return array
+     */
+    protected function getRefreshTokenResponse(string $refreshToken): array
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => $this->getRefreshTokenFields($refreshToken),
+        ]);
+
+        return json_decode((string)$response->getBody(), true);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getTokenFields($code)
@@ -107,6 +123,22 @@ class Provider extends AbstractProvider
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
+    }
+
+    /**
+     * Get the GET parameters for the token refresh request.
+     *
+     * @param string $refreshToken
+     * @return array
+     */
+    protected function getRefreshTokenFields(string $refreshToken): array
+    {
+        return [
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken,
+        ];
     }
 
     /**
@@ -197,6 +229,23 @@ class Provider extends AbstractProvider
 
         return $user->setToken($token)
             ->setRefreshToken(Arr::get($response, 'refresh_token'))
+            ->setExpiresIn(Arr::get($response, 'expires_in'));
+    }
+
+
+    /**
+     * @param string $refreshToken
+     * @return \SocialiteProviders\Manager\OAuth2\User
+     */
+    public function refresh(string $refreshToken): User
+    {
+        $response = $this->getRefreshTokenResponse($refreshToken);
+
+        $user = $this->mapUserToObject($this->getUserByToken(
+            $token = Arr::get($response, 'id_token')
+        ));
+
+        return $user->setToken($token)
             ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
 
