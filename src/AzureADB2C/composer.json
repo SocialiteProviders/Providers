@@ -14,10 +14,12 @@
         "socialite"
     ],
     "license": "MIT",
-    "authors": [{
-        "name": "Naohiro Fujie",
-        "email": "naohiro.fujie@eidentity.jp"
-    }],
+    "authors": [
+        {
+            "name": "Naohiro Fujie",
+            "email": "naohiro.fujie@eidentity.jp"
+        }
+    ],
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
