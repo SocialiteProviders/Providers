@@ -41,7 +41,9 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Return logout endpoint with post_logout_redirect_uri query parameter.
+     * Return the logout endpoint with post_logout_redirect_uri query parameter.
+     *
+     * @param string $redirectUri
      *
      * @return string
      */
