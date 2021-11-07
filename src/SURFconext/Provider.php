@@ -79,6 +79,7 @@ class Provider extends AbstractProvider
             'family_name'                  => Arr::get($user, 'family_name'),
             'schac_home_organization'      => Arr::get($user, 'schac_home_organization'),
             'schac_home_organization_type' => Arr::get($user, 'schac_home_organization_type'),
+            'edumember_is_member_of'       => Arr::get($user, 'edumember_is_member_of'),
             'eduperson_affiliation'        => Arr::get($user, 'eduperson_affiliation'),
             'eduperson_scoped_affiliation' => Arr::get($user, 'eduperson_scoped_affiliation'),
             'eduperson_targeted_id'        => Arr::get($user, 'eduperson_targeted_id'),
