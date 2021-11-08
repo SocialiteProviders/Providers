@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Saml2;
 
-use _HumbugBox58fd4d9e2a25\RdKafka\Metadata;
 use DateTime;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
@@ -33,6 +32,7 @@ use LightSaml\Model\Metadata\AssertionConsumerService;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use LightSaml\Model\Metadata\KeyDescriptor;
 use LightSaml\Model\Metadata\SpSsoDescriptor;
+use LightSaml\Model\Metadata\Metadata;
 use LightSaml\Model\Protocol\AuthnRequest;
 use LightSaml\Model\Protocol\NameIDPolicy;
 use LightSaml\Model\XmlDSig\SignatureXmlReader;
