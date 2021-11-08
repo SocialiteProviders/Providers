@@ -97,6 +97,7 @@ parameters:
     src/Mixcloud: 'git@github.com:SocialiteProviders/Mixcloud.git'
     src/Mollie: 'git@github.com:SocialiteProviders/Mollie.git'
     src/Monzo: 'git@github.com:SocialiteProviders/Monzo.git'
+    src/MusicBrainz: 'git@github.com:SocialiteProviders/MusicBrainz.git'
     src/Naver: 'git@github.com:SocialiteProviders/Naver.git'
     src/Netlify: 'git@github.com:SocialiteProviders/Netlify.git'
     src/Neto: 'git@github.com:SocialiteProviders/Neto.git'
