@@ -108,7 +108,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public function redirect()
     {
         $this->request->session()->put('state', $state = $this->getState());
-        
+
         $binding = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
 
         $identityProviderConsumerService = $this->getIdentityProviderEntityDescriptor()
