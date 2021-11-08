@@ -93,6 +93,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'certificate',
             'sp_acs',
             'sp_entityid',
+            'idp_binding_method'
         ];
     }
 
