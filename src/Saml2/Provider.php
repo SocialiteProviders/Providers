@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Saml2;
 
-use _HumbugBox58fd4d9e2a25\RdKafka\Metadata;
 use DateTime;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
@@ -32,6 +31,7 @@ use LightSaml\Model\Context\SerializationContext;
 use LightSaml\Model\Metadata\AssertionConsumerService;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use LightSaml\Model\Metadata\KeyDescriptor;
+use LightSaml\Model\Metadata\Metadata;
 use LightSaml\Model\Metadata\SpSsoDescriptor;
 use LightSaml\Model\Protocol\AuthnRequest;
 use LightSaml\Model\Protocol\NameIDPolicy;
@@ -93,6 +93,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'certificate',
             'sp_acs',
             'sp_entityid',
+            'idp_binding_method',
         ];
     }
 
@@ -109,9 +110,11 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $this->request->session()->put('state', $state = $this->getState());
 
+        $binding = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
+
         $identityProviderConsumerService = $this->getIdentityProviderEntityDescriptor()
             ->getFirstIdpSsoDescriptor()
-            ->getFirstSingleSignOnService(SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
+            ->getFirstSingleSignOnService($binding);
 
         $authnRequest = new AuthnRequest();
         $authnRequest
