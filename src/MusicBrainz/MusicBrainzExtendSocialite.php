@@ -8,6 +8,8 @@ class MusicBrainzExtendSocialite
 {
     /**
      * Register the provider.
+     *
+     * @param \SocialiteProviders\Manager\SocialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
