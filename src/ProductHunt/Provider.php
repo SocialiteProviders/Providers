@@ -60,8 +60,7 @@ class Provider extends AbstractProvider
                     'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::JSON => [
-                    'query' => <<<GQL
-                        {
+                    'query' => '{
                             viewer {
                                 user {
                                     id
@@ -70,9 +69,8 @@ class Provider extends AbstractProvider
                                     username
                                 }
                             }
-                        }
-                    GQL,
-                ]
+                        }',
+                ],
             ]
         );
 
