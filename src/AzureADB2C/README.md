@@ -59,11 +59,14 @@ return redirect(Socialite::driver('azureadb2c')->logout('http://localhost'));
 - ``sub``
 - ``name``
 
-Note) If you want to add claim mappings, change mapUserToObject function. The claims mappings must be match with claims in id_token which Azure AD B2C returns.
+Note) If you want to add claim mappings, change `User::setRaw()` function. The claims mappings must be match with claims in id_token which Azure AD B2C returns.
 ```php
-return (new User())->setRaw($user)->map([
-    'id'   => $user['sub'],
-    'name' => $user['name'],
-    'email' => $user['emails'][0],
-]);
+    public function setRaw($user)
+    {
+        $user['name'] = $user['name'] ?: $user['given_name'].' '.$user['family_name'];
+        $user['nickname'] = $user['name'] ?: '';
+        $user['email'] = $user['emails'][0];
+
+        return parent::setRaw($user);
+    }
 ```
