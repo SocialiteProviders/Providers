@@ -46,5 +46,4 @@ return Socialite::driver('producthunt')->redirect();
 - ``id``
 - ``nickname``
 - ``name``
-- ``email``
 - ``avatar``

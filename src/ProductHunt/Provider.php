@@ -33,7 +33,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.producthunt.com/v1/oauth/authorize',
+            'https://api.producthunt.com/v2/oauth/authorize',
             $state
         );
     }
@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://api.producthunt.com/v1/oauth/token';
+        return 'https://api.producthunt.com/v2/oauth/token';
     }
 
     /**
@@ -51,13 +51,25 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.producthunt.com/v1/me?access_token='.$token,
+        $response = $this->getHttpClient()->post(
+            'https://api.producthunt.com/v2/api/graphql',
             [
                 RequestOptions::HEADERS => [
                     'Content-Type'  => 'application/json',
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
+                ],
+                RequestOptions::JSON => [
+                    'query' => '{
+                            viewer {
+                                user {
+                                    id
+                                    name
+                                    profileImage
+                                    username
+                                }
+                            }
+                        }',
                 ],
             ]
         );
@@ -70,15 +82,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $user = $user['user'] ?? [];
-        $avatar = $user['image_url'] ?? [];
-        $avatar = $avatar['original'] ?? null;
+        $user = $user['data']['viewer']['user'] ?? [];
+        $avatar = $user['profileImage'] ?? null;
 
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['username'],
             'name'     => $user['name'],
-            'email'    => $user['email'],
             'avatar'   => $avatar,
         ]);
     }
