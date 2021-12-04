@@ -27,7 +27,7 @@ class Bitrix24Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getPortalUrl() . '/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->getPortalUrl().'/oauth/authorize', $state);
     }
 
     /**
@@ -53,15 +53,15 @@ class Bitrix24Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getPortalUrl() . '/rest/user.current/', [
+        $response = $this->getHttpClient()->get($this->getPortalUrl().'/rest/user.current/', [
             'query' => [
-                'auth' => $token
+                'auth' => $token,
             ]
         ]);
 
         $user = json_decode($response->getBody(), true);
         if (isset($user['error'])) {
-            throw new \Exception($user['error'] . ': ' . $user['error_description'], 403);
+            throw new \Exception($user['error'].': '.$user['error_description'], 403);
         }
 
         return $user['result'];
@@ -74,7 +74,7 @@ class Bitrix24Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id' => $user['ID'],
-            'name' => trim($user['NAME'] . ' ' . $user['LAST_NAME']),
+            'name' => trim($user['NAME'].' '.$user['LAST_NAME']),
             'email' => $user['EMAIL'],
         ]);
     }
