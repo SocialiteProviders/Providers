@@ -56,7 +56,7 @@ class Bitrix24Provider extends AbstractProvider
         $response = $this->getHttpClient()->get($this->getPortalUrl().'/rest/user.current/', [
             'query' => [
                 'auth' => $token,
-            ]
+            ],
         ]);
 
         $user = json_decode($response->getBody(), true);
@@ -73,8 +73,8 @@ class Bitrix24Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['ID'],
-            'name' => trim($user['NAME'].' '.$user['LAST_NAME']),
+            'id'    => $user['ID'],
+            'name'  => trim($user['NAME'].' '.$user['LAST_NAME']),
             'email' => $user['EMAIL'],
         ]);
     }
