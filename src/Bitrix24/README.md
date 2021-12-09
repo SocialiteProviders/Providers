@@ -12,10 +12,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 'bitix24' => [
-      'endpoint' => env('BITRIX24_ENDPOINT'),
+      'endpoint' => env('BITRIX24_ENDPOINT_URI'),
       'client_id' => env('BITRIX24_CLIENT_ID'),
       'client_secret' => env('BITRIX24_CLIENT_SECRET'),
-      'redirect' => env('BITRIX24_REDIRECT'),
+      'redirect' => env('BITRIX24_REDIRECT_URI'),
 ],
 ```
 
@@ -23,13 +23,14 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
-Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
+Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See
+the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
 
 ```php
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\Amazon\Bitrix24ExtendSocialite::class.'@handle',
+        \SocialiteProviders\Bitrix24\Bitrix24ExtendSocialite::class.'@handle',
     ],
 ];
 ```

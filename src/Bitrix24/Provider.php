@@ -2,21 +2,27 @@
 
 namespace SocialiteProviders\Bitrix24;
 
+use GuzzleHttp\RequestOptions;
+use RuntimeException;
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Bitrix24Provider extends AbstractProvider
+class Provider extends AbstractProvider
 {
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'BITRIX24';
+    public const IDENTIFIER = 'BITRIX24';
 
     /**
      * {@inheritdoc}
      */
     protected $scopes = [''];
 
+    /**
+     * {@inheritdoc}
+     */
     public static function additionalConfigKeys()
     {
         return ['endpoint'];
@@ -37,7 +43,11 @@ class Bitrix24Provider extends AbstractProvider
      */
     protected function getPortalUrl()
     {
-        return $this->getConfig('endpoint');
+        $endpoint = $this->getConfig('endpoint');
+        if (empty($endpoint)) {
+            throw new InvalidArgumentException('Bitrix24 endpoint URI must be set.');
+        }
+        return $endpoint;
     }
 
     /**
@@ -54,14 +64,14 @@ class Bitrix24Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->getPortalUrl().'/rest/user.current/', [
-            'query' => [
+            RequestOptions::QUERY => [
                 'auth' => $token,
             ],
         ]);
 
         $user = json_decode($response->getBody(), true);
         if (isset($user['error'])) {
-            throw new \Exception($user['error'].': '.$user['error_description'], 403);
+            throw new RuntimeException($user['error'].': '.$user['error_description'], 403);
         }
 
         return $user['result'];
@@ -79,13 +89,4 @@ class Bitrix24Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }

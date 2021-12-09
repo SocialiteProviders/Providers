@@ -13,6 +13,6 @@ class Bitrix24ExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('bitrix24', Bitrix24Provider::class);
+        $socialiteWasCalled->extendSocialite('bitrix24', Provider::class);
     }
 }
