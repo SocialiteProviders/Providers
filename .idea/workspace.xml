@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14b19c1e-dfab-4027-a454-6e0984645798" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/monorepo-builder.yml" beforeDir="false" afterPath="$PROJECT_DIR$/monorepo-builder.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bitrix24/Bitrix24ExtendSocialite.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bitrix24/Bitrix24ExtendSocialite.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bitrix24/Bitrix24Provider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bitrix24/Provider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bitrix24/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bitrix24/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="14b19c1e-dfab-4027-a454-6e0984645798" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,7 +46,7 @@
       <workItem from="1638600506116" duration="2579000" />
       <workItem from="1638603120590" duration="409000" />
       <workItem from="1638603542576" duration="188000" />
-      <workItem from="1639070103787" duration="2744000" />
+      <workItem from="1639070103787" duration="3083000" />
     </task>
     <servers />
   </component>

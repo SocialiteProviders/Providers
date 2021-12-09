@@ -3,8 +3,8 @@
 namespace SocialiteProviders\Bitrix24;
 
 use GuzzleHttp\RequestOptions;
-use RuntimeException;
 use InvalidArgumentException;
+use RuntimeException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -47,6 +47,7 @@ class Provider extends AbstractProvider
         if (empty($endpoint)) {
             throw new InvalidArgumentException('Bitrix24 endpoint URI must be set.');
         }
+
         return $endpoint;
     }
 
@@ -88,5 +89,4 @@ class Provider extends AbstractProvider
             'email' => $user['EMAIL'],
         ]);
     }
-
 }
