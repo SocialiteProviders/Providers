@@ -40,11 +40,13 @@ class Provider extends AbstractProvider
      * Get the portal URL.
      *
      * @return string
+     * @throws \InvalidArgumentException
      */
     protected function getPortalUrl()
     {
         $endpoint = $this->getConfig('endpoint');
-        if (empty($endpoint)) {
+
+        if ($endpoint === null) {
             throw new InvalidArgumentException('Bitrix24 endpoint URI must be set.');
         }
 
@@ -60,7 +62,11 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
+     * Get the user by token.
+     *
+     * @param  string  $token
+     * @return array
+     * @throws \RuntimeException
      */
     protected function getUserByToken($token)
     {
@@ -71,6 +77,7 @@ class Provider extends AbstractProvider
         ]);
 
         $user = json_decode($response->getBody(), true);
+
         if (isset($user['error'])) {
             throw new RuntimeException($user['error'].': '.$user['error_description'], 403);
         }
