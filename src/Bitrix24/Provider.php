@@ -39,8 +39,9 @@ class Provider extends AbstractProvider
     /**
      * Get the portal URL.
      *
-     * @return string
      * @throws \InvalidArgumentException
+     *
+     * @return string
      */
     protected function getPortalUrl()
     {
@@ -64,9 +65,11 @@ class Provider extends AbstractProvider
     /**
      * Get the user by token.
      *
-     * @param  string  $token
-     * @return array
+     * @param string $token
+     *
      * @throws \RuntimeException
+     *
+     * @return array
      */
     protected function getUserByToken($token)
     {
