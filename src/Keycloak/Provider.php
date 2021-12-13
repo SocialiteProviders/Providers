@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'        => Arr::get($user, 'sub'),
             'nickname'  => Arr::get($user, 'preferred_username'),
-            'name'      => Arr::get($user, 'given_name'),
+            'name'      => Arr::get($user, 'name'),
             'email'     => Arr::get($user, 'email'),
         ]);
     }
