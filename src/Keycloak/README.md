@@ -43,6 +43,15 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('keycloak')->redirect();
 ```
 
+To logout of your app and Keycloak:
+```php
+public function logout() {
+    Auth::logout(); // Logout of your app
+    $redirectUri = Config::get('app.url'); // The URL the user is redirected to
+    return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri)); // Redirect to Keycloak
+}
+```
+
 #### Keycloak <= 3.2
 
 Keycloak below v3.2 requires no scopes to be set. Later versions require the `openid` scope for all requests.

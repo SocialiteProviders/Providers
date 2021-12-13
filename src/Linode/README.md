@@ -1,7 +1,7 @@
-# ProductHunt
+# Linode
 
 ```bash
-composer require socialiteproviders/producthunt
+composer require socialiteproviders/linode
 ```
 
 ## Installation & Basic Usage
@@ -11,10 +11,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'producthunt' => [    
-  'client_id' => env('PRODUCTHUNT_CLIENT_ID'),  
-  'client_secret' => env('PRODUCTHUNT_CLIENT_SECRET'),  
-  'redirect' => env('PRODUCTHUNT_REDIRECT_URI') 
+'linode' => [    
+  'client_id' => env('LINODE_CLIENT_ID'),  
+  'client_secret' => env('LINODE_CLIENT_SECRET'),  
+  'redirect' => env('LINODE_REDIRECT_URI') 
 ],
 ```
 
@@ -28,7 +28,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\ProductHunt\ProductHuntExtendSocialite::class.'@handle',
+        \SocialiteProviders\Linode\LinodeExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -38,12 +38,12 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('producthunt')->redirect();
+return Socialite::driver('linode')->redirect();
 ```
 
 ### Returned User fields
 
 - ``id``
-- ``nickname``
 - ``name``
+- ``email``
 - ``avatar``

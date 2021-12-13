@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\Pinterest;
+namespace SocialiteProviders\Linode;
 
 use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -11,12 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    public const IDENTIFIER = 'PINTEREST';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = ['user_accounts:read'];
+    public const IDENTIFIER = 'LINODE';
 
     /**
      * {@inheritdoc}
@@ -24,7 +19,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.pinterest.com/oauth/',
+            'https://login.linode.com/oauth/authorize',
             $state
         );
     }
@@ -34,7 +29,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://api.pinterest.com/v5/oauth/token';
+        return 'https://login.linode.com/oauth/token';
     }
 
     /**
@@ -43,7 +38,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.pinterest.com/v5/user_account',
+            'https://api.linode.com/v4/profile',
             [
                 RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
@@ -59,27 +54,10 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map(
-            [
-                'id'       => $user['username'],
-                'nickname' => $user['username'],
-                'name'     => null,
-                'email'    => null,
-                'avatar'   => $user['profile_image'],
-            ]
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(
-            parent::getTokenFields($code),
-            [
-                'grant_type' => 'authorization_code',
-            ]
-        );
+        return (new User())->setRaw($user)->map([
+            'id'     => $user['uid'],
+            'name'   => $user['username'],
+            'email'  => $user['email'],
+        ]);
     }
 }

@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'        => Arr::get($user, 'sub'),
             'nickname'  => Arr::get($user, 'preferred_username'),
-            'name'      => Arr::get($user, 'given_name'),
+            'name'      => Arr::get($user, 'name'),
             'email'     => Arr::get($user, 'email'),
         ]);
     }
@@ -82,5 +82,15 @@ class Provider extends AbstractProvider
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
+    }
+
+    /**
+     * Return logout endpoint with redirect_uri query parameter.
+     *
+     * @return string
+     */
+    public function getLogoutUrl(string $redirectUri)
+    {
+        return $this->getBaseUrl().'/protocol/openid-connect/logout?redirect_uri='.urlencode($redirectUri);
     }
 }

@@ -1,7 +1,7 @@
-# ProductHunt
+# Bitrix24
 
 ```bash
-composer require socialiteproviders/producthunt
+composer require socialiteproviders/bitix24
 ```
 
 ## Installation & Basic Usage
@@ -11,10 +11,11 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'producthunt' => [    
-  'client_id' => env('PRODUCTHUNT_CLIENT_ID'),  
-  'client_secret' => env('PRODUCTHUNT_CLIENT_SECRET'),  
-  'redirect' => env('PRODUCTHUNT_REDIRECT_URI') 
+'bitix24' => [
+      'endpoint' => env('BITRIX24_ENDPOINT_URI'),
+      'client_id' => env('BITRIX24_CLIENT_ID'),
+      'client_secret' => env('BITRIX24_CLIENT_SECRET'),
+      'redirect' => env('BITRIX24_REDIRECT_URI'),
 ],
 ```
 
@@ -22,13 +23,14 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
-Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
+Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See
+the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
 
 ```php
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\ProductHunt\ProductHuntExtendSocialite::class.'@handle',
+        \SocialiteProviders\Bitrix24\Bitrix24ExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -38,12 +40,11 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('producthunt')->redirect();
+return Socialite::driver('bitrix24')->redirect();
 ```
 
 ### Returned User fields
 
 - ``id``
-- ``nickname``
 - ``name``
-- ``avatar``
+- ``email``

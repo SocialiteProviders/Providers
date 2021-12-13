@@ -1,18 +1,18 @@
 {
-    "name": "socialiteproviders/producthunt",
-    "description": "Product Hunt OAuth2 Provider for Laravel Socialite",
+    "name": "socialiteproviders/harid",
+    "description": "HarID OAuth2 Provider for Laravel Socialite",
     "keywords": [
+        "harid",
         "laravel",
         "oauth",
-        "producthunt",
         "provider",
         "socialite"
     ],
     "license": "MIT",
     "authors": [
         {
-            "name": "kylekatarnls",
-            "homepage": "https://github.com/kylekatarnls"
+            "name": "Pjotr Savitski",
+            "email": "pjotr.savitski@gmail.com"
         }
     ],
     "require": {
@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\ProductHunt\\": ""
+            "SocialiteProviders\\HarID\\": ""
         }
     },
     "support": {
         "issues": "https://github.com/socialiteproviders/providers/issues",
         "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/producthunt"
+        "docs": "https://socialiteproviders.com/harid"
     }
 }

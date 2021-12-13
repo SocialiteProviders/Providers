@@ -2,23 +2,23 @@ name: Close Subtree PRs
 
 on:
   schedule:
-    - cron:  '0 */12 * * *'
+    - cron: '0 */12 * * *'
   workflow_dispatch:
 jobs:
   close:
     name: Close Subtree PRs
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@master
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.0'
           coverage: none
 
-      - name: Composer Install
+      - name: Install dependencies
         run: composer install -vvv
 
       - name: Close PRs
