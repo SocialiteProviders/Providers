@@ -24,7 +24,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(self::BASE_URL . '/oauth2/authorize', $state);
+        return $this->buildAuthUrlFromBase(self::BASE_URL.'/oauth2/authorize', $state);
     }
 
     /**
@@ -32,7 +32,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return self::BASE_URL . '/oauth2/access_token';
+        return self::BASE_URL.'/oauth2/access_token';
     }
 
     /**
@@ -40,9 +40,9 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(self::BASE_URL . '/verify_credentials', [
+        $response = $this->getHttpClient()->get(self::BASE_URL.'/verify_credentials', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -55,11 +55,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['user']['id'],
+            'id'       => $user['user']['id'],
             'nickname' => $user['user']['screen_id'],
-            'name' => $user['user']['name'],
-            'email' => null,
-            'avatar' => $user['user']['image'],
+            'name'     => $user['user']['name'],
+            'email'    => null,
+            'avatar'   => $user['user']['image'],
         ]);
     }
 
@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
