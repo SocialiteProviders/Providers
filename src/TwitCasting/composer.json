@@ -9,10 +9,12 @@
         "twitcasting"
     ],
     "license": "MIT",
-    "authors": [{
-        "name": "macaron",
-        "email": "jm8krg@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "macaron",
+            "email": "jm8krg@gmail.com"
+        }
+    ],
     "require": {
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
