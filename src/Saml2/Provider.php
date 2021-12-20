@@ -256,6 +256,13 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setEntityID($this->getConfig('sp_entityid', URL::to('auth/saml2')))
             ->addItem($spSsoDescriptor);
 
+        if ($credential = $this->credential()) {
+            $entityDescriptor->setSignature($this->signature($credential));
+            $spSsoDescriptor->setAuthnRequestsSigned(true)
+                ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_SIGNING, $credential->getCertificate()))
+                ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_ENCRYPTION, $credential->getCertificate()));
+        }
+
         return $entityDescriptor;
     }
 
