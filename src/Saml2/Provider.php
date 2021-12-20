@@ -327,7 +327,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $state = $this->request->session()->pull('state');
 
-        return $state !== $this->messageContext->getMessage()->getRelayState();
+        return !(strlen($state) > 0 && $this->messageContext->getMessage()->getRelayState() === $state);
     }
 
     protected function hasInvalidSignature(): bool
