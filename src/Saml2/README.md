@@ -124,6 +124,8 @@ If you use a different route (from the default `/auth/logout`), you also have to
 ],
 ```
 
+Please note that the SAML2 Single Logout feature is a best effort way of centralized logout. With the current state of affairs it requires special circumstances to work. Always check your Service Provider and Identity Provider settings and configuration before enabling this.
+
 ### Signing and encryption
 
 SAML2 supports the signing and encryption of messages and assertions. Many Identity Providers make one or both mandatory. To enable this feature, you can generate a certificate for your application and provide it in `config/services.php` as:
