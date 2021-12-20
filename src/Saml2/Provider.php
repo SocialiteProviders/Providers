@@ -25,6 +25,7 @@ use LightSaml\Credential\X509Certificate;
 use LightSaml\Credential\X509Credential;
 use LightSaml\Error\LightSamlSecurityException;
 use LightSaml\Helper;
+use LightSaml\Model\Assertion\AttributeStatement;
 use LightSaml\Model\Assertion\Issuer;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
@@ -120,6 +121,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_org_url',
             'sp_default_binding_method',
             'idp_binding_method',
+            'attribute_map',
         ];
     }
 
@@ -365,16 +367,54 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $this->user->map(['id' => $assertion->getSubject()->getNameID()->getValue()]);
 
         if ($attributeStatement) {
-            foreach (['name' => ClaimTypes::NAME, 'email' => ClaimTypes::EMAIL_ADDRESS] as $key => $claim) {
-                if ($attribute = $attributeStatement->getFirstAttributeByName($claim)) {
-                    $this->user->map([$key => $attribute->getFirstAttributeValue()]);
-                }
-            }
-
+            $this->user->map($this->mapAttributes($attributeStatement));
             $this->user->setRaw($attributeStatement->getAllAttributes());
         }
 
         return $this->user;
+    }
+
+    protected function mapAttributes(AttributeStatement $attributeStatement): array
+    {
+        return array_map(function ($attributeNames) use ($attributeStatement) {
+            foreach (Arr::wrap($attributeNames) as $attributeName) {
+                if ($attribute = $attributeStatement->getFirstAttributeByName($attributeName)) {
+                    return $attribute->getFirstAttributeValue();
+                }
+            }
+
+            return null;
+        }, $this->attributeMap());
+    }
+
+    protected function attributeMap(): array
+    {
+        return array_merge([
+            'email' => [
+                ClaimTypes::EMAIL_ADDRESS,
+                OasisAttributeNameUris::MAIL,
+                ClaimTypes::ADFS_1_EMAIL,
+            ],
+            'name' => [
+                ClaimTypes::NAME,
+                OasisAttributeNameUris::DISPLAY_NAME,
+                ClaimTypes::COMMON_NAME,
+                OasisAttributeNameUris::COMMON_NAME,
+            ],
+            'last_name' => [
+                ClaimTypes::GIVEN_NAME,
+                OasisAttributeNameUris::GIVEN_NAME,
+            ],
+            'first_name' => [
+                ClaimTypes::SURNAME,
+                OasisAttributeNameUris::SURNAME,
+            ],
+            'upn' => [
+                ClaimTypes::UPN,
+                OasisAttributeNameUris::UID,
+                ClaimTypes::ADFS_1_UPN,
+            ],
+        ], $this->getConfig('attribute_map', []));
     }
 
     protected function hasInvalidState(): bool
