@@ -337,9 +337,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING);
 
         /** @var SignatureXmlReader $signatureReader */
-        $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->getAssertionConsumerServiceBinding() ?
-            $this->messageContext->getMessage()->getSignature() :
-            $this->messageContext->asResponse()->getFirstAssertion()->getSignature();
+        $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->messageContext->getBindingType()
+            ? $this->messageContext->getMessage()->getSignature()
+            : $this->messageContext->asResponse()->getFirstAssertion()->getSignature();
 
         if (!$signatureReader) {
             return true;
