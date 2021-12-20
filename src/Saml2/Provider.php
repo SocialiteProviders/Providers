@@ -317,6 +317,10 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function hasInvalidState(): bool
     {
+        if ($this->isStateless()) {
+            return false;
+        }
+
         $state = $this->request->session()->pull('state');
 
         $bindingFactory = new BindingFactory();
