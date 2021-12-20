@@ -33,6 +33,7 @@ use LightSaml\Model\Metadata\ContactPerson;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use LightSaml\Model\Metadata\KeyDescriptor;
 use LightSaml\Model\Metadata\Metadata;
+use LightSaml\Model\Metadata\Organization;
 use LightSaml\Model\Metadata\SpSsoDescriptor;
 use LightSaml\Model\Protocol\AuthnRequest;
 use LightSaml\Model\Protocol\NameIDPolicy;
@@ -113,6 +114,10 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_tech_contact_surname',
             'sp_tech_contact_givenname',
             'sp_tech_contact_email',
+            'sp_org_lang',
+            'sp_org_name',
+            'sp_org_display_name',
+            'sp_org_url',
             'sp_default_binding_method',
             'idp_binding_method',
         ];
@@ -265,6 +270,15 @@ class Provider extends AbstractProvider implements SocialiteProvider
             $spSsoDescriptor->setAuthnRequestsSigned(true)
                 ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_SIGNING, $credential->getCertificate()))
                 ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_ENCRYPTION, $credential->getCertificate()));
+        }
+
+        if ($this->getConfig('sp_org_name')) {
+            $entityDescriptor->addOrganization(
+                (new Organization())->setLang($this->getConfig('sp_org_lang', 'en'))
+                    ->setOrganizationDisplayName($this->getConfig('sp_org_display_name'))
+                    ->setOrganizationName($this->getConfig('sp_org_name'))
+                    ->setOrganizationURL($this->getConfig('sp_org_url'))
+            );
         }
 
         if ($this->getConfig('sp_tech_contact_email')) {
