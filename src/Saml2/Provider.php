@@ -236,7 +236,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
         $entityDescriptor = new EntityDescriptor();
-        $entityDescriptor
+        $entityDescriptor->setID(Helper::generateID())
             ->setEntityID($this->getConfig('sp_entityid', URL::to('auth/saml2')))
             ->addItem(
                 (new SpSsoDescriptor())
