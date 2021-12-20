@@ -236,18 +236,24 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
+        $spSsoDescriptor = new SpSsoDescriptor();
+        $spSsoDescriptor->setWantAssertionsSigned(true);
+
+        foreach ([SamlConstants::BINDING_SAML2_HTTP_REDIRECT, SamlConstants::BINDING_SAML2_HTTP_POST] as $binding) {
+            $acsRoute = $this->getAssertionConsumerServiceRoute();
+            if ($this->hasRouteBindingType($acsRoute, $binding)) {
+                $spSsoDescriptor->addAssertionConsumerService(
+                    (new AssertionConsumerService())
+                        ->setBinding($binding)
+                        ->setLocation(URL::to($acsRoute))
+                );
+            }
+        }
+
         $entityDescriptor = new EntityDescriptor();
         $entityDescriptor->setID(Helper::generateID())
             ->setEntityID($this->getConfig('sp_entityid', URL::to('auth/saml2')))
-            ->addItem(
-                (new SpSsoDescriptor())
-                    ->setWantAssertionsSigned(true)
-                    ->addAssertionConsumerService(
-                        (new AssertionConsumerService())
-                            ->setBinding($this->getDefaultAssertionConsumerServiceBinding())
-                            ->setLocation(URL::to($this->getAssertionConsumerServiceRoute()))
-                    )
-            );
+            ->addItem($spSsoDescriptor);
 
         return $entityDescriptor;
     }
@@ -256,7 +262,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         return $this->getServiceProviderEntityDescriptor()
             ->getFirstSpSsoDescriptor()
-            ->getFirstAssertionConsumerService()
+            ->getFirstAssertionConsumerService($this->getDefaultAssertionConsumerServiceBinding())
             ->getLocation();
     }
 
