@@ -7,7 +7,6 @@ use SocialiteProviders\Manager\ConfigTrait;
 use SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\User;
 
-
 class Provider extends AbstractProvider implements ProviderInterface
 {
     use ConfigTrait;
@@ -55,11 +54,11 @@ class Provider extends AbstractProvider implements ProviderInterface
         $response = $this->httpClient
             ->post('https://api.monday.com/v2', [
                 'headers' => [
-                    'Content-Type' => 'application/json',
+                    'Content-Type'  => 'application/json',
                     'Authorization' => $token,
                 ],
                 'body' => json_encode([
-                    'query' => <<<GQL
+                    'query' => <<<'GQL'
                         query {
                             me {
                                 birthday
@@ -94,7 +93,7 @@ class Provider extends AbstractProvider implements ProviderInterface
                             }
                         }
                     GQL
-                ])
+                ]),
             ]);
 
         return json_decode($response->getBody()->getContents(), true)['data']['me'];
@@ -106,9 +105,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
-            'name' => $user['name'],
-            'email' => $user['email'],
+            'id'     => $user['id'],
+            'name'   => $user['name'],
+            'email'  => $user['email'],
             'avatar' => $user['photo_original'],
         ]);
     }
