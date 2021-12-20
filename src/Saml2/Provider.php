@@ -295,6 +295,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
             throw new InvalidStateException();
         }
 
+        $this->decryptAssertions();
+
         if ($this->hasInvalidSignature()) {
             throw new InvalidSignatureException();
         }
@@ -366,6 +368,24 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $bindingType = $bindingFactory->detectBindingType($this->request);
         $bindingFactory->create($bindingType)->receive($this->request, $this->messageContext);
         $this->messageContext->setBindingType($bindingType);
+    }
+
+    protected function decryptAssertions(): void
+    {
+        $credential = $this->credential();
+        if (null === $credential) {
+            return;
+        }
+
+        /** @var \LightSaml\Model\Assertion\EncryptedAssertionReader $reader */
+        $reader = $this->messageContext->asResponse()->getFirstEncryptedAssertion();
+
+        if (null === $reader) {
+            return;
+        }
+
+        $assertion = $reader->decryptMultiAssertion([$credential], new DeserializationContext());
+        $this->messageContext->asResponse()->addAssertion($assertion);
     }
 
     public function getServiceProviderMetadata(): Response
