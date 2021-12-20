@@ -110,6 +110,20 @@ If you add both routes to support both binding methods, you can select the defau
 ],
 ```
 
+You can also enable a SingleLogoutService on your Service Provider. Add a GET route where you log the user out and generate the SAML2 logout response:
+```php
+Route::post('/auth/logout', function () {
+    $response = Socialite::driver('saml2')->logout();
+});
+```
+
+If you use a different route (from the default `/auth/logout`), you also have to set it in `config/services.php` as:
+```php
+'saml2' => [
+  'sp_sls' => 'auth/logout',
+],
+```
+
 ### Signing and encryption
 
 SAML2 supports the signing and encryption of messages and assertions. Many Identity Providers make one or both mandatory. To enable this feature, you can generate a certificate for your application and provide it in `config/services.php` as:

@@ -35,10 +35,13 @@ use LightSaml\Model\Metadata\EntityDescriptor;
 use LightSaml\Model\Metadata\KeyDescriptor;
 use LightSaml\Model\Metadata\Metadata;
 use LightSaml\Model\Metadata\Organization;
+use LightSaml\Model\Metadata\SingleLogoutService;
 use LightSaml\Model\Metadata\SpSsoDescriptor;
 use LightSaml\Model\Protocol\AuthnRequest;
+use LightSaml\Model\Protocol\LogoutResponse;
 use LightSaml\Model\Protocol\NameIDPolicy;
 use LightSaml\Model\Protocol\SamlMessage;
+use LightSaml\Model\Protocol\Status;
 use LightSaml\Model\XmlDSig\SignatureWriter;
 use LightSaml\Model\XmlDSig\SignatureXmlReader;
 use LightSaml\SamlConstants;
@@ -108,6 +111,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'entityid',
             'certificate',
             'sp_acs',
+            'sp_sls',
             'sp_entityid',
             'sp_certificate',
             'sp_private_key',
@@ -155,6 +159,33 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()));
 
         return $this->sendMessage($authnRequest, $identityProviderConsumerService->getBinding());
+    }
+
+    public function logoutResponse(): HttpFoundationResponse
+    {
+        $this->receive();
+
+        if ($this->hasInvalidSignature()) {
+            throw new InvalidSignatureException();
+        }
+
+        $bindingType = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
+
+        $identityProviderLogoutService = $this->getIdentityProviderEntityDescriptor()
+            ->getFirstIdpSsoDescriptor()
+            ->getFirstSingleLogoutService($bindingType);
+
+        $logoutResponse = new LogoutResponse();
+        $logoutResponse
+            ->setID(Helper::generateID())
+            ->setInResponseTo($this->messageContext->getMessage()->getID())
+            ->setRelayState($this->messageContext->getMessage()->getRelayState())
+            ->setIssueInstant(new DateTime())
+            ->setDestination($identityProviderLogoutService->getLocation())
+            ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()))
+            ->setStatus((new Status())->setSuccess());
+
+        return $this->sendMessage($logoutResponse, $identityProviderLogoutService->getBinding());
     }
 
     protected function sendMessage(SamlMessage $message, string $bindingType): HttpFoundationResponse
@@ -260,6 +291,11 @@ class Provider extends AbstractProvider implements SocialiteProvider
                         ->setLocation(URL::to($acsRoute))
                 );
             }
+
+            $slsRoute = $this->getSingleLogoutServiceRoute();
+            if ($this->hasRouteBindingType($slsRoute, $binding)) {
+                $spSsoDescriptor->addSingleLogoutService((new SingleLogoutService(URL::to($slsRoute), $binding)));
+            }
         }
 
         $entityDescriptor = new EntityDescriptor();
@@ -312,6 +348,11 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected function getAssertionConsumerServiceRoute(): string
     {
         return Str::of($this->getConfig('sp_acs', 'auth/callback'))->ltrim('/');
+    }
+
+    protected function getSingleLogoutServiceRoute(): string
+    {
+        return Str::of($this->getConfig('sp_sls', 'auth/logout'))->ltrim('/');
     }
 
     protected function getDefaultAssertionConsumerServiceBinding(): string
