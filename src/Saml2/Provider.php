@@ -109,6 +109,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_certificate',
             'sp_private_key',
             'sp_private_key_passphrase',
+            'sp_default_binding_method',
             'idp_binding_method',
         ];
     }
@@ -135,7 +136,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $authnRequest = new AuthnRequest();
         $authnRequest
             ->setID(Helper::generateID())
-            ->setProtocolBinding($this->getAssertionConsumerServiceBinding())
+            ->setProtocolBinding($this->getDefaultAssertionConsumerServiceBinding())
             ->setRelayState($state)
             ->setIssueInstant(new DateTime())
             ->setDestination($identityProviderConsumerService->getLocation())
@@ -243,7 +244,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
                     ->setWantAssertionsSigned(true)
                     ->addAssertionConsumerService(
                         (new AssertionConsumerService())
-                            ->setBinding($this->getAssertionConsumerServiceBinding())
+                            ->setBinding($this->getDefaultAssertionConsumerServiceBinding())
                             ->setLocation(URL::to($this->getAssertionConsumerServiceRoute()))
                     )
             );
@@ -270,14 +271,28 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return Str::of($this->getConfig('sp_acs', 'auth/callback'))->ltrim('/');
     }
 
-    protected function getAssertionConsumerServiceBinding(): string
+    protected function getDefaultAssertionConsumerServiceBinding(): string
     {
-        return Arr::has(
-            Route::getRoutes()->getRoutesByMethod(),
-            'GET.'.$this->getAssertionConsumerServiceRoute()
-        ) ?
-            SamlConstants::BINDING_SAML2_HTTP_REDIRECT :
-            SamlConstants::BINDING_SAML2_HTTP_POST;
+        $default = $this->hasRouteBindingType(
+            $this->getAssertionConsumerServiceRoute(),
+            SamlConstants::BINDING_SAML2_HTTP_REDIRECT
+        ) ? SamlConstants::BINDING_SAML2_HTTP_REDIRECT : SamlConstants::BINDING_SAML2_HTTP_POST;
+
+        return $this->getConfig('sp_default_binding_method', $default);
+    }
+
+    protected function hasRouteBindingType(string $route, string $bindingType): bool
+    {
+        $methods = [
+            SamlConstants::BINDING_SAML2_HTTP_REDIRECT => 'GET',
+            SamlConstants::BINDING_SAML2_HTTP_POST => 'POST',
+        ];
+
+        if (!array_key_exists($bindingType, $methods)) {
+            return false;
+        }
+
+        return Arr::has(Route::getRoutes()->getRoutesByMethod(), $methods[$bindingType].'.'.$route);
     }
 
     /**
