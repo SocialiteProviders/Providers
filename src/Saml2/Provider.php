@@ -17,7 +17,6 @@ use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
 use LightSaml\Binding\BindingFactory;
-use LightSaml\Binding\HttpRedirectBinding;
 use LightSaml\Builder\EntityDescriptor\SimpleEntityDescriptorBuilder;
 use LightSaml\ClaimTypes;
 use LightSaml\Context\Profile\MessageContext;
@@ -35,10 +34,12 @@ use LightSaml\Model\Metadata\Metadata;
 use LightSaml\Model\Metadata\SpSsoDescriptor;
 use LightSaml\Model\Protocol\AuthnRequest;
 use LightSaml\Model\Protocol\NameIDPolicy;
+use LightSaml\Model\Protocol\SamlMessage;
 use LightSaml\Model\XmlDSig\SignatureXmlReader;
 use LightSaml\SamlConstants;
 use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\Exception\MissingConfigException;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 class Provider extends AbstractProvider implements SocialiteProvider
 {
@@ -110,11 +111,11 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $this->request->session()->put('state', $state = $this->getState());
 
-        $binding = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
+        $bindingType = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
 
         $identityProviderConsumerService = $this->getIdentityProviderEntityDescriptor()
             ->getFirstIdpSsoDescriptor()
-            ->getFirstSingleSignOnService($binding);
+            ->getFirstSingleSignOnService($bindingType);
 
         $authnRequest = new AuthnRequest();
         $authnRequest
@@ -126,12 +127,18 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setNameIDPolicy((new NameIDPolicy())->setFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT))
             ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()));
 
-        $redirectBinding = new HttpRedirectBinding();
+        return $this->sendMessage($authnRequest, $identityProviderConsumerService->getBinding());
+    }
+
+    protected function sendMessage(SamlMessage $message, string $bindingType): HttpFoundationResponse
+    {
 
         $messageContext = new MessageContext();
-        $messageContext->setMessage($authnRequest);
+        $messageContext->setMessage($message);
 
-        return $redirectBinding->send($messageContext);
+        $binding = (new BindingFactory())->create($bindingType);
+
+        return $binding->send($messageContext);
     }
 
     protected function getIdentityProviderEntityDescriptorManually(): EntityDescriptor
