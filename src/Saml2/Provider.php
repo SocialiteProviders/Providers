@@ -55,6 +55,13 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected $request;
 
     /**
+     * The received SAML2 message's context.
+     *
+     * @var MessageContext
+     */
+    protected $messageContext;
+
+    /**
      * The SAML2 User instance.
      *
      * @var User
@@ -74,6 +81,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public function __construct(Request $request)
     {
         parent::__construct($request, '', '', '');
+        $this->messageContext = new MessageContext();
     }
 
     public function setConfig(ConfigInterface $config): Provider
@@ -281,6 +289,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
             return $this->user;
         }
 
+        $this->receive();
+
         if ($this->hasInvalidState()) {
             throw new InvalidStateException();
         }
@@ -289,13 +299,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             throw new InvalidSignatureException();
         }
 
-        $bindingFactory = new BindingFactory();
-        $binding = $bindingFactory->getBindingByRequest($this->request);
-
-        $messageContext = new MessageContext();
-        $binding->receive($this->request, $messageContext);
-
-        $assertion = $messageContext->asResponse()->getFirstAssertion();
+        $assertion = $this->messageContext->asResponse()->getFirstAssertion();
         $attributeStatement = $assertion->getFirstAttributeStatement();
 
         $this->user = new User();
@@ -323,31 +327,19 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $state = $this->request->session()->pull('state');
 
-        $bindingFactory = new BindingFactory();
-        $binding = $bindingFactory->getBindingByRequest($this->request);
-
-        $messageContext = new MessageContext();
-        $binding->receive($this->request, $messageContext);
-
-        return $state !== $messageContext->getMessage()->getRelayState();
+        return $state !== $this->messageContext->getMessage()->getRelayState();
     }
 
     protected function hasInvalidSignature(): bool
     {
-        $bindingFactory = new BindingFactory();
-        $binding = $bindingFactory->getBindingByRequest($this->request);
-
-        $messageContext = new MessageContext();
-        $binding->receive($this->request, $messageContext);
-
         $keyDescriptors = $this->getIdentityProviderEntityDescriptor()
             ->getFirstIdpSsoDescriptor()
             ->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING);
 
         /** @var SignatureXmlReader $signatureReader */
         $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->getAssertionConsumerServiceBinding() ?
-            $messageContext->getMessage()->getSignature() :
-            $messageContext->asResponse()->getFirstAssertion()->getSignature();
+            $this->messageContext->getMessage()->getSignature() :
+            $this->messageContext->asResponse()->getFirstAssertion()->getSignature();
 
         if (!$signatureReader) {
             return true;
@@ -366,6 +358,14 @@ class Provider extends AbstractProvider implements SocialiteProvider
         }
 
         return true;
+    }
+
+    protected function receive(): void
+    {
+        $bindingFactory = new BindingFactory();
+        $bindingType = $bindingFactory->detectBindingType($this->request);
+        $bindingFactory->create($bindingType)->receive($this->request, $this->messageContext);
+        $this->messageContext->setBindingType($bindingType);
     }
 
     public function getServiceProviderMetadata(): Response
