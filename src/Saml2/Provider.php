@@ -244,6 +244,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             if ($this->hasRouteBindingType($acsRoute, $binding)) {
                 $spSsoDescriptor->addAssertionConsumerService(
                     (new AssertionConsumerService())
+                        ->setIsDefault($this->getDefaultAssertionConsumerServiceBinding() === $binding)
                         ->setBinding($binding)
                         ->setLocation(URL::to($acsRoute))
                 );
