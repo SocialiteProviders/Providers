@@ -22,6 +22,7 @@ use LightSaml\ClaimTypes;
 use LightSaml\Context\Profile\MessageContext;
 use LightSaml\Credential\KeyHelper;
 use LightSaml\Credential\X509Certificate;
+use LightSaml\Credential\X509Credential;
 use LightSaml\Error\LightSamlSecurityException;
 use LightSaml\Helper;
 use LightSaml\Model\Assertion\Issuer;
@@ -35,8 +36,11 @@ use LightSaml\Model\Metadata\SpSsoDescriptor;
 use LightSaml\Model\Protocol\AuthnRequest;
 use LightSaml\Model\Protocol\NameIDPolicy;
 use LightSaml\Model\Protocol\SamlMessage;
+use LightSaml\Model\XmlDSig\SignatureWriter;
 use LightSaml\Model\XmlDSig\SignatureXmlReader;
 use LightSaml\SamlConstants;
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
+use RobRichards\XMLSecLibs\XMLSecurityKey;
 use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\Exception\MissingConfigException;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
@@ -94,6 +98,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'certificate',
             'sp_acs',
             'sp_entityid',
+            'sp_certificate',
+            'sp_private_key',
+            'sp_private_key_passphrase',
             'idp_binding_method',
         ];
     }
@@ -369,6 +376,32 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         Cache::forget(self::CACHE_KEY);
         Cache::forget(self::CACHE_KEY_TTL);
+    }
+
+    protected function signature(X509Credential $credential): SignatureWriter
+    {
+        return new SignatureWriter(
+            $credential->getCertificate(),
+            $credential->getPrivateKey(),
+            XMLSecurityDSig::SHA256
+        );
+    }
+
+    protected function credential(): ?X509Credential
+    {
+        if (!$this->getConfig('sp_certificate') || !$this->getConfig('sp_private_key')) {
+            return null;
+        }
+
+        return new X509Credential(
+            $this->makeCertificate($this->getConfig('sp_certificate')),
+            KeyHelper::createPrivateKey(
+                $this->getConfig('sp_private_key'),
+                $this->getConfig('sp_private_key_passphrase'),
+                false,
+                XMLSecurityKey::RSA_SHA256
+            )
+        );
     }
 
     protected function makeCertificate(?string $data): X509Certificate
