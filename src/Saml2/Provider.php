@@ -139,6 +139,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function sendMessage(SamlMessage $message, string $bindingType): HttpFoundationResponse
     {
+        if ($credential = $this->credential()) {
+            $message->setSignature($this->signature($credential));
+        }
 
         $messageContext = new MessageContext();
         $messageContext->setMessage($message);
