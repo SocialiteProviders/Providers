@@ -29,6 +29,7 @@ use LightSaml\Model\Assertion\Issuer;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
 use LightSaml\Model\Metadata\AssertionConsumerService;
+use LightSaml\Model\Metadata\ContactPerson;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use LightSaml\Model\Metadata\KeyDescriptor;
 use LightSaml\Model\Metadata\Metadata;
@@ -109,6 +110,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_certificate',
             'sp_private_key',
             'sp_private_key_passphrase',
+            'sp_tech_contact_surname',
+            'sp_tech_contact_givenname',
+            'sp_tech_contact_email',
             'sp_default_binding_method',
             'idp_binding_method',
         ];
@@ -261,6 +265,15 @@ class Provider extends AbstractProvider implements SocialiteProvider
             $spSsoDescriptor->setAuthnRequestsSigned(true)
                 ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_SIGNING, $credential->getCertificate()))
                 ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_ENCRYPTION, $credential->getCertificate()));
+        }
+
+        if ($this->getConfig('sp_tech_contact_email')) {
+            $entityDescriptor->addContactPerson(
+                (new ContactPerson())->setContactType('technical')
+                    ->setEmailAddress($this->getConfig('sp_tech_contact_email'))
+                    ->setSurName($this->getConfig('sp_tech_contact_surname'))
+                    ->setGivenName($this->getConfig('sp_tech_contact_givenname'))
+            );
         }
 
         return $entityDescriptor;
