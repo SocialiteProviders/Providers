@@ -103,6 +103,33 @@ Route::post('/auth/callback', function () {
 However, note that this is *not compatible* with Laravel's CSRF filtering performed by default on `POST` routes in the `routes/web.php` file.
 To make this callback style work, you can either define this route outside `web.php` or add it as an exception in your `VerifyCsrfToken` HTTP middleware.
 
+If you add both routes to support both binding methods, you can select the default one in `config/services.php` like this:
+```php
+'saml2' => [
+  'sp_default_binding_method' => \LightSaml\SamlConstants::BINDING_SAML2_HTTP_POST,
+],
+```
+
+### Signing and encryption
+
+SAML2 supports the signing and encryption of messages and assertions. Many Identity Providers make one or both mandatory. To enable this feature, you can generate a certificate for your application and provide it in `config/services.php` as:
+```php
+'saml2' => [
+  'sp_certificate' => file_get_contents('path/to/sp_saml.crt'),
+  'sp_private_key' => file_get_contents('path/to/sp_saml.pem'),
+  'sp_private_key_passphrase' => 'passphrase to your private key, provide it only if you have one',
+],
+```
+
+The `sp_private_key_passphrase` is optional and should not be given if the private key is not encrypted.
+
+Always protect your private key and store it in a place where it is not accessible by the general public.
+
+An example command to generate a certificate and private key with openssl:
+```
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout sp_saml.pem -out sp_saml.crt
+```
+
 ### Identity provider metadata
 
 When using a metadata URL for the identity provider the fetched metadata is cached for 24 hours by default.
@@ -166,12 +193,43 @@ Socialite::driver('saml2')->getServiceProviderEntityId()
 Socialite::driver('saml2')->getServiceProviderAssertionConsumerUrl()
 ```
 
+You can also publish the service provider's organization and technical support contact in the metadata by configuring them in `config/services.php` as:
+```php
+'saml2' => [
+  'sp_tech_contact_surname' => 'Doe',
+  'sp_tech_contact_givenname' => 'John',
+  'sp_tech_contact_email' => 'john.doe@example.com',
+  'sp_org_lang' => 'en',
+  'sp_org_name' => 'Example Corporation Ltd.',
+  'sp_org_display_name' => 'Example Corporation',
+  'sp_org_url' => 'https://corp.example',
+],
+```
+
+For the organization only the `sp_org_name`, and for the contact only the `sp_tech_contact_email` is required. The `sp_org_lang` has English (`en`) as default.
+
+The signing and encryption certificates are automatically included in the metadata when a service provider certificate is configured.
+
 ### User attributes and Name ID
 
 By SAML convention, the "Name ID" sent by the identity provider is used as the ID in the `User` class instance returned in the callback.
 
-The two well-known SAML attributes 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name' and 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress' are mapped into Name and Email Address respectively in the `User` class.
+Well-known SAML attributes from the 'http://schemas.xmlsoap.org/...' and the 'urn:oid:...' namespaces are mapped into `name`, `email`, `first_name`, `last_name` and `upn` in the `User` class.
 
 All other attributes returned by the identity provider are stored in the "raw" property of the `User` class and can be retrieved with `$user->getRaw()`.
+
+It is possible to extend/override the default mapping by providing a partial/full custom map in `config/services.php` as:
+```php
+'saml2' => [
+  'attribute_map' => [
+    // Add mappings as 'mapped_name' => 'saml_attribute' or 'mapped_name' => ['saml_attribute', ...], for example:
+    'email' => [
+      \SocialiteProviders\Saml2\OasisAttributeNameUris::MAIL,
+      \LightSaml\ClaimTypes::EMAIL_ADDRESS,
+    ],
+    'phone' => \SocialiteProviders\Saml2\OasisAttributeNameUris::PHONE,
+  ],
+],
+```
 
 The entire assertion is also stored in the `User` instance and can be retrieved with `$user->getAssertion()`.
