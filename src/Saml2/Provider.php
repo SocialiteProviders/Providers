@@ -521,7 +521,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             return;
         }
 
-        $assertion = $reader->decryptMultiAssertion([$credential], new DeserializationContext());
+        $assertion = $reader->decryptAssertion($credential->getPrivateKey(), new DeserializationContext());
         $this->messageContext->asResponse()->addAssertion($assertion);
     }
 
