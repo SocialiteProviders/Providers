@@ -110,7 +110,11 @@ If you add both routes to support both binding methods, you can select the defau
 ],
 ```
 
-You can also enable a SingleLogoutService on your Service Provider. Add a GET route where you log the user out and generate the SAML2 logout response:
+#### Single logout
+
+**Warning!** Please note that the SAML2 Single Logout feature is a best effort way of centralized logout. With the current state of affairs it requires special circumstances to work. You have to set your session config `same_site = 'none'` and `secure = true` for it to work which has serious security implications. Please always make sure you understand the risks before using this feature.
+
+You can enable the SingleLogoutService on your Service Provider by adding a GET route where you log the user out and generate the SAML2 logout response:
 ```php
 Route::post('/auth/logout', function () {
     $response = Socialite::driver('saml2')->logout();
@@ -124,7 +128,7 @@ If you use a different route (from the default `/auth/logout`), you also have to
 ],
 ```
 
-Please note that the SAML2 Single Logout feature is a best effort way of centralized logout. With the current state of affairs it requires special circumstances to work. Always check your Service Provider and Identity Provider settings and configuration before enabling this.
+The route is automatically published in your service provider metadata when the SingleLogoutService is configured.
 
 ### Signing and encryption
 
