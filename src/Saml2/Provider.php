@@ -84,6 +84,33 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public const CACHE_KEY = 'socialite_saml2_metadata';
     public const CACHE_KEY_TTL = self::CACHE_KEY.'_ttl';
 
+    public const ATTRIBUTE_MAP = [
+        'email' => [
+            ClaimTypes::EMAIL_ADDRESS,
+            OasisAttributeNameUris::MAIL,
+            ClaimTypes::ADFS_1_EMAIL,
+        ],
+        'name' => [
+            ClaimTypes::NAME,
+            OasisAttributeNameUris::DISPLAY_NAME,
+            ClaimTypes::COMMON_NAME,
+            OasisAttributeNameUris::COMMON_NAME,
+        ],
+        'last_name' => [
+            ClaimTypes::GIVEN_NAME,
+            OasisAttributeNameUris::GIVEN_NAME,
+        ],
+        'first_name' => [
+            ClaimTypes::SURNAME,
+            OasisAttributeNameUris::SURNAME,
+        ],
+        'upn' => [
+            ClaimTypes::UPN,
+            OasisAttributeNameUris::UID,
+            ClaimTypes::ADFS_1_UPN,
+        ],
+    ];
+
     public function __construct(Request $request)
     {
         parent::__construct($request, '', '', '');
@@ -425,37 +452,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             }
 
             return null;
-        }, $this->attributeMap());
-    }
-
-    protected function attributeMap(): array
-    {
-        return array_merge([
-            'email' => [
-                ClaimTypes::EMAIL_ADDRESS,
-                OasisAttributeNameUris::MAIL,
-                ClaimTypes::ADFS_1_EMAIL,
-            ],
-            'name' => [
-                ClaimTypes::NAME,
-                OasisAttributeNameUris::DISPLAY_NAME,
-                ClaimTypes::COMMON_NAME,
-                OasisAttributeNameUris::COMMON_NAME,
-            ],
-            'last_name' => [
-                ClaimTypes::GIVEN_NAME,
-                OasisAttributeNameUris::GIVEN_NAME,
-            ],
-            'first_name' => [
-                ClaimTypes::SURNAME,
-                OasisAttributeNameUris::SURNAME,
-            ],
-            'upn' => [
-                ClaimTypes::UPN,
-                OasisAttributeNameUris::UID,
-                ClaimTypes::ADFS_1_UPN,
-            ],
-        ], $this->getConfig('attribute_map', []));
+        }, array_merge(static::ATTRIBUTE_MAP, $this->getConfig('attribute_map', [])));
     }
 
     protected function hasInvalidState(): bool
