@@ -47,6 +47,7 @@ use LightSaml\Model\XmlDSig\SignatureXmlReader;
 use LightSaml\SamlConstants;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
+use RuntimeException;
 use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\Exception\MissingConfigException;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
@@ -416,6 +417,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         }
 
         $this->receive();
+        $this->ensureSuccessfulStatus();
 
         if ($this->hasInvalidState()) {
             throw new InvalidStateException();
@@ -453,6 +455,15 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
             return null;
         }, array_merge(static::ATTRIBUTE_MAP, $this->getConfig('attribute_map', [])));
+    }
+
+    protected function ensureSuccessfulStatus(): void
+    {
+        $status = $this->messageContext->asResponse()->getStatus();
+
+        if (!$status->isSuccess()) {
+            throw new RuntimeException('Server responded with: ' . $status->getStatusCode()->getValue());
+        }
     }
 
     protected function hasInvalidState(): bool
