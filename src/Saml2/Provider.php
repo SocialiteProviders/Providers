@@ -96,11 +96,11 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ClaimTypes::COMMON_NAME,
             OasisAttributeNameUris::COMMON_NAME,
         ],
-        'last_name' => [
+        'first_name' => [
             ClaimTypes::GIVEN_NAME,
             OasisAttributeNameUris::GIVEN_NAME,
         ],
-        'first_name' => [
+        'last_name' => [
             ClaimTypes::SURNAME,
             OasisAttributeNameUris::SURNAME,
         ],
