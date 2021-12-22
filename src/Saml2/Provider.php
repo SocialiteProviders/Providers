@@ -293,7 +293,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             }
 
             $slsRoute = $this->getSingleLogoutServiceRoute();
-            if ($this->hasRouteBindingType($slsRoute, $binding)) {
+            if ($slsRoute && $this->hasRouteBindingType($slsRoute, $binding)) {
                 $spSsoDescriptor->addSingleLogoutService((new SingleLogoutService(URL::to($slsRoute), $binding)));
             }
         }
@@ -352,7 +352,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function getSingleLogoutServiceRoute(): string
     {
-        return Str::of($this->getConfig('sp_sls', 'auth/logout'))->ltrim('/');
+        return Str::of($this->getConfig('sp_sls'))->ltrim('/');
     }
 
     protected function getDefaultAssertionConsumerServiceBinding(): string
