@@ -8,6 +8,7 @@ class OasisAttributeNameUris
     public const DISPLAY_NAME = 'urn:oid:2.16.840.1.113730.3.1.241';
     public const GIVEN_NAME = 'urn:oid:2.5.4.42';
     public const MAIL = 'urn:oid:0.9.2342.19200300.100.1.3';
+    public const ORGANIZATIONAL_UNIT_NAME = 'urn:oid:2.5.4.11';
     public const PHONE = 'urn:oid:2.5.4.20';
     public const PREFERRED_FIRST_NAME = 'urn:oid:1.2.840.113994.200.47';
     public const PREFERRED_MIDDLE_NAME = 'urn:oid:1.2.840.113994.200.48';
