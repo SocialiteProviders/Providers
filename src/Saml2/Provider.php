@@ -397,7 +397,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $methods = [
             SamlConstants::BINDING_SAML2_HTTP_REDIRECT => 'GET',
-            SamlConstants::BINDING_SAML2_HTTP_POST => 'POST',
+            SamlConstants::BINDING_SAML2_HTTP_POST     => 'POST',
         ];
 
         if (!array_key_exists($bindingType, $methods)) {
@@ -462,7 +462,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $status = $this->messageContext->asResponse()->getStatus();
 
         if (!$status->isSuccess()) {
-            throw new RuntimeException('Server responded with: ' . $status->getStatusCode()->getValue());
+            throw new RuntimeException('Server responded with: '.$status->getStatusCode()->getValue());
         }
     }
 
