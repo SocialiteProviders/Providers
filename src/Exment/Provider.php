@@ -87,8 +87,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     // Custom functions ----------------------------------------------
     /**
      * Get Exment base uri.
@@ -135,6 +133,7 @@ class Provider extends AbstractProvider
                 $ret_pass = $ret_pass.$trim_str.$value;
             }
         }
+
         return $ret_pass;
     }
 }
