@@ -24,7 +24,7 @@ class Provider extends AbstractProvider
      * @var array
      */
     protected $scopes = ['me'];
-    
+
     public static function additionalConfigKeys()
     {
         return ['exment_uri'];
@@ -99,20 +99,19 @@ class Provider extends AbstractProvider
     {
         $exment_url = $this->getConfig('exment_uri');
         if (is_null($exment_url)) {
-            throw new NotConfigExmentUrlException;
+            throw new NotConfigExmentUrlException();
         }
 
         return $exment_url;
     }
-    
+
     /**
      * Join UrlPath.
      */
     protected function urlJoin(...$pass_array)
     {
-        return $this->joinPaths("/", $pass_array);
+        return $this->joinPaths('/', $pass_array);
     }
-
 
     /**
      * Join path using trim_str.
@@ -125,7 +124,7 @@ class Provider extends AbstractProvider
             if (empty($value)) {
                 continue;
             }
-            
+
             if (is_array($value)) {
                 $ret_pass = $ret_pass.$trim_str.$this->joinPaths($trim_str, $value);
             } elseif ($ret_pass == '') {
