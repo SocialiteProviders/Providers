@@ -24,7 +24,7 @@ class Provider extends AbstractProvider
      * @var array
      */
     protected $scopes = ['me'];
-	
+    
     public static function additionalConfigKeys()
     {
         return ['exment_uri'];
@@ -92,13 +92,13 @@ class Provider extends AbstractProvider
     // Custom functions ----------------------------------------------
     /**
      * Get Exment base uri.
-     * 
+     *
      * @return string
      */
     protected function getBaseUri(): string
     {
         $exment_url = $this->getConfig('exment_uri');
-        if(is_null($exment_url)){
+        if (is_null($exment_url)) {
             throw new NotConfigExmentUrlException;
         }
 
@@ -119,7 +119,7 @@ class Provider extends AbstractProvider
      */
     protected function joinPaths($trim_str, $pass_array)
     {
-        $ret_pass   =   "";
+        $ret_pass = '';
 
         foreach ($pass_array as $value) {
             if (empty($value)) {
@@ -128,15 +128,14 @@ class Provider extends AbstractProvider
             
             if (is_array($value)) {
                 $ret_pass = $ret_pass.$trim_str.$this->joinPaths($trim_str, $value);
-            } elseif ($ret_pass == "") {
-                $ret_pass   =   $value;
+            } elseif ($ret_pass == '') {
+                $ret_pass = $value;
             } else {
-                $ret_pass   =   rtrim($ret_pass, $trim_str);
-                $value      =   ltrim($value, $trim_str);
-                $ret_pass   =   $ret_pass.$trim_str.$value;
+                $ret_pass = rtrim($ret_pass, $trim_str);
+                $value = ltrim($value, $trim_str);
+                $ret_pass = $ret_pass.$trim_str.$value;
             }
         }
         return $ret_pass;
     }
-
 }
