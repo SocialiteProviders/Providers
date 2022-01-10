@@ -39,7 +39,7 @@ class Provider extends AbstractProvider
     {
         $basic_auth = base64_encode($this->clientId.':'.$this->clientSecret);
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => ['Authorization' => 'Basic ' . $basic_auth],
+            RequestOptions::HEADERS     => ['Authorization' => 'Basic '.$basic_auth],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
