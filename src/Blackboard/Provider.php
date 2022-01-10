@@ -37,7 +37,7 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
-        $basic_auth = base64_encode($this->clientId . ':' . $this->clientSecret);
+        $basic_auth = base64_encode($this->clientId.':'.$this->clientSecret);
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => ['Authorization' => 'Basic ' . $basic_auth],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
@@ -59,7 +59,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase("https://{$this->getConfig('subdomain')}.blackboard.com" .
+        return $this->buildAuthUrlFromBase("https://{$this->getConfig('subdomain')}.blackboard.com".
             '/learn/api/public/v1/oauth2/authorizationcode', $state);
     }
 
@@ -73,12 +73,12 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->get($url, [
             RequestOptions::HEADERS => [
-                'Authorization' => 'Bearer ' . $token,
-                'Accept' => 'application/json',
+                'Authorization' => 'Bearer '.$token,
+                'Accept'        => 'application/json',
             ],
         ]);
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -87,8 +87,8 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
-            'email' => Arr::get($user, 'contact.email'),
+            'id'     => $user['id'],
+            'email'  => Arr::get($user, 'contact.email'),
             'avatar' => Arr::get($user, 'avatar.viewUrl'),
         ]);
     }
