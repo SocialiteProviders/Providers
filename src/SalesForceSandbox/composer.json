@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/salesforce-sandbox",
+    "description": "SalesForce Sandbox OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "salesforce",
+        "socialite"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anatolii Savenko",
+            "email": "bfmvsa@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\SalesForceSandbox\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/salesforce-sandbox"
+    }
+}
