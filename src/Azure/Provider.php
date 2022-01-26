@@ -83,6 +83,7 @@ class Provider extends AbstractProvider
                 'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
+            RequestOptions::PROXY       => $this->getConfig('proxy'),
         ]);
 
         return json_decode((string) $response->getBody(), true);
