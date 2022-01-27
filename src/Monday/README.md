@@ -43,22 +43,29 @@ return Socialite::driver('monday')->redirect();
 
 ### Returned User fields
 
+- `id`
+- `name`
+- `email`
+- `avatar`
+
+#### Raw fields
+
+```php
+Socialite::driver('monday')->user()->getRaw()
+```
+
 - `birthday`
 - `country_code`
 - `created_at`
 - `join_date`
-- `email`
 - `enabled`
-- `id`
 - `is_admin`
 - `is_guest`
 - `is_pending`
 - `is_view_only`
 - `location`
 - `mobile_phone`
-- `name`
 - `phone`
-- `photo_original`
 - `photo_small`
 - `photo_thumb`
 - `photo_thumb_small`

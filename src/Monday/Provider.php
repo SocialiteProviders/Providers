@@ -2,15 +2,12 @@
 
 namespace SocialiteProviders\Monday;
 
+use GuzzleHttp\RequestOptions;
 use Laravel\Socialite\Two\AbstractProvider;
-use SocialiteProviders\Manager\ConfigTrait;
-use SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
-    use ConfigTrait;
-
     /**
      * Unique Provider Identifier.
      */
@@ -53,11 +50,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->httpClient
             ->post('https://api.monday.com/v2', [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Content-Type'  => 'application/json',
                     'Authorization' => $token,
                 ],
-                'body' => json_encode([
+                RequestOptions::BODY => json_encode([
                     'query' => <<<'GQL'
                         query {
                             me {
