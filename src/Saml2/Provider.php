@@ -168,8 +168,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     public function redirect()
     {
-        $this->request->session()->put('state', $state = $this->getState());
-
         $bindingType = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
 
         $identityProviderConsumerService = $this->getIdentityProviderEntityDescriptor()
@@ -180,11 +178,15 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $authnRequest
             ->setID(Helper::generateID())
             ->setProtocolBinding($this->getDefaultAssertionConsumerServiceBinding())
-            ->setRelayState($state)
             ->setIssueInstant(new DateTime())
             ->setDestination($identityProviderConsumerService->getLocation())
             ->setNameIDPolicy((new NameIDPolicy())->setFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT))
             ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()));
+
+        if ($this->usesState()) {
+            $this->request->session()->put('state', $state = $this->getState());
+            $authnRequest->setRelayState($state);
+        }
 
         return $this->sendMessage($authnRequest, $identityProviderConsumerService->getBinding());
     }
