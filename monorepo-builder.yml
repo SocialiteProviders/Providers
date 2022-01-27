@@ -109,6 +109,7 @@ parameters:
     src/OSChina: 'git@github.com:SocialiteProviders/OSChina.git'
     src/Odnoklassniki: 'git@github.com:SocialiteProviders/Odnoklassniki.git'
     src/Okta: 'git@github.com:SocialiteProviders/Okta.git'
+    src/OpenStreetMap: 'git@github.com:SocialiteProviders/OpenStreetMap.git'
     src/Orcid: 'git@github.com:SocialiteProviders/Orcid.git'
     src/Ovh: 'git@github.com:SocialiteProviders/Ovh.git'
     src/Patreon: 'git@github.com:SocialiteProviders/Patreon.git'
