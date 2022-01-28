@@ -36,7 +36,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            $this->urlJoin($this->getBaseUri(), 'oauth/authorize'),
+            $this->getBaseUri() . '/oauth/authorize',
             $state
         );
     }
@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->urlJoin($this->getBaseUri(), 'oauth/token');
+        return $this->getBaseUri() . '/oauth/token';
     }
 
     /**
@@ -55,7 +55,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            $this->urlJoin($this->getBaseUri(), 'api/me'),
+            $this->getBaseUri() . '/api/me',
             [
                 RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
@@ -78,17 +78,6 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
-    // Custom functions ----------------------------------------------
-    /**
      * Get Exment base uri.
      *
      * @return string
@@ -96,44 +85,10 @@ class Provider extends AbstractProvider
     protected function getBaseUri(): string
     {
         $exment_url = $this->getConfig('exment_uri');
-        if (is_null($exment_url)) {
-            throw new NotConfigExmentUrlException();
+        if(is_null($exment_url)){
+            throw new \InvalidArgumentException('Please config Exment URI.');
         }
 
-        return $exment_url;
-    }
-
-    /**
-     * Join UrlPath.
-     */
-    protected function urlJoin(...$pass_array)
-    {
-        return $this->joinPaths('/', $pass_array);
-    }
-
-    /**
-     * Join path using trim_str.
-     */
-    protected function joinPaths($trim_str, $pass_array)
-    {
-        $ret_pass = '';
-
-        foreach ($pass_array as $value) {
-            if (empty($value)) {
-                continue;
-            }
-
-            if (is_array($value)) {
-                $ret_pass = $ret_pass.$trim_str.$this->joinPaths($trim_str, $value);
-            } elseif ($ret_pass == '') {
-                $ret_pass = $value;
-            } else {
-                $ret_pass = rtrim($ret_pass, $trim_str);
-                $value = ltrim($value, $trim_str);
-                $ret_pass = $ret_pass.$trim_str.$value;
-            }
-        }
-
-        return $ret_pass;
+        return rtrim($exment_url, '/');
     }
 }
