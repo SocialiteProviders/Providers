@@ -89,7 +89,7 @@ class Provider extends AbstractProvider
                                 utc_hours_diff
                             }
                         }
-                    GQL
+GQL
                 ]),
             ]);
 
