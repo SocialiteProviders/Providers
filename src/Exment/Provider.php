@@ -36,7 +36,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            $this->getBaseUri() . '/oauth/authorize',
+            $this->getBaseUri().'/oauth/authorize',
             $state
         );
     }
@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getBaseUri() . '/oauth/token';
+        return $this->getBaseUri().'/oauth/token';
     }
 
     /**
@@ -55,7 +55,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            $this->getBaseUri() . '/api/me',
+            $this->getBaseUri().'/api/me',
             [
                 RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
@@ -85,7 +85,7 @@ class Provider extends AbstractProvider
     protected function getBaseUri(): string
     {
         $exment_url = $this->getConfig('exment_uri');
-        if(is_null($exment_url)){
+        if (is_null($exment_url)) {
             throw new \InvalidArgumentException('Please config Exment URI.');
         }
 
