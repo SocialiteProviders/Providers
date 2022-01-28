@@ -1,9 +1,4 @@
 <?php
-/**
- * User: Katzen48
- * Date: 1/29/2022
- * Time: 12:19 AM
- */
 
 namespace SocialiteProviders\Minecraft;
 
@@ -12,7 +7,8 @@ use SocialiteProviders\Manager\OAuth2\User;
 class MinecraftUser extends User
 {
     /**
-     * Splitted UUID
+     * Splitted UUID.
+     *
      * @var mixed
      */
     public $uuid;

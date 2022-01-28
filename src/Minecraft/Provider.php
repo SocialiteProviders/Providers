@@ -23,17 +23,17 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * Used to get a token from XBOX Live
+     * Used to get a token from XBOX Live.
      */
     protected const XBOX_LIVE_TOKEN_URL = 'https://login.live.com/oauth20_token.srf';
 
     /**
-     * Used to sign in into XBOX Live
+     * Used to sign in into XBOX Live.
      */
     protected const XBOX_LIVE_SIGN_IN_URL = 'https://user.auth.xboxlive.com/user/authenticate';
 
     /**
-     * Used to get a XSTS token from XBOX Live
+     * Used to get a XSTS token from XBOX Live.
      */
     protected const XSTS_TOKEN_URL = 'https://xsts.auth.xboxlive.com/xsts/authorize';
 
@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.minecraftservices.com/minecraft/profile',
             [RequestOptions::HEADERS => [
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
             ]
@@ -87,15 +87,15 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         $activeSkin = array_filter($user['skins'], function ($skin) {
-            return $skin['state'] === 'ACTIVE';
+            return 'ACTIVE' === $skin['state'];
         });
 
         return (new MinecraftUser())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => null,
-            'name'     => $user['name'],
-            'email'    => null,
-            'avatar'   => count($activeSkin) === 1 ? $activeSkin[0]['url'] : null,
+            'name' => $user['name'],
+            'email' => null,
+            'avatar' => 1 === count($activeSkin) ? $activeSkin[0]['url'] : null,
         ]);
     }
 
@@ -109,8 +109,8 @@ class Provider extends AbstractProvider
         $xstsToken = $this->getXstsToken($loginToken);
 
         return [
-            'identityToken'         => sprintf('XBL3.0 x=%s;%s', $loginToken['uhs'], $xstsToken['token']),
-            'ensureLegacyEnabled'   => true,
+            'identityToken' => sprintf('XBL3.0 x=%s;%s', $loginToken['uhs'], $xstsToken['token']),
+            'ensureLegacyEnabled' => true,
         ];
     }
 
@@ -121,8 +121,8 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => [
-                'Accept'        => 'application/json',
-                'Content-Type'  => 'application/json',
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
             ],
             'json' => $this->getTokenFields($code),
         ]);
@@ -131,10 +131,12 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Get Microsoft Token for sign in
+     * Get Microsoft Token for sign in.
      *
      * @param $code
+     *
      * @return array
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function getMicrosoftToken($code)
@@ -142,29 +144,31 @@ class Provider extends AbstractProvider
         $response = json_decode($this->getHttpClient()->post(
             self::XBOX_LIVE_TOKEN_URL,
             [RequestOptions::HEADERS => [
-                'Content-Type'  => 'application/x-www-form-urlencoded',
-                'Accept'        => 'application/json',
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Accept' => 'application/json',
             ],
             RequestOptions::FORM_PARAMS => [
-                'client_id'     => $this->clientId,
+                'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
-                'code'          => $code,
-                'grant_type'    => 'authorization_code',
-                'redirect_uri'  => $this->redirectUrl,
-            ]
+                'code' => $code,
+                'grant_type' => 'authorization_code',
+                'redirect_uri' => $this->redirectUrl,
+            ],
             ]
         )->getBody(), true);
 
         return [
-            'token'         => $response['access_token'],
+            'token' => $response['access_token'],
         ];
     }
 
     /**
-     * Get a XBOX Live login token
+     * Get a XBOX Live login token.
      *
      * @param $xboxToken
+     *
      * @return array
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function signInIntoXboxLive($xboxToken)
@@ -172,32 +176,34 @@ class Provider extends AbstractProvider
         $response = json_decode($this->getHttpClient()->post(
             self::XBOX_LIVE_SIGN_IN_URL,
             [RequestOptions::HEADERS => [
-                'Content-Type'  => 'application/json',
-                'Accept'        => 'application/json',
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
             ],
             RequestOptions::JSON => [
                 'Properties' => [
-                    'AuthMethod'    => 'RPS',
-                    'SiteName'      => 'user.auth.xboxlive.com',
-                    'RpsTicket'     => 'd=' . $xboxToken['token'],
+                    'AuthMethod' => 'RPS',
+                    'SiteName' => 'user.auth.xboxlive.com',
+                    'RpsTicket' => 'd='.$xboxToken['token'],
                 ],
-                'RelyingParty'      => 'http://auth.xboxlive.com',
-                'TokenType'         => 'JWT',
+                'RelyingParty' => 'http://auth.xboxlive.com',
+                'TokenType' => 'JWT',
             ],
             ]
         )->getBody(), true);
 
         return [
             'token' => $response['Token'],
-            'uhs'   => $response['DisplayClaims']['xui'][0]['uhs'],
+            'uhs' => $response['DisplayClaims']['xui'][0]['uhs'],
         ];
     }
 
     /**
-     * Get a XSTS token
+     * Get a XSTS token.
      *
      * @param $loginToken
+     *
      * @return array
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function getXstsToken($loginToken)
@@ -205,18 +211,18 @@ class Provider extends AbstractProvider
         $response = json_decode($this->getHttpClient()->post(
             self::XSTS_TOKEN_URL,
             [RequestOptions::HEADERS => [
-                'Content-Type'  => 'application/json',
-                'Accept'        => 'application/json',
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
             ],
             RequestOptions::JSON => [
                 'Properties' => [
-                    'SandboxId'     => 'RETAIL',
-                    'UserTokens'    => [
+                    'SandboxId' => 'RETAIL',
+                    'UserTokens' => [
                         $loginToken['token'],
                     ],
                 ],
-                'RelyingParty'      => 'rp://api.minecraftservices.com/',
-                'TokenType'         => 'JWT',
+                'RelyingParty' => 'rp://api.minecraftservices.com/',
+                'TokenType' => 'JWT',
             ],
             ]
         )->getBody(), true);
