@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.minecraftservices.com/minecraft/profile',
             [RequestOptions::HEADERS => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
             ]
@@ -91,11 +91,11 @@ class Provider extends AbstractProvider
         });
 
         return (new MinecraftUser())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => null,
-            'name' => $user['name'],
-            'email' => null,
-            'avatar' => 1 === count($activeSkin) ? $activeSkin[0]['url'] : null,
+            'name'     => $user['name'],
+            'email'    => null,
+            'avatar'   => 1 === count($activeSkin) ? $activeSkin[0]['url'] : null,
         ]);
     }
 
@@ -109,7 +109,7 @@ class Provider extends AbstractProvider
         $xstsToken = $this->getXstsToken($loginToken);
 
         return [
-            'identityToken' => sprintf('XBL3.0 x=%s;%s', $loginToken['uhs'], $xstsToken['token']),
+            'identityToken'       => sprintf('XBL3.0 x=%s;%s', $loginToken['uhs'], $xstsToken['token']),
             'ensureLegacyEnabled' => true,
         ];
     }
@@ -121,7 +121,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => [
-                'Accept' => 'application/json',
+                'Accept'       => 'application/json',
                 'Content-Type' => 'application/json',
             ],
             'json' => $this->getTokenFields($code),
@@ -135,9 +135,9 @@ class Provider extends AbstractProvider
      *
      * @param $code
      *
-     * @return array
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return array
      */
     protected function getMicrosoftToken($code)
     {
@@ -145,15 +145,15 @@ class Provider extends AbstractProvider
             self::XBOX_LIVE_TOKEN_URL,
             [RequestOptions::HEADERS => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'Accept' => 'application/json',
+                'Accept'       => 'application/json',
             ],
-            RequestOptions::FORM_PARAMS => [
-                'client_id' => $this->clientId,
-                'client_secret' => $this->clientSecret,
-                'code' => $code,
-                'grant_type' => 'authorization_code',
-                'redirect_uri' => $this->redirectUrl,
-            ],
+                RequestOptions::FORM_PARAMS => [
+                    'client_id'     => $this->clientId,
+                    'client_secret' => $this->clientSecret,
+                    'code'          => $code,
+                    'grant_type'    => 'authorization_code',
+                    'redirect_uri'  => $this->redirectUrl,
+                ],
             ]
         )->getBody(), true);
 
@@ -167,9 +167,9 @@ class Provider extends AbstractProvider
      *
      * @param $xboxToken
      *
-     * @return array
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return array
      */
     protected function signInIntoXboxLive($xboxToken)
     {
@@ -177,23 +177,23 @@ class Provider extends AbstractProvider
             self::XBOX_LIVE_SIGN_IN_URL,
             [RequestOptions::HEADERS => [
                 'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
+                'Accept'       => 'application/json',
             ],
-            RequestOptions::JSON => [
-                'Properties' => [
-                    'AuthMethod' => 'RPS',
-                    'SiteName' => 'user.auth.xboxlive.com',
-                    'RpsTicket' => 'd='.$xboxToken['token'],
+                RequestOptions::JSON => [
+                    'Properties' => [
+                        'AuthMethod' => 'RPS',
+                        'SiteName'   => 'user.auth.xboxlive.com',
+                        'RpsTicket'  => 'd='.$xboxToken['token'],
+                    ],
+                    'RelyingParty' => 'http://auth.xboxlive.com',
+                    'TokenType'    => 'JWT',
                 ],
-                'RelyingParty' => 'http://auth.xboxlive.com',
-                'TokenType' => 'JWT',
-            ],
             ]
         )->getBody(), true);
 
         return [
             'token' => $response['Token'],
-            'uhs' => $response['DisplayClaims']['xui'][0]['uhs'],
+            'uhs'   => $response['DisplayClaims']['xui'][0]['uhs'],
         ];
     }
 
@@ -202,9 +202,9 @@ class Provider extends AbstractProvider
      *
      * @param $loginToken
      *
-     * @return array
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return array
      */
     protected function getXstsToken($loginToken)
     {
@@ -212,18 +212,18 @@ class Provider extends AbstractProvider
             self::XSTS_TOKEN_URL,
             [RequestOptions::HEADERS => [
                 'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
+                'Accept'       => 'application/json',
             ],
-            RequestOptions::JSON => [
-                'Properties' => [
-                    'SandboxId' => 'RETAIL',
-                    'UserTokens' => [
-                        $loginToken['token'],
+                RequestOptions::JSON => [
+                    'Properties' => [
+                        'SandboxId'  => 'RETAIL',
+                        'UserTokens' => [
+                            $loginToken['token'],
+                        ],
                     ],
+                    'RelyingParty' => 'rp://api.minecraftservices.com/',
+                    'TokenType'    => 'JWT',
                 ],
-                'RelyingParty' => 'rp://api.minecraftservices.com/',
-                'TokenType' => 'JWT',
-            ],
             ]
         )->getBody(), true);
 

@@ -22,12 +22,13 @@ class MinecraftUser extends User
 
     protected function getUuid($id)
     {
-        return sprintf('%s-%s-%s-%s-%s',
-                substr($id, 0, 8),
-                substr($id, 8, 4),
-                substr($id, 12, 4),
-                substr($id, 16, 4),
-                substr($id, 20, 12)
+        return sprintf(
+            '%s-%s-%s-%s-%s',
+            substr($id, 0, 8),
+            substr($id, 8, 4),
+            substr($id, 12, 4),
+            substr($id, 16, 4),
+            substr($id, 20, 12)
         );
     }
 }
