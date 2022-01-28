@@ -43,6 +43,7 @@ parameters:
     src/Etsy: 'git@github.com:SocialiteProviders/Etsy.git'
     src/Eventbrite: 'git@github.com:SocialiteProviders/Eventbrite.git'
     src/Eveonline: 'git@github.com:SocialiteProviders/Eveonline.git'
+    src/Exment: 'git@github.com:SocialiteProviders/Exment.git'
     src/EyeEm: 'git@github.com:SocialiteProviders/EyeEm.git'
     src/Fablabs: 'git@github.com:SocialiteProviders/Fablabs.git'
     src/Facebook: 'git@github.com:SocialiteProviders/Facebook.git'
