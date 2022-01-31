@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Exment;
 
 use GuzzleHttp\RequestOptions;
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -25,6 +26,9 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['me'];
 
+    /**
+     * {@inheritdoc}
+     */
     public static function additionalConfigKeys()
     {
         return ['exment_uri'];
@@ -84,11 +88,11 @@ class Provider extends AbstractProvider
      */
     protected function getBaseUri(): string
     {
-        $exment_url = $this->getConfig('exment_uri');
-        if (is_null($exment_url)) {
-            throw new \InvalidArgumentException('Please config Exment URI.');
+        $exmentUrl = $this->getConfig('exment_uri');
+        if(is_null($exmentUrl)){
+            throw new InvalidArgumentException('Please config Exment URI.');
         }
 
-        return rtrim($exment_url, '/');
+        return rtrim($exmentUrl, '/');
     }
 }
