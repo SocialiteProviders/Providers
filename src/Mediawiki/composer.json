@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/mediawiki",
+    "description": "Mediawiki OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "mediawiki",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Omar Vega Ramos",
+            "email": "ovruni@riseup.net"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Mediawiki\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/mediawiki"
+    }
+}

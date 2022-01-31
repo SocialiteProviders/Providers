@@ -91,6 +91,7 @@ parameters:
     src/MakerLog: 'git@github.com:SocialiteProviders/MakerLog.git'
     src/Mattermost: 'git@github.com:SocialiteProviders/Mattermost.git'
     src/MediaCube: 'git@github.com:SocialiteProviders/Mediacube.git'
+    src/Mediawiki: 'git@github.com:SocialiteProviders/Mediawiki.git'
     src/Medium: 'git@github.com:SocialiteProviders/Medium.git'
     src/Meetup: 'git@github.com:SocialiteProviders/Meetup.git'
     src/MercadoLibre: 'git@github.com:SocialiteProviders/MercadoLibre.git'
