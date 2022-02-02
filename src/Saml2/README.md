@@ -224,7 +224,7 @@ You can also publish the service provider's organization and technical support c
 ],
 ```
 
-For the organization only the `sp_org_name`, and for the contact only the `sp_tech_contact_email` is required. The `sp_org_lang` has English (`en`) as default.
+In case you would like to include this information, you have to configure at least the `sp_org_name` for the organization to be included, and the `sp_tech_contact_email` for the contact to be included. The `sp_org_lang` has English (`en`) as default.
 
 The signing and encryption certificates are automatically included in the metadata when a service provider certificate is configured.
 
