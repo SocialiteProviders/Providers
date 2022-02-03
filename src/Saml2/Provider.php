@@ -86,6 +86,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public static function additionalConfigKeys(): array
     {
         return [
+            'client_id',
+            'client_secret',
+            'redirect',
             'metadata',
             'ttl',
             'acs',
