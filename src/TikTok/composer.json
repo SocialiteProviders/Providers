@@ -17,7 +17,6 @@
     ],
     "require": {
         "php": "^7.2 || ^8.0",
-        "laravel/socialite": "~4.0 || ~5.0",
         "socialiteproviders/manager": "~4.0"
     },
     "autoload": {
