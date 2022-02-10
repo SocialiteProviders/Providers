@@ -15,6 +15,7 @@ parameters:
     src/Azure: 'git@github.com:SocialiteProviders/Microsoft-Azure.git'
     src/AzureADB2C: 'git@github.com:SocialiteProviders/AzureADB2C.git'
     src/Battlenet: 'git@github.com:SocialiteProviders/Battle.net.git'
+    src/Bexio: 'git@github.com:SocialiteProviders/Bexio.git'
     src/Binance: 'git@github.com:SocialiteProviders/Binance.git'
     src/Bitbucket: 'git@github.com:SocialiteProviders/Bitbucket.git'
     src/Bitly: 'git@github.com:SocialiteProviders/Bit.ly.git'
