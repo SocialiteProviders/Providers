@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://idp.bexio.com/userinfo', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -61,9 +61,9 @@ class Provider extends AbstractProvider
         }
 
         return (new User())->setRaw($user)->map([
-            'name' => implode(' ', $fullName),
-            'email' => $user['sub'],
-            'given_name' => $user['given_name'],
+            'name'        => implode(' ', $fullName),
+            'email'       => $user['sub'],
+            'given_name'  => $user['given_name'],
             'family_name' => $user['family_name'],
         ]);
     }
@@ -74,7 +74,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
