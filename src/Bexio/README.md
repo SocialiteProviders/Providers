@@ -56,6 +56,7 @@ The $externalUserData variable will have a \SocialiteProviders\Manager\OAuth2\Us
 with the following provider specific data:
 ```php
 $externalUserData->id,// null
+$externalUserData->email,// User's email
 $externalUserData->nickname,// null
 $externalUserData->given_name,// First name from bexio profile
 $externalUserData->family_name,// Last name from bexio profile
