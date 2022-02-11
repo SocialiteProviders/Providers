@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
         if (!empty($user['given_name'])) {
             $fullName[] = $user['given_name'];
         }
-        if (!empty($user['given_name'])) {
+        if (!empty($user['family_name'])) {
             $fullName[] = $user['family_name'];
         }
 
@@ -65,6 +65,8 @@ class Provider extends AbstractProvider
             'email'       => $user['sub'],
             'given_name'  => $user['given_name'],
             'family_name' => $user['family_name'],
+            'gender'      => $user['gender'] ?? '',
+            'locale'      => $user['locale'] ?? '',
         ]);
     }
 
