@@ -37,13 +37,12 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
-        $basic_auth = base64_encode($this->clientId.':'.$this->clientSecret);
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => ['Authorization' => 'Basic '.$basic_auth],
+            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -51,7 +50,8 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return "https://{$this->getConfig('subdomain')}.blackboard.com/learn/api/public/v1/oauth2/token";
+        $tokenUrlFormat = "https://%s.blackboard.com/learn/api/public/v1/oauth2/token";
+        return sprintf($tokenUrlFormat, $this->getConfig('subdomain'));
     }
 
     /**
@@ -59,8 +59,8 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase("https://{$this->getConfig('subdomain')}.blackboard.com".
-            '/learn/api/public/v1/oauth2/authorizationcode', $state);
+        $authUrlFormat = "https://%s.blackboard.com/learn/api/public/v1/oauth2/authorizationcode";
+        return $this->buildAuthUrlFromBase(sprintf($authUrlFormat, $this->getConfig('subdomain')), $state);
     }
 
     /**
@@ -69,7 +69,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $uuid = $this->credentialsResponseBody['user_id'];
-        $url = "https://{$this->getConfig('subdomain')}.blackboard.com/learn/api/public/v1/users/uuid:$uuid";
+        $url = sprintf("https://%s.blackboard.com/learn/api/public/v1/users/uuid:%s",
+            $this->getConfig('subdomain'),
+            $uuid
+        );
 
         $response = $this->getHttpClient()->get($url, [
             RequestOptions::HEADERS => [
