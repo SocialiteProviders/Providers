@@ -69,7 +69,8 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $uuid = $this->credentialsResponseBody['user_id'];
-        $url = sprintf('https://%s.blackboard.com/learn/api/public/v1/users/uuid:%s',
+        $url = sprintf(
+            'https://%s.blackboard.com/learn/api/public/v1/users/uuid:%s',
             $this->getConfig('subdomain'),
             $uuid
         );
