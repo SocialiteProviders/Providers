@@ -51,6 +51,7 @@ class Provider extends AbstractProvider
     protected function getTokenUrl()
     {
         $tokenUrlFormat = 'https://%s.blackboard.com/learn/api/public/v1/oauth2/token';
+
         return sprintf($tokenUrlFormat, $this->getConfig('subdomain'));
     }
 
@@ -60,6 +61,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         $authUrlFormat = 'https://%s.blackboard.com/learn/api/public/v1/oauth2/authorizationcode';
+
         return $this->buildAuthUrlFromBase(sprintf($authUrlFormat, $this->getConfig('subdomain')), $state);
     }
 
