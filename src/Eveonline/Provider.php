@@ -83,7 +83,7 @@ class Provider extends AbstractProvider
     {
         $responseJwks = $this->getHttpClient()->get('https://login.eveonline.com/oauth/jwks');
         $responseJwksInfo = json_decode((string) $responseJwks->getBody(), true);
-        $decodedArray = (array) JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo), ['RS256']);
+        $decodedArray = (array) JWT::decode($jwt, JWK::parseKeySet($responseJwksInfo));
 
         if ($decodedArray['iss'] !== 'login.eveonline.com' && $decodedArray['iss'] !== self::TRANQUILITY_ENDPOINT) {
             throw new UnexpectedValueException('Access token issuer mismatch');
