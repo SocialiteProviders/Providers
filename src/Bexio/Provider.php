@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Bexio;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -10,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'BEXIO';
+    public const IDENTIFIER = 'BEXIO';
 
     /**
      * {@inheritdoc}
@@ -39,12 +40,12 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://idp.bexio.com/userinfo', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -52,31 +53,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user): User
     {
-        $fullName = [];
-        if (!empty($user['given_name'])) {
-            $fullName[] = $user['given_name'];
-        }
-        if (!empty($user['family_name'])) {
-            $fullName[] = $user['family_name'];
-        }
-
-        return (new User())->setRaw($user)->map([
-            'name'        => implode(' ', $fullName),
+        return (new User)->setRaw($user)->map([
+            'name'        => trim(($user['given_name'] ?? '').' '.($user['family_name'] ?? '')),
             'email'       => $user['sub'],
             'given_name'  => $user['given_name'],
             'family_name' => $user['family_name'],
             'gender'      => $user['gender'] ?? '',
             'locale'      => $user['locale'] ?? '',
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }
