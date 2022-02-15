@@ -48,6 +48,15 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('okta')->redirect();
 ```
 
+#### Client Token
+To obtain a client access token for authenticating to other apps without a user:
+
+```php
+$resp = (object)Socialite::driver('okta')->getClientAccessTokenResponse();
+$token = $resp->access_token;
+```
+NOTE: no caching of this token is performed. It's strongly suggested caching the token locally for its ttl
+
 ### Returned User fields
 
 - ``id``
