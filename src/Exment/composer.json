@@ -2,7 +2,7 @@
     "name": "socialiteproviders/exment",
     "description": "Exment OAuth2 Provider for Laravel Socialite",
     "keywords": [
-        "Exment",
+        "exment",
         "laravel",
         "oauth",
         "provider",

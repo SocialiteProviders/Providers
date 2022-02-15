@@ -39,10 +39,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(
-            $this->getBaseUri().'/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->getBaseUri().'/oauth/authorize', $state);
     }
 
     /**
@@ -58,14 +55,11 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            $this->getBaseUri().'/api/me',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get($this->getBaseUri().'/api/me', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -76,15 +70,19 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'   => $user['id'], 'nickname' => $user['value']['user_code'],
-            'name' => $user['value']['user_name'], 'email' => $user['value']['email'], 'avatar' => null,
+            'id'       => $user['id'],
+            'nickname' => $user['value']['user_code'],
+            'name'     => $user['value']['user_name'],
+            'email'    => $user['value']['email'],
+            'avatar'   => null,
         ]);
     }
 
     /**
-     * Get Exment base uri.
+     * Get Exment base URI.
      *
      * @return string
+     * @throws \InvalidArgumentException
      */
     protected function getBaseUri(): string
     {
