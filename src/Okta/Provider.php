@@ -107,6 +107,7 @@ class Provider extends AbstractProvider
 
     /**
      * @param string $scope
+     *
      * @return array
      */
     public function getClientAccessTokenResponse(string $scope = '')
@@ -119,7 +120,7 @@ class Provider extends AbstractProvider
             'headers'     => ['Cache-Control' => 'no-cache'],
             'form_params' => [
                 'grant_type' => 'client_credentials',
-                'scope'      => $scope
+                'scope'      => $scope,
             ],
         ]);
 
