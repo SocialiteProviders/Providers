@@ -2,11 +2,11 @@
     "name": "socialiteproviders/blackboard",
     "description": "Blackboard Oauth2 Provider for Laravel Socialite",
     "keywords": [
+        "blackboard",
         "laravel",
         "oauth",
         "provider",
-        "socialite",
-        "blackboard"
+        "socialite"
     ],
     "license": "MIT",
     "authors": [

@@ -38,7 +38,10 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::AUTH => [
+                $this->clientId,
+                $this->clientSecret,
+            ],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
@@ -46,13 +49,22 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Get the base URL.
+     *
+     * @return string
+     */
+    protected function getBaseUrl(): string
+    {
+        return sprintf('https://%s.blackboard.com', $this->getConfig('subdomain'));
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getTokenUrl()
     {
-        $tokenUrlFormat = 'https://%s.blackboard.com/learn/api/public/v1/oauth2/token';
+        return $this->getBaseUrl().'/learn/api/public/v1/oauth2/token';
 
-        return sprintf($tokenUrlFormat, $this->getConfig('subdomain'));
     }
 
     /**
@@ -60,9 +72,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        $authUrlFormat = 'https://%s.blackboard.com/learn/api/public/v1/oauth2/authorizationcode';
-
-        return $this->buildAuthUrlFromBase(sprintf($authUrlFormat, $this->getConfig('subdomain')), $state);
+        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/learn/api/public/v1/oauth2/authorizationcode', $state);
     }
 
     /**
@@ -72,8 +82,7 @@ class Provider extends AbstractProvider
     {
         $uuid = $this->credentialsResponseBody['user_id'];
         $url = sprintf(
-            'https://%s.blackboard.com/learn/api/public/v1/users/uuid:%s',
-            $this->getConfig('subdomain'),
+            $this->getBaseUrl().'/learn/api/public/v1/users/uuid:%s',
             $uuid
         );
 
