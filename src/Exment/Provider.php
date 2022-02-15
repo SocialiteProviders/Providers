@@ -81,8 +81,9 @@ class Provider extends AbstractProvider
     /**
      * Get Exment base URI.
      *
-     * @return string
      * @throws \InvalidArgumentException
+     *
+     * @return string
      */
     protected function getBaseUri(): string
     {
