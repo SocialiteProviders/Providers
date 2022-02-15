@@ -87,11 +87,11 @@ class Provider extends AbstractProvider
      */
     protected function getBaseUri(): string
     {
-        $exmentUrl = $this->getConfig('exment_uri');
-        if (is_null($exmentUrl)) {
+        $exmentUri = $this->getConfig('exment_uri');
+        if (is_null($exmentUri)) {
             throw new InvalidArgumentException('Please config Exment URI.');
         }
 
-        return rtrim($exmentUrl, '/');
+        return rtrim($exmentUri, '/');
     }
 }
