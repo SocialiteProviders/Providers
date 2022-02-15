@@ -64,7 +64,6 @@ class Provider extends AbstractProvider
     protected function getTokenUrl()
     {
         return $this->getBaseUrl().'/learn/api/public/v1/oauth2/token';
-
     }
 
     /**
