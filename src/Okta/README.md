@@ -52,8 +52,8 @@ return Socialite::driver('okta')->redirect();
 To obtain a client access token for authenticating to other apps without a user:
 
 ```php
-$resp = (object)Socialite::driver('okta')->getClientAccessTokenResponse();
-$token = $resp->access_token;
+$response = (object) Socialite::driver('okta')->getClientAccessTokenResponse();
+$token = $response->access_token;
 ```
 NOTE: no caching of this token is performed. It's strongly suggested caching the token locally for its ttl
 
