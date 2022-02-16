@@ -48,6 +48,43 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('okta')->redirect();
 ```
 
+Store a local copy in your callback:
+
+```php
+public function handleProviderCallback(\Illuminate\Http\Request $request)
+{
+    $user = Socialite::driver('okta')->user();
+    $localUser = User::updateOrCreate(['email' => $user->email], [
+        'email'    => $user->email,
+        'name'     => $user->name,
+        'token'    => $user->token,
+        'id_token' => $user->id_token
+    ]);
+
+    try {
+        Auth::login($localUser);
+    }
+    catch (\Throwable $e) {
+        return redirect('/login-okta');
+    }
+
+    return redirect('/home');
+}
+```
+
+Generate the logout url from your controller:
+
+```php
+public function logout(\Illuminate\Http\Request $request)
+{
+    $idToken = $request->user()->id_token;
+    $logoutUrl = Socialite::driver('okta')->getLogoutUrl($idToken, URL::to('/'));
+    Auth::logout();
+
+    return redirect($logoutUrl);
+}
+```
+
 #### Client Token
 To obtain a client access token for authenticating to other apps without a user:
 
