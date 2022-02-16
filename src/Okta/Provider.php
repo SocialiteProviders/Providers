@@ -106,6 +106,27 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Get the client access token response.
+     *
+     * @param string|null $scope
+     *
+     * @return array
+     */
+    public function getClientAccessTokenResponse(string $scope = null)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::HEADERS     => ['Cache-Control' => 'no-cache'],
+            RequestOptions::FORM_PARAMS => [
+                'grant_type' => 'client_credentials',
+                'scope'      => $scope ?? '',
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
