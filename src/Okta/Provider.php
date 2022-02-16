@@ -108,7 +108,8 @@ class Provider extends AbstractProvider
     /**
      * Get the client access token response.
      *
-     * @param  string|null  $scope
+     * @param string|null $scope
+     *
      * @return array
      */
     public function getClientAccessTokenResponse(string $scope = null)
