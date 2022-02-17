@@ -3,9 +3,9 @@
     "description": "Minecraft OAuth2 Provider for Laravel Socialite",
     "keywords": [
         "laravel",
+        "microsoft",
         "minecraft",
         "mojang",
-        "microsoft",
         "oauth",
         "provider",
         "socialite"
