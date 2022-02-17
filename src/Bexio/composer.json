@@ -1,0 +1,28 @@
+{
+    "name": "socialiteproviders/bexio",
+    "description": "Bexio OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "bexio",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shubin Alexander",
+            "email": "alorian@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "socialiteproviders/manager": "^4.0",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Bexio\\": ""
+        }
+    }
+}
