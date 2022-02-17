@@ -1,7 +1,7 @@
-# Monday
+# Blackboard
 
 ```bash
-composer require socialiteproviders/monday
+composer require socialiteproviders/blackboard
 ```
 
 ## Installation & Basic Usage
@@ -11,10 +11,11 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'monday' => [    
-  'client_id' => env('MONDAY_CLIENT_ID'),  
-  'client_secret' => env('MONDAY_CLIENT_SECRET'),  
-  'redirect' => env('MONDAY_REDIRECT_URI') 
+'blackboard' => [
+    'subdomain' => env('BLACKBOARD_SUBDOMAIN')
+    'client_id' => env('BLACKBOARD_CLIENT_ID'),
+    'client_secret' => env('BLACKBOARD_CLIENT_SECRET'),
+    'redirect' => env('BLACKBOARD_REDIRECT_URI'),
 ],
 ```
 
@@ -28,7 +29,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\Monday\MondayExtendSocialite::class.'@handle',
+        \SocialiteProviders\Blackboard\BlackboardExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -38,43 +39,11 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('monday')->redirect();
+return Socialite::driver('blackboard')->redirect();
 ```
 
 ### Returned User fields
 
-- `id`
-- `name`
-- `email`
-- `avatar`
-
-#### Raw fields
-
-```php
-Socialite::driver('monday')->user()->getRaw()
-```
-
-- `birthday`
-- `country_code`
-- `created_at`
-- `join_date`
-- `enabled`
-- `is_admin`
-- `is_guest`
-- `is_pending`
-- `is_view_only`
-- `location`
-- `mobile_phone`
-- `phone`
-- `photo_small`
-- `photo_thumb`
-- `photo_thumb_small`
-- `photo_tiny`
-- `teams`
-  - `id`
-  - `name`
-  - `picture_url`
-- `time_zone_identifier`
-- `title`
-- `url`
-- `utc_hours_diff`
+- ``id``
+- ``email`` (may be `null`)
+- ``avatar`` (may be `null`)

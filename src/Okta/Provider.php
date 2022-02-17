@@ -106,6 +106,27 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Get the client access token response.
+     *
+     * @param string|null $scope
+     *
+     * @return array
+     */
+    public function getClientAccessTokenResponse(string $scope = null)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::HEADERS     => ['Cache-Control' => 'no-cache'],
+            RequestOptions::FORM_PARAMS => [
+                'grant_type' => 'client_credentials',
+                'scope'      => $scope ?? '',
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
@@ -121,6 +142,7 @@ class Provider extends AbstractProvider
             'profileUrl'     => Arr::get($user, 'profile'),
             'address'        => Arr::get($user, 'address'),
             'phone'          => Arr::get($user, 'phone'),
+            'id_token'       => $this->credentialsResponseBody['id_token'] ?? null,
         ]);
     }
 
@@ -132,5 +154,25 @@ class Provider extends AbstractProvider
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
+    }
+
+    /**
+     * @param string      $idToken
+     * @param string|null $redirectUri
+     * @param string|null $state
+     *
+     * @return string
+     */
+    public function getLogoutUrl(string $idToken, string $redirectUri = null, string $state = null)
+    {
+        $url = $this->getOktaServerUrl().'v1/logout';
+
+        $params = http_build_query(array_filter([
+            'id_token_hint'            => $idToken,
+            'post_logout_redirect_uri' => $redirectUri,
+            'state'                    => $state,
+        ]));
+
+        return "$url?$params";
     }
 }

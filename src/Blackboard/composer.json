@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/blackboard",
+    "description": "Blackboard Oauth2 Provider for Laravel Socialite",
+    "keywords": [
+        "blackboard",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ashesh Singh",
+            "email": "ask@mrsinh.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Blackboard\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/blackboard"
+    }
+}
