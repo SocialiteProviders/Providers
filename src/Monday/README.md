@@ -1,4 +1,4 @@
-# GitHub
+# Monday
 
 ```bash
 composer require socialiteproviders/monday
