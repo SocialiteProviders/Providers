@@ -1,8 +1,8 @@
 {
-    "name": "socialiteproviders/eveonline",
-    "description": "Eveonline OAuth2 Provider for Laravel Socialite",
+    "name": "socialiteproviders/blackboard",
+    "description": "Blackboard Oauth2 Provider for Laravel Socialite",
     "keywords": [
-        "eveonline",
+        "blackboard",
         "laravel",
         "oauth",
         "provider",
@@ -11,24 +11,23 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "James Gerstenberg",
-            "email": "grasume0@gmail.com"
+            "name": "Ashesh Singh",
+            "email": "ask@mrsinh.com"
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^7.2 || ^8.0",
         "ext-json": "*",
-        "firebase/php-jwt": "^5.2 || ^6.0",
         "socialiteproviders/manager": "^4.0"
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\Eveonline\\": ""
+            "SocialiteProviders\\Blackboard\\": ""
         }
     },
     "support": {
         "issues": "https://github.com/socialiteproviders/providers/issues",
         "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/eveonline"
+        "docs": "https://socialiteproviders.com/blackboard"
     }
 }
