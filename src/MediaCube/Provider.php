@@ -61,17 +61,6 @@ class Provider extends AbstractProvider
         ];
     }
 
-    protected function getTokenFields($code)
-    {
-        return [
-            'client_id'     => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'code'          => $code,
-            'redirect_uri'  => $this->redirectUrl,
-            'grant_type'    => 'authorization_code',
-        ];
-    }
-
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map($user);

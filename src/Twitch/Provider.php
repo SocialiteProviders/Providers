@@ -77,14 +77,4 @@ class Provider extends AbstractProvider
             'avatar'   => $user['profile_image_url'],
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }
