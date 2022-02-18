@@ -55,10 +55,11 @@ public function handleProviderCallback(\Illuminate\Http\Request $request)
 {
     $user = Socialite::driver('okta')->user();
     $localUser = User::updateOrCreate(['email' => $user->email], [
-        'email'    => $user->email,
-        'name'     => $user->name,
-        'token'    => $user->token,
-        'id_token' => $user->id_token
+        'email'         => $user->email,
+        'name'          => $user->name,
+        'token'         => $user->token,
+        'id_token'      => $user->id_token,
+        'refresh_token' => $user->refreshToken,
     ]);
 
     try {
@@ -83,6 +84,21 @@ public function logout(\Illuminate\Http\Request $request)
 
     return redirect($logoutUrl);
 }
+```
+#### Refresh Token
+Using a refresh token allows an active user to maintain their session
+
+```php
+$localUser = Auth::user();
+$response = (object) Socialite::driver('okta')
+    ->setScopes(['offline_access'])
+    ->getRefreshTokenResponse($localUser->refresh_token);
+
+$localUser->token         = $response->access_token;
+$localUser->refresh_token = $response->refresh_token;
+
+$localUser->save();
+Auth::setUser($localUser);
 ```
 
 #### Client Token
