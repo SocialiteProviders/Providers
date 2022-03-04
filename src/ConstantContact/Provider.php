@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS     => [
                 'Accept'        => 'application/json',
-                'Authorization' => 'Basic ' . base64_encode("{$this->clientId}:{$this->clientSecret}"),
+                'Authorization' => 'Basic '. base64_encode("{$this->clientId}:{$this->clientSecret}"),
             ],
             RequestOptions::FORM_PARAMS => array_diff_key(
                 $this->getTokenFields($code),
@@ -65,7 +65,8 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.cc.email/v3/account/summary', [
+            'https://api.cc.email/v3/account/summary',
+            [
                 RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer ' . $token,
                 ],
@@ -83,7 +84,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['encoded_account_id'],
             'nickname' => null,
-            'name'     => $user['first_name'] . ' ' . $user['last_name'],
+            'name'     => $user['first_name']. ' ' .$user['last_name'],
             'email'    => $user['contact_email'],
             'avatar'   => null,
         ]);
