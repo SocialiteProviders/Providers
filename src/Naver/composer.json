@@ -20,7 +20,7 @@
         "ext-json": "*",
         "ext-libxml": "*",
         "ext-simplexml": "*",
-        "socialiteproviders/manager": "~4.0"
+        "socialiteproviders/manager": "^4.0"
     },
     "autoload": {
         "psr-4": {
