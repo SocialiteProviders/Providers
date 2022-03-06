@@ -19,7 +19,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopeSeparator = '+';
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
@@ -27,9 +27,28 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://api.cc.email/v3/idfed',
+            'https://authz.constantcontact.com/oauth2/default/v1/authorize',
             $state
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAccessTokenResponse($code)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS     => [
+                'Accept'        => 'application/json',
+                'Authorization' => 'Basic '.base64_encode("{$this->clientId}:{$this->clientSecret}"),
+            ],
+            RequestOptions::FORM_PARAMS => array_diff_key(
+                $this->getTokenFields($code),
+                array_flip(['client_id', 'client_secret'])
+            ),
+        ]);
+
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -37,7 +56,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://idfed.constantcontact.com/as/token.oauth2';
+        return 'https://authz.constantcontact.com/oauth2/default/v1/token';
     }
 
     /**
@@ -63,19 +82,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['encoded_account_id'], 'nickname' => null,
-            'name'  => $user['first_name'].' '.$user['last_name'],
-            'email' => $user['contact_email'], 'avatar' => null,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
+            'id'       => $user['encoded_account_id'],
+            'nickname' => null,
+            'name'     => $user['first_name'].' '.$user['last_name'],
+            'email'    => $user['contact_email'],
+            'avatar'   => null,
         ]);
     }
 }
