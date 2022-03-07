@@ -175,4 +175,44 @@ class Provider extends AbstractProvider
 
         return "$url?$params";
     }
+
+    /**
+     * @param string $token
+     * @param string $hint
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function revokeToken($token, $hint = 'access_token')
+    {
+        $url = $this->getOktaServerUrl() . 'v1/revoke';
+        return $this->getHttpClient()->post($url, [
+            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => [
+                'token'           => $token,
+                'token_type_hint' => $hint,
+            ],
+        ]);
+    }
+
+    /**
+     * @param string $token
+     * @param string $hint
+     *
+     * @return mixed
+     */
+    public function introspectToken($token, $hint = 'access_token')
+    {
+        $url = $this->getOktaServerUrl() . 'v1/introspect';
+        $resp = $this->getHttpClient()->post($url, [
+            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::FORM_PARAMS => [
+                'token'           => $token,
+                'token_type_hint' => $hint,
+            ],
+        ]);
+
+        return json_decode($resp->getBody()->getContents(), true);
+    }
 }
