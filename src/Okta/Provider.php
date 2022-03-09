@@ -184,7 +184,8 @@ class Provider extends AbstractProvider
      */
     public function revokeToken($token, $hint = 'access_token')
     {
-        $url = $this->getOktaServerUrl() . 'v1/revoke';
+        $url = $this->getOktaServerUrl().'v1/revoke';
+
         return $this->getHttpClient()->post($url, [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
             RequestOptions::HEADERS     => ['Accept' => 'application/json'],
@@ -203,7 +204,7 @@ class Provider extends AbstractProvider
      */
     public function introspectToken($token, $hint = 'access_token')
     {
-        $url = $this->getOktaServerUrl() . 'v1/introspect';
+        $url = $this->getOktaServerUrl().'v1/introspect';
         $resp = $this->getHttpClient()->post($url, [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
             RequestOptions::HEADERS     => ['Accept' => 'application/json'],

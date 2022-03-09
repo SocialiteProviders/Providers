@@ -105,7 +105,6 @@ $repo->revokeToken($token, 'access_token');
 $state = $repo->introspectToken($token, 'access_token');
 if($state['active']){...};
 ```
-NOTE: no caching of this token is performed. It's strongly suggested caching the token locally for its ttl
 
 ### Returned User fields
 
