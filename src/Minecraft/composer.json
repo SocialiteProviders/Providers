@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/minecraft",
+    "description": "Minecraft OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "microsoft",
+        "minecraft",
+        "mojang",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Katzen48 | Tobi",
+            "email": "admin@katzen48.de"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Minecraft\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers"
+    }
+}

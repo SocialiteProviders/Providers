@@ -99,6 +99,7 @@ parameters:
     src/Meetup: 'git@github.com:SocialiteProviders/Meetup.git'
     src/MercadoLibre: 'git@github.com:SocialiteProviders/MercadoLibre.git'
     src/Microsoft: 'git@github.com:SocialiteProviders/Microsoft.git'
+    src/Minecraft: 'git@github.com:SocialiteProviders/Minecraft.git'
     src/Mixcloud: 'git@github.com:SocialiteProviders/Mixcloud.git'
     src/Mollie: 'git@github.com:SocialiteProviders/Mollie.git'
     src/Monday: 'git@github.com:SocialiteProviders/Monday.git'
