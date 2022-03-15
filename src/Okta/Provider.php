@@ -182,7 +182,7 @@ class Provider extends AbstractProvider
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function revokeToken($token, $hint = 'access_token')
+    public function revokeToken(string $token, string $hint = 'access_token')
     {
         $url = $this->getOktaServerUrl().'v1/revoke';
 
@@ -200,9 +200,9 @@ class Provider extends AbstractProvider
      * @param string $token
      * @param string $hint
      *
-     * @return mixed
+     * @return array
      */
-    public function introspectToken($token, $hint = 'access_token')
+    public function introspectToken(string $token, string $hint = 'access_token')
     {
         $url = $this->getOktaServerUrl().'v1/introspect';
         $resp = $this->getHttpClient()->post($url, [
