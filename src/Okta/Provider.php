@@ -128,6 +128,26 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * @param string $refreshToken
+     *
+     * @return array
+     */
+    public function getRefreshTokenResponse(string $refreshToken)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::HEADERS     => ['Cache-Control' => 'no-cache'],
+            RequestOptions::FORM_PARAMS => [
+                'grant_type'    => 'refresh_token',
+                'refresh_token' => $refreshToken,
+                'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+            ],
+        ]);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
