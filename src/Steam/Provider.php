@@ -169,6 +169,10 @@ class Provider extends AbstractProvider
             return false;
         }
 
+        if (!$this->validateHost($this->request->get('openid_return_to'))) {
+            throw new OpenIDValidationException('Invalid return_to host');
+        }
+
         $requestOptions = $this->getDefaultRequestOptions();
         $customOptions = $this->getCustomRequestOptions();
 
@@ -305,6 +309,24 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['realm', 'proxy'];
+        return ['realm', 'proxy', 'allowed_hosts'];
+    }
+
+    /**
+     * Validation of the domain available for authorization.
+     *
+     * @return bool
+     */
+    protected function validateHost(string $url): bool
+    {
+        $allowedHosts = $this->getConfig('allowed_hosts', []);
+
+        if (empty($allowedHosts)) {
+            return true;
+        }
+
+        $urlParse = parse_url($url, PHP_URL_HOST);
+
+        return in_array($urlParse, $allowedHosts);
     }
 }
