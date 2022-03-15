@@ -86,7 +86,8 @@ public function logout(\Illuminate\Http\Request $request)
 }
 ```
 #### Refresh Token
-Using a refresh token allows an active user to maintain their session
+Using a refresh token allows an active user to maintain their session:
+
 
 ```php
 $localUser = Auth::user();
@@ -100,6 +101,8 @@ $localUser->refresh_token = $response->refresh_token;
 $localUser->save();
 Auth::setUser($localUser);
 ```
+NOTE: obtaining a `refresh_token` requires the scope `offline_access` on the initial login.
+See additional documentation [here](https://developer.okta.com/docs/reference/api/oidc/#token).
 
 #### Client Token
 To obtain a client access token for authenticating to other apps without a user:
