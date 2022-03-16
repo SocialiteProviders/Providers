@@ -113,6 +113,18 @@ $token = $response->access_token;
 ```
 NOTE: no caching of this token is performed. It's strongly suggested caching the token locally for its ttl
 
+
+#### Revoke Token
+Mark a token as revoked when checked against an introspection endpoint
+
+```php
+$repo = Socialite::driver('okta');
+$repo->revokeToken($token, 'access_token');
+// verify against introspection endpoint
+$state = $repo->introspectToken($token, 'access_token');
+if($state['active']){...};
+```
+
 ### Returned User fields
 
 - ``id``
