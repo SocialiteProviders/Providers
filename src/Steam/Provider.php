@@ -161,8 +161,9 @@ class Provider extends AbstractProvider
     /**
      * Checks the steam login.
      *
-     * @return bool
      * @throws \SocialiteProviders\Steam\OpenIDValidationException
+     *
+     * @return bool
      */
     public function validate()
     {
