@@ -161,6 +161,8 @@ class Provider extends AbstractProvider
     /**
      * Checks the steam login.
      *
+     * @throws \SocialiteProviders\Steam\OpenIDValidationException
+     *
      * @return bool
      */
     public function validate()
@@ -321,12 +323,6 @@ class Provider extends AbstractProvider
     {
         $allowedHosts = $this->getConfig('allowed_hosts', []);
 
-        if (empty($allowedHosts)) {
-            return true;
-        }
-
-        $urlParse = parse_url($url, PHP_URL_HOST);
-
-        return in_array($urlParse, $allowedHosts);
+        return count($allowedHosts) === 0 || in_array(parse_url($url, PHP_URL_HOST), $allowedHosts, true);
     }
 }
