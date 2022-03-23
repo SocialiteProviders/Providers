@@ -8,7 +8,7 @@ composer require socialiteproviders/steam
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
 
-### Add configuration to `config/services.php`
+## Add configuration to `config/services.php`
 
 ```php
 'steam' => [
@@ -21,7 +21,17 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
-### Add provider event listener
+### allowed_hosts
+Set this for protect against authorization domain spoofing. When the user returns from the Steam login page, along with the OpenID validation, the return_to parameter will be checked against the available domains in `allowed_hosts`. 
+
+If you don't specify the setting, then fraudsters have the opportunity to enter the application under other users
+
+Issue resolved in https://github.com/SocialiteProviders/Providers/pull/817
+
+Defaults to `[]`.
+
+
+## Add provider event listener
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
@@ -36,7 +46,7 @@ protected $listen = [
 ];
 ```
 
-### Usage
+## Usage
 
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
@@ -44,7 +54,7 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('steam')->redirect();
 ```
 
-### Returned User fields
+## Returned User fields
 
 - ``id``
 - ``nickname``
