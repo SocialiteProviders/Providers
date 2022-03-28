@@ -28,7 +28,7 @@ If you don't specify the setting, then fraudsters have the opportunity to enter 
 
 Issue resolved in https://github.com/SocialiteProviders/Providers/pull/817
 
-Defaults to `[]`.
+By default this protection is disabled. It will only be active when allowed hosts is not equal to an empty array.
 
 
 ## Add provider event listener
