@@ -14,22 +14,22 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'STARLING';
 
     /**
-     * Sandbox endpoint for testing
+     * Sandbox endpoint for testing.
      */
     public const BASE_SANDBOX_URL = 'https://api-sandbox.starlingbank.com/api/v2';
 
     /**
-     * Production endpoint
+     * Production endpoint.
      */
     public const BASE_PRODUCTION_URL = 'https://api.starlingbank.com/api/v2';
 
     /**
-     * Identity endpoint
+     * Identity endpoint.
      */
     public const IDENTITY_ENDPOINT = '/identity/individual';
 
     /**
-     * Token Identity endpoint
+     * Token Identity endpoint.
      */
     public const TOKEN_IDENTITY_ENDPOINT = '/identity/token';
 
