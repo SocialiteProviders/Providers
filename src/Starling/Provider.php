@@ -29,6 +29,11 @@ class Provider extends AbstractProvider
     public const IDENTITY_ENDPOINT = '/identity/individual';
 
     /**
+     * Token Identity endpoint
+     */
+    public const TOKEN_IDENTITY_ENDPOINT = '/identity/token';
+
+    /**
      * {@inheritdoc}
      */
     protected $scopes = ['authorising-individual:read'];
@@ -67,14 +72,23 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getBaseUrl().self::IDENTITY_ENDPOINT, [
+        $user = $this->getHttpClient()->get($this->getBaseUrl().self::IDENTITY_ENDPOINT, [
             RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
+        $user = json_decode((string) $user->getBody(), true);
 
-        return json_decode((string) $response->getBody(), true);
+        $account = $this->getHttpClient()->get($this->getBaseUrl().self::TOKEN_IDENTITY_ENDPOINT, [
+            RequestOptions::HEADERS => [
+                'Accept'        => 'application/json',
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
+        $account = json_decode((string) $account->getBody(), true);
+
+        return array_merge_recursive($account, $user);
     }
 
     /**
@@ -83,7 +97,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['id'] ?? '', // TODO: get from /api/v2/account-holder
+            'id'    => $user['accountHolderUid'],
             'name'  => trim(sprintf('%s %s %s', $user['title'], $user['firstName'], $user['lastName'])),
             'email' => $user['email'],
         ]);
