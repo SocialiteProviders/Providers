@@ -48,11 +48,9 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        if ($this->isSandbox()) {
-            return $this->buildAuthUrlFromBase('https://oauth-sandbox.starlingbank.com', $state);
-        }
+        $url = $this->isSandbox() ? 'https://oauth-sandbox.starlingbank.com' : 'https://oauth.starlingbank.com';
 
-        return $this->buildAuthUrlFromBase('https://oauth.starlingbank.com', $state);
+        return $this->buildAuthUrlFromBase($url, $state);
     }
 
     /**
@@ -60,11 +58,10 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        if ($this->isSandbox()) {
-            return 'https://api-sandbox.starlingbank.com/oauth/access-token';
-        }
+        return $this->isSandbox() ?
+            'https://api-sandbox.starlingbank.com/oauth/access-token' :
+            'https://token-api.starlingbank.com/oauth/access-token';
 
-        return 'https://token-api.starlingbank.com/oauth/access-token';
     }
 
     /**
@@ -72,21 +69,18 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $user = $this->getHttpClient()->get($this->getBaseUrl().self::IDENTITY_ENDPOINT, [
+        $options = [
             RequestOptions::HEADERS => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
+                'Accept' => 'application/json',
+                'Authorization' => "Bearer $token",
             ],
-        ]);
-        $user = json_decode((string) $user->getBody(), true);
+        ];
 
-        $account = $this->getHttpClient()->get($this->getBaseUrl().self::TOKEN_IDENTITY_ENDPOINT, [
-            RequestOptions::HEADERS => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
-        $account = json_decode((string) $account->getBody(), true);
+        $identityResponse = $this->getHttpClient()->get($this->getBaseUrl().self::IDENTITY_ENDPOINT, $options);
+        $user = json_decode((string) $identityResponse->getBody(), true);
+
+        $tokenResponse = $this->getHttpClient()->get($this->getBaseUrl().self::TOKEN_IDENTITY_ENDPOINT, $options);
+        $account = json_decode((string) $tokenResponse->getBody(), true);
 
         return array_merge_recursive($account, $user);
     }
@@ -104,24 +98,20 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
+     * Get the base url.
+     *
+     * @return string
      */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
     protected function getBaseUrl()
     {
-        if ($this->isSandbox()) {
-            return self::BASE_SANDBOX_URL;
-        }
-
-        return self::BASE_PRODUCTION_URL;
+        return $this->isSandbox() ? self::BASE_SANDBOX_URL : self::BASE_PRODUCTION_URL;
     }
 
+    /**
+     * Checks if the environment is sandbox.
+     *
+     * @return bool
+     */
     protected function isSandbox()
     {
         return $this->getConfig('env', 'production') === 'sandbox';

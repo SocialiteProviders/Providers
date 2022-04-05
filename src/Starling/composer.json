@@ -5,8 +5,8 @@
         "laravel",
         "oauth",
         "provider",
-        "starling",
-        "socialite"
+        "socialite",
+        "starling"
     ],
     "license": "MIT",
     "authors": [
