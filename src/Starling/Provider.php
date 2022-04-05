@@ -61,7 +61,6 @@ class Provider extends AbstractProvider
         return $this->isSandbox() ?
             'https://api-sandbox.starlingbank.com/oauth/access-token' :
             'https://token-api.starlingbank.com/oauth/access-token';
-
     }
 
     /**
@@ -71,7 +70,7 @@ class Provider extends AbstractProvider
     {
         $options = [
             RequestOptions::HEADERS => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => "Bearer $token",
             ],
         ];
