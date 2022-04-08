@@ -26,11 +26,21 @@ class Provider extends AbstractProvider
         'openid',
     ];
 
+    /**
+     * Get the policy.
+     *
+     * @return string
+     */
     private function getPolicy()
     {
         return $this->parameters['policy'] ?? 'login';
     }
 
+    /**
+     * Get the B2C policy.
+     *
+     * @return mixed
+     */
     private function getB2CPolicy()
     {
         $policy = $this->getConfig('policy');
@@ -42,6 +52,11 @@ class Provider extends AbstractProvider
         return $policy;
     }
 
+    /**
+     * Set the redirect URL.
+     *
+     * @return void
+     */
     private function setRedirectUrl()
     {
         $redirectTemplate = $this->getConfig('redirect_template');
