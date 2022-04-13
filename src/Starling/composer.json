@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/starling",
+    "description": "Starling OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "starling"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luke Curtis",
+            "email": "lukesimoncurtis@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Starling\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/starling"
+    }
+}
