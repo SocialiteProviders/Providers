@@ -13,7 +13,7 @@ class MicrosoftUser extends User
      */
     public function getAvatar()
     {
-        $client = new Client();
+        $client = new Client(['http_errors' => false]);
         $response = $client->get(
             'https://graph.microsoft.com/v1.0/me/photo/$value',
             [
