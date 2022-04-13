@@ -17,28 +17,40 @@ use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
 use LightSaml\Binding\BindingFactory;
-use LightSaml\Binding\HttpRedirectBinding;
 use LightSaml\Builder\EntityDescriptor\SimpleEntityDescriptorBuilder;
 use LightSaml\ClaimTypes;
 use LightSaml\Context\Profile\MessageContext;
 use LightSaml\Credential\KeyHelper;
 use LightSaml\Credential\X509Certificate;
+use LightSaml\Credential\X509Credential;
 use LightSaml\Error\LightSamlSecurityException;
 use LightSaml\Helper;
+use LightSaml\Model\Assertion\AttributeStatement;
 use LightSaml\Model\Assertion\Issuer;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
 use LightSaml\Model\Metadata\AssertionConsumerService;
+use LightSaml\Model\Metadata\ContactPerson;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use LightSaml\Model\Metadata\KeyDescriptor;
 use LightSaml\Model\Metadata\Metadata;
+use LightSaml\Model\Metadata\Organization;
+use LightSaml\Model\Metadata\SingleLogoutService;
 use LightSaml\Model\Metadata\SpSsoDescriptor;
 use LightSaml\Model\Protocol\AuthnRequest;
+use LightSaml\Model\Protocol\LogoutResponse;
 use LightSaml\Model\Protocol\NameIDPolicy;
+use LightSaml\Model\Protocol\SamlMessage;
+use LightSaml\Model\Protocol\Status;
+use LightSaml\Model\XmlDSig\SignatureWriter;
 use LightSaml\Model\XmlDSig\SignatureXmlReader;
 use LightSaml\SamlConstants;
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
+use RobRichards\XMLSecLibs\XMLSecurityKey;
+use RuntimeException;
 use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\Exception\MissingConfigException;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 class Provider extends AbstractProvider implements SocialiteProvider
 {
@@ -48,6 +60,13 @@ class Provider extends AbstractProvider implements SocialiteProvider
      * @var Request
      */
     protected $request;
+
+    /**
+     * The received SAML2 message's context.
+     *
+     * @var MessageContext
+     */
+    protected $messageContext;
 
     /**
      * The SAML2 User instance.
@@ -66,9 +85,37 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public const CACHE_KEY = 'socialite_saml2_metadata';
     public const CACHE_KEY_TTL = self::CACHE_KEY.'_ttl';
 
+    public const ATTRIBUTE_MAP = [
+        'email' => [
+            ClaimTypes::EMAIL_ADDRESS,
+            OasisAttributeNameUris::MAIL,
+            ClaimTypes::ADFS_1_EMAIL,
+        ],
+        'name' => [
+            ClaimTypes::NAME,
+            OasisAttributeNameUris::DISPLAY_NAME,
+            ClaimTypes::COMMON_NAME,
+            OasisAttributeNameUris::COMMON_NAME,
+        ],
+        'first_name' => [
+            ClaimTypes::GIVEN_NAME,
+            OasisAttributeNameUris::GIVEN_NAME,
+        ],
+        'last_name' => [
+            ClaimTypes::SURNAME,
+            OasisAttributeNameUris::SURNAME,
+        ],
+        'upn' => [
+            ClaimTypes::UPN,
+            OasisAttributeNameUris::UID,
+            ClaimTypes::ADFS_1_UPN,
+        ],
+    ];
+
     public function __construct(Request $request)
     {
         parent::__construct($request, '', '', '');
+        $this->messageContext = new MessageContext();
     }
 
     public function setConfig(ConfigInterface $config): Provider
@@ -95,8 +142,21 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'entityid',
             'certificate',
             'sp_acs',
+            'sp_sls',
             'sp_entityid',
+            'sp_certificate',
+            'sp_private_key',
+            'sp_private_key_passphrase',
+            'sp_tech_contact_surname',
+            'sp_tech_contact_givenname',
+            'sp_tech_contact_email',
+            'sp_org_lang',
+            'sp_org_name',
+            'sp_org_display_name',
+            'sp_org_url',
+            'sp_default_binding_method',
             'idp_binding_method',
+            'attribute_map',
         ];
     }
 
@@ -111,30 +171,68 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     public function redirect()
     {
-        $this->request->session()->put('state', $state = $this->getState());
-
-        $binding = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
+        $bindingType = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
 
         $identityProviderConsumerService = $this->getIdentityProviderEntityDescriptor()
             ->getFirstIdpSsoDescriptor()
-            ->getFirstSingleSignOnService($binding);
+            ->getFirstSingleSignOnService($bindingType);
 
         $authnRequest = new AuthnRequest();
         $authnRequest
             ->setID(Helper::generateID())
-            ->setProtocolBinding($this->getAssertionConsumerServiceBinding())
-            ->setRelayState($state)
+            ->setProtocolBinding($this->getDefaultAssertionConsumerServiceBinding())
             ->setIssueInstant(new DateTime())
             ->setDestination($identityProviderConsumerService->getLocation())
             ->setNameIDPolicy((new NameIDPolicy())->setFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT))
             ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()));
 
-        $redirectBinding = new HttpRedirectBinding();
+        if ($this->usesState()) {
+            $this->request->session()->put('state', $state = $this->getState());
+            $authnRequest->setRelayState($state);
+        }
+
+        return $this->sendMessage($authnRequest, $identityProviderConsumerService->getBinding());
+    }
+
+    public function logoutResponse(): HttpFoundationResponse
+    {
+        $this->receive();
+
+        if ($this->hasInvalidSignature()) {
+            throw new InvalidSignatureException();
+        }
+
+        $bindingType = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
+
+        $identityProviderLogoutService = $this->getIdentityProviderEntityDescriptor()
+            ->getFirstIdpSsoDescriptor()
+            ->getFirstSingleLogoutService($bindingType);
+
+        $logoutResponse = new LogoutResponse();
+        $logoutResponse
+            ->setID(Helper::generateID())
+            ->setInResponseTo($this->messageContext->getMessage()->getID())
+            ->setRelayState($this->messageContext->getMessage()->getRelayState())
+            ->setIssueInstant(new DateTime())
+            ->setDestination($identityProviderLogoutService->getLocation())
+            ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()))
+            ->setStatus((new Status())->setSuccess());
+
+        return $this->sendMessage($logoutResponse, $identityProviderLogoutService->getBinding());
+    }
+
+    protected function sendMessage(SamlMessage $message, string $bindingType): HttpFoundationResponse
+    {
+        if ($credential = $this->credential()) {
+            $message->setSignature($this->signature($credential));
+        }
 
         $messageContext = new MessageContext();
-        $messageContext->setMessage($authnRequest);
+        $messageContext->setMessage($message);
 
-        return $redirectBinding->send($messageContext);
+        $binding = (new BindingFactory())->create($bindingType);
+
+        return $binding->send($messageContext);
     }
 
     protected function getIdentityProviderEntityDescriptorManually(): EntityDescriptor
@@ -147,17 +245,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             throw new MissingConfigException('When using "acs", both "entityid" and "certificate" must be set');
         }
 
-        $x509 = new X509Certificate();
-
-        /**
-         * The SAML certificate may be provided as either a properly formatted certificate with header and line breaks
-         * or as a string containing only the body.
-         */
-        if (Str::startsWith($certificate, '-----BEGIN CERTIFICATE-----')) {
-            $x509->loadPem($certificate);
-        } else {
-            $x509->setData($certificate);
-        }
+        $x509 = $this->makeCertificate($certificate);
 
         $builder = new SimpleEntityDescriptorBuilder($entityId, $acs, $acs, $x509);
 
@@ -223,18 +311,55 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
+        $spSsoDescriptor = new SpSsoDescriptor();
+        $spSsoDescriptor->setWantAssertionsSigned(true)->addNameIDFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT);
+
+        foreach ([SamlConstants::BINDING_SAML2_HTTP_REDIRECT, SamlConstants::BINDING_SAML2_HTTP_POST] as $binding) {
+            $acsRoute = $this->getAssertionConsumerServiceRoute();
+            if ($this->hasRouteBindingType($acsRoute, $binding)) {
+                $spSsoDescriptor->addAssertionConsumerService(
+                    (new AssertionConsumerService())
+                        ->setIsDefault($this->getDefaultAssertionConsumerServiceBinding() === $binding)
+                        ->setBinding($binding)
+                        ->setLocation(URL::to($acsRoute))
+                );
+            }
+
+            $slsRoute = $this->getSingleLogoutServiceRoute();
+            if ($slsRoute && $this->hasRouteBindingType($slsRoute, $binding)) {
+                $spSsoDescriptor->addSingleLogoutService((new SingleLogoutService(URL::to($slsRoute), $binding)));
+            }
+        }
+
         $entityDescriptor = new EntityDescriptor();
-        $entityDescriptor
+        $entityDescriptor->setID(Helper::generateID())
             ->setEntityID($this->getConfig('sp_entityid', URL::to('auth/saml2')))
-            ->addItem(
-                (new SpSsoDescriptor())
-                    ->setWantAssertionsSigned(true)
-                    ->addAssertionConsumerService(
-                        (new AssertionConsumerService())
-                            ->setBinding($this->getAssertionConsumerServiceBinding())
-                            ->setLocation(URL::to($this->getAssertionConsumerServiceRoute()))
-                    )
+            ->addItem($spSsoDescriptor);
+
+        if ($credential = $this->credential()) {
+            $entityDescriptor->setSignature($this->signature($credential));
+            $spSsoDescriptor->setAuthnRequestsSigned(true)
+                ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_SIGNING, $credential->getCertificate()))
+                ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_ENCRYPTION, $credential->getCertificate()));
+        }
+
+        if ($this->getConfig('sp_org_name')) {
+            $entityDescriptor->addOrganization(
+                (new Organization())->setLang($this->getConfig('sp_org_lang', 'en'))
+                    ->setOrganizationDisplayName($this->getConfig('sp_org_display_name'))
+                    ->setOrganizationName($this->getConfig('sp_org_name'))
+                    ->setOrganizationURL($this->getConfig('sp_org_url'))
             );
+        }
+
+        if ($this->getConfig('sp_tech_contact_email')) {
+            $entityDescriptor->addContactPerson(
+                (new ContactPerson())->setContactType('technical')
+                    ->setEmailAddress($this->getConfig('sp_tech_contact_email'))
+                    ->setSurName($this->getConfig('sp_tech_contact_surname'))
+                    ->setGivenName($this->getConfig('sp_tech_contact_givenname'))
+            );
+        }
 
         return $entityDescriptor;
     }
@@ -243,7 +368,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         return $this->getServiceProviderEntityDescriptor()
             ->getFirstSpSsoDescriptor()
-            ->getFirstAssertionConsumerService()
+            ->getFirstAssertionConsumerService($this->getDefaultAssertionConsumerServiceBinding())
             ->getLocation();
     }
 
@@ -258,14 +383,33 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return Str::of($this->getConfig('sp_acs', 'auth/callback'))->ltrim('/');
     }
 
-    protected function getAssertionConsumerServiceBinding(): string
+    protected function getSingleLogoutServiceRoute(): string
     {
-        return Arr::has(
-            Route::getRoutes()->getRoutesByMethod(),
-            'GET.'.$this->getAssertionConsumerServiceRoute()
-        ) ?
-            SamlConstants::BINDING_SAML2_HTTP_REDIRECT :
-            SamlConstants::BINDING_SAML2_HTTP_POST;
+        return Str::of($this->getConfig('sp_sls'))->ltrim('/');
+    }
+
+    protected function getDefaultAssertionConsumerServiceBinding(): string
+    {
+        $default = $this->hasRouteBindingType(
+            $this->getAssertionConsumerServiceRoute(),
+            SamlConstants::BINDING_SAML2_HTTP_REDIRECT
+        ) ? SamlConstants::BINDING_SAML2_HTTP_REDIRECT : SamlConstants::BINDING_SAML2_HTTP_POST;
+
+        return $this->getConfig('sp_default_binding_method', $default);
+    }
+
+    protected function hasRouteBindingType(string $route, string $bindingType): bool
+    {
+        $methods = [
+            SamlConstants::BINDING_SAML2_HTTP_REDIRECT => 'GET',
+            SamlConstants::BINDING_SAML2_HTTP_POST     => 'POST',
+        ];
+
+        if (!array_key_exists($bindingType, $methods)) {
+            return false;
+        }
+
+        return Arr::has(Route::getRoutes()->getRoutesByMethod(), $methods[$bindingType].'.'.$route);
     }
 
     /**
@@ -277,21 +421,20 @@ class Provider extends AbstractProvider implements SocialiteProvider
             return $this->user;
         }
 
+        $this->receive();
+        $this->ensureSuccessfulStatus();
+
         if ($this->hasInvalidState()) {
             throw new InvalidStateException();
         }
+
+        $this->decryptAssertions();
 
         if ($this->hasInvalidSignature()) {
             throw new InvalidSignatureException();
         }
 
-        $bindingFactory = new BindingFactory();
-        $binding = $bindingFactory->getBindingByRequest($this->request);
-
-        $messageContext = new MessageContext();
-        $binding->receive($this->request, $messageContext);
-
-        $assertion = $messageContext->asResponse()->getFirstAssertion();
+        $assertion = $this->messageContext->asResponse()->getFirstAssertion();
         $attributeStatement = $assertion->getFirstAttributeStatement();
 
         $this->user = new User();
@@ -299,47 +442,56 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $this->user->map(['id' => $assertion->getSubject()->getNameID()->getValue()]);
 
         if ($attributeStatement) {
-            foreach (['name' => ClaimTypes::NAME, 'email' => ClaimTypes::EMAIL_ADDRESS] as $key => $claim) {
-                if ($attribute = $attributeStatement->getFirstAttributeByName($claim)) {
-                    $this->user->map([$key => $attribute->getFirstAttributeValue()]);
-                }
-            }
-
+            $this->user->map($this->mapAttributes($attributeStatement));
             $this->user->setRaw($attributeStatement->getAllAttributes());
         }
 
         return $this->user;
     }
 
+    protected function mapAttributes(AttributeStatement $attributeStatement): array
+    {
+        return array_map(function ($attributeNames) use ($attributeStatement) {
+            foreach (Arr::wrap($attributeNames) as $attributeName) {
+                if ($attribute = $attributeStatement->getFirstAttributeByName($attributeName)) {
+                    return $attribute->getFirstAttributeValue();
+                }
+            }
+
+            return null;
+        }, array_merge(static::ATTRIBUTE_MAP, $this->getConfig('attribute_map', [])));
+    }
+
+    protected function ensureSuccessfulStatus(): void
+    {
+        $status = $this->messageContext->asResponse()->getStatus();
+
+        if (!$status->isSuccess()) {
+            throw new RuntimeException('Server responded with: '.$status->getStatusCode()->getValue());
+        }
+    }
+
     protected function hasInvalidState(): bool
     {
+        if ($this->isStateless()) {
+            return false;
+        }
+
         $state = $this->request->session()->pull('state');
 
-        $bindingFactory = new BindingFactory();
-        $binding = $bindingFactory->getBindingByRequest($this->request);
-
-        $messageContext = new MessageContext();
-        $binding->receive($this->request, $messageContext);
-
-        return $state !== $messageContext->getMessage()->getRelayState();
+        return !(strlen($state) > 0 && $this->messageContext->getMessage()->getRelayState() === $state);
     }
 
     protected function hasInvalidSignature(): bool
     {
-        $bindingFactory = new BindingFactory();
-        $binding = $bindingFactory->getBindingByRequest($this->request);
-
-        $messageContext = new MessageContext();
-        $binding->receive($this->request, $messageContext);
-
         $keyDescriptors = $this->getIdentityProviderEntityDescriptor()
             ->getFirstIdpSsoDescriptor()
             ->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING);
 
         /** @var SignatureXmlReader $signatureReader */
-        $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->getAssertionConsumerServiceBinding() ?
-            $messageContext->getMessage()->getSignature() :
-            $messageContext->asResponse()->getFirstAssertion()->getSignature();
+        $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->messageContext->getBindingType()
+            ? $this->messageContext->getMessage()->getSignature()
+            : $this->messageContext->asResponse()->getFirstAssertion()->getSignature();
 
         if (!$signatureReader) {
             return true;
@@ -360,6 +512,32 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return true;
     }
 
+    protected function receive(): void
+    {
+        $bindingFactory = new BindingFactory();
+        $bindingType = $bindingFactory->detectBindingType($this->request);
+        $bindingFactory->create($bindingType)->receive($this->request, $this->messageContext);
+        $this->messageContext->setBindingType($bindingType);
+    }
+
+    protected function decryptAssertions(): void
+    {
+        $credential = $this->credential();
+        if (null === $credential) {
+            return;
+        }
+
+        /** @var \LightSaml\Model\Assertion\EncryptedAssertionReader $reader */
+        $reader = $this->messageContext->asResponse()->getFirstEncryptedAssertion();
+
+        if (null === $reader) {
+            return;
+        }
+
+        $assertion = $reader->decryptAssertion($credential->getPrivateKey(), new DeserializationContext());
+        $this->messageContext->asResponse()->addAssertion($assertion);
+    }
+
     public function getServiceProviderMetadata(): Response
     {
         $entityDescriptor = $this->getServiceProviderEntityDescriptor();
@@ -375,6 +553,51 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         Cache::forget(self::CACHE_KEY);
         Cache::forget(self::CACHE_KEY_TTL);
+    }
+
+    protected function signature(X509Credential $credential): SignatureWriter
+    {
+        return new SignatureWriter(
+            $credential->getCertificate(),
+            $credential->getPrivateKey(),
+            XMLSecurityDSig::SHA256
+        );
+    }
+
+    protected function credential(): ?X509Credential
+    {
+        if (!$this->getConfig('sp_certificate') || !$this->getConfig('sp_private_key')) {
+            return null;
+        }
+
+        return new X509Credential(
+            $this->makeCertificate($this->getConfig('sp_certificate')),
+            KeyHelper::createPrivateKey(
+                $this->getConfig('sp_private_key'),
+                $this->getConfig('sp_private_key_passphrase'),
+                false,
+                XMLSecurityKey::RSA_SHA256
+            )
+        );
+    }
+
+    protected function makeCertificate(?string $data): X509Certificate
+    {
+        $cert = new X509Certificate();
+
+        if (null === $data) {
+            return $cert;
+        }
+
+        /**
+         * The SAML certificate may be provided as either a properly formatted certificate with header and line breaks
+         * or as a string containing only the body.
+         */
+        if (Str::startsWith($data, '-----BEGIN CERTIFICATE-----')) {
+            return $cert->loadPem($data);
+        }
+
+        return $cert->setData($data);
     }
 
     protected function getTokenUrl()
