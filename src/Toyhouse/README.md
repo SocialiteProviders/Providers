@@ -40,3 +40,13 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('toyhouse')->redirect();
 ```
+
+### Returned User fields
+- `id`
+- `name`
+- `nickname` (same as `name`)
+- `avatar`
+
+### Reference
+
+- [Toyhou.se Developer Dashboard](https://toyhou.se/~developer)
