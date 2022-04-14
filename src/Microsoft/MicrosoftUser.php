@@ -14,6 +14,7 @@ class MicrosoftUser extends User
     public function getAvatar()
     {
         $client = new Client();
+        
         try {
             $response = $client->get(
                 'https://graph.microsoft.com/v1.0/me/photo/$value',
@@ -24,7 +25,6 @@ class MicrosoftUser extends User
                     ],
                 ]
             );
-
             return (new MicrosoftAvatar())->setResponse($response);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             return null;
