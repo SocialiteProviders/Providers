@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Instructure;
 
 use GuzzleHttp\RequestOptions;
+use RuntimeException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -23,10 +24,15 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(
-            $this->getInstanceUrl().'/login/oauth2/auth',
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->getInstanceUrl().'/login/oauth2/auth', $state);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['instance_url'];
     }
 
     /**
@@ -42,14 +48,11 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            $this->getInstanceUrl().'/api/v1/users/self/profile',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get($this->getInstanceUrl().'/api/v1/users/self/profile', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -69,10 +72,20 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
+     * Get the instance URI.
+     *
+     * @throws \RuntimeException
+     *
+     * @return string
      */
     protected function getInstanceUrl()
     {
-        return config('services.instructure.instance_url');
+        $instanceUrl = $this->getConfig('instance_url');
+
+        if ($instanceUrl === null) {
+            throw new RuntimeException('The instance_url configuration key is not set.');
+        }
+
+        return $instanceUrl;
     }
 }
