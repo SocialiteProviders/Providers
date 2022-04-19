@@ -84,7 +84,7 @@ class Provider extends AbstractProvider
     {
         $uuid = preg_replace('/(.{8})(.{4})(.{4})(.{4})(.{12})/', '$1-$2-$3-$4-$5', $user['id']);
 
-        $activeSkin = array_filter($user['skins'], fn($skin) => $skin['state'] === 'ACTIVE');
+        $activeSkin = array_filter($user['skins'], fn ($skin) => $skin['state'] === 'ACTIVE');
 
         $avatar = count($activeSkin) === 1 ? $activeSkin[0]['url'] : null;
 

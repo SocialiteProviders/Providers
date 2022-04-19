@@ -9,10 +9,10 @@ use Zttp\Zttp;
  * documentation.
  */
 $repos = collect(range(1, 5))
-    ->map(fn(int $page) => Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json())
+    ->map(fn (int $page) => Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json())
     ->flatten(1)
     ->sortBy('name')
-    ->filter(fn(array $repo) => $repo['has_issues'] === false)
+    ->filter(fn (array $repo) => $repo['has_issues'] === false)
     ->each(function (array $repo) {
         $res = Zttp::withHeaders([
             'Accept'        => 'application/vnd.github.v3+json',
