@@ -169,6 +169,7 @@ parameters:
     src/ThirtySevenSignals: 'git@github.com:SocialiteProviders/37Signals.git'
     src/TikTok: 'git@github.com:SocialiteProviders/TikTok.git'
     src/Todoist: 'git@github.com:SocialiteProviders/Todoist.git'
+    src/Toyhouse: 'git@github.com:SocialiteProviders/Toyhouse.git'
     src/Trakt: 'git@github.com:SocialiteProviders/Trakt.git'
     src/Trello: 'git@github.com:SocialiteProviders/Trello.git'
     src/Tumblr: 'git@github.com:SocialiteProviders/Tumblr.git'
