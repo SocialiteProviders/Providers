@@ -11,7 +11,7 @@ jobs:
       matrix:
         validate: [ false ]
         fail-fast: [ false ]
-        php-versions: [ '7.2', '7.3', '7.4', '8.0', '8.1' ]
+        php-versions: ['7.4', '8.0', '8.1' ]
         exclude:
           - php-versions: '8.0'
           - php-versions: '8.1'
