@@ -82,11 +82,9 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $activeSkin = array_filter($user['skins'], function ($skin) {
-            return 'ACTIVE' === $skin['state'];
-        });
-
         $uuid = preg_replace('/(.{8})(.{4})(.{4})(.{4})(.{12})/', '$1-$2-$3-$4-$5', $user['id']);
+
+        $activeSkin = array_filter($user['skins'], fn($skin) => $skin['state'] === 'ACTIVE');
 
         $avatar = count($activeSkin) === 1 ? $activeSkin[0]['url'] : null;
 

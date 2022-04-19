@@ -105,9 +105,7 @@ class Provider extends AbstractProvider
         throw_if($validator->fails(), InvalidArgumentException::class);
 
         $dataToHash = collect($this->request->except('hash'))
-                        ->transform(function ($val, $key) {
-                            return "$key=$val";
-                        })
+                        ->transform(fn($val, $key) => "$key=$val")
                         ->sort()
                         ->join("\n");
 

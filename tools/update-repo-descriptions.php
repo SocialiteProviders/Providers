@@ -17,13 +17,9 @@ $excludedRepos = [
 ];
 
 $repos = collect(range(1, 5))
-    ->map(function (int $page) {
-        return Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json();
-    })
+    ->map(fn(int $page) => Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json())
     ->flatten(1)
-    ->filter(function (array $repo) use ($excludedRepos) {
-        return !$repo['archived'] && !in_array($repo['name'], $excludedRepos, true);
-    })
+    ->filter(fn(array $repo) => !$repo['archived'] && !in_array($repo['name'], $excludedRepos, true))
     ->sortBy('name')
     ->each(function (array $repo) {
         $res = Zttp::withHeaders([
