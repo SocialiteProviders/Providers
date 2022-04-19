@@ -24,6 +24,11 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected $usesPKCE = true;
+
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**
