@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/fablabs",
     "description": "Fablabs.io OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "fablabs",
         "laravel",
@@ -8,13 +9,17 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Julian Gallimore",
             "email": "it@fabacademy.org"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/fablabs"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\Fablabs\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/fablabs"
     }
 }

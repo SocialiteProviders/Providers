@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/monzo",
     "description": "Monzo OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "monzo",
@@ -8,13 +9,17 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Andrew Westrope",
             "email": "andrew@warwickshire.it"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/monzo"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\Monzo\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/monzo"
     }
 }

@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/wechat-web",
     "description": "WeChat Web OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -9,13 +10,17 @@
         "web",
         "wechat"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "sink",
             "email": "sinkcup@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/wechat-web"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -25,10 +30,5 @@
         "psr-4": {
             "SocialiteProviders\\WeChatWeb\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/wechat-web"
     }
 }

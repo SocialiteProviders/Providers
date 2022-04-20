@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/aweber",
     "description": "Aweber OAuth1 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "aweber",
         "laravel",
@@ -8,7 +9,6 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Andrew Tsimerman",
@@ -19,6 +19,11 @@
             "email": "a.komarev@cybercog.su"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/aweber"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -28,10 +33,5 @@
         "psr-4": {
             "SocialiteProviders\\Aweber\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/aweber"
     }
 }

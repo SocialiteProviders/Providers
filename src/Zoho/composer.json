@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/zoho",
     "description": "Zoho OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -8,27 +9,26 @@
         "socialite",
         "zoho"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "glowlogix",
             "email": "support@glowlogix.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/zoho"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "socialiteproviders/manager": "~4.0"
     },
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\Zoho\\": ""
         }
-    },
-    "minimum-stability": "stable",
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/zoho"
     }
 }
