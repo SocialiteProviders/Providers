@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\Cognito;
 
-use Illuminate\Support\Arr;
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -87,10 +87,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['sub'] ?? null,
+            'id'       => $user['sub'] ?? null,
             'nickname' => $user['nickname'] ?? null,
-            'name' => trim(Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', '')),
-            'email' => $user['email'] ?? null,
+            'name'     => trim(Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', '')),
+            'email'    => $user['email'] ?? null,
         ]);
     }
 
