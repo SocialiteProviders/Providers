@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         
      # Required due to GH detached head bug https://github.com/actions/checkout/issues/6
       - name: Prepare repository
