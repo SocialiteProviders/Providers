@@ -15,6 +15,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_id' => env('AMOCRM_CLIENT_ID'),
   'client_secret' => env('AMOCRM_CLIENT_SECRET'),
   'redirect' => env('AMOCRM_REDIRECT_URI'),
+  'domain' => env('AMOCRM_DOMAIN', 'ru'), // can be "ru" or "com"
 ],
 ```
 

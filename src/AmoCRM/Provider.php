@@ -9,11 +9,32 @@ use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 class Provider extends AbstractProvider
 {
     /**
+     * Unique Provider Identifier.
+     */
+    const IDENTIFIER = 'AMOCRM';
+
+    /**
+     * @return string
+     */
+    protected function getBaseAmoUrl()
+    {
+        return "https://www.amocrm.{$this->getConfig('domain')}";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['domain'];
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://www.amocrm.ru/oauth', $state);
+        return $this->buildAuthUrlFromBase("{$this->getBaseAmoUrl()}/oauth", $state);
     }
 
     /**
