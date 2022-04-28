@@ -4,8 +4,8 @@ namespace SocialiteProviders\AmoCRM;
 
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
-use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
@@ -35,14 +35,15 @@ class Provider extends AbstractProvider
     /**
      * Get the TLD config value.
      *
-     * @return string
      * @throws \InvalidArgumentException
+     *
+     * @return string
      */
     public function getTld()
     {
         $tld = strtolower(ltrim($this->getConfig('tld', 'ru'), '.'));
 
-        if (! in_array($tld, ['com', 'ru'], true)) {
+        if (!in_array($tld, ['com', 'ru'], true)) {
             throw new InvalidArgumentException('Invalid TLD value.');
         }
 
