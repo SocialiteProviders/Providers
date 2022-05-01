@@ -91,6 +91,7 @@ class Provider extends AbstractProvider
             'nickname' => $user['nickname'] ?? null,
             'name'     => trim(Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', '')),
             'email'    => $user['email'] ?? null,
+            'avatar'   => null,
         ]);
     }
 
