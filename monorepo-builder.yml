@@ -4,6 +4,7 @@ parameters:
     src/Admitad: 'git@github.com:SocialiteProviders/Admitad.git'
     src/Adobe: 'git@github.com:SocialiteProviders/Adobe.git'
     src/Amazon: 'git@github.com:SocialiteProviders/Amazon.git'
+    src/AmoCRM: 'git@github.com:SocialiteProviders/AmoCRM.git'
     src/AngelList: 'git@github.com:SocialiteProviders/AngelList.git'
     src/AppNet: 'git@github.com:SocialiteProviders/App.net.git'
     src/Apple: 'git@github.com:SocialiteProviders/Apple.git'
