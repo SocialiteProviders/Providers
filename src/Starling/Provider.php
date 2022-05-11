@@ -93,6 +93,8 @@ class Provider extends AbstractProvider
             'id'    => $user['accountHolderUid'],
             'name'  => trim(sprintf('%s %s %s', $user['title'], $user['firstName'], $user['lastName'])),
             'email' => $user['email'],
+            'phone' => $user['phone'],
+            'dateOfBirth' => $user['dateOfBirth'],
         ]);
     }
 
