@@ -81,6 +81,7 @@ parameters:
     src/Imgur: 'git@github.com:SocialiteProviders/Imgur.git'
     src/Instagram: 'git@github.com:SocialiteProviders/Instagram.git'
     src/InstagramBasic: 'git@github.com:SocialiteProviders/InstagramBasic.git'
+    src/Instructure: 'git@github.com:SocialiteProviders/Instructure.git'
     src/Intercom: 'git@github.com:SocialiteProviders/Intercom.git'
     src/Jira: 'git@github.com:SocialiteProviders/Jira.git'
     src/Kakao: 'git@github.com:SocialiteProviders/Kakao.git'

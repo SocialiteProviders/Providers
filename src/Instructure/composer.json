@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/instructure",
+    "description": "Instructure OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "instructure",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frank Perez",
+            "email": "frank@fjp.io"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Instructure\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/instructure"
+    }
+}
