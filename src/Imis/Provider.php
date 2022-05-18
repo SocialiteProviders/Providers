@@ -29,7 +29,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getImisUrl() . $this->getConfig('client_id').'.aspx', $state);
+        return $this->buildAuthUrlFromBase($this->getImisUrl().$this->getConfig('client_id').'.aspx', $state);
     }
 
     /**
