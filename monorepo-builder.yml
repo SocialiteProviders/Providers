@@ -3,6 +3,7 @@ parameters:
     src/Acclaim: 'git@github.com:SocialiteProviders/Acclaim.git'
     src/Admitad: 'git@github.com:SocialiteProviders/Admitad.git'
     src/Adobe: 'git@github.com:SocialiteProviders/Adobe.git'
+    src/Alipay: 'git@github.com:SocialiteProviders/Alipay.git'
     src/Amazon: 'git@github.com:SocialiteProviders/Amazon.git'
     src/AmoCRM: 'git@github.com:SocialiteProviders/AmoCRM.git'
     src/AngelList: 'git@github.com:SocialiteProviders/AngelList.git'
