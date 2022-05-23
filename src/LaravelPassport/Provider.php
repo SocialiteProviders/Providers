@@ -40,6 +40,7 @@ class Provider extends AbstractProvider
             'user_name',
             'user_email',
             'user_avatar',
+            'guzzle',
         ];
     }
 
