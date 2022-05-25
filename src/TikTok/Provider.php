@@ -66,7 +66,8 @@ class Provider extends AbstractProvider
 
         return $this->user->setToken($token)
             ->setExpiresIn(Arr::get($response, 'data.expires_in'))
-            ->setRefreshToken(Arr::get($response, 'data.refresh_token'));
+            ->setRefreshToken(Arr::get($response, 'data.refresh_token'))
+            ->setApprovedScopes(explode($this->scopeSeparator, Arr::get($response, 'data.scope', '')));
     }
 
     /**
