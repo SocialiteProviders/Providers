@@ -241,4 +241,30 @@ class Provider extends AbstractProvider
 
         return json_decode($value, true);
     }
+
+    /**
+     * @return string
+     */
+    protected function getRevokeUrl(): string
+    {
+        return self::URL.'auth/revoke';
+    }
+
+    /**
+     * @param string $token
+     * @param string $hint
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function revokeToken(string $token, string $hint = 'access_token')
+    {
+        return $this->getHttpClient()->post($this->getRevokeUrl(), [
+            RequestOptions::FORM_PARAMS    => [
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'token' => $token,
+                'token_type_hint' => $hint
+            ],
+        ]);
+    }
 }
