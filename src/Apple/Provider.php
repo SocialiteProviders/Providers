@@ -253,17 +253,19 @@ class Provider extends AbstractProvider
     /**
      * @param string $token
      * @param string $hint
-     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function revokeToken(string $token, string $hint = 'access_token')
     {
         return $this->getHttpClient()->post($this->getRevokeUrl(), [
             RequestOptions::FORM_PARAMS    => [
-                'client_id' => $this->clientId,
-                'client_secret' => $this->clientSecret,
-                'token' => $token,
-                'token_type_hint' => $hint
+                'client_id'       => $this->clientId,
+                'client_secret'   => $this->clientSecret,
+                'token'           => $token,
+                'token_type_hint' => $hint,
             ],
         ]);
     }
