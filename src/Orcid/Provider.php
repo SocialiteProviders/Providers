@@ -149,8 +149,7 @@ class Provider extends AbstractProvider
                         $userUrl,
                         [RequestOptions::HEADERS => ['Content-Type' => 'application/vnd.orcid+xml',
                             'Accept'                                => 'application/json',
-                            'Authorization type'                    => 'Bearer',
-                            'Access token'                          => $token, ],
+                            'Authorization'                         => 'Bearer ' . $token,],
                         ]
                     );
 
