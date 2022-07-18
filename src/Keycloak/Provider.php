@@ -93,12 +93,12 @@ class Provider extends AbstractProvider
      */
     public function getLogoutUrl(?string $redirectUri = null): string
     {
-        $logoutUrl = $this->getBaseUrl() . '/protocol/openid-connect/logout';
+        $logoutUrl = $this->getBaseUrl().'/protocol/openid-connect/logout';
 
         if ($redirectUri === null) {
             return $logoutUrl;
         }
 
-        return $logoutUrl . '?redirect_uri=' . urlencode($redirectUri);
+        return $logoutUrl.'?redirect_uri='.urlencode($redirectUri);
     }
 }

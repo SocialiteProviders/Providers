@@ -47,6 +47,11 @@ To logout of your app and Keycloak:
 ```php
 public function logout() {
     Auth::logout(); // Logout of your app
+    
+    // Keycloak v18+ does not support a redirect URL
+    return redirect(Socialite::driver('keycloak')->getLogoutUrl());
+    
+    // Keycloak before v18 does support a redirect URL
     $redirectUri = Config::get('app.url'); // The URL the user is redirected to
     return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri)); // Redirect to Keycloak
 }
