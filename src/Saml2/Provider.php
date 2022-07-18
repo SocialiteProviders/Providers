@@ -31,6 +31,7 @@ use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
 use LightSaml\Model\Metadata\AssertionConsumerService;
 use LightSaml\Model\Metadata\ContactPerson;
+use LightSaml\Model\Metadata\EntitiesDescriptor;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use LightSaml\Model\Metadata\KeyDescriptor;
 use LightSaml\Model\Metadata\Metadata;
@@ -252,9 +253,20 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $builder->get();
     }
 
+    protected function getFirstEntityDescriptorFromXml(string $xml): EntityDescriptor
+    {
+        $descriptor = Metadata::fromXML($xml, new DeserializationContext());
+
+        if ($descriptor instanceof EntitiesDescriptor) {
+            return Arr::first($descriptor->getAllEntityDescriptors());
+        }
+
+        return $descriptor;
+    }
+
     protected function getIdentityProviderEntityDescriptorFromXml(): EntityDescriptor
     {
-        return Metadata::fromXML($this->getConfig('metadata'), new DeserializationContext());
+        return $this->getFirstEntityDescriptorFromXml($this->getConfig('metadata'));
     }
 
     protected function getIdentityProviderEntityDescriptorFromUrl(): EntityDescriptor
@@ -263,10 +275,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $xml = Cache::get(self::CACHE_KEY);
         $ttl = Cache::get(self::CACHE_KEY_TTL);
 
-        $deserializationContext = new DeserializationContext();
-
         if ($xml && $ttl && $ttl + $this->getConfig('ttl', 86400) > time()) {
-            return Metadata::fromXML($xml, $deserializationContext);
+            return $this->getFirstEntityDescriptorFromXml($xml);
         }
 
         Cache::forever(self::CACHE_KEY_TTL, time());
@@ -284,7 +294,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             }
         }
 
-        return Metadata::fromXML($xml, $deserializationContext);
+        return $this->getFirstEntityDescriptorFromXml($xml);
     }
 
     /**
