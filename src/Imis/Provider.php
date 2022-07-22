@@ -3,6 +3,8 @@
 namespace SocialiteProviders\Imis;
 
 use GuzzleHttp\RequestOptions;
+use InvalidArgumentException;
+use RuntimeException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -11,16 +13,24 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    public const IDENTIFIER = 'Imis';
+    public const IDENTIFIER = 'IMIS';
 
     /**
      * Get the host Base URL.
      *
+     * @throws \RuntimeException
+     *
      * @return string
      */
-    protected function getImisUrl()
+    protected function getImisUrl(): string
     {
-        return $this->getConfig('host');
+        $host = $this->getConfig('host', false);
+
+        if ($host === false) {
+            throw new RuntimeException('Missing Imis provider host config.');
+        }
+
+        return $host;
     }
 
     /**
@@ -29,7 +39,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getImisUrl().$this->getConfig('client_id').'.aspx', $state);
+        return $this->buildAuthUrlFromBase($this->getImisUrl().$this->clientId.'.aspx', $state);
     }
 
     /**
@@ -46,9 +56,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token): array
     {
-        $response = $this->getHttpClient()->get($this->getConfig('host').'/api/query?QueryName=$/OAuth2/userInfo', [
+        $response = $this->getHttpClient()->get($this->getConfig('host').'/api/query', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'QueryName' => '$/OAuth2/userInfo',
             ],
         ]);
 
@@ -62,9 +75,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type'    => 'refresh_token',
-            'client_id'     => $this->getConfig('client_id'),
-            'client_secret' => $this->getConfig('client_secret'),
+            'grant_type' => 'refresh_token',
             'refresh_token' => $code,
         ]);
     }
@@ -77,20 +88,23 @@ class Provider extends AbstractProvider
      * https://www.php.net/manual/en/function.assert-options.php
      *
      * {@inheritdoc}
+     * @throws \InvalidArgumentException
      */
     protected function mapUserToObject(array $user)
     {
-        // No IMIS guest users allowed. Redirect to login.
-        assert(isset($user['Items']['$values'][0]) && count($user['Items']['$values'][0]) > 0, 'Guest user is not allowed');
+        // No IMIS guest users allowed. Throw an exception.
+        if (! isset($user['Items']['$values'][0]) || count($user['Items']['$values'][0]) < 1) {
+            throw new InvalidArgumentException('Guest user is not allowed');
+        }
 
         $user = $user['Items']['$values'][0];
 
         return (new User())->setRaw($user)->map([
-            'id'       => $user['sub'] ?? null,
+            'id' => $user['sub'] ?? null,
             'nickname' => null,
-            'name'     => trim(($user['given_name'] ?? '').' '.($user['family_name'] ?? '')),
-            'email'    => $user['email'] ?? null,
-            'avatar'   => null,
+            'name' => trim(($user['given_name'] ?? '').' '.($user['family_name'] ?? '')),
+            'email' => $user['email'] ?? null,
+            'avatar' => null,
         ]);
     }
 
@@ -99,13 +113,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys(): array
     {
-        return [
-            'host',
-            'login_url',
-            'client_id',
-            'client_secret',
-            'query_name',
-            'redirect',
-        ];
+        return ['host'];
     }
 }
