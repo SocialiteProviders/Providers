@@ -93,7 +93,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         // No IMIS guest users allowed. Throw an exception.
-        if (! isset($user['Items']['$values'][0]) || count($user['Items']['$values'][0]) < 1) {
+        if (!isset($user['Items']['$values'][0]) || count($user['Items']['$values'][0]) < 1) {
             throw new InvalidArgumentException('Guest user is not allowed');
         }
 
