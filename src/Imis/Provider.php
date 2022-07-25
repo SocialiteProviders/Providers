@@ -75,19 +75,19 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'refresh_token',
+            'grant_type'    => 'refresh_token',
             'refresh_token' => $code,
         ]);
     }
 
     /**
-     * Returned user array containing all available user attributes
-     * Modified IMIS aliases to match standard OAuth2 claims - https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims.
+     * Returns a user array containing all available user attributes
+     * Modify IMIS aliases to match standard OAuth2 claims - https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims.
      *
-     * Assert is used to cencel the creation of the user and allow a redirect to the login url.
-     * https://www.php.net/manual/en/function.assert-options.php
+     * You can catch InvalidArgumentException and use that to redirect the user back to IMIS.
      *
      * {@inheritdoc}
+     *
      * @throws \InvalidArgumentException
      */
     protected function mapUserToObject(array $user)
@@ -100,11 +100,11 @@ class Provider extends AbstractProvider
         $user = $user['Items']['$values'][0];
 
         return (new User())->setRaw($user)->map([
-            'id' => $user['sub'] ?? null,
+            'id'       => $user['sub'] ?? null,
             'nickname' => null,
-            'name' => trim(($user['given_name'] ?? '').' '.($user['family_name'] ?? '')),
-            'email' => $user['email'] ?? null,
-            'avatar' => null,
+            'name'     => trim(($user['given_name'] ?? '').' '.($user['family_name'] ?? '')),
+            'email'    => $user['email'] ?? null,
+            'avatar'   => null,
         ]);
     }
 
