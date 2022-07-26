@@ -11,12 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
+        
+     # Required due to GH detached head bug https://github.com/actions/checkout/issues/6
+      - name: Prepare repository
+        run: git checkout "${GITHUB_REF:11}"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           coverage: none
 
       - name: Install dependencies

@@ -47,7 +47,7 @@ return Socialite::driver('mailru')->redirect();
 
 ### Returned User fields
 
-- ``id`` (same as ``email``)
+- ``id``
 - ``nickname``
 - ``name``
 - ``email``

@@ -34,8 +34,8 @@
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "ext-openssl": "*",
-        "firebase/php-jwt": "^5.2",
-        "lcobucci/jwt": "^4.0",
+        "firebase/php-jwt": "^6.2",
+        "lcobucci/jwt": "^4.1.5",
         "socialiteproviders/manager": "~4.0"
     },
     "suggest": {

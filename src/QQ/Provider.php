@@ -78,12 +78,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $url = 'https://graph.qq.com/oauth2.0/me?access_token='.$token;
+        $url = 'https://graph.qq.com/oauth2.0/me?fmt=json&access_token='.$token;
         $this->withUnionId && $url .= '&unionid=1';
 
         $response = $this->getHttpClient()->get($url);
 
-        $me = json_decode($this->removeCallback((string) $response->getBody()), true);
+        $me = json_decode((string) $response->getBody(), true);
         $this->openId = $me['openid'];
         $this->unionId = $me['unionid'] ?? '';
 
@@ -91,7 +91,7 @@ class Provider extends AbstractProvider
             "https://graph.qq.com/user/get_user_info?access_token=$token&openid={$this->openId}&oauth_consumer_key={$this->clientId}"
         );
 
-        return json_decode($this->removeCallback((string) $response->getBody()), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -116,6 +116,7 @@ class Provider extends AbstractProvider
     {
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
+            'fmt'        => 'json',
         ]);
     }
 
@@ -130,30 +131,6 @@ class Provider extends AbstractProvider
             RequestOptions::QUERY => $this->getTokenFields($code),
         ]);
 
-        /*
-         * Response content format is "access_token=FE04************************CCE2&expires_in=7776000&refresh_token=88E4************************BE14"
-         * Not like "{'access_token':'FE04************************CCE2','expires_in':7776000,'refresh_token':'88E4************************BE14'}"
-         * So it can't be decode by json_decode!
-        */
-        $content = (string) $response->getBody();
-        parse_str($content, $result);
-
-        return $result;
-    }
-
-    /**
-     * @param mixed $response
-     *
-     * @return string
-     */
-    protected function removeCallback($response)
-    {
-        if (strpos($response, 'callback') !== false) {
-            $lpos = strpos($response, '(');
-            $rpos = strrpos($response, ')');
-            $response = substr($response, $lpos + 1, $rpos - $lpos - 1);
-        }
-
-        return $response;
+        return json_decode((string) $response->getBody(), true);
     }
 }

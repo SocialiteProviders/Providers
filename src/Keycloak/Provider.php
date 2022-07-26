@@ -87,10 +87,18 @@ class Provider extends AbstractProvider
     /**
      * Return logout endpoint with redirect_uri query parameter.
      *
+     * @param string|null $redirectUri
+     *
      * @return string
      */
-    public function getLogoutUrl(string $redirectUri)
+    public function getLogoutUrl(?string $redirectUri = null): string
     {
-        return $this->getBaseUrl().'/protocol/openid-connect/logout?redirect_uri='.urlencode($redirectUri);
+        $logoutUrl = $this->getBaseUrl().'/protocol/openid-connect/logout';
+
+        if ($redirectUri === null) {
+            return $logoutUrl;
+        }
+
+        return $logoutUrl.'?redirect_uri='.urlencode($redirectUri);
     }
 }

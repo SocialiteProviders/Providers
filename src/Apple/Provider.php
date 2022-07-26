@@ -144,7 +144,7 @@ class Provider extends AbstractProvider
         $kid = $token->headers()->get('kid');
 
         if (isset($publicKeys[$kid])) {
-            $publicKey = openssl_pkey_get_details($publicKeys[$kid]);
+            $publicKey = openssl_pkey_get_details($publicKeys[$kid]->getKeyMaterial());
             $constraints = [
                 new SignedWith(new Sha256(), InMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
@@ -240,5 +240,33 @@ class Provider extends AbstractProvider
         }
 
         return json_decode($value, true);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRevokeUrl(): string
+    {
+        return self::URL.'auth/revoke';
+    }
+
+    /**
+     * @param string $token
+     * @param string $hint
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function revokeToken(string $token, string $hint = 'access_token')
+    {
+        return $this->getHttpClient()->post($this->getRevokeUrl(), [
+            RequestOptions::FORM_PARAMS    => [
+                'client_id'       => $this->clientId,
+                'client_secret'   => $this->clientSecret,
+                'token'           => $token,
+                'token_type_hint' => $hint,
+            ],
+        ]);
     }
 }

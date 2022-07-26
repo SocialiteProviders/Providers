@@ -20,7 +20,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $stateless = true;
+    protected $stateless = false;
 
     /**
      * {@inheritdoc}

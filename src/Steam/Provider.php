@@ -161,12 +161,18 @@ class Provider extends AbstractProvider
     /**
      * Checks the steam login.
      *
+     * @throws \SocialiteProviders\Steam\OpenIDValidationException
+     *
      * @return bool
      */
     public function validate()
     {
         if (!$this->requestIsValid()) {
             return false;
+        }
+
+        if (!$this->validateHost($this->request->get('openid_return_to'))) {
+            throw new OpenIDValidationException('Invalid return_to host');
         }
 
         $requestOptions = $this->getDefaultRequestOptions();
@@ -305,6 +311,18 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['realm', 'proxy'];
+        return ['realm', 'proxy', 'allowed_hosts'];
+    }
+
+    /**
+     * Validation of the domain available for authorization.
+     *
+     * @return bool
+     */
+    protected function validateHost(string $url): bool
+    {
+        $allowedHosts = $this->getConfig('allowed_hosts', []);
+
+        return count($allowedHosts) === 0 || in_array(parse_url($url, PHP_URL_HOST), $allowedHosts, true);
     }
 }
