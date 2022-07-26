@@ -11,7 +11,14 @@ class User extends oAuth2User
      *
      * @var string
      */
-    public $principalName;
+    protected $principalName;
+
+    /**
+     * The user's mail.
+     *
+     * @var string
+     */
+    protected $mail;
 
     /**
      * Get the principal name for the user.
@@ -21,5 +28,15 @@ class User extends oAuth2User
     public function getPrincipalName()
     {
         return $this->principalName;
+    }
+
+    /**
+     * Get the mail for the user.
+     *
+     * @return string
+     */
+    public function getMail()
+    {
+        return $this->mail;
     }
 }

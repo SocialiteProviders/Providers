@@ -99,6 +99,7 @@ class Provider extends AbstractProvider
             'name'          => $user['displayName'],
             'email'         => $user['userPrincipalName'],
             'principalName' => $user['userPrincipalName'],
+            'mail'          => $user['mail'],
             'avatar'        => null,
         ]);
     }
