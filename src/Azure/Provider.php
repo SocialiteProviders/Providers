@@ -36,7 +36,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/oauth2/v2.0/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->getBaseUrl() . '/oauth2/v2.0/authorize', $state);
     }
 
     /**
@@ -49,8 +49,8 @@ class Provider extends AbstractProvider
     public function getLogoutUrl(string $redirectUri)
     {
         return $this->getBaseUrl()
-            .'/oauth2/logout?'
-            .http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
+            . '/oauth2/logout?'
+            . http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
     }
 
     /**
@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getBaseUrl().'/oauth2/v2.0/token';
+        return $this->getBaseUrl() . '/oauth2/v2.0/token';
     }
 
     public function getAccessToken($code)
@@ -79,10 +79,10 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get($this->graphUrl, [
             RequestOptions::HEADERS => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token,
             ],
-            RequestOptions::PROXY       => $this->getConfig('proxy'),
+            RequestOptions::PROXY => $this->getConfig('proxy'),
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -94,13 +94,13 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'            => $user['id'],
-            'nickname'      => null,
-            'name'          => $user['displayName'],
-            'email'         => $user['userPrincipalName'],
+            'id' => $user['id'],
+            'nickname' => null,
+            'name' => $user['displayName'],
+            'email' => $user['userPrincipalName'],
             'principalName' => $user['userPrincipalName'],
-            'mail'          => $user['mail'],
-            'avatar'        => null,
+            'mail' => $user['mail'],
+            'avatar' => null,
         ]);
     }
 
@@ -114,9 +114,9 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
-            RequestOptions::PROXY       => $this->getConfig('proxy'),
+            RequestOptions::PROXY => $this->getConfig('proxy'),
         ]);
 
         return json_decode($response->getBody(), true);
@@ -127,7 +127,7 @@ class Provider extends AbstractProvider
      */
     protected function getBaseUrl(): string
     {
-        return 'https://login.microsoftonline.com/'.$this->getConfig('tenant', 'common');
+        return 'https://login.microsoftonline.com/' . $this->getConfig('tenant', 'common');
     }
 
     /**
