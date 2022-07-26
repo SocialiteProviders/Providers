@@ -11,14 +11,14 @@ class User extends oAuth2User
      *
      * @var string
      */
-    protected $principalName;
+    public $principalName;
 
     /**
      * The user's mail.
      *
      * @var string
      */
-    protected $mail;
+    public $mail;
 
     /**
      * Get the principal name for the user.
