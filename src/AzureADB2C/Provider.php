@@ -6,6 +6,8 @@ use Exception;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -25,6 +27,53 @@ class Provider extends AbstractProvider
     ];
 
     /**
+     * Get the policy.
+     *
+     * @return string
+     */
+    private function getPolicy()
+    {
+        return $this->parameters['policy'] ?? 'login';
+    }
+
+    /**
+     * Get the B2C policy.
+     *
+     * @return mixed
+     */
+    private function getB2CPolicy()
+    {
+        $policy = $this->getConfig('policy');
+        if (is_array($policy)) {
+            $policyKey = $this->getPolicy();
+            $policy = $policy[$policyKey] ?? reset($policy);
+        }
+
+        return $policy;
+    }
+
+    /**
+     * Set the redirect URL.
+     *
+     * @return void
+     */
+    private function setRedirectUrl()
+    {
+        $redirectTemplate = $this->getConfig('redirect_template');
+        if (empty($redirectTemplate)) {
+            return;
+        }
+
+        $redirect = str_replace('{policy}', $this->getPolicy(), $redirectTemplate);
+
+        $url = Str::startsWith($redirect, '/')
+            ? URL::to($redirect)
+            : $redirect;
+
+        $this->redirectUrl($url);
+    }
+
+    /**
      * Get OpenID Configuration.
      *
      * @throws Laravel\Socialite\Two\InvalidStateException
@@ -33,13 +82,16 @@ class Provider extends AbstractProvider
      */
     private function getOpenIdConfiguration()
     {
+        $this->setRedirectUrl();
+
         try {
             $discovery = sprintf(
                 'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
                 $this->getConfig('domain'),
                 $this->getConfig('domain'),
-                $this->getConfig('policy')
+                $this->getB2CPolicy()
             );
+
             $response = $this->getHttpClient()->get($discovery);
         } catch (Exception $ex) {
             throw new InvalidStateException("Error on getting OpenID Configuration. {$ex}");
@@ -94,6 +146,8 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
+        $this->setRedirectUrl();
+
         $response = $this->getAccessTokenResponse($this->getCode());
         $claims = $this->validateIdToken(Arr::get($response, 'id_token'));
 
@@ -148,7 +202,6 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'   => $user['sub'],
-            'name' => $user['name'],
         ]);
     }
 
@@ -172,6 +225,7 @@ class Provider extends AbstractProvider
         return [
             'domain',
             'policy',
+            'redirect_template',
         ];
     }
 }

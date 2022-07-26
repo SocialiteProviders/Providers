@@ -16,9 +16,9 @@
         }
     ],
     "require": {
-        "php": "^7.2 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "ext-json": "*",
-        "dropbox/lightsaml": "^2.0",
+        "litesaml/lightsaml": "^3.0",
         "socialiteproviders/manager": "~4.0"
     },
     "autoload": {
