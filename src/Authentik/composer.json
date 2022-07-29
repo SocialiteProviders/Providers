@@ -7,7 +7,7 @@
         "email": "git@rf152.co.uk"
     }],
     "require": {
-        "php": "^7.2",
+        "php": "^8.0",
         "socialiteproviders/manager": "^4.0",
         "ext-json": "*"
     },
