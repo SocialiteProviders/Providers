@@ -1,0 +1,26 @@
+{
+    "name": "socialiteproviders/planningcenter",
+    "description": "Planning Center OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Duncan McClean",
+            "email": "duncan@duncanmcclean.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "socialiteproviders/manager": "^4.0",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\PlanningCenter\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/planningcenter"
+    }
+}
