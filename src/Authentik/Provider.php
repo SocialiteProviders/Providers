@@ -33,6 +33,7 @@ class Provider extends AbstractProvider
         if ($baseurl === null) {
             throw new InvalidArgumentException('Missing base_url');
         }
+
         return rtrim($baseurl, '/');
     }
 
