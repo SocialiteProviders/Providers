@@ -141,17 +141,16 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $orcid = Arr::get($token, 'orcid');
-        $token = Arr::get($token, 'access_token');
+        $accessToken = Arr::get($token, 'access_token');
 
         $userUrl = $this->profileUrl("{$orcid}/record");
-        $response = $this->getHttpClient()
-                    ->get(
-                        $userUrl,
-                        [RequestOptions::HEADERS => ['Content-Type' => 'application/vnd.orcid+xml',
-                            'Accept'                                => 'application/json',
-                            'Authorization'                         => 'Bearer '.$token, ],
-                        ]
-                    );
+        $response = $this->getHttpClient()->get($userUrl, [
+            RequestOptions::HEADERS => [
+                'Content-Type' => 'application/vnd.orcid+xml',
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer '.$accessToken,
+            ],
+        ]);
 
         $user = json_decode((string) $response->getBody(), true);
 
