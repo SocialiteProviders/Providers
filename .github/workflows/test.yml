@@ -52,6 +52,17 @@ jobs:
       - name: Lint the code
         run: vendor/bin/parallel-lint --exclude vendor .
 
+      - name: Install Pint
+        run: composer global require laravel/pint
+
+      - name: Run Pint
+        run: pint
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Fix code with Pint"
+
       - name: Lint composer.json
         if: matrix.validate == true
         run: composer validate --strict
