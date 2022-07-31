@@ -30,7 +30,7 @@ class Provider extends AbstractProvider
     {
         $baseurl = $this->getConfgi('base_url');
         if ($baseurl === null) {
-            throw new InvalidArgumentException("Missing base_url");
+            throw new InvalidArgumentException('Missing base_url');
         }
         return rtrim($baseurl, '/');
     }
