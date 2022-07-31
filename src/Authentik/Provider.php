@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\Authentik;
 
-use InvalidArgumentException;
 use GuzzleHttp\RequestOptions;
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
