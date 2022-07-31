@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Authentik;
 
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -10,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'AUTHENTIK';
+    public const IDENTIFIER = 'AUTHENTIK';
 
     /**
      * {@inheritdoc}
@@ -27,7 +28,11 @@ class Provider extends AbstractProvider
 
     protected function getBaseUrl()
     {
-        return rtrim($this->getConfig('base_url'), '/');
+        $baseurl = $this->getConfgi('base_url');
+        if ($baseurl === null) {
+            throw new InvalidArgumentException("Missing base_url");
+        }
+        return rtrim($baseurl, '/');
     }
 
     /**
@@ -57,7 +62,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -74,17 +79,7 @@ class Provider extends AbstractProvider
             'preferred_username' => $user['preferred_username'] ?? '',
             'nickname'           => $user['nickname'] ?? '',
             'groups'             => $user['groups'] ?? '',
-            'sub'                => $user['sub'] ?? '',
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
+            'id'                => $user['sub'],
         ]);
     }
 }
