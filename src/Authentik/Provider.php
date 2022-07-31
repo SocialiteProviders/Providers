@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Authentik;
 
 use InvalidArgumentException;
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -28,7 +29,7 @@ class Provider extends AbstractProvider
 
     protected function getBaseUrl()
     {
-        $baseurl = $this->getConfgi('base_url');
+        $baseurl = $this->getConfig('base_url');
         if ($baseurl === null) {
             throw new InvalidArgumentException('Missing base_url');
         }
@@ -56,11 +57,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getBaseUrl().'/application/o/userinfo/', [
-            'headers' => [
-                'Authorization' => 'Bearer '.$token,
-            ],
-        ]);
+        $response = $this->getHttpClient()->get(
+            $this->getBaseUrl().'/application/o/userinfo/',
+            [
+                RequestOptions::HEADERS => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
+        );
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -79,7 +83,7 @@ class Provider extends AbstractProvider
             'preferred_username' => $user['preferred_username'] ?? '',
             'nickname'           => $user['nickname'] ?? '',
             'groups'             => $user['groups'] ?? '',
-            'id'                => $user['sub'],
+            'id'                 => $user['sub'],
         ]);
     }
 }
