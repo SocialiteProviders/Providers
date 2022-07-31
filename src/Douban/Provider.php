@@ -49,7 +49,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['id'], 'nickname' => $user['name'],
+            'id' => $user['id'], 'nickname' => $user['name'],
             'avatar' => $user['large_avatar'], 'name' => null, 'email' => null,
         ]);
     }
@@ -76,8 +76,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param mixed $response
-     *
+     * @param  mixed  $response
      * @return string
      */
     protected function removeCallback($response)

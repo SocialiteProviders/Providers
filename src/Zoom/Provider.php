@@ -63,11 +63,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['first_name'].' '.$user['last_name'],
-            'name'     => $user['first_name'].' '.$user['last_name'],
-            'email'    => $user['email'],
-            'avatar'   => $user['pic_url'] ?? null,
+            'name' => $user['first_name'].' '.$user['last_name'],
+            'email' => $user['email'],
+            'avatar' => $user['pic_url'] ?? null,
         ]);
     }
 
@@ -78,7 +78,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            RequestOptions::QUERY   => $this->getTokenFields($code),
+            RequestOptions::QUERY => $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);

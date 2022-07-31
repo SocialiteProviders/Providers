@@ -35,15 +35,15 @@ class Provider extends AbstractProvider
     /**
      * Get the TLD config value.
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     public function getTld()
     {
         $tld = strtolower(ltrim($this->getConfig('tld', 'ru'), '.'));
 
-        if (!in_array($tld, ['com', 'ru'], true)) {
+        if (! in_array($tld, ['com', 'ru'], true)) {
             throw new InvalidArgumentException('Invalid TLD value.');
         }
 
@@ -98,10 +98,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'name'     => $user['name'],
+            'id' => $user['id'],
+            'name' => $user['name'],
             'nickname' => $user['email'],
-            'email'    => $user['email'],
+            'email' => $user['email'],
         ]);
     }
 }

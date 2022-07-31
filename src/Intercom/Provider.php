@@ -37,7 +37,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://api.intercom.io/me', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
             ],
         ]);
 
@@ -50,10 +50,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'        => $user['id'],
-            'name'      => $user['name'],
-            'email'     => $user['email'],
-            'avatar'    => $user['avatar']['image_url'],
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => $user['avatar']['image_url'],
         ]);
     }
 

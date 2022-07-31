@@ -84,10 +84,10 @@ class Provider extends AbstractProvider
         $name = trim(sprintf('%s %s', $user['first_name'] ?? '', $user['last_name'] ?? ''));
 
         return (new User())->setRaw($user)->map([
-            'id'        => $user['id'],
-            'nickname'  => $user['username'] ?? $user['first_name'],
-            'name'      => !empty($name) ? $name : null,
-            'avatar'    => $user['photo_url'] ?? null,
+            'id' => $user['id'],
+            'nickname' => $user['username'] ?? $user['first_name'],
+            'name' => ! empty($name) ? $name : null,
+            'avatar' => $user['photo_url'] ?? null,
         ]);
     }
 
@@ -97,9 +97,9 @@ class Provider extends AbstractProvider
     public function user()
     {
         $validator = Validator::make($this->request->all(), [
-            'id'        => 'required|numeric',
+            'id' => 'required|numeric',
             'auth_date' => 'required|date_format:U|before:1 day',
-            'hash'      => 'required|size:64',
+            'hash' => 'required|size:64',
         ]);
 
         throw_if($validator->fails(), InvalidArgumentException::class);

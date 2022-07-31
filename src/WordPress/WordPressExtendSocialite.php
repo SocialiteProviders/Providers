@@ -9,7 +9,7 @@ class WordPressExtendSocialite
     /**
      * Register the provider.
      *
-     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
+     * @param  \SocialiteProviders\Manager\SocialiteWasCalled  $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {

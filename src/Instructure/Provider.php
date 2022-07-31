@@ -63,20 +63,20 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => null,
-            'name'     => $user['name'],
-            'email'    => $user['primary_email'],
-            'avatar'   => null,
+            'name' => $user['name'],
+            'email' => $user['primary_email'],
+            'avatar' => null,
         ]);
     }
 
     /**
      * Get the instance URI.
      *
-     * @throws \RuntimeException
-     *
      * @return string
+     *
+     * @throws \RuntimeException
      */
     protected function getInstanceUrl()
     {

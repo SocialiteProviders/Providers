@@ -55,8 +55,8 @@ class Provider extends AbstractProvider
             'https://api.producthunt.com/v2/api/graphql',
             [
                 RequestOptions::HEADERS => [
-                    'Content-Type'  => 'application/json',
-                    'Accept'        => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::JSON => [
@@ -86,10 +86,10 @@ class Provider extends AbstractProvider
         $avatar = $user['profileImage'] ?? null;
 
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['username'],
-            'name'     => $user['name'],
-            'avatar'   => $avatar,
+            'name' => $user['name'],
+            'avatar' => $avatar,
         ]);
     }
 

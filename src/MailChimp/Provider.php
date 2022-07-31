@@ -41,7 +41,7 @@ class Provider extends AbstractProvider
             'https://login.mailchimp.com/oauth2/metadata',
             [
                 RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'OAuth '.$token,
                 ],
             ]
@@ -56,9 +56,9 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['login']['login_id'],
+            'id' => $user['login']['login_id'],
             'nickname' => $user['login']['login_name'], 'name' => null,
-            'email'    => $user['login']['login_email'], 'avatar' => null,
+            'email' => $user['login']['login_email'], 'avatar' => null,
         ]);
     }
 

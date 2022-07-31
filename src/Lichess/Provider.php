@@ -48,8 +48,7 @@ class Provider extends AbstractProvider
     /**
      * Get profile of the logged in user.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return array $user
      */
     protected function getUserByToken($token)
@@ -71,8 +70,7 @@ class Provider extends AbstractProvider
     /**
      * Get the default options for an HTTP request.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return array
      */
     protected function getRequestOptions($token)
@@ -87,8 +85,7 @@ class Provider extends AbstractProvider
     /**
      * Get the email address for the user.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return string
      */
     protected function getEmailByToken($token)
@@ -107,9 +104,9 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'username' => $user['username'],
-            'email'    => $user['email'],
+            'email' => $user['email'],
         ]);
     }
 }

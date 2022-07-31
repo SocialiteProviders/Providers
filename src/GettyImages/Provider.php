@@ -47,7 +47,7 @@ class Provider extends AbstractProvider
                         $this->clientId.':'.$this->clientSecret
                     ),
                 ],
-                RequestOptions::BODY    => $this->getTokenFields($code),
+                RequestOptions::BODY => $this->getTokenFields($code),
             ]
         );
 
@@ -74,7 +74,7 @@ class Provider extends AbstractProvider
             [
                 RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
-                    'Api-Key'       => $this->clientId,
+                    'Api-Key' => $this->clientId,
                 ], ]
         );
 
@@ -88,7 +88,7 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'first_name' => $user['first_name'],
-            'last_name'  => $user['last_name'],
+            'last_name' => $user['last_name'],
         ]);
     }
 }

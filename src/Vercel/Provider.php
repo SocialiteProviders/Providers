@@ -53,11 +53,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user['user'])->map([
-            'id'       => $user['user']['uid'],
+            'id' => $user['user']['uid'],
             'nickname' => $user['user']['username'],
-            'name'     => $user['user']['name'],
-            'email'    => $user['user']['email'],
-            'avatar'   => 'https://api.vercel.com/www/avatar/'.$user['user']['uid'],
+            'name' => $user['user']['name'],
+            'email' => $user['user']['email'],
+            'avatar' => 'https://api.vercel.com/www/avatar/'.$user['user']['uid'],
         ]);
     }
 

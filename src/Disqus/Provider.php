@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
             [
                 RequestOptions::QUERY => [
                     'access_token' => $token, 'api_key' => $this->clientId,
-                    'api_secret'   => $this->clientSecret,
+                    'api_secret' => $this->clientSecret,
                 ],
             ]
         );
@@ -62,8 +62,8 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['id'], 'nickname' => $user['username'],
-            'name'   => $user['name'], 'email' => Arr::get($user, 'email'),
+            'id' => $user['id'], 'nickname' => $user['username'],
+            'name' => $user['name'], 'email' => Arr::get($user, 'email'),
             'avatar' => $user['avatar']['permalink'],
         ]);
     }

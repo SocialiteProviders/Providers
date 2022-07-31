@@ -27,8 +27,7 @@ class Server extends BaseServer
     /**
      * Set the access token.
      *
-     * @param string $accessToken
-     *
+     * @param  string  $accessToken
      * @return Trello
      */
     public function setAccessToken($accessToken)
@@ -121,9 +120,9 @@ class Server extends BaseServer
 
         $params = [
             'response_type' => 'fragment',
-            'scope'         => $scopes ?: 'read',
-            'expiration'    => Arr::get($this->parameters, 'expiration', '1day'),
-            'name'          => Arr::get($this->parameters, 'name', null),
+            'scope' => $scopes ?: 'read',
+            'expiration' => Arr::get($this->parameters, 'expiration', '1day'),
+            'name' => Arr::get($this->parameters, 'name', null),
         ];
 
         return http_build_query($params);

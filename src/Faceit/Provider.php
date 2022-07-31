@@ -43,8 +43,8 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
-            RequestOptions::HEADERS     => [
-                'Content-Type'  => 'application/x-www-form-urlencoded',
+            RequestOptions::HEADERS => [
+                'Content-Type' => 'application/x-www-form-urlencoded',
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
             ],
         ]);
@@ -55,7 +55,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'code'       => $code,
+            'code' => $code,
             'grant_type' => 'authorization_code',
         ];
     }
@@ -63,11 +63,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['guid'],
+            'id' => $user['guid'],
             'nickname' => $user['nickname'],
-            'avatar'   => $user['picture'] ?? null,
-            'name'     => isset($user['given_name']) ? ($user['given_name'].' '.$user['family_name']) : null,
-            'email'    => $user['email'] ?? null,
+            'avatar' => $user['picture'] ?? null,
+            'name' => isset($user['given_name']) ? ($user['given_name'].' '.$user['family_name']) : null,
+            'email' => $user['email'] ?? null,
         ]);
     }
 }

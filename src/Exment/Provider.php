@@ -70,20 +70,20 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['value']['user_code'],
-            'name'     => $user['value']['user_name'],
-            'email'    => $user['value']['email'],
-            'avatar'   => null,
+            'name' => $user['value']['user_name'],
+            'email' => $user['value']['email'],
+            'avatar' => null,
         ]);
     }
 
     /**
      * Get Exment base URI.
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     protected function getBaseUri(): string
     {

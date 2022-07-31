@@ -60,8 +60,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param bool $value
-     *
+     * @param  bool  $value
      * @return self
      */
     public function withUnionId($value = true)
@@ -102,7 +101,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'   => $this->openId, 'unionid' => $this->unionId, 'nickname' => $user['nickname'],
+            'id' => $this->openId, 'unionid' => $this->unionId, 'nickname' => $user['nickname'],
             'name' => null, 'email' => null, 'avatar' => $user['figureurl_qq_2'],
         ]);
     }
@@ -116,7 +115,7 @@ class Provider extends AbstractProvider
     {
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
-            'fmt'        => 'json',
+            'fmt' => 'json',
         ]);
     }
 

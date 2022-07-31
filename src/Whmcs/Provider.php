@@ -72,11 +72,11 @@ class Provider extends AbstractProvider
     {
         return $url.'?'.http_build_query(
             [
-                'client_id'     => $this->clientId,
-                'redirect_uri'  => $this->redirectUrl,
+                'client_id' => $this->clientId,
+                'redirect_uri' => $this->redirectUrl,
                 'response_type' => 'code',
-                'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
-                'state'         => $state,
+                'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
+                'state' => $state,
             ],
             '',
             '&',
@@ -98,7 +98,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => array_merge(
                 $this->getTokenFields($code),
                 [
@@ -148,10 +148,10 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map(
             [
-                'avatar'   => null,
-                'email'    => $user['email'],
-                'id'       => $user['sub'],
-                'name'     => $user['name'],
+                'avatar' => null,
+                'email' => $user['email'],
+                'id' => $user['sub'],
+                'name' => $user['name'],
                 'nickname' => null,
             ]
         );

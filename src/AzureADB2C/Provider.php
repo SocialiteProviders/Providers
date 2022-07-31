@@ -76,9 +76,9 @@ class Provider extends AbstractProvider
     /**
      * Get OpenID Configuration.
      *
-     * @throws Laravel\Socialite\Two\InvalidStateException
-     *
      * @return mixed
+     *
+     * @throws Laravel\Socialite\Two\InvalidStateException
      */
     private function getOpenIdConfiguration()
     {
@@ -162,11 +162,10 @@ class Provider extends AbstractProvider
      *   aud: MUST include client_id for this client.
      *   exp: MUST time() < exp.
      *
-     * @param string $idToken
+     * @param  string  $idToken
+     * @return array
      *
      * @throws Laravel\Socialite\Two\InvalidStateException
-     *
-     * @return array
      */
     private function validateIdToken($idToken)
     {
@@ -201,7 +200,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'   => $user['sub'],
+            'id' => $user['sub'],
         ]);
     }
 

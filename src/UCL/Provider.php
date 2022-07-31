@@ -36,7 +36,7 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        if ($this->hasInvalidState() || !$this->getCode()) {
+        if ($this->hasInvalidState() || ! $this->getCode()) {
             throw new InvalidStateException();
         }
         $response = $this->getAccessTokenResponse($this->getCode());
@@ -50,16 +50,15 @@ class Provider extends AbstractProvider
     /**
      * Get the POST fields for the token request.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     protected function getTokenFields($code)
     {
         return [
-            'client_id'     => $this->clientId,
+            'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'code'          => $code,
+            'code' => $code,
         ];
     }
 
@@ -70,7 +69,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://uclapi.com/oauth/user/data', [RequestOptions::QUERY => [
             'client_secret' => $this->clientSecret,
-            'token'         => $token,
+            'token' => $token,
         ]]);
 
         return json_decode((string) $response->getBody(), true);
@@ -82,10 +81,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => Arr::get($user, 'upi'),
-            'name'     => Arr::get($user, 'full_name'),
+            'id' => Arr::get($user, 'upi'),
+            'name' => Arr::get($user, 'full_name'),
             'nickname' => Arr::get($user, 'given_name'),
-            'email'    => Arr::get($user, 'email'),
+            'email' => Arr::get($user, 'email'),
         ]);
     }
 }

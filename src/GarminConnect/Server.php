@@ -69,7 +69,7 @@ class Server extends BaseServer
         $used = ['id', 'nickname', 'name', 'email', 'avatar'];
 
         foreach ($data as $key => $value) {
-            if (!in_array($key, $used, true)) {
+            if (! in_array($key, $used, true)) {
                 $used[] = $key;
             }
         }

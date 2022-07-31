@@ -36,7 +36,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get($this->shopifyUrl('/admin/shop.json'), [
             RequestOptions::HEADERS => [
-                'Accept'                 => 'application/json',
+                'Accept' => 'application/json',
                 'X-Shopify-Access-Token' => $token,
             ],
         ]);
@@ -50,11 +50,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['myshopify_domain'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => null,
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => null,
         ]);
     }
 
@@ -80,13 +80,12 @@ class Provider extends AbstractProvider
      * Work out the shopify domain based on either the
      * `subdomain` config setting or the current request.
      *
-     * @param string $uri URI to append to the domain
-     *
+     * @param  string  $uri URI to append to the domain
      * @return string The fully qualified *.myshopify.com url
      */
     private function shopifyUrl($uri = null)
     {
-        if (!empty($this->parameters['subdomain'])) {
+        if (! empty($this->parameters['subdomain'])) {
             return 'https://'.$this->parameters['subdomain'].'.myshopify.com'.$uri;
         }
         if ($this->getConfig('subdomain')) {

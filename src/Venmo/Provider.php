@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
             'https://api.venmo.com/v1/me',
             [
                 RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -62,11 +62,11 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map(
             [
-                'id'       => $user['data']['user']['id'],
+                'id' => $user['data']['user']['id'],
                 'nickname' => $user['data']['user']['username'],
-                'name'     => $user['data']['user']['display_name'],
-                'email'    => $user['data']['user']['email'],
-                'avatar'   => $user['data']['user']['profile_picture_url'],
+                'name' => $user['data']['user']['display_name'],
+                'email' => $user['data']['user']['email'],
+                'avatar' => $user['data']['user']['profile_picture_url'],
             ]
         );
     }

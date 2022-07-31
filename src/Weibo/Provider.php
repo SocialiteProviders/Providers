@@ -37,7 +37,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://api.weibo.com/2/users/show.json', [
             RequestOptions::QUERY => [
                 'access_token' => $token,
-                'uid'          => $this->getUid($token),
+                'uid' => $this->getUid($token),
             ],
         ]);
 
@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['idstr'], 'nickname' => $user['name'],
+            'id' => $user['idstr'], 'nickname' => $user['name'],
             'avatar' => $user['avatar_large'], 'name' => null, 'email' => null,
         ]);
     }
@@ -77,8 +77,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param mixed $response
-     *
+     * @param  mixed  $response
      * @return string
      */
     protected function removeCallback($response)
@@ -94,7 +93,6 @@ class Provider extends AbstractProvider
 
     /**
      * @param $token
-     *
      * @return string
      */
     protected function getUid($token)

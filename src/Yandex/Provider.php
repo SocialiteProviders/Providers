@@ -56,11 +56,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['login'],
-            'name'     => Arr::get($user, 'real_name'),
-            'email'    => Arr::get($user, 'default_email'),
-            'avatar'   => 'https://avatars.yandex.net/get-yapic/'.Arr::get($user, 'default_avatar_id').'/islands-200',
+            'name' => Arr::get($user, 'real_name'),
+            'email' => Arr::get($user, 'default_email'),
+            'avatar' => 'https://avatars.yandex.net/get-yapic/'.Arr::get($user, 'default_avatar_id').'/islands-200',
         ]);
     }
 

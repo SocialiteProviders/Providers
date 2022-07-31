@@ -47,7 +47,7 @@ class Provider extends AbstractProvider
             [
                 RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
-                    'User-Agent'    => $this->getUserAgent(),
+                    'User-Agent' => $this->getUserAgent(),
                 ],
             ]
         );
@@ -61,7 +61,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         $avatar = null;
-        if (!empty($user['icon_img'])) {
+        if (! empty($user['icon_img'])) {
             $avatar = $user['icon_img'];
 
             // Strip the query segment of the URL if it exists.
@@ -73,12 +73,12 @@ class Provider extends AbstractProvider
 
         $name = null;
         //Check if user has a display name
-        if (!empty($user['subreddit']['title'])) {
+        if (! empty($user['subreddit']['title'])) {
             $name = $user['subreddit']['title'];
         }
 
         return (new User())->setRaw($user)->map([
-            'id'   => $user['id'], 'nickname' => $user['name'],
+            'id' => $user['id'], 'nickname' => $user['name'],
             'name' => $name, 'email' => null, 'avatar' => $avatar,
         ]);
     }
@@ -90,10 +90,10 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
-                'Accept'     => 'application/json',
+                'Accept' => 'application/json',
                 'User-Agent' => $this->getUserAgent(),
             ],
-            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::AUTH => [$this->clientId, $this->clientSecret],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
@@ -108,7 +108,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'grant_type'   => 'authorization_code', 'code' => $code,
+            'grant_type' => 'authorization_code', 'code' => $code,
             'redirect_uri' => $this->redirectUrl,
         ];
     }

@@ -37,8 +37,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $code
-     *
+     * @param  string  $code
      * @return string
      */
     public function getAccessToken($code)
@@ -62,15 +61,15 @@ class Provider extends AbstractProvider
     {
         try {
             $data = json_encode([
-                'from'   => 'Member',
+                'from' => 'Member',
                 'select' => ['Name', 'Username', 'Email', 'Avatar.Content'],
-                'where'  => ['IsSelf' => 'true'],
+                'where' => ['IsSelf' => 'true'],
             ]);
 
             $requestOptions = [
                 RequestOptions::HEADERS => [
-                    'Content-Type'  => 'application/json',
-                    'Accept'        => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::BODY => $data,
@@ -99,9 +98,9 @@ class Provider extends AbstractProvider
         $user = $user[0][0];
 
         return (new User())->setRaw($user)->map([
-            'id'       => str_replace('Member:', '', $user['_oid']),
+            'id' => str_replace('Member:', '', $user['_oid']),
             'nickname' => $user['Username'], 'name' => $user['Name'],
-            'email'    => $user['Email'], 'avatar' => Arr::get($user, 'Avatar.Content'),
+            'email' => $user['Email'], 'avatar' => Arr::get($user, 'Avatar.Content'),
         ]);
     }
 

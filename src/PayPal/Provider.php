@@ -65,17 +65,17 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => str_replace('https://www.paypal.com/webapps/auth/identity/user/', null, $user['user_id']),
+            'id' => str_replace('https://www.paypal.com/webapps/auth/identity/user/', null, $user['user_id']),
             'nickname' => null, 'name' => $user['name'],
-            'email'    => $user['email'], 'avatar' => null,
+            'email' => $user['email'], 'avatar' => null,
         ]);
     }
 
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
-            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::AUTH => [$this->clientId, $this->clientSecret],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 

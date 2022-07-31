@@ -36,10 +36,10 @@ class Provider extends AbstractProvider
 
         return $url.'?'.http_build_query(
             [
-                'client_id'    => $this->clientId,
+                'client_id' => $this->clientId,
                 'redirect_uri' => $this->redirectUrl,
-                'scope'        => $this->formatScopes($this->scopes, $this->scopeSeparator),
-                'state'        => $state,
+                'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
+                'state' => $state,
             ],
             '',
             '&',
@@ -61,7 +61,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
@@ -80,9 +80,9 @@ class Provider extends AbstractProvider
             'https://api.stackexchange.com/'.$this->version.
             '/me?'.http_build_query(
                 [
-                    'site'         => $this->getConfig('site'),
+                    'site' => $this->getConfig('site'),
                     'access_token' => $token,
-                    'key'          => $this->getConfig('key'),
+                    'key' => $this->getConfig('key'),
                 ]
             ),
             [
@@ -110,10 +110,10 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map(
             [
-                'id'       => $user['items'][0]['account_id'],
+                'id' => $user['items'][0]['account_id'],
                 'nickname' => $user['items'][0]['display_name'],
-                'name'     => $user['items'][0]['display_name'],
-                'avatar'   => $user['items'][0]['profile_image'],
+                'name' => $user['items'][0]['display_name'],
+                'avatar' => $user['items'][0]['profile_image'],
             ]
         );
     }

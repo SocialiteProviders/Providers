@@ -41,9 +41,9 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://api.trakt.tv/users/me?extended=full', [
             RequestOptions::HEADERS => [
-                'Authorization'     => 'Bearer '.$token,
+                'Authorization' => 'Bearer '.$token,
                 'trakt-api-version' => $this->getConfig('api_version', '2'),
-                'trakt-api-key'     => $this->clientId,
+                'trakt-api-key' => $this->clientId,
             ],
         ]);
 
@@ -57,7 +57,7 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'nickname' => $user['username'],
-            'name'     => $user['name'],
+            'name' => $user['name'],
         ]);
     }
 

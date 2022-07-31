@@ -13,6 +13,7 @@ class Provider extends AbstractProvider
      * API URLs.
      */
     public const PROD_BASE_URL = 'https://app.franceconnect.gouv.fr/api/v1';
+
     public const TEST_BASE_URL = 'https://fcp.integ01.dev-franceconnect.fr/api/v1';
 
     /**
@@ -84,7 +85,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getBaseUrl().'/token', [
-            RequestOptions::HEADERS     => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::HEADERS => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
@@ -147,14 +148,14 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'                     => $user['sub'],
-            'given_name'             => $user['given_name'],
-            'family_name'            => $user['family_name'],
-            'gender'                 => $user['gender'],
-            'birthplace'             => $user['birthplace'],
-            'birthcountry'           => $user['birthcountry'],
-            'email'                  => $user['email'],
-            'preferred_username'     => $user['preferred_username'],
+            'id' => $user['sub'],
+            'given_name' => $user['given_name'],
+            'family_name' => $user['family_name'],
+            'gender' => $user['gender'],
+            'birthplace' => $user['birthplace'],
+            'birthcountry' => $user['birthcountry'],
+            'email' => $user['email'],
+            'preferred_username' => $user['preferred_username'],
         ]);
     }
 
@@ -165,7 +166,7 @@ class Provider extends AbstractProvider
     {
         $params = [
             'post_logout_redirect_uri' => $this->getConfig('logout_redirect'),
-            'id_token_hint'            => $this->request->session()->get('fc_token_id'),
+            'id_token_hint' => $this->request->session()->get('fc_token_id'),
         ];
 
         return $this->getBaseUrl().'/logout?'.http_build_query($params);

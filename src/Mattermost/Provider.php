@@ -81,11 +81,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['nickname'],
-            'name'     => $user['username'],
-            'email'    => $user['email'],
-            'avatar'   => isset($user['last_picture_update']) ? "{$this->getAPIBase()}/users/{$user['id']}/image?time={$user['last_picture_update']}" : '',
+            'name' => $user['username'],
+            'email' => $user['email'],
+            'avatar' => isset($user['last_picture_update']) ? "{$this->getAPIBase()}/users/{$user['id']}/image?time={$user['last_picture_update']}" : '',
         ]);
     }
 
@@ -100,7 +100,7 @@ class Provider extends AbstractProvider
     protected function getInstanceUri()
     {
         $uri = $this->getConfig('instance_uri', null);
-        if (!$uri) {
+        if (! $uri) {
             throw new InvalidArgumentException('No instance_uri. ENV['.self::IDENTIFIER.'_INSTANCE_URI]=https://mm.example.com/ must be provided.');
         }
 

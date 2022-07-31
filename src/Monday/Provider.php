@@ -28,7 +28,7 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getAuthUrl($state)
     {
@@ -36,7 +36,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getTokenUrl()
     {
@@ -44,14 +44,14 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getUserByToken($token)
     {
         $response = $this->httpClient
             ->post('https://api.monday.com/v2', [
                 RequestOptions::HEADERS => [
-                    'Content-Type'  => 'application/json',
+                    'Content-Type' => 'application/json',
                     'Authorization' => $token,
                 ],
                 RequestOptions::BODY => json_encode([
@@ -97,14 +97,14 @@ GQL
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['id'],
-            'name'   => $user['name'],
-            'email'  => $user['email'],
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'email' => $user['email'],
             'avatar' => $user['photo_original'],
         ]);
     }

@@ -35,8 +35,7 @@ class Provider extends AbstractProvider
     /**
      * Get the authentication URL for the provider.
      *
-     * @param string $state
-     *
+     * @param  string  $state
      * @return string
      */
     protected function getAuthUrl($state)
@@ -60,8 +59,7 @@ class Provider extends AbstractProvider
     /**
      * Get the raw user for the given access token.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return array
      */
     protected function getUserByToken($token)
@@ -81,26 +79,24 @@ class Provider extends AbstractProvider
     /**
      * Map the raw user array to a Socialite User instance.
      *
-     * @param array $user
-     *
+     * @param  array  $user
      * @return \Laravel\Socialite\User
      */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['userId'] ?? $user['sub'] ?? null,
+            'id' => $user['userId'] ?? $user['sub'] ?? null,
             'nickname' => null,
-            'name'     => $user['displayName'] ?? $user['name'] ?? null,
-            'avatar'   => $user['pictureUrl'] ?? $user['picture'] ?? null,
-            'email'    => $user['email'] ?? null,
+            'name' => $user['displayName'] ?? $user['name'] ?? null,
+            'avatar' => $user['pictureUrl'] ?? $user['picture'] ?? null,
+            'email' => $user['email'] ?? null,
         ]);
     }
 
     /**
      * Get the POST fields for the token request.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     protected function getTokenFields($code)

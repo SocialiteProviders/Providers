@@ -47,7 +47,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get($this->domain.'/action/openapi/user', [
             RequestOptions::QUERY => [
                 'access_token' => $token,
-                'dataType'     => 'json',
+                'dataType' => 'json',
             ],
         ]);
 
@@ -60,14 +60,14 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'         => $user['id'],
-            'name'       => $user['name'],
-            'nickname'   => $user['name'],
-            'email'      => $user['email'],
-            'avatar'     => $user['avatar'],
-            'gender'     => $user['gender'],
-            'location'   => $user['location'],
-            'url'        => $user['url'],
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'nickname' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => $user['avatar'],
+            'gender' => $user['gender'],
+            'location' => $user['location'],
+            'url' => $user['url'],
         ]);
     }
 
@@ -78,7 +78,7 @@ class Provider extends AbstractProvider
     {
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
-            'dataType'   => 'json',
+            'dataType' => 'json',
         ]);
     }
 }

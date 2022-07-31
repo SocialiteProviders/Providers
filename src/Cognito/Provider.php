@@ -18,9 +18,13 @@ class Provider extends AbstractProvider
      * Scope definitions.
      */
     public const SCOPE_ADMIN = 'aws.cognito.signin.user.admin';
+
     public const SCOPE_EMAIL = 'email';
+
     public const SCOPE_OPENID = 'openid';
+
     public const SCOPE_PHONE = 'phone';
+
     public const SCOPE_PROFILE = 'profile';
 
     /**
@@ -87,11 +91,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['sub'] ?? null,
+            'id' => $user['sub'] ?? null,
             'nickname' => $user['nickname'] ?? null,
-            'name'     => trim(Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', '')),
-            'email'    => $user['email'] ?? null,
-            'avatar'   => null,
+            'name' => trim(Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', '')),
+            'email' => $user['email'] ?? null,
+            'avatar' => null,
         ]);
     }
 
@@ -119,10 +123,10 @@ class Provider extends AbstractProvider
         $authHost = $this->getConfig('host');
 
         return sprintf('%s/logout?', $authHost).http_build_query([
-            'client_id'     => $this->getConfig('client_id'),
-            'redirect_uri'  => $this->getConfig('redirect'),
+            'client_id' => $this->getConfig('client_id'),
+            'redirect_uri' => $this->getConfig('redirect'),
             'response_type' => 'code',
-            'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+            'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
         ]);
     }
 

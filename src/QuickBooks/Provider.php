@@ -62,7 +62,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->get($endpoint, [
             RequestOptions::HEADERS => [
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -76,8 +76,8 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['sub'],
-            'name'  => trim(sprintf('%s %s', $user['givenName'], $user['familyName'])),
+            'id' => $user['sub'],
+            'name' => trim(sprintf('%s %s', $user['givenName'], $user['familyName'])),
             'email' => $user['email'],
         ]);
     }

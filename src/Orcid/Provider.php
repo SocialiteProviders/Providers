@@ -148,9 +148,9 @@ class Provider extends AbstractProvider
                     ->get(
                         $userUrl,
                         [RequestOptions::HEADERS => ['Content-Type' => 'application/vnd.orcid+xml',
-                            'Accept'                                => 'application/json',
-                            'Authorization type'                    => 'Bearer',
-                            'Access token'                          => $token, ],
+                            'Accept' => 'application/json',
+                            'Authorization type' => 'Bearer',
+                            'Access token' => $token, ],
                         ]
                     );
 
@@ -168,8 +168,7 @@ class Provider extends AbstractProvider
      * If your app design relies on fetching the user email from ORCID, you should consider checking
      * that it exists in your LoginController logic.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return string|null
      */
     protected function getEmail($user)
@@ -189,16 +188,15 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             $this->getConfig('uid_fieldname', 'id') => $user['orcid-identifier']['path'],
             'nickname' => $user['person']['name']['given-names']['value'],
-            'name'     => sprintf('%s %s', $user['person']['name']['given-names']['value'], $user['person']['name']['family-name']['value']),
-            'email'    => Arr::get($user, 'email'),
+            'name' => sprintf('%s %s', $user['person']['name']['given-names']['value'], $user['person']['name']['family-name']['value']),
+            'email' => Arr::get($user, 'email'),
         ]);
     }
 
     /**
      * Get the access token for the given code.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return string
      */
     public function getAccessToken($code)
@@ -208,7 +206,7 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => ['Accept' => 'application/json', 'Content-Type' => 'application/x-www-form-urlencoded'],
-            RequestOptions::BODY    => $data,
+            RequestOptions::BODY => $data,
         ]);
 
         return json_decode((string) $response->getBody(), true)['access_token'];
@@ -217,8 +215,7 @@ class Provider extends AbstractProvider
     /**
      * Get the POST fields for the token request.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     protected function getTokenFields($code)

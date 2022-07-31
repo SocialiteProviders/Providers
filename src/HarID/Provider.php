@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
                 'prettyPrint' => 'false',
             ],
             RequestOptions::HEADERS => [
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -86,11 +86,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['sub'],
+            'id' => $user['sub'],
             'nickname' => $user['sub'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => '',
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => '',
         ]);
     }
 }

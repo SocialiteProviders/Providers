@@ -52,7 +52,7 @@ class Provider extends AbstractProvider
             'https://api.patreon.com/oauth2/api/current_user',
             [
                 RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -67,10 +67,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['data']['id'],
+            'id' => $user['data']['id'],
             'nickname' => Arr::get($user['data']['attributes'], 'vanity', $user['data']['attributes']['full_name']),
-            'name'     => $user['data']['attributes']['full_name'], 'email' => $user['data']['attributes']['email'],
-            'avatar'   => $user['data']['attributes']['image_url'],
+            'name' => $user['data']['attributes']['full_name'], 'email' => $user['data']['attributes']['email'],
+            'avatar' => $user['data']['attributes']['image_url'],
         ]);
     }
 

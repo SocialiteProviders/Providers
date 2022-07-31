@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
             [
                 RequestOptions::QUERY => [
                     'token' => $token,
-                    'f'     => 'json',
+                    'f' => 'json',
                 ],
             ]
         );
@@ -64,11 +64,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['username'],
+            'id' => $user['username'],
             'nickname' => $user['username'],
-            'name'     => $user['fullName'],
-            'email'    => $user['email'],
-            'avatar'   => $user['thumbnail'],
+            'name' => $user['fullName'],
+            'email' => $user['email'],
+            'avatar' => $user['thumbnail'],
         ]);
     }
 

@@ -9,7 +9,7 @@ class AdobeExtendSocialite
     /**
      * Register the provider.
      *
-     * @param SocialiteWasCalled $event
+     * @param  SocialiteWasCalled  $event
      */
     public function handle(SocialiteWasCalled $event)
     {

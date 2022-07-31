@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
             $this->getInstanceURL().'/services/oauth2/userinfo',
             [
                 RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -66,10 +66,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => Arr::get($user, 'user_id'),
-            'name'     => Arr::get($user, 'name'),
-            'email'    => Arr::get($user, 'email'),
-            'avatar'   => Arr::get($user, 'picture'),
+            'id' => Arr::get($user, 'user_id'),
+            'name' => Arr::get($user, 'name'),
+            'email' => Arr::get($user, 'email'),
+            'avatar' => Arr::get($user, 'picture'),
             'nickname' => Arr::get($user, 'nickname'),
         ]);
     }

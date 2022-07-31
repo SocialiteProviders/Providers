@@ -71,9 +71,9 @@ class Provider extends AbstractProvider
     protected function getCodeFields($state = null)
     {
         $fields = [
-            'client_id'     => $this->clientId,
-            'redirect_uri'  => $this->redirectUrl,
-            'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+            'client_id' => $this->clientId,
+            'redirect_uri' => $this->redirectUrl,
+            'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
             'response_type' => 'code',
             'response_mode' => 'form_post',
         ];
@@ -92,8 +92,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            RequestOptions::FORM_PARAMS    => $this->getTokenFields($code),
+            RequestOptions::HEADERS => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -123,8 +123,7 @@ class Provider extends AbstractProvider
     /**
      * Verify Apple jwt.
      *
-     * @param string $jwt
-     *
+     * @param  string  $jwt
      * @return bool
      *
      * @see https://appleid.apple.com/auth/keys
@@ -179,7 +178,7 @@ class Provider extends AbstractProvider
             $state = explode('.', $appleUserToken['nonce'])[1];
             if ($state === $this->request->input('state')) {
                 $this->request->session()->put([
-                    'state'        => $state,
+                    'state' => $state,
                     'state_verify' => $state,
                 ]);
             }
@@ -219,8 +218,8 @@ class Provider extends AbstractProvider
         return (new User())
             ->setRaw($user)
             ->map([
-                'id'    => $user['sub'],
-                'name'  => $fullName ?? null,
+                'id' => $user['sub'],
+                'name' => $fullName ?? null,
                 'email' => $user['email'] ?? null,
             ]);
     }
@@ -251,20 +250,19 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $token
-     * @param string $hint
+     * @param  string  $token
+     * @param  string  $hint
+     * @return \Psr\Http\Message\ResponseInterface
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return \Psr\Http\Message\ResponseInterface
      */
     public function revokeToken(string $token, string $hint = 'access_token')
     {
         return $this->getHttpClient()->post($this->getRevokeUrl(), [
-            RequestOptions::FORM_PARAMS    => [
-                'client_id'       => $this->clientId,
-                'client_secret'   => $this->clientSecret,
-                'token'           => $token,
+            RequestOptions::FORM_PARAMS => [
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'token' => $token,
                 'token_type_hint' => $hint,
             ],
         ]);

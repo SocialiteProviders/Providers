@@ -27,7 +27,7 @@ class Provider extends AbstractProvider
     /**
      * set Open Id.
      *
-     * @param string $openId
+     * @param  string  $openId
      */
     public function setOpenId($openId)
     {
@@ -62,10 +62,10 @@ class Provider extends AbstractProvider
     protected function getCodeFields($state = null)
     {
         return [
-            'appid'         => $this->clientId, 'redirect_uri' => $this->redirectUrl,
+            'appid' => $this->clientId, 'redirect_uri' => $this->redirectUrl,
             'response_type' => 'code',
-            'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
-            'state'         => $state,
+            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
+            'state' => $state,
         ];
     }
 
@@ -85,8 +85,8 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
             RequestOptions::QUERY => [
                 'access_token' => $token,
-                'openid'       => $this->openId,
-                'lang'         => 'zh_CN',
+                'openid' => $this->openId,
+                'lang' => 'zh_CN',
             ],
         ]);
 
@@ -99,11 +99,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => Arr::get($user, 'openid'),
-            'unionid'  => Arr::get($user, 'unionid'),
+            'id' => Arr::get($user, 'openid'),
+            'unionid' => Arr::get($user, 'unionid'),
             'nickname' => $user['nickname'],
-            'avatar'   => $user['headimgurl'],
-            'name'     => null, 'email' => null,
+            'avatar' => $user['headimgurl'],
+            'name' => null, 'email' => null,
         ]);
     }
 
@@ -114,7 +114,7 @@ class Provider extends AbstractProvider
     {
         return [
             'appid' => $this->clientId, 'secret' => $this->clientSecret,
-            'code'  => $code, 'grant_type' => 'authorization_code',
+            'code' => $code, 'grant_type' => 'authorization_code',
         ];
     }
 

@@ -32,11 +32,11 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return 'https://open-api.tiktok.com/platform/oauth/connect?'.http_build_query([
-            'client_key'    => $this->clientId,
-            'state'         => $state,
+            'client_key' => $this->clientId,
+            'state' => $state,
             'response_type' => 'code',
-            'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
-            'redirect_uri'  => $this->redirectUrl,
+            'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+            'redirect_uri' => $this->redirectUrl,
         ]);
     }
 
@@ -60,7 +60,7 @@ class Provider extends AbstractProvider
         $this->user = $this->mapUserToObject(
             $this->getUserByToken([
                 'access_token' => $token,
-                'open_id'      => Arr::get($response, 'data.open_id'),
+                'open_id' => Arr::get($response, 'data.open_id'),
             ])
         );
 
@@ -84,18 +84,17 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'client_key'    => $this->clientId,
+            'client_key' => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'code'          => $code,
-            'grant_type'    => 'authorization_code',
+            'code' => $code,
+            'grant_type' => 'authorization_code',
         ];
     }
 
     /**
      * Get TikTok user by token.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return mixed
      */
     protected function getUserByToken($data)
@@ -119,10 +118,10 @@ class Provider extends AbstractProvider
         $user = $user['data'];
 
         return (new User())->setRaw($user)->map([
-            'id'       => $user['open_id'],
+            'id' => $user['open_id'],
             'union_id' => $user['union_id'],
-            'name'     => $user['display_name'],
-            'avatar'   => $user['avatar_larger'],
+            'name' => $user['display_name'],
+            'avatar' => $user['avatar_larger'],
         ]);
     }
 }

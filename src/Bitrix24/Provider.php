@@ -39,9 +39,9 @@ class Provider extends AbstractProvider
     /**
      * Get the portal URL.
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     protected function getPortalUrl()
     {
@@ -65,11 +65,10 @@ class Provider extends AbstractProvider
     /**
      * Get the user by token.
      *
-     * @param string $token
+     * @param  string  $token
+     * @return array
      *
      * @throws \RuntimeException
-     *
-     * @return array
      */
     protected function getUserByToken($token)
     {
@@ -94,8 +93,8 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => $user['ID'],
-            'name'  => trim($user['NAME'].' '.$user['LAST_NAME']),
+            'id' => $user['ID'],
+            'name' => trim($user['NAME'].' '.$user['LAST_NAME']),
             'email' => $user['EMAIL'],
         ]);
     }
