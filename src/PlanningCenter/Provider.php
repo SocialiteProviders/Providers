@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\PlanningCenter;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -10,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'PLANNINGCENTER';
+    public const IDENTIFIER = 'PLANNINGCENTER';
 
     /**
      * {@inheritdoc}
@@ -41,13 +42,16 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://api.planningcenteronline.com/people/v2/me?include=emails', [
-            'headers' => [
+        $response = $this->getHttpClient()->get('https://api.planningcenteronline.com/people/v2/me', [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'include' => 'emails',
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -61,16 +65,6 @@ class Provider extends AbstractProvider
             'name'     => $user['data']['attributes']['name'],
             'email'    => $user['included'][0]['attributes']['address'],
             'avatar'   => $user['data']['attributes']['avatar'],
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }
