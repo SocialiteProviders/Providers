@@ -11,15 +11,12 @@ jobs:
       matrix:
         validate: [ false ]
         fail-fast: [ false ]
-        php-versions: ['7.4', '8.0', '8.1' ]
+        php-versions: [  '8.0', '8.1' ]
         exclude:
-          - php-versions: '8.0'
           - php-versions: '8.1'
         include:
-          - php-versions: '8.0'
-            validate: true
           - php-versions: '8.1'
-            fail-fast: true
+            validate: true
 
     name: PHP ${{ matrix.php-versions }}
     steps:
