@@ -147,8 +147,8 @@ class Provider extends AbstractProvider
 
         $response = $this->getHttpClient()->get($userUrl, [
             RequestOptions::HEADERS => [
-                'Content-Type'  => 'application/vnd.orcid+xml',
-                'Accept'        => 'application/json',
+                'Content-Type' => 'application/vnd.orcid+xml',
+                'Accept' => 'application/json',
                 'Authorization' => 'Bearer '.$accessToken,
             ],
         ]);
