@@ -1,4 +1,4 @@
-# Bitly
+# Planning Center
 
 ```bash
 composer require socialiteproviders/planningcenter
