@@ -11,6 +11,7 @@ jobs:
       matrix:
         validate: [ false ]
         fail-fast: [ false ]
+        fix-style: [ false ]
         php-versions: ['7.4', '8.0', '8.1' ]
         exclude:
           - php-versions: '8.0'
@@ -20,11 +21,14 @@ jobs:
             validate: true
           - php-versions: '8.1'
             fail-fast: true
+            fix-style: true
 
     name: PHP ${{ matrix.php-versions }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -55,3 +59,17 @@ jobs:
       - name: Lint composer.json
         if: matrix.validate == true
         run: composer validate --strict
+
+      - name: Install Pint
+        if: matrix.fix-style == true
+        run: composer global require laravel/pint
+
+      - name: Run Pint
+        if: matrix.fix-style == true
+        run: pint
+
+      - name: Commit linted files
+        if: matrix.fix-style == true
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Fix code with Pint"
