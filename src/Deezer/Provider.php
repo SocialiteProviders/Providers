@@ -54,11 +54,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'email'    => $user['email'],
+            'id' => $user['id'],
+            'email' => $user['email'],
             'nickname' => $user['name'],
-            'avatar'   => $user['picture'],
-            'name'     => $user['firstname'].' '.$user['lastname'],
+            'avatar' => $user['picture'],
+            'name' => $user['firstname'].' '.$user['lastname'],
         ]);
     }
 
@@ -68,11 +68,11 @@ class Provider extends AbstractProvider
     protected function getCodeFields($state = null)
     {
         return [
-            'state'         => $state,
+            'state' => $state,
             'response_type' => 'code',
-            'app_id'        => $this->clientId,
-            'redirect_uri'  => $this->redirectUrl,
-            'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
+            'app_id' => $this->clientId,
+            'redirect_uri' => $this->redirectUrl,
+            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
         ];
     }
 
@@ -101,7 +101,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'code'   => $code,
+            'code' => $code,
             'app_id' => $this->clientId,
             'secret' => $this->clientSecret,
         ];

@@ -73,11 +73,11 @@ class Provider extends AbstractProvider
         $jwtDecoded = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64), true);
 
         return (new User())->map([
-            'id'       => $jwtDecoded->xero_userid,
+            'id' => $jwtDecoded->xero_userid,
             'nickname' => $jwtDecoded->given_name,
-            'name'     => $jwtDecoded->given_name.' '.$jwtDecoded->family_name,
-            'email'    => $jwtDecoded->email,
-            'tenants'  => $connections,
+            'name' => $jwtDecoded->given_name.' '.$jwtDecoded->family_name,
+            'email' => $jwtDecoded->email,
+            'tenants' => $connections,
         ]);
     }
 

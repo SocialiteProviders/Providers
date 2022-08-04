@@ -19,8 +19,8 @@ class Provider extends AbstractProvider
     protected function getCodeFields($state = null)
     {
         $fields = [
-            'client_id'     => $this->clientId,
-            'redirect_uri'  => $this->redirectUrl,
+            'client_id' => $this->clientId,
+            'redirect_uri' => $this->redirectUrl,
             'response_type' => 'code',
         ];
 
@@ -38,8 +38,8 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
-                'Accept'                => 'application/json',
-                'User-Agent'            => config('app.name'),
+                'Accept' => 'application/json',
+                'User-Agent' => config('app.name'),
                 'X-SparkApi-User-Agent' => 'ThinkerySocialite',
             ],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
@@ -71,8 +71,8 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://sparkapi.com/v1/my/account', [
             RequestOptions::HEADERS => [
-                'Authorization'         => 'Bearer '.$token,
-                'User-Agent'            => config('app.name'),
+                'Authorization' => 'Bearer '.$token,
+                'User-Agent' => config('app.name'),
                 'X-SparkApi-User-Agent' => 'ThinkerySocialite',
             ],
         ]);
@@ -88,9 +88,9 @@ class Provider extends AbstractProvider
         $profile = $user['D']['Results'][0];
 
         return (new User())->setRaw($profile)->map([
-            'id'       => $profile['Id'],
-            'name'     => $profile['Name'],
-            'email'    => $profile['Emails'][0]['Address'],
+            'id' => $profile['Id'],
+            'name' => $profile['Name'],
+            'email' => $profile['Emails'][0]['Address'],
         ]);
     }
 

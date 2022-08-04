@@ -56,11 +56,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'              => $user['id'],
-            'nickname'        => $user['user_name'],
-            'name'            => Arr::get($user, 'first_name').' '.Arr::get($user, 'last_name'),
-            'email'           => Arr::get($user, 'settings.email_address'),
-            'avatar'          => Arr::get($user, 'user_avatar'),
+            'id' => $user['id'],
+            'nickname' => $user['user_name'],
+            'name' => Arr::get($user, 'first_name').' '.Arr::get($user, 'last_name'),
+            'email' => Arr::get($user, 'settings.email_address'),
+            'avatar' => Arr::get($user, 'user_avatar'),
             'avatar_original' => Arr::get($user, 'user_avatar_hd'),
         ]);
     }
@@ -78,15 +78,14 @@ class Provider extends AbstractProvider
     /**
      * Get the access token response for the given code.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => ['Accept' => 'application/json'],
-            RequestOptions::QUERY   => $this->getTokenFields($code),
+            RequestOptions::QUERY => $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);

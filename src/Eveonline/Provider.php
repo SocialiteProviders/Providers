@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
             ],
             RequestOptions::FORM_PARAMS => [
                 'grant_type' => 'authorization_code',
-                'code'       => $code,
+                'code' => $code,
             ],
         ]);
 
@@ -73,11 +73,10 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $jwt
+     * @param  string  $jwt
+     * @return array
      *
      * @throws \UnexpectedValueException|\Firebase\JWT\ExpiredException
-     *
-     * @return array
      */
     public function verify($jwt)
     {
@@ -103,8 +102,8 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'character_owner_hash' => $user['owner'],
-            'character_name'       => $user['name'],
-            'character_id'         => ltrim($user['sub'], 'CHARACTER:EVE:'),
+            'character_name' => $user['name'],
+            'character_id' => ltrim($user['sub'], 'CHARACTER:EVE:'),
         ]);
     }
 }

@@ -17,7 +17,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $parameters = [
-        'prompt'   => 'consent',
+        'prompt' => 'consent',
         'audience' => 'api.atlassian.com',
     ];
 
@@ -62,11 +62,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['account_id'],
+            'id' => $user['account_id'],
             'nickname' => $user['email'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => $user['picture'],
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => $user['picture'],
         ]);
     }
 

@@ -63,8 +63,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param array $user
-     *
+     * @param  array  $user
      * @return string|null
      *
      * @see https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints
@@ -88,11 +87,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => sprintf('%s#%s', $user['username'], $user['discriminator']),
-            'name'     => $user['username'],
-            'email'    => $user['email'] ?? null,
-            'avatar'   => $this->formatAvatar($user),
+            'name' => $user['username'],
+            'email' => $user['email'] ?? null,
+            'avatar' => $this->formatAvatar($user),
         ]);
     }
 

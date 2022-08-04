@@ -24,6 +24,7 @@ class Provider extends AbstractProvider
      * BASE_URL.
      */
     protected $oauthUrl = 'https://auth.oauthgen.com';
+
     protected $graphUrl = 'https://graph.oauthgen.com/api/v1';
 
     /**
@@ -67,10 +68,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => $user['avatar'] ?? null,
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => $user['avatar'] ?? null,
         ]);
     }
 

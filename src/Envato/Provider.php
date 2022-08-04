@@ -53,8 +53,8 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'    => null, 'nickname' => $user['username'],
-            'name'  => $user['firstname'].' '.$user['surname'],
+            'id' => null, 'nickname' => $user['username'],
+            'name' => $user['firstname'].' '.$user['surname'],
             'email' => $user['email'], 'avatar' => $user['image'],
         ]);
     }
@@ -72,8 +72,7 @@ class Provider extends AbstractProvider
     /**
      *  Get the account email of the current user.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return string
      */
     protected function getEmailByToken($token)
@@ -90,8 +89,7 @@ class Provider extends AbstractProvider
     /**
      *  Get the account username of the current user.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return string
      */
     protected function getUsernameByToken($token)

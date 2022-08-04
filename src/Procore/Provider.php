@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
     public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => $this->getRefreshTokenFields($refreshToken),
         ]);
 
@@ -50,9 +50,9 @@ class Provider extends AbstractProvider
     public function getRefreshTokenFields($refreshToken)
     {
         return [
-            'client_id'     => $this->clientId,
+            'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => $refreshToken,
         ];
     }
@@ -66,7 +66,7 @@ class Provider extends AbstractProvider
             'https://api.procore.com/vapid/me',
             [
                 RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -81,9 +81,9 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'name'     => $user['name'],
-            'email'    => $user['login'],
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'email' => $user['login'],
         ]);
     }
 

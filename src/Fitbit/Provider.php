@@ -45,8 +45,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS      => ['Accept' => 'application/json', 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            RequestOptions::FORM_PARAMS  => $this->getTokenFields($code),
+            RequestOptions::HEADERS => ['Accept' => 'application/json', 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         return $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
@@ -72,11 +72,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['user']['encodedId'],
+            'id' => $user['user']['encodedId'],
             'nickname' => $user['user']['nickname'] ?? '',
-            'name'     => $user['user']['fullName'],
-            'email'    => null,
-            'avatar'   => $user['user']['avatar150'],
+            'name' => $user['user']['fullName'],
+            'email' => null,
+            'avatar' => $user['user']['avatar150'],
         ]);
     }
 

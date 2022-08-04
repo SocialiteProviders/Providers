@@ -52,8 +52,8 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get($this->getConfig('server').'/v2/application-user', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
-                'Accept'        => 'application/json',
-                'Content-Type'  => 'application/json',
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
             ],
         ]);
 
@@ -71,26 +71,25 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $this->getUniqueUserId(),
+            'id' => $this->getUniqueUserId(),
             'nickname' => null,
-            'name'     => $user['name'],
-            'email'    => $user['username'],
-            'avatar'   => $user['person']['actions']['avatar']['href'],
+            'name' => $user['name'],
+            'email' => $user['username'],
+            'avatar' => $user['person']['actions']['avatar']['href'],
         ]);
     }
 
     /**
-     * @param string $code
+     * @param  string  $code
+     * @return array
      *
      * @throws AuthenticationException
-     *
-     * @return array
      */
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
-                'Accept'       => 'application/json',
+                'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
             ],
             'json' => $this->getTokenFields($code),
@@ -116,8 +115,8 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type'     => 'authorization_code',
-            'resource'       => $this->getConfig('resource'),
+            'grant_type' => 'authorization_code',
+            'resource' => $this->getConfig('resource'),
             'user_api_token' => $this->getConfig('apiuser'),
         ]);
     }
@@ -132,7 +131,6 @@ class Provider extends AbstractProvider
 
     /**
      * @param $idToken
-     *
      * @return Provider
      */
     private function setIdToken($idToken)
@@ -159,8 +157,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $uniqueUserId
-     *
+     * @param  string  $uniqueUserId
      * @return Provider
      */
     public function setUniqueUserId($uniqueUserId)

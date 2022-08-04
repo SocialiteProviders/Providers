@@ -33,14 +33,13 @@ class Provider extends AbstractProvider
     /**
      * Get the raw user for the given access token.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return array
      */
     protected function getUserByToken($token)
     {
         $requestHeaders = [
-            'Accept'        => 'application/json',
+            'Accept' => 'application/json',
             'Authorization' => 'Bearer '.$token,
         ];
 
@@ -54,21 +53,21 @@ class Provider extends AbstractProvider
         $userData = json_decode((string) $response->getBody(), true);
 
         return [
-            'id'         => $userData['id'],
+            'id' => $userData['id'],
             'first_name' => $userData['first_name'],
-            'last_name'  => $userData['last_name'],
-            'email'      => $userData['email'],
+            'last_name' => $userData['last_name'],
+            'email' => $userData['email'],
         ];
     }
 
     protected function getTokenFields($code)
     {
         return [
-            'client_id'     => $this->clientId,
+            'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'code'          => $code,
-            'redirect_uri'  => $this->redirectUrl,
-            'grant_type'    => 'authorization_code',
+            'code' => $code,
+            'redirect_uri' => $this->redirectUrl,
+            'grant_type' => 'authorization_code',
         ];
     }
 

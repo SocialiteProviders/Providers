@@ -38,8 +38,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => [
-                'Accept'        => 'application/json',
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
                 'Authorization' => 'Basic '.base64_encode("{$this->clientId}:{$this->clientSecret}"),
             ],
             RequestOptions::FORM_PARAMS => array_diff_key(
@@ -82,11 +82,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['encoded_account_id'],
+            'id' => $user['encoded_account_id'],
             'nickname' => null,
-            'name'     => $user['first_name'].' '.$user['last_name'],
-            'email'    => $user['contact_email'],
-            'avatar'   => null,
+            'name' => $user['first_name'].' '.$user['last_name'],
+            'email' => $user['contact_email'],
+            'avatar' => null,
         ]);
     }
 }

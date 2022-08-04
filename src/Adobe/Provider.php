@@ -12,6 +12,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ADOBE';
+
     public const BASE_URL = 'https://ims-na1.adobelogin.com/ims';
 
     protected $scopes = ['openid', 'email', 'profile'];
@@ -46,7 +47,7 @@ class Provider extends AbstractProvider
             $response = $this->httpClient->post(self::BASE_URL.'/userinfo', [
                 RequestOptions::HEADERS => [
                     'Authorization' => "Bearer $token",
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                 ],
             ]);
 
@@ -61,8 +62,8 @@ class Provider extends AbstractProvider
         return (new User())
             ->setRaw($user)
             ->map([
-                'id'    => $user['sub'],
-                'name'  => $user['name'],
+                'id' => $user['sub'],
+                'name' => $user['name'],
                 'email' => $user['email'],
             ]);
     }

@@ -61,12 +61,12 @@ class Server extends BaseServer
         // Save all extra data
         $user->extra = [
             'firstName' => $data['firstname'],
-            'lastName'  => $data['lastname'],
-            'gender'    => $data['gender'],
+            'lastName' => $data['lastname'],
+            'gender' => $data['gender'],
             'fatmethod' => $data['fatmethod'],
             'birthdate' => $data['birthdate'],
             'shortname' => $data['shortname'],
-            'ispublic'  => $data['ispublic'],
+            'ispublic' => $data['ispublic'],
         ];
 
         return $user;
@@ -76,9 +76,8 @@ class Server extends BaseServer
      * Take the decoded data from the user details URL and extract
      * the user's UID.
      *
-     * @param mixed            $data
-     * @param TokenCredentials $tokenCredentials
-     *
+     * @param  mixed  $data
+     * @param  TokenCredentials  $tokenCredentials
      * @return string|int
      */
     public function userUid($data, TokenCredentials $tokenCredentials)
@@ -107,17 +106,16 @@ class Server extends BaseServer
     /**
      * Creates temporary credentials from the body response.
      *
-     * @param string $body
+     * @param  string  $body
+     * @return TemporaryCredentials
      *
      * @throws CredentialsException
-     *
-     * @return TemporaryCredentials
      */
     protected function createTemporaryCredentials($body)
     {
         parse_str($body, $data);
 
-        if (!$data || !is_array($data)) {
+        if (! $data || ! is_array($data)) {
             throw new CredentialsException('Unable to parse temporary credentials response.');
         }
 
@@ -136,7 +134,7 @@ class Server extends BaseServer
      */
     protected function fetchUserDetails(TokenCredentials $tokenCredentials, $force = true)
     {
-        if (!$this->cachedUserDetailsResponse || $force) {
+        if (! $this->cachedUserDetailsResponse || $force) {
 
             // The user-endpoint
             $endpoint = 'https://wbsapi.withings.net/user';
@@ -163,9 +161,8 @@ class Server extends BaseServer
      * :(
      *
      * @param $url
-     * @param TokenCredentials $tokenCredentials
-     * @param array            $extraParams
-     *
+     * @param  TokenCredentials  $tokenCredentials
+     * @param  array  $extraParams
      * @return array
      */
     private function getOauthParameters($url, TokenCredentials $tokenCredentials, $extraParams = [])

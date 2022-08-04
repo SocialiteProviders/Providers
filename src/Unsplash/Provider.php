@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
             'https://api.unsplash.com/me',
             [
                 RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -66,11 +66,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'         => $user['id'],
-            'nickname'   => $user['username'],
-            'name'       => $user['name'] ?? null,
-            'email'      => $user['email'] ?? null,
-            'avatar'     => $user['profile_image']['medium'],
+            'id' => $user['id'],
+            'nickname' => $user['username'],
+            'name' => $user['name'] ?? null,
+            'email' => $user['email'] ?? null,
+            'avatar' => $user['profile_image']['medium'],
             'profileUrl' => $user['links']['html'],
         ]);
     }

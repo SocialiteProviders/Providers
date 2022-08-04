@@ -67,10 +67,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'        => Arr::get($user, 'sub'),
-            'nickname'  => Arr::get($user, 'preferred_username'),
-            'name'      => Arr::get($user, 'name'),
-            'email'     => Arr::get($user, 'email'),
+            'id' => Arr::get($user, 'sub'),
+            'nickname' => Arr::get($user, 'preferred_username'),
+            'name' => Arr::get($user, 'name'),
+            'email' => Arr::get($user, 'email'),
         ]);
     }
 
@@ -87,8 +87,7 @@ class Provider extends AbstractProvider
     /**
      * Return logout endpoint with redirect_uri query parameter.
      *
-     * @param string|null $redirectUri
-     *
+     * @param  string|null  $redirectUri
      * @return string
      */
     public function getLogoutUrl(?string $redirectUri = null): string

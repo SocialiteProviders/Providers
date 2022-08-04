@@ -38,8 +38,8 @@ class Provider extends AbstractProvider
         $request = $ovh->requestCredentials(
             [
                 [
-                    'method'    => 'GET',
-                    'path'      => '/me',
+                    'method' => 'GET',
+                    'path' => '/me',
                 ],
             ],
             $this->redirectUrl.'?state='.$state
@@ -106,10 +106,10 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map(
             [
-                'avatar'   => null,
-                'email'    => $user['email'],
-                'id'       => $user['customerCode'],
-                'name'     => $user['firstname'].' '.$user['name'],
+                'avatar' => null,
+                'email' => $user['email'],
+                'id' => $user['customerCode'],
+                'name' => $user['firstname'].' '.$user['name'],
                 'nickname' => $user['nichandle'],
             ]
         );

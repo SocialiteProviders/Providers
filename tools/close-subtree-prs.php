@@ -15,7 +15,7 @@ $repos = collect(range(1, 5))
     ->filter(fn (array $repo) => $repo['has_issues'] === false)
     ->each(function (array $repo) {
         $res = Zttp::withHeaders([
-            'Accept'        => 'application/vnd.github.v3+json',
+            'Accept' => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])->get(sprintf('https://api.github.com/repos/SocialiteProviders/%s/pulls?state=open', $repo['name']));
 
@@ -29,14 +29,14 @@ $repos = collect(range(1, 5))
 
         $prs->map(function (array $pr) {
             Zttp::withHeaders([
-                'Accept'        => 'application/vnd.github.v3+json',
+                'Accept' => 'application/vnd.github.v3+json',
                 'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
             ])->patch($pr['url'], [
                 'state' => 'closed',
             ]);
 
             Zttp::withHeaders([
-                'Accept'        => 'application/vnd.github.v3+json',
+                'Accept' => 'application/vnd.github.v3+json',
                 'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
             ])->post($pr['comments_url'], [
                 'body' => "This repository is a **READ ONLY** subtree split from [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers).\n\nPlease open a PR against [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers). ",

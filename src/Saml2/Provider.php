@@ -84,6 +84,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected $config;
 
     public const CACHE_KEY = 'socialite_saml2_metadata';
+
     public const CACHE_KEY_TTL = self::CACHE_KEY.'_ttl';
 
     public const ATTRIBUTE_MAP = [
@@ -163,7 +164,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function getConfig($key = null, $default = null)
     {
-        if (!empty($key) && empty($this->config[$key])) {
+        if (! empty($key) && empty($this->config[$key])) {
             return $default;
         }
 
@@ -242,7 +243,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $entityId = $this->getConfig('entityid');
         $certificate = $this->getConfig('certificate');
 
-        if (!$entityId || !$certificate) {
+        if (! $entityId || ! $certificate) {
             throw new MissingConfigException('When using "acs", both "entityid" and "certificate" must be set');
         }
 
@@ -289,7 +290,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
             Cache::forever(self::CACHE_KEY, $xml);
         } catch (GuzzleException $e) {
-            if (!$xml) {
+            if (! $xml) {
                 throw $e;
             }
         }
@@ -309,7 +310,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $metadata = $this->getConfig('metadata');
         if ($metadata) {
-            if (!Validator::make(['u' => $metadata], ['u' => 'url'])->fails()) {
+            if (! Validator::make(['u' => $metadata], ['u' => 'url'])->fails()) {
                 return $this->getIdentityProviderEntityDescriptorFromUrl();
             } else {
                 return $this->getIdentityProviderEntityDescriptorFromXml();
@@ -412,10 +413,10 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $methods = [
             SamlConstants::BINDING_SAML2_HTTP_REDIRECT => 'GET',
-            SamlConstants::BINDING_SAML2_HTTP_POST     => 'POST',
+            SamlConstants::BINDING_SAML2_HTTP_POST => 'POST',
         ];
 
-        if (!array_key_exists($bindingType, $methods)) {
+        if (! array_key_exists($bindingType, $methods)) {
             return false;
         }
 
@@ -476,7 +477,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $status = $this->messageContext->asResponse()->getStatus();
 
-        if (!$status->isSuccess()) {
+        if (! $status->isSuccess()) {
             throw new RuntimeException('Server responded with: '.$status->getStatusCode()->getValue());
         }
     }
@@ -489,7 +490,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $state = $this->request->session()->pull('state');
 
-        return !(strlen($state) > 0 && $this->messageContext->getMessage()->getRelayState() === $state);
+        return ! (strlen($state) > 0 && $this->messageContext->getMessage()->getRelayState() === $state);
     }
 
     protected function hasInvalidSignature(): bool
@@ -503,7 +504,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ? $this->messageContext->getMessage()->getSignature()
             : $this->messageContext->asResponse()->getFirstAssertion()->getSignature();
 
-        if (!$signatureReader) {
+        if (! $signatureReader) {
             return true;
         }
 
@@ -576,7 +577,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function credential(): ?X509Credential
     {
-        if (!$this->getConfig('sp_certificate') || !$this->getConfig('sp_private_key')) {
+        if (! $this->getConfig('sp_certificate') || ! $this->getConfig('sp_private_key')) {
             return null;
         }
 

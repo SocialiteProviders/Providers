@@ -49,7 +49,7 @@ class Provider extends AbstractProvider
             'https://api.spotify.com/v1/me',
             [
                 RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
             ]
@@ -64,11 +64,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'         => $user['id'],
-            'nickname'   => null,
-            'name'       => $user['display_name'],
-            'email'      => $user['email'] ?? null,
-            'avatar'     => Arr::get($user, 'images.0.url'),
+            'id' => $user['id'],
+            'nickname' => null,
+            'name' => $user['display_name'],
+            'email' => $user['email'] ?? null,
+            'avatar' => Arr::get($user, 'images.0.url'),
             'profileUrl' => $user['href'] ?? null,
         ]);
     }

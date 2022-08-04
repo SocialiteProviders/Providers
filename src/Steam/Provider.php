@@ -83,7 +83,7 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        if (!$this->validate()) {
+        if (! $this->validate()) {
             $error = $this->getParams()['openid.error'] ?? 'unknown error';
 
             throw new OpenIDValidationException('Failed to validate OpenID login: '.$error);
@@ -129,11 +129,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['steamid'],
+            'id' => $user['steamid'],
             'nickname' => Arr::get($user, 'personaname'),
-            'name'     => Arr::get($user, 'realname'),
-            'email'    => null,
-            'avatar'   => Arr::get($user, 'avatarmedium'),
+            'name' => Arr::get($user, 'realname'),
+            'email' => null,
+            'avatar' => Arr::get($user, 'avatarmedium'),
         ]);
     }
 
@@ -147,11 +147,11 @@ class Provider extends AbstractProvider
         $realm = $this->getConfig('realm', $this->request->server('HTTP_HOST'));
 
         $params = [
-            'openid.ns'         => self::OPENID_NS,
-            'openid.mode'       => 'checkid_setup',
-            'openid.return_to'  => $this->redirectUrl,
-            'openid.realm'      => sprintf('%s://%s', $this->request->getScheme(), $realm),
-            'openid.identity'   => 'http://specs.openid.net/auth/2.0/identifier_select',
+            'openid.ns' => self::OPENID_NS,
+            'openid.mode' => 'checkid_setup',
+            'openid.return_to' => $this->redirectUrl,
+            'openid.realm' => sprintf('%s://%s', $this->request->getScheme(), $realm),
+            'openid.identity' => 'http://specs.openid.net/auth/2.0/identifier_select',
             'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select',
         ];
 
@@ -161,24 +161,24 @@ class Provider extends AbstractProvider
     /**
      * Checks the steam login.
      *
-     * @throws \SocialiteProviders\Steam\OpenIDValidationException
-     *
      * @return bool
+     *
+     * @throws \SocialiteProviders\Steam\OpenIDValidationException
      */
     public function validate()
     {
-        if (!$this->requestIsValid()) {
+        if (! $this->requestIsValid()) {
             return false;
         }
 
-        if (!$this->validateHost($this->request->get('openid_return_to'))) {
+        if (! $this->validateHost($this->request->get('openid_return_to'))) {
             throw new OpenIDValidationException('Invalid return_to host');
         }
 
         $requestOptions = $this->getDefaultRequestOptions();
         $customOptions = $this->getCustomRequestOptions();
 
-        if (!empty($customOptions) && is_array($customOptions)) {
+        if (! empty($customOptions) && is_array($customOptions)) {
             $requestOptions = array_merge($requestOptions, $customOptions);
         }
 
@@ -214,7 +214,7 @@ class Provider extends AbstractProvider
     {
         return [
             RequestOptions::FORM_PARAMS => $this->getParams(),
-            RequestOptions::PROXY       => $this->getConfig('proxy'),
+            RequestOptions::PROXY => $this->getConfig('proxy'),
         ];
     }
 
@@ -235,11 +235,11 @@ class Provider extends AbstractProvider
     {
         $params = [
             'openid.assoc_handle' => $this->request->get(self::OPENID_ASSOC_HANDLE),
-            'openid.signed'       => $this->request->get(self::OPENID_SIGNED),
-            'openid.sig'          => $this->request->get(self::OPENID_SIG),
-            'openid.ns'           => self::OPENID_NS,
-            'openid.mode'         => 'check_authentication',
-            'openid.error'        => $this->request->get(self::OPENID_ERROR),
+            'openid.signed' => $this->request->get(self::OPENID_SIGNED),
+            'openid.sig' => $this->request->get(self::OPENID_SIG),
+            'openid.ns' => self::OPENID_NS,
+            'openid.mode' => 'check_authentication',
+            'openid.error' => $this->request->get(self::OPENID_ERROR),
         ];
 
         $signedParams = explode(',', $this->request->get(self::OPENID_SIGNED));
@@ -255,8 +255,7 @@ class Provider extends AbstractProvider
     /**
      * Parse openID response to an array.
      *
-     * @param string $results openid response body
-     *
+     * @param  string  $results openid response body
      * @return array
      */
     public function parseResults($results)

@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
             'https://graph.microsoft.com/v1.0/me',
             [
                 RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::QUERY => [
@@ -82,21 +82,21 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => null,
-            'name'     => $user['displayName'],
-            'email'    => $user['userPrincipalName'],
-            'avatar'   => null,
+            'name' => $user['displayName'],
+            'email' => $user['userPrincipalName'],
+            'avatar' => null,
 
-            'businessPhones'    => $user['businessPhones'],
-            'displayName'       => $user['displayName'],
-            'givenName'         => $user['givenName'],
-            'jobTitle'          => $user['jobTitle'],
-            'mail'              => $user['mail'],
-            'mobilePhone'       => $user['mobilePhone'],
-            'officeLocation'    => $user['officeLocation'],
+            'businessPhones' => $user['businessPhones'],
+            'displayName' => $user['displayName'],
+            'givenName' => $user['givenName'],
+            'jobTitle' => $user['jobTitle'],
+            'mail' => $user['mail'],
+            'mobilePhone' => $user['mobilePhone'],
+            'officeLocation' => $user['officeLocation'],
             'preferredLanguage' => $user['preferredLanguage'],
-            'surname'           => $user['surname'],
+            'surname' => $user['surname'],
             'userPrincipalName' => $user['userPrincipalName'],
         ]);
     }
@@ -108,7 +108,7 @@ class Provider extends AbstractProvider
     {
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
-            'scope'      => parent::formatScopes(parent::getScopes(), $this->scopeSeparator),
+            'scope' => parent::formatScopes(parent::getScopes(), $this->scopeSeparator),
         ]);
     }
 

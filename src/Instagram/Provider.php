@@ -57,7 +57,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api.instagram.com/v1/users/self',
             [
-                RequestOptions::QUERY   => $query,
+                RequestOptions::QUERY => $query,
                 RequestOptions::HEADERS => [
                     'Accept' => 'application/json',
                 ],
@@ -73,8 +73,8 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['id'], 'nickname' => $user['username'],
-            'name'   => $user['full_name'], 'email' => null,
+            'id' => $user['id'], 'nickname' => $user['username'],
+            'name' => $user['full_name'], 'email' => null,
             'avatar' => $user['profile_picture'],
         ]);
     }
@@ -104,8 +104,7 @@ class Provider extends AbstractProvider
      * Allows compatibility for signed API requests.
      *
      * @param string @endpoint
-     * @param array $params
-     *
+     * @param  array  $params
      * @return string
      */
     protected function generateSignature($endpoint, array $params)

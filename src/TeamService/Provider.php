@@ -56,11 +56,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['displayName'],
-            'name'     => $user['displayName'],
-            'email'    => $user['emailAddress'],
-            'avatar'   => null,
+            'name' => $user['displayName'],
+            'email' => $user['emailAddress'],
+            'avatar' => null,
         ]);
     }
 
@@ -70,11 +70,11 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'grant_type'            => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
             'client_assertion_type' => 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-            'client_assertion'      => $this->clientSecret,
-            'assertion'             => $code,
-            'redirect_uri'          => $this->redirectUrl,
+            'client_assertion' => $this->clientSecret,
+            'assertion' => $code,
+            'redirect_uri' => $this->redirectUrl,
         ];
     }
 

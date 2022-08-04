@@ -21,7 +21,7 @@ class MicrosoftUser extends User
                 'https://graph.microsoft.com/v1.0/me/photo/$value',
                 [
                     RequestOptions::HEADERS => [
-                        'Accept'        => 'image/*',
+                        'Accept' => 'image/*',
                         'Authorization' => 'Bearer '.$this->token,
                     ],
                 ]

@@ -54,9 +54,9 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['data']['id'],
-            'name'     => $user['data']['name'],
-            'email'    => $user['data']['email'],
+            'id' => $user['data']['id'],
+            'name' => $user['data']['name'],
+            'email' => $user['data']['email'],
         ]);
     }
 

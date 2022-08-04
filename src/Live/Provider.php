@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://graph.microsoft.com/v1.0/me',
             [RequestOptions::HEADERS => [
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
             ]
@@ -65,11 +65,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => null,
-            'name'     => $user['displayName'],
-            'email'    => $user['userPrincipalName'],
-            'avatar'   => null,
+            'name' => $user['displayName'],
+            'email' => $user['userPrincipalName'],
+            'avatar' => null,
         ]);
     }
 

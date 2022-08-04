@@ -44,8 +44,8 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://api.weixin.qq.com/sns/userinfo', [
             RequestOptions::QUERY => [
                 'access_token' => $token, // HACK: Tencent use token in Query String, not in Header Authorization
-                'openid'       => $this->credentialsResponseBody['openid'] ?? $this->openId, // HACK: Tencent need id
-                'lang'         => 'zh_CN',
+                'openid' => $this->credentialsResponseBody['openid'] ?? $this->openId, // HACK: Tencent need id
+                'lang' => 'zh_CN',
             ],
         ]);
 
@@ -59,12 +59,12 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             // HACK: use unionid as user id
-            'id'       => in_array('unionid', $this->getScopes(), true) ? $user['unionid'] : $user['openid'],
+            'id' => in_array('unionid', $this->getScopes(), true) ? $user['unionid'] : $user['openid'],
             // HACK: Tencent scope snsapi_base only return openid
             'nickname' => $user['nickname'] ?? null,
-            'name'     => null,
-            'email'    => null,
-            'avatar'   => $user['headimgurl'] ?? null,
+            'name' => null,
+            'email' => null,
+            'avatar' => $user['headimgurl'] ?? null,
         ]);
     }
 
@@ -74,9 +74,9 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'appid'      => $this->clientId,
-            'secret'     => $this->clientSecret,
-            'code'       => $code,
+            'appid' => $this->clientId,
+            'secret' => $this->clientSecret,
+            'code' => $code,
             'grant_type' => 'authorization_code',
         ];
     }

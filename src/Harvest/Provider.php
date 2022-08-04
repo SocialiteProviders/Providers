@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://api.harvestapp.com/v2/users/me', [
             RequestOptions::HEADERS => [
                 'Harvest-Account-ID' => $this->getConfig('client_account'),
-                'Authorization'      => 'Bearer '.$token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -63,11 +63,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'         => $user['id'],
+            'id' => $user['id'],
             'first_name' => $user['first_name'],
-            'last_name'  => $user['last_name'],
-            'email'      => $user['email'],
-            'avatar'     => $user['avatar_url'],
+            'last_name' => $user['last_name'],
+            'email' => $user['email'],
+            'avatar' => $user['avatar_url'],
         ]);
     }
 

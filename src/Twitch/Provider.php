@@ -52,9 +52,9 @@ class Provider extends AbstractProvider
             'https://api.twitch.tv/helix/users',
             [
                 RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$token,
-                    'Client-ID'     => $this->clientId,
+                    'Client-ID' => $this->clientId,
                 ],
             ]
         );
@@ -70,11 +70,11 @@ class Provider extends AbstractProvider
         $user = $user['data']['0'];
 
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['display_name'],
-            'name'     => $user['display_name'],
-            'email'    => Arr::get($user, 'email'),
-            'avatar'   => $user['profile_image_url'],
+            'name' => $user['display_name'],
+            'email' => Arr::get($user, 'email'),
+            'avatar' => $user['profile_image_url'],
         ]);
     }
 

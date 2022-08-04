@@ -26,7 +26,7 @@ class Provider extends AbstractProvider
     /**
      * set Open Id.
      *
-     * @param string $openId
+     * @param  string  $openId
      */
     public function setOpenId($openId)
     {
@@ -39,7 +39,7 @@ class Provider extends AbstractProvider
     public function RevokeToken($token)
     {
         $response = $this->getHttpClient()->post($this->getRevokeUrl(), [
-            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => ['client_id' => $this->clientId, 'access_token' => $token],
         ]);
 
@@ -90,11 +90,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'        => $user['info']['yb_userid'],
-            'name'      => $user['info']['yb_username'],
-            'sex'       => $user['info']['yb_sex'],
-            'avatar'    => $user['info']['yb_userhead'],
-            'schoolId'  => $user['info']['yb_schoolid'],
+            'id' => $user['info']['yb_userid'],
+            'name' => $user['info']['yb_username'],
+            'sex' => $user['info']['yb_sex'],
+            'avatar' => $user['info']['yb_userhead'],
+            'schoolId' => $user['info']['yb_schoolid'],
             'studentId' => $user['info']['yb_studentid'],
         ]);
     }

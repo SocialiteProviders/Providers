@@ -43,10 +43,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['bot_id'],
+            'id' => $user['bot_id'],
             'nickname' => $user['workspace_name'],
-            'name'     => $user['workspace_name'],
-            'avatar'   => $user['workspace_icon'],
+            'name' => $user['workspace_name'],
+            'avatar' => $user['workspace_icon'],
         ]);
     }
 
@@ -57,13 +57,13 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
-                'Content-Type'  => 'application/json',
+                'Content-Type' => 'application/json',
             ],
             'json' => [
-                'grant_type'   => 'authorization_code',
-                'code'         => $code,
+                'grant_type' => 'authorization_code',
+                'code' => $code,
                 'redirect_uri' => $this->redirectUrl,
             ],
         ]);

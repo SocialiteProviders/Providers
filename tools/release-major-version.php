@@ -25,7 +25,7 @@ $repos = collect(range(1, 5))
     ->sortBy('name')
     ->each(function (array $repo) {
         $res = Zttp::withHeaders([
-            'Accept'        => 'application/vnd.github.v3+json',
+            'Accept' => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])->get($repo['url'].'/releases');
 
@@ -38,13 +38,13 @@ $repos = collect(range(1, 5))
         }
 
         $res = Zttp::withHeaders([
-            'Accept'        => 'application/vnd.github.v3+json',
+            'Accept' => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])->post($repo['url'].'/releases', [
-            'tag_name'         => NEW_VERSION,
+            'tag_name' => NEW_VERSION,
             'target_commitish' => 'master',
-            'name'             => 'Release V4',
-            'body'             => "- Drop PHP < 7.2\n- Drop Laravel < 6",
+            'name' => 'Release V4',
+            'body' => "- Drop PHP < 7.2\n- Drop Laravel < 6",
         ]);
 
         echo sprintf("Released Version for Repo: %s, response code: %s\n", $repo['name'], $res->status());

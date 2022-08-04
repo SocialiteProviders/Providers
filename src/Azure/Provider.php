@@ -42,8 +42,7 @@ class Provider extends AbstractProvider
     /**
      * Return the logout endpoint with post_logout_redirect_uri query parameter.
      *
-     * @param string $redirectUri
-     *
+     * @param  string  $redirectUri
      * @return string
      */
     public function getLogoutUrl(string $redirectUri)
@@ -79,7 +78,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get($this->graphUrl, [
             RequestOptions::HEADERS => [
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
             RequestOptions::PROXY => $this->getConfig('proxy'),
@@ -94,29 +93,28 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'            => $user['id'],
-            'nickname'      => null,
-            'name'          => $user['displayName'],
-            'email'         => $user['userPrincipalName'],
+            'id' => $user['id'],
+            'nickname' => null,
+            'name' => $user['displayName'],
+            'email' => $user['userPrincipalName'],
             'principalName' => $user['userPrincipalName'],
-            'mail'          => $user['mail'],
-            'avatar'        => null,
+            'mail' => $user['mail'],
+            'avatar' => null,
         ]);
     }
 
     /**
      * Get the access token response for the given code.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
-            RequestOptions::PROXY       => $this->getConfig('proxy'),
+            RequestOptions::PROXY => $this->getConfig('proxy'),
         ]);
 
         return json_decode($response->getBody(), true);

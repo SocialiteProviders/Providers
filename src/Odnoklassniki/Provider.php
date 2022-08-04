@@ -51,11 +51,11 @@ class Provider extends AbstractProvider
         $sign = 'application_key='.$publicKey.'format=jsonmethod=users.getCurrentUser'.$secretKey;
 
         $params = http_build_query([
-            'method'          => 'users.getCurrentUser',
-            'format'          => 'json',
+            'method' => 'users.getCurrentUser',
+            'format' => 'json',
             'application_key' => $publicKey,
-            'sig'             => md5($sign),
-            'access_token'    => $token,
+            'sig' => md5($sign),
+            'access_token' => $token,
         ]);
 
         $response = $this->getHttpClient()->get('https://api.odnoklassniki.ru/fb.do?'.$params);
@@ -69,11 +69,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => Arr::get($user, 'uid'),
+            'id' => Arr::get($user, 'uid'),
             'nickname' => null,
-            'name'     => Arr::get($user, 'name'),
-            'email'    => Arr::get($user, 'email'),
-            'avatar'   => Arr::get($user, 'pic_3'),
+            'name' => Arr::get($user, 'name'),
+            'email' => Arr::get($user, 'email'),
+            'avatar' => Arr::get($user, 'pic_3'),
         ]);
     }
 

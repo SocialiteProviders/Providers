@@ -17,8 +17,11 @@ class Server extends BaseServer
     public const JIRA_BASE_URL = 'https://example.jira.com';
 
     private $jiraBaseUrl;
+
     private $jiraCertPath;
+
     private $jiraCertPassphrase;
+
     private $jiraUserDetailsUrl;
 
     /**
@@ -26,8 +29,8 @@ class Server extends BaseServer
      *
      * !! RsaSha1Signature
      *
-     * @param ClientCredentialsInterface|array $clientCredentials
-     * @param SignatureInterface               $signature
+     * @param  ClientCredentialsInterface|array  $clientCredentials
+     * @param  SignatureInterface  $signature
      */
     public function __construct($clientCredentials, SignatureInterface $signature = null)
     {
@@ -42,7 +45,7 @@ class Server extends BaseServer
             $this->jiraCertPassphrase = Arr::get($clientCredentials, 'cert_passphrase', $this->getConfig('cert_passphrase', ''));
 
             $clientCredentials = $this->createClientCredentials($clientCredentials);
-        } elseif (!$clientCredentials instanceof ClientCredentialsInterface) {
+        } elseif (! $clientCredentials instanceof ClientCredentialsInterface) {
             throw new InvalidArgumentException('Client credentials must be an array or valid object.');
         }
 
@@ -59,10 +62,9 @@ class Server extends BaseServer
      * the temporary credentials identifier as passed back by the server
      * and finally the verifier code.
      *
-     * @param TemporaryCredentials $temporaryCredentials
-     * @param string               $temporaryIdentifier
-     * @param string               $verifier
-     *
+     * @param  TemporaryCredentials  $temporaryCredentials
+     * @param  string  $temporaryIdentifier
+     * @param  string  $verifier
      * @return TokenCredentials
      */
     public function getTokenCredentials(TemporaryCredentials $temporaryCredentials, $temporaryIdentifier, $verifier)
@@ -82,14 +84,14 @@ class Server extends BaseServer
         $headers = $this->getHeaders($temporaryCredentials, 'POST', $uri, $bodyParameters);
 
         try {
-            $response = $client->post($uri, [RequestOptions::HEADERS =>  $headers], [RequestOptions::BODY =>  $bodyParameters]);
+            $response = $client->post($uri, [RequestOptions::HEADERS => $headers], [RequestOptions::BODY => $bodyParameters]);
         } catch (BadResponseException $e) {
             return $this->handleTokenCredentialsBadResponse($e);
         }
         $responseString = (string) $response->getBody();
 
         return [
-            'tokenCredentials'        => $this->createTokenCredentials($responseString),
+            'tokenCredentials' => $this->createTokenCredentials($responseString),
             'credentialsResponseBody' => $responseString,
         ];
     }
@@ -108,8 +110,7 @@ class Server extends BaseServer
      * Generate the OAuth protocol header for a temporary credentials
      * request, based on the URI.
      *
-     * @param string $uri
-     *
+     * @param  string  $uri
      * @return string
      */
     protected function temporaryCredentialsProtocolHeader($uri)
