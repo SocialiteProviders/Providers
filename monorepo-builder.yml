@@ -130,6 +130,7 @@ parameters:
     src/Pinterest: 'git@github.com:SocialiteProviders/Pinterest.git'
     src/Pipedrive: 'git@github.com:SocialiteProviders/Pipedrive.git'
     src/Pixnet: 'git@github.com:SocialiteProviders/Pixnet.git'
+    src/PlanningCenter: 'git@github.com/SocialiteProviders/PlanningCenter.git'
     src/Podio: 'git@github.com:SocialiteProviders/Podio.git'
     src/Procore: 'git@github.com:SocialiteProviders/Procore.git'
     src/ProductHunt: 'git@github.com:SocialiteProviders/ProductHunt.git'
