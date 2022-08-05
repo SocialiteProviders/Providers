@@ -12,10 +12,11 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 'fusionauth' => [
-  'client_id' => env('FUSIONAUTH_CLIENT_ID'),
-  'client_secret' => env('FUSIONAUTH_CLIENT_SECRET'),
-  'redirect' => env('FUSIONAUTH_REDIRECT_URI'),
-  'base_url' => env('FUSIONAUTH_BASE_URL'),
+    'client_id' => env('FUSIONAUTH_CLIENT_ID'),
+    'client_secret' => env('FUSIONAUTH_CLIENT_SECRET'),
+    'redirect' => env('FUSIONAUTH_REDIRECT_URI'),
+    'base_url' => env('FUSIONAUTH_BASE_URL'), // Base URL of your cloud instance or self hosted instance
+    'tenant_id' => env('FUSIONAUTH_TENANT_ID'), // Tenant ID of the client. Required since FusionAuth 1.8.0
 ],
 ```
 

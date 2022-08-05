@@ -51,7 +51,10 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['base_url'];
+        return [
+            'base_url',
+            'tenant_id',
+        ];
     }
 
     /**
@@ -95,6 +98,16 @@ class Provider extends AbstractProvider
             'name'     => $user['name'],
             'email'    => $user['email'],
             'avatar'   => $user['picture'],
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCodeFields($state = null)
+    {
+        return array_merge(parent::getCodeFields($state), [
+            'tenantId' => $this->getConfig('tenant_id'),
         ]);
     }
 }
