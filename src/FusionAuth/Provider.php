@@ -31,9 +31,9 @@ class Provider extends AbstractProvider
     /**
      * Get the base URL.
      *
-     * @return string
-     *
      * @throws \InvalidArgumentException
+     *
+     * @return string
      */
     protected function getFusionAuthUrl()
     {
@@ -103,11 +103,19 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \InvalidArgumentException
      */
     protected function getCodeFields($state = null)
     {
+        $tenantId = $this->getConfig('tenant_id');
+
+        if ($tenantId === null) {
+            throw new InvalidArgumentException('Missing tenant_id');
+        }
+
         return array_merge(parent::getCodeFields($state), [
-            'tenantId' => $this->getConfig('tenant_id'),
+            'tenantId' => $tenantId,
         ]);
     }
 }
