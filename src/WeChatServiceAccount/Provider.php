@@ -106,12 +106,12 @@ class Provider extends AbstractProvider
     {
         // HACK: unionid is a faker scope for user id
         if (in_array('unionid', $scopes, true)) {
-            unset($scopes[array_search('unionid', $scopes)]);
+            unset($scopes[array_search('unionid', $scopes, true)]);
         }
         // HACK: use scopes() instead of setScopes()
         // docs: https://laravel.com/docs/socialite#access-scopes
         if (in_array('snsapi_base', $scopes, true)) {
-            unset($scopes[array_search('snsapi_userinfo', $scopes)]);
+            unset($scopes[array_search('snsapi_userinfo', $scopes, true)]);
         }
 
         return implode($scopeSeparator, $scopes);
