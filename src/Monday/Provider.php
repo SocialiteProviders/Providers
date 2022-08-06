@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->httpClient
+        $response = $this->getHttpClient()
             ->post('https://api.monday.com/v2', [
                 RequestOptions::HEADERS => [
                     'Content-Type'  => 'application/json',

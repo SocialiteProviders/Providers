@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
         // Check if the credentials response body already has the data provided to us
         // If not, fetch the data from their API
         if (empty($this->credentialsResponseBody) || empty($this->credentialsResponseBody['sub'])) {
-            $response = $this->httpClient->post(self::BASE_URL.'/userinfo', [
+            $response = $this->getHttpClient()->post(self::BASE_URL.'/userinfo', [
                 RequestOptions::HEADERS => [
                     'Authorization' => "Bearer $token",
                     'Accept'        => 'application/json',
