@@ -62,7 +62,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
     /**
      * {@inheritdoc}
      */

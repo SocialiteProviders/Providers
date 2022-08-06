@@ -92,6 +92,4 @@ class Provider extends AbstractProvider
             'avatar'   => $avatar,
         ]);
     }
-
-
 }

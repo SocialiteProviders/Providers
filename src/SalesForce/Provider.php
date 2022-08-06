@@ -74,8 +74,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     /**
      * Get the instance URL from config
      * If not available default to production.

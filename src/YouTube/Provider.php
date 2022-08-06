@@ -76,6 +76,4 @@ class Provider extends AbstractProvider
             'avatar'    => $user['snippet']['thumbnails']['high']['url'] ?? null,
         ]);
     }
-
-
 }

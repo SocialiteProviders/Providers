@@ -69,6 +69,4 @@ class Provider extends AbstractProvider
             'avatar'   => !empty($user['images']) ? $user['images'][0]['url'] : null,
         ]);
     }
-
-
 }

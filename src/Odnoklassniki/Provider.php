@@ -76,6 +76,4 @@ class Provider extends AbstractProvider
             'avatar'   => Arr::get($user, 'pic_3'),
         ]);
     }
-
-
 }

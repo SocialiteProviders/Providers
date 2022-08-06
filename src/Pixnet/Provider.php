@@ -32,8 +32,6 @@ class Provider extends AbstractProvider
         return 'https://emma.pixnet.cc/oauth2/grant';
     }
 
-
-
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(

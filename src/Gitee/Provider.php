@@ -99,8 +99,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     /**
      * Get the default options for an HTTP request.
      *

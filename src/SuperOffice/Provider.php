@@ -49,9 +49,6 @@ class Provider extends AbstractProvider
         );
     }
 
-
-
-
     /**
      * @param string $token
      *

@@ -77,8 +77,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     protected function getWebsiteUrl()
     {
         if ($this->getConfig('test')) {

@@ -62,6 +62,4 @@ class Provider extends AbstractProvider
             'locale'        => $user['locale'],
         ]);
     }
-
-
 }

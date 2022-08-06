@@ -59,6 +59,4 @@ class Provider extends AbstractProvider
             'name' => $user['screenname'], 'email' => null, 'avatar' => null,
         ]);
     }
-
-
 }

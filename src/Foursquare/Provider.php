@@ -56,6 +56,4 @@ class Provider extends AbstractProvider
             'avatar' => $user['photo']['prefix'].'original'.$user['photo']['suffix'],
         ]);
     }
-
-
 }

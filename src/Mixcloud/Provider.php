@@ -66,6 +66,4 @@ class Provider extends AbstractProvider
 
         return $user->setToken($token);
     }
-
-
 }

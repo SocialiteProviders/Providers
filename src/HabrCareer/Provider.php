@@ -56,8 +56,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     protected function isStateless()
     {
         return true;

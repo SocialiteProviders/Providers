@@ -167,8 +167,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     /**
      * @param string      $idToken
      * @param string|null $redirectUri

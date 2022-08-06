@@ -80,6 +80,4 @@ class Provider extends AbstractProvider
             'tenants'  => $connections,
         ]);
     }
-
-
 }

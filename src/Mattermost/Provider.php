@@ -89,8 +89,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     protected function getInstanceUri()
     {
         $uri = $this->getConfig('instance_uri', null);

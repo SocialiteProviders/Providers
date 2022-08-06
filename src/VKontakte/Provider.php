@@ -124,8 +124,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     /**
      * Set the user fields to request from Vkontakte.
      *

@@ -104,6 +104,4 @@ class Provider extends AbstractProvider
             'email'    => $user['Email'], 'avatar' => Arr::get($user, 'Avatar.Content'),
         ]);
     }
-
-
 }

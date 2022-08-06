@@ -85,6 +85,4 @@ class Provider extends AbstractProvider
             'cover_image' => Arr::get($metadata, 'profile.cover_image'),
         ]);
     }
-
-
 }

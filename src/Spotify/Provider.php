@@ -72,6 +72,4 @@ class Provider extends AbstractProvider
             'profileUrl' => $user['href'] ?? null,
         ]);
     }
-
-
 }

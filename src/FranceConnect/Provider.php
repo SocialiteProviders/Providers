@@ -91,8 +91,6 @@ class Provider extends AbstractProvider
         return json_decode((string) $response->getBody(), true);
     }
 
-
-
     /**
      * {@inheritdoc}
      */

@@ -63,6 +63,4 @@ class Provider extends AbstractProvider
             'email'    => Arr::collapse(Arr::where($user['emails'], fn ($value) => $value['is_primary']))['email'],
         ]);
     }
-
-
 }

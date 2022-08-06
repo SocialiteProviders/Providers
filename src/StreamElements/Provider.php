@@ -67,6 +67,4 @@ class Provider extends AbstractProvider
             'suspended'     => $user['suspended'],
         ]);
     }
-
-
 }

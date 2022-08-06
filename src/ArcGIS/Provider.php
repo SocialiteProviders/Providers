@@ -72,8 +72,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     protected function getServerHost()
     {
         return $this->getConfig('arcgis_host', 'www.arcgis.com');

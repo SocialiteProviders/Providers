@@ -74,8 +74,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     /**
      * Return logout endpoint with redirect_uri query parameter.
      *

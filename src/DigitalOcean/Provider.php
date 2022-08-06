@@ -60,6 +60,4 @@ class Provider extends AbstractProvider
             'avatar' => 'https://www.gravatar.com/avatar/'.md5($user['email']),
         ]);
     }
-
-
 }

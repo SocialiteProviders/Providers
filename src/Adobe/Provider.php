@@ -26,8 +26,6 @@ class Provider extends AbstractProvider
         return self::BASE_URL.'/token';
     }
 
-
-
     /**
      * {@inheritDoc}
      *

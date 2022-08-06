@@ -71,6 +71,4 @@ class Provider extends AbstractProvider
             'avatar'   => Arr::get($user, 'data.me.bitmoji.avatar'),
         ]);
     }
-
-
 }

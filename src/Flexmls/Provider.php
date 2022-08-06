@@ -93,6 +93,4 @@ class Provider extends AbstractProvider
             'email'    => $profile['Emails'][0]['Address'],
         ]);
     }
-
-
 }

@@ -51,6 +51,4 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user);
     }
-
-
 }

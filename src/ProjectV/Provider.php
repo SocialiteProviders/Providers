@@ -86,6 +86,4 @@ class Provider extends AbstractProvider
             'flagged'     => Arr::get($user, 'data.flagged'),           //profile
         ]);
     }
-
-
 }

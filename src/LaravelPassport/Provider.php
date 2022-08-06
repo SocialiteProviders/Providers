@@ -105,8 +105,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     protected function getLaravelPassportUrl($type)
     {
         return rtrim($this->getConfig('host'), '/').'/'.ltrim(($this->getConfig($type, Arr::get([

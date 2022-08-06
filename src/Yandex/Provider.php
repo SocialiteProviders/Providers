@@ -63,6 +63,4 @@ class Provider extends AbstractProvider
             'avatar'   => 'https://avatars.yandex.net/get-yapic/'.Arr::get($user, 'default_avatar_id').'/islands-200',
         ]);
     }
-
-
 }

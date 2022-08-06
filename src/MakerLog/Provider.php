@@ -92,8 +92,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     /**
      *  Get the account email of the current user.
      *

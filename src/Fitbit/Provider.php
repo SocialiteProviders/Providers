@@ -79,6 +79,4 @@ class Provider extends AbstractProvider
             'avatar'   => $user['user']['avatar150'],
         ]);
     }
-
-
 }

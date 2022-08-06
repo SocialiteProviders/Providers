@@ -96,7 +96,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
     /**
      * @return \SocialiteProviders\Manager\OAuth2\User
      */

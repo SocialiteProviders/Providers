@@ -74,6 +74,4 @@ class Provider extends AbstractProvider
             'profileUrl' => $user['links']['html'],
         ]);
     }
-
-
 }

@@ -73,8 +73,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-
-
     /**
      * Load the specified subdomain.
      *

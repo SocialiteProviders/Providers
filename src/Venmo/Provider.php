@@ -70,6 +70,4 @@ class Provider extends AbstractProvider
             ]
         );
     }
-
-
 }

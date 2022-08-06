@@ -100,6 +100,4 @@ class Provider extends AbstractProvider
             'avatar'   => $user['thumbnail']['picture_url'] ?? null,
         ]);
     }
-
-
 }
