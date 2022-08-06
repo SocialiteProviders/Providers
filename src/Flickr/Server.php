@@ -111,7 +111,7 @@ class Server extends BaseServer
 
         $client = $this->createHttpClient();
 
-        $response = $client->request('GET', $url);
+        $response = $client->get($url);
 
         return json_decode((string) $response->getBody(), true);
     }
