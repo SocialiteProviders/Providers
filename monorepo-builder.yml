@@ -61,6 +61,7 @@ parameters:
     src/Flickr: 'git@github.com:SocialiteProviders/Flickr.git'
     src/Foursquare: 'git@github.com:SocialiteProviders/Foursquare.git'
     src/FranceConnect: 'git@github.com:SocialiteProviders/FranceConnect.git'
+    src/FusionAuth: 'git@github.com:SocialiteProviders/FusionAuth.git'
     src/GarminConnect: 'git@github.com:SocialiteProviders/GarminConnect.git'
     src/GettyImages: 'git@github.com:SocialiteProviders/GettyImages.git'
     src/GitHub: 'git@github.com:SocialiteProviders/GitHub.git'
