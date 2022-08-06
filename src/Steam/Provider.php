@@ -113,8 +113,7 @@ class Provider extends AbstractProvider
             throw new RuntimeException('The Steam API key has not been specified.');
         }
 
-        $response = $this->getHttpClient()->request(
-            'GET',
+        $response = $this->getHttpClient()->get(
             sprintf(self::STEAM_INFO_URL, $this->clientSecret, $token)
         );
 
@@ -182,7 +181,7 @@ class Provider extends AbstractProvider
             $requestOptions = array_merge($requestOptions, $customOptions);
         }
 
-        $response = $this->getHttpClient()->request('POST', self::OPENID_URL, $requestOptions);
+        $response = $this->getHttpClient()->post(self::OPENID_URL, $requestOptions);
 
         $results = $this->parseResults((string) $response->getBody());
 
