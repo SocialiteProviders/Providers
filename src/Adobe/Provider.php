@@ -26,12 +26,7 @@ class Provider extends AbstractProvider
         return self::BASE_URL.'/token';
     }
 
-    protected function getTokenFields($code): array
-    {
-        return array_merge([
-            'grant_type' => 'authorization_code',
-        ], parent::getTokenFields());
-    }
+
 
     /**
      * {@inheritDoc}

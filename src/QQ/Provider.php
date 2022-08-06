@@ -115,7 +115,6 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
             'fmt'        => 'json',
         ]);
     }

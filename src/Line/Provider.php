@@ -96,19 +96,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * Get the POST fields for the token request.
-     *
-     * @param string $code
-     *
-     * @return array
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 
     /**
      * @return \SocialiteProviders\Manager\OAuth2\User
