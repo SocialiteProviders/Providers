@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/toyhouse",
     "description": "Toyhouse OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -8,13 +9,17 @@
         "socialite",
         "toyhouse"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Sarah Ting",
             "email": "sarah.j.ting@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/toyhouse"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\Toyhouse\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/toyhouse"
     }
 }

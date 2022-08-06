@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/untappd",
     "description": "Untappd OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -8,13 +9,17 @@
         "socialite",
         "untappd"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Stas Arsoba",
             "email": "stanislav.arsoba@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/untappd"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\Untappd\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/untappd"
     }
 }

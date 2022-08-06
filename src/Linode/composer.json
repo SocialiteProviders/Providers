@@ -1,20 +1,25 @@
 {
     "name": "socialiteproviders/linode",
     "description": "Linode OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
-        "linode",
         "laravel",
+        "linode",
         "oauth",
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Tom Schlick",
             "email": "tom@schlick.email"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/linode"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\Linode\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/linode"
     }
 }

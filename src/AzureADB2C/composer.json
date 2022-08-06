@@ -1,19 +1,19 @@
 {
     "name": "socialiteproviders/azureadb2c",
     "description": "AzureADB2C OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
-        "Azure Active Directory",
         "Azure AD",
-        "Azure Active Directory B2C",
         "Azure AD B2C",
+        "Azure Active Directory",
+        "Azure Active Directory B2C",
         "OpenID Connect",
+        "laravel",
         "laravel Azure AD B2C",
         "laravel socialite",
-        "laravel",
-        "socialite Azure AD B2C",
-        "socialite"
+        "socialite",
+        "socialite Azure AD B2C"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Naohiro Fujie",

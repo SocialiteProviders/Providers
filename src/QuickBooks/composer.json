@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/quickbooks",
     "description": "Intuit QuickBooks OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -8,7 +9,6 @@
         "quickbooks",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Alex House",
@@ -23,6 +23,11 @@
             "email": "illimar@hey.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/quickbooks"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -32,10 +37,5 @@
         "psr-4": {
             "SocialiteProviders\\QuickBooks\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/quickbooks"
     }
 }
