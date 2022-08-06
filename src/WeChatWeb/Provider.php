@@ -100,7 +100,7 @@ class Provider extends AbstractProvider
     {
         // HACK: unionid is a faker scope for user id
         if (in_array('unionid', $scopes, true)) {
-            unset($scopes[array_search('unionid', $scopes)]);
+            unset($scopes[array_search('unionid', $scopes, true)]);
         }
 
         return implode($scopeSeparator, $scopes);
