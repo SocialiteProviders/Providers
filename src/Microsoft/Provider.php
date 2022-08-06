@@ -8,9 +8,6 @@ use SocialiteProviders\Microsoft\MicrosoftUser as User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'MICROSOFT';
 
     /**

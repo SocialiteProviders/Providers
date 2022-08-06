@@ -10,8 +10,5 @@ class Provider extends LinkedInProvider implements ProviderInterface
 {
     use ConfigTrait;
 
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'LINKEDIN';
 }

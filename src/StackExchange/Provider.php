@@ -12,9 +12,6 @@ use SocialiteProviders\Manager\OAuth2\User;
  */
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'STACKEXCHANGE';
 
     protected $version = '2.2';

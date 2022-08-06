@@ -10,8 +10,5 @@ class Provider extends FacebookProvider implements ProviderInterface
 {
     use ConfigTrait;
 
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'FACEBOOK';
 }

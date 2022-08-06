@@ -22,9 +22,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'APPLE';
 
     private const URL = 'https://appleid.apple.com';

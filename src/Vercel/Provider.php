@@ -8,9 +8,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'vercel';
 
     protected static $authUrl = 'https://vercel.com/oauth/authorize';
