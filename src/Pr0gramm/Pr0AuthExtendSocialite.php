@@ -13,6 +13,6 @@ class Pr0AuthExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('pr0-auth', Provider::class);
+        $socialiteWasCalled->extendSocialite('pr0gramm', Provider::class);
     }
 }
