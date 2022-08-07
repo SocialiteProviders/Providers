@@ -62,7 +62,7 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Bearer ' . $token,
                 'cache-control' => 'no-cache',
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'User-Agent' => 'simple-oauth2/1.0'
+                'User-Agent' => 'pr0-auth'
             ],
         ]);
 
