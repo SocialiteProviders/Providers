@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
+        "ext-openssl": "*",
         "socialiteproviders/manager": "~4.0"
     },
     "autoload": {
