@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\Pr0Auth;
+namespace SocialiteProviders\Pr0gramm;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 

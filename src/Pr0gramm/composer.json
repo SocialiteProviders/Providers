@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\Pr0Auth\\": ""
+            "SocialiteProviders\\Pr0gramm\\": ""
         }
     }
 }
