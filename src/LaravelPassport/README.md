@@ -14,7 +14,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'laravelpassport' => [    
   'client_id' => env('LARAVELPASSPORT_CLIENT_ID'),  
   'client_secret' => env('LARAVELPASSPORT_CLIENT_SECRET'),  
-  'redirect' => env('LARAVELPASSPORT_REDIRECT_URI') 
+  'redirect' => env('LARAVELPASSPORT_REDIRECT_URI'),
+  'host' => env('LARAVELPASSPORT_HOST'),
 ],
 ```
 
