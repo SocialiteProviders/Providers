@@ -94,18 +94,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenFields($code)
-    {
-        return array_add(
-            parent::getTokenFields($code),
-            'grant_type',
-            'authorization_code'
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function user()
     {
         if ($this->hasInvalidState()) {

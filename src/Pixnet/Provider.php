@@ -32,16 +32,6 @@ class Provider extends AbstractProvider
         return 'https://emma.pixnet.cc/oauth2/grant';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge([
-            'grant_type' => 'authorization_code',
-        ], parent::getTokenFields($code));
-    }
-
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(

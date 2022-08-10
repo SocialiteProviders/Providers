@@ -221,6 +221,6 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code', 'orcid' => 'orcid'];
+        return parent::getTokenFields($code) + ['orcid' => 'orcid'];
     }
 }
