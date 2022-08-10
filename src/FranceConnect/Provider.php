@@ -15,9 +15,6 @@ class Provider extends AbstractProvider
     public const PROD_BASE_URL = 'https://app.franceconnect.gouv.fr/api/v1';
     public const TEST_BASE_URL = 'https://fcp.integ01.dev-franceconnect.fr/api/v1';
 
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'FRANCECONNECT';
 
     /**

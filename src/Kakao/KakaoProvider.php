@@ -9,9 +9,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class KakaoProvider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'KAKAO';
 
     /**

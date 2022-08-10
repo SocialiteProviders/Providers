@@ -8,9 +8,6 @@ use SocialiteProviders\Manager\OAuth1\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'GARMIN_CONNECT';
 
     /**
