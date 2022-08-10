@@ -80,7 +80,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
-                'Authorization' => 'Basic '.base64_encode("{$this->clientId}:{$this->clientSecret}")
+                'Authorization' => 'Basic '.base64_encode("{$this->clientId}:{$this->clientSecret}"),
             ],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
