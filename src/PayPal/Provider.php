@@ -68,7 +68,7 @@ class Provider extends AbstractProvider
             'id'       => str_replace('https://www.paypal.com/webapps/auth/identity/user/', null, $user['user_id']),
             'nickname' => null, 'name' => $user['name'],
             'email'    => !empty($user['emails']) ? $user['emails'][0]['value'] : null,
-            'avatar' => null,
+            'avatar'   => null,
         ]);
     }
 
