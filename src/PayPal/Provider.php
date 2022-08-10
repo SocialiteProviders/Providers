@@ -29,7 +29,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://www.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize',
+            'https://www.paypal.com/signin/authorize',
             $state
         );
     }
@@ -39,7 +39,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://api.paypal.com/v1/identity/openidconnect/tokenservice';
+        return 'https://api-m.paypal.com/v1/oauth2/token';
     }
 
     /**
@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.paypal.com/v1/identity/openidconnect/userinfo/?schema=openid',
+            'https://api-m.paypal.com/v1/identity/oauth2/userinfo?schema=paypalv1.1',
             [
                 RequestOptions::HEADERS => [
                     'Authorization' => 'Bearer '.$token,
@@ -67,30 +67,24 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => str_replace('https://www.paypal.com/webapps/auth/identity/user/', null, $user['user_id']),
             'nickname' => null, 'name' => $user['name'],
-            'email'    => $user['email'], 'avatar' => null,
+            'email'    => !empty($user['emails']) ? $user['emails'][0]['value'] : null,
+            'avatar' => null,
         ]);
-    }
-
-    public function getAccessToken($code)
-    {
-        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
-            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
-            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
-        ]);
-
-        $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
-
-        return $this->parseAccessToken($response->getBody());
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenFields($code)
+    public function getAccessTokenResponse($code)
     {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+                'Authorization' => 'Basic ' . base64_encode("{$this->clientId}:{$this->clientSecret}")
+            ],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
+
+        return json_decode($response->getBody(), true);
     }
 }
