@@ -6,6 +6,10 @@ use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://developer.paypal.com/docs/api/identity/v1/
+ * @see https://developer.paypal.com/api/rest/authentication/
+ */
 class Provider extends AbstractProvider
 {
     /**
