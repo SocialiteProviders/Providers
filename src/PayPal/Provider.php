@@ -71,7 +71,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => str_replace('https://www.paypal.com/webapps/auth/identity/user/', null, $user['user_id']),
             'nickname' => null, 'name' => $user['name'],
-            'email'    => !empty($user['emails']) ? $user['emails'][0]['value'] : null,
+            'email'    => collect($user['emails'] ?? [])->firstWhere('primary')['value'] ?? null,
             'avatar'   => null,
         ]);
     }
