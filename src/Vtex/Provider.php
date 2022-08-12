@@ -12,7 +12,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      * Get the authentication URL for the provider.
      *
      * @param string $state
-     * 
+     *
      * @return string
      */
     protected function getAuthUrl($state)
