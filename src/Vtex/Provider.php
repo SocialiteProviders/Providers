@@ -11,7 +11,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Get the authentication URL for the provider.
      *
-     * @param  string  $state
+     * @param string $state
      * @return string
      */
     protected function getAuthUrl($state)
@@ -25,7 +25,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Get the POST fields for the token request.
      *
-     * @param  string  $code
+     * @param string $code
      * @return array
      */
     protected function getTokenFields($code)
@@ -51,7 +51,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Get the raw user for the given access token.
      *
-     * @param  string  $token
+     * @param string $token
      * @return array
      */
     protected function getUserByToken($token)
@@ -80,15 +80,15 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Map the raw user array to a Socialite User instance.
      *
-     * @param  array  $user
+     * @param array $user
      * @return \Laravel\Socialite\Two\User
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id'       => $user['userId'],
             'email'    => $user['email'],
-            'name'     => $user['username']
+            'name'     => $user['username'],
         ]);
     }
 }
