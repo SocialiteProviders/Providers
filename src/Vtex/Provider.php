@@ -64,7 +64,7 @@ class Provider extends AbstractProvider implements ProviderInterface
             ['body' => 'token='.$token]
         );
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
