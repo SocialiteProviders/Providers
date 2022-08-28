@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    public const IDENTIFIER = 'PR0_AUTH';
+    public const IDENTIFIER = 'PR0GRAMM';
 
     private const URL = 'https://pr0gramm.com';
 
