@@ -1,0 +1,10 @@
+name: Coding standards
+
+on: workflow_dispatch
+
+permissions:
+  pull-requests: write
+
+jobs:
+  lint:
+    uses: SocialiteProviders/.github/.github/workflows/coding-standards.yml@main
