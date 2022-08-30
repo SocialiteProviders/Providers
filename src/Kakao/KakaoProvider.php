@@ -48,7 +48,7 @@ class KakaoProvider extends AbstractProvider
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
 
-        return $this->parseAccessToken($response->getBody());
+        return $this->parseAccessToken($this->credentialsResponseBody);
     }
 
     /**
