@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/acclaim",
     "description": "Acclaim OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "acclaim",
         "laravel",
@@ -8,7 +9,6 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Pavan Kumar",
@@ -19,6 +19,11 @@
             "email": "ell@cybercog.su"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/acclaim"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -28,10 +33,5 @@
         "psr-4": {
             "SocialiteProviders\\Acclaim\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/acclaim"
     }
 }

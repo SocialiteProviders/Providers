@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/instagram-basic",
     "description": "Instagram Basic Display OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "basic",
         "instagram",
@@ -9,13 +10,17 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Philipp Mochine",
             "email": "support@avidofood.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/instagram-basic"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -25,10 +30,5 @@
         "psr-4": {
             "SocialiteProviders\\InstagramBasic\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/instagram-basic"
     }
 }

@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/microsoft-teamservice",
     "description": "Microsoft TeamService OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "microsoft",
@@ -9,7 +10,6 @@
         "socialite",
         "teamservice"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Te7a-Houdini",
@@ -20,6 +20,11 @@
             "email": "ell@cybercog.su"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/microsoft-teamservice"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -29,10 +34,5 @@
         "psr-4": {
             "SocialiteProviders\\TeamService\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/microsoft-teamservice"
     }
 }

@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/amazon",
     "description": "Amazon OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "amazon",
         "laravel",
@@ -8,7 +9,6 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "atymic",
@@ -16,6 +16,11 @@
             "homepage": "https://atymic.dev"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/amazon"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -25,10 +30,5 @@
         "psr-4": {
             "SocialiteProviders\\Amazon\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/amazon"
     }
 }

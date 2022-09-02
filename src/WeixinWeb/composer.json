@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/weixin-web",
     "description": "Weixin-Web OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -9,13 +10,17 @@
         "web",
         "weixin"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "xyxu",
             "email": "techxu@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/weixin-web"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -25,10 +30,5 @@
         "psr-4": {
             "SocialiteProviders\\WeixinWeb\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/weixin-web"
     }
 }
