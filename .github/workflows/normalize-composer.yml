@@ -1,0 +1,42 @@
+name: Normalize Composer
+
+on:
+  workflow_dispatch:
+    inputs:
+      php:
+        default: "8.1"
+        type: string
+        required: false
+      message:
+        default: Normalize composer.json files
+        type: string
+        required: false
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php }}
+          extensions: curl, dom, json, libxml, mbstring
+          coverage: none
+
+      - name: Install Composer Normalizer
+        run: composer global require ergebnis/composer-normalize
+
+      - name: Normalize the root composer.json file
+        run: composer normalize
+
+      - name: Normalize the packages composer.json files
+        run: find src -name "composer.json" -print -exec composer normalize {} \;
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: ${{ inputs.message }}
