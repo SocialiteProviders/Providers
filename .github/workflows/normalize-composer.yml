@@ -28,7 +28,9 @@ jobs:
           coverage: none
 
       - name: Install Composer Normalizer
-        run: composer global require ergebnis/composer-normalize
+        run: |
+          composer global config --no-plugins allow-plugins.ergebnis/composer-normalize true
+          composer global require ergebnis/composer-normalize
 
       - name: Normalize the root composer.json file
         run: composer normalize
