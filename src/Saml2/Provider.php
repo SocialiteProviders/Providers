@@ -185,7 +185,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setIssueInstant(new DateTime())
             ->setDestination($identityProviderConsumerService->getLocation())
             ->setNameIDPolicy((new NameIDPolicy())->setFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT))
-            ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()));
+            ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()))
+            ->setAssertionConsumerServiceURL($this->getServiceProviderAssertionConsumerUrl());
 
         if ($this->usesState()) {
             $this->request->session()->put('state', $state = $this->getState());
