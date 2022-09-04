@@ -4,11 +4,11 @@
     "license": "MIT",
     "keywords": [
         "laravel",
-        "socialite",
+        "monday",
         "oauth",
         "oauth2",
         "provider",
-        "monday"
+        "socialite"
     ],
     "authors": [
         {
