@@ -90,7 +90,7 @@ GQL
                 ]),
             ]);
 
-        return json_decode($response->getBody()->getContents(), true)['data']['me'];
+        return json_decode((string) $response->getBody(), true)['data']['me'];
     }
 
     /**
