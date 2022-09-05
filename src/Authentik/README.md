@@ -37,7 +37,7 @@ detailed instructions.
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\Authentik\\AuthentikExtendSocialite@handle',
+        \SocialiteProviders\Authentik\AuthentikExtendSocialite::class.'@handle',
     ],
 ];
 ```
