@@ -283,10 +283,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
         Cache::forever(self::CACHE_KEY_TTL, time());
 
         try {
-            $xml = $this->getHttpClient()
+            $xml = (string) $this->getHttpClient()
                 ->get($metadataUrl)
-                ->getBody()
-                ->getContents();
+                ->getBody();
 
             Cache::forever(self::CACHE_KEY, $xml);
         } catch (GuzzleException $e) {
