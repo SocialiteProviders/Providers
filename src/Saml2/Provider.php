@@ -52,6 +52,7 @@ use RuntimeException;
 use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\Exception\MissingConfigException;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Provider extends AbstractProvider implements SocialiteProvider
 {
@@ -419,7 +420,13 @@ class Provider extends AbstractProvider implements SocialiteProvider
             return false;
         }
 
-        return Arr::has(Route::getRoutes()->getRoutesByMethod(), $methods[$bindingType].'.'.$route);
+        try {
+            Route::getRoutes()->match(Request::create($route, $methods[$bindingType]));
+        } catch (MethodNotAllowedHttpException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
