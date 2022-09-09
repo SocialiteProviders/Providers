@@ -223,7 +223,7 @@ class Provider extends AbstractProvider
             'domain',
             'policy',
             'redirect_template',
-            'default_algorithm'
+            'default_algorithm',
         ];
     }
 }
