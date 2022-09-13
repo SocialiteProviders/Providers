@@ -1,12 +1,14 @@
 # Etsy
 
-```bash
-composer require socialiteproviders/etsy
-```
+Support for OpenAPI v3 on Etsy.
+
+Note: V2 is scheduled to sunset Q4 2022.
 
 ## Installation & Basic Usage
 
-Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
+```bash
+composer require socialiteproviders/etsy
+```
 
 ### Add configuration to `config/services.php`
 
@@ -18,7 +20,15 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
-### Add provider event listener
+### Add variables to `.env`
+You can find/update this information from https://www.etsy.com/developers/your-apps
+```
+ETSY_CLIENT_ID={YOUR API KEY}
+ETSY_CLIENT_SECRET={YOUR SECRET}
+ETSY_REDIRECT_URI=https://example.com/callback
+```
+
+### Add provider event listener `app/Providers/EventServiceProvider`
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
@@ -33,12 +43,25 @@ protected $listen = [
 ];
 ```
 
-### Usage
+### Usage `web/routes.php`
 
-You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
+You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed).
+However, there are a few things to note with the OpenApi v3 on Etsy. They require the use of PKCE. They also require that 
+`x-api-key` with your API Key be included in thea header for each request. The header code is taken care of in this provider.
+But you will need to call `enablePKCE` on your requests as well as add any scopes you want to access. The `email_r` is enabled
+by default so you can access user information in the callback.
 
 ```php
-return Socialite::driver('etsy')->redirect();
+// the redirect
+return Socialite::driver('etsy')
+        ->scopes[['include','scopes','here']]
+        ->enablePKCE()
+        ->redirect();
+
+// the callback
+$etsyUser = Socialite::driver('etsy')
+        ->enablePKCE()
+        ->user();
 ```
 
 ### Returned User fields

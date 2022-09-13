@@ -9,10 +9,10 @@ class EtsyExtendSocialite
     /**
      * Register the provider.
      *
-     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
+     * @param SocialiteWasCalled $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('etsy', Provider::class, Server::class);
+        $socialiteWasCalled->extendSocialite('etsy', Provider::class);
     }
 }
