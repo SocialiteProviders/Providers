@@ -39,12 +39,13 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $tokenData = explode('.', $token);
-        $response = $this->getHttpClient()->get('https://openapi.etsy.com/v3/application/users/' . $tokenData[0], [
+        $response = $this->getHttpClient()->get('https://openapi.etsy.com/v3/application/users/'.$tokenData[0], [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-                'x-api-key' => $this->clientId,
+                'Authorization' => 'Bearer '.$token,
+                'x-api-key'     => $this->clientId,
             ],
         ]);
+
         return json_decode($response->getBody(), true);
     }
 
@@ -68,7 +69,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 
