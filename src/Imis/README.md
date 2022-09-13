@@ -32,7 +32,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // add your listeners (aka providers) here
-        'SocialiteProviders\\Imis\\ImisExtendSocialite@handle',
+        \SocialiteProviders\Imis\ImisExtendSocialite::class.'@handle',
     ],
 ];
 ```
