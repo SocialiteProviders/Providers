@@ -20,6 +20,16 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected $scopeSeparator = ' ';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $usesPKCE = true;
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://www.etsy.com/oauth/connect', $state);
@@ -61,23 +71,5 @@ class Provider extends AbstractProvider
             'email'    => $user['primary_email'],
             'avatar'   => $user['image_url_75x75'],
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function formatScopes(array $scopes, $scopeSeparator)
-    {
-        return implode(' ', $scopes);
     }
 }

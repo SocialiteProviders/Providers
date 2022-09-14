@@ -46,21 +46,17 @@ protected $listen = [
 ### Usage `web/routes.php`
 
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed).
-However, there are a few things to note with the OpenApi v3 on Etsy. They require the use of PKCE. They also require that 
-`x-api-key` with your API Key be included in thea header for each request. The header code is taken care of in this provider.
-But you will need to call `enablePKCE` on your requests as well as add any scopes you want to access. The `email_r` is enabled
-by default so you can access user information in the callback.
+
+Note: The `email_r` is enabled by default so you can access user information in the callback. 
 
 ```php
 // the redirect
 return Socialite::driver('etsy')
-        ->scopes[['include','scopes','here']]
-        ->enablePKCE()
+        ->scopes[['include','scopes','here']]  
         ->redirect();
 
 // the callback
 $etsyUser = Socialite::driver('etsy')
-        ->enablePKCE()
         ->user();
 ```
 
