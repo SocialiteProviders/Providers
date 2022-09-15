@@ -9,7 +9,7 @@ class EtsyExtendSocialite
     /**
      * Register the provider.
      *
-     * @param SocialiteWasCalled $socialiteWasCalled
+     * @param \SocialiteProviders\Manager\SocialiteWasCalled $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
