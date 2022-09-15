@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Etsy;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -50,7 +51,7 @@ class Provider extends AbstractProvider
     {
         $tokenData = explode('.', $token);
         $response = $this->getHttpClient()->get('https://openapi.etsy.com/v3/application/users/'.$tokenData[0], [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'x-api-key'     => $this->clientId,
             ],
