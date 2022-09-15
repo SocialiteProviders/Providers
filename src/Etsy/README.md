@@ -52,7 +52,7 @@ Note: The `email_r` is enabled by default so you can access user information in 
 ```php
 // the redirect
 return Socialite::driver('etsy')
-        ->scopes[['include','scopes','here']]  
+        ->scopes[['include', 'scopes', 'here']]  
         ->redirect();
 
 // the callback
