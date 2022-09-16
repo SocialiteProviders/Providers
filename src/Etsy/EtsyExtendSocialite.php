@@ -13,6 +13,6 @@ class EtsyExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('etsy', Provider::class, Server::class);
+        $socialiteWasCalled->extendSocialite('etsy', Provider::class);
     }
 }

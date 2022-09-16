@@ -3,7 +3,7 @@
 namespace SocialiteProviders\Monday;
 
 use GuzzleHttp\RequestOptions;
-use Laravel\Socialite\Two\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
