@@ -20,7 +20,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        'user.name'
+        'user.name',
     ];
 
     /**
@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(self::URL . '/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase(self::URL.'/oauth/authorize', $state);
     }
 
     /**
@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl(): string
     {
-        return self::URL . '/api/oauth/createAccessToken';
+        return self::URL.'/api/oauth/createAccessToken';
     }
 
     /**
@@ -57,12 +57,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(self::URL . '/api/user/name', [
+        $response = $this->getHttpClient()->get(self::URL.'/api/user/name', [
             RequestOptions::HEADERS => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
                 'cache-control' => 'no-cache',
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'User-Agent' => 'pr0-auth'
+                'Content-Type'  => 'application/x-www-form-urlencoded',
+                'User-Agent'    => 'pr0-auth',
             ],
         ]);
 
@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user): \Laravel\Socialite\Two\User|User
     {
         return (new User())->setRaw($user)->map([
-            'name' => $user['name']
+            'name' => $user['name'],
         ]);
     }
 }
