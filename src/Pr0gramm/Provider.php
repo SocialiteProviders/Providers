@@ -20,7 +20,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        'user.name',
+        'user.me',
     ];
 
     /**
