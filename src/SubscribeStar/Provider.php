@@ -21,7 +21,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopeSeparator = " ";
+    protected $scopeSeparator = ' ';
 
 
     /**
@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $query = "{
+        $query = '{
             user {
                 id
                 email
@@ -53,19 +53,21 @@ class Provider extends AbstractProvider
                 avatar_url
             }
         }
-        ";
+        ';
 
-        $queryParams = array(
+        $queryParams = [
             'query' => $query
-        );
+        ];
         $response = $this->getHttpClient()->post(
-            'https://www.subscribestar.com/api/graphql/v1', [
-            'headers' => [
-                'Accept'        => 'application/json',
-                'Authorization' => 'Bearer '.$token,
-            ],
-            RequestOptions::FORM_PARAMS => $queryParams
-        ]);
+            'https://www.subscribestar.com/api/graphql/v1',
+            [
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
+                ],
+                RequestOptions::FORM_PARAMS => $queryParams
+            ]
+        );
         return json_decode($response->getBody(), true);
     }
 
@@ -78,7 +80,7 @@ class Provider extends AbstractProvider
             'id'       => $user['data']['user']['id'],
             'name'     => $user['data']['user']['name'],
             'email'    => $user['data']['user']['email'],
-            'avatar'   => $user['data']['user']['avatar_url']
+            'avatar'   => $user['data']['user']['avatar_url'],
         ]);
     }
 
@@ -88,7 +90,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 
