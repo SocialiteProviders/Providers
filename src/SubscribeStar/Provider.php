@@ -23,7 +23,6 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
-
     /**
      * {@inheritdoc}
      */
@@ -56,7 +55,7 @@ class Provider extends AbstractProvider
         ';
 
         $queryParams = [
-            'query' => $query
+            'query' => $query,
         ];
         $response = $this->getHttpClient()->post(
             'https://www.subscribestar.com/api/graphql/v1',
@@ -65,7 +64,7 @@ class Provider extends AbstractProvider
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
-                RequestOptions::FORM_PARAMS => $queryParams
+                RequestOptions::FORM_PARAMS => $queryParams,
             ]
         );
         return json_decode($response->getBody(), true);
