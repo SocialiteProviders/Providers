@@ -122,7 +122,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Checks if mTLS token endpoints should be used
+     * Checks if mTLS token endpoints should be used.
      *
      * @return bool
      */
