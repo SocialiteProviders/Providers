@@ -67,6 +67,7 @@ class Provider extends AbstractProvider
                 RequestOptions::FORM_PARAMS => $queryParams,
             ]
         );
+
         return json_decode($response->getBody(), true);
     }
 
@@ -92,6 +93,4 @@ class Provider extends AbstractProvider
             'grant_type' => 'authorization_code',
         ]);
     }
-
-
 }
