@@ -53,6 +53,7 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
+     * 
      * @throws GuzzleException
      */
     protected function getUserByToken($token)
