@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/etsy3",
+    "description": "Etsy Open API v3 OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Radoslav Boydev",
+        "email": "radoslav.boydev@gmail.com"
+    }],
+    "require": {
+        "php": "^7.2",
+        "socialiteproviders/manager": "^4.0",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Etsy3\\": ""
+        }
+    }
+}
