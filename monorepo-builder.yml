@@ -45,6 +45,7 @@ parameters:
     src/Dropbox: 'git@github.com:SocialiteProviders/Dropbox.git'
     src/Envato: 'git@github.com:SocialiteProviders/Envato.git'
     src/Etsy: 'git@github.com:SocialiteProviders/Etsy.git'
+    src/Etsy3: 'git@github.com:SocialiteProviders/Etsy3.git'
     src/Eventbrite: 'git@github.com:SocialiteProviders/Eventbrite.git'
     src/Eveonline: 'git@github.com:SocialiteProviders/Eveonline.git'
     src/Exment: 'git@github.com:SocialiteProviders/Exment.git'
