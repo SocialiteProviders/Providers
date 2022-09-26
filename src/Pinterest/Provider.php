@@ -76,7 +76,7 @@ class Provider extends AbstractProvider
             'grant_type' => 'authorization_code',
             //'client_id' => $this->clientId,
             //'client_secret' => $this->clientSecret,
-            'code' => $code,
+            'code'         => $code,
             'redirect_uri' => $this->redirectUrl,
         ];
 
@@ -90,15 +90,16 @@ class Provider extends AbstractProvider
     /**
      * Get the access token response for the given code.
      *
-     * @param  string  $code
+     * @param string $code
+     *
      * @return array
      */
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
-                'Accept' => 'application/json',
-                'Content-type' => 'application/x-www-form-urlencoded',
+                'Accept'        => 'application/json',
+                'Content-type'  => 'application/x-www-form-urlencoded',
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
             ],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
