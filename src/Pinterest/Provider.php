@@ -72,11 +72,38 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        return array_merge(
-            parent::getTokenFields($code),
-            [
-                'grant_type' => 'authorization_code',
-            ]
-        );
+        $fields = [
+            'grant_type' => 'authorization_code',
+            //'client_id' => $this->clientId,
+            //'client_secret' => $this->clientSecret,
+            'code' => $code,
+            'redirect_uri' => $this->redirectUrl,
+        ];
+
+        if ($this->usesPKCE()) {
+            $fields['code_verifier'] = $this->request->session()->pull('code_verifier');
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Get the access token response for the given code.
+     *
+     * @param  string  $code
+     * @return array
+     */
+    public function getAccessTokenResponse($code)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+                'Content-type' => 'application/x-www-form-urlencoded',
+                'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
+            ],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
+        ]);
+
+        return json_decode($response->getBody(), true);
     }
 }
