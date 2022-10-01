@@ -1,0 +1,22 @@
+{
+    "name": "socialiteproviders/pr0-auth",
+    "description": "Pr0gramm OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcel Wagner",
+            "email": "info@marcelwagner.dev"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Pr0gramm\\": ""
+        }
+    }
+}
