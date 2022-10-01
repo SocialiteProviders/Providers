@@ -134,6 +134,7 @@ parameters:
     src/Pixnet: 'git@github.com:SocialiteProviders/Pixnet.git'
     src/PlanningCenter: 'git@github.com/SocialiteProviders/PlanningCenter.git'
     src/Podio: 'git@github.com:SocialiteProviders/Podio.git'
+    src/Pr0gramm: 'git@github.com:SocialiteProviders/Pr0gramm.git'
     src/Procore: 'git@github.com:SocialiteProviders/Procore.git'
     src/ProductHunt: 'git@github.com:SocialiteProviders/ProductHunt.git'
     src/ProjectV: 'git@github.com:SocialiteProviders/ProjectV.git'
