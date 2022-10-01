@@ -55,9 +55,15 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
+        if ($this->useMTLS()) {
+            return $this->isSandbox() ?
+                'https://token-api-sandbox.starlingbank.com/oauth/access-token' :
+                'https://token-api.starlingbank.com/oauth/access-token';
+        }
+
         return $this->isSandbox() ?
             'https://api-sandbox.starlingbank.com/oauth/access-token' :
-            'https://token-api.starlingbank.com/oauth/access-token';
+            'https://api.starlingbank.com/oauth/access-token';
     }
 
     /**
@@ -116,10 +122,20 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Checks if mTLS token endpoints should be used.
+     *
+     * @return bool
+     */
+    protected function useMTLS()
+    {
+        return $this->getConfig('use_mtls', false);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function additionalConfigKeys()
     {
-        return ['env'];
+        return ['env', 'use_mtls'];
     }
 }
