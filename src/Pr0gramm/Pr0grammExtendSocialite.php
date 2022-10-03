@@ -4,7 +4,7 @@ namespace SocialiteProviders\Pr0gramm;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class Pr0grammAuthExtendSocialite
+class Pr0grammExtendSocialite
 {
     /**
      * Register the provider.

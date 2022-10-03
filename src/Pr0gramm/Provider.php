@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Pr0gramm;
 
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -13,8 +12,6 @@ class Provider extends AbstractProvider
      * Unique Provider Identifier.
      */
     public const IDENTIFIER = 'PR0GRAMM';
-
-    private const URL = 'https://pr0gramm.com';
 
     /**
      * {@inheritdoc}
@@ -40,7 +37,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(self::URL.'/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://pr0gramm.com/oauth/authorize', $state);
     }
 
     /**
@@ -48,20 +45,18 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl(): string
     {
-        return self::URL.'/api/oauth/createAccessToken';
+        return 'https://pr0gramm.com/api/oauth/createAccessToken';
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @throws GuzzleException
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(self::URL.'/api/user/name', [
+        $response = $this->getHttpClient()->get('https://pr0gramm.com/api/user/me', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
-                'cache-control' => 'no-cache',
+                'Cache-Control' => 'no-cache',
                 'Content-Type'  => 'application/x-www-form-urlencoded',
                 'User-Agent'    => 'pr0-auth',
             ],
@@ -70,7 +65,10 @@ class Provider extends AbstractProvider
         return json_decode((string) $response->getBody(), true);
     }
 
-    protected function mapUserToObject(array $user): \Laravel\Socialite\Two\User|User
+    /**
+     * {@inheritdoc}
+     */
+    protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
             'name' => $user['name'],
