@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
-                RequestOptions::FORM_PARAMS =>  ['query' => $query],
+                RequestOptions::FORM_PARAMS => ['query' => $query],
             ]
         );
 
