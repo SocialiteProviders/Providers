@@ -166,7 +166,7 @@ parameters:
     src/StreamElements: 'git@github.com:SocialiteProviders/StreamElements.git'
     src/Streamlabs: 'git@github.com:SocialiteProviders/Streamlabs.git'
     src/Stripe: 'git@github.com:SocialiteProviders/Stripe.git'
-    src/SubscribeStar: 'git@github.com:SocialiteProviders/SubscribeStar.git'
+    src/Subscribestar: 'git@github.com:SocialiteProviders/Subscribestar.git'
     src/SuperOffice: 'git@github.com:SocialiteProviders/SuperOffice.git'
     src/TVShowTime: 'git@github.com:SocialiteProviders/TVShowTime.git'
     src/TeamService: 'git@github.com:SocialiteProviders/Microsoft-TeamService.git'

@@ -1,4 +1,4 @@
-# Patreon
+# SubscribeStar
 
 ```bash
 composer require socialiteproviders/subscribestar

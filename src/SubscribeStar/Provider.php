@@ -6,6 +6,9 @@ use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://www.subscribestar.com/api
+ */
 class Provider extends AbstractProvider
 {
     /**
@@ -54,9 +57,6 @@ class Provider extends AbstractProvider
         }
         ';
 
-        $queryParams = [
-            'query' => $query,
-        ];
         $response = $this->getHttpClient()->post(
             'https://www.subscribestar.com/api/graphql/v1',
             [
@@ -64,11 +64,11 @@ class Provider extends AbstractProvider
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
-                RequestOptions::FORM_PARAMS => $queryParams,
+                RequestOptions::FORM_PARAMS =>  ['query' => $query],
             ]
         );
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -78,19 +78,9 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['data']['user']['id'],
-            'name'     => $user['data']['user']['name'],
-            'email'    => $user['data']['user']['email'],
-            'avatar'   => $user['data']['user']['avatar_url'],
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
+            'name'     => $user['data']['user']['name'] ??= '',
+            'email'    => $user['data']['user']['email'] ??= '',
+            'avatar'   => $user['data']['user']['avatar_url'] ??= '',
         ]);
     }
 }
