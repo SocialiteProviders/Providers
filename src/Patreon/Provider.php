@@ -9,16 +9,16 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'PATREON';
 
     /**
      * {@inheritdoc}
      */
-    // protected $scopes = ['users', 'pledges-to-me', 'my-campaign'];
-    protected $scopes = ['identity', 'identity[email]', 'campaigns'];
+    protected $scopes = [
+        'campaigns',
+        'identity',
+        'identity[email]',
+    ];
 
     /**
      * {@inherticdoc}.
@@ -30,10 +30,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(
-            'https://www.patreon.com/oauth2/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://www.patreon.com/oauth2/authorize', $state);
     }
 
     /**
@@ -49,17 +46,17 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.patreon.com/api/oauth2/v2/identity?fields[user]=email,full_name,image_url,vanity',
-            [
-                RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get('https://api.patreon.com/api/oauth2/v2/identity', [
+            RequestOptions::HEADERS => [
+                'Accept'        => 'application/json',
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'fields[user]' => 'email,full_name,image_url,vanity',
+            ],
+        ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -67,22 +64,15 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id'       => $user['data']['id'],
-            'nickname' => Arr::get($user['data']['attributes'], 'vanity', $user['data']['attributes']['full_name']),
-            'name'     => $user['data']['attributes']['full_name'],
-            'email'    => $user['data']['attributes']['email'],
-            'avatar'   => $user['data']['attributes']['image_url'],
-        ]);
-    }
+        $userData = $user['data'];
+        $userAttributes = $userData['attributes'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
+        return (new User())->setRaw($user)->map([
+            'id'       => $userData['id'],
+            'nickname' => Arr::get($userAttributes, 'vanity', $userAttributes['full_name']),
+            'name'     => $userAttributes['full_name'],
+            'email'    => $userAttributes['email'],
+            'avatar'   => $userAttributes['image_url'],
         ]);
     }
 }
