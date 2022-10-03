@@ -12,9 +12,9 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 'pr0gramm' => [    
-  'client_id' => env('PR0_CLIENT_ID'),  
-  'client_secret' => env('PR0_CLIENT_SECRET'),  
-  'redirect' => env('PR0_REDIRECT_URI') 
+  'client_id' => env('PR0GRAMM_CLIENT_ID'),  
+  'client_secret' => env('PR0GRAMM_CLIENT_SECRET'),  
+  'redirect' => env('PR0GRAMM_REDIRECT_URI') 
 ],
 ```
 
@@ -28,7 +28,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\Pr0gramm\Pr0AuthExtendSocialite::class.'@handle',
+        \SocialiteProviders\Pr0gramm\Pr0grammExtendSocialite::class.'@handle',
     ],
 ];
 ```
