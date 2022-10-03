@@ -9,12 +9,16 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
+    /**
+     * Unique Provider Identifier.
+     */
     public const IDENTIFIER = 'PATREON';
 
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['users', 'pledges-to-me', 'my-campaign'];
+    // protected $scopes = ['users', 'pledges-to-me', 'my-campaign'];
+    protected $scopes = ['identity', 'identity[email]', 'campaigns'];
 
     /**
      * {@inherticdoc}.
@@ -46,7 +50,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.patreon.com/oauth2/api/current_user',
+            'https://api.patreon.com/api/oauth2/v2/identity?fields[user]=email,full_name,image_url,vanity',
             [
                 RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
@@ -55,7 +59,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return json_decode((string) $response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -66,7 +70,8 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['data']['id'],
             'nickname' => Arr::get($user['data']['attributes'], 'vanity', $user['data']['attributes']['full_name']),
-            'name'     => $user['data']['attributes']['full_name'], 'email' => $user['data']['attributes']['email'],
+            'name'     => $user['data']['attributes']['full_name'],
+            'email'    => $user['data']['attributes']['email'],
             'avatar'   => $user['data']['attributes']['image_url'],
         ]);
     }
