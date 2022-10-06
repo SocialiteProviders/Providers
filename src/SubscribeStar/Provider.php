@@ -60,7 +60,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post(
             'https://www.subscribestar.com/api/graphql/v1',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
@@ -78,9 +78,9 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['data']['user']['id'],
-            'name'     => $user['data']['user']['name'] ??= null,
-            'email'    => $user['data']['user']['email'] ??= null,
-            'avatar'   => $user['data']['user']['avatar_url'] ??= null,
+            'name'     => $user['data']['user']['name'] ?? null,
+            'email'    => $user['data']['user']['email'] ?? null,
+            'avatar'   => $user['data']['user']['avatar_url'] ?? null,
         ]);
     }
 }
