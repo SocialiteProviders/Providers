@@ -44,7 +44,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => $this->getTokenHeaders($code),
+            RequestOptions::HEADERS     => $this->getTokenHeaders($code),
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
     {
         return [
             'Content-Type' => 'application/x-www-form-urlencoded',
-            'secret_key' => $this->clientSecret
+            'secret_key'   => $this->clientSecret
         ];
     }
 
@@ -77,7 +77,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('graph.zalo.me/v2.0/me', [
             RequestOptions::HEADERS => ['access_token' => $token],
-            RequestOptions::QUERY => ['fields' => 'id,error,message,name,picture'],
+            RequestOptions::QUERY   => ['fields' => 'id,error,message,name,picture'],
         ]);
 
         return json_decode($response->getBody(), true);
