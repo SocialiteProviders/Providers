@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
     {
         return [
             'Content-Type' => 'application/x-www-form-urlencoded',
-            'secret_key'   => $this->clientSecret
+            'secret_key'   => $this->clientSecret,
         ];
     }
 
