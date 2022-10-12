@@ -8,6 +8,9 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
+    /**
+     * Unique Provider Identifier.
+     */
     public const IDENTIFIER = 'ZALO';
 
     /**
@@ -20,7 +23,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://oauth.zaloapp.com/v3/auth', $state);
+        return $this->buildAuthUrlFromBase('https://oauth.zaloapp.com/v4/permission', $state);
     }
 
     /**
@@ -28,13 +31,11 @@ class Provider extends AbstractProvider
      */
     protected function getCodeFields($state = null)
     {
-        $fields = [
-            'app_id'       => $this->clientId,
-            'redirect_uri' => $this->redirectUrl,
-            'state'        => $state,
-        ];
+        $fields = parent::getCodeFields($state);
 
-        return array_merge($fields, $this->parameters);
+        $fields['app_id'] = $this->clientId;
+
+        return $fields;
     }
 
     /**
@@ -42,12 +43,23 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code)
     {
-        $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            RequestOptions::HEADERS => ['Accept' => 'application/json'],
-            RequestOptions::QUERY   => $this->getTokenFields($code),
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS => $this->getTokenHeaders($code),
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
-        return json_decode((string) $response->getBody(), true);
+        return json_decode($response->getBody(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenHeaders($code)
+    {
+        return [
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'secret_key' => $this->clientSecret
+        ];
     }
 
     /**
@@ -55,7 +67,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://oauth.zaloapp.com/v3/access_token';
+        return 'https://oauth.zaloapp.com/v4/access_token';
     }
 
     /**
@@ -63,9 +75,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://graph.zalo.me/v2.0/me?access_token='.$token.'&fields=id,birthday,name,gender,picture');
+        $response = $this->getHttpClient()->get('graph.zalo.me/v2.0/me', [
+            RequestOptions::HEADERS => ['access_token' => $token],
+            RequestOptions::QUERY => ['fields' => 'id,error,message,name,picture'],
+        ]);
 
-        return json_decode((string) $response->getBody(), true);
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -76,7 +91,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => null,
-            'name'     => $user['name'],
+            'name'     => $user['name'] ?? null,
             'avatar'   => preg_replace('/^http:/i', 'https:', $user['picture']['data']['url']),
         ]);
     }
@@ -86,11 +101,10 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        return [
-            'app_id'       => $this->clientId,
-            'app_secret'   => $this->clientSecret,
-            'code'         => $code,
-            'redirect_uri' => $this->redirectUrl,
-        ];
+        $fields = parent::getTokenFields($code);
+
+        $fields['app_id'] = $this->clientId;
+
+        return $fields;
     }
 }
