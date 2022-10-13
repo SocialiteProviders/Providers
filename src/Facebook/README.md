@@ -40,3 +40,10 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('facebook')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``name``
+- ``email``
+- ``avatar``
