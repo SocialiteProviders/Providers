@@ -4,11 +4,11 @@
     "license": "MIT",
     "keywords": [
         "laravel",
-        "socialite",
+        "monday",
         "oauth",
         "oauth2",
         "provider",
-        "monday"
+        "socialite"
     ],
     "authors": [
         {
@@ -32,7 +32,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
-        "socialiteproviders/manager": "~4.0"
+        "socialiteproviders/manager": "^4.2"
     },
     "autoload": {
         "psr-4": {

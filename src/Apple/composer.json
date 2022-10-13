@@ -41,7 +41,7 @@
         "ext-openssl": "*",
         "firebase/php-jwt": "^6.2",
         "lcobucci/jwt": "^4.1.5",
-        "socialiteproviders/manager": "~4.0"
+        "socialiteproviders/manager": "^4.2"
     },
     "suggest": {
         "ahilmurugesan/socialite-apple-helper": "Automatic Apple client key generation and management."
