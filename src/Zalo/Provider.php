@@ -51,17 +51,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenHeaders($code)
-    {
-        return [
-            'Content-Type' => 'application/x-www-form-urlencoded',
-            'secret_key'   => $this->clientSecret,
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl()
     {
         return 'https://oauth.zaloapp.com/v4/access_token';
