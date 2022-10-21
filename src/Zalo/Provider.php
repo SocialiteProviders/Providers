@@ -8,9 +8,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'ZALO';
 
     /**
@@ -44,11 +41,11 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => $this->getTokenHeaders($code),
+            RequestOptions::HEADERS     => ['secret_key' => $this->clientSecret],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -75,12 +72,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('graph.zalo.me/v2.0/me', [
+        $response = $this->getHttpClient()->get('https://graph.zalo.me/v2.0/me', [
             RequestOptions::HEADERS => ['access_token' => $token],
             RequestOptions::QUERY   => ['fields' => 'id,error,message,name,picture'],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
