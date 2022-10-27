@@ -79,4 +79,12 @@ class Provider extends AbstractProvider
             ]
         );
     }
+
+    protected function getTokenHeaders($code)
+    {
+        return [
+            'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
+            'Content-Type'  => 'application/x-www-form-urlencoded',
+        ];
+    }
 }
