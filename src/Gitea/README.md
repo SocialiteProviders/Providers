@@ -14,7 +14,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'gitea' => [
   'client_id' => env('GITEA_CLIENT_ID'),
   'client_secret' => env('GITEA_CLIENT_SECRET'),
-  'redirect' => env('GITEA_REDIRECT_URI')
+  'redirect' => env('GITEA_REDIRECT_URI'),
+  'instance_uri' => env('GITEA_INSTANCE_URI')
 ],
 ```
 
