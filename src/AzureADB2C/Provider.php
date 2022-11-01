@@ -48,6 +48,17 @@ class Provider extends AbstractProvider
 
         return $policy;
     }
+    
+    /**
+     * Set the leeway.
+     *
+     * @return void
+     */
+    private function setLeeway($leeway)
+    {
+        JWT::$leeway = 60;
+        return;
+    }
 
     /**
      * Set the redirect URL.
