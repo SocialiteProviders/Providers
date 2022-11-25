@@ -2,17 +2,17 @@
 
 namespace SocialiteProviders\Huawei;
 
-use SocialiteProviders\Manager\OAuth2\AbstractProvider;
-use Laravel\Socialite\Two\User;
 use GuzzleHttp\RequestOptions;
+use Laravel\Socialite\Two\User;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'HUAWEI';
 
     private const TOKEN_URL = 'https://oauth-login.cloud.huawei.com/oauth2/v3/token';
-    private const AUTH_URL  = 'https://oauth-login.cloud.huawei.com/oauth2/v3/authorize';
-    private const USER_URL  = 'https://account.cloud.huawei.com/rest.php';
+    private const AUTH_URL = 'https://oauth-login.cloud.huawei.com/oauth2/v3/authorize';
+    private const USER_URL = 'https://account.cloud.huawei.com/rest.php';
 
     protected $encodingType = PHP_QUERY_RFC3986;
 
@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post(self::USER_URL, [
             RequestOptions::FORM_PARAMS => $this->userFields($token),
-            RequestOptions::HEADERS => ['Content-Type' => 'application/x-www-form-urlencoded'],
+            RequestOptions::HEADERS     => ['Content-Type' => 'application/x-www-form-urlencoded'],
         ]);
 
         return json_decode($response->getBody(), true);
