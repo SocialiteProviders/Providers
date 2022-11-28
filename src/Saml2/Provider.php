@@ -296,7 +296,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         Cache::forever(self::METADATA_CACHE_KEY_TTL, time());
 
         try {
-            $xml = (string)$this->getHttpClient()
+            $xml = (string) $this->getHttpClient()
                 ->get($metadataUrl)
                 ->getBody();
 
@@ -425,7 +425,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $methods = [
             SamlConstants::BINDING_SAML2_HTTP_REDIRECT => 'GET',
-            SamlConstants::BINDING_SAML2_HTTP_POST => 'POST',
+            SamlConstants::BINDING_SAML2_HTTP_POST     => 'POST',
         ];
 
         if (!array_key_exists($bindingType, $methods)) {
@@ -448,7 +448,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function validateAssertion(): void
     {
-        $assertionValidator = new AssertionValidator(new NameIdValidator, new SubjectValidator(new NameIdValidator), new StatementValidator);
+        $assertionValidator = new AssertionValidator(new NameIdValidator(), new SubjectValidator(new NameIdValidator()), new StatementValidator());
         $assertionValidator->validateAssertion($this->getFirstAssertion());
     }
 
@@ -469,7 +469,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             new LocationCriteria($recipient),
         ]);
 
-        $endpoints = (new DescriptorTypeEndpointResolver)
+        $endpoints = (new DescriptorTypeEndpointResolver())
             ->resolve($criteriaSet, $this->getServiceProviderEntityDescriptor()->getAllEndpoints());
 
         if (empty($endpoints)) {
@@ -491,7 +491,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function validateTimestamps(): void
     {
-        (new AssertionTimeValidator)
+        (new AssertionTimeValidator())
             ->validateTimeRestrictions($this->getFirstAssertion(), Carbon::now()->timestamp, $this->getConfig('validation.clock_skew', 120));
     }
 
