@@ -3,9 +3,9 @@
 namespace SocialiteProviders\Xbox;
 
 use GuzzleHttp\RequestOptions;
-use SocialiteProviders\Manager\OAuth2\User;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
@@ -77,7 +77,7 @@ class Provider extends AbstractProvider
             return $this->user;
         }
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException;
+            throw new InvalidStateException();
         }
         $response = $this->getAccessTokenResponse($this->getCode());
         $this->user = $this->mapUserToObject($this->getUserByToken($response['token']));
@@ -87,7 +87,8 @@ class Provider extends AbstractProvider
     /**
      * Get the access token response for the given code.
      *
-     * @param  string  $code
+     * @param string $code
+     * 
      * @return array
      */
     public function getAccessTokenResponse($code)
@@ -162,7 +163,7 @@ class Provider extends AbstractProvider
                 'Properties' => [
                     'AuthMethod' => 'RPS',
                     'SiteName'   => 'user.auth.xboxlive.com',
-                    'RpsTicket'  => 'd=' . $xboxToken['token'],
+                    'RpsTicket'  => 'd='.$xboxToken['token'],
                 ],
                 'RelyingParty' => 'http://auth.xboxlive.com',
                 'TokenType'    => 'JWT',
