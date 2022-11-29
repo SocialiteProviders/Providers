@@ -81,6 +81,7 @@ class Provider extends AbstractProvider
         }
         $response = $this->getAccessTokenResponse($this->getCode());
         $this->user = $this->mapUserToObject($this->getUserByToken($response['token']));
+
         return $this->user;
     }
 
@@ -94,6 +95,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $microsoftToken = $this->getMicrosoftToken($code);
+
         return $this->signInIntoXboxLive($microsoftToken);
     }
 
@@ -140,6 +142,7 @@ class Provider extends AbstractProvider
         ]);
 
         $data = json_decode((string) $response->getBody(), true);
+
         return [
             'token' => $data['access_token'],
         ];
@@ -171,6 +174,7 @@ class Provider extends AbstractProvider
         ]);
 
         $data = json_decode((string) $response->getBody(), true);
+
         return [
             'token' => $data['Token'],
             'uhs'   => $data['DisplayClaims']['xui'][0]['uhs'],
