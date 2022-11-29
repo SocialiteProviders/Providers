@@ -42,7 +42,6 @@ class Provider extends AbstractProvider
         return $this->getConfig('base_url');
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -114,12 +113,12 @@ class Provider extends AbstractProvider
 
         return json_decode((string) $response->getBody(), true);
     }
+
     /**
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
     {
-        
         return (new User())->setRaw($user)->map([
             'id'                    => Arr::get($user, 'sub'),
             'email'                 => Arr::get($user, 'email'),
@@ -142,7 +141,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 
@@ -167,7 +166,7 @@ class Provider extends AbstractProvider
         return "$url?$params";
     }
 
-     /**
+    /**
      * @param string $token
      * @param string $hint
      *
@@ -176,6 +175,7 @@ class Provider extends AbstractProvider
     public function revokeToken(string $token, string $hint = 'access_token')
     {
         $url = $this->getOneloginUrl().'/token/revocation';
+
         return $this->getHttpClient()->post($url, [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
             RequestOptions::HEADERS     => ['Accept' => 'application/json'],
