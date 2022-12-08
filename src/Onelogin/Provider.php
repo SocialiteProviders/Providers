@@ -37,6 +37,14 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['base_url'];
+    }
+
     protected function getOneloginUrl()
     {
         return $this->getConfig('base_url');
