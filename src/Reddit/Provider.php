@@ -2,12 +2,14 @@
 
 namespace SocialiteProviders\Reddit;
 
-use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
+    /**
+     * Unique Provider Identifier.
+     */
     public const IDENTIFIER = 'REDDIT';
 
     /**
@@ -29,6 +31,33 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected function buildAuthUrlFromBase($url, $state)
+    {
+        return $url.'?'.http_build_query(
+            [
+                'client_id'     => $this->clientId,
+                'redirect_uri'  => $this->redirectUrl,
+                'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
+                'response_type' => $this->getFromConfig('response_type'),
+                'state'         => $this->getFromConfig('state'),
+            ],
+            '',
+            '&',
+            $this->encodingType
+        );
+    }
+
+    /**
+     * @param string $arrayKey
+     */
+    protected function getFromConfig($arrayKey)
+    {
+        return app()['config']['services.reddit'][$arrayKey];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getTokenUrl()
     {
         return 'https://ssl.reddit.com/api/v1/access_token';
@@ -42,14 +71,14 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://oauth.reddit.com/api/v1/me',
             [
-                RequestOptions::HEADERS => [
+                'headers' => [
                     'Authorization' => 'Bearer '.$token,
                     'User-Agent'    => $this->getUserAgent(),
                 ],
             ]
         );
 
-        return json_decode((string) $response->getBody(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -86,15 +115,15 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => [
+            'headers' => [
                 'Accept'     => 'application/json',
                 'User-Agent' => $this->getUserAgent(),
             ],
-            RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
-            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
+            'auth'        => [$this->clientId, $this->clientSecret],
+            'form_params' => $this->getTokenFields($code),
         ]);
 
-        $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
+        $this->credentialsResponseBody = json_decode($response->getBody(), true);
 
         return $this->credentialsResponseBody;
     }
