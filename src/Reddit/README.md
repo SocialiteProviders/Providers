@@ -14,6 +14,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'reddit' => [    
   'client_id' => env('REDDIT_CLIENT_ID'),  
   'client_secret' => env('REDDIT_CLIENT_SECRET'),  
+  'response_type' => env('REDDIT_RESPONSE_TYPE', 'code'),
+  'state' => env('REDDIT_STATE', 'r@nd0m5tr1n6'),
   'redirect' => env('REDDIT_REDIRECT_URI') 
 ],
 ```
