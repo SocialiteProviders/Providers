@@ -47,11 +47,11 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get(self::SYNC_URL, [
             'headers' => [
-            'Authorization' => 'Bearer '.$token,
+                'Authorization' => 'Bearer '.$token,
             ],
             RequestOptions::QUERY => [
-            'sync_token' => '*',
-            'resource_types' => json_encode(['user']),
+                'sync_token' => '*',
+                'resource_types' => json_encode(['user']),
             ],
         ]);
 
