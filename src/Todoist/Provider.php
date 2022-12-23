@@ -46,10 +46,12 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(self::SYNC_URL, [
+            'headers' => [
+            'Authorization' => 'Bearer '.$token,
+            ],
             RequestOptions::QUERY => [
-                'token'          => $token,
-                'sync_token'     => '*',
-                'resource_types' => json_encode(['user']),
+            'sync_token' => '*',
+            'resource_types' => json_encode(['user']),
             ],
         ]);
 
