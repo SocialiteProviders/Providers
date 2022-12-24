@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Bearer '.$token,
             ],
             RequestOptions::QUERY => [
-                'sync_token'    => '*',
+                'sync_token'     => '*',
                 'resource_types' => json_encode(['user']),
             ],
         ]);
