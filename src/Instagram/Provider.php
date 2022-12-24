@@ -2,12 +2,14 @@
 
 namespace SocialiteProviders\Instagram;
 
-use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
+    /**
+     * Unique Provider Identifier.
+     */
     public const IDENTIFIER = 'INSTAGRAM';
 
     /**
@@ -16,9 +18,16 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
+     * The user fields being requested.
+     *
+     * @var array
+     */
+    protected $fields = ['account_type', 'id', 'username', 'media_count', 'profile_picture'];
+
+    /**
      * {@inheritdoc}
      */
-    protected $scopes = ['basic'];
+    protected $scopes = ['user_profile'];
 
     /**
      * {@inheritdoc}
@@ -44,45 +53,41 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $endpoint = '/users/self';
-        $query = [
-            'access_token' => $token,
-        ];
-        $signature = $this->generateSignature($endpoint, $query);
+        $meUrl = 'https://graph.instagram.com/me?access_token='.$token.'&fields='.implode(',', $this->fields);
 
-        $query['sig'] = $signature;
-        $response = $this->getHttpClient()->get(
-            'https://api.instagram.com/v1/users/self',
-            [
-                RequestOptions::QUERY   => $query,
-                RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
-                ],
-            ]
-        );
+        if (!empty($this->clientSecret)) {
+            $appSecretProof = hash_hmac('sha256', $token, $this->clientSecret);
+            $meUrl .= '&appsecret_proof='.$appSecretProof;
+        }
+        $response = $this->getHttpClient()->get($meUrl, [
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+        ]);
 
-        return json_decode((string) $response->getBody(), true)['data'];
+        return json_decode($response->getBody(), true);
     }
-
     /**
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['id'], 'nickname' => $user['username'],
-            'name'   => $user['full_name'], 'email' => null,
-            'avatar' => $user['profile_picture'],
+            'id'            => $user['id'],
+            'name'          => $user['username'],
+            'account_type'  => $user['account_type'],
+            'avatar'        => $user['profile_picture'] ?? null,
+            'media_count'   => $user['media_count'] ?? null,
         ]);
     }
 
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
+            'form_params' => $this->getTokenFields($code),
         ]);
 
-        $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
+        $this->credentialsResponseBody = json_decode($response->getBody(), true);
 
         return $this->parseAccessToken($response->getBody());
     }
