@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Instagram;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -22,7 +23,7 @@ class Provider extends AbstractProvider
      *
      * @var array
      */
-    protected $fields = ['account_type', 'id', 'username', 'media_count', 'profile_picture'];
+    protected $fields = ['account_type', 'id', 'username', 'media_count'];
 
     /**
      * {@inheritdoc}
@@ -60,7 +61,7 @@ class Provider extends AbstractProvider
             $meUrl .= '&appsecret_proof='.$appSecretProof;
         }
         $response = $this->getHttpClient()->get($meUrl, [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Accept' => 'application/json',
             ],
         ]);
@@ -77,7 +78,6 @@ class Provider extends AbstractProvider
             'id'            => $user['id'],
             'name'          => $user['username'],
             'account_type'  => $user['account_type'],
-            'avatar'        => $user['profile_picture'] ?? null,
             'media_count'   => $user['media_count'] ?? null,
         ]);
     }
@@ -101,24 +101,5 @@ class Provider extends AbstractProvider
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
-    }
-
-    /**
-     * Allows compatibility for signed API requests.
-     *
-     * @param string @endpoint
-     * @param array $params
-     *
-     * @return string
-     */
-    protected function generateSignature($endpoint, array $params)
-    {
-        $sig = $endpoint;
-        ksort($params);
-        foreach ($params as $key => $val) {
-            $sig .= "|$key=$val";
-        }
-
-        return hash_hmac('sha256', $sig, $this->clientSecret, false);
     }
 }
