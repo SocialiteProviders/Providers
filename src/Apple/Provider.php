@@ -122,6 +122,7 @@ class Provider extends AbstractProvider
      * side by Apple.
      *
      * @param string $token
+     * 
      * @throws InvalidStateException when token can't be parsed
      *
      * @return User $user
