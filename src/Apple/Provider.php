@@ -121,11 +121,12 @@ class Provider extends AbstractProvider
      * Return the user given the identity token provided on the client
      * side by Apple.
      *
-     * @param String $token
-     * @return User
+     * @param string $token
      * @throws InvalidStateException when token can't be parsed
+     *
+     * @return User $user
      */
-    public function userByIdentityToken(String $token) : SocialiteUser
+    public function userByIdentityToken(string $token): SocialiteUser
     {
         $array = $this->getUserByToken($token);
 
