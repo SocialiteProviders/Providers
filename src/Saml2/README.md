@@ -29,6 +29,18 @@ Using a metadata URL is highly recommended if your IDP supports it, so that cert
 ],
 ```
 
+The provider will automatically choose the first IdP descriptor in your metadata.
+If your metadata contains multiple descriptors, you can choose the one to use by using both the `metadata` and `entityid`
+configuration options at the same time.
+
+#### Using an Identity Provider metadata URL, selecting a specific descriptor
+```php
+'saml2' => [
+  'metadata' => 'https://idp.co/metadata/xml',
+  'entityid' => 'http://saml.to/trust',
+],
+```
+
 #### Manually configuring the Identity Provider with a certificate string:
 ```php
 'saml2' => [
