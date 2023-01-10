@@ -44,6 +44,6 @@ return Socialite::driver('instagram')->redirect();
 ### Returned User fields
 
 - ``id``
-- ``nickname``
-- ``name``
-- ``avatar``
+- ``username``
+- ``account_type``
+- ``media_count``

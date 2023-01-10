@@ -8,6 +8,9 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
+    /**
+     * Unique Provider Identifier.
+     */
     public const IDENTIFIER = 'INSTAGRAM';
 
     /**
@@ -16,9 +19,16 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
+     * The user fields being requested.
+     *
+     * @var array
+     */
+    protected $fields = ['account_type', 'id', 'username', 'media_count'];
+
+    /**
      * {@inheritdoc}
      */
-    protected $scopes = ['basic'];
+    protected $scopes = ['user_profile'];
 
     /**
      * {@inheritdoc}
@@ -44,24 +54,19 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $endpoint = '/users/self';
-        $query = [
-            'access_token' => $token,
-        ];
-        $signature = $this->generateSignature($endpoint, $query);
+        $meUrl = 'https://graph.instagram.com/me?access_token='.$token.'&fields='.implode(',', $this->fields);
 
-        $query['sig'] = $signature;
-        $response = $this->getHttpClient()->get(
-            'https://api.instagram.com/v1/users/self',
-            [
-                RequestOptions::QUERY   => $query,
-                RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
-                ],
-            ]
-        );
+        if (!empty($this->clientSecret)) {
+            $appSecretProof = hash_hmac('sha256', $token, $this->clientSecret);
+            $meUrl .= '&appsecret_proof='.$appSecretProof;
+        }
+        $response = $this->getHttpClient()->get($meUrl, [
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+            ],
+        ]);
 
-        return json_decode((string) $response->getBody(), true)['data'];
+        return json_decode($response->getBody(), true);
     }
 
     /**
@@ -70,9 +75,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'     => $user['id'], 'nickname' => $user['username'],
-            'name'   => $user['full_name'], 'email' => null,
-            'avatar' => $user['profile_picture'],
+            'id'            => $user['id'],
+            'name'          => $user['username'],
+            'account_type'  => $user['account_type'],
+            'media_count'   => $user['media_count'] ?? null,
         ]);
     }
 
@@ -95,24 +101,5 @@ class Provider extends AbstractProvider
         return array_merge(parent::getTokenFields($code), [
             'grant_type' => 'authorization_code',
         ]);
-    }
-
-    /**
-     * Allows compatibility for signed API requests.
-     *
-     * @param string @endpoint
-     * @param array $params
-     *
-     * @return string
-     */
-    protected function generateSignature($endpoint, array $params)
-    {
-        $sig = $endpoint;
-        ksort($params);
-        foreach ($params as $key => $val) {
-            $sig .= "|$key=$val";
-        }
-
-        return hash_hmac('sha256', $sig, $this->clientSecret, false);
     }
 }

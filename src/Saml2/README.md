@@ -148,6 +148,29 @@ An example command to generate a certificate and private key with openssl:
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout sp_saml.pem -out sp_saml.crt
 ```
 
+### Validation
+
+The provider validates the timestamps in the assertion including `NotBefore` and `NotOnOrAfter`.
+The default clock skew is 120 seconds but this can be changed as part of the config:
+```
+'saml2' => [
+  'metadata' => 'https://idp.co/metadata/xml',
+  'validation' => [
+    'clock_skew' => 30, // Time in seconds
+  ],
+],
+```
+
+The provider checks that the identity provider never repeats an assertion ID. IDs are remembered forever by default, but this can be configured:
+```
+'saml2' => [
+  'metadata' => 'https://idp.co/metadata/xml',
+  'validation' => [
+    'repeated_id_ttl' => 365 * 24 * 60 * 60, // Time in seconds, or null to cache forever
+  ],
+],
+```
+
 ### Identity provider metadata
 
 When using a metadata URL for the identity provider the fetched metadata is cached for 24 hours by default.
