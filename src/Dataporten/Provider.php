@@ -12,6 +12,11 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
+    */
+    protected $scopes = ['openid'];
+
+    /**
+     * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
@@ -57,4 +62,18 @@ class Provider extends AbstractProvider
             'grant_type' => 'authorization_code',
         ]);
     }
+
+    /**
+     *  Get the endsession endpoint URL.
+     */
+    public function getLogoutUrl($idToken, $endpointUri, $redirectUri)
+    {
+        $params = http_build_query(array_filter([
+            'id_token_hint'            => $idToken,
+            'post_logout_redirect_uri' => $redirectUri,
+        ]));
+
+        return "$endpointUri?$params";
+    }
+
 }
