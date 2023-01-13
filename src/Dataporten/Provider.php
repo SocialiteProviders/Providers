@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
-    */
+     */
     protected $scopes = ['openid'];
 
     /**
@@ -75,5 +75,4 @@ class Provider extends AbstractProvider
 
         return "$endpointUri?$params";
     }
-
 }
