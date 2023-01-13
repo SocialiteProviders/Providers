@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Microsoft;
 
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Microsoft\MicrosoftUser as User;
 
@@ -85,16 +86,16 @@ class Provider extends AbstractProvider
             'email'    => $user['userPrincipalName'],
             'avatar'   => null,
 
-            'businessPhones'    => $user['businessPhones'],
-            'displayName'       => $user['displayName'],
-            'givenName'         => $user['givenName'],
-            'jobTitle'          => $user['jobTitle'],
-            'mail'              => $user['mail'],
-            'mobilePhone'       => $user['mobilePhone'],
-            'officeLocation'    => $user['officeLocation'],
-            'preferredLanguage' => $user['preferredLanguage'],
-            'surname'           => $user['surname'],
-            'userPrincipalName' => $user['userPrincipalName'],
+            'businessPhones'    => Arr::get($user, 'businessPhones'),
+            'displayName'       => Arr::get($user, 'displayName'),
+            'givenName'         => Arr::get($user, 'givenName'),
+            'jobTitle'          => Arr::get($user, 'jobTitle'),
+            'mail'              => Arr::get($user, 'mail'),
+            'mobilePhone'       => Arr::get($user, 'mobilePhone'),
+            'officeLocation'    => Arr::get($user, 'officeLocation'),
+            'preferredLanguage' => Arr::get($user, 'preferredLanguage'),
+            'surname'           => Arr::get($user, 'surname'),
+            'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
         ]);
     }
 
