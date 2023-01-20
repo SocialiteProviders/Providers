@@ -110,7 +110,19 @@ If you add both routes to support both binding methods, you can select the defau
 ],
 ```
 
-#### Single logout
+### Stateless
+
+The provider supports SAML2 unsolicited / IdP-initiated requests. To use this technique the *callback* route must be set up as stateless.
+
+```php
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('saml2')->stateless()->user();
+});
+```
+
+(Note this differs from the [standard](https://socialiteproviders.com/usage/#stateless) Socialite usage where the *redirect* is marked stateless.)
+
+### Single logout
 
 **Warning!** Please note that the SAML2 Single Logout feature is a best effort way of centralized logout. With the current state of affairs it requires special circumstances to work. You have to set your session config `same_site = 'none'` and `secure = true` for it to work which has serious security implications. Please always make sure you understand the risks before using this feature.
 
