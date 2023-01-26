@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/webflow",
+    "description": "Webflow OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "webflow"
+    ],
+    "authors": [
+        {
+            "name": "Flow Guys",
+            "email": "info@flowguys.com",
+            "homepage": "https://flowguys.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/webflow"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Webflow\\": ""
+        }
+    }
+}

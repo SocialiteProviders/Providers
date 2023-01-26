@@ -110,7 +110,19 @@ If you add both routes to support both binding methods, you can select the defau
 ],
 ```
 
-#### Single logout
+### Stateless
+
+The provider supports SAML2 unsolicited / IdP-initiated requests. To use this technique the *callback* route must be set up as stateless.
+
+```php
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('saml2')->stateless()->user();
+});
+```
+
+(Note this differs from the [standard](https://socialiteproviders.com/usage/#stateless) Socialite usage where the *redirect* is marked stateless.)
+
+### Single logout
 
 **Warning!** Please note that the SAML2 Single Logout feature is a best effort way of centralized logout. With the current state of affairs it requires special circumstances to work. You have to set your session config `same_site = 'none'` and `secure = true` for it to work which has serious security implications. Please always make sure you understand the risks before using this feature.
 
@@ -146,6 +158,29 @@ Always protect your private key and store it in a place where it is not accessib
 An example command to generate a certificate and private key with openssl:
 ```
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout sp_saml.pem -out sp_saml.crt
+```
+
+### Validation
+
+The provider validates the timestamps in the assertion including `NotBefore` and `NotOnOrAfter`.
+The default clock skew is 120 seconds but this can be changed as part of the config:
+```
+'saml2' => [
+  'metadata' => 'https://idp.co/metadata/xml',
+  'validation' => [
+    'clock_skew' => 30, // Time in seconds
+  ],
+],
+```
+
+The provider checks that the identity provider never repeats an assertion ID. IDs are remembered forever by default, but this can be configured:
+```
+'saml2' => [
+  'metadata' => 'https://idp.co/metadata/xml',
+  'validation' => [
+    'repeated_id_ttl' => 365 * 24 * 60 * 60, // Time in seconds, or null to cache forever
+  ],
+],
 ```
 
 ### Identity provider metadata
