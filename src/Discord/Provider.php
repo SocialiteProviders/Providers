@@ -22,7 +22,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $consent = false;
-    
+
     /**
      * {@inheritdoc}
      */
@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
 
         return $this;
     }
-    
+
     /**
      * {@inheritdoc}
      */
