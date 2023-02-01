@@ -21,6 +21,11 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected $consent = false;
+
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -32,6 +37,32 @@ class Provider extends AbstractProvider
             'https://discord.com/api/oauth2/authorize',
             $state
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCodeFields($state = null)
+    {
+        $fields = parent::getCodeFields($state);
+
+        if (!$this->consent) {
+            $fields['prompt'] = 'none';
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Prompt for consent each time or not.
+     *
+     * @return $this
+     */
+    public function withConsent()
+    {
+        $this->consent = true;
+
+        return $this;
     }
 
     /**
