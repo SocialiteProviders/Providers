@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response_user = $this->getHttpClient()->get(
+        $responseUser = $this->getHttpClient()->get(
             'https://graph.microsoft.com/v1.0/me',
             [
                 RequestOptions::HEADERS => [
