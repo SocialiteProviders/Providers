@@ -77,10 +77,10 @@ class Provider extends AbstractProvider
             ]
         );
 
-        $formatted_response = json_decode((string) $response_user->getBody(), true);
+        $formatted_response = json_decode((string) $responseUser->getBody(), true);
 
         if ($this->getConfig('tenant', 'common') === 'common') {
-            $response_tenant = $this->getHttpClient()->get(
+            $responseTenant = $this->getHttpClient()->get(
                 'https://graph.microsoft.com/v1.0/organization',
                 [
                     RequestOptions::HEADERS => [
@@ -93,7 +93,7 @@ class Provider extends AbstractProvider
                 ]
             );
 
-            $formatted_response['tenant'] = json_decode((string) $response_tenant->getBody(), true)['value'][0];
+            $formatted_response['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0];
         }
 
         return $formatted_response;
