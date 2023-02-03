@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
                     'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::QUERY => [
-                    '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_USER, ($this->config['user_fields'] ?: []))),
+                    '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_USER, ($this->config['fields'] ?: []))),
                 ],
             ]
         );
@@ -145,6 +145,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant', 'user_fields', 'tenant_fields'];
+        return ['tenant', 'fields', 'tenant_fields'];
     }
 }
