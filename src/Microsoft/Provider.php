@@ -79,7 +79,7 @@ class Provider extends AbstractProvider
 
         $formatted_response = json_decode((string) $responseUser->getBody(), true);
 
-        if (($this->getConfig('tenant', 'common') === 'common') && ($this->getConfig('include_tenant_info', 'false') === 'true')) {
+        if (($this->getConfig('tenant', 'common') === 'common') && ($this->getConfig('include_tenant_info', false) === true)) {
             $responseTenant = $this->getHttpClient()->get(
                 'https://graph.microsoft.com/v1.0/organization',
                 [
