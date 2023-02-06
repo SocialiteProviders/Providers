@@ -67,7 +67,6 @@ class Server extends BaseServer
         return $user;
     }
 
-
     /**
      * Generate the OAuth protocol header for a temporary credentials
      * request, based on the URI.
@@ -95,7 +94,7 @@ class Server extends BaseServer
         $client = $this->createHttpClient();
 
         $formParams = [
-            'scopes' => implode('|', $this->scopes)
+            'scopes' => implode('|', $this->scopes),
         ];
 
         $header = $this->temporaryCredentialsProtocolHeader($uri);
@@ -104,8 +103,8 @@ class Server extends BaseServer
 
         try {
             $response = $client->post($uri, [
-                'headers' => $headers,
-                'form_params' => $formParams
+                'headers'     => $headers,
+                'form_params' => $formParams,
             ]);
 
             return $this->createTemporaryCredentials((string) $response->getBody());
