@@ -40,12 +40,17 @@ class Server extends BaseServer
      */
     public function urlUserDetails()
     {
-        return $this->getDomain().'/services/users/user'.'?fields=id|first_name|last_name|email|photo_urls';
+        return $this->getDomain().'/services/users/user'.'?fields='.$this->getFieldsSelector();
     }
 
     private function getDomain()
     {
         return config('services.usos.domain');
+    }
+
+    private function getFieldsSelector()
+    {
+        return config('services.usos.profile_fields_selector', 'id|first_name|last_name|email|photo_urls');
     }
 
     /**
