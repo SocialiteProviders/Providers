@@ -77,7 +77,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        $formatted_response = json_decode((string) $responseUser->getBody(), true);
+        $formattedResponse = json_decode((string) $responseUser->getBody(), true);
 
         if ($this->getConfig('tenant', 'common') === 'common' && $this->getConfig('include_tenant_info', false) {
             $responseTenant = $this->getHttpClient()->get(
@@ -93,11 +93,11 @@ class Provider extends AbstractProvider
                 ]
             );
 
-            $formatted_response['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] 
+            $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] 
             ?? null;
         }
 
-        return $formatted_response;
+        return $formattedResponse;
     }
 
     /**
