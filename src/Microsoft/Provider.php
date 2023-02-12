@@ -93,8 +93,7 @@ class Provider extends AbstractProvider
                 ]
             );
 
-            $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] 
-            ?? null;
+            $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
         }
 
         return $formattedResponse;
