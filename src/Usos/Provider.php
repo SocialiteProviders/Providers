@@ -22,4 +22,9 @@ class Provider extends AbstractProvider
             'avatar'   => $user['avatar'],
         ]);
     }
+
+    public static function additionalConfigKeys()
+    {
+        return ['profile_fields_selector', 'domain'];
+    }
 }

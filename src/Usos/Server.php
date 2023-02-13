@@ -43,14 +43,21 @@ class Server extends BaseServer
         return $this->getDomain().'/services/users/user'.'?fields='.$this->getFieldsSelector();
     }
 
+    /*
+     * Returns an instance domain, according to the environment configuration
+     */
     private function getDomain()
     {
-        return config('services.usos.domain');
+        return $this->getConfig('domain');
     }
 
+    /*
+     * Returns a fields selector for services/users/user method, which defines a list of fields,
+     * which will be returned from API endpoint.
+     */
     private function getFieldsSelector()
     {
-        return config('services.usos.profile_fields_selector', 'id|first_name|last_name|email|photo_urls');
+        return $this->getConfig('profile_fields_selector', 'id|first_name|last_name|email|photo_urls');
     }
 
     /**
