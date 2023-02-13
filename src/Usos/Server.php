@@ -72,9 +72,7 @@ class Server extends BaseServer
         $user->avatar = $data['photo_urls']['50x50'] ?? null;
         $user->email = $data['email'] ?? null;
 
-        $used = ['id', 'first_name', 'last_name', 'email'];
-
-        $user->extra = array_diff_key($data, array_flip($used));
+        $user->extra = $data;
 
         return $user;
     }
