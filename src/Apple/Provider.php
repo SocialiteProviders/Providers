@@ -3,7 +3,6 @@
 namespace SocialiteProviders\Apple;
 
 use Firebase\JWT\JWK;
-use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -149,7 +148,7 @@ class Provider extends AbstractProvider
         $token = $jwtContainer->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
-            $response = (new Client())->get(self::URL.'/auth/keys');
+            $response = $this->getHttpClient()->get(self::URL.'/auth/keys');
 
             return json_decode((string) $response->getBody(), true);
         });
