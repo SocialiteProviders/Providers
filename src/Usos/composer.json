@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/usos",
+    "description": "USOS OAuth1 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "USOS",
+        "Uniwersytecki System Obsługi Studiów"
+    ],
+    "authors": [
+        {
+            "name": "Władysław Mostowicz",
+            "email": "mostovyv@uek.krakow.pl"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/usos"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Usos\\": ""
+        }
+    }
+}
