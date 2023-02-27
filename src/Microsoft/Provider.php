@@ -88,7 +88,7 @@ class Provider extends AbstractProvider
                         'Authorization' => 'Bearer '.$token,
                     ],
                     RequestOptions::QUERY => [
-                        '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, ($this->config['tenant_fields'] ?: []))),
+                        '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields'))),
                     ],
                 ]
             );
