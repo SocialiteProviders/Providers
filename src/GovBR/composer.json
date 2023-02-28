@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/govbr",
+    "description": "GovBR OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "govbr",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Saade",
+            "email": "saade@outlook.com.br"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/govbr"
+    },
+    "require": {
+        "php": "^8.0",
+        "socialiteproviders/manager": "~4.0",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\GovBR\\": ""
+        }
+    }
+}
