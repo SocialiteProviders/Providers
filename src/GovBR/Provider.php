@@ -25,14 +25,14 @@ class Provider extends AbstractProvider implements ProviderInterface
     const SCOPE_GOVBR_CONFIABILIDADES = 'govbr_confiabilidades';
 
     /**
-     * Staging URL
+     * Staging URL.
      *
      * @var string
      */
     protected $stagingUrl = 'https://sso.staging.acesso.gov.br';
 
     /**
-     * Production URL
+     * Production URL.
      *
      * @var string
      */
@@ -63,7 +63,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getBaseUrlForEnvironment() . '/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->getBaseUrlForEnvironment().'/authorize', $state);
     }
 
     /**
@@ -71,7 +71,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return $this->getBaseUrlForEnvironment() . '/token';
+        return $this->getBaseUrlForEnvironment().'/token';
     }
 
     /**
@@ -79,9 +79,9 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getBaseUrlForEnvironment() . '/userinfo', [
+        $response = $this->getHttpClient()->get($this->getBaseUrlForEnvironment().'/userinfo', [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -94,15 +94,15 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['sub'],
-            'cpf' => $user['sub'],
-            'name' => $user['name'],
-            'email' => $user['email'] ?? null,
-            'email_verified' => $user['email_verified'] ?? null,
-            'phone_number' => $user['phone_number'] ?? null,
+            'id'                    => $user['sub'],
+            'cpf'                   => $user['sub'],
+            'name'                  => $user['name'],
+            'email'                 => $user['email'] ?? null,
+            'email_verified'        => $user['email_verified'] ?? null,
+            'phone_number'          => $user['phone_number'] ?? null,
             'phone_number_verified' => $user['phone_number_verified'] ?? null,
-            'avatar_url' => $user['picture'] ?? null,
-            'profile' => $user['profile'] ?? null,
+            'avatar_url'            => $user['picture'] ?? null,
+            'profile'               => $user['profile'] ?? null,
         ]);
     }
 
@@ -134,9 +134,9 @@ class Provider extends AbstractProvider implements ProviderInterface
         $environment = $this->getConfig('environment', 'production');
 
         return match ($environment) {
-            'staging' => $this->stagingUrl,
+            'staging'    => $this->stagingUrl,
             'production' => $this->productionUrl,
-            default => throw new RuntimeException("Invalid environment '{$environment}' selected for GovBR provider."),
+            default      => throw new RuntimeException("Invalid environment '{$environment}' selected for GovBR provider."),
         };
     }
 }
