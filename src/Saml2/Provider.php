@@ -510,9 +510,12 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function validateSignature(): void
     {
-        $keyDescriptors = $this->getIdentityProviderEntityDescriptor()
-            ->getFirstIdpSsoDescriptor()
-            ->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING);
+        $idpSsoDescriptor = $this->getIdentityProviderEntityDescriptor()->getFirstIdpSsoDescriptor();
+
+        $keyDescriptors = array_merge(
+            $idpSsoDescriptor->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING),
+            $idpSsoDescriptor->getAllKeyDescriptorsByUse(null),
+        );
 
         /** @var SignatureXmlReader $signatureReader */
         $signatureReader = $this->messageContext->getMessage()->getSignature() ?: $this->getFirstAssertion()->getSignature();
