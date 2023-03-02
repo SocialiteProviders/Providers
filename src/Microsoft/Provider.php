@@ -16,8 +16,14 @@ class Provider extends AbstractProvider
      *
      * @see https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions
      */
-    protected const DEFAULT_FIELDS = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'mail', 'mobilePhone', 'officeLocation', 'preferredLanguage', 'surname', 'userPrincipalName'];
+    protected const DEFAULT_FIELDS_USER = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'mail', 'mobilePhone', 'officeLocation', 'preferredLanguage', 'surname', 'userPrincipalName'];
 
+    /**
+     * Default tenant field list to request from Microsoft.
+     *
+     * @see https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions
+     */
+    protected const DEFAULT_FIELDS_TENANT = ['id', 'displayName', 'city', 'country', 'countryLetterCode', 'state', 'street', 'verifiedDomains'];
     /**
      * {@inheritdoc}
      * https://msdn.microsoft.com/en-us/library/azure/ad/graph/howto/azure-ad-graph-api-permission-scopes.
@@ -58,7 +64,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
+        $responseUser = $this->getHttpClient()->get(
             'https://graph.microsoft.com/v1.0/me',
             [
                 RequestOptions::HEADERS => [
@@ -66,12 +72,31 @@ class Provider extends AbstractProvider
                     'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::QUERY => [
-                    '$select' => implode(',', array_merge(self::DEFAULT_FIELDS, ($this->config['fields'] ?: []))),
+                    '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_USER, $this->getConfig('fields', []))),
                 ],
             ]
         );
 
-        return json_decode((string) $response->getBody(), true);
+        $formattedResponse = json_decode((string) $responseUser->getBody(), true);
+
+        if ($this->getConfig('tenant', 'common') === 'common' && $this->getConfig('include_tenant_info', false)) {
+            $responseTenant = $this->getHttpClient()->get(
+                'https://graph.microsoft.com/v1.0/organization',
+                [
+                    RequestOptions::HEADERS => [
+                        'Accept'        => 'application/json',
+                        'Authorization' => 'Bearer '.$token,
+                    ],
+                    RequestOptions::QUERY => [
+                        '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields', []))),
+                    ],
+                ]
+            );
+
+            $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
+        }
+
+        return $formattedResponse;
     }
 
     /**
@@ -96,6 +121,8 @@ class Provider extends AbstractProvider
             'preferredLanguage' => Arr::get($user, 'preferredLanguage'),
             'surname'           => Arr::get($user, 'surname'),
             'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
+
+            'tenant' => Arr::get($user, 'tenant'),
         ]);
     }
 
@@ -118,6 +145,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant', 'fields'];
+        return ['tenant', 'include_tenant_info', 'fields', 'tenant_fields'];
     }
 }
