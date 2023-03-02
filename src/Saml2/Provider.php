@@ -267,20 +267,33 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $builder->get();
     }
 
-    protected function getFirstEntityDescriptorFromXml(string $xml): EntityDescriptor
+    protected function getIdpEntityDescriptorFromXml(string $xml): EntityDescriptor
     {
-        $descriptor = Metadata::fromXML($xml, new DeserializationContext());
+        /** @var EntitiesDescriptor|EntityDescriptor $metadata */
+        $metadata = Metadata::fromXML($xml, new DeserializationContext());
 
-        if ($descriptor instanceof EntitiesDescriptor) {
-            return Arr::first($descriptor->getAllEntityDescriptors());
+        if ($metadata instanceof EntityDescriptor) {
+            return $metadata;
         }
 
-        return $descriptor;
+        $entityId = $this->getConfig('entityid');
+
+        if (!$entityId) {
+            return Arr::first($metadata->getAllEntityDescriptors());
+        }
+
+        $entityDescriptor = $metadata->getByEntityId($entityId);
+
+        if (null === $entityDescriptor) {
+            throw new MissingConfigException(sprintf('The IDP descriptor with entity id %s could not be found in the metadata.', $entityId));
+        }
+
+        return $entityDescriptor;
     }
 
     protected function getIdentityProviderEntityDescriptorFromXml(): EntityDescriptor
     {
-        return $this->getFirstEntityDescriptorFromXml($this->getConfig('metadata'));
+        return $this->getIdpEntityDescriptorFromXml($this->getConfig('metadata'));
     }
 
     protected function getIdentityProviderEntityDescriptorFromUrl(): EntityDescriptor
@@ -290,7 +303,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $ttl = Cache::get(self::METADATA_CACHE_KEY_TTL);
 
         if ($xml && $ttl && $ttl + $this->getConfig('ttl', 86400) > time()) {
-            return $this->getFirstEntityDescriptorFromXml($xml);
+            return $this->getIdpEntityDescriptorFromXml($xml);
         }
 
         Cache::forever(self::METADATA_CACHE_KEY_TTL, time());
@@ -307,7 +320,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             }
         }
 
-        return $this->getFirstEntityDescriptorFromXml($xml);
+        return $this->getIdpEntityDescriptorFromXml($xml);
     }
 
     /**
