@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\Microsoft;
 
-use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Microsoft\MicrosoftUser as User;
@@ -79,7 +79,7 @@ class Provider extends AbstractProvider
         );
 
         $formattedResponse = json_decode((string) $responseUser->getBody(), true);
-        
+
         if ($this->getConfig('include_avatar', false)) {
             try {
                 $imageSize = $this->getConfig('include_avatar_size', '648x648');
