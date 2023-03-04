@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Microsoft;
 
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Microsoft\MicrosoftUser as User;
@@ -80,7 +81,7 @@ class Provider extends AbstractProvider
         $formattedResponse = json_decode((string) $responseUser->getBody(), true);
         
         if ($this->getConfig('include_avatar', false)) {
-            try{
+            try {
                 $imageSize = $this->getConfig('include_avatar_size', '648x648');
                 $responseAvatar = $this->getHttpClient()->get(
                     "https://graph.microsoft.com/v1.0/me/photos/{$imageSize}/\$value",
@@ -92,8 +93,8 @@ class Provider extends AbstractProvider
                     ]
                 );
 
-                $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents())  ?? null;
-            } catch(ClientException $e) {
+                $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents()) ?? null;
+            } catch (ClientException $e) {
                 //if exception then avatar does not exist.
                 $formattedResponse['avatar'] = null;
             }
@@ -165,6 +166,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant', 'include_tenant_info', 'include_avatar','include_avatar_size', 'fields', 'tenant_fields'];
+        return ['tenant', 'include_tenant_info', 'include_avatar', 'include_avatar_size', 'fields', 'tenant_fields'];
     }
 }
