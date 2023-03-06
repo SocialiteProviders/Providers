@@ -702,8 +702,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
     }
 
     /**
-     * @return string
      * @throws MissingConfigException
+     *
+     * @return string
      */
     protected function getNameIDFormat(): string
     {
