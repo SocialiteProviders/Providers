@@ -701,14 +701,19 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $cert->setData($data);
     }
 
+    /**
+     * @return string
+     * @throws MissingConfigException
+     */
     protected function getNameIDFormat(): string
     {
-        $default = SamlConstants::NAME_ID_FORMAT_PERSISTENT;
-        $format = $this->getConfig('sp_name_id_format', $default);
+        $format = $this->getConfig('sp_name_id_format', SamlConstants::NAME_ID_FORMAT_PERSISTENT);
 
-        return SamlConstants::isNameIdFormatValid($format)
-            ? $format
-            : $default;
+        if (SamlConstants::isNameIdFormatValid($format) === false) {
+            throw new MissingConfigException(sprintf('The Name ID Format %s is not valid.', $format));
+        }
+
+        return $format;
     }
 
     protected function getTokenUrl()
