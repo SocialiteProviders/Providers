@@ -171,6 +171,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_org_display_name',
             'sp_org_url',
             'sp_default_binding_method',
+            'sp_name_id_format',
             'idp_binding_method',
             'attribute_map',
         ];
@@ -199,7 +200,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setProtocolBinding($this->getDefaultAssertionConsumerServiceBinding())
             ->setIssueInstant(new DateTime())
             ->setDestination($identityProviderConsumerService->getLocation())
-            ->setNameIDPolicy((new NameIDPolicy())->setFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT))
+            ->setNameIDPolicy((new NameIDPolicy())->setFormat($this->getNameIDFormat()))
             ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()))
             ->setAssertionConsumerServiceURL($this->getServiceProviderAssertionConsumerUrl());
 
@@ -348,7 +349,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
         $spSsoDescriptor = new SpSsoDescriptor();
-        $spSsoDescriptor->setWantAssertionsSigned(true)->addNameIDFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT);
+        $spSsoDescriptor->setWantAssertionsSigned(true)->addNameIDFormat($this->getNameIDFormat());
 
         foreach ([SamlConstants::BINDING_SAML2_HTTP_REDIRECT, SamlConstants::BINDING_SAML2_HTTP_POST] as $binding) {
             $acsRoute = $this->getAssertionConsumerServiceRoute();
@@ -698,6 +699,22 @@ class Provider extends AbstractProvider implements SocialiteProvider
         }
 
         return $cert->setData($data);
+    }
+
+    /**
+     * @throws MissingConfigException
+     *
+     * @return string
+     */
+    protected function getNameIDFormat(): string
+    {
+        $format = $this->getConfig('sp_name_id_format', SamlConstants::NAME_ID_FORMAT_PERSISTENT);
+
+        if (SamlConstants::isNameIdFormatValid($format) === false) {
+            throw new MissingConfigException(sprintf('The Name ID Format %s is not valid.', $format));
+        }
+
+        return $format;
     }
 
     protected function getTokenUrl()
