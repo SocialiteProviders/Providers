@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Microsoft;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -79,6 +80,26 @@ class Provider extends AbstractProvider
 
         $formattedResponse = json_decode((string) $responseUser->getBody(), true);
 
+        if ($this->getConfig('include_avatar', false)) {
+            try {
+                $imageSize = $this->getConfig('include_avatar_size', '648x648');
+                $responseAvatar = $this->getHttpClient()->get(
+                    "https://graph.microsoft.com/v1.0/me/photos/{$imageSize}/\$value",
+                    [
+                        RequestOptions::HEADERS => [
+                            'Accept'        => 'image/jpg',
+                            'Authorization' => 'Bearer '.$token,
+                        ],
+                    ]
+                );
+
+                $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents()) ?? null;
+            } catch (ClientException $e) {
+                //if exception then avatar does not exist.
+                $formattedResponse['avatar'] = null;
+            }
+        }
+
         if ($this->getConfig('tenant', 'common') === 'common' && $this->getConfig('include_tenant_info', false)) {
             $responseTenant = $this->getHttpClient()->get(
                 'https://graph.microsoft.com/v1.0/organization',
@@ -109,7 +130,7 @@ class Provider extends AbstractProvider
             'nickname' => null,
             'name'     => $user['displayName'],
             'email'    => $user['userPrincipalName'],
-            'avatar'   => null,
+            'avatar'   => Arr::get($user, 'avatar'),
 
             'businessPhones'    => Arr::get($user, 'businessPhones'),
             'displayName'       => Arr::get($user, 'displayName'),
@@ -145,6 +166,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant', 'include_tenant_info', 'fields', 'tenant_fields'];
+        return ['tenant', 'include_tenant_info', 'include_avatar', 'include_avatar_size', 'fields', 'tenant_fields'];
     }
 }
