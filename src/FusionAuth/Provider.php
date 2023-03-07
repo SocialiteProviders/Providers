@@ -90,7 +90,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         $name = null;
-        if (!empty($user['name'])) {
+        $user['name'] ?? trim($user['given_name'] ?? '' . ' ' . $user['family_name'] ?? '')
             $name = $user['name'];
         } elseif (!empty($user['given_name'])) {
             $name = $user['given_name'];
