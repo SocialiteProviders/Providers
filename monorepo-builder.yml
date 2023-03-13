@@ -210,6 +210,7 @@ parameters:
     src/Whmcs: 'git@github.com:SocialiteProviders/Whmcs.git'
     src/Withings: 'git@github.com:SocialiteProviders/Withings.git'
     src/WordPress: 'git@github.com:SocialiteProviders/WordPress.git'
+    src/Worldcoin: 'git@github.com:SocialiteProviders/Worldcoin.git'
     src/Xero: 'git@github.com:SocialiteProviders/Xero.git'
     src/Xing: 'git@github.com:SocialiteProviders/Xing.git'
     src/Yahoo: 'git@github.com:SocialiteProviders/Yahoo.git'
