@@ -53,8 +53,8 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['sub'],
-            'likely_human' => $user['https://id.worldcoin.org/beta']['likely_human'],
+            'id'              => $user['sub'],
+            'likely_human'    => $user['https://id.worldcoin.org/beta']['likely_human'],
             'credential_type' => $user['https://id.worldcoin.org/beta']['credential_type'],
         ]);
     }
@@ -65,7 +65,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
