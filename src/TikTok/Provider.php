@@ -94,8 +94,8 @@ class Provider extends AbstractProvider
             'https://open.tiktokapis.com/v2/user/info/?fields=open_id,union_id,display_name,avatar_large_url',
             [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $token,
-                ]
+                    'Authorization' => 'Bearer '.$token,
+                ],
             ]
         );
 
