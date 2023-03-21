@@ -261,7 +261,7 @@ class Provider extends AbstractProvider
      */
     protected function getRevokeUrl(): string
     {
-        return self::URL.'auth/revoke';
+        return self::URL.'/auth/revoke';
     }
 
     /**
