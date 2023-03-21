@@ -137,7 +137,6 @@ class Server extends BaseServer
     protected function fetchUserDetails(TokenCredentials $tokenCredentials, $force = true)
     {
         if (!$this->cachedUserDetailsResponse || $force) {
-
             // The user-endpoint
             $endpoint = 'https://wbsapi.withings.net/user';
 

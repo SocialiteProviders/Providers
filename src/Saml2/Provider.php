@@ -364,7 +364,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
             $slsRoute = $this->getSingleLogoutServiceRoute();
             if ($slsRoute && $this->hasRouteBindingType($slsRoute, $binding)) {
-                $spSsoDescriptor->addSingleLogoutService((new SingleLogoutService(URL::to($slsRoute), $binding)));
+                $spSsoDescriptor->addSingleLogoutService(new SingleLogoutService(URL::to($slsRoute), $binding));
             }
         }
 
