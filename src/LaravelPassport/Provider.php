@@ -118,11 +118,11 @@ class Provider extends AbstractProvider
 
     protected function getLaravelPassportUrl($type)
     {
-        return rtrim($this->getConfig('host'), '/').'/'.ltrim(($this->getConfig($type, Arr::get([
+        return rtrim($this->getConfig('host'), '/').'/'.ltrim($this->getConfig($type, Arr::get([
             'authorize_uri' => 'oauth/authorize',
             'token_uri'     => 'oauth/token',
             'userinfo_uri'  => 'api/user',
-        ], $type))), '/');
+        ], $type)), '/');
     }
 
     protected function getUserData($user, $key)
