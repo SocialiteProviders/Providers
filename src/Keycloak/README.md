@@ -46,14 +46,29 @@ return Socialite::driver('keycloak')->redirect();
 To logout of your app and Keycloak:
 ```php
 public function logout() {
-    Auth::logout(); // Logout of your app
+    // Logout of your app.
+    Auth::logout();
     
-    // Keycloak v18+ does not support a redirect URL
+    // The user will not be redirected back.
     return redirect(Socialite::driver('keycloak')->getLogoutUrl());
     
+    // The URL the user is redirected to after logout.
+    $redirectUri = Config::get('app.url');
+    
+    // Keycloak v18+ does support a post_logout_redirect_uri in combination with a
+    // client_id or an id_token_hint parameter or both of them.
+    // NOTE: You will need to set valid post logout redirect URI in Keycloak.
+    return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri, env('KEYCLOAK_CLIENT_ID')));
+    return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri, null, 'YOUR_ID_TOKEN_HINT'));
+    return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri, env('KEYCLOAK_CLIENT_ID'), 'YOUR_ID_TOKEN_HINT'));
+    
+    // You may add additional allowed parameters as listed in
+    // https://openid.net/specs/openid-connect-rpinitiated-1_0.html
+    return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri, null, null, ['state' => '...'], ['ui_locales' => 'de-DE']));
+    
     // Keycloak before v18 does support a redirect URL
-    $redirectUri = Config::get('app.url'); // The URL the user is redirected to
-    return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri)); // Redirect to Keycloak
+    // to redirect back to Keycloak.
+    return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri));
 }
 ```
 
