@@ -89,9 +89,10 @@ class Provider extends AbstractProvider
      * @param string|null $redirectUri
      * @param string|null $clientId
      * @param string|null $idTokenHint
-     * @param array $additionalParameters
+     * @param array       $additionalParameters
      *
      * @throws InvalidArgumentException
+     *
      * @return string
      */
     public function getLogoutUrl(?string $redirectUri = null, ?string $clientId = null, ?string $idTokenHint = null, ...$additionalParameters): string
