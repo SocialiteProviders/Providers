@@ -64,7 +64,7 @@ public function logout() {
     
     // You may add additional allowed parameters as listed in
     // https://openid.net/specs/openid-connect-rpinitiated-1_0.html
-    return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri, null, null, ['state' => '...'], ['ui_locales' => 'de-DE']));
+    return redirect(Socialite::driver('keycloak')->getLogoutUrl($redirectUri, CLIENT_ID, null, ['state' => '...'], ['ui_locales' => 'de-DE']));
     
     // Keycloak before v18 does support a redirect URL
     // to redirect back to Keycloak.
