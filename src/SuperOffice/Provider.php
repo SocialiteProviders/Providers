@@ -108,7 +108,7 @@ class Provider extends AbstractProvider
         $environment = $this->getConfig('environment', 'sod');
         $customer_id = $this->getConfig('customer_id');
 
-        return cache()->remember('superoffice-base-url', $cache_time, function () use($environment, $customer_id) {
+        return cache()->remember('superoffice-base-url', $cache_time, function () use ($environment, $customer_id) {
             $url = sprintf(
                 'https://%s.superoffice.com/api/state/%s',
                 $environment,
@@ -118,8 +118,7 @@ class Provider extends AbstractProvider
             $response = $this->getHttpClient()->get($url);
             $api_url = json_decode((string) $response->getBody(), true)['Api'];
 
-            if(!$api_url)
-            {
+            if (!$api_url) {
                 throw new \Exception('No API URL received from '. $url);
             }
 
