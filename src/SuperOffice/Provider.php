@@ -119,7 +119,7 @@ class Provider extends AbstractProvider
             $api_url = json_decode((string) $response->getBody(), true)['Api'];
 
             if (!$api_url) {
-                throw new \Exception('No API URL received from '. $url);
+                throw new \Exception('No API URL received from '.$url);
             }
 
             return $api_url.'/v1/';
