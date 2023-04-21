@@ -27,7 +27,7 @@ class Provider extends AbstractProvider
     {
         return
             $this->buildAuthUrlFromBase(
-            'https://developer.api.autodesk.com/authentication/v1/authorize',
+                'https://developer.api.autodesk.com/authentication/v1/authorize',
                 $state
             );
     }
@@ -72,22 +72,22 @@ class Provider extends AbstractProvider
 
 
     /**
-     * https://forge.autodesk.com/en/docs/oauth/v2/reference/http/users-@me-GET/
+     * https://forge.autodesk.com/en/docs/oauth/v2/reference/http/users-@me-GET/.
      *
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user): \SocialiteProviders\Manager\OAuth2\User
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['userId'],
-            'email'    => $user['emailId'],
-            'username' => $user['userName'],
-            'first_name' => $user['firstName'],
-            'last_name' => $user['lastName'],
-            'country_code' => $user['countryCode'],
-            'language' => $user['language'],
+            'id'             => $user['userId'],
+            'email'          => $user['emailId'],
+            'username'       => $user['userName'],
+            'first_name'     => $user['firstName'],
+            'last_name'      => $user['lastName'],
+            'country_code'   => $user['countryCode'],
+            'language'       => $user['language'],
             'profile_images' => $user['profileImages'],
-            'website' => $user[ 'websiteUrl' ] ?? null,
+            'website'        => $user['websiteUrl'] ?? null,
         ]);
     }
 }
