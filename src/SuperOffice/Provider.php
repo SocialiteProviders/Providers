@@ -105,23 +105,23 @@ class Provider extends AbstractProvider
     private function getBaseApiUrl(): string
     {
         $environment = $this->getConfig('environment', 'sod');
-        $customer_id = $this->getConfig('customer_id');
+        $customerId = $this->getConfig('customer_id');
 
-        return cache()->remember('superoffice-base-url', now()->addHours(8), function () use ($environment, $customer_id) {
+        return cache()->remember('superoffice-base-url', now()->addHours(8), function () use ($environment, $customerId) {
             $url = sprintf(
                 'https://%s.superoffice.com/api/state/%s',
                 $environment,
-                $customer_id
+                $customerId
             );
 
             $response = $this->getHttpClient()->get($url);
-            $api_url = json_decode((string) $response->getBody(), true)['Api'];
+            $apiUrl = json_decode((string) $response->getBody(), true)['Api'];
 
-            if (!$api_url) {
+            if (!$apiUrl) {
                 throw new \Exception('No API URL received from '.$url);
             }
 
-            return $api_url.'/v1/';
+            return $apiUrl.'/v1/';
         });
     }
 }
