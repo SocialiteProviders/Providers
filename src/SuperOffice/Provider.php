@@ -104,11 +104,10 @@ class Provider extends AbstractProvider
 
     private function getBaseApiUrl(): string
     {
-        $cache_time = 60 * 60 * 8; // 8 hours
         $environment = $this->getConfig('environment', 'sod');
         $customer_id = $this->getConfig('customer_id');
 
-        return cache()->remember('superoffice-base-url', $cache_time, function () use ($environment, $customer_id) {
+        return cache()->remember('superoffice-base-url', now()->addHours(8), function () use ($environment, $customer_id) {
             $url = sprintf(
                 'https://%s.superoffice.com/api/state/%s',
                 $environment,
