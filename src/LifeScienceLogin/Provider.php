@@ -83,11 +83,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['sub'],
-            'name' => $user['name'],
-            'given_name' => $user['given_name'],
+            'id'          => $user['sub'],
+            'name'        => $user['name'],
+            'given_name'  => $user['given_name'],
             'family_name' => $user['family_name'],
-            'email' => $user['email'],
+            'email'       => $user['email'],
         ]);
     }
 
@@ -97,7 +97,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 
