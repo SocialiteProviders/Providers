@@ -9,7 +9,8 @@
     "socialite",
     "autodesk",
     "forge",
-    "aps"
+    "aps",
+    "autodesk platform services"
   ],
   "authors": [
     {
@@ -23,9 +24,9 @@
     "docs": "https://socialiteproviders.com/aps"
   },
   "require": {
-    "php": "^7.4 || ^8.0",
+    "php": "^8.0",
     "ext-json": "*",
-    "socialiteproviders/manager": "^3.6 || ^4.0"
+    "socialiteproviders/manager": "^4.0"
   },
   "autoload": {
     "psr-4": {

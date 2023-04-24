@@ -1,10 +1,10 @@
 <?php
 
-namespace SocialiteProviders\APS;
+namespace SocialiteProviders\AutodeskAPS;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class APSExtendSocialite
+class AutodeskAPSExtendSocialite
 {
     /**
      * Register the provider.

@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\APS;
+namespace SocialiteProviders\AutodeskAPS;
 
 use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -8,7 +8,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    public const IDENTIFIER = 'APS';
+    public const IDENTIFIER = 'AUTODESKAPS';
 
     /**
      * {@inheritdoc}

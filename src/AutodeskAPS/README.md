@@ -3,7 +3,7 @@
 This is a socialite provider for Autodesk APS (formerly Forge). 
 
 ```bash
-composer require socialiteproviders/aps
+composer require socialiteproviders/autodesk-aps
 ```
 
 ## Installation & Basic Usage
@@ -14,10 +14,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 // Autodesk APS (Forge)
-'aps' => [    
-  'client_id' => env('APS_CLIENT_ID'),  
-  'client_secret' => env('APS_CLIENT_SECRET'),  
-  'redirect' => env('APS_REDIRECT_URI'),
+'autodesk_aps' => [    
+  'client_id' => env('AUTODESK_APS_CLIENT_ID'),  
+  'client_secret' => env('AUTODESK_APS_CLIENT_SECRET'),  
+  'redirect' => env('AUTODESK_APS_REDIRECT_URI'),
 ],
 ```
 
@@ -31,7 +31,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\APS\APSExtendSocialite::class.'@handle',
+        \SocialiteProviders\APS\AutodeskAPSExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -41,7 +41,7 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('aps')->redirect();
+return Socialite::driver('autodeskaps')->redirect();
 ```
 
 ### Returned user fields
