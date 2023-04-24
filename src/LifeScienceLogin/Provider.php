@@ -29,14 +29,24 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['openid'];
+    protected $usesPKCE = true;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopes = ['openid', 'email', 'profile'];
 
     /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state)
     {
-        $config = $this->getOpenidConfig();
+        $config = $this->getOpenIdConfiguration();
 
         return $this->buildAuthUrlFromBase($config->authorization_endpoint, $state);
     }
@@ -46,7 +56,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        $config = $this->getOpenidConfig();
+        $config = $this->getOpenIdConfiguration();
 
         return $config->token_endpoint;
     }
@@ -56,7 +66,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $config = $this->getOpenidConfig();
+        $config = $this->getOpenIdConfiguration();
 
         $response = $this->getHttpClient()->get($config->userinfo_endpoint, [
             'headers' => [
@@ -73,9 +83,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
+            'id' => $user['sub'],
+            'name' => $user['name'],
+            'given_name' => $user['given_name'],
+            'family_name' => $user['family_name'],
+            'email' => $user['email'],
         ]);
     }
 
