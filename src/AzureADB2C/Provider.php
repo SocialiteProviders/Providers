@@ -86,7 +86,7 @@ class Provider extends AbstractProvider
                 ? sprintf(
                     'https://%s/%s/%s/v2.0/.well-known/openid-configuration',
                     $this->getConfig('custom_domain'),
-                    $this->getConfig('tenant', $this->getConfig('domain') . '.onmicrosoft.com'),
+                    $this->getConfig('tenant', $this->getConfig('domain').'.onmicrosoft.com'),
                     $this->getB2CPolicy()
                 )
                 : sprintf(
