@@ -82,11 +82,16 @@ class Provider extends AbstractProvider
         $this->setRedirectUrl();
 
         try {
-            $discovery = sprintf(
-                'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
-                $this->getConfig('domain'),
-                $this->getConfig('domain'),
-                $this->getB2CPolicy()
+            $discovery = $this->getConfig('custom_domain')
+                ? sprintf('https://%s/%s/%s/v2.0/.well-known/openid-configuration',
+                    $this->getConfig('custom_domain'),
+                    $this->getConfig('tenant', $this->getConfig('domain') . '.onmicrosoft.com'),
+                    $this->getB2CPolicy()
+                )
+                : sprintf('https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
+                    $this->getConfig('domain'),
+                    $this->getConfig('domain'),
+                    $this->getB2CPolicy()
             );
 
             $response = $this->getHttpClient()->get($discovery);
@@ -224,6 +229,8 @@ class Provider extends AbstractProvider
             'policy',
             'redirect_template',
             'default_algorithm',
+            'custom_domain',
+            'tenant',
         ];
     }
 }
