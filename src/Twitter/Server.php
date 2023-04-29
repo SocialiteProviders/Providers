@@ -61,6 +61,7 @@ class Server extends BaseServer
 
         $used = ['id', 'screen_name', 'name', 'location', 'description', 'profile_image_url_https', 'email'];
 
+        $user->urls = [];
         foreach ($data as $key => $value) {
             if (strpos($key, 'url') !== false) {
                 if (!in_array($key, $used, true)) {

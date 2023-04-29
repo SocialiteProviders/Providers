@@ -12,9 +12,6 @@ use UnexpectedValueException;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'EVEONLINE';
 
     /**

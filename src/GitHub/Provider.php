@@ -10,8 +10,5 @@ class Provider extends GithubProvider implements ProviderInterface
 {
     use ConfigTrait;
 
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'GITHUB';
 }

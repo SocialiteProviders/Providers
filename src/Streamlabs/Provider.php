@@ -8,9 +8,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'STREAMLABS';
 
     /**
@@ -24,7 +21,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://streamlabs.com/api/v1.0/authorize',
+            'https://streamlabs.com/api/v2.0/authorize',
             $state
         );
     }
@@ -34,7 +31,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://streamlabs.com/api/v1.0/token';
+        return 'https://streamlabs.com/api/v2.0/token';
     }
 
     /**
@@ -43,10 +40,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://streamlabs.com/api/v1.0/user',
+            'https://streamlabs.com/api/v2.0/user',
             [
-                RequestOptions::QUERY => [
-                    'access_token' => $token,
+                RequestOptions::HEADERS => [
+                    'Authorization' => 'Bearer '.$token,
                 ],
             ]
         );

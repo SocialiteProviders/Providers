@@ -10,9 +10,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'ORCID';
 
     /**
@@ -186,9 +183,9 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             $this->getConfig('uid_fieldname', 'id') => $user['orcid-identifier']['path'],
-            'nickname' => $user['person']['name']['given-names']['value'],
-            'name'     => sprintf('%s %s', $user['person']['name']['given-names']['value'], $user['person']['name']['family-name']['value']),
-            'email'    => Arr::get($user, 'email'),
+            'nickname'                              => $user['person']['name']['given-names']['value'],
+            'name'                                  => sprintf('%s %s', $user['person']['name']['given-names']['value'], $user['person']['name']['family-name']['value']),
+            'email'                                 => Arr::get($user, 'email'),
         ]);
     }
 

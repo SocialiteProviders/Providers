@@ -92,9 +92,9 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['sub'],
             'nickname' => $user['preferred_username'] ?? null,
-            'name'     => $user['name'],
+            'name'     => $user['name'] ?? trim($user['given_name'] ?? ''.' '.$user['family_name'] ?? ''),
             'email'    => $user['email'],
-            'avatar'   => $user['picture'],
+            'avatar'   => $user['picture'] ?? null,
         ]);
     }
 
@@ -105,14 +105,13 @@ class Provider extends AbstractProvider
      */
     protected function getCodeFields($state = null)
     {
-        $tenantId = $this->getConfig('tenant_id');
+        $fields = parent::getCodeFields($state);
 
-        if ($tenantId === null) {
-            throw new InvalidArgumentException('Missing tenant_id');
+        $tenantId = $this->getConfig('tenant_id');
+        if (!empty($tenantId)) {
+            $fields['tenantId'] = $tenantId;
         }
 
-        return array_merge(parent::getCodeFields($state), [
-            'tenantId' => $tenantId,
-        ]);
+        return $fields;
     }
 }

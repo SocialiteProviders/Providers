@@ -22,9 +22,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'APPLE';
 
     private const URL = 'https://appleid.apple.com';
@@ -118,6 +115,23 @@ class Provider extends AbstractProvider
         $claims = explode('.', $token)[1];
 
         return json_decode(base64_decode($claims), true);
+    }
+
+    /**
+     * Return the user given the identity token provided on the client
+     * side by Apple.
+     *
+     * @param string $token
+     *
+     * @throws InvalidStateException when token can't be parsed
+     *
+     * @return User $user
+     */
+    public function userByIdentityToken(string $token): SocialiteUser
+    {
+        $array = $this->getUserByToken($token);
+
+        return $this->mapUserToObject($array);
     }
 
     /**
@@ -247,7 +261,7 @@ class Provider extends AbstractProvider
      */
     protected function getRevokeUrl(): string
     {
-        return self::URL.'auth/revoke';
+        return self::URL.'/auth/revoke';
     }
 
     /**

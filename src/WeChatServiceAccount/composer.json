@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/wechat-service-account",
     "description": "WeChat Service Account OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "account",
         "laravel",
@@ -10,13 +11,17 @@
         "socialite",
         "wechat"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "sink",
             "email": "sinkcup@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/wechat-service-account"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -26,10 +31,5 @@
         "psr-4": {
             "SocialiteProviders\\WeChatServiceAccount\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/wechat-service-account"
     }
 }

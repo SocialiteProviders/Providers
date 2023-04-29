@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/subscribestar",
+    "description": "Subscribestar OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "subscribestar",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Jamie Newbon",
+            "email": "github@jamienewbon.co.uk"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/subscribestar"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Subscribestar\\": ""
+        }
+    }
+}

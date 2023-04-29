@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/douban",
     "description": "douban.com OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "douban",
         "laravel",
@@ -8,13 +9,17 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "xyxu",
             "email": "techxu@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/douban"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\Douban\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/douban"
     }
 }

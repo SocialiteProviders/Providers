@@ -16,9 +16,12 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_secret' => env('STARLING_CLIENT_SECRET'),
   'redirect' => env('STARLING_REDIRECT_URI'),
   'env' => env('STARLING_ENV'),
+  'use_mtls' => env('STARLING_USE_MTLS')
 ],
 ```
 The `env` value should be `sandbox` for the sandbox environment and `production` for production environment.
+The `use_mtls` value should be `true` if you have an OBIE or eIDAS certificate to attach to token API calls.
+Add `guzzle` options here to configure the certificates as curl settings.
 
 ### Add provider event listener
 
@@ -48,3 +51,5 @@ return Socialite::driver('starling')->redirect();
 - ``id``
 - ``name``
 - ``email``
+- ``phone``
+- ``dateOfBirth``

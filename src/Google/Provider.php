@@ -10,8 +10,5 @@ class Provider extends GoogleProvider implements ProviderInterface
 {
     use ConfigTrait;
 
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'GOOGLE';
 }

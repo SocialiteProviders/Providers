@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/pr0gramm",
+    "description": "Pr0gramm OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "pr0gramm",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Marcel Wagner",
+            "email": "info@marcelwagner.dev"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/pr0gramm"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Pr0gramm\\": ""
+        }
+    }
+}

@@ -9,9 +9,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'TIKTOK';
 
     /**
@@ -58,10 +55,7 @@ class Provider extends AbstractProvider
         $token = Arr::get($response, 'data.access_token');
 
         $this->user = $this->mapUserToObject(
-            $this->getUserByToken([
-                'access_token' => $token,
-                'open_id'      => Arr::get($response, 'data.open_id'),
-            ])
+            $this->getUserByToken($token)
         );
 
         return $this->user->setToken($token)
@@ -92,20 +86,17 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Get TikTok user by token.
-     *
-     * @param array $data
-     *
-     * @return mixed
+     * @inheritdoc
      */
-    protected function getUserByToken($data)
+    protected function getUserByToken($token)
     {
-        // Note: The TikTok api does not have an endpoint to get a user by the access
-        // token only. Open id is also required therefore:
-        // $data['access_token'] = $token, $data['open_id'] = $open_id
-
         $response = $this->getHttpClient()->get(
-            'https://open-api.tiktok.com/oauth/userinfo?'.http_build_query($data)
+            'https://open.tiktokapis.com/v2/user/info/?fields=open_id,union_id,display_name,avatar_large_url',
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer '.$token,
+                ],
+            ]
         );
 
         return json_decode((string) $response->getBody(), true);
@@ -116,13 +107,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject($user)
     {
-        $user = $user['data'];
+        $user = $user['data']['user'];
 
         return (new User())->setRaw($user)->map([
             'id'       => $user['open_id'],
             'union_id' => $user['union_id'],
             'name'     => $user['display_name'],
-            'avatar'   => $user['avatar_larger'],
+            'avatar'   => $user['avatar_large_url'],
         ]);
     }
 }

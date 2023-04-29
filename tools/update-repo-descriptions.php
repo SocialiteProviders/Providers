@@ -9,6 +9,7 @@ use Zttp\Zttp;
  * documentation.
  */
 $excludedRepos = [
+    '.github',
     'Providers',
     'Manager',
     'website',

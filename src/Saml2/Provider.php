@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -23,8 +24,11 @@ use LightSaml\Context\Profile\MessageContext;
 use LightSaml\Credential\KeyHelper;
 use LightSaml\Credential\X509Certificate;
 use LightSaml\Credential\X509Credential;
+use LightSaml\Criteria\CriteriaSet;
 use LightSaml\Error\LightSamlSecurityException;
+use LightSaml\Error\LightSamlValidationException;
 use LightSaml\Helper;
+use LightSaml\Model\Assertion\Assertion;
 use LightSaml\Model\Assertion\AttributeStatement;
 use LightSaml\Model\Assertion\Issuer;
 use LightSaml\Model\Context\DeserializationContext;
@@ -45,13 +49,22 @@ use LightSaml\Model\Protocol\SamlMessage;
 use LightSaml\Model\Protocol\Status;
 use LightSaml\Model\XmlDSig\SignatureWriter;
 use LightSaml\Model\XmlDSig\SignatureXmlReader;
+use LightSaml\Resolver\Endpoint\Criteria\DescriptorTypeCriteria;
+use LightSaml\Resolver\Endpoint\Criteria\LocationCriteria;
+use LightSaml\Resolver\Endpoint\Criteria\ServiceTypeCriteria;
+use LightSaml\Resolver\Endpoint\DescriptorTypeEndpointResolver;
 use LightSaml\SamlConstants;
+use LightSaml\Validator\Model\Assertion\AssertionTimeValidator;
+use LightSaml\Validator\Model\Assertion\AssertionValidator;
+use LightSaml\Validator\Model\NameId\NameIdValidator;
+use LightSaml\Validator\Model\Statement\StatementValidator;
+use LightSaml\Validator\Model\Subject\SubjectValidator;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
-use RuntimeException;
 use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\Exception\MissingConfigException;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Provider extends AbstractProvider implements SocialiteProvider
 {
@@ -83,8 +96,10 @@ class Provider extends AbstractProvider implements SocialiteProvider
      */
     protected $config;
 
-    public const CACHE_KEY = 'socialite_saml2_metadata';
-    public const CACHE_KEY_TTL = self::CACHE_KEY.'_ttl';
+    public const CACHE_NAMESPACE = 'socialite_saml2';
+    public const METADATA_CACHE_KEY = self::CACHE_NAMESPACE.'_metadata';
+    public const METADATA_CACHE_KEY_TTL = self::METADATA_CACHE_KEY.'_ttl';
+    public const ID_CACHE_PREFIX = self::CACHE_NAMESPACE.'_id_';
 
     public const ATTRIBUTE_MAP = [
         'email' => [
@@ -156,6 +171,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_org_display_name',
             'sp_org_url',
             'sp_default_binding_method',
+            'sp_name_id_format',
             'idp_binding_method',
             'attribute_map',
         ];
@@ -184,8 +200,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setProtocolBinding($this->getDefaultAssertionConsumerServiceBinding())
             ->setIssueInstant(new DateTime())
             ->setDestination($identityProviderConsumerService->getLocation())
-            ->setNameIDPolicy((new NameIDPolicy())->setFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT))
-            ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()));
+            ->setNameIDPolicy((new NameIDPolicy())->setFormat($this->getNameIDFormat()))
+            ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()))
+            ->setAssertionConsumerServiceURL($this->getServiceProviderAssertionConsumerUrl());
 
         if ($this->usesState()) {
             $this->request->session()->put('state', $state = $this->getState());
@@ -199,9 +216,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $this->receive();
 
-        if ($this->hasInvalidSignature()) {
-            throw new InvalidSignatureException();
-        }
+        $this->validateSignature();
 
         $bindingType = $this->getConfig('idp_binding_method', SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
 
@@ -253,48 +268,60 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $builder->get();
     }
 
-    protected function getFirstEntityDescriptorFromXml(string $xml): EntityDescriptor
+    protected function getIdpEntityDescriptorFromXml(string $xml): EntityDescriptor
     {
-        $descriptor = Metadata::fromXML($xml, new DeserializationContext());
+        /** @var EntitiesDescriptor|EntityDescriptor $metadata */
+        $metadata = Metadata::fromXML($xml, new DeserializationContext());
 
-        if ($descriptor instanceof EntitiesDescriptor) {
-            return Arr::first($descriptor->getAllEntityDescriptors());
+        if ($metadata instanceof EntityDescriptor) {
+            return $metadata;
         }
 
-        return $descriptor;
+        $entityId = $this->getConfig('entityid');
+
+        if (!$entityId) {
+            return Arr::first($metadata->getAllEntityDescriptors());
+        }
+
+        $entityDescriptor = $metadata->getByEntityId($entityId);
+
+        if (null === $entityDescriptor) {
+            throw new MissingConfigException(sprintf('The IDP descriptor with entity id %s could not be found in the metadata.', $entityId));
+        }
+
+        return $entityDescriptor;
     }
 
     protected function getIdentityProviderEntityDescriptorFromXml(): EntityDescriptor
     {
-        return $this->getFirstEntityDescriptorFromXml($this->getConfig('metadata'));
+        return $this->getIdpEntityDescriptorFromXml($this->getConfig('metadata'));
     }
 
     protected function getIdentityProviderEntityDescriptorFromUrl(): EntityDescriptor
     {
         $metadataUrl = $this->getConfig('metadata');
-        $xml = Cache::get(self::CACHE_KEY);
-        $ttl = Cache::get(self::CACHE_KEY_TTL);
+        $xml = Cache::get(self::METADATA_CACHE_KEY);
+        $ttl = Cache::get(self::METADATA_CACHE_KEY_TTL);
 
         if ($xml && $ttl && $ttl + $this->getConfig('ttl', 86400) > time()) {
-            return $this->getFirstEntityDescriptorFromXml($xml);
+            return $this->getIdpEntityDescriptorFromXml($xml);
         }
 
-        Cache::forever(self::CACHE_KEY_TTL, time());
+        Cache::forever(self::METADATA_CACHE_KEY_TTL, time());
 
         try {
-            $xml = $this->getHttpClient()
+            $xml = (string) $this->getHttpClient()
                 ->get($metadataUrl)
-                ->getBody()
-                ->getContents();
+                ->getBody();
 
-            Cache::forever(self::CACHE_KEY, $xml);
+            Cache::forever(self::METADATA_CACHE_KEY, $xml);
         } catch (GuzzleException $e) {
             if (!$xml) {
                 throw $e;
             }
         }
 
-        return $this->getFirstEntityDescriptorFromXml($xml);
+        return $this->getIdpEntityDescriptorFromXml($xml);
     }
 
     /**
@@ -322,7 +349,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
         $spSsoDescriptor = new SpSsoDescriptor();
-        $spSsoDescriptor->setWantAssertionsSigned(true)->addNameIDFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT);
+        $spSsoDescriptor->setWantAssertionsSigned(true)->addNameIDFormat($this->getNameIDFormat());
 
         foreach ([SamlConstants::BINDING_SAML2_HTTP_REDIRECT, SamlConstants::BINDING_SAML2_HTTP_POST] as $binding) {
             $acsRoute = $this->getAssertionConsumerServiceRoute();
@@ -337,7 +364,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
             $slsRoute = $this->getSingleLogoutServiceRoute();
             if ($slsRoute && $this->hasRouteBindingType($slsRoute, $binding)) {
-                $spSsoDescriptor->addSingleLogoutService((new SingleLogoutService(URL::to($slsRoute), $binding)));
+                $spSsoDescriptor->addSingleLogoutService(new SingleLogoutService(URL::to($slsRoute), $binding));
             }
         }
 
@@ -402,8 +429,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $default = $this->hasRouteBindingType(
             $this->getAssertionConsumerServiceRoute(),
-            SamlConstants::BINDING_SAML2_HTTP_REDIRECT
-        ) ? SamlConstants::BINDING_SAML2_HTTP_REDIRECT : SamlConstants::BINDING_SAML2_HTTP_POST;
+            SamlConstants::BINDING_SAML2_HTTP_POST
+        ) ? SamlConstants::BINDING_SAML2_HTTP_POST : SamlConstants::BINDING_SAML2_HTTP_REDIRECT;
 
         return $this->getConfig('sp_default_binding_method', $default);
     }
@@ -419,7 +446,98 @@ class Provider extends AbstractProvider implements SocialiteProvider
             return false;
         }
 
-        return Arr::has(Route::getRoutes()->getRoutesByMethod(), $methods[$bindingType].'.'.$route);
+        try {
+            Route::getRoutes()->match(Request::create($route, $methods[$bindingType]));
+        } catch (MethodNotAllowedHttpException $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function getFirstAssertion(): Assertion
+    {
+        return $this->messageContext->asResponse()->getFirstAssertion();
+    }
+
+    protected function validateAssertion(): void
+    {
+        $assertionValidator = new AssertionValidator(new NameIdValidator(), new SubjectValidator(new NameIdValidator()), new StatementValidator());
+        $assertionValidator->validateAssertion($this->getFirstAssertion());
+    }
+
+    protected function validateIssuer(): void
+    {
+        if ($this->getIdentityProviderEntityDescriptor()->getEntityID() !== $this->getFirstAssertion()->getIssuer()->getValue()) {
+            throw new LightSamlValidationException('The assertion issuer entity id did not match the configured identity provider entity id');
+        }
+    }
+
+    protected function validateRecipient(): void
+    {
+        $recipient = $this->getFirstAssertion()->getSubject()->getFirstSubjectConfirmation()->getSubjectConfirmationData()->getRecipient();
+
+        $criteriaSet = new CriteriaSet([
+            new DescriptorTypeCriteria(SpSsoDescriptor::class),
+            new ServiceTypeCriteria(AssertionConsumerService::class),
+            new LocationCriteria($recipient),
+        ]);
+
+        $endpoints = (new DescriptorTypeEndpointResolver())
+            ->resolve($criteriaSet, $this->getServiceProviderEntityDescriptor()->getAllEndpoints());
+
+        if (empty($endpoints)) {
+            throw new LightSamlValidationException("The recipient endpoint in the assertion did not match the service provider's configured endpoints");
+        }
+    }
+
+    protected function validateRepeatedId(): void
+    {
+        $assertion = $this->getFirstAssertion();
+        $key = collect([self::ID_CACHE_PREFIX, $assertion->getIssuer()->getValue(), $assertion->getId()])->join('-');
+
+        if (Cache::has($key)) {
+            throw new LightSamlValidationException('The identity provider repeated an assertion id');
+        }
+
+        Cache::put($key, true, $this->getConfig('validation.repeated_id_ttl'));
+    }
+
+    protected function validateTimestamps(): void
+    {
+        (new AssertionTimeValidator())
+            ->validateTimeRestrictions($this->getFirstAssertion(), Carbon::now()->timestamp, $this->getConfig('validation.clock_skew', 120));
+    }
+
+    protected function validateSignature(): void
+    {
+        $idpSsoDescriptor = $this->getIdentityProviderEntityDescriptor()->getFirstIdpSsoDescriptor();
+
+        $keyDescriptors = array_merge(
+            $idpSsoDescriptor->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING),
+            $idpSsoDescriptor->getAllKeyDescriptorsByUse(null),
+        );
+
+        /** @var SignatureXmlReader $signatureReader */
+        $signatureReader = $this->messageContext->getMessage()->getSignature() ?: $this->getFirstAssertion()->getSignature();
+
+        if (!$signatureReader) {
+            throw new InvalidSignatureException('The received assertion had no available signature');
+        }
+
+        foreach ($keyDescriptors as $keyDescriptor) {
+            $key = KeyHelper::createPublicKey($keyDescriptor->getCertificate());
+
+            try {
+                if ($signatureReader->validate($key)) {
+                    return;
+                }
+            } catch (LightSamlSecurityException $e) {
+                continue;
+            }
+        }
+
+        throw new InvalidSignatureException('The signature of the assertion could not be verified');
     }
 
     /**
@@ -440,11 +558,14 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $this->decryptAssertions();
 
-        if ($this->hasInvalidSignature()) {
-            throw new InvalidSignatureException();
-        }
+        $this->validateAssertion();
+        $this->validateIssuer();
+        $this->validateRecipient();
+        $this->validateRepeatedId();
+        $this->validateTimestamps();
+        $this->validateSignature();
 
-        $assertion = $this->messageContext->asResponse()->getFirstAssertion();
+        $assertion = $this->getFirstAssertion();
         $attributeStatement = $assertion->getFirstAttributeStatement();
 
         $this->user = new User();
@@ -477,7 +598,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $status = $this->messageContext->asResponse()->getStatus();
 
         if (!$status->isSuccess()) {
-            throw new RuntimeException('Server responded with: '.$status->getStatusCode()->getValue());
+            throw new LightSamlValidationException('Server responded with an unsuccessful status: '.$status->getStatusCode()->getValue());
         }
     }
 
@@ -490,36 +611,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $state = $this->request->session()->pull('state');
 
         return !(strlen($state) > 0 && $this->messageContext->getMessage()->getRelayState() === $state);
-    }
-
-    protected function hasInvalidSignature(): bool
-    {
-        $keyDescriptors = $this->getIdentityProviderEntityDescriptor()
-            ->getFirstIdpSsoDescriptor()
-            ->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING);
-
-        /** @var SignatureXmlReader $signatureReader */
-        $signatureReader = SamlConstants::BINDING_SAML2_HTTP_REDIRECT === $this->messageContext->getBindingType()
-            ? $this->messageContext->getMessage()->getSignature()
-            : $this->messageContext->asResponse()->getFirstAssertion()->getSignature();
-
-        if (!$signatureReader) {
-            return true;
-        }
-
-        foreach ($keyDescriptors as $keyDescriptor) {
-            $key = KeyHelper::createPublicKey($keyDescriptor->getCertificate());
-
-            try {
-                if ($signatureReader->validate($key)) {
-                    return false;
-                }
-            } catch (LightSamlSecurityException $e) {
-                continue;
-            }
-        }
-
-        return true;
     }
 
     protected function receive(): void
@@ -561,8 +652,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     public function clearIdentityProviderMetadataCache()
     {
-        Cache::forget(self::CACHE_KEY);
-        Cache::forget(self::CACHE_KEY_TTL);
+        Cache::forget(self::METADATA_CACHE_KEY);
+        Cache::forget(self::METADATA_CACHE_KEY_TTL);
     }
 
     protected function signature(X509Credential $credential): SignatureWriter
@@ -608,6 +699,22 @@ class Provider extends AbstractProvider implements SocialiteProvider
         }
 
         return $cert->setData($data);
+    }
+
+    /**
+     * @throws MissingConfigException
+     *
+     * @return string
+     */
+    protected function getNameIDFormat(): string
+    {
+        $format = $this->getConfig('sp_name_id_format', SamlConstants::NAME_ID_FORMAT_PERSISTENT);
+
+        if (SamlConstants::isNameIdFormatValid($format) === false) {
+            throw new MissingConfigException(sprintf('The Name ID Format %s is not valid.', $format));
+        }
+
+        return $format;
     }
 
     protected function getTokenUrl()

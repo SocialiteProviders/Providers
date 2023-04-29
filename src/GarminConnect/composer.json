@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/garmin-connect",
     "description": "Garmin Connect OAuth1 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "connect",
         "garmin",
@@ -9,13 +10,17 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Ubient",
             "email": "claudio@ubient.net"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/garmin-connect"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -25,10 +30,5 @@
         "psr-4": {
             "SocialiteProviders\\GarminConnect\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/garmin-connect"
     }
 }

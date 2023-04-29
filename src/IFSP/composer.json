@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/ifsp",
     "description": "IFSP OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "ifsp",
         "laravel",
@@ -8,13 +9,17 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Douglas Andrade",
             "email": "douglas@ifsp.edu.br"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/ifsp"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\IFSP\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/ifsp"
     }
 }

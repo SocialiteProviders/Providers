@@ -8,10 +8,9 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'STREAMELEMENTS';
+
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}

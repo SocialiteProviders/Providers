@@ -1,0 +1,19 @@
+{
+    "name": "socialiteproviders/onelogin",
+    "description": "Onelogin OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [{
+        "name": "Amnuay",
+        "email": "ch.amnuay@gmail.com"
+    }],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Onelogin\\": ""
+        }
+    }
+}

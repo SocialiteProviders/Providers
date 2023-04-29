@@ -8,14 +8,11 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'TODOIST';
 
     public const AUTH_URL = 'https://todoist.com/oauth/authorize';
     public const TOKEN_URL = 'https://todoist.com/oauth/access_token';
-    public const SYNC_URL = 'https://api.todoist.com/sync/v8/sync';
+    public const SYNC_URL = 'https://api.todoist.com/sync/v9/sync';
 
     /**
      * {@inheritdoc}
@@ -49,8 +46,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(self::SYNC_URL, [
+            'headers' => [
+                'Authorization' => 'Bearer '.$token,
+            ],
             RequestOptions::QUERY => [
-                'token'          => $token,
                 'sync_token'     => '*',
                 'resource_types' => json_encode(['user']),
             ],

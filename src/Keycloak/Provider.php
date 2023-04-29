@@ -4,14 +4,12 @@ namespace SocialiteProviders\Keycloak;
 
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
+use SocialiteProviders\Manager\Exception\InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'KEYCLOAK';
 
     protected $scopeSeparator = ' ';
@@ -85,20 +83,58 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Return logout endpoint with redirect_uri query parameter.
+     * Return logout endpoint with redirect_uri, clientId, idTokenHint
+     * and optional parameters by a key value array.
      *
      * @param string|null $redirectUri
+     * @param string|null $clientId
+     * @param string|null $idTokenHint
+     * @param array       $additionalParameters
+     *
+     * @throws InvalidArgumentException
      *
      * @return string
      */
-    public function getLogoutUrl(?string $redirectUri = null): string
+    public function getLogoutUrl(?string $redirectUri = null, ?string $clientId = null, ?string $idTokenHint = null, ...$additionalParameters): string
     {
         $logoutUrl = $this->getBaseUrl().'/protocol/openid-connect/logout';
 
+        // Keycloak v18+ or before
         if ($redirectUri === null) {
             return $logoutUrl;
         }
 
-        return $logoutUrl.'?redirect_uri='.urlencode($redirectUri);
+        // Before Keycloak v18
+        if ($clientId === null && $idTokenHint === null) {
+            return $logoutUrl.'?redirect_uri='.urlencode($redirectUri);
+        }
+
+        // Keycloak v18+
+        // https://www.keycloak.org/docs/18.0/securing_apps/index.html#logout
+        // https://openid.net/specs/openid-connect-rpinitiated-1_0.html
+        $logoutUrl .= '?post_logout_redirect_uri='.urlencode($redirectUri);
+
+        // Either clientId or idTokenHint
+        // is required for the post redirect to work.
+        if ($clientId !== null) {
+            $logoutUrl .= '&client_id='.urlencode($clientId);
+        }
+
+        if ($idTokenHint !== null) {
+            $logoutUrl .= '&id_token_hint='.urlencode($idTokenHint);
+        }
+
+        foreach ($additionalParameters as $parameter) {
+            if (!is_array($parameter) || sizeof($parameter) > 1) {
+                throw new InvalidArgumentException('Invalid argument. Expected an array with a key and a value.');
+            }
+
+            $parameterKey = array_keys($parameter)[0];
+            $parameterValue = array_values($parameter)[0];
+
+            $logoutUrl .= "&{$parameterKey}=".urlencode($parameterValue);
+        }
+
+        return $logoutUrl;
     }
 }

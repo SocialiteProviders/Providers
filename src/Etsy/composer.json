@@ -1,33 +1,33 @@
 {
     "name": "socialiteproviders/etsy",
-    "description": "Etsy OAuth1 Provider for Laravel Socialite",
+    "description": "EtsyV3 OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "etsy",
         "laravel",
-        "oauth",
+        "oauth2",
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
-            "name": "Felipe Marques",
-            "email": "contato@felipemarques.com.br"
+            "name": "Chuck Burgess",
+            "email": "cdburgess@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/etsy"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
-        "socialiteproviders/manager": "~4.0"
+        "socialiteproviders/manager": "^4.2"
     },
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\Etsy\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/etsy"
     }
 }

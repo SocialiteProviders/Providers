@@ -9,9 +9,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'OKTA';
 
     /**
@@ -144,7 +141,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -235,6 +232,6 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode($resp->getBody()->getContents(), true);
+        return json_decode((string) $resp->getBody(), true);
     }
 }

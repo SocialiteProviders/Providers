@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/patreon",
     "description": "Patreon OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -8,26 +9,25 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Pieter Maes",
             "email": "maescool@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/patreon"
+    },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-json": "*",
-        "socialiteproviders/manager": "~4.0"
+        "socialiteproviders/manager": "^4.2"
     },
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\Patreon\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/patreon"
     }
 }

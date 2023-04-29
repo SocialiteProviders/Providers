@@ -7,9 +7,6 @@ use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'AZURE';
 
     /**

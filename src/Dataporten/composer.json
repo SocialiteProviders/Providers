@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/dataporten",
     "description": "Dataporten OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "dataporten",
         "laravel",
@@ -8,13 +9,17 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "J\u00f8rgen Birkhaug",
             "email": "jorgen.birkhaug@uib.no"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/dataporten"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\Dataporten\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/dataporten"
     }
 }

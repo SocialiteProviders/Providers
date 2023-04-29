@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/withings",
     "description": "Withings OAuth1 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -8,13 +9,17 @@
         "socialite",
         "withings"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Alexandre Levavasseur",
             "email": "alexandre+github@13x.fr"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/withings"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\Withings\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/withings"
     }
 }

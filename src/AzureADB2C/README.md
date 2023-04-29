@@ -17,6 +17,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
     'redirect' => env('AADB2C_RedirectUri'),
     'domain' => env('AADB2C_Domain'),  // {your_domain}.b2clogin.com
     'policy' => env('AADB2C_Policy'),  // such as 'b2c_1_user_susi'
+    'default_algorithm' => env('AADB2C_DefaultAlgorithm'), // optional, decoding algorithm JWK key such as 'RS256'
 ],
 ```
 
@@ -30,7 +31,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\AzureADB2C\\AzureADB2CExtendSocialite@handle',
+        \SocialiteProviders\AzureADB2C\AzureADB2CExtendSocialite::class.'@handle',
     ],
 ];
 ```

@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\Saml2;
 
-use InvalidArgumentException;
+use LightSaml\Error\LightSamlSecurityException;
 
-class InvalidSignatureException extends InvalidArgumentException
+class InvalidSignatureException extends LightSamlSecurityException
 {
 }

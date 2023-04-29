@@ -12,9 +12,6 @@ class Provider extends AbstractProvider
 {
     protected $fields = ['id', 'email', 'first_name', 'last_name', 'screen_name', 'photo_200'];
 
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'VKONTAKTE';
 
     /**

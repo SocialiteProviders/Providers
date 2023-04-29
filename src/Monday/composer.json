@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/monday",
     "description": "Monday OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "socialite",
@@ -9,7 +10,6 @@
         "provider",
         "monday"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Amir Rami",
@@ -24,6 +24,11 @@
             "role": "Developer"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/monday"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -33,10 +38,5 @@
         "psr-4": {
             "SocialiteProviders\\Monday\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/monday"
     }
 }

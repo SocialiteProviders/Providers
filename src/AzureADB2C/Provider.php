@@ -14,9 +14,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'AZUREADB2C';
 
     /**
@@ -189,7 +186,7 @@ class Provider extends AbstractProvider
             }
 
             // signature validation and return claims
-            return (array) JWT::decode($idToken, JWK::parseKeySet($this->getJWTKeys()), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
+            return (array) JWT::decode($idToken, JWK::parseKeySet($this->getJWTKeys(), $this->getConfig('default_algorithm')), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
         } catch (Exception $ex) {
             throw new InvalidStateException("Error on validationg id_token. {$ex}");
         }
@@ -226,6 +223,7 @@ class Provider extends AbstractProvider
             'domain',
             'policy',
             'redirect_template',
+            'default_algorithm',
         ];
     }
 }

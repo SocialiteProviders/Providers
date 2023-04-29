@@ -2,6 +2,11 @@
     "name": "socialiteproviders/providers",
     "description": "Collection of all OAuth2 Providers for Laravel Socialite",
     "license": "MIT",
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -14,13 +19,13 @@
         "php-parallel-lint/php-parallel-lint": "^1.3",
         "symplify/monorepo-builder": "^6.1 || ^8.0"
     },
-    "config": {
-        "sort-packages": true
-    },
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\": "src/"
         }
+    },
+    "config": {
+        "sort-packages": true
     },
     "scripts": {
         "test": "phpunit",

@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/yahoo",
     "description": "Yahoo OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -8,13 +9,17 @@
         "socialite",
         "yahoo"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Brian Faust",
             "email": "hello@brianfaust.de"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/yahoo"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\Yahoo\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/yahoo"
     }
 }

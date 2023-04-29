@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/twitcasting",
     "description": "TwitCasting OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "oauth",
@@ -8,13 +9,17 @@
         "socialite",
         "twitcasting"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "macaron",
             "email": "jm8krg@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/TwitCasting"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -24,10 +29,5 @@
         "psr-4": {
             "SocialiteProviders\\TwitCasting\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/TwitCasting"
     }
 }

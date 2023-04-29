@@ -4,6 +4,7 @@ namespace SocialiteProviders\FranceConnect;
 
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
@@ -15,9 +16,6 @@ class Provider extends AbstractProvider
     public const PROD_BASE_URL = 'https://app.franceconnect.gouv.fr/api/v1';
     public const TEST_BASE_URL = 'https://fcp.integ01.dev-franceconnect.fr/api/v1';
 
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'FRANCECONNECT';
 
     /**
@@ -65,7 +63,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         //It is used to prevent replay attacks
-        $this->parameters['nonce'] = str_random(20);
+        $this->parameters['nonce'] = Str::random(20);
 
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/authorize', $state);
     }

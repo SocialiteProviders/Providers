@@ -8,9 +8,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'PINTEREST';
 
     /**
@@ -81,5 +78,13 @@ class Provider extends AbstractProvider
                 'grant_type' => 'authorization_code',
             ]
         );
+    }
+
+    protected function getTokenHeaders($code)
+    {
+        return [
+            'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
+            'Content-Type'  => 'application/x-www-form-urlencoded',
+        ];
     }
 }

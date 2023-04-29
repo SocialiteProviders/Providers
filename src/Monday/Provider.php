@@ -3,14 +3,11 @@
 namespace SocialiteProviders\Monday;
 
 use GuzzleHttp\RequestOptions;
-use Laravel\Socialite\Two\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'MONDAY';
 
     /**
@@ -93,7 +90,7 @@ GQL
                 ]),
             ]);
 
-        return json_decode($response->getBody()->getContents(), true)['data']['me'];
+        return json_decode((string) $response->getBody(), true)['data']['me'];
     }
 
     /**

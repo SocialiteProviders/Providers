@@ -1,6 +1,7 @@
 {
     "name": "socialiteproviders/binance",
     "description": "Binance OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
     "keywords": [
         "binance",
         "laravel",
@@ -8,7 +9,11 @@
         "provider",
         "socialite"
     ],
-    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/binance"
+    },
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
@@ -18,10 +23,5 @@
         "psr-4": {
             "SocialiteProviders\\Binance\\": ""
         }
-    },
-    "support": {
-        "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/binance"
     }
 }

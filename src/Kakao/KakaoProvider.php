@@ -9,9 +9,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class KakaoProvider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'KAKAO';
 
     /**
@@ -51,7 +48,7 @@ class KakaoProvider extends AbstractProvider
 
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
 
-        return $this->parseAccessToken($response->getBody());
+        return $this->parseAccessToken($this->credentialsResponseBody);
     }
 
     /**
