@@ -69,11 +69,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token): array
     {
         $response = $this->getHttpClient()->get(
-            sprintf(
-                'https://%s.superoffice.com/%s/api/v1/User/currentPrincipal',
-                $this->getConfig('environment', 'sod'),
-                $this->getConfig('customer_id')
-            ),
+            $this->getBaseApiUrl().'User/currentPrincipal',
             [
                 RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
@@ -104,5 +100,28 @@ class Provider extends AbstractProvider
             'environment',
             'customer_id',
         ];
+    }
+
+    private function getBaseApiUrl(): string
+    {
+        $environment = $this->getConfig('environment', 'sod');
+        $customerId = $this->getConfig('customer_id');
+
+        return cache()->remember('superoffice-base-url', now()->addHours(8), function () use ($environment, $customerId) {
+            $url = sprintf(
+                'https://%s.superoffice.com/api/state/%s',
+                $environment,
+                $customerId
+            );
+
+            $response = $this->getHttpClient()->get($url);
+            $apiUrl = json_decode((string) $response->getBody(), true)['Api'];
+
+            if (!$apiUrl) {
+                throw new \Exception('No API URL received from '.$url);
+            }
+
+            return $apiUrl.'/v1/';
+        });
     }
 }
