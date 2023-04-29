@@ -124,7 +124,8 @@ class Provider extends AbstractProvider
      */
     protected function getBaseUrl(): string
     {
-        return 'https://' . $this->getConfig('host', 'login.microsoftonline.com') . '/'.$this->getConfig('tenant', 'common');
+        return 'https://'.$this->getConfig('host', 'login.microsoftonline.com').'/'.$this->getConfig('tenant', 'common');
+
     }
 
     /**
