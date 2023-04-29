@@ -9,6 +9,9 @@ use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://lifescience-ri.eu/ls-login/documentation/service-provider-documentation/service-provider-documentation.html
+ */
 class Provider extends AbstractProvider
 {
     /**

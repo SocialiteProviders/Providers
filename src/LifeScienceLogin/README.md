@@ -40,3 +40,11 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('lifesciencelogin')->redirect();
 ```
+
+### Returned User Fields
+
+- ``id``
+- ``name``
+- ``given_name``
+- ``family_name``
+- ``email``
