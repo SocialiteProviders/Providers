@@ -83,16 +83,18 @@ class Provider extends AbstractProvider
 
         try {
             $discovery = $this->getConfig('custom_domain')
-                ? sprintf('https://%s/%s/%s/v2.0/.well-known/openid-configuration',
+                ? sprintf(
+                    'https://%s/%s/%s/v2.0/.well-known/openid-configuration',
                     $this->getConfig('custom_domain'),
                     $this->getConfig('tenant', $this->getConfig('domain') . '.onmicrosoft.com'),
                     $this->getB2CPolicy()
                 )
-                : sprintf('https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
+                : sprintf(
+                    'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
                     $this->getConfig('domain'),
                     $this->getConfig('domain'),
                     $this->getB2CPolicy()
-            );
+                );
 
             $response = $this->getHttpClient()->get($discovery);
         } catch (Exception $ex) {
