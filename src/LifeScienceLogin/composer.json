@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/lifesciencelogin",
+    "description": "Life Science Login OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "lifescience",
+        "login",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Martin Zurowietz",
+            "email": "martin@cebitec.uni-bielefeld.de"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/lifesciencelogin"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\LifeScienceLogin\\": ""
+        }
+    }
+}
