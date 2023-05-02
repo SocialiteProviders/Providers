@@ -45,5 +45,6 @@ return Socialite::driver('facebook')->redirect();
 
 - ``id``
 - ``name``
+- ``nickname``
 - ``email``
 - ``avatar``
