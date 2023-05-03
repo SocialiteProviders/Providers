@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
@@ -24,7 +25,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'APPLE';
 
-    private const URL = 'https://appleid.apple.com';
+    public const URL = 'https://appleid.apple.com';
 
     /**
      * {@inheritdoc}
@@ -45,6 +46,20 @@ class Provider extends AbstractProvider
      * @var string
      */
     protected $scopeSeparator = ' ';
+
+    /**
+     * JWT Configuration
+     *
+     * @var ?Configuration
+     */
+    protected $jwtConfig = null;
+
+    /**
+     * Private Key
+     *
+     * @var string
+     */
+    protected $privateKey = '';
 
     /**
      * {@inheritdoc}
@@ -89,7 +104,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->getClientSecret())],
             RequestOptions::FORM_PARAMS    => $this->getTokenFields($code),
         ]);
 
@@ -111,10 +126,42 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        static::verify($token);
+        $this->verify($token);
         $claims = explode('.', $token)[1];
 
         return json_decode(base64_decode($claims), true);
+    }
+
+    protected function getClientSecret()
+    {
+        if (! $this->jwtConfig) {
+            $this->getJwtConfig(); // Generate Client Secret from private key if not set.
+        }
+
+        return $this->clientSecret;
+    }
+
+    protected function getJwtConfig()
+    {
+        if (! $this->jwtConfig) {
+            $private_key_path = config('services.apple.private_key');
+            if (file_exists($private_key_path)) {
+                $this->privateKey = file_get_contents($private_key_path);
+            }
+
+            $this->jwtConfig = Configuration::forSymmetricSigner(
+                new Signer\Ecdsa\Sha256(),
+                InMemory::plainText($this->privateKey)
+            );
+
+            if (!blank($this->privateKey)) {
+                $appleToken = new AppleToken($this->getJwtConfig());
+                $this->clientSecret = $appleToken->generate();
+                config()->set('services.apple.client_secret', $this->clientSecret);
+            }
+        }
+
+        return $this->jwtConfig;
     }
 
     /**
@@ -143,10 +190,9 @@ class Provider extends AbstractProvider
      *
      * @see https://appleid.apple.com/auth/keys
      */
-    public static function verify($jwt)
+    public function verify($jwt)
     {
-        $jwtContainer = Configuration::forUnsecuredSigner();
-        $token = $jwtContainer->parser()->parse($jwt);
+        $token = $this->getJwtConfig()->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
             $response = (new Client())->get(self::URL.'/auth/keys');
@@ -166,7 +212,7 @@ class Provider extends AbstractProvider
             ];
 
             try {
-                $jwtContainer->validator()->assert($token, ...$constraints);
+                $this->jwtConfig->validator()->assert($token, ...$constraints);
 
                 return true;
             } catch (RequiredConstraintsViolated $e) {
@@ -275,9 +321,9 @@ class Provider extends AbstractProvider
     public function revokeToken(string $token, string $hint = 'access_token')
     {
         return $this->getHttpClient()->post($this->getRevokeUrl(), [
-            RequestOptions::FORM_PARAMS    => [
+            RequestOptions::FORM_PARAMS => [
                 'client_id'       => $this->clientId,
-                'client_secret'   => $this->clientSecret,
+                'client_secret'   => $this->getClientSecret(),
                 'token'           => $token,
                 'token_type_hint' => $hint,
             ],
