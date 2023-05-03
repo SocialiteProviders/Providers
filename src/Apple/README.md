@@ -18,16 +18,15 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
-If using a private key file, add lines to the configurationadd as follows:
+If using a private key file, add lines to the configuration as follows:
 
 ```php
 'apple' => [
   'client_id' => env('APPLE_CLIENT_ID'),
-  'client_secret' => env('APPLE_CLIENT_SECRET'),
+  'client_secret' => env('APPLE_CLIENT_SECRET'), // Empty if using private key.
   'key_id' => env('APPLE_KEY_ID'),
-  'client_id' => env('APPLE_CLIENT_ID'),
   'team_id' => env('APPLE_TEAM_ID'),
-  'private_key' => env('APPLE_PRIVATE_KEY'),
+  'private_key' => env('APPLE_PRIVATE_KEY'), // Must be absolute path, e.g. /var/www/cert/AuthKey_XYZ.p8
   'redirect' => env('APPLE_REDIRECT_URI')
 ],
 ```
