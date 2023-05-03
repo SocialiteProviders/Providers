@@ -48,14 +48,14 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * JWT Configuration
+     * JWT Configuration.
      *
      * @var ?Configuration
      */
     protected $jwtConfig = null;
 
     /**
-     * Private Key
+     * Private Key.
      *
      * @var string
      */
@@ -134,7 +134,7 @@ class Provider extends AbstractProvider
 
     protected function getClientSecret()
     {
-        if (! $this->jwtConfig) {
+        if (!$this->jwtConfig) {
             $this->getJwtConfig(); // Generate Client Secret from private key if not set.
         }
 
@@ -143,7 +143,7 @@ class Provider extends AbstractProvider
 
     protected function getJwtConfig()
     {
-        if (! $this->jwtConfig) {
+        if (!$this->jwtConfig) {
             $private_key_path = config('services.apple.private_key');
             if (file_exists($private_key_path)) {
                 $this->privateKey = file_get_contents($private_key_path);
