@@ -5,6 +5,7 @@ namespace SocialiteProviders\Apple;
 use Firebase\JWT\JWK;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -24,7 +25,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'APPLE';
 
-    private const URL = 'https://appleid.apple.com';
+    public const URL = 'https://appleid.apple.com';
 
     /**
      * {@inheritdoc}
@@ -45,6 +46,20 @@ class Provider extends AbstractProvider
      * @var string
      */
     protected $scopeSeparator = ' ';
+
+    /**
+     * JWT Configuration.
+     *
+     * @var ?Configuration
+     */
+    protected $jwtConfig = null;
+
+    /**
+     * Private Key.
+     *
+     * @var string
+     */
+    protected $privateKey = '';
 
     /**
      * {@inheritdoc}
@@ -89,7 +104,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->getClientSecret())],
             RequestOptions::FORM_PARAMS    => $this->getTokenFields($code),
         ]);
 
@@ -111,10 +126,49 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        static::verify($token);
+        $this->checkToken($token);
         $claims = explode('.', $token)[1];
 
         return json_decode(base64_decode($claims), true);
+    }
+
+    protected function getClientSecret()
+    {
+        if (!$this->jwtConfig) {
+            $this->getJwtConfig(); // Generate Client Secret from private key if not set.
+        }
+
+        return $this->clientSecret;
+    }
+
+    protected function getJwtConfig()
+    {
+        if (!$this->jwtConfig) {
+            $private_key_path = config('services.apple.private_key', '');
+            $private_key_passphrase = config('services.apple.passphrase', '');
+            $signer = config('services.apple.signer', '');
+
+            if (empty($signer) || !class_exists($signer)) {
+                $signer = !empty($private_key_path) ? \Lcobucci\JWT\Signer\Ecdsa\Sha256::class : AppleSignerNone::class;
+            }
+
+            if (!empty($private_key_path) && file_exists($private_key_path)) {
+                $this->privateKey = file_get_contents($private_key_path);
+            }
+
+            $this->jwtConfig = Configuration::forSymmetricSigner(
+                new $signer(),
+                InMemory::plainText($this->privateKey, $private_key_passphrase)
+            );
+
+            if (!empty($this->privateKey)) {
+                $appleToken = new AppleToken($this->getJwtConfig());
+                $this->clientSecret = $appleToken->generate();
+                config()->set('services.apple.client_secret', $this->clientSecret);
+            }
+        }
+
+        return $this->jwtConfig;
     }
 
     /**
@@ -135,7 +189,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Verify Apple jwt.
+     * Verify Apple JWT.
      *
      * @param string $jwt
      *
@@ -143,13 +197,9 @@ class Provider extends AbstractProvider
      *
      * @see https://appleid.apple.com/auth/keys
      */
-    public static function verify($jwt)
+    public function checkToken($jwt)
     {
-        $jwtContainer = Configuration::forSymmetricSigner(
-            new AppleSignerNone(),
-            InMemory::plainText('')
-        );
-        $token = $jwtContainer->parser()->parse($jwt);
+        $token = $this->getJwtConfig()->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
             $response = (new Client())->get(self::URL.'/auth/keys');
@@ -169,7 +219,7 @@ class Provider extends AbstractProvider
             ];
 
             try {
-                $jwtContainer->validator()->assert($token, ...$constraints);
+                $this->jwtConfig->validator()->assert($token, ...$constraints);
 
                 return true;
             } catch (RequiredConstraintsViolated $e) {
@@ -178,6 +228,25 @@ class Provider extends AbstractProvider
         }
 
         throw new InvalidStateException('Invalid JWT Signature');
+    }
+
+    /**
+     * Verify Apple jwt via static function.
+     *
+     * @param string $jwt
+     *
+     * @return bool
+     *
+     * @see https://appleid.apple.com/auth/keys
+     */
+    public static function verify($jwt)
+    {
+        return (new self(
+            new Request(),
+            config('services.apple.client_id'),
+            config('services.apple.client_secret'),
+            config('services.apple.redirect')
+        ))->checkToken($jwt);
     }
 
     /**
@@ -278,9 +347,9 @@ class Provider extends AbstractProvider
     public function revokeToken(string $token, string $hint = 'access_token')
     {
         return $this->getHttpClient()->post($this->getRevokeUrl(), [
-            RequestOptions::FORM_PARAMS    => [
+            RequestOptions::FORM_PARAMS => [
                 'client_id'       => $this->clientId,
-                'client_secret'   => $this->clientSecret,
+                'client_secret'   => $this->getClientSecret(),
                 'token'           => $token,
                 'token_type_hint' => $hint,
             ],

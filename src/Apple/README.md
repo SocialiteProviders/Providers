@@ -18,6 +18,24 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
+If using a private key file, add lines to the configuration as follows:
+
+```php
+'apple' => [
+  'client_id' => env('APPLE_CLIENT_ID'),
+  'client_secret' => env('APPLE_CLIENT_SECRET'), // Empty if using private key.
+  'key_id' => env('APPLE_KEY_ID'),
+  'team_id' => env('APPLE_TEAM_ID'),
+  'private_key' => env('APPLE_PRIVATE_KEY'), // Must be absolute path, e.g. /var/www/cert/AuthKey_XYZ.p8
+  'passphrase' => env('APPLE_PASSPHRASE'), // Set if your key have a passphrase.
+  'signer' => env('APPLE_SIGNER'), // Signer used for Configuration::forSymmetricSigner().
+  'redirect' => env('APPLE_REDIRECT_URI')
+],
+```
+
+If you receive error `400 Bad Request {"error":"invalid_client"}` , a possible solution is to use another signer, e.g. "\Lcobucci\JWT\Signer\Ecdsa\Sha256".
+
+
 See [Configure Apple ID Authentication](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple)
 
 > Note: the client secret used for "Sign In with Apple" is a JWT token that can have a maximum lifetime of 6 months. The article above explains how to generate the client secret on demand and you'll need to update this every 6 months. To generate the client secret for each request, see [Generating A Client Secret For Sign In With Apple On Each Request](https://bannister.me/blog/generating-a-client-secret-for-sign-in-with-apple-on-each-request)
