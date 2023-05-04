@@ -145,7 +145,10 @@ class Provider extends AbstractProvider
      */
     public static function verify($jwt)
     {
-        $jwtContainer = Configuration::forUnsecuredSigner();
+        $jwtContainer = Configuration::forSymmetricSigner(
+            new AppleSignerNone(),
+            InMemory::plainText('')
+        );
         $token = $jwtContainer->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
