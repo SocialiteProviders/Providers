@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
@@ -158,7 +157,7 @@ class Provider extends AbstractProvider
 
             $this->jwtConfig = Configuration::forSymmetricSigner(
                 new $signer(),
-                InMemory::plainText($this->privateKey, $private_key_passphrase)
+                AppleSignerInMemory::plainText($this->privateKey, $private_key_passphrase)
             );
 
             if (!empty($this->privateKey)) {
@@ -213,7 +212,7 @@ class Provider extends AbstractProvider
         if (isset($publicKeys[$kid])) {
             $publicKey = openssl_pkey_get_details($publicKeys[$kid]->getKeyMaterial());
             $constraints = [
-                new SignedWith(new Sha256(), InMemory::plainText($publicKey['key'])),
+                new SignedWith(new Sha256(), AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
                 new LooseValidAt(SystemClock::fromSystemTimezone()),
             ];
