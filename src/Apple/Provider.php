@@ -182,12 +182,12 @@ class Provider extends AbstractProvider
         //Temporary fix to enable stateless
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        $appleUserToken = $this->getUserByToken(
-            $token = Arr::get($response, 'id_token')
+        $userFromIdToken = $this->getUserByToken(
+            Arr::get($response, 'id_token')
         );
 
         if ($this->usesState()) {
-            $state = explode('.', $appleUserToken['nonce'])[1];
+            $state = explode('.', $userFromIdToken['nonce'])[1];
             if ($state === $this->request->input('state')) {
                 $this->request->session()->put([
                     'state'        => $state,
@@ -200,15 +200,15 @@ class Provider extends AbstractProvider
             }
         }
 
-        $user = $this->mapUserToObject($appleUserToken);
+        $user = $this->mapUserToObject($userFromIdToken);
 
         if ($user instanceof User) {
             $user->setAccessTokenResponseBody($response);
         }
 
-        return $user->setToken($token)
-            ->setRefreshToken(Arr::get($response, 'refresh_token'))
-            ->setExpiresIn(Arr::get($response, 'expires_in'));
+        return $user->setToken($this->parseAccessToken($response))
+            ->setRefreshToken($this->parseRefreshToken($response))
+            ->setExpiresIn($this->parseExpiresIn($response));
     }
 
     /**
