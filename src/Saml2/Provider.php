@@ -598,7 +598,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $status = $this->messageContext->asResponse()->getStatus();
 
         if (!$status->isSuccess()) {
-            throw new LightSamlValidationException('Server responded with an unsuccessful status: '.$status->getStatusCode()->getValue());
+            throw new LightSamlValidationException('Server responded with an unsuccessful status: '.$status->getStatusCode()->getValue().', message: '.$status->getStatusMessage());
         }
     }
 
