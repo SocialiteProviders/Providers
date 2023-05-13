@@ -16,6 +16,7 @@ use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use Psr\Http\Message\ResponseInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -272,6 +273,31 @@ class Provider extends AbstractProvider
                 'client_secret'   => $this->clientSecret,
                 'token'           => $token,
                 'token_type_hint' => $hint,
+            ],
+        ]);
+    }
+
+    /**
+     * Acquire a new access token using the refresh token.
+     *
+     * Refer to the documentation for the response structure (the `refresh_token` will be missing from the new response).
+     *
+     * @see https://developer.apple.com/documentation/sign_in_with_apple/tokenresponse
+     *
+     * @param string $refreshToken
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return ResponseInterface
+     */
+    public function refreshToken(string $refreshToken): ResponseInterface
+    {
+        return $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::FORM_PARAMS => [
+                'client_id'       => $this->clientId,
+                'client_secret'   => $this->clientSecret,
+                'grant_type'      => 'refresh_token',
+                'refresh_token'   => $refreshToken,
             ],
         ]);
     }
