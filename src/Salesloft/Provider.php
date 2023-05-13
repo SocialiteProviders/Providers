@@ -5,6 +5,10 @@ namespace SocialiteProviders\Salesloft;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://developers.salesloft.com/docs/platform/api-basics/oauth-authentication
+ * @see https://developers.salesloft.com/docs/api/me-index
+ */
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SALESLOFT';
