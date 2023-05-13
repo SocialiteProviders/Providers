@@ -153,6 +153,7 @@ parameters:
     src/SURFconext: 'git@github.com:SocialiteProviders/SURFconext.git'
     src/Sage: 'git@github.com:SocialiteProviders/Sage.git'
     src/SalesForce: 'git@github.com:SocialiteProviders/SalesForce.git'
+    src/Salesloft: 'git@github.com:SocialiteProviders/Salesloft.git'
     src/Saml2: 'git@github.com:SocialiteProviders/Saml2.git'
     src/SciStarter: 'git@github.com:SocialiteProviders/SciStarter.git'
     src/SharePoint: 'git@github.com:SocialiteProviders/SharePoint.git'
