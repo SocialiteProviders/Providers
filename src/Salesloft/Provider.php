@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\Salesloft;
 
-use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
@@ -38,8 +38,8 @@ class Provider extends AbstractProvider
             'https://api.salesloft.com/v2/me',
             [
                 'headers' => [
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token,
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
                 ],
             ]
         );
@@ -55,8 +55,8 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user): User
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
-            'name' => $user['name'],
+            'id'    => $user['id'],
+            'name'  => $user['name'],
             'email' => $user['email'],
         ]);
     }
