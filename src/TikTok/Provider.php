@@ -28,13 +28,17 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return 'https://open-api.tiktok.com/platform/oauth/connect?'.http_build_query([
+        $fields = [
             'client_key'    => $this->clientId,
             'state'         => $state,
             'response_type' => 'code',
             'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
             'redirect_uri'  => $this->redirectUrl,
-        ]);
+        ];
+
+        $fields = array_merge($fields, $this->parameters);
+
+        return 'https://www.tiktok.com/v2/auth/authorize/?'.http_build_query($fields);
     }
 
     /**
@@ -52,16 +56,16 @@ class Provider extends AbstractProvider
 
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        $token = Arr::get($response, 'data.access_token');
+        $token = Arr::get($response, 'access_token');
 
         $this->user = $this->mapUserToObject(
             $this->getUserByToken($token)
         );
 
         return $this->user->setToken($token)
-            ->setExpiresIn(Arr::get($response, 'data.expires_in'))
-            ->setRefreshToken(Arr::get($response, 'data.refresh_token'))
-            ->setApprovedScopes(explode($this->scopeSeparator, Arr::get($response, 'data.scope', '')));
+            ->setExpiresIn(Arr::get($response, 'expires_in'))
+            ->setRefreshToken(Arr::get($response, 'refresh_token'))
+            ->setApprovedScopes(explode($this->scopeSeparator, Arr::get($response, 'scope', '')));
     }
 
     /**
@@ -69,7 +73,7 @@ class Provider extends AbstractProvider
      */
     public function getTokenUrl()
     {
-        return 'https://open-api.tiktok.com/oauth/access_token/';
+        return 'https://open.tiktokapis.com/v2/oauth/token/';
     }
 
     /**
@@ -82,6 +86,7 @@ class Provider extends AbstractProvider
             'client_secret' => $this->clientSecret,
             'code'          => $code,
             'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $this->redirectUrl
         ];
     }
 
@@ -116,4 +121,16 @@ class Provider extends AbstractProvider
             'avatar'   => $user['avatar_large_url'],
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenHeaders($code)
+    {
+        return [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        ];
+    }
+
 }
