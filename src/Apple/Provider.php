@@ -117,7 +117,7 @@ class Provider extends AbstractProvider
      *
      * @return User $user
      */
-    public function userByIdentityToken(string $token): SocialiteUser
+    public function userByIdentityToken(string $token): User
     {
         $array = $this->getUserByToken($token);
 
