@@ -7,6 +7,10 @@ use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://developers.tiktok.com/bulletin/migration-guidance-oauth-v1/
+ * @see https://developers.tiktok.com/doc/oauth-user-access-token-management
+ */
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TIKTOK';
