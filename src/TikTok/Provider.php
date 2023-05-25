@@ -86,7 +86,7 @@ class Provider extends AbstractProvider
             'client_secret' => $this->clientSecret,
             'code'          => $code,
             'grant_type'    => 'authorization_code',
-            'redirect_uri'  => $this->redirectUrl
+            'redirect_uri'  => $this->redirectUrl,
         ];
     }
 
@@ -129,7 +129,7 @@ class Provider extends AbstractProvider
     {
         return [
             'Accept' => 'application/json',
-            'Content-Type' => 'application/x-www-form-urlencoded'
+            'Content-Type' => 'application/x-www-form-urlencoded',
         ];
     }
 
