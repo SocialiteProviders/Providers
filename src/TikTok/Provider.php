@@ -136,5 +136,4 @@ class Provider extends AbstractProvider
             'Content-Type' => 'application/x-www-form-urlencoded',
         ];
     }
-
 }
