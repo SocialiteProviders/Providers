@@ -15,7 +15,6 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
     'client_id' => env('GOVBR_CLIENT_ID'),
     'client_secret' => env('GOVBR_CLIENT_SECRET'),
     'redirect' => env('GOVBR_REDIRECT_URI'),
-    'environment' => env('GOVBR_ENVIRONMENT', 'production'),
 ],
 ```
 

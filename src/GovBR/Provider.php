@@ -131,12 +131,6 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getBaseUrlForEnvironment(): string
     {
-        $environment = $this->getConfig('environment', 'production');
-
-        return match ($environment) {
-            'staging'    => $this->stagingUrl,
-            'production' => $this->productionUrl,
-            default      => throw new RuntimeException("Invalid environment '{$environment}' selected for GovBR provider."),
-        };
+        return config('app.env') === 'production' ? $this->productionUrl : $this->stagingUrl;
     }
 }
