@@ -101,20 +101,24 @@ class Provider extends AbstractProvider
         }
 
         if ($this->getConfig('tenant', 'common') === 'common' && $this->getConfig('include_tenant_info', false)) {
-            $responseTenant = $this->getHttpClient()->get(
-                'https://graph.microsoft.com/v1.0/organization',
-                [
-                    RequestOptions::HEADERS => [
-                        'Accept'        => 'application/json',
-                        'Authorization' => 'Bearer '.$token,
-                    ],
-                    RequestOptions::QUERY => [
-                        '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields', []))),
-                    ],
-                ]
-            );
-
-            $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
+            try {
+                $responseTenant = $this->getHttpClient()->get(
+                    'https://graph.microsoft.com/v1.0/organization',
+                    [
+                        RequestOptions::HEADERS => [
+                            'Accept'        => 'application/json',
+                            'Authorization' => 'Bearer '.$token,
+                        ],
+                        RequestOptions::QUERY => [
+                            '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields', []))),
+                        ],
+                    ]
+                );
+                $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
+            } catch (ClientException $e) {
+                //if exception then tenant does not exist.
+                $formattedResponse['tenant'] = null;
+            }
         }
 
         return $formattedResponse;
