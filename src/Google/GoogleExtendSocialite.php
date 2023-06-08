@@ -1,6 +1,7 @@
 <?php
 
 namespace SocialiteProviders\Google;
+
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class GoogleExtendsSocialite

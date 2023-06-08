@@ -6,5 +6,4 @@ use SocialiteProviders\Manager\Exception\InvalidArgumentException;
 
 class InvalidJwtException extends InvalidArgumentException
 {
-
 }

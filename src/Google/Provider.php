@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
      * Create a new Google provider instance.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param string $clientId
+     * @param string                     $clientId
      */
     public function __construct(Request $request, $clientId)
     {
@@ -63,6 +63,7 @@ class Provider extends AbstractProvider
      * Get the User instance for the authenticated user.
      *
      * @throws InvalidJwtException
+     *
      * @return GoogleUser
      */
     public function user()
@@ -71,10 +72,10 @@ class Provider extends AbstractProvider
             return $this->user;
         }
         $jwt = $this->request->credential;
-        if($jwt === null){
-            throw new InvalidJwtException("Empty JWT payload");
+        if ($jwt === null) {
+            throw new InvalidJwtException('Empty JWT payload');
         }
-        if(!$this->verifyJwtSignature($jwt)){
+        if (!$this->verifyJwtSignature($jwt)) {
             throw new InvalidJwtException('Invalid JWT signature');
         }
         if (!in_array(Arr::get($this->payload, 'iss'), ['accounts.google.com', 'https://accounts.google.com'])) {
@@ -98,26 +99,27 @@ class Provider extends AbstractProvider
     /**
      * Map the raw user array to a Socialite User instance.
      *
-     * @param  array  $user
+     * @param  array $user
      * @return GoogleUser
      */
     protected function mapUserToObject(array $user)
     {
         return (new GoogleUser())->setRaw($user)->map([
-            'id' => Arr::get($user, 'sub'),
-            'nickname' => Arr::get($user, 'nickname'),
-            'name' => Arr::get($user, 'name'),
-            'email_verified' => Arr::get($user, 'email_verified'),
-            'email' => Arr::get($user, 'email'),
-            'avatar' => $avatarUrl = Arr::get($user, 'picture'),
+            'id'              => Arr::get($user, 'sub'),
+            'nickname'        => Arr::get($user, 'nickname'),
+            'name'            => Arr::get($user, 'name'),
+            'email_verified'  => Arr::get($user, 'email_verified'),
+            'email'           => Arr::get($user, 'email'),
+            'avatar'          => $avatarUrl = Arr::get($user, 'picture'),
             'avatar_original' => $avatarUrl,
         ]);
     }
 
     /**
-     * Verifies the signature of the JWT issued, via Google Certs
+     * Verifies the signature of the JWT issued, via Google Certs.
      *
      * @param  string  $jwt
+     *
      * @return bool
      */
     protected function verifyJwtSignature($jwt)
@@ -132,14 +134,14 @@ class Provider extends AbstractProvider
         $certificates = $this->fetchCertificates();
         $publicKey = openssl_pkey_get_public($certificates[$keyId]);
 
-        return $this->verifySignature($jwtParts[0] . '.' . $jwtParts[1], $signature, $publicKey);
+        return $this->verifySignature($jwtParts[0].'.'.$jwtParts[1], $signature, $publicKey);
     }
 
     /**
      * Verify the provided signature using OpenSSL.
      *
-     * @param  string  $data
-     * @param  string  $signature
+     * @param  string         $data
+     * @param  string         $signature
      * @param  resource|bool  $publicKey
      * @return bool
      */
@@ -162,6 +164,7 @@ class Provider extends AbstractProvider
      * Decodes a Base64 URL-encoded string.
      *
      * @param string $data
+     *
      * @return string
      */
     protected function base64UrlDecode($data)

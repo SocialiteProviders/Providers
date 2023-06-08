@@ -1,6 +1,7 @@
 <?php
 
 namespace SocialiteProviders\Google;
+
 use SocialiteProviders\Manager\OAuth2\User;
 
 class GoogleUser extends User
@@ -33,7 +34,9 @@ class GoogleUser extends User
      * Sets the organization for the current user.
      *
      * @param  string $organization
+     *
      * @return $this
+     *
      */
     public function setOrganization($organization)
     {
