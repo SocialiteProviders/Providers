@@ -33,10 +33,9 @@ class GoogleUser extends User
     /**
      * Sets the organization for the current user.
      *
-     * @param  string $organization
+     * @param string $organization
      *
      * @return $this
-     *
      */
     public function setOrganization($organization)
     {

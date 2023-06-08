@@ -39,8 +39,8 @@ class Provider extends AbstractProvider
     /**
      * Create a new Google provider instance.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param string                     $clientId
+     * @param  \Illuminate\Http\Request $request
+     * @param string                    $clientId
      */
     public function __construct(Request $request, $clientId)
     {
@@ -99,7 +99,8 @@ class Provider extends AbstractProvider
     /**
      * Map the raw user array to a Socialite User instance.
      *
-     * @param  array $user
+     * @param array $user
+     *
      * @return GoogleUser
      */
     protected function mapUserToObject(array $user)
@@ -118,7 +119,7 @@ class Provider extends AbstractProvider
     /**
      * Verifies the signature of the JWT issued, via Google Certs.
      *
-     * @param  string  $jwt
+     * @param string $jwt
      *
      * @return bool
      */
@@ -140,14 +141,15 @@ class Provider extends AbstractProvider
     /**
      * Verify the provided signature using OpenSSL.
      *
-     * @param  string         $data
-     * @param  string         $signature
-     * @param  resource|bool  $publicKey
+     * @param string        $data
+     * @param string        $signature
+     * @param resource|bool $publicKey
+     *
      * @return bool
      */
     protected function verifySignature($data, $signature, $publicKey): bool
     {
-        return openssl_verify($data, $signature, $publicKey , OPENSSL_ALGO_SHA256);
+        return openssl_verify($data, $signature, $publicKey ,OPENSSL_ALGO_SHA256);
     }
 
     /**
