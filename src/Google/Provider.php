@@ -39,8 +39,8 @@ class Provider extends AbstractProvider
     /**
      * Create a new Google provider instance.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param string                    $clientId
+     * @param \Illuminate\Http\Request $request
+     * @param string                   $clientId
      */
     public function __construct(Request $request, $clientId)
     {
@@ -149,7 +149,7 @@ class Provider extends AbstractProvider
      */
     protected function verifySignature($data, $signature, $publicKey): bool
     {
-        return openssl_verify($data, $signature, $publicKey ,OPENSSL_ALGO_SHA256);
+        return openssl_verify($data, $signature, $publicKey,OPENSSL_ALGO_SHA256);
     }
 
     /**
