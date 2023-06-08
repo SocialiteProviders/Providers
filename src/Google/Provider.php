@@ -58,7 +58,6 @@ class Provider extends AbstractProvider
         throw new \RuntimeException('Redirect is deprecated for the new Google Auth, see https://developers.google.com/identity/gsi/web/guides/migration#html_and_javascript');
     }
 
-
     /**
      * Get the User instance for the authenticated user.
      *
@@ -94,7 +93,6 @@ class Provider extends AbstractProvider
         return $this->user = $this->mapUserToObject($this->payload)
             ->setOrganization(Arr::get($this->payload, 'hd'));
     }
-
 
     /**
      * Map the raw user array to a Socialite User instance.
@@ -149,7 +147,7 @@ class Provider extends AbstractProvider
      */
     protected function verifySignature($data, $signature, $publicKey): bool
     {
-        return openssl_verify($data, $signature, $publicKey,OPENSSL_ALGO_SHA256);
+        return openssl_verify($data, $signature, $publicKey, OPENSSL_ALGO_SHA256);
     }
 
     /**
