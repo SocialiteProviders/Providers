@@ -70,7 +70,7 @@ parameters:
     src/Gitea: 'git@github.com:SocialiteProviders/Gitea.git'
     src/Gitee: 'git@github.com:SocialiteProviders/Gitee.git'
     src/Goodreads: 'git@github.com:SocialiteProviders/Goodreads.git'
-    src/Google: 'git@github.com:SocialiteProviders/Google-Plus.git'
+    src/Google: 'git@github.com:SocialiteProviders/Google.git'
     src/GovBR: 'git@github.com:SocialiteProviders/GovBR.git'
     src/Graph: 'git@github.com:SocialiteProviders/Microsoft-Graph.git'
     src/Gumroad: 'git@github.com:SocialiteProviders/Gumroad.git'
