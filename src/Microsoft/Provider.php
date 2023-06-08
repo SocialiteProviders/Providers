@@ -106,8 +106,8 @@ class Provider extends AbstractProvider
                     'https://graph.microsoft.com/v1.0/organization',
                     [
                         RequestOptions::HEADERS => [
-                            'Accept' => 'application/json',
-                            'Authorization' => 'Bearer ' . $token,
+                            'Accept'        => 'application/json',
+                            'Authorization' => 'Bearer '.$token,
                         ],
                         RequestOptions::QUERY => [
                             '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields', []))),
