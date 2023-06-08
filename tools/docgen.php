@@ -47,6 +47,7 @@ return Socialite::driver('%PROVIDER_ALIAS%')->redirect();
 DOC;
 
 $directories = array_map('basename', glob('../src'.'/*', GLOB_ONLYDIR));
+
 foreach ($directories as $provider) {
     $path = sprintf('%s/../src/%s/README.md', __DIR__, $provider);
     if (file_exists($path)) {
