@@ -1,29 +1,28 @@
 {
     "name": "socialiteproviders/google",
-    "description": "Google OAuth2 Provider for Laravel Socialite",
+    "description": "Google Authentication Provider via JWT (new API) for Laravel Socialite",
     "license": "MIT",
     "keywords": [
         "google",
         "laravel",
-        "oauth",
         "provider",
         "socialite"
     ],
     "authors": [
         {
-            "name": "xstoop",
-            "email": "myenglishnameisx@gmail.com"
+            "name": "Cosmin Badea",
+            "email": "me@cosminbadea.dev"
         }
     ],
     "support": {
         "issues": "https://github.com/socialiteproviders/providers/issues",
-        "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/google"
+        "source": "https://github.com/socialiteproviders/providers"
     },
     "require": {
         "php": "^7.4 || ^8.0",
+        "socialiteproviders/manager": "~4.0",
         "ext-json": "*",
-        "socialiteproviders/manager": "~4.0"
+        "ext-openssl": "*"
     },
     "autoload": {
         "psr-4": {
