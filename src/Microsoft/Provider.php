@@ -119,6 +119,7 @@ class Provider extends AbstractProvider
                 //if exception then tenant does not exist.
                 $formattedResponse['tenant'] = null;
             }
+        }
 
         return $formattedResponse;
     }
