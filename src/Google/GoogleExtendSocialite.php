@@ -4,7 +4,7 @@ namespace SocialiteProviders\Google;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class GoogleExtendsSocialite
+class GoogleExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
