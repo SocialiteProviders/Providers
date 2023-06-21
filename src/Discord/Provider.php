@@ -99,8 +99,22 @@ class Provider extends AbstractProvider
      */
     protected function formatAvatar(array $user)
     {
-        if (empty($user['avatar'])) {
-            return null;
+         if (empty($user['avatar'])) {
+            if($user['discriminator'][3] == "0"||$user['discriminator'][3] == "5"){
+                return "https://cdn.discordapp.com/embed/avatars/0.png";
+            }
+            else if($user['discriminator'][3] == "1"||$user['discriminator'][3] == "6"){
+                return "https://cdn.discordapp.com/embed/avatars/1.png";
+            }
+            else if($user['discriminator'][3] == "2"||$user['discriminator'][3] == "7"){
+                return "https://cdn.discordapp.com/embed/avatars/2.png";
+            }
+            else if($user['discriminator'][3] == "3"||$user['discriminator'][3] == "8"){
+                return "https://cdn.discordapp.com/embed/avatars/3.png";
+            }
+            else if($user['discriminator'][3] == "4"||$user['discriminator'][3] == "9"){
+                return "https://cdn.discordapp.com/embed/avatars/4.png";
+            }
         }
 
         $isGif = preg_match('/a_.+/m', $user['avatar']) === 1;
