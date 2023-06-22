@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/leader-id",
+    "description": "Leader ID (leader-id.ru) OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "leader-id"
+    ],
+    "authors": [
+        {
+            "name": "Roman Melenchenko",
+            "email": "melenchenko@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/leader-id"
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^3.6 || ^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\LeaderId\\": ""
+        }
+    }
+}
