@@ -83,9 +83,9 @@ class Provider extends AbstractProvider
 
         try {
             $discovery = sprintf(
-                'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
-                $this->getConfig('domain'),
-                $this->getConfig('domain'),
+                'https://%s/%s/%s/v2.0/.well-known/openid-configuration',
+                $this->getConfig('custom_domain', $this->getConfig('domain').'.b2clogin.com'),
+                $this->getConfig('tenant', $this->getConfig('domain').'.onmicrosoft.com'),
                 $this->getB2CPolicy()
             );
 
@@ -198,7 +198,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'   => $user['sub'],
+            'id'       => $user['sub'],
+            'nickname' => $user['name'],
+            'name'     => $user['name'],
+            'email'    => $user['emails'][0],
         ]);
     }
 
@@ -224,6 +227,8 @@ class Provider extends AbstractProvider
             'policy',
             'redirect_template',
             'default_algorithm',
+            'custom_domain',
+            'tenant',
         ];
     }
 }
