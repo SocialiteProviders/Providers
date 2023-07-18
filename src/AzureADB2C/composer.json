@@ -24,7 +24,7 @@
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "ext-openssl": "*",
-        "firebase/php-jwt": "^5.2",
+        "firebase/php-jwt": "^6.8",
         "socialiteproviders/manager": "~4.0"
     },
     "autoload": {
