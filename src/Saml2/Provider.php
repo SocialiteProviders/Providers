@@ -735,6 +735,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected function cacheKey(string $key): string
     {
         $hash = md5($this->getConfig('acs') ?: $this->getConfig('metadata'));
-        return "socialite_saml2_{$hash}_{$key}";
+
+        return sprintf("socialite_saml2_%s_%s", $hash, $key);
     }
 }
