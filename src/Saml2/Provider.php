@@ -96,11 +96,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
      */
     protected $config;
 
-    public const CACHE_NAMESPACE = 'socialite_saml2';
-    public const METADATA_CACHE_KEY = self::CACHE_NAMESPACE.'_metadata';
-    public const METADATA_CACHE_KEY_TTL = self::METADATA_CACHE_KEY.'_ttl';
-    public const ID_CACHE_PREFIX = self::CACHE_NAMESPACE.'_id_';
-
     public const ATTRIBUTE_MAP = [
         'email' => [
             ClaimTypes::EMAIL_ADDRESS,
@@ -300,21 +295,21 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected function getIdentityProviderEntityDescriptorFromUrl(): EntityDescriptor
     {
         $metadataUrl = $this->getConfig('metadata');
-        $xml = Cache::get(self::METADATA_CACHE_KEY);
-        $ttl = Cache::get(self::METADATA_CACHE_KEY_TTL);
+        $xml = Cache::get($this->cacheKey('metadata'));
+        $ttl = Cache::get($this->cacheKey('metadata_ttl'));
 
         if ($xml && $ttl && $ttl + $this->getConfig('ttl', 86400) > time()) {
             return $this->getIdpEntityDescriptorFromXml($xml);
         }
 
-        Cache::forever(self::METADATA_CACHE_KEY_TTL, time());
+        Cache::forever($this->cacheKey('metadata_ttl'), time());
 
         try {
             $xml = (string) $this->getHttpClient()
                 ->get($metadataUrl)
                 ->getBody();
 
-            Cache::forever(self::METADATA_CACHE_KEY, $xml);
+            Cache::forever($this->cacheKey('metadata'), $xml);
         } catch (GuzzleException $e) {
             if (!$xml) {
                 throw $e;
@@ -494,7 +489,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected function validateRepeatedId(): void
     {
         $assertion = $this->getFirstAssertion();
-        $key = collect([self::ID_CACHE_PREFIX, $assertion->getIssuer()->getValue(), $assertion->getId()])->join('-');
+        $key = $this->cacheKey(collect(['id', $assertion->getIssuer()->getValue(), $assertion->getId()])->join('_'));
 
         if (Cache::has($key)) {
             throw new LightSamlValidationException('The identity provider repeated an assertion id');
@@ -652,8 +647,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     public function clearIdentityProviderMetadataCache()
     {
-        Cache::forget(self::METADATA_CACHE_KEY);
-        Cache::forget(self::METADATA_CACHE_KEY_TTL);
+        Cache::forget($this->cacheKey('metadata'));
+        Cache::forget($this->cacheKey('metadata_ttl'));
     }
 
     protected function signature(X509Credential $credential): SignatureWriter
@@ -735,5 +730,12 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected function mapUserToObject(array $user)
     {
         throw new NotSupportedException();
+    }
+
+    protected function cacheKey(string $key): string
+    {
+        $hash = md5($this->getConfig('acs') ?: $this->getConfig('metadata'));
+
+        return sprintf('socialite_saml2_%s_%s', $hash, $key);
     }
 }
