@@ -736,6 +736,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $hash = md5($this->getConfig('acs') ?: $this->getConfig('metadata'));
 
-        return sprintf("socialite_saml2_%s_%s", $hash, $key);
+        return sprintf('socialite_saml2_%s_%s', $hash, $key);
     }
 }
