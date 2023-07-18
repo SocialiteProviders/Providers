@@ -161,7 +161,7 @@ class Server extends BaseServer
      *
      * :(
      *
-     * @param $url
+     * @param                  $url
      * @param TokenCredentials $tokenCredentials
      * @param array            $extraParams
      *
