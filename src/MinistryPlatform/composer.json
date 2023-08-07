@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/ministryplatform",
+    "description": "OAuth2 Provider for Ministry Platform",
+    "license": "MIT",
+    "keywords": [
+        "ministry platform",
+        "MP",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Chris Drew",
+            "email": "cjdrew.dev@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/ministryplatform"
+    },
+    "require": {
+        "php": "^7.3|^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\MinistryPlatform\\": ""
+        }
+    }
+}
