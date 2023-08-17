@@ -62,11 +62,15 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $firstName = data_get($user, 'data.user.firstName', null);
+        $lastName = data_get($user, 'data.user.lastName', null);
         return (new User())->setRaw($user)->map([
             'id' => data_get($user,'data.user.id',null),
-            'first_name' => data_get($user, 'data.user.firstName', null),
-            'last_name' => data_get($user, 'data.user.lastName', null),
-            'email' => data_get($user, 'data.user.defaultEmail', null)
+            'name' => "{$firstName} {$lastName}",
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'email' => data_get($user, 'data.user.defaultEmail', null),
+            'business_id' => data_get($this->credentialsResponseBody,'businessId')
         ]);
     }
 
