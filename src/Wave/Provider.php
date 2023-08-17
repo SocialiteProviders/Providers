@@ -17,7 +17,7 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['user:read'];
 
-    protected $scopeSeparator = " ";
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
@@ -29,7 +29,7 @@ class Provider extends AbstractProvider
 
     protected function getQueryUrl()
     {
-        return "https://gql.waveapps.com/graphql/public";
+        return 'https://gql.waveapps.com/graphql/public';
     }
 
     /**
@@ -45,12 +45,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->post($this->getQueryUrl(),[
+        $response = $this->getHttpClient()->post($this->getQueryUrl(), [
             'headers' => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
-            "json" => [
-                "query" => 'query { user {id firstName lastName defaultEmail} }'
+            'json' => [
+                'query' => 'query { user {id firstName lastName defaultEmail} }'
             ]
         ]);
 
@@ -65,11 +65,11 @@ class Provider extends AbstractProvider
         $firstName = data_get($user, 'data.user.firstName', null);
         $lastName = data_get($user, 'data.user.lastName', null);
         return (new User())->setRaw($user)->map([
-            'id' => data_get($user,'data.user.id',null),
-            'name' => "{$firstName} {$lastName}",
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'email' => data_get($user, 'data.user.defaultEmail', null),
+            'id'          => data_get($user,'data.user.id',null),
+            'name'        => "{$firstName} {$lastName}",
+            'first_name'  => $firstName,
+            'last_name'   => $lastName,
+            'email'       => data_get($user, 'data.user.defaultEmail', null),
             'business_id' => data_get($this->credentialsResponseBody,'businessId')
         ]);
     }
