@@ -50,8 +50,8 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Bearer '.$token,
             ],
             'json' => [
-                'query' => 'query { user {id firstName lastName defaultEmail} }'
-            ]
+                'query' => 'query { user {id firstName lastName defaultEmail} }',
+            ],
         ]);
 
         return json_decode($response->getBody(), true);
@@ -64,13 +64,14 @@ class Provider extends AbstractProvider
     {
         $firstName = data_get($user, 'data.user.firstName', null);
         $lastName = data_get($user, 'data.user.lastName', null);
+
         return (new User())->setRaw($user)->map([
-            'id'          => data_get($user,'data.user.id',null),
+            'id'          => data_get($user, 'data.user.id', null),
             'name'        => "{$firstName} {$lastName}",
             'first_name'  => $firstName,
             'last_name'   => $lastName,
             'email'       => data_get($user, 'data.user.defaultEmail', null),
-            'business_id' => data_get($this->credentialsResponseBody,'businessId')
+            'business_id' => data_get($this->credentialsResponseBody, 'businessId'),
         ]);
     }
 
@@ -80,7 +81,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }
