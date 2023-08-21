@@ -21,7 +21,7 @@
         "docs": "https://socialiteproviders.com/jira"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.1",
         "ext-json": "*",
         "ext-openssl": "*",
         "socialiteproviders/manager": "~4.0"

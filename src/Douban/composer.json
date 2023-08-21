@@ -21,7 +21,7 @@
         "docs": "https://socialiteproviders.com/douban"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.1",
         "ext-json": "*",
         "socialiteproviders/manager": "~4.0"
     },
