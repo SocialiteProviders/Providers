@@ -82,7 +82,10 @@ class Server extends BaseServer
         $headers = $this->getHeaders($temporaryCredentials, 'POST', $uri, $bodyParameters);
 
         try {
-            $response = $client->post($uri, [RequestOptions::HEADERS =>  $headers], [RequestOptions::BODY =>  $bodyParameters]);
+            $response = $client->post($uri, [
+                RequestOptions::HEADERS => $headers,
+                RequestOptions::BODY => $bodyParameters,
+            ]);
         } catch (BadResponseException $e) {
             return $this->handleTokenCredentialsBadResponse($e);
         }
