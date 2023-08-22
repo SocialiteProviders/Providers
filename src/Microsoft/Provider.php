@@ -94,7 +94,7 @@ class Provider extends AbstractProvider
                 );
 
                 $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents()) ?? null;
-            } catch (ClientException $e) {
+            } catch (ClientException) {
                 //if exception then avatar does not exist.
                 $formattedResponse['avatar'] = null;
             }
@@ -115,7 +115,7 @@ class Provider extends AbstractProvider
                     ]
                 );
                 $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
-            } catch (ClientException $e) {
+            } catch (ClientException) {
                 //if exception then tenant does not exist.
                 $formattedResponse['tenant'] = null;
             }

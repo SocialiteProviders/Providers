@@ -37,25 +37,23 @@ class Provider extends AbstractProvider
      */
     private function getSlackApiErrorMiddleware()
     {
-        return function (callable $handler) {
-            return function ($request, array $options) use ($handler) {
-                if (empty($options['http_errors'])) {
-                    return $handler($request, $options);
-                }
+        return fn(callable $handler) => function ($request, array $options) use ($handler) {
+            if (empty($options['http_errors'])) {
+                return $handler($request, $options);
+            }
 
-                return $handler($request, $options)->then(
-                    function (ResponseInterface $response) use ($request) {
-                        $body = json_decode((string) $response->getBody(), true);
-                        $response->getBody()->rewind();
+            return $handler($request, $options)->then(
+                function (ResponseInterface $response) use ($request) {
+                    $body = json_decode((string) $response->getBody(), true);
+                    $response->getBody()->rewind();
 
-                        if ($body['ok']) {
-                            return $response;
-                        }
-
-                        throw RequestException::create($request, $response);
+                    if ($body['ok']) {
+                        return $response;
                     }
-                );
-            };
+
+                    throw RequestException::create($request, $response);
+                }
+            );
         };
     }
 

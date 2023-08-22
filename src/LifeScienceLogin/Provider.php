@@ -17,17 +17,17 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'LIFESCIENCELOGIN';
+    public const IDENTIFIER = 'LIFESCIENCELOGIN';
 
     /**
      * LifeScience Login config URL.
      */
-    const CONFIG_URL = 'https://proxy.aai.lifescience-ri.eu/.well-known/openid-configuration';
+    public const CONFIG_URL = 'https://proxy.aai.lifescience-ri.eu/.well-known/openid-configuration';
 
     /**
      * Cache key for the OpenID config.
      */
-    const CACHE_KEY = 'lslogin_openid_config';
+    public const CACHE_KEY = 'lslogin_openid_config';
 
     /**
      * {@inheritdoc}

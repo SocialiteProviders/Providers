@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'ONELOGIN';
+    public const IDENTIFIER = 'ONELOGIN';
 
     /**
      * Scopes defintions.
@@ -89,7 +89,7 @@ class Provider extends AbstractProvider
      */
     public function getClientAccessTokenResponse($scopes = null)
     {
-        $scopes = $scopes ?? $this->getScopes();
+        $scopes ??= $this->getScopes();
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
             RequestOptions::HEADERS     => ['Cache-Control' => 'no-cache'],

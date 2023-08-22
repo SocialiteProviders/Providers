@@ -83,7 +83,7 @@ class Provider extends AbstractProvider
 
         $activeSkin = array_filter($user['skins'], fn ($skin) => $skin['state'] === 'ACTIVE');
 
-        $avatar = count($activeSkin) === 1 ? $activeSkin[0]['url'] : null;
+        $avatar = count((array) $activeSkin) === 1 ? $activeSkin[0]['url'] : null;
 
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],

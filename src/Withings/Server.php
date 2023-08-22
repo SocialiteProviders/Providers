@@ -10,7 +10,7 @@ use SocialiteProviders\Manager\OAuth1\User;
 
 class Server extends BaseServer
 {
-    private $urlUserDetails = '';
+    private string $urlUserDetails = '';
 
     /**
      * {@inheritdoc}

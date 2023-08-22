@@ -65,7 +65,7 @@ class Server extends BaseServer
 
         if (isset($data) and !empty($data)) {
             foreach ($data as $key => $value) {
-                if (strpos($key, 'url') !== false) {
+                if (str_contains($key, 'url')) {
                     if (!in_array($key, $used, true)) {
                         $used[] = $key;
                     }

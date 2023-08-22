@@ -12,17 +12,17 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'GOVBR';
+    public const IDENTIFIER = 'GOVBR';
 
-    const SCOPE_OPENID = 'openid';
+    public const SCOPE_OPENID = 'openid';
 
-    const SCOPE_EMAIL = 'email';
+    public const SCOPE_EMAIL = 'email';
 
-    const SCOPE_PROFILE = 'profile';
+    public const SCOPE_PROFILE = 'profile';
 
-    const SCOPE_GOVBR_EMPRESA = 'govbr_empresa';
+    public const SCOPE_GOVBR_EMPRESA = 'govbr_empresa';
 
-    const SCOPE_GOVBR_CONFIABILIDADES = 'govbr_confiabilidades';
+    public const SCOPE_GOVBR_CONFIABILIDADES = 'govbr_confiabilidades';
 
     /**
      * Staging URL.
