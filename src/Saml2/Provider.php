@@ -443,7 +443,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         try {
             Route::getRoutes()->match(Request::create($route, $methods[$bindingType]));
-        } catch (MethodNotAllowedHttpException $e) {
+        } catch (MethodNotAllowedHttpException) {
             return false;
         }
 
@@ -527,7 +527,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
                 if ($signatureReader->validate($key)) {
                     return;
                 }
-            } catch (LightSamlSecurityException $e) {
+            } catch (LightSamlSecurityException) {
                 continue;
             }
         }

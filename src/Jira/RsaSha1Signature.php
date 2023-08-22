@@ -8,8 +8,8 @@ use League\OAuth1\Client\Signature\Signature;
 
 class RsaSha1Signature extends Signature
 {
-    private $certPath = '';
-    private $certPassphrase = '';
+    private string $certPath = '';
+    private string $certPassphrase = '';
 
     /**
      * {@inheritdoc}

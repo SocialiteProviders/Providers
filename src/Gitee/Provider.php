@@ -71,7 +71,7 @@ class Provider extends AbstractProvider
                 $emailsUrl,
                 $this->getRequestOptions($token)
             );
-        } catch (Exception $e) {
+        } catch (Exception) {
             return null;
         }
 

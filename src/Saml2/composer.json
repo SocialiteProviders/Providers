@@ -21,7 +21,7 @@
         "docs": "https://socialiteproviders.com/saml2"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-json": "*",
         "litesaml/lightsaml": "^4.0",
         "socialiteproviders/manager": "~4.0"

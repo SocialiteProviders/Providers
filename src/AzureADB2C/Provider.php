@@ -177,7 +177,7 @@ class Provider extends AbstractProvider
                 throw new InvalidStateException('iss on id_token does not match issuer value on the OpenID configuration');
             }
             // aud validation
-            if (strpos($payloadJson['aud'], $this->config['client_id']) === false) {
+            if (!str_contains($payloadJson['aud'], $this->config['client_id'])) {
                 throw new InvalidStateException('aud on id_token does not match the client_id for this application');
             }
             // exp validation

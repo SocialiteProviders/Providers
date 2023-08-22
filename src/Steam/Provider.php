@@ -319,6 +319,6 @@ class Provider extends AbstractProvider
     {
         $allowedHosts = $this->getConfig('allowed_hosts', []);
 
-        return count($allowedHosts) === 0 || in_array(parse_url($url, PHP_URL_HOST), $allowedHosts, true);
+        return (is_countable($allowedHosts) ? count($allowedHosts) : 0) === 0 || in_array(parse_url($url, PHP_URL_HOST), $allowedHosts, true);
     }
 }
