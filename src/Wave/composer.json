@@ -11,10 +11,12 @@
         "provider",
         "socialite"
     ],
-    "authors": [{
-        "name": "Jeff Greco",
-        "email": "jeff@jeffpgreco.com"
-    }],
+    "authors": [
+        {
+            "name": "Jeff Greco",
+            "email": "jeff@jeffpgreco.com"
+        }
+    ],
     "support": {
         "issues": "https://github.com/socialiteproviders/providers/issues",
         "source": "https://github.com/socialiteproviders/providers",
