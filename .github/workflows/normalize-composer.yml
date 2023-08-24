@@ -4,12 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       php:
-        default: "8.1"
+        default: '8.2'
         type: string
+        description: The PHP version to use
         required: false
       message:
         default: Normalize composer.json files
         type: string
+        description: The commit message to use
         required: false
 
 jobs:

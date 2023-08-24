@@ -19,7 +19,7 @@
         "source": "https://github.com/socialiteproviders/providers"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "socialiteproviders/manager": "~4.0",
         "ext-json": "*",
         "ext-openssl": "*"

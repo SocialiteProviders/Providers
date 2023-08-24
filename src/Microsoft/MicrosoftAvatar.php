@@ -3,8 +3,9 @@
 namespace SocialiteProviders\Microsoft;
 
 use GuzzleHttp\Psr7\Response;
+use Stringable;
 
-class MicrosoftAvatar
+class MicrosoftAvatar implements Stringable
 {
     /**
      * The Guzzle Response object.

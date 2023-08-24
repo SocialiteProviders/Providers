@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: '0 */12 * * *'
   workflow_dispatch:
+
 jobs:
   close:
     name: Close Subtree PRs
@@ -17,7 +18,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           coverage: none
 
       - name: Install dependencies

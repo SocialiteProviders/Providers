@@ -83,9 +83,9 @@ class Provider extends AbstractProvider
 
         try {
             $discovery = sprintf(
-                'https://%s.b2clogin.com/%s.onmicrosoft.com/%s/v2.0/.well-known/openid-configuration',
-                $this->getConfig('domain'),
-                $this->getConfig('domain'),
+                'https://%s/%s/%s/v2.0/.well-known/openid-configuration',
+                $this->getConfig('custom_domain', $this->getConfig('domain').'.b2clogin.com'),
+                $this->getConfig('tenant', $this->getConfig('domain').'.onmicrosoft.com'),
                 $this->getB2CPolicy()
             );
 
@@ -177,7 +177,7 @@ class Provider extends AbstractProvider
                 throw new InvalidStateException('iss on id_token does not match issuer value on the OpenID configuration');
             }
             // aud validation
-            if (strpos($payloadJson['aud'], $this->config['client_id']) === false) {
+            if (!str_contains($payloadJson['aud'], $this->config['client_id'])) {
                 throw new InvalidStateException('aud on id_token does not match the client_id for this application');
             }
             // exp validation
@@ -186,7 +186,7 @@ class Provider extends AbstractProvider
             }
 
             // signature validation and return claims
-            return (array) JWT::decode($idToken, JWK::parseKeySet($this->getJWTKeys(), $this->getConfig('default_algorithm')), $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported);
+            return (array) JWT::decode($idToken, JWK::parseKeySet($this->getJWTKeys(), $this->getConfig('default_algorithm')));
         } catch (Exception $ex) {
             throw new InvalidStateException("Error on validationg id_token. {$ex}");
         }
@@ -198,7 +198,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'   => $user['sub'],
+            'id'       => $user['sub'],
+            'nickname' => $user['name'],
+            'name'     => $user['name'],
+            'email'    => $user['emails'][0],
         ]);
     }
 
@@ -224,6 +227,8 @@ class Provider extends AbstractProvider
             'policy',
             'redirect_template',
             'default_algorithm',
+            'custom_domain',
+            'tenant',
         ];
     }
 }
