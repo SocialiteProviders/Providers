@@ -2,6 +2,8 @@
 
 namespace SocialiteProviders\Google;
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -29,18 +31,12 @@ class Provider extends AbstractProvider
      */
     protected $clientId;
 
-    /**
-     * The decoded JWT payload.
-     *
-     * @var array
-     */
-    protected $payload;
 
     /**
      * Create a new Google provider instance.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param string                   $clientId
+     * @param  \Illuminate\Http\Request  $request
+     * @param string $clientId
      */
     public function __construct(Request $request, $clientId)
     {
@@ -62,7 +58,6 @@ class Provider extends AbstractProvider
      * Get the User instance for the authenticated user.
      *
      * @throws InvalidJwtException
-     *
      * @return GoogleUser
      */
     public function user()
@@ -71,83 +66,29 @@ class Provider extends AbstractProvider
             return $this->user;
         }
         $jwt = $this->request->credential;
-        if ($jwt === null) {
-            throw new InvalidJwtException('Empty JWT payload');
-        }
-        if (!$this->verifyJwtSignature($jwt)) {
-            throw new InvalidJwtException('Invalid JWT signature');
-        }
-        if (!in_array(Arr::get($this->payload, 'iss'), ['accounts.google.com', 'https://accounts.google.com'])) {
-            throw new InvalidJwtException('Invalid JWT issuer');
-        }
-        if (Arr::get($this->payload, 'aud') !== $this->clientId) {
-            throw new InvalidJwtException('Client ID mismatch');
-        }
-        if (Arr::get($this->payload, 'exp') < time()) {
-            throw new InvalidJwtException('Expired token');
-        }
-        if (Arr::get($this->payload, 'iat') > time()) {
-            throw new InvalidJwtException('Token used before issued');
-        }
-
-        return $this->user = $this->mapUserToObject($this->payload)
-            ->setOrganization(Arr::get($this->payload, 'hd'));
+        $certificates = $this->fetchCertificates();
+        $decoded = (array) JWT::decode($jwt, $certificates);
+        return $this->user = $this->mapUserToObject($decoded)
+            ->setOrganization(Arr::get($decoded, 'hd'));
     }
 
     /**
      * Map the raw user array to a Socialite User instance.
      *
-     * @param array $user
-     *
+     * @param  array  $user
      * @return GoogleUser
      */
     protected function mapUserToObject(array $user)
     {
         return (new GoogleUser())->setRaw($user)->map([
-            'id'              => Arr::get($user, 'sub'),
-            'nickname'        => Arr::get($user, 'nickname'),
-            'name'            => Arr::get($user, 'name'),
-            'email_verified'  => Arr::get($user, 'email_verified'),
-            'email'           => Arr::get($user, 'email'),
-            'avatar'          => $avatarUrl = Arr::get($user, 'picture'),
+            'id' => Arr::get($user, 'sub'),
+            'nickname' => Arr::get($user, 'nickname'),
+            'name' => Arr::get($user, 'name'),
+            'email_verified' => Arr::get($user, 'email_verified'),
+            'email' => Arr::get($user, 'email'),
+            'avatar' => $avatarUrl = Arr::get($user, 'picture'),
             'avatar_original' => $avatarUrl,
         ]);
-    }
-
-    /**
-     * Verifies the signature of the JWT issued, via Google Certs.
-     *
-     * @param string $jwt
-     *
-     * @return bool
-     */
-    protected function verifyJwtSignature($jwt)
-    {
-        $jwtParts = explode('.', $jwt);
-
-        $header = json_decode($this->base64UrlDecode($jwtParts[0]), true);
-        $this->payload = json_decode($this->base64UrlDecode($jwtParts[1]), true);
-        $signature = $this->base64UrlDecode($jwtParts[2]);
-
-        $keyId = Arr::get($header, 'kid');
-        $certificates = $this->fetchCertificates();
-        $publicKey = openssl_pkey_get_public($certificates[$keyId]);
-
-        return $this->verifySignature($jwtParts[0].'.'.$jwtParts[1], $signature, $publicKey);
-    }
-
-    /**
-     * Verify the provided signature using OpenSSL.
-     *
-     * @param string        $data
-     * @param string        $signature
-     * @param resource|bool $publicKey
-     *
-     * @return bool
-     */
-    protected function verifySignature($data, $signature, $publicKey): bool
-    {
-        return openssl_verify($data, $signature, $publicKey, OPENSSL_ALGO_SHA256);
     }
 
     /**
@@ -157,33 +98,23 @@ class Provider extends AbstractProvider
      */
     protected function fetchCertificates(): array
     {
-        return json_decode(file_get_contents('https://www.googleapis.com/oauth2/v1/certs'), true);
-    }
-
-    /**
-     * Decodes a Base64 URL-encoded string.
-     *
-     * @param string $data
-     *
-     * @return string
-     */
-    protected function base64UrlDecode($data)
-    {
-        return base64_decode(strtr($data, '-_', '+/'));
+        return collect(json_decode(file_get_contents('https://www.googleapis.com/oauth2/v1/certs'), true))->map(function ($key) {
+            return new Key($key, 'RS256');
+        })->toArray();
     }
 
     protected function getAuthUrl($state)
     {
-        // TODO: Refactor manager package to support non-oauth2 providers
+        // TODO: Implement getAuthUrl() method.
     }
 
     protected function getTokenUrl()
     {
-        // TODO: Refactor manager package to support non-oauth2 providers
+        // TODO: Implement getTokenUrl() method.
     }
 
     protected function getUserByToken($token)
     {
-        // TODO: Refactor manager package to support non-oauth2 providers
+        // TODO: Implement getUserByToken() method.
     }
 }

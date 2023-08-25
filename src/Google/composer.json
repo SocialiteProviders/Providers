@@ -19,10 +19,10 @@
         "source": "https://github.com/socialiteproviders/providers"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^7.4 || ^8.0",
         "socialiteproviders/manager": "~4.0",
         "ext-json": "*",
-        "ext-openssl": "*"
+        "firebase/php-jwt": "^6.8"
     },
     "autoload": {
         "psr-4": {
