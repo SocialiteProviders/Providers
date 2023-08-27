@@ -17,11 +17,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $stateless = false;
-
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['email'];
 
     /**
