@@ -11,7 +11,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "league/oauth1-client": "^1.9",
-        "socialiteproviders/manager": "~4.0"
+        "socialiteproviders/manager": "^4.4"
     },
     "require-dev": {
         "kitetail/zttp": "^0.6.0",
