@@ -120,7 +120,7 @@ class Server extends BaseServer
         $parameters = $this->baseProtocolParameters();
 
         // without 'oauth_callback'
-        $parameters['oauth_signature'] = $this->signature->sign($uri, $parameters, 'POST');
+        $parameters['oauth_signature'] = $this->signature->sign($uri, $parameters);
 
         return $this->normalizeProtocolParameters($parameters);
     }

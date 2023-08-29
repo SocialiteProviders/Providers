@@ -66,7 +66,7 @@ class Provider extends AbstractProvider
             'nickname' => $user['display_name'],
             'name'     => $user['display_name'],
             'email'    => null,
-            'avatar'   => Arr::get($user, 'img.href', null),
+            'avatar'   => Arr::get($user, 'img.href'),
         ]);
     }
 }

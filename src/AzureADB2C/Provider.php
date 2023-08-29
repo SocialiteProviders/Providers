@@ -170,7 +170,7 @@ class Provider extends AbstractProvider
         try {
             // payload validation
             $payload = explode('.', $idToken);
-            $payloadJson = json_decode(base64_decode(str_pad(strtr($payload[1], '-_', '+/'), strlen($payload[1]) % 4, '=', STR_PAD_RIGHT)), true);
+            $payloadJson = json_decode(base64_decode(str_pad(strtr($payload[1], '-_', '+/'), strlen($payload[1]) % 4, '=')), true);
 
             // iss validation
             if (strcmp($payloadJson['iss'], $this->getOpenIdConfiguration()->issuer)) {

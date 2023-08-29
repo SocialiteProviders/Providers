@@ -96,7 +96,7 @@ class Provider extends AbstractProvider
 
     protected function getInstanceUri()
     {
-        $uri = $this->getConfig('instance_uri', null);
+        $uri = $this->getConfig('instance_uri');
         if (!$uri) {
             throw new InvalidArgumentException('No instance_uri. ENV['.self::IDENTIFIER.'_INSTANCE_URI]=https://mm.example.com/ must be provided.');
         }

@@ -90,7 +90,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $key = $this->getConfig('userinfo_key', null);
+        $key = $this->getConfig('userinfo_key');
         $data = is_null($key) === true ? $user : Arr::get($user, $key, []);
 
         return (new User())->setRaw($data)->map([
