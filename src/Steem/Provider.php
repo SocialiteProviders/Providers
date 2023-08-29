@@ -82,14 +82,4 @@ class Provider extends AbstractProvider
             'cover_image' => Arr::get($metadata, 'profile.cover_image'),
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }

@@ -58,14 +58,4 @@ class Provider extends AbstractProvider
             'credential_type' => $user['https://id.worldcoin.org/beta']['credential_type'],
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }

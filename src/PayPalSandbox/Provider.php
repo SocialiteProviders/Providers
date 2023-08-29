@@ -80,14 +80,4 @@ class Provider extends AbstractProvider
 
         return $this->parseAccessToken($response->getBody());
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }

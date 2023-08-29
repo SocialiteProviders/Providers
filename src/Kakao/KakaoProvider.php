@@ -50,28 +50,6 @@ class KakaoProvider extends AbstractProvider
     }
 
     /**
-     * Get the POST fields for the token request.
-     *
-     * @param  string  $code
-     * @return array
-     */
-    protected function getTokenFields($code)
-    {
-        $array = [
-            'grant_type'   => 'authorization_code',
-            'client_id'    => $this->clientId,
-            'redirect_uri' => $this->redirectUrl,
-            'code'         => $code,
-        ];
-
-        if ($this->clientSecret) {
-            $array['client_secret'] = $this->clientSecret;
-        }
-
-        return $array;
-    }
-
-    /**
      * Get the raw user for the given access token.
      *
      * @param  string  $token

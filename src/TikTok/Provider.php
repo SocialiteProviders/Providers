@@ -85,13 +85,11 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        return [
-            'client_key'    => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'code'          => $code,
-            'grant_type'    => 'authorization_code',
-            'redirect_uri'  => $this->redirectUrl,
-        ];
+        $fields = parent::getTokenFields($code);
+        $fields['client_key'] = $this->clientId;
+        unset($fields['client_id']);
+
+        return $fields;
     }
 
     /**

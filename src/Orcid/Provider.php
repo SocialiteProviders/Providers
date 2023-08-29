@@ -208,13 +208,12 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Get the POST fields for the token request.
-     *
-     * @param  string  $code
-     * @return array
+     * {@inheritdoc}
      */
     protected function getTokenFields($code)
     {
-        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code', 'orcid' => 'orcid'];
+        return array_merge(parent::getTokenFields($code), [
+            'orcid' => 'orcid',
+        ]);
     }
 }

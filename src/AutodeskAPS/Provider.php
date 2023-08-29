@@ -36,14 +36,6 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code): array
-    {
-        return parent::getTokenFields($code);
-    }
-
-    /**
      * @param  string  $token
      * @return array
      *
