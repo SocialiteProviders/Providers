@@ -24,9 +24,9 @@ $res = Zttp::withHeaders([
     'has_issues'  => false,
 ]);
 
-echo sprintf("Created Repo: %s, response: %s\n", !$res->isOk() ? $res->body() : $res->json()['full_name'], $res->status());
+echo sprintf("Created Repo: %s, response: %s\n", ! $res->isOk() ? $res->body() : $res->json()['full_name'], $res->status());
 
-if (!$res->isOk()) {
+if (! $res->isOk()) {
     exit(1);
 }
 

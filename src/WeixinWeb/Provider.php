@@ -24,7 +24,7 @@ class Provider extends AbstractProvider
     /**
      * set Open Id.
      *
-     * @param string $openId
+     * @param  string  $openId
      */
     public function setOpenId($openId)
     {

@@ -14,6 +14,7 @@ class Provider extends AbstractProvider
      * API URLs.
      */
     public const PROD_BASE_URL = 'https://app.franceconnect.gouv.fr/api/v1';
+
     public const TEST_BASE_URL = 'https://fcp.integ01.dev-franceconnect.fr/api/v1';
 
     public const IDENTIFIER = 'FRANCECONNECT';
@@ -117,10 +118,10 @@ class Provider extends AbstractProvider
         //store tokenId session for logout url generation
         $this->request->session()->put('fc_token_id', Arr::get($response, 'id_token'));
 
-        return  $user->setTokenId(Arr::get($response, 'id_token'))
-                    ->setToken($token)
-                    ->setRefreshToken(Arr::get($response, 'refresh_token'))
-                    ->setExpiresIn(Arr::get($response, 'expires_in'));
+        return $user->setTokenId(Arr::get($response, 'id_token'))
+            ->setToken($token)
+            ->setRefreshToken(Arr::get($response, 'refresh_token'))
+            ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
 
     /**

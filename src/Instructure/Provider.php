@@ -71,9 +71,9 @@ class Provider extends AbstractProvider
     /**
      * Get the instance URI.
      *
-     * @throws \RuntimeException
-     *
      * @return string
+     *
+     * @throws \RuntimeException
      */
     protected function getInstanceUrl()
     {

@@ -33,7 +33,7 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        if ($this->hasInvalidState() || !$this->getCode()) {
+        if ($this->hasInvalidState() || ! $this->getCode()) {
             throw new InvalidStateException();
         }
         $response = $this->getAccessTokenResponse($this->getCode());
@@ -47,8 +47,7 @@ class Provider extends AbstractProvider
     /**
      * Get the POST fields for the token request.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     protected function getTokenFields($code)

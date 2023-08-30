@@ -105,8 +105,7 @@ class Provider extends AbstractProvider
     /**
      *  Get the account email of the current user.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return string
      */
     protected function getEmailByToken($token)

@@ -75,8 +75,7 @@ class Provider extends AbstractProvider
     /**
      * Get the access token response for the given code.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     public function getAccessTokenResponse($code)

@@ -12,6 +12,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SALESLOFT';
+
     public const PROVIDER_NAME = 'salesloft';
 
     /**

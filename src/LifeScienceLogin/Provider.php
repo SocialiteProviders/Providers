@@ -107,9 +107,9 @@ class Provider extends AbstractProvider
     /**
      * Get OpenID Configuration.
      *
-     * @throws Laravel\Socialite\Two\InvalidStateException
-     *
      * @return mixed
+     *
+     * @throws Laravel\Socialite\Two\InvalidStateException
      */
     private function getOpenIdConfiguration()
     {

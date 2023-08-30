@@ -44,11 +44,10 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $token
+     * @param  string  $token
+     * @return array
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return array
      */
     protected function getUserByToken($token): array
     {
@@ -70,7 +69,7 @@ class Provider extends AbstractProvider
      *
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user): \SocialiteProviders\Manager\OAuth2\User
+    protected function mapUserToObject(array $user): User
     {
         return (new User())->setRaw($user)->map([
             'id'             => $user['userId'],

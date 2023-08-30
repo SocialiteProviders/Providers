@@ -27,8 +27,7 @@ class Provider extends AbstractProvider
      * Allows you to override the tenant id that the provider is configured
      * with.
      *
-     * @param string $tenantId
-     *
+     * @param  string  $tenantId
      * @return \SocialiteProviders\Graph\Provider
      */
     public function setTenantId($tenantId)

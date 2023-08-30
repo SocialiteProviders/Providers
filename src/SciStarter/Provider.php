@@ -84,8 +84,7 @@ class Provider extends AbstractProvider
     /**
      * Get the POST fields for the token request.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     protected function getTokenFields($code)

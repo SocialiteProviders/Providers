@@ -57,8 +57,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param bool $value
-     *
+     * @param  bool  $value
      * @return self
      */
     public function withUnionId($value = true)

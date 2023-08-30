@@ -129,8 +129,7 @@ class Provider extends AbstractProvider
     /**
      * Get Microsoft Token for sign in.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     protected function getMicrosoftToken($code)
@@ -159,8 +158,7 @@ class Provider extends AbstractProvider
     /**
      * Get a XBOX Live login token.
      *
-     * @param array $xboxToken
-     *
+     * @param  array  $xboxToken
      * @return array
      */
     protected function signInIntoXboxLive($xboxToken)
@@ -192,8 +190,7 @@ class Provider extends AbstractProvider
     /**
      * Get a XSTS token.
      *
-     * @param array $loginToken
-     *
+     * @param  array  $loginToken
      * @return array
      */
     protected function getXstsToken($loginToken)

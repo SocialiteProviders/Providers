@@ -21,6 +21,7 @@ class Provider extends AbstractProvider
      * BASE_URL.
      */
     protected $oauthUrl = 'https://auth.oauthgen.com';
+
     protected $graphUrl = 'https://graph.oauthgen.com/api/v1';
 
     /**

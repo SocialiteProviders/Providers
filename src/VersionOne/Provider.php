@@ -34,8 +34,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $code
-     *
+     * @param  string  $code
      * @return string
      */
     public function getAccessToken($code)

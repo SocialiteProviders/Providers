@@ -17,8 +17,7 @@ class MicrosoftAvatar implements Stringable
     /**
      * Set the response of the avatar.
      *
-     * @param string $response
-     *
+     * @param  string  $response
      * @return $this
      */
     public function setResponse(Response $response)

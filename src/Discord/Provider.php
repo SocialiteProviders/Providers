@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
     {
         $fields = parent::getCodeFields($state);
 
-        if (!$this->consent) {
+        if (! $this->consent) {
             $fields['prompt'] = 'none';
         }
 
@@ -91,8 +91,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param array $user
-     *
+     * @param  array  $user
      * @return string|null
      *
      * @see https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints

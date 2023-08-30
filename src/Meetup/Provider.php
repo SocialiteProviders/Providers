@@ -12,7 +12,9 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'MEETUP';
 
     protected $version = '2';
+
     protected $scopes = ['ageless'];
+
     protected $scopeSeparator = '+';
 
     /**

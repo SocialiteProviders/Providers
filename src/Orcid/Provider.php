@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
      */
     protected function useSandbox()
     {
-        return  $this->getConfig('environment') !== 'production';
+        return $this->getConfig('environment') !== 'production';
     }
 
     /**
@@ -128,8 +128,8 @@ class Provider extends AbstractProvider
         $token = Arr::get($response, 'access_token');
 
         return $user->setToken($token)
-                    ->setRefreshToken(Arr::get($response, 'refresh_token'))
-                    ->setExpiresIn(Arr::get($response, 'expires_in'));
+            ->setRefreshToken(Arr::get($response, 'refresh_token'))
+            ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
 
     /**
@@ -163,8 +163,7 @@ class Provider extends AbstractProvider
      * If your app design relies on fetching the user email from ORCID, you should consider checking
      * that it exists in your LoginController logic.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return string|null
      */
     protected function getEmail($user)
@@ -192,8 +191,7 @@ class Provider extends AbstractProvider
     /**
      * Get the access token for the given code.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return string
      */
     public function getAccessToken($code)
@@ -212,8 +210,7 @@ class Provider extends AbstractProvider
     /**
      * Get the POST fields for the token request.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     protected function getTokenFields($code)

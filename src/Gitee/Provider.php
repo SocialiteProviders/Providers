@@ -58,8 +58,7 @@ class Provider extends AbstractProvider
     /**
      * Get the email for the given access token.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return string|null
      */
     protected function getEmailByToken($token)
@@ -109,8 +108,7 @@ class Provider extends AbstractProvider
     /**
      * Get the default options for an HTTP request.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return array
      */
     protected function getRequestOptions($token)

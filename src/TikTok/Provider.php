@@ -95,7 +95,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getUserByToken($token)
     {
