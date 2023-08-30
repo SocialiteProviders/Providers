@@ -15,6 +15,9 @@ use SocialiteProviders\Manager\OAuth2\User;
  */
 class Provider extends AbstractProvider
 {
+    /**
+     * Unique Provider Identifier.
+     */
     public const IDENTIFIER = 'STEAM';
 
     /**
@@ -146,7 +149,7 @@ class Provider extends AbstractProvider
             'openid.ns'         => self::OPENID_NS,
             'openid.mode'       => 'checkid_setup',
             'openid.return_to'  => $this->redirectUrl,
-            'openid.realm'      => sprintf('%s://%s', $this->request->getScheme(), $realm),
+            'openid.realm'      => sprintf('%s://%s', $this->getScheme(), $realm),
             'openid.identity'   => 'http://specs.openid.net/auth/2.0/identifier_select',
             'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select',
         ];
@@ -307,7 +310,7 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['realm', 'proxy', 'allowed_hosts'];
+        return ['realm', 'proxy', 'allowed_hosts', 'force_https'];
     }
 
     /**
@@ -319,6 +322,15 @@ class Provider extends AbstractProvider
     {
         $allowedHosts = $this->getConfig('allowed_hosts', []);
 
-        return (is_countable($allowedHosts) ? count($allowedHosts) : 0) === 0 || in_array(parse_url($url, PHP_URL_HOST), $allowedHosts, true);
+        return count($allowedHosts) === 0 || in_array(parse_url($url, PHP_URL_HOST), $allowedHosts, true);
+    }
+
+    protected function getScheme(): string
+    {
+        if ($this->getConfig('force_https')) {
+            return 'https';
+        }
+
+        return $this->request->getScheme();
     }
 }

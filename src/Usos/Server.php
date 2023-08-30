@@ -92,7 +92,7 @@ class Server extends BaseServer
 
         ], ['scopes' => implode('|', $this->scopes)]));
 
-        $parameters['oauth_signature'] = $this->signature->sign($uri, $parameters, 'POST');
+        $parameters['oauth_signature'] = $this->signature->sign($uri, $parameters);
 
         return $this->normalizeProtocolParameters($parameters);
     }

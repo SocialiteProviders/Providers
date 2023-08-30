@@ -23,6 +23,7 @@
         "socialiteproviders/manager": "~4.0",
         "ext-json": "*",
         "firebase/php-jwt": "^6.8"
+        "socialiteproviders/manager": "^4.4"
     },
     "autoload": {
         "psr-4": {

@@ -86,11 +86,11 @@ class Provider extends AbstractProvider
 
     protected function getServerPort()
     {
-        return $this->getConfig('arcgis_port', null);
+        return $this->getConfig('arcgis_port');
     }
 
     protected function getServerDirectory()
     {
-        return $this->getConfig('arcgis_directory', null);
+        return $this->getConfig('arcgis_directory');
     }
 }
