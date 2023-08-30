@@ -16,7 +16,9 @@ class Provider extends AbstractProvider
      * @see https://developer.okta.com/docs/reference/api/oidc/#scopes
      */
     public const SCOPE_PROFILE = 'profile';
+
     public const SCOPE_EMAIL = 'email';
+
     public const SCOPE_NETWORKS = 'networks';
 
     /**

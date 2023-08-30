@@ -37,7 +37,7 @@ class Provider extends AbstractProvider
      */
     private function getSlackApiErrorMiddleware()
     {
-        return fn(callable $handler) => function ($request, array $options) use ($handler) {
+        return fn (callable $handler) => function ($request, array $options) use ($handler) {
             if (empty($options['http_errors'])) {
                 return $handler($request, $options);
             }
@@ -65,7 +65,7 @@ class Provider extends AbstractProvider
         $handler = HandlerStack::create();
         $handler->push($this->getSlackApiErrorMiddleware(), 'slack_api_errors');
 
-        if (is_null($this->httpClient)) {
+        if ($this->httpClient === null) {
             $this->httpClient = new Client(['handler' => $handler]);
         }
 

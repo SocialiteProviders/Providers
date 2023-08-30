@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
 
         $response = json_decode($contents, true);
 
-        if (!is_array($response) || !isset($response['response'][0])) {
+        if (! is_array($response) || ! isset($response['response'][0])) {
             throw new RuntimeException(sprintf(
                 'Invalid JSON response from VK: %s',
                 $contents
@@ -129,8 +129,7 @@ class Provider extends AbstractProvider
     /**
      * Set the user fields to request from Vkontakte.
      *
-     * @param array $fields
-     *
+     * @param  array  $fields
      * @return $this
      */
     public function fields(array $fields)

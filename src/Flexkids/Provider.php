@@ -77,11 +77,10 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $code
+     * @param  string  $code
+     * @return array
      *
      * @throws AuthenticationException
-     *
-     * @return array
      */
     public function getAccessTokenResponse($code)
     {
@@ -129,7 +128,6 @@ class Provider extends AbstractProvider
 
     /**
      * @param $idToken
-     *
      * @return Provider
      */
     private function setIdToken($idToken)
@@ -156,8 +154,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $uniqueUserId
-     *
+     * @param  string  $uniqueUserId
      * @return Provider
      */
     public function setUniqueUserId($uniqueUserId)

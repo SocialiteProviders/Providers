@@ -91,7 +91,7 @@ class Server extends BaseServer
     {
         parse_str($body, $data);
 
-        if (!$data || !is_array($data)) {
+        if (! $data || ! is_array($data)) {
             throw new CredentialsException('Unable to parse temporary credentials response.');
         }
 

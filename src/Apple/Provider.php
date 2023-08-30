@@ -111,11 +111,10 @@ class Provider extends AbstractProvider
      * Return the user given the identity token provided on the client
      * side by Apple.
      *
-     * @param string $token
+     * @param  string  $token
+     * @return User $user
      *
      * @throws InvalidStateException when token can't be parsed
-     *
-     * @return User $user
      */
     public function userByIdentityToken(string $token): User
     {
@@ -127,8 +126,7 @@ class Provider extends AbstractProvider
     /**
      * Verify Apple jwt.
      *
-     * @param string $jwt
-     *
+     * @param  string  $jwt
      * @return bool
      *
      * @see https://appleid.apple.com/auth/keys
@@ -258,12 +256,11 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $token
-     * @param string $hint
+     * @param  string  $token
+     * @param  string  $hint
+     * @return \Psr\Http\Message\ResponseInterface
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return \Psr\Http\Message\ResponseInterface
      */
     public function revokeToken(string $token, string $hint = 'access_token')
     {
@@ -284,11 +281,10 @@ class Provider extends AbstractProvider
      *
      * @see https://developer.apple.com/documentation/sign_in_with_apple/tokenresponse
      *
-     * @param string $refreshToken
+     * @param  string  $refreshToken
+     * @return ResponseInterface
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return ResponseInterface
      */
     public function refreshToken(string $refreshToken): ResponseInterface
     {

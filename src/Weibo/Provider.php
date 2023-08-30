@@ -74,8 +74,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param mixed $response
-     *
+     * @param  mixed  $response
      * @return string
      */
     protected function removeCallback($response)
@@ -91,7 +90,6 @@ class Provider extends AbstractProvider
 
     /**
      * @param $token
-     *
      * @return string
      */
     protected function getUid($token)

@@ -12,8 +12,8 @@ class Provider extends AbstractProvider
 
     protected function getBaseUrl()
     {
-        $port = is_null($this->getServerPort()) ? '' : ':'.$this->getServerPort();
-        $subdirectory = is_null($this->getServerDirectory()) ? '' : '/'.$this->getServerDirectory();
+        $port = null === $this->getServerPort() ? '' : ':'.$this->getServerPort();
+        $subdirectory = null === $this->getServerDirectory() ? '' : '/'.$this->getServerDirectory();
 
         return 'https://'.$this->getServerHost().$port.$subdirectory;
     }

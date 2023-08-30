@@ -25,6 +25,7 @@ class Provider extends AbstractProvider
      * @see https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions
      */
     protected const DEFAULT_FIELDS_TENANT = ['id', 'displayName', 'city', 'country', 'countryLetterCode', 'state', 'street', 'verifiedDomains'];
+
     /**
      * {@inheritdoc}
      * https://msdn.microsoft.com/en-us/library/azure/ad/graph/howto/azure-ad-graph-api-permission-scopes.

@@ -73,9 +73,9 @@ class Provider extends AbstractProvider
     /**
      * Get OpenID Configuration.
      *
-     * @throws Laravel\Socialite\Two\InvalidStateException
-     *
      * @return mixed
+     *
+     * @throws Laravel\Socialite\Two\InvalidStateException
      */
     private function getOpenIdConfiguration()
     {
@@ -159,11 +159,10 @@ class Provider extends AbstractProvider
      *   aud: MUST include client_id for this client.
      *   exp: MUST time() < exp.
      *
-     * @param string $idToken
+     * @param  string  $idToken
+     * @return array
      *
      * @throws Laravel\Socialite\Two\InvalidStateException
-     *
-     * @return array
      */
     private function validateIdToken($idToken)
     {
@@ -177,7 +176,7 @@ class Provider extends AbstractProvider
                 throw new InvalidStateException('iss on id_token does not match issuer value on the OpenID configuration');
             }
             // aud validation
-            if (!str_contains($payloadJson['aud'], $this->config['client_id'])) {
+            if (! str_contains($payloadJson['aud'], $this->config['client_id'])) {
                 throw new InvalidStateException('aud on id_token does not match the client_id for this application');
             }
             // exp validation

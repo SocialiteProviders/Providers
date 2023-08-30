@@ -93,8 +93,7 @@ class Server extends BaseServer
     /**
      * Get detals about the current user.
      *
-     * @param string $userId
-     *
+     * @param  string  $userId
      * @return array
      */
     public function getProfile($userId)

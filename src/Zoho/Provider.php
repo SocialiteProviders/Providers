@@ -63,7 +63,7 @@ class Provider extends AbstractProvider
             'email'    => $user['Email'],
             'nickname' => $user['Display_Name'],
             'name'     => $user['First_Name'].' '.$user['Last_Name'],
-            'avatar'   => !empty($user['images']) ? $user['images'][0]['url'] : null,
+            'avatar'   => ! empty($user['images']) ? $user['images'][0]['url'] : null,
         ]);
     }
 

@@ -83,7 +83,7 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        if (!$this->validate()) {
+        if (! $this->validate()) {
             $error = $this->getParams()['openid.error'] ?? 'unknown error';
 
             throw new OpenIDValidationException('Failed to validate OpenID login: '.$error);
@@ -105,7 +105,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        if (is_null($token)) {
+        if ($token === null) {
             return null;
         }
 
@@ -160,24 +160,24 @@ class Provider extends AbstractProvider
     /**
      * Checks the steam login.
      *
-     * @throws \SocialiteProviders\Steam\OpenIDValidationException
-     *
      * @return bool
+     *
+     * @throws \SocialiteProviders\Steam\OpenIDValidationException
      */
     public function validate()
     {
-        if (!$this->requestIsValid()) {
+        if (! $this->requestIsValid()) {
             return false;
         }
 
-        if (!$this->validateHost($this->request->get('openid_return_to'))) {
+        if (! $this->validateHost($this->request->get('openid_return_to'))) {
             throw new OpenIDValidationException('Invalid return_to host');
         }
 
         $requestOptions = $this->getDefaultRequestOptions();
         $customOptions = $this->getCustomRequestOptions();
 
-        if (!empty($customOptions) && is_array($customOptions)) {
+        if (! empty($customOptions) && is_array($customOptions)) {
             $requestOptions = array_merge($requestOptions, $customOptions);
         }
 
@@ -254,8 +254,7 @@ class Provider extends AbstractProvider
     /**
      * Parse openID response to an array.
      *
-     * @param string $results openid response body
-     *
+     * @param  string  $results openid response body
      * @return array
      */
     public function parseResults($results)

@@ -15,9 +15,13 @@ class Provider extends AbstractProvider
      * Scope definitions.
      */
     public const SCOPE_ADMIN = 'aws.cognito.signin.user.admin';
+
     public const SCOPE_EMAIL = 'email';
+
     public const SCOPE_OPENID = 'openid';
+
     public const SCOPE_PHONE = 'phone';
+
     public const SCOPE_PROFILE = 'profile';
 
     /**

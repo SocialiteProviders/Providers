@@ -81,8 +81,7 @@ class Server extends BaseServer
      * Generate the OAuth protocol header for a temporary credentials
      * request, based on the URI.
      *
-     * @param string $uri
-     *
+     * @param  string  $uri
      * @return string
      */
     protected function temporaryCredentialsProtocolHeader($uri)

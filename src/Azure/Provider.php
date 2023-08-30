@@ -39,8 +39,7 @@ class Provider extends AbstractProvider
     /**
      * Return the logout endpoint with post_logout_redirect_uri query parameter.
      *
-     * @param string $redirectUri
-     *
+     * @param  string  $redirectUri
      * @return string
      */
     public function getLogoutUrl(string $redirectUri)
@@ -104,8 +103,7 @@ class Provider extends AbstractProvider
     /**
      * Get the access token response for the given code.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     public function getAccessTokenResponse($code)

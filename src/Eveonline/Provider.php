@@ -70,11 +70,10 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $jwt
+     * @param  string  $jwt
+     * @return array
      *
      * @throws \UnexpectedValueException|\Firebase\JWT\ExpiredException
-     *
-     * @return array
      */
     public function verify($jwt)
     {
@@ -86,7 +85,7 @@ class Provider extends AbstractProvider
             throw new UnexpectedValueException('Access token issuer mismatch');
         }
 
-        if (time() >= $decodedArray['exp']) {
+        if ($decodedArray['exp'] <= time()) {
             throw new ExpiredException();
         }
 

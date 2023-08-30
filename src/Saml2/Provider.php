@@ -174,7 +174,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function getConfig($key = null, $default = null)
     {
-        if (!empty($key) && empty($this->config[$key])) {
+        if (! empty($key) && empty($this->config[$key])) {
             return $default;
         }
 
@@ -252,7 +252,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $entityId = $this->getConfig('entityid');
         $certificate = $this->getConfig('certificate');
 
-        if (!$entityId || !$certificate) {
+        if (! $entityId || ! $certificate) {
             throw new MissingConfigException('When using "acs", both "entityid" and "certificate" must be set');
         }
 
@@ -274,13 +274,13 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $entityId = $this->getConfig('entityid');
 
-        if (!$entityId) {
+        if (! $entityId) {
             return Arr::first($metadata->getAllEntityDescriptors());
         }
 
         $entityDescriptor = $metadata->getByEntityId($entityId);
 
-        if (null === $entityDescriptor) {
+        if ($entityDescriptor === null) {
             throw new MissingConfigException(sprintf('The IDP descriptor with entity id %s could not be found in the metadata.', $entityId));
         }
 
@@ -311,7 +311,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
             Cache::forever($this->cacheKey('metadata'), $xml);
         } catch (GuzzleException $e) {
-            if (!$xml) {
+            if (! $xml) {
                 throw $e;
             }
         }
@@ -331,11 +331,12 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $metadata = $this->getConfig('metadata');
         if ($metadata) {
-            if (!Validator::make(['u' => $metadata], ['u' => 'url'])->fails()) {
+            if (! Validator::make(['u' => $metadata], ['u' => 'url'])->fails()) {
                 return $this->getIdentityProviderEntityDescriptorFromUrl();
-            } else {
-                return $this->getIdentityProviderEntityDescriptorFromXml();
             }
+
+            return $this->getIdentityProviderEntityDescriptorFromXml();
+
         }
 
         throw new MissingConfigException('Either the "metadata" or "acs" config keys must be set');
@@ -351,7 +352,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             if ($this->hasRouteBindingType($acsRoute, $binding)) {
                 $spSsoDescriptor->addAssertionConsumerService(
                     (new AssertionConsumerService())
-                        ->setIsDefault($this->getDefaultAssertionConsumerServiceBinding() === $binding)
+                        ->setIsDefault($binding === $this->getDefaultAssertionConsumerServiceBinding())
                         ->setBinding($binding)
                         ->setLocation(URL::to($acsRoute))
                 );
@@ -437,7 +438,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             SamlConstants::BINDING_SAML2_HTTP_POST     => 'POST',
         ];
 
-        if (!array_key_exists($bindingType, $methods)) {
+        if (! array_key_exists($bindingType, $methods)) {
             return false;
         }
 
@@ -516,7 +517,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         /** @var SignatureXmlReader $signatureReader */
         $signatureReader = $this->messageContext->getMessage()->getSignature() ?: $this->getFirstAssertion()->getSignature();
 
-        if (!$signatureReader) {
+        if (! $signatureReader) {
             throw new InvalidSignatureException('The received assertion had no available signature');
         }
 
@@ -592,7 +593,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $status = $this->messageContext->asResponse()->getStatus();
 
-        if (!$status->isSuccess()) {
+        if (! $status->isSuccess()) {
             throw new LightSamlValidationException('Server responded with an unsuccessful status: '.$status->getStatusCode()->getValue().', message: '.$status->getStatusMessage());
         }
     }
@@ -605,7 +606,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $state = $this->request->session()->pull('state');
 
-        return !(strlen($state) > 0 && $this->messageContext->getMessage()->getRelayState() === $state);
+        return ! (strlen($state) > 0 && $state === $this->messageContext->getMessage()->getRelayState());
     }
 
     protected function receive(): void
@@ -619,14 +620,14 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected function decryptAssertions(): void
     {
         $credential = $this->credential();
-        if (null === $credential) {
+        if ($credential === null) {
             return;
         }
 
         /** @var \LightSaml\Model\Assertion\EncryptedAssertionReader $reader */
         $reader = $this->messageContext->asResponse()->getFirstEncryptedAssertion();
 
-        if (null === $reader) {
+        if ($reader === null) {
             return;
         }
 
@@ -662,7 +663,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function credential(): ?X509Credential
     {
-        if (!$this->getConfig('sp_certificate') || !$this->getConfig('sp_private_key')) {
+        if (! $this->getConfig('sp_certificate') || ! $this->getConfig('sp_private_key')) {
             return null;
         }
 
@@ -681,7 +682,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $cert = new X509Certificate();
 
-        if (null === $data) {
+        if ($data === null) {
             return $cert;
         }
 
@@ -697,9 +698,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
     }
 
     /**
-     * @throws MissingConfigException
-     *
      * @return string
+     *
+     * @throws MissingConfigException
      */
     protected function getNameIDFormat(): string
     {
