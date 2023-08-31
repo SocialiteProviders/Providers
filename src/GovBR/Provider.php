@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\GovBR;
 
+use GuzzleHttp\RequestOptions;
 use RuntimeException;
 use SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -80,7 +81,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->getBaseUrlForEnvironment().'/userinfo', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

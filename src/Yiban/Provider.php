@@ -72,11 +72,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $userUrl = 'https://openapi.yiban.cn/user/real_me?access_token='.$token;
-        $response = $this->getHttpClient()->get(
-            $userUrl,
-            $this->getRequestOptions()
-        );
+        $response = $this->getHttpClient()->get('https://openapi.yiban.cn/user/real_me', [
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+            ],
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -94,19 +97,5 @@ class Provider extends AbstractProvider
             'schoolId'  => $user['info']['yb_schoolid'],
             'studentId' => $user['info']['yb_studentid'],
         ]);
-    }
-
-    /**
-     * Get the default options for an HTTP request.
-     *
-     * @return array
-     */
-    protected function getRequestOptions()
-    {
-        return [
-            RequestOptions::HEADERS => [
-                'Accept' => 'application/json',
-            ],
-        ];
     }
 }

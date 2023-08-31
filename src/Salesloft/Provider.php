@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Salesloft;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -39,15 +40,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.salesloft.com/v2/me',
-            [
-                'headers' => [
-                    'Accept'        => 'application/json',
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get('https://api.salesloft.com/v2/me', [
+            RequestOptions::HEADERS => [
+                'Accept'        => 'application/json',
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
 
         $response = json_decode($response->getBody()->getContents(), true);
 

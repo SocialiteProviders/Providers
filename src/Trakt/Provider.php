@@ -36,11 +36,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://api.trakt.tv/users/me?extended=full', [
+        $response = $this->getHttpClient()->get('https://api.trakt.tv/users/me', [
             RequestOptions::HEADERS => [
                 'Authorization'     => 'Bearer '.$token,
                 'trakt-api-version' => $this->getConfig('api_version', '2'),
                 'trakt-api-key'     => $this->clientId,
+            ],
+            RequestOptions::QUERY => [
+                'extended' => 'full',
             ],
         ]);
 

@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\StockTwits;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -33,9 +34,11 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.stocktwits.com/api/2/account/verify.json?access_token='.$token
-        );
+        $response = $this->getHttpClient()->get('https://api.stocktwits.com/api/2/account/verify.json', [
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true)['user'];
     }

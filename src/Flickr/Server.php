@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Flickr;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use League\OAuth1\Client\Credentials\TokenCredentials;
 use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
@@ -98,19 +99,15 @@ class Server extends BaseServer
      */
     public function getProfile($userId)
     {
-        $parameters = [
-            'method'         => 'flickr.people.getInfo',
-            'format'         => 'json',
-            'nojsoncallback' => 1,
-            'user_id'        => $userId,
-            'api_key'        => $this->clientCredentials->getIdentifier(),
-        ];
-
-        $url = 'https://api.flickr.com/services/rest/?'.http_build_query($parameters);
-
-        $client = $this->createHttpClient();
-
-        $response = $client->get($url);
+        $response = $this->createHttpClient()->get('https://api.flickr.com/services/rest/', [
+            RequestOptions::QUERY => [
+                'method'         => 'flickr.people.getInfo',
+                'format'         => 'json',
+                'nojsoncallback' => 1,
+                'user_id'        => $userId,
+                'api_key'        => $this->clientCredentials->getIdentifier(),
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }

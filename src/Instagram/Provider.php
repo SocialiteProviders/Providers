@@ -54,16 +54,20 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $meUrl = 'https://graph.instagram.com/me?access_token='.$token.'&fields='.implode(',', $this->fields);
+        $queryParameters = [
+            'access_token' => $token,
+            'fields'       => implode(',', $this->fields),
+        ];
 
         if (! empty($this->clientSecret)) {
-            $appSecretProof = hash_hmac('sha256', $token, $this->clientSecret);
-            $meUrl .= '&appsecret_proof='.$appSecretProof;
+            $queryParameters['appsecret_proof'] = hash_hmac('sha256', $token, $this->clientSecret);
         }
-        $response = $this->getHttpClient()->get($meUrl, [
+
+        $response = $this->getHttpClient()->get('https://graph.instagram.com/me', [
             RequestOptions::HEADERS => [
                 'Accept' => 'application/json',
             ],
+            RequestOptions::QUERY => $queryParameters,
         ]);
 
         return json_decode((string) $response->getBody(), true);

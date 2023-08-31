@@ -39,14 +39,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://www.deviantart.com/api/v1/oauth2/user/whoami?access_token='.$token,
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get('https://www.deviantart.com/api/v1/oauth2/user/whoami', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
