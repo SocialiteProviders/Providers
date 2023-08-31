@@ -109,16 +109,6 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys()
     {
         return ['environment'];

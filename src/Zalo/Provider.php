@@ -87,10 +87,8 @@ class Provider extends AbstractProvider
      */
     protected function getTokenFields($code)
     {
-        $fields = parent::getTokenFields($code);
-
-        $fields['app_id'] = $this->clientId;
-
-        return $fields;
+        return array_merge(parent::getTokenFields($code), [
+            'app_id' => $this->clientId,
+        ]);
     }
 }

@@ -67,7 +67,6 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
-     * Required fields to get the Bearer Token.
      */
     protected function getTokenFields($code)
     {

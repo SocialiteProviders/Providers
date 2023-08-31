@@ -57,14 +57,4 @@ class Provider extends AbstractProvider
             'avatar' => 'https://www.gravatar.com/avatar/'.md5($user['email']),
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }

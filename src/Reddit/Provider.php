@@ -105,7 +105,8 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'grant_type'   => 'authorization_code', 'code' => $code,
+            'grant_type'   => 'authorization_code',
+            'code'         => $code,
             'redirect_uri' => $this->redirectUrl,
         ];
     }

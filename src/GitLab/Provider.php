@@ -64,16 +64,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
     protected function getInstanceUri()
     {
         return $this->getConfig('instance_uri', 'https://gitlab.com/');
