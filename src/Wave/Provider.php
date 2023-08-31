@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Wave;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -46,10 +47,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->post($this->getQueryUrl(), [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
-            'json' => [
+            RequestOptions::JSON => [
                 'query' => 'query { user {id firstName lastName defaultEmail} }',
             ],
         ]);

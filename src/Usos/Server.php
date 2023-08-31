@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Usos;
 
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\RequestOptions;
 use League\OAuth1\Client\Credentials\CredentialsException;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use League\OAuth1\Client\Credentials\TokenCredentials;
@@ -112,8 +113,8 @@ class Server extends BaseServer
 
         try {
             $response = $client->post($uri, [
-                'headers'     => $headers,
-                'form_params' => $formParams,
+                RequestOptions::HEADERS     => $headers,
+                RequestOptions::FORM_PARAMS => $formParams,
             ]);
 
             return $this->createTemporaryCredentials((string) $response->getBody());

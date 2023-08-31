@@ -3,6 +3,7 @@
 namespace SocialiteProviders\LifeScienceLogin;
 
 use Exception;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -72,7 +73,7 @@ class Provider extends AbstractProvider
         $config = $this->getOpenIdConfiguration();
 
         $response = $this->getHttpClient()->get($config->userinfo_endpoint, [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);

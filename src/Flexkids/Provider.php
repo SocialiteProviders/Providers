@@ -89,7 +89,7 @@ class Provider extends AbstractProvider
                 'Accept'       => 'application/json',
                 'Content-Type' => 'application/json',
             ],
-            'json' => $this->getTokenFields($code),
+            RequestOptions::JSON => $this->getTokenFields($code),
         ]);
 
         $data = json_decode((string) $response->getBody(), true);

@@ -47,26 +47,15 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $query = '{
-            user {
-                id
-                email
-                name
-                avatar_url
-            }
-        }
-        ';
-
-        $response = $this->getHttpClient()->post(
-            'https://www.subscribestar.com/api/graphql/v1',
-            [
-                RequestOptions::HEADERS => [
-                    'Accept'        => 'application/json',
-                    'Authorization' => 'Bearer '.$token,
-                ],
-                RequestOptions::FORM_PARAMS => ['query' => $query],
-            ]
-        );
+        $response = $this->getHttpClient()->post('https://www.subscribestar.com/api/graphql/v1', [
+            RequestOptions::HEADERS => [
+                'Accept'        => 'application/json',
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::FORM_PARAMS => [
+                'query' => '{ user { id email name avatar_url } }',
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }

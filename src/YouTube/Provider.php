@@ -46,14 +46,15 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get('https://www.googleapis.com/youtube/v3/channels', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'part' => 'snippet',
+                'mine' => 'true',
+            ],
+        ]);
 
         $responseJson = json_decode((string) $response->getBody(), true);
 
