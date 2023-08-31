@@ -75,7 +75,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        $user = json_decode($response->getBody(), true);
+        $user = json_decode((string) $response->getBody(), true);
 
         if (isset($user['error'])) {
             throw new RuntimeException($user['error'].': '.$user['error_description'], 403);

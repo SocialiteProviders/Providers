@@ -33,7 +33,7 @@ class Provider extends AbstractProvider
             RequestOptions::QUERY   => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
