@@ -48,3 +48,7 @@ return Socialite::driver('lifesciencelogin')->redirect();
 - ``given_name``
 - ``family_name``
 - ``email``
+
+## Funding
+
+The development of this provider was supported by the German Research Foundation (DFG) within the project “Establishment of the National Research Data Infrastructure (NFDI)” in the consortium NFDI4Biodiversity (project number 442032008).
