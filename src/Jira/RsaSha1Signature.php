@@ -50,7 +50,9 @@ class RsaSha1Signature extends Signature
     /**
      * Set cert path.
      *
-     * @param $certPath
+     *
+     * @param  string  $certPath
+     * @return void
      */
     public function setCertPath($certPath)
     {

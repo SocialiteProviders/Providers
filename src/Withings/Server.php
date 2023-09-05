@@ -159,10 +159,10 @@ class Server extends BaseServer
      *
      * :(
      *
-     * @param    $url
-     * @param  TokenCredentials  $tokenCredentials
+     * @param  string  $url
+     * @param  \League\OAuth1\Client\Credentials\TokenCredentials  $tokenCredentials
      * @param  array  $extraParams
-     * @return array
+     * @return array|string[]
      */
     private function getOauthParameters($url, TokenCredentials $tokenCredentials, $extraParams = [])
     {

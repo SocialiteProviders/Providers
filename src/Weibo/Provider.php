@@ -79,7 +79,9 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param $token
+     * Get the UID.
+     *
+     * @param  string  $token
      * @return string
      */
     protected function getUid($token)

@@ -126,8 +126,10 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param $idToken
-     * @return Provider
+     * Set the token.
+     *
+     * @param  string  $idToken
+     * @return $this
      */
     private function setIdToken($idToken)
     {
