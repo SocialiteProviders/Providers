@@ -9,9 +9,9 @@ class UsosExtendSocialite
     /**
      * Register the provider.
      *
-     * @param  SocialiteWasCalled  $socialiteWasCalled
+     * @param  \SocialiteProviders\Manager\SocialiteWasCalled  $socialiteWasCalled
      */
-    public function handle(SocialiteWasCalled $socialiteWasCalled): void
+    public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
         $socialiteWasCalled->extendSocialite('usos', Provider::class, Server::class);
     }

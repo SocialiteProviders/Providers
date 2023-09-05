@@ -9,10 +9,10 @@ class AdobeExtendSocialite
     /**
      * Register the provider.
      *
-     * @param  SocialiteWasCalled  $event
+     * @param  \SocialiteProviders\Manager\SocialiteWasCalled  $socialiteWasCalled
      */
-    public function handle(SocialiteWasCalled $event)
+    public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $event->extendSocialite('adobe', Provider::class);
+        $socialiteWasCalled->extendSocialite('adobe', Provider::class);
     }
 }
