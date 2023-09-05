@@ -1,36 +1,36 @@
 {
-  "name": "socialiteproviders/aps",
-  "description": "Autodesk Platform Services (Forge) OAuth2 Provider for Laravel Socialite",
-  "license": "MIT",
-  "keywords": [
-    "laravel",
-    "oauth",
-    "provider",
-    "socialite",
-    "autodesk",
-    "forge",
-    "aps",
-    "autodesk platform services"
-  ],
-  "authors": [
-    {
-      "name": "Derkjan Super",
-      "email": "development@cadix.nl"
+    "name": "socialiteproviders/aps",
+    "description": "Autodesk Platform Services (Forge) OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "aps",
+        "autodesk platform services",
+        "autodesk",
+        "forge",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Derkjan Super",
+            "email": "development@cadix.nl"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/aps"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\APS\\": ""
+        }
     }
-  ],
-  "support": {
-    "issues": "https://github.com/socialiteproviders/providers/issues",
-    "source": "https://github.com/socialiteproviders/providers",
-    "docs": "https://socialiteproviders.com/aps"
-  },
-  "require": {
-    "php": "^8.0",
-    "ext-json": "*",
-    "socialiteproviders/manager": "^4.4"
-  },
-  "autoload": {
-    "psr-4": {
-      "SocialiteProviders\\APS\\": ""
-    }
-  }
 }
