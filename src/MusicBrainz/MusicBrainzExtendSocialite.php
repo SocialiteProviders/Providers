@@ -9,7 +9,7 @@ class MusicBrainzExtendSocialite
     /**
      * Register the provider.
      *
-     * @param \SocialiteProviders\Manager\SocialiteWasCalled
+     * @param  \SocialiteProviders\Manager\SocialiteWasCalled  $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
