@@ -39,7 +39,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/application/o/authorize/', $state);
+        return $this->buildAuthUrlFromBase($this->getBaseUrl() . '/application/o/authorize/', $state);
     }
 
     /**
@@ -47,7 +47,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getBaseUrl().'/application/o/token/';
+        return $this->getBaseUrl() . '/application/o/token/';
     }
 
     /**
@@ -56,15 +56,30 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            $this->getBaseUrl().'/application/o/userinfo/',
+            $this->getBaseUrl() . '/application/o/userinfo/',
             [
                 RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
+                    'Authorization' => 'Bearer ' . $token,
                 ],
             ]
         );
 
         return json_decode((string) $response->getBody(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function refreshToken($refreshToken)
+    {
+        return $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::FORM_PARAMS => [
+                'client_id'       => $this->clientId,
+                'client_secret'   => $this->clientSecret,
+                'grant_type'      => 'refresh_token',
+                'refresh_token'   => $refreshToken,
+            ]
+        ]);
     }
 
     /**
