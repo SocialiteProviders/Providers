@@ -187,7 +187,7 @@ class Provider extends AbstractProvider
             // signature validation and return claims
             return (array) JWT::decode($idToken, JWK::parseKeySet($this->getJWTKeys(), $this->getConfig('default_algorithm')));
         } catch (Exception $ex) {
-            throw new InvalidStateException("Error on validationg id_token. {$ex}");
+            throw new InvalidStateException("Error on validating id_token. {$ex}");
         }
     }
 
