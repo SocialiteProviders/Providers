@@ -17,7 +17,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
     'redirect' => env('AADB2C_RedirectUri'),
     'domain' => env('AADB2C_Domain'),  // {your_domain}.b2clogin.com
     'policy' => env('AADB2C_Policy'),  // such as 'b2c_1_user_susi'
-    'default_algorithm' => env('AADB2C_DefaultAlgorithm'), // optional, decoding algorithm JWK key such as 'RS256'
+    'default_algorithm' => env('AADB2C_DefaultAlgorithm', 'RS256'), // decoding algorithm JWK key such as 'RS256'
     'custom_domain' => env('AADB2C_CUSTOM_DOMAIN'), // optional - set to use your custom domain e.g. login.contoso.com
     'tenant' => env('AADB2C_TENANT'), // optional - set to use your tenant ID or custom domain in place of the default onmicrosoft.com one
 ],
