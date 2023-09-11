@@ -47,12 +47,7 @@ class RsaSha1Signature extends Signature
         return base64_encode($signature);
     }
 
-    /**
-     * Set cert path.
-     *
-     * @param $certPath
-     */
-    public function setCertPath($certPath)
+    public function setCertPath(string $certPath): void
     {
         $this->certPath = $certPath;
     }

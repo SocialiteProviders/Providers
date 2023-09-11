@@ -78,11 +78,7 @@ class Provider extends AbstractProvider
         return $response;
     }
 
-    /**
-     * @param $token
-     * @return string
-     */
-    protected function getUid($token)
+    protected function getUid(string $token): string
     {
         $response = $this->getHttpClient()->get('https://api.weibo.com/2/account/get_uid.json', [
             RequestOptions::QUERY => ['access_token' => $token],

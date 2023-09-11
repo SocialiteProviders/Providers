@@ -151,20 +151,7 @@ class Server extends BaseServer
         return parent::fetchUserDetails($tokenCredentials, $force);
     }
 
-    /**
-     * Since Withings has their own unique implementation of oAuth1 we need to extract the oAuthParameters
-     * and append them to the endpoint as a querystring.
-     *
-     * This is an extraction of $this->protocolHeader()
-     *
-     * :(
-     *
-     * @param    $url
-     * @param  TokenCredentials  $tokenCredentials
-     * @param  array  $extraParams
-     * @return array
-     */
-    private function getOauthParameters($url, TokenCredentials $tokenCredentials, $extraParams = [])
+    private function getOauthParameters(string $url, TokenCredentials $tokenCredentials, array $extraParams = []): array
     {
         $parameters = array_merge(
             $this->baseProtocolParameters(),
