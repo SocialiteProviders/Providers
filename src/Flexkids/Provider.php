@@ -125,13 +125,7 @@ class Provider extends AbstractProvider
         return ['resource', 'apiuser', 'authurl', 'server'];
     }
 
-    /**
-     * Set the token.
-     *
-     * @param  string  $idToken
-     * @return $this
-     */
-    private function setIdToken($idToken)
+    private function setIdToken(string $idToken): static
     {
         $this->idToken = $idToken;
 
