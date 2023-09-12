@@ -67,9 +67,9 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function refreshToken($refreshToken)
+    public function refreshToken($refreshToken)
     {
-        return $this->getHttpClient()->post($this->getTokenUrl(), [
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::FORM_PARAMS => [
                 'client_id'     => $this->clientId,
                 'client_secret' => $this->clientSecret,
@@ -77,6 +77,8 @@ class Provider extends AbstractProvider
                 'refresh_token' => $refreshToken,
             ],
         ]);
+
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
