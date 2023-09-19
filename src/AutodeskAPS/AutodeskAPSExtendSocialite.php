@@ -13,6 +13,6 @@ class AutodeskAPSExtendSocialite
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('aps', Provider::class);
+        $socialiteWasCalled->extendSocialite('autodeskaps', Provider::class);
     }
 }
