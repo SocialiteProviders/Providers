@@ -58,16 +58,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys()
     {
         return ['subdomain'];
@@ -77,13 +67,12 @@ class Provider extends AbstractProvider
      * Work out the shopify domain based on either the
      * `subdomain` config setting or the current request.
      *
-     * @param string $uri URI to append to the domain
-     *
+     * @param  string  $uri URI to append to the domain
      * @return string The fully qualified *.myshopify.com url
      */
     private function shopifyUrl($uri = null)
     {
-        if (!empty($this->parameters['subdomain'])) {
+        if (! empty($this->parameters['subdomain'])) {
             return 'https://'.$this->parameters['subdomain'].'.myshopify.com'.$uri;
         }
         if ($this->getConfig('subdomain')) {

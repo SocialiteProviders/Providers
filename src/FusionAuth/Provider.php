@@ -28,9 +28,9 @@ class Provider extends AbstractProvider
     /**
      * Get the base URL.
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     protected function getFusionAuthUrl()
     {
@@ -92,7 +92,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['sub'],
             'nickname' => $user['preferred_username'] ?? null,
-            'name'     => $user['name'] ?? trim($user['given_name'] ?? ''.' '.$user['family_name'] ?? ''),
+            'name'     => $user['name'] ?? trim(($user['given_name'] ?? '').' '.($user['family_name'] ?? '')),
             'email'    => $user['email'],
             'avatar'   => $user['picture'] ?? null,
         ]);
@@ -108,7 +108,7 @@ class Provider extends AbstractProvider
         $fields = parent::getCodeFields($state);
 
         $tenantId = $this->getConfig('tenant_id');
-        if (!empty($tenantId)) {
+        if (! empty($tenantId)) {
             $fields['tenantId'] = $tenantId;
         }
 

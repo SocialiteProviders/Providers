@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Usos;
 
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\RequestOptions;
 use League\OAuth1\Client\Credentials\CredentialsException;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
 use League\OAuth1\Client\Credentials\TokenCredentials;
@@ -81,8 +82,7 @@ class Server extends BaseServer
      * Generate the OAuth protocol header for a temporary credentials
      * request, based on the URI.
      *
-     * @param string $uri
-     *
+     * @param  string  $uri
      * @return string
      */
     protected function temporaryCredentialsProtocolHeader($uri)
@@ -92,7 +92,7 @@ class Server extends BaseServer
 
         ], ['scopes' => implode('|', $this->scopes)]));
 
-        $parameters['oauth_signature'] = $this->signature->sign($uri, $parameters, 'POST');
+        $parameters['oauth_signature'] = $this->signature->sign($uri, $parameters);
 
         return $this->normalizeProtocolParameters($parameters);
     }
@@ -113,8 +113,8 @@ class Server extends BaseServer
 
         try {
             $response = $client->post($uri, [
-                'headers'     => $headers,
-                'form_params' => $formParams,
+                RequestOptions::HEADERS     => $headers,
+                RequestOptions::FORM_PARAMS => $formParams,
             ]);
 
             return $this->createTemporaryCredentials((string) $response->getBody());

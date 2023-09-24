@@ -36,13 +36,13 @@
         "docs": "https://socialiteproviders.com/apple"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-json": "*",
         "ext-openssl": "*",
-        "firebase/php-jwt": "^6.2",
+        "firebase/php-jwt": "^6.8",
         "lcobucci/clock": "^2.0 || ^3.0",
         "lcobucci/jwt": "^4.1.5 || ^5.0.0",
-        "socialiteproviders/manager": "~4.0"
+        "socialiteproviders/manager": "^4.4"
     },
     "suggest": {
         "ahilmurugesan/socialite-apple-helper": "Automatic Apple client key generation and management."

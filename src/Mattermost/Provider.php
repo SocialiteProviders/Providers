@@ -86,18 +86,10 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return parent::getTokenFields($code) + ['grant_type' => 'authorization_code'];
-    }
-
     protected function getInstanceUri()
     {
-        $uri = $this->getConfig('instance_uri', null);
-        if (!$uri) {
+        $uri = $this->getConfig('instance_uri');
+        if (! $uri) {
             throw new InvalidArgumentException('No instance_uri. ENV['.self::IDENTIFIER.'_INSTANCE_URI]=https://mm.example.com/ must be provided.');
         }
 

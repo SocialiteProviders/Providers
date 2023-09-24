@@ -14,8 +14,7 @@ class KakaoProvider extends AbstractProvider
     /**
      * Get the authentication URL for the provider.
      *
-     * @param string $state
-     *
+     * @param  string  $state
      * @return string
      */
     protected function getAuthUrl($state)
@@ -36,8 +35,7 @@ class KakaoProvider extends AbstractProvider
     /**
      * Get the access token for the given code.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return string
      */
     public function getAccessToken($code)
@@ -52,33 +50,9 @@ class KakaoProvider extends AbstractProvider
     }
 
     /**
-     * Get the POST fields for the token request.
-     *
-     * @param string $code
-     *
-     * @return array
-     */
-    protected function getTokenFields($code)
-    {
-        $array = [
-            'grant_type'   => 'authorization_code',
-            'client_id'    => $this->clientId,
-            'redirect_uri' => $this->redirectUrl,
-            'code'         => $code,
-        ];
-
-        if ($this->clientSecret) {
-            $array['client_secret'] = $this->clientSecret;
-        }
-
-        return $array;
-    }
-
-    /**
      * Get the raw user for the given access token.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return array
      */
     protected function getUserByToken($token)
@@ -93,8 +67,7 @@ class KakaoProvider extends AbstractProvider
     /**
      * Map the raw user array to a Socialite User instance.
      *
-     * @param array $user
-     *
+     * @param  array  $user
      * @return \Laravel\Socialite\User
      */
     protected function mapUserToObject(array $user)

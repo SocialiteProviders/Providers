@@ -27,8 +27,7 @@ class Provider extends AbstractProvider
      * Allows you to override the tenant id that the provider is configured
      * with.
      *
-     * @param string $tenantId
-     *
+     * @param  string  $tenantId
      * @return \SocialiteProviders\Graph\Provider
      */
     public function setTenantId($tenantId)
@@ -115,16 +114,6 @@ class Provider extends AbstractProvider
             'preferredLanguage' => Arr::get($user, 'preferredLanguage'),
             'surname'           => Arr::get($user, 'surname'),
             'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 

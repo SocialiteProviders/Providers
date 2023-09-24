@@ -57,14 +57,4 @@ class Provider extends AbstractProvider
             'email' => null, 'avatar' => null,
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }

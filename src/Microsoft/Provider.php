@@ -25,6 +25,7 @@ class Provider extends AbstractProvider
      * @see https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions
      */
     protected const DEFAULT_FIELDS_TENANT = ['id', 'displayName', 'city', 'country', 'countryLetterCode', 'state', 'street', 'verifiedDomains'];
+
     /**
      * {@inheritdoc}
      * https://msdn.microsoft.com/en-us/library/azure/ad/graph/howto/azure-ad-graph-api-permission-scopes.
@@ -94,27 +95,31 @@ class Provider extends AbstractProvider
                 );
 
                 $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents()) ?? null;
-            } catch (ClientException $e) {
+            } catch (ClientException) {
                 //if exception then avatar does not exist.
                 $formattedResponse['avatar'] = null;
             }
         }
 
         if ($this->getConfig('tenant', 'common') === 'common' && $this->getConfig('include_tenant_info', false)) {
-            $responseTenant = $this->getHttpClient()->get(
-                'https://graph.microsoft.com/v1.0/organization',
-                [
-                    RequestOptions::HEADERS => [
-                        'Accept'        => 'application/json',
-                        'Authorization' => 'Bearer '.$token,
-                    ],
-                    RequestOptions::QUERY => [
-                        '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields', []))),
-                    ],
-                ]
-            );
-
-            $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
+            try {
+                $responseTenant = $this->getHttpClient()->get(
+                    'https://graph.microsoft.com/v1.0/organization',
+                    [
+                        RequestOptions::HEADERS => [
+                            'Accept'        => 'application/json',
+                            'Authorization' => 'Bearer '.$token,
+                        ],
+                        RequestOptions::QUERY => [
+                            '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields', []))),
+                        ],
+                    ]
+                );
+                $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
+            } catch (ClientException) {
+                //if exception then tenant does not exist.
+                $formattedResponse['tenant'] = null;
+            }
         }
 
         return $formattedResponse;
@@ -153,8 +158,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-            'scope'      => parent::formatScopes(parent::getScopes(), $this->scopeSeparator),
+            'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
         ]);
     }
 

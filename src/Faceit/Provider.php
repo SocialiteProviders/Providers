@@ -52,6 +52,9 @@ class Provider extends AbstractProvider
         return $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getTokenFields($code)
     {
         return [

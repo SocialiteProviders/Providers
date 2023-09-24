@@ -8,8 +8,9 @@ use League\OAuth1\Client\Signature\Signature;
 
 class RsaSha1Signature extends Signature
 {
-    private $certPath = '';
-    private $certPassphrase = '';
+    private string $certPath = '';
+
+    private string $certPassphrase = '';
 
     /**
      * {@inheritdoc}
@@ -46,12 +47,7 @@ class RsaSha1Signature extends Signature
         return base64_encode($signature);
     }
 
-    /**
-     * Set cert path.
-     *
-     * @param $certPath
-     */
-    public function setCertPath($certPath)
+    public function setCertPath(string $certPath): void
     {
         $this->certPath = $certPath;
     }
@@ -69,8 +65,7 @@ class RsaSha1Signature extends Signature
     /**
      * Create a Guzzle url for the given URI.
      *
-     * @param string $uri
-     *
+     * @param  string  $uri
      * @return Uri
      */
     protected function createUrl($uri)
@@ -82,10 +77,9 @@ class RsaSha1Signature extends Signature
      * Generate a base string for a RSA-SHA1 signature
      * based on the given a url, method, and any parameters.
      *
-     * @param Url    $url
-     * @param string $method
-     * @param array  $parameters
-     *
+     * @param  Url  $url
+     * @param  string  $method
+     * @param  array  $parameters
      * @return string
      */
     protected function baseString(Uri $url, $method = 'POST', array $parameters = [])

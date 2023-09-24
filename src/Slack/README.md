@@ -1,4 +1,10 @@
-# Slack
+# ~~Slack~~
+
+## Moved to official provider
+
+Socialite now has an official slack provider. This provider is deprecated.
+
+https://laravel.com/docs/10.x/socialite#installation
 
 ```bash
 composer require socialiteproviders/slack

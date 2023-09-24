@@ -45,9 +45,9 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://kit.snapchat.com/v1/me?', [
+        $response = $this->getHttpClient()->get('https://kit.snapchat.com/v1/me', [
             RequestOptions::QUERY => [
-                RequestOptions::QUERY => '{me{externalId displayName bitmoji{avatar id}}}',
+                'query' => '{me { externalId displayName bitmoji { avatar id } } }',
             ],
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
@@ -66,16 +66,6 @@ class Provider extends AbstractProvider
             'id'       => Arr::get($user, 'data.me.externalId'),
             'name'     => Arr::get($user, 'data.me.displayName'),
             'avatar'   => Arr::get($user, 'data.me.bitmoji.avatar'),
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

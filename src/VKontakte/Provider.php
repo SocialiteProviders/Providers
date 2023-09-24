@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\VKontakte;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\InvalidStateException;
 use RuntimeException;
@@ -13,11 +14,6 @@ class Provider extends AbstractProvider
     protected $fields = ['id', 'email', 'first_name', 'last_name', 'screen_name', 'photo_200'];
 
     public const IDENTIFIER = 'VKONTAKTE';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $stateless = false;
 
     /**
      * {@inheritdoc}
@@ -61,20 +57,20 @@ class Provider extends AbstractProvider
             $token = $token['access_token'];
         }
 
-        $params = http_build_query([
-            'access_token' => $token,
-            'fields'       => implode(',', $this->fields),
-            'lang'         => $this->getConfig('lang', 'en'),
-            'v'            => self::VERSION,
+        $response = $this->getHttpClient()->get('https://api.vk.com/method/users.get', [
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+                'fields'       => implode(',', $this->fields),
+                'lang'         => $this->getConfig('lang', 'en'),
+                'v'            => self::VERSION,
+            ],
         ]);
-
-        $response = $this->getHttpClient()->get('https://api.vk.com/method/users.get?'.$params);
 
         $contents = (string) $response->getBody();
 
         $response = json_decode($contents, true);
 
-        if (!is_array($response) || !isset($response['response'][0])) {
+        if (! is_array($response) || ! isset($response['response'][0])) {
             throw new RuntimeException(sprintf(
                 'Invalid JSON response from VK: %s',
                 $contents
@@ -122,20 +118,9 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
-    /**
      * Set the user fields to request from Vkontakte.
      *
-     * @param array $fields
-     *
+     * @param  array  $fields
      * @return $this
      */
     public function fields(array $fields)

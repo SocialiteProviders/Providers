@@ -10,7 +10,7 @@ use SocialiteProviders\Manager\OAuth1\User;
 
 class Server extends BaseServer
 {
-    private $urlUserDetails = '';
+    private string $urlUserDetails = '';
 
     /**
      * {@inheritdoc}
@@ -76,9 +76,8 @@ class Server extends BaseServer
      * Take the decoded data from the user details URL and extract
      * the user's UID.
      *
-     * @param mixed            $data
-     * @param TokenCredentials $tokenCredentials
-     *
+     * @param  mixed  $data
+     * @param  TokenCredentials  $tokenCredentials
      * @return string|int
      */
     public function userUid($data, TokenCredentials $tokenCredentials)
@@ -107,17 +106,16 @@ class Server extends BaseServer
     /**
      * Creates temporary credentials from the body response.
      *
-     * @param string $body
+     * @param  string  $body
+     * @return TemporaryCredentials
      *
      * @throws CredentialsException
-     *
-     * @return TemporaryCredentials
      */
     protected function createTemporaryCredentials($body)
     {
         parse_str($body, $data);
 
-        if (!$data || !is_array($data)) {
+        if (! $data || ! is_array($data)) {
             throw new CredentialsException('Unable to parse temporary credentials response.');
         }
 
@@ -136,7 +134,7 @@ class Server extends BaseServer
      */
     protected function fetchUserDetails(TokenCredentials $tokenCredentials, $force = true)
     {
-        if (!$this->cachedUserDetailsResponse || $force) {
+        if (! $this->cachedUserDetailsResponse || $force) {
             // The user-endpoint
             $endpoint = 'https://wbsapi.withings.net/user';
 
@@ -153,21 +151,7 @@ class Server extends BaseServer
         return parent::fetchUserDetails($tokenCredentials, $force);
     }
 
-    /**
-     * Since Withings has their own unique implementation of oAuth1 we need to extract the oAuthParameters
-     * and append them to the endpoint as a querystring.
-     *
-     * This is an extraction of $this->protocolHeader()
-     *
-     * :(
-     *
-     * @param $url
-     * @param TokenCredentials $tokenCredentials
-     * @param array            $extraParams
-     *
-     * @return array
-     */
-    private function getOauthParameters($url, TokenCredentials $tokenCredentials, $extraParams = [])
+    private function getOauthParameters(string $url, TokenCredentials $tokenCredentials, array $extraParams = []): array
     {
         $parameters = array_merge(
             $this->baseProtocolParameters(),

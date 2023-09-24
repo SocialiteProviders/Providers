@@ -3,8 +3,9 @@
 namespace SocialiteProviders\Microsoft;
 
 use GuzzleHttp\Psr7\Response;
+use Stringable;
 
-class MicrosoftAvatar
+class MicrosoftAvatar implements Stringable
 {
     /**
      * The Guzzle Response object.
@@ -16,8 +17,7 @@ class MicrosoftAvatar
     /**
      * Set the response of the avatar.
      *
-     * @param string $response
-     *
+     * @param  string  $response
      * @return $this
      */
     public function setResponse(Response $response)

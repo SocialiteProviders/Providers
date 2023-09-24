@@ -36,14 +36,15 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.coursera.org/api/externalBasicProfiles.v1?q=me&fields=timezone,locale,privacy,name',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get('https://api.coursera.org/api/externalBasicProfiles.v1', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'q'      => 'me',
+                'fields' => 'timezone,locale,privacy,name',
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -57,16 +58,6 @@ class Provider extends AbstractProvider
             'id'     => $user['elements'][0]['id'], 'nickname' => null,
             'name'   => $user['elements'][0]['name'], 'email' => null,
             'avatar' => null,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

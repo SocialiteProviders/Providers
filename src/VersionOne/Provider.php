@@ -34,8 +34,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $code
-     *
+     * @param  string  $code
      * @return string
      */
     public function getAccessToken($code)
@@ -99,16 +98,6 @@ class Provider extends AbstractProvider
             'id'       => str_replace('Member:', '', $user['_oid']),
             'nickname' => $user['Username'], 'name' => $user['Name'],
             'email'    => $user['Email'], 'avatar' => Arr::get($user, 'Avatar.Content'),
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

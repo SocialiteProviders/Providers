@@ -3,6 +3,7 @@
 namespace SocialiteProviders\LifeScienceLogin;
 
 use Exception;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -17,17 +18,17 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'LIFESCIENCELOGIN';
+    public const IDENTIFIER = 'LIFESCIENCELOGIN';
 
     /**
      * LifeScience Login config URL.
      */
-    const CONFIG_URL = 'https://proxy.aai.lifescience-ri.eu/.well-known/openid-configuration';
+    public const CONFIG_URL = 'https://proxy.aai.lifescience-ri.eu/.well-known/openid-configuration';
 
     /**
      * Cache key for the OpenID config.
      */
-    const CACHE_KEY = 'lslogin_openid_config';
+    public const CACHE_KEY = 'lslogin_openid_config';
 
     /**
      * {@inheritdoc}
@@ -72,12 +73,12 @@ class Provider extends AbstractProvider
         $config = $this->getOpenIdConfiguration();
 
         $response = $this->getHttpClient()->get($config->userinfo_endpoint, [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -95,21 +96,11 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
-    /**
      * Get OpenID Configuration.
      *
-     * @throws Laravel\Socialite\Two\InvalidStateException
-     *
      * @return mixed
+     *
+     * @throws Laravel\Socialite\Two\InvalidStateException
      */
     private function getOpenIdConfiguration()
     {

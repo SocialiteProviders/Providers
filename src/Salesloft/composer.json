@@ -1,0 +1,35 @@
+{
+    "name": "socialiteproviders/salesloft",
+    "description": "Salesloft OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "salesloft",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "João Salomão",
+            "email": "joaosalomao.mcp@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/salesloft"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Salesloft\\": ""
+        }
+    }
+}

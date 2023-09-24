@@ -30,6 +30,22 @@ Issue resolved in https://github.com/SocialiteProviders/Providers/pull/817
 
 By default this protection is disabled. It will only be active when allowed hosts is not equal to an empty array.
 
+### force_https
+Set this property to force HTTPS scheme when redirecting from Steam OAuth.
+
+If you do not set it, the scheme will be inferred from your server settings.
+
+```php
+'steam' => [
+  'client_id' => null,
+  'client_secret' => env('STEAM_CLIENT_SECRET'),
+  'redirect' => env('STEAM_REDIRECT_URI'),
+  'force_https' => true,  // This will force HTTPS scheme
+  'allowed_hosts' => [
+    'example.com',
+  ]
+],
+```
 
 ## Add provider event listener
 

@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Worldcoin;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -10,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'WORLDCOIN';
+    public const IDENTIFIER = 'WORLDCOIN';
 
     /**
      * {@inheritdoc}
@@ -39,12 +40,12 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://id.worldcoin.org/userinfo', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -56,16 +57,6 @@ class Provider extends AbstractProvider
             'id'              => $user['sub'],
             'likely_human'    => $user['https://id.worldcoin.org/beta']['likely_human'],
             'credential_type' => $user['https://id.worldcoin.org/beta']['credential_type'],
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

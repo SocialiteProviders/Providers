@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
     {
         $fields = parent::getCodeFields($state);
 
-        if (!$this->consent) {
+        if (! $this->consent) {
             $fields['prompt'] = 'none';
         }
 
@@ -91,8 +91,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param array $user
-     *
+     * @param  array  $user
      * @return string|null
      *
      * @see https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints
@@ -117,20 +116,10 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
-            'nickname' => sprintf('%s#%s', $user['username'], $user['discriminator']),
+            'nickname' => $user['username'].($user['discriminator'] !== '0' ? '#'.$user['discriminator'] : ''),
             'name'     => $user['username'],
             'email'    => $user['email'] ?? null,
             'avatar'   => $this->formatAvatar($user),
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 

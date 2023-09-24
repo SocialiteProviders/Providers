@@ -21,6 +21,7 @@ class Provider extends AbstractProvider
      * BASE_URL.
      */
     protected $oauthUrl = 'https://auth.oauthgen.com';
+
     protected $graphUrl = 'https://graph.oauthgen.com/api/v1';
 
     /**
@@ -68,16 +69,6 @@ class Provider extends AbstractProvider
             'name'     => $user['name'],
             'email'    => $user['email'],
             'avatar'   => $user['avatar'] ?? null,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

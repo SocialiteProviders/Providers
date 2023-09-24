@@ -21,11 +21,11 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-json": "*",
         "ext-openssl": "*",
-        "firebase/php-jwt": "^5.2",
-        "socialiteproviders/manager": "~4.0"
+        "firebase/php-jwt": "^6.8",
+        "socialiteproviders/manager": "^4.4"
     },
     "autoload": {
         "psr-4": {

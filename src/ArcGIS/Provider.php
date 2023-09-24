@@ -12,8 +12,8 @@ class Provider extends AbstractProvider
 
     protected function getBaseUrl()
     {
-        $port = is_null($this->getServerPort()) ? '' : ':'.$this->getServerPort();
-        $subdirectory = is_null($this->getServerDirectory()) ? '' : '/'.$this->getServerDirectory();
+        $port = null === $this->getServerPort() ? '' : ':'.$this->getServerPort();
+        $subdirectory = null === $this->getServerDirectory() ? '' : '/'.$this->getServerDirectory();
 
         return 'https://'.$this->getServerHost().$port.$subdirectory;
     }
@@ -69,16 +69,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
     protected function getServerHost()
     {
         return $this->getConfig('arcgis_host', 'www.arcgis.com');
@@ -86,11 +76,11 @@ class Provider extends AbstractProvider
 
     protected function getServerPort()
     {
-        return $this->getConfig('arcgis_port', null);
+        return $this->getConfig('arcgis_port');
     }
 
     protected function getServerDirectory()
     {
-        return $this->getConfig('arcgis_directory', null);
+        return $this->getConfig('arcgis_directory');
     }
 }

@@ -73,29 +73,18 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
-    /**
      * Return logout endpoint with redirect_uri, clientId, idTokenHint
      * and optional parameters by a key value array.
      *
-     * @param string|null $redirectUri
-     * @param string|null $clientId
-     * @param string|null $idTokenHint
-     * @param array       $additionalParameters
+     * @param  string|null  $redirectUri
+     * @param  string|null  $clientId
+     * @param  string|null  $idTokenHint
+     * @param  array  $additionalParameters
+     * @return string
      *
      * @throws InvalidArgumentException
-     *
-     * @return string
      */
-    public function getLogoutUrl(?string $redirectUri = null, ?string $clientId = null, ?string $idTokenHint = null, ...$additionalParameters): string
+    public function getLogoutUrl(string $redirectUri = null, string $clientId = null, string $idTokenHint = null, ...$additionalParameters): string
     {
         $logoutUrl = $this->getBaseUrl().'/protocol/openid-connect/logout';
 
@@ -125,7 +114,7 @@ class Provider extends AbstractProvider
         }
 
         foreach ($additionalParameters as $parameter) {
-            if (!is_array($parameter) || sizeof($parameter) > 1) {
+            if (! is_array($parameter) || count($parameter) > 1) {
                 throw new InvalidArgumentException('Invalid argument. Expected an array with a key and a value.');
             }
 

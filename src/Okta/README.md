@@ -19,6 +19,25 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
+#### Multi Tenant SSO
+
+If you need to authenticate users from multiple okta instances, you can dynamically set the configuration values prior to calling the `redirect`/`user` methods. You'll still need to add the services entry as per above, but you can leave all the values as `null`.
+
+```php
+$config = new \SocialiteProviders\Manager\Config(
+    'client_id',
+    'client_secret',
+    route('okta.callback'),
+    [
+        'base_url' => 'https://1234.okta.com',
+    ]
+);
+
+\Laravel\Socialite\Facades\Socialite::driver('okta')
+    ->setConfig($config)
+    ->redirect();
+```
+
 #### Custom Auth Server
 
 If you're using Okta Developer you should set `auth_server_id` config option appropriately. It should be set to "default", or to the server id of your Custom Authorization Server.

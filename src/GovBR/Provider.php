@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\GovBR;
 
+use GuzzleHttp\RequestOptions;
 use RuntimeException;
 use SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -12,17 +13,17 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * Unique Provider Identifier.
      */
-    const IDENTIFIER = 'GOVBR';
+    public const IDENTIFIER = 'GOVBR';
 
-    const SCOPE_OPENID = 'openid';
+    public const SCOPE_OPENID = 'openid';
 
-    const SCOPE_EMAIL = 'email';
+    public const SCOPE_EMAIL = 'email';
 
-    const SCOPE_PROFILE = 'profile';
+    public const SCOPE_PROFILE = 'profile';
 
-    const SCOPE_GOVBR_EMPRESA = 'govbr_empresa';
+    public const SCOPE_GOVBR_EMPRESA = 'govbr_empresa';
 
-    const SCOPE_GOVBR_CONFIABILIDADES = 'govbr_confiabilidades';
+    public const SCOPE_GOVBR_CONFIABILIDADES = 'govbr_confiabilidades';
 
     /**
      * Staging URL.
@@ -80,12 +81,12 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->getBaseUrlForEnvironment().'/userinfo', [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -103,16 +104,6 @@ class Provider extends AbstractProvider implements ProviderInterface
             'phone_number_verified' => $user['phone_number_verified'] ?? null,
             'avatar_url'            => $user['picture'] ?? null,
             'profile'               => $user['profile'] ?? null,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 

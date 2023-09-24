@@ -34,14 +34,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.23andme.com/1/user/?email=true',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get('https://api.23andme.com/1/user', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'email' => 'true',
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -54,16 +54,6 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'    => $user['id'], 'nickname' => null, 'name' => null,
             'email' => $user['email'], 'avatar' => null,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
     {
         $idToken = $this->credentialsResponseBody['id_token'];
         $bodyb64 = explode('.', $idToken)[1];
-        $jwtDecoded = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64), true);
+        $jwtDecoded = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64));
 
         return (new User())->map([
             'id'       => $jwtDecoded->xero_userid,
@@ -75,16 +75,6 @@ class Provider extends AbstractProvider
             'name'     => $jwtDecoded->given_name.' '.$jwtDecoded->family_name,
             'email'    => $jwtDecoded->email,
             'tenants'  => $connections,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

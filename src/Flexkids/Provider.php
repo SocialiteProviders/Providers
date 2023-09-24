@@ -77,11 +77,10 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $code
+     * @param  string  $code
+     * @return array
      *
      * @throws AuthenticationException
-     *
-     * @return array
      */
     public function getAccessTokenResponse($code)
     {
@@ -90,7 +89,7 @@ class Provider extends AbstractProvider
                 'Accept'       => 'application/json',
                 'Content-Type' => 'application/json',
             ],
-            'json' => $this->getTokenFields($code),
+            RequestOptions::JSON => $this->getTokenFields($code),
         ]);
 
         $data = json_decode((string) $response->getBody(), true);
@@ -113,7 +112,6 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type'     => 'authorization_code',
             'resource'       => $this->getConfig('resource'),
             'user_api_token' => $this->getConfig('apiuser'),
         ]);
@@ -127,12 +125,7 @@ class Provider extends AbstractProvider
         return ['resource', 'apiuser', 'authurl', 'server'];
     }
 
-    /**
-     * @param $idToken
-     *
-     * @return Provider
-     */
-    private function setIdToken($idToken)
+    private function setIdToken(string $idToken): static
     {
         $this->idToken = $idToken;
 
@@ -156,8 +149,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $uniqueUserId
-     *
+     * @param  string  $uniqueUserId
      * @return Provider
      */
     public function setUniqueUserId($uniqueUserId)
