@@ -141,6 +141,8 @@ class Provider extends AbstractProvider
             if (empty($signer) || !class_exists($signer)) {
                 $signer = !empty($private_key_path) ? \Lcobucci\JWT\Signer\Ecdsa\Sha256::class : AppleSignerNone::class;
             }
+            
+            $this->privateKey = $private_key_path; // Support for plain text private keys
 
             if (!empty($private_key_path) && file_exists($private_key_path)) {
                 $this->privateKey = file_get_contents($private_key_path);
