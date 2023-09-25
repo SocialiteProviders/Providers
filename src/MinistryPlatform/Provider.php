@@ -13,7 +13,7 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'MINISTRYPLATFORM';
 
     /**
-     * {@inheritdoc}
+     * Define the allowed scopes.
      */
     protected $scopes = ['http://www.thinkministry.com/dataplatform/scopes/all', 'openid', 'offline_access'];
 
@@ -21,16 +21,16 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
 
-    protected function getMPUrl()
+    protected function baseUrl()
     {
         return $this->getConfig('base_url');
     }
 
-    // /**
-    //  * Indicates if PKCE should be used.
-    //  *
-    //  * @var bool
-    //  */
+    /**
+    * Indicates if PKCE should be used.
+    *
+    * @var bool
+    */
     protected $usesPKCE = true;
 
     /**
@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getMPUrl().'/oauth/connect/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->baseUrl().'/oauth/connect/authorize', $state);
     }
 
     /**
@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getMPUrl().'/oauth/connect/token';
+        return $this->baseUrl().'/oauth/connect/token';
     }
 
     /**
@@ -55,8 +55,8 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         
-        $response = $this->getHttpClient()->get($this->getMPUrl().'/oauth/connect/userinfo', [
-            'headers' => [
+        $response = $this->getHttpClient()->get($this->baseUrl().'/oauth/connect/userinfo', [
+            \GuzzleHttp\RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'Accept: application/json', 
                 'Content-type: application/json',
@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
             ]
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -79,16 +79,6 @@ class Provider extends AbstractProvider
             'email' => $user['email'],
             'zoneinfo' => $user['zoneinfo'],
             'locale' => $user['locale'],
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
         ]);
     }
 }

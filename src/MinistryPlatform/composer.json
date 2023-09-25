@@ -22,9 +22,9 @@
         "docs": "https://socialiteproviders.com/ministryplatform"
     },
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "ext-json": "*",
-        "socialiteproviders/manager": "^4.1"
+        "socialiteproviders/manager": "^4.4"
     },
     "autoload": {
         "psr-4": {
