@@ -260,9 +260,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $messageContext = new MessageContext();
         $messageContext->setMessage($message);
 
-        if (! empty(request()->filled('RelayState'))) {
-            $messageContext->getMessage()
-                ->setRelayState(request('RelayState'));
+        if ($this->messageContext->getMessage() instanceof SamlMessage) {
+            $messageContext->getMessage()->setRelayState($this->messageContext->getMessage()->getRelayState());
         }
 
         $binding = (new BindingFactory())->create($bindingType);
