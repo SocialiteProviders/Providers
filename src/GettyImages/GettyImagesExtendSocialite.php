@@ -6,12 +6,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class GettyImagesExtendSocialite
 {
-    /**
-     * Register the provider.
-     *
-     * @param  \SocialiteProviders\Manager\SocialiteWasCalled  $socialiteWasCalled
-     */
-    public function handle(SocialiteWasCalled $socialiteWasCalled)
+    public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {
         $socialiteWasCalled->extendSocialite('gettyimages', Provider::class);
     }

@@ -6,12 +6,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class SnapchatExtendSocialite
 {
-    /**
-     * Register the provider.
-     *
-     * @param  \SocialiteProviders\Manager\SocialiteWasCalled  $socialiteWasCalled
-     */
-    public function handle(SocialiteWasCalled $socialiteWasCalled)
+    public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {
         $socialiteWasCalled->extendSocialite('snapchat', Provider::class);
     }
