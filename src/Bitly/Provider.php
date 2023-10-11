@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api-ssl.bitly.com/v4/user',
             [
-                RequestOptions::HEADERS   => [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],

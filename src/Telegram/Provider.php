@@ -81,10 +81,10 @@ class Provider extends AbstractProvider
         $name = trim(sprintf('%s %s', $user['first_name'] ?? '', $user['last_name'] ?? ''));
 
         return (new User())->setRaw($user)->map([
-            'id'        => $user['id'],
-            'nickname'  => $user['username'] ?? $user['first_name'],
-            'name'      => ! empty($name) ? $name : null,
-            'avatar'    => $user['photo_url'] ?? null,
+            'id'       => $user['id'],
+            'nickname' => $user['username'] ?? $user['first_name'],
+            'name'     => ! empty($name) ? $name : null,
+            'avatar'   => $user['photo_url'] ?? null,
         ]);
     }
 

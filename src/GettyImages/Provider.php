@@ -44,7 +44,7 @@ class Provider extends AbstractProvider
                         $this->clientId.':'.$this->clientSecret
                     ),
                 ],
-                RequestOptions::BODY    => $this->getTokenFields($code),
+                RequestOptions::BODY => $this->getTokenFields($code),
             ]
         );
 

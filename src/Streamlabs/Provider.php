@@ -59,12 +59,12 @@ class Provider extends AbstractProvider
         $mainAccount = $user['streamlabs'];
 
         return (new User())->setRaw($user)->map([
-            'id'        => $mainAccount['id'],
-            'name'      => $mainAccount['display_name'],
-            'accounts'  => [
-                'twitch'    => $user['twitch'] ?? null,
-                'youtube'   => $user['youtube'] ?? null,
-                'facebook'  => $user['facebook'] ?? null,
+            'id'       => $mainAccount['id'],
+            'name'     => $mainAccount['display_name'],
+            'accounts' => [
+                'twitch'   => $user['twitch'] ?? null,
+                'youtube'  => $user['youtube'] ?? null,
+                'facebook' => $user['facebook'] ?? null,
             ],
         ]);
     }

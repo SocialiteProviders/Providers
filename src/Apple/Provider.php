@@ -89,8 +89,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            RequestOptions::FORM_PARAMS    => $this->getTokenFields($code),
+            RequestOptions::HEADERS     => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -265,7 +265,7 @@ class Provider extends AbstractProvider
     public function revokeToken(string $token, string $hint = 'access_token')
     {
         return $this->getHttpClient()->post($this->getRevokeUrl(), [
-            RequestOptions::FORM_PARAMS    => [
+            RequestOptions::FORM_PARAMS => [
                 'client_id'       => $this->clientId,
                 'client_secret'   => $this->clientSecret,
                 'token'           => $token,
@@ -290,10 +290,10 @@ class Provider extends AbstractProvider
     {
         return $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::FORM_PARAMS => [
-                'client_id'       => $this->clientId,
-                'client_secret'   => $this->clientSecret,
-                'grant_type'      => 'refresh_token',
-                'refresh_token'   => $refreshToken,
+                'client_id'     => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'grant_type'    => 'refresh_token',
+                'refresh_token' => $refreshToken,
             ],
         ]);
     }
