@@ -153,7 +153,7 @@ class Provider extends AbstractProvider
             $constraints = [
                 new SignedWith(new Sha256(), AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
-                new LooseValidAt(SystemClock::fromSystemTimezone()),
+                new LooseValidAt(SystemClock::fromSystemTimezone(), new \DateInterval('PT6H')),
             ];
 
             try {
