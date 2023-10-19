@@ -32,8 +32,7 @@ class Provider extends AbstractProvider
     /**
      * Get the authentication URL for the provider.
      *
-     * @param string $state
-     *
+     * @param  string  $state
      * @return string
      */
     protected function getAuthUrl($state)
@@ -57,8 +56,7 @@ class Provider extends AbstractProvider
     /**
      * Get the raw user for the given access token.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return array
      */
     protected function getUserByToken($token)
@@ -78,8 +76,7 @@ class Provider extends AbstractProvider
     /**
      * Map the raw user array to a Socialite User instance.
      *
-     * @param array $user
-     *
+     * @param  array  $user
      * @return \Laravel\Socialite\User
      */
     protected function mapUserToObject(array $user)
@@ -90,20 +87,6 @@ class Provider extends AbstractProvider
             'name'     => $user['displayName'] ?? $user['name'] ?? null,
             'avatar'   => $user['pictureUrl'] ?? $user['picture'] ?? null,
             'email'    => $user['email'] ?? null,
-        ]);
-    }
-
-    /**
-     * Get the POST fields for the token request.
-     *
-     * @param string $code
-     *
-     * @return array
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 
@@ -134,7 +117,7 @@ class Provider extends AbstractProvider
         }
 
         return $user->setToken($this->parseAccessToken($response))
-                    ->setRefreshToken($this->parseRefreshToken($response))
-                    ->setExpiresIn($this->parseExpiresIn($response));
+            ->setRefreshToken($this->parseRefreshToken($response))
+            ->setExpiresIn($this->parseExpiresIn($response));
     }
 }

@@ -34,13 +34,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.angel.co/1/me?access_token='.$token,
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
+        $response = $this->getHttpClient()->get('https://api.angel.co/1/me', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+            ],
+        ]
         );
 
         return json_decode((string) $response->getBody(), true);
@@ -54,16 +55,6 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'    => $user['id'], 'nickname' => null, 'name' => $user['name'],
             'email' => null, 'avatar' => $user['image'],
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

@@ -40,3 +40,33 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('microsoft')->redirect();
 ```
+
+### Extended features
+
+#### Tenant Details
+You can also retrieve Tenant information at the same time as you retrieve users, this can be useful if you need to allow only your tenant/s or filter certain tenants.
+
+To do this you first need to edit your `config/services.php` file and within your microsoft settings array include 'include_tenant_info' like the following:
+
+```php
+'microsoft' => [
+        'client_id' => env('MICROSOFT_CLIENT_ID'),
+        'client_secret' => env('MICROSOFT_CLIENT_SECRET'),
+        'redirect' => env('MICROSOFT_REDIRECT_URI'),
+        'tenant' => 'common',
+        'include_tenant_info' => true,
+    ],
+```
+**NOTE: if you use `'tenant' => env('MICROSOFT_TENANT_ID')` then you should ensure that your .env file still uses 'common' as the tenant ID.**
+
+By default this returns:
+* ID
+* displayName
+* city
+* country
+* countryLetterCode
+* state
+* street
+* verifiedDomains
+
+Any additional fields can be returned with the attribute names detailed [here](https://learn.microsoft.com/en-us/graph/api/resources/organization?view=graph-rest-1.0).

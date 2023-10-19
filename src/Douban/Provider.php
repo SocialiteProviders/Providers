@@ -51,16 +51,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}.
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
@@ -73,13 +63,12 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param mixed $response
-     *
+     * @param  mixed  $response
      * @return string
      */
     protected function removeCallback($response)
     {
-        if (strpos($response, 'callback') !== false) {
+        if (str_contains($response, 'callback')) {
             $lpos = strpos($response, '(');
             $rpos = strrpos($response, ')');
             $response = substr($response, $lpos + 1, $rpos - $lpos - 1);

@@ -83,7 +83,7 @@ class Provider extends AbstractProvider
 
         $activeSkin = array_filter($user['skins'], fn ($skin) => $skin['state'] === 'ACTIVE');
 
-        $avatar = count($activeSkin) === 1 ? $activeSkin[0]['url'] : null;
+        $avatar = count((array) $activeSkin) === 1 ? $activeSkin[0]['url'] : null;
 
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
@@ -129,8 +129,7 @@ class Provider extends AbstractProvider
     /**
      * Get Microsoft Token for sign in.
      *
-     * @param string $code
-     *
+     * @param  string  $code
      * @return array
      */
     protected function getMicrosoftToken($code)
@@ -159,8 +158,7 @@ class Provider extends AbstractProvider
     /**
      * Get a XBOX Live login token.
      *
-     * @param array $xboxToken
-     *
+     * @param  array  $xboxToken
      * @return array
      */
     protected function signInIntoXboxLive($xboxToken)
@@ -192,8 +190,7 @@ class Provider extends AbstractProvider
     /**
      * Get a XSTS token.
      *
-     * @param array $loginToken
-     *
+     * @param  array  $loginToken
      * @return array
      */
     protected function getXstsToken($loginToken)

@@ -36,9 +36,9 @@ class Provider extends AbstractProvider
     /**
      * Get the portal URL.
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     protected function getPortalUrl()
     {
@@ -62,11 +62,10 @@ class Provider extends AbstractProvider
     /**
      * Get the user by token.
      *
-     * @param string $token
+     * @param  string  $token
+     * @return array
      *
      * @throws \RuntimeException
-     *
-     * @return array
      */
     protected function getUserByToken($token)
     {
@@ -76,7 +75,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        $user = json_decode($response->getBody(), true);
+        $user = json_decode((string) $response->getBody(), true);
 
         if (isset($user['error'])) {
             throw new RuntimeException($user['error'].': '.$user['error_description'], 403);

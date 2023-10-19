@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         $avatar = null;
-        if (!empty($user['icon_img'])) {
+        if (! empty($user['icon_img'])) {
             $avatar = $user['icon_img'];
 
             // Strip the query segment of the URL if it exists.
@@ -70,7 +70,7 @@ class Provider extends AbstractProvider
 
         $name = null;
         //Check if user has a display name
-        if (!empty($user['subreddit']['title'])) {
+        if (! empty($user['subreddit']['title'])) {
             $name = $user['subreddit']['title'];
         }
 
@@ -105,7 +105,8 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'grant_type'   => 'authorization_code', 'code' => $code,
+            'grant_type'   => 'authorization_code',
+            'code'         => $code,
             'redirect_uri' => $this->redirectUrl,
         ];
     }

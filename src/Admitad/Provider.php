@@ -13,7 +13,12 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['private_data private_data_email'];
+    protected $scopes = ['private_data', 'private_data_email'];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
@@ -55,16 +60,6 @@ class Provider extends AbstractProvider
             'nickname' => $user['username'],
             'name'     => sprintf('%s %s', $user['first_name'], $user['last_name']),
             'email'    => $user['email'],
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

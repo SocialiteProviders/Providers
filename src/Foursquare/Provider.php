@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Foursquare;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -34,9 +35,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.foursquare.com/v2/users/self?oauth_token='.$token.'&v=20150214'
-        );
+        $response = $this->getHttpClient()->get('https://api.foursquare.com/v2/users/self', [
+            RequestOptions::QUERY => [
+                'oauth_token' => $token,
+                'v'           => '20150214',
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true)['response']['user'];
     }
@@ -51,16 +55,6 @@ class Provider extends AbstractProvider
             'name'   => Arr::get($user, 'firstName').' '.Arr::get($user, 'lastName'),
             'email'  => $user['contact']['email'],
             'avatar' => $user['photo']['prefix'].'original'.$user['photo']['suffix'],
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

@@ -6,7 +6,7 @@ composer require socialiteproviders/stackexchange
 
 ## Installation & Basic Usage
 
-Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
+Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below. Obtain StackExchange App Credentials [Here](https://stackapps.com/apps/oauth/register).
 
 ### Add configuration to `config/services.php`
 
@@ -14,6 +14,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'stackexchange' => [    
   'client_id' => env('STACKEXCHANGE_CLIENT_ID'),  
   'client_secret' => env('STACKEXCHANGE_CLIENT_SECRET'),  
+  'key' => env('STACKEXCHANGE_CLIENT_KEY'),
+  'site' => env('STACKEXCHANGE_CLIENT_SITE', 'stackoverflow'),
   'redirect' => env('STACKEXCHANGE_REDIRECT_URI') 
 ],
 ```

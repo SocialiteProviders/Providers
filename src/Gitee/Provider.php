@@ -58,8 +58,7 @@ class Provider extends AbstractProvider
     /**
      * Get the email for the given access token.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return string|null
      */
     protected function getEmailByToken($token)
@@ -71,7 +70,7 @@ class Provider extends AbstractProvider
                 $emailsUrl,
                 $this->getRequestOptions($token)
             );
-        } catch (Exception $e) {
+        } catch (Exception) {
             return null;
         }
 
@@ -97,20 +96,9 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
-    /**
      * Get the default options for an HTTP request.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return array
      */
     protected function getRequestOptions($token)

@@ -60,14 +60,4 @@ class Provider extends AbstractProvider
             'email'    => Arr::collapse(Arr::where($user['emails'], fn ($value) => $value['is_primary']))['email'],
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }

@@ -67,16 +67,11 @@ class Provider extends AbstractProvider
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
+    protected function getTokenHeaders($code)
     {
-        return array_merge(
-            parent::getTokenFields($code),
-            [
-                'grant_type' => 'authorization_code',
-            ]
-        );
+        return [
+            'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
+            'Content-Type'  => 'application/x-www-form-urlencoded',
+        ];
     }
 }

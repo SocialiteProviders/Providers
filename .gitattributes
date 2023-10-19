@@ -7,4 +7,5 @@
 .gitignore           export-ignore
 CHANGELOG.md         export-ignore
 monorepo-builder.yml export-ignore
+pint.json            export-ignore
 README.md            export-ignore

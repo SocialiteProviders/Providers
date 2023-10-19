@@ -90,8 +90,6 @@ class Provider extends AbstractProvider
 
         unset($fields['client_id'], $fields['client_secret']);
 
-        return array_merge($fields, [
-            'grant_type' => 'authorization_code',
-        ]);
+        return $fields;
     }
 }

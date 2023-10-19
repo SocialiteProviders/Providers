@@ -28,7 +28,7 @@ class MicrosoftUser extends User
             );
 
             return (new MicrosoftAvatar())->setResponse($response);
-        } catch (ClientException $e) {
+        } catch (ClientException) {
             return null;
         }
     }

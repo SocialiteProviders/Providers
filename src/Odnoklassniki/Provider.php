@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Odnoklassniki;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -47,15 +48,15 @@ class Provider extends AbstractProvider
 
         $sign = 'application_key='.$publicKey.'format=jsonmethod=users.getCurrentUser'.$secretKey;
 
-        $params = http_build_query([
-            'method'          => 'users.getCurrentUser',
-            'format'          => 'json',
-            'application_key' => $publicKey,
-            'sig'             => md5($sign),
-            'access_token'    => $token,
+        $response = $this->getHttpClient()->get('https://api.odnoklassniki.ru/fb.do', [
+            RequestOptions::QUERY => [
+                'method'          => 'users.getCurrentUser',
+                'format'          => 'json',
+                'application_key' => $publicKey,
+                'sig'             => md5($sign),
+                'access_token'    => $token,
+            ],
         ]);
-
-        $response = $this->getHttpClient()->get('https://api.odnoklassniki.ru/fb.do?'.$params);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -71,16 +72,6 @@ class Provider extends AbstractProvider
             'name'     => Arr::get($user, 'name'),
             'email'    => Arr::get($user, 'email'),
             'avatar'   => Arr::get($user, 'pic_3'),
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

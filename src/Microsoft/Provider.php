@@ -2,7 +2,9 @@
 
 namespace SocialiteProviders\Microsoft;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Microsoft\MicrosoftUser as User;
 
@@ -15,7 +17,14 @@ class Provider extends AbstractProvider
      *
      * @see https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions
      */
-    protected const DEFAULT_FIELDS = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'mail', 'mobilePhone', 'officeLocation', 'preferredLanguage', 'surname', 'userPrincipalName'];
+    protected const DEFAULT_FIELDS_USER = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'mail', 'mobilePhone', 'officeLocation', 'preferredLanguage', 'surname', 'userPrincipalName'];
+
+    /**
+     * Default tenant field list to request from Microsoft.
+     *
+     * @see https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions
+     */
+    protected const DEFAULT_FIELDS_TENANT = ['id', 'displayName', 'city', 'country', 'countryLetterCode', 'state', 'street', 'verifiedDomains'];
 
     /**
      * {@inheritdoc}
@@ -57,7 +66,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
+        $responseUser = $this->getHttpClient()->get(
             'https://graph.microsoft.com/v1.0/me',
             [
                 RequestOptions::HEADERS => [
@@ -65,12 +74,55 @@ class Provider extends AbstractProvider
                     'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::QUERY => [
-                    '$select' => implode(',', array_merge(self::DEFAULT_FIELDS, ($this->config['fields'] ?: []))),
+                    '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_USER, $this->getConfig('fields', []))),
                 ],
             ]
         );
 
-        return json_decode((string) $response->getBody(), true);
+        $formattedResponse = json_decode((string) $responseUser->getBody(), true);
+
+        if ($this->getConfig('include_avatar', false)) {
+            try {
+                $imageSize = $this->getConfig('include_avatar_size', '648x648');
+                $responseAvatar = $this->getHttpClient()->get(
+                    "https://graph.microsoft.com/v1.0/me/photos/{$imageSize}/\$value",
+                    [
+                        RequestOptions::HEADERS => [
+                            'Accept'        => 'image/jpg',
+                            'Authorization' => 'Bearer '.$token,
+                        ],
+                    ]
+                );
+
+                $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents()) ?? null;
+            } catch (ClientException) {
+                //if exception then avatar does not exist.
+                $formattedResponse['avatar'] = null;
+            }
+        }
+
+        if ($this->getConfig('tenant', 'common') === 'common' && $this->getConfig('include_tenant_info', false)) {
+            try {
+                $responseTenant = $this->getHttpClient()->get(
+                    'https://graph.microsoft.com/v1.0/organization',
+                    [
+                        RequestOptions::HEADERS => [
+                            'Accept'        => 'application/json',
+                            'Authorization' => 'Bearer '.$token,
+                        ],
+                        RequestOptions::QUERY => [
+                            '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields', []))),
+                        ],
+                    ]
+                );
+                $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
+            } catch (ClientException) {
+                //if exception then tenant does not exist.
+                $formattedResponse['tenant'] = null;
+            }
+        }
+
+        return $formattedResponse;
     }
 
     /**
@@ -83,18 +135,20 @@ class Provider extends AbstractProvider
             'nickname' => null,
             'name'     => $user['displayName'],
             'email'    => $user['userPrincipalName'],
-            'avatar'   => null,
+            'avatar'   => Arr::get($user, 'avatar'),
 
-            'businessPhones'    => $user['businessPhones'],
-            'displayName'       => $user['displayName'],
-            'givenName'         => $user['givenName'],
-            'jobTitle'          => $user['jobTitle'],
-            'mail'              => $user['mail'],
-            'mobilePhone'       => $user['mobilePhone'],
-            'officeLocation'    => $user['officeLocation'],
-            'preferredLanguage' => $user['preferredLanguage'],
-            'surname'           => $user['surname'],
-            'userPrincipalName' => $user['userPrincipalName'],
+            'businessPhones'    => Arr::get($user, 'businessPhones'),
+            'displayName'       => Arr::get($user, 'displayName'),
+            'givenName'         => Arr::get($user, 'givenName'),
+            'jobTitle'          => Arr::get($user, 'jobTitle'),
+            'mail'              => Arr::get($user, 'mail'),
+            'mobilePhone'       => Arr::get($user, 'mobilePhone'),
+            'officeLocation'    => Arr::get($user, 'officeLocation'),
+            'preferredLanguage' => Arr::get($user, 'preferredLanguage'),
+            'surname'           => Arr::get($user, 'surname'),
+            'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
+
+            'tenant' => Arr::get($user, 'tenant'),
         ]);
     }
 
@@ -104,8 +158,7 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-            'scope'      => parent::formatScopes(parent::getScopes(), $this->scopeSeparator),
+            'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
         ]);
     }
 
@@ -117,6 +170,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant', 'fields'];
+        return ['tenant', 'include_tenant_info', 'include_avatar', 'include_avatar_size', 'fields', 'tenant_fields'];
     }
 }

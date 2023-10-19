@@ -67,8 +67,8 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['user_id'],
-            'nickname' => $user['login_name'],
-            'name'     => $user['first_name'],
+            'nickname' => $user['first_name'],
+            'name'     => trim($user['first_name'].' '.$user['last_name']),
             'email'    => $user['primary_email'],
             'avatar'   => $user['image_url_75x75'],
         ]);

@@ -33,7 +33,7 @@ class Provider extends AbstractProvider
             RequestOptions::QUERY   => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -54,19 +54,9 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'       => $user['user']['id'] ?? null,
             'nickname' => null,
-            'name'     => !empty($name) ? $name : null,
+            'name'     => ! empty($name) ? $name : null,
             'email'    => $user['user']['email'] ?? null,
             'avatar'   => null,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

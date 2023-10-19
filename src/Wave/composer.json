@@ -1,0 +1,35 @@
+{
+    "name": "socialiteproviders/wave",
+    "description": "Wave OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "wave",
+        "wave apps",
+        "wave accounting",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Jeff Greco",
+            "email": "jeff@jeffpgreco.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/wave"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Wave\\": ""
+        }
+    }
+}

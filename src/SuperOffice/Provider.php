@@ -47,33 +47,15 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code): array
-    {
-        return array_merge(
-            parent::getTokenFields($code),
-            [
-                'grant_type' => 'authorization_code',
-            ]
-        );
-    }
-
-    /**
-     * @param string $token
+     * @param  string  $token
+     * @return array
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return array
      */
     protected function getUserByToken($token): array
     {
         $response = $this->getHttpClient()->get(
-            sprintf(
-                'https://%s.superoffice.com/%s/api/v1/User/currentPrincipal',
-                $this->getConfig('environment', 'sod'),
-                $this->getConfig('customer_id')
-            ),
+            $this->getBaseApiUrl().'User/currentPrincipal',
             [
                 RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
@@ -85,7 +67,7 @@ class Provider extends AbstractProvider
         return (array) json_decode((string) $response->getBody(), true);
     }
 
-    protected function mapUserToObject(array $user): \SocialiteProviders\Manager\OAuth2\User
+    protected function mapUserToObject(array $user): User
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['EjUserId'],
@@ -104,5 +86,28 @@ class Provider extends AbstractProvider
             'environment',
             'customer_id',
         ];
+    }
+
+    private function getBaseApiUrl(): string
+    {
+        $environment = $this->getConfig('environment', 'sod');
+        $customerId = $this->getConfig('customer_id');
+
+        return cache()->remember('superoffice-base-url', now()->addHours(8), function () use ($environment, $customerId) {
+            $url = sprintf(
+                'https://%s.superoffice.com/api/state/%s',
+                $environment,
+                $customerId
+            );
+
+            $response = $this->getHttpClient()->get($url);
+            $apiUrl = json_decode((string) $response->getBody(), true)['Api'];
+
+            if (! $apiUrl) {
+                throw new \Exception('No API URL received from '.$url);
+            }
+
+            return $apiUrl.'/v1/';
+        });
     }
 }

@@ -23,7 +23,7 @@ class Provider extends AbstractProvider
     /**
      * set Open Id.
      *
-     * @param string $openId
+     * @param  string  $openId
      */
     public function setOpenId($openId)
     {
@@ -112,8 +112,10 @@ class Provider extends AbstractProvider
     protected function getTokenFields($code)
     {
         return [
-            'appid' => $this->clientId, 'secret' => $this->clientSecret,
-            'code'  => $code, 'grant_type' => 'authorization_code',
+            'appid'      => $this->clientId,
+            'code'       => $code,
+            'grant_type' => 'authorization_code',
+            'secret'     => $this->clientSecret,
         ];
     }
 

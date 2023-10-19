@@ -83,7 +83,7 @@ class Provider extends AbstractProvider
         return (new User())->setRaw($user)->map([
             'id'        => $user['id'],
             'nickname'  => $user['username'] ?? $user['first_name'],
-            'name'      => !empty($name) ? $name : null,
+            'name'      => ! empty($name) ? $name : null,
             'avatar'    => $user['photo_url'] ?? null,
         ]);
     }
@@ -102,9 +102,9 @@ class Provider extends AbstractProvider
         throw_if($validator->fails(), InvalidArgumentException::class);
 
         $dataToHash = collect($this->request->except('hash'))
-                        ->transform(fn ($val, $key) => "$key=$val")
-                        ->sort()
-                        ->join("\n");
+            ->transform(fn ($val, $key) => "$key=$val")
+            ->sort()
+            ->join("\n");
 
         $hash_key = hash('sha256', $this->clientSecret, true);
         $hash_hmac = hash_hmac('sha256', $dataToHash, $hash_key);
