@@ -63,17 +63,7 @@ class Provider extends AbstractProvider
             'email'    => $user['Email'],
             'nickname' => $user['Display_Name'],
             'name'     => $user['First_Name'].' '.$user['Last_Name'],
-            'avatar'   => !empty($user['images']) ? $user['images'][0]['url'] : null,
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
+            'avatar'   => ! empty($user['images']) ? $user['images'][0]['url'] : null,
         ]);
     }
 }

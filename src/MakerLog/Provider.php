@@ -90,23 +90,9 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(
-            parent::getTokenFields($code),
-            [
-                'grant_type' => 'authorization_code',
-            ]
-        );
-    }
-
-    /**
      *  Get the account email of the current user.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return string
      */
     protected function getEmailByToken($token)

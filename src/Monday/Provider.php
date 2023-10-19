@@ -25,7 +25,7 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getAuthUrl($state)
     {
@@ -33,7 +33,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getTokenUrl()
     {
@@ -41,7 +41,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getUserByToken($token)
     {
@@ -94,7 +94,7 @@ GQL
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function mapUserToObject(array $user)
     {

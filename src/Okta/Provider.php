@@ -17,10 +17,15 @@ class Provider extends AbstractProvider
      * @see https://developer.okta.com/docs/reference/api/oidc/#scopes
      */
     public const SCOPE_OPENID = 'openid';
+
     public const SCOPE_PROFILE = 'profile';
+
     public const SCOPE_EMAIL = 'email';
+
     public const SCOPE_ADDRESS = 'address';
+
     public const SCOPE_PHONE = 'phone';
+
     public const SCOPE_OFFLINE_ACCESS = 'offline_access';
 
     /**
@@ -105,13 +110,12 @@ class Provider extends AbstractProvider
     /**
      * Get the client access token response.
      *
-     * @param array|string $scopes
-     *
+     * @param  array|string  $scopes
      * @return array
      */
     public function getClientAccessTokenResponse($scopes = null)
     {
-        $scopes = $scopes ?? $this->getScopes();
+        $scopes ??= $this->getScopes();
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
             RequestOptions::HEADERS     => ['Cache-Control' => 'no-cache'],
@@ -125,8 +129,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $refreshToken
-     *
+     * @param  string  $refreshToken
      * @return array
      */
     public function getRefreshTokenResponse(string $refreshToken)
@@ -165,20 +168,9 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
-
-    /**
-     * @param string      $idToken
-     * @param string|null $redirectUri
-     * @param string|null $state
-     *
+     * @param  string  $idToken
+     * @param  string|null  $redirectUri
+     * @param  string|null  $state
      * @return string
      */
     public function getLogoutUrl(string $idToken, string $redirectUri = null, string $state = null)
@@ -195,9 +187,8 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $token
-     * @param string $hint
-     *
+     * @param  string  $token
+     * @param  string  $hint
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function revokeToken(string $token, string $hint = 'access_token')
@@ -215,9 +206,8 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $token
-     * @param string $hint
-     *
+     * @param  string  $token
+     * @param  string  $hint
      * @return array
      */
     public function introspectToken(string $token, string $hint = 'access_token')

@@ -78,14 +78,14 @@ class Provider extends AbstractProvider
     /**
      * Get Exment base URI.
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     protected function getBaseUri(): string
     {
         $exmentUri = $this->getConfig('exment_uri');
-        if (is_null($exmentUri)) {
+        if ($exmentUri === null) {
             throw new InvalidArgumentException('Please config Exment URI.');
         }
 

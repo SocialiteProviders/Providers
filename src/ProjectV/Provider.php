@@ -83,14 +83,4 @@ class Provider extends AbstractProvider
             'flagged'     => Arr::get($user, 'data.flagged'),           //profile
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
-    }
 }

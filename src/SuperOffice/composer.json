@@ -12,7 +12,7 @@
     "authors": [
         {
             "name": "Derkjan Super",
-            "email": "d.super@cadix.nl"
+            "email": "development@cadix.nl"
         }
     ],
     "support": {
@@ -21,9 +21,9 @@
         "docs": "https://socialiteproviders.com/superoffice"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-json": "*",
-        "socialiteproviders/manager": "^3.6 || ^4.0"
+        "socialiteproviders/manager": "^4.4"
     },
     "autoload": {
         "psr-4": {

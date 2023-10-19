@@ -15,6 +15,9 @@ use SocialiteProviders\Manager\OAuth2\User;
  */
 class Provider extends AbstractProvider
 {
+    /**
+     * Unique Provider Identifier.
+     */
     public const IDENTIFIER = 'STEAM';
 
     /**
@@ -80,7 +83,7 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        if (!$this->validate()) {
+        if (! $this->validate()) {
             $error = $this->getParams()['openid.error'] ?? 'unknown error';
 
             throw new OpenIDValidationException('Failed to validate OpenID login: '.$error);
@@ -102,7 +105,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        if (is_null($token)) {
+        if ($token === null) {
             return null;
         }
 
@@ -146,7 +149,7 @@ class Provider extends AbstractProvider
             'openid.ns'         => self::OPENID_NS,
             'openid.mode'       => 'checkid_setup',
             'openid.return_to'  => $this->redirectUrl,
-            'openid.realm'      => sprintf('%s://%s', $this->request->getScheme(), $realm),
+            'openid.realm'      => sprintf('%s://%s', $this->getScheme(), $realm),
             'openid.identity'   => 'http://specs.openid.net/auth/2.0/identifier_select',
             'openid.claimed_id' => 'http://specs.openid.net/auth/2.0/identifier_select',
         ];
@@ -157,24 +160,24 @@ class Provider extends AbstractProvider
     /**
      * Checks the steam login.
      *
-     * @throws \SocialiteProviders\Steam\OpenIDValidationException
-     *
      * @return bool
+     *
+     * @throws \SocialiteProviders\Steam\OpenIDValidationException
      */
     public function validate()
     {
-        if (!$this->requestIsValid()) {
+        if (! $this->requestIsValid()) {
             return false;
         }
 
-        if (!$this->validateHost($this->request->get('openid_return_to'))) {
+        if (! $this->validateHost($this->request->get('openid_return_to'))) {
             throw new OpenIDValidationException('Invalid return_to host');
         }
 
         $requestOptions = $this->getDefaultRequestOptions();
         $customOptions = $this->getCustomRequestOptions();
 
-        if (!empty($customOptions) && is_array($customOptions)) {
+        if (! empty($customOptions) && is_array($customOptions)) {
             $requestOptions = array_merge($requestOptions, $customOptions);
         }
 
@@ -251,8 +254,7 @@ class Provider extends AbstractProvider
     /**
      * Parse openID response to an array.
      *
-     * @param string $results openid response body
-     *
+     * @param  string  $results openid response body
      * @return array
      */
     public function parseResults($results)
@@ -307,7 +309,7 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['realm', 'proxy', 'allowed_hosts'];
+        return ['realm', 'proxy', 'allowed_hosts', 'force_https'];
     }
 
     /**
@@ -320,5 +322,14 @@ class Provider extends AbstractProvider
         $allowedHosts = $this->getConfig('allowed_hosts', []);
 
         return count($allowedHosts) === 0 || in_array(parse_url($url, PHP_URL_HOST), $allowedHosts, true);
+    }
+
+    protected function getScheme(): string
+    {
+        if ($this->getConfig('force_https')) {
+            return 'https';
+        }
+
+        return $this->request->getScheme();
     }
 }

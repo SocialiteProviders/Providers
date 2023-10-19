@@ -10,6 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'STREAMELEMENTS';
 
+    protected $scopeSeparator = ' ';
+
     /**
      * {@inheritdoc}
      */
@@ -62,16 +64,6 @@ class Provider extends AbstractProvider
             'verified'      => $user['verified'],
             'partner'       => $user['isPartner'],
             'suspended'     => $user['suspended'],
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 }

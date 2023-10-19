@@ -21,6 +21,11 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected $consent = false;
+
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -32,6 +37,32 @@ class Provider extends AbstractProvider
             'https://discord.com/api/oauth2/authorize',
             $state
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCodeFields($state = null)
+    {
+        $fields = parent::getCodeFields($state);
+
+        if (! $this->consent) {
+            $fields['prompt'] = 'none';
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Prompt for consent each time or not.
+     *
+     * @return $this
+     */
+    public function withConsent()
+    {
+        $this->consent = true;
+
+        return $this;
     }
 
     /**
@@ -60,8 +91,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param array $user
-     *
+     * @param  array  $user
      * @return string|null
      *
      * @see https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints
@@ -86,20 +116,10 @@ class Provider extends AbstractProvider
     {
         return (new User())->setRaw($user)->map([
             'id'       => $user['id'],
-            'nickname' => sprintf('%s#%s', $user['username'], $user['discriminator']),
+            'nickname' => $user['username'].($user['discriminator'] !== '0' ? '#'.$user['discriminator'] : ''),
             'name'     => $user['username'],
             'email'    => $user['email'] ?? null,
             'avatar'   => $this->formatAvatar($user),
-        ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
         ]);
     }
 

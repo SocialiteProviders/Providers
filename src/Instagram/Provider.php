@@ -54,19 +54,23 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $meUrl = 'https://graph.instagram.com/me?access_token='.$token.'&fields='.implode(',', $this->fields);
+        $queryParameters = [
+            'access_token' => $token,
+            'fields'       => implode(',', $this->fields),
+        ];
 
-        if (!empty($this->clientSecret)) {
-            $appSecretProof = hash_hmac('sha256', $token, $this->clientSecret);
-            $meUrl .= '&appsecret_proof='.$appSecretProof;
+        if (! empty($this->clientSecret)) {
+            $queryParameters['appsecret_proof'] = hash_hmac('sha256', $token, $this->clientSecret);
         }
-        $response = $this->getHttpClient()->get($meUrl, [
+
+        $response = $this->getHttpClient()->get('https://graph.instagram.com/me', [
             RequestOptions::HEADERS => [
                 'Accept' => 'application/json',
             ],
+            RequestOptions::QUERY => $queryParameters,
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -91,15 +95,5 @@ class Provider extends AbstractProvider
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
 
         return $this->parseAccessToken($response->getBody());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
     }
 }

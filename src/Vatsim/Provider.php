@@ -115,8 +115,7 @@ class Provider extends AbstractProvider
     /**
      * Merge the required scopes of the requested access.
      *
-     * @param array|string $scopes
-     *
+     * @param  array|string  $scopes
      * @return $this
      */
     public function requiredScopes($scopes)
@@ -129,8 +128,7 @@ class Provider extends AbstractProvider
     /**
      * Set the required scopes of the requested access.
      *
-     * @param array|string $scopes
-     *
+     * @param  array|string  $scopes
      * @return $this
      */
     public function setRequiredScopes($scopes)

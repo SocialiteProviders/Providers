@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        $json = json_decode($response->getBody(), true);
+        $json = json_decode((string) $response->getBody(), true);
 
         return $json['user'];
     }
@@ -66,7 +66,7 @@ class Provider extends AbstractProvider
             'nickname' => $user['display_name'],
             'name'     => $user['display_name'],
             'email'    => null,
-            'avatar'   => Arr::get($user, 'img.href', null),
+            'avatar'   => Arr::get($user, 'img.href'),
         ]);
     }
 }
