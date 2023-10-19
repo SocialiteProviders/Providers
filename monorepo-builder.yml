@@ -160,6 +160,7 @@ parameters:
     src/Spotify: 'git@github.com:SocialiteProviders/Spotify.git'
     src/StackExchange: 'git@github.com:SocialiteProviders/StackExchange.git'
     src/Starling: 'git@github.com:SocialiteProviders/Starling.git'
+    src/StartGg: 'git@github.com:SocialiteProviders/StartGg.git'
     src/Steam: 'git@github.com:SocialiteProviders/Steam.git'
     src/Steem: 'git@github.com:SocialiteProviders/Steem.git'
     src/StockTwits: 'git@github.com:SocialiteProviders/StockTwits.git'
