@@ -96,15 +96,4 @@ class Provider extends AbstractProvider
             'discriminator' => $user['discriminator'],
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'tournament.manager',
-            'tournament.reporter',
-        ];
-    }
 }
