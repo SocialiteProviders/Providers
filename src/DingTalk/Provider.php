@@ -25,7 +25,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}.
      */
-    protected function getAuthUrl($state): string
+    protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://login.dingtalk.com/oauth2/auth', $state);
     }
@@ -89,7 +89,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}.
      */
-    protected function getTokenFields($code): array
+    protected function getTokenFields($code)
     {
         return [
             'clientId' => $this->clientId,
