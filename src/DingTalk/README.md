@@ -1,7 +1,7 @@
 # Acclaim
 
 ```bash
-composer require socialiteproviders/acclaim
+composer require socialiteproviders/dingtalk
 ```
 
 ## Installation & Basic Usage
@@ -11,10 +11,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'acclaim' => [
-    'client_id' => env('ACCLAIM_KEY'),
-    'client_secret' => env('ACCLAIM_SECRET'),
-    'redirect' => env('ACCLAIM_REDIRECT_URI')
+'dingtalk' => [
+    'client_id' => env('DINGTALK_KEY'),
+    'client_secret' => env('DINGTALK_SECRET'),
+    'redirect' => env('DINGTALK_REDIRECT_URI')
 ],
 ```
 
@@ -28,7 +28,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\Acclaim\DingTalkExtendSocialite::class.'@handle',
+        \SocialiteProviders\DingTalk\DingTalkExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -38,17 +38,12 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('acclaim')->redirect();
+return Socialite::driver('dingtalk')->redirect();
 ```
 
 ### Returned User fields
 
 - ``id``
 - ``nickname``
-- ``name`` (same as ``nickname``)
 - ``email``
 - ``avatar``
-
-### Reference
-
-- [Acclaim API Reference](https://www.youracclaim.com/docs/web_service_api)

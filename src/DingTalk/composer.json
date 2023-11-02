@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/dingtalk",
+    "description": "DingTalk OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "dingtalk",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Zhang Si Chao",
+            "email": "985342160@qq.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/dingtalk"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\DingTalk\\": ""
+        }
+    }
+}
