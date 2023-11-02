@@ -89,7 +89,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}.
      */
-    protected function getTokenFields($code): array
+    protected function getTokenFields($code)
     {
         return [
             'clientId' => $this->clientId,
