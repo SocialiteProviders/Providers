@@ -103,7 +103,7 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Bearer '.$token,
             ],
             RequestOptions::QUERY => [
-                'fields' => 'open_id,union_id,display_name,avatar_large_url',
+                'fields' => 'open_id,union_id,display_name,avatar_large_url,username',
             ],
         ]);
 
@@ -119,6 +119,7 @@ class Provider extends AbstractProvider
 
         return (new User())->setRaw($user)->map([
             'id'       => $user['open_id'],
+            'nickname' => $user['username'] ?? null,
             'union_id' => $user['union_id'] ?? null,
             'name'     => $user['display_name'],
             'avatar'   => $user['avatar_large_url'],
