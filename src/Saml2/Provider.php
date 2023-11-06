@@ -370,7 +370,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $spSsoDescriptor = new SpSsoDescriptor();
         $spSsoDescriptor
-            ->setWantAssertionsSigned($this->getConfig('sp_sign_assertions', true))
+            ->setWantAssertionsSigned((bool) $this->getConfig('sp_sign_assertions', true))
             ->addNameIDFormat($this->getNameIDFormat());
 
         foreach ([SamlConstants::BINDING_SAML2_HTTP_REDIRECT, SamlConstants::BINDING_SAML2_HTTP_POST] as $binding) {
