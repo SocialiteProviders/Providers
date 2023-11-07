@@ -160,6 +160,7 @@ SAML2 supports the signing and encryption of messages and assertions. Many Ident
   'sp_certificate' => file_get_contents('path/to/sp_saml.crt'),
   'sp_private_key' => file_get_contents('path/to/sp_saml.pem'),
   'sp_private_key_passphrase' => 'passphrase to your private key, provide it only if you have one',
+  'sp_sign_assertions' => true, // or false to disable assertion signing
 ],
 ```
 

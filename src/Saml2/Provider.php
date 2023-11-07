@@ -169,6 +169,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_org_url',
             'sp_default_binding_method',
             'sp_name_id_format',
+            'sp_sign_assertions',
             'idp_binding_method',
             'attribute_map',
         ];
@@ -368,7 +369,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
         $spSsoDescriptor = new SpSsoDescriptor();
-        $spSsoDescriptor->setWantAssertionsSigned(true)->addNameIDFormat($this->getNameIDFormat());
+        $spSsoDescriptor
+            ->setWantAssertionsSigned((bool) $this->getConfig('sp_sign_assertions', true))
+            ->addNameIDFormat($this->getNameIDFormat());
 
         foreach ([SamlConstants::BINDING_SAML2_HTTP_REDIRECT, SamlConstants::BINDING_SAML2_HTTP_POST] as $binding) {
             $acsRoute = $this->getAssertionConsumerServiceRoute();
