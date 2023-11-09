@@ -1,0 +1,35 @@
+{
+    "name": "socialiteproviders/linkedin-openid",
+    "description": "LinkedIn OpenId OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "linkedin",
+        "linkedin-openid",
+        "openid",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Akhteruzzaman Arif",
+            "email": "tech.az.arif@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/linkedin"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\LinkedInOpenId\\": ""
+        }
+    }
+}
