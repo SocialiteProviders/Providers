@@ -40,7 +40,7 @@ class Provider extends AbstractProvider
             'https://api.streamelements.com/kappa/v2/channels/me',
             [
                 RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
+                    'Authorization' => 'oAuth '.$token,
                 ],
             ]
         );
@@ -61,7 +61,6 @@ class Provider extends AbstractProvider
             'email'         => $user['email'],
             'avatar'        => $user['avatar'],
             'type'          => $user['broadcasterType'],
-            'verified'      => $user['verified'],
             'partner'       => $user['isPartner'],
             'suspended'     => $user['suspended'],
         ]);
