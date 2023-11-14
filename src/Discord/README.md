@@ -18,7 +18,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   
   // optional
   'allow_gif_avatars' => (bool)env('DISCORD_AVATAR_GIF', true),
-  'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'jpg'), // only pick from jpg, png, webp
+  'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'png'), // only pick from jpg, png, webp
 ],
 ```
 
