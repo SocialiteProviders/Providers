@@ -38,6 +38,7 @@ parameters:
     src/Deezer: 'git@github.com:SocialiteProviders/Deezer.git'
     src/Deviantart: 'git@github.com:SocialiteProviders/deviantART.git'
     src/DigitalOcean: 'git@github.com:SocialiteProviders/DigitalOcean.git'
+    src/DingTalk: 'git@github.com:SocialiteProviders/DingTalk.git'
     src/Discogs: 'git@github.com:SocialiteProviders/Discogs.git'
     src/Discord: 'git@github.com:SocialiteProviders/Discord.git'
     src/Disqus: 'git@github.com:SocialiteProviders/Disqus.git'
