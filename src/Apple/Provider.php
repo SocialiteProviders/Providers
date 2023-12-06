@@ -286,7 +286,7 @@ class Provider extends AbstractProvider
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function refreshToken(string $refreshToken): ResponseInterface
+    public function refreshToken($refreshToken): ResponseInterface
     {
         return $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::FORM_PARAMS => [
