@@ -18,7 +18,6 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_id' => env('AUTODESK_APS_CLIENT_ID'),  
   'client_secret' => env('AUTODESK_APS_CLIENT_SECRET'),  
   'redirect' => env('AUTODESK_APS_REDIRECT_URI'),
-  'region' => env('AUTODESK_APS_REGION'), // Could add a default of EU or US
 ],
 ```
 
