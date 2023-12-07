@@ -57,7 +57,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * https://aps.autodesk.com/en/docs/oauth/v2/reference/http/userinfo-GET/.
+     * @see https://aps.autodesk.com/en/docs/oauth/v2/reference/http/userinfo-GET/.
      *
      * {@inheritdoc}
      */
