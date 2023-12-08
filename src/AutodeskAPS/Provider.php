@@ -22,7 +22,7 @@ class Provider extends AbstractProvider
     {
         return
             $this->buildAuthUrlFromBase(
-                'https://developer.api.autodesk.com/authentication/v1/authorize',
+                'https://developer.api.autodesk.com/authentication/v2/authorize',
                 $state
             );
     }
@@ -32,7 +32,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl(): string
     {
-        return 'https://developer.api.autodesk.com/authentication/v1/gettoken';
+        return 'https://developer.api.autodesk.com/authentication/v2/token';
     }
 
     /**
@@ -44,7 +44,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token): array
     {
         $response = $this->getHttpClient()->get(
-            'https://developer.api.autodesk.com/userprofile/v1/users/@me',
+            'https://api.userprofile.autodesk.com/userinfo',
             [
                 RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
@@ -57,22 +57,23 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * https://forge.autodesk.com/en/docs/oauth/v2/reference/http/users-@me-GET/.
+     * @see https://aps.autodesk.com/en/docs/oauth/v2/reference/http/userinfo-GET/.
      *
      * {@inheritdoc}
      */
     protected function mapUserToObject(array $user): User
     {
         return (new User())->setRaw($user)->map([
-            'id'             => $user['userId'],
-            'email'          => $user['emailId'],
-            'username'       => $user['userName'],
-            'first_name'     => $user['firstName'],
-            'last_name'      => $user['lastName'],
-            'country_code'   => $user['countryCode'],
-            'language'       => $user['language'],
-            'profile_images' => $user['profileImages'],
-            'website'        => $user['websiteUrl'] ?? null,
+            'id'             => $user['sub'],
+            'email'          => $user['email'],
+            'email_verified' => $user['email_verified'],
+            'username'       => $user['preferred_username'],
+            'full_name'      => $user['name'],
+            'first_name'     => $user['given_name'],
+            'last_name'      => $user['family_name'],
+            'language'       => $user['locale'],
+            'image'          => $user['picture'],
+            'website'        => $user['profile'] ?? null,
         ]);
     }
 }

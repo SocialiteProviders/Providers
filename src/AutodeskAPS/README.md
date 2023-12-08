@@ -3,7 +3,7 @@
 This is a socialite provider for Autodesk APS (formerly Forge). 
 
 ```bash
-composer require socialiteproviders/autodesk-aps
+composer require socialiteproviders/aps
 ```
 
 ## Installation & Basic Usage
@@ -31,7 +31,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\APS\AutodeskAPSExtendSocialite::class.'@handle',
+        \SocialiteProviders\AutodeskAPS\AutodeskAPSExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -46,11 +46,18 @@ return Socialite::driver('autodeskaps')->redirect();
 
 ### Returned user fields
 
+Make sure to ask for the proper [scopes](https://aps.autodesk.com/en/docs/oauth/v2/developers_guide/scopes/).
 - `id`
-- `name`
 - `email`
+- `email_verified`
 - `username`
+- `full_name`
+- `first_name`
+- `last_name`
+- `language`
+- `image`
+- `website`
 
 ### Reference
 
-- [Autodesk documentation](https://aps.autodesk.com/en/docs/oauth/v1/tutorials/get-3-legged-token/);
+- [Autodesk documentation](https://aps.autodesk.com/en/docs/oauth/v2/developers_guide/overview/);
