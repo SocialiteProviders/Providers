@@ -108,9 +108,9 @@ class Provider extends AbstractProvider
 
     /**
      * @param  string  $refreshToken
-     * @return array
+     * @return array|null
      */
-    public function getRefreshTokenResponse(string $refreshToken)
+    public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
