@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/bauth",
+    "description": "BAuth OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "bauth",
+        "bluesky",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Maxence Rose",
+            "email": "contact@bauth.app"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/bauth"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\BAuth\\": ""
+        }
+    }
+}
