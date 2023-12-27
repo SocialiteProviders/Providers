@@ -85,6 +85,7 @@ parameters:
     src/IFSP: 'git@github.com:SocialiteProviders/IFSP.git'
     src/Imgur: 'git@github.com:SocialiteProviders/Imgur.git'
     src/Imis: 'git@github.com:SocialiteProviders/Imis.git'
+    src/Indeed: 'git@github.com:SocialiteProviders/Indeed.git'
     src/Instagram: 'git@github.com:SocialiteProviders/Instagram.git'
     src/InstagramBasic: 'git@github.com:SocialiteProviders/InstagramBasic.git'
     src/Instructure: 'git@github.com:SocialiteProviders/Instructure.git'
