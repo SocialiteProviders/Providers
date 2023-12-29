@@ -50,8 +50,9 @@ return Socialite::driver('discord')->redirect();
 You'll find all the information about the fields currently being returned on the [Discord Developer Portal - Users Resource](https://discord.com/developers/docs/resources/user).
 
 -   `id` : The user's id (snowflake).
+-   `nickname` : The user's name with discriminator (name#0000).
 -   `username` : The user's username (name).
--   `discriminator` : The user's Discord-tag (#0000).
+-   `discriminator` : The user's Discord-tag (0000).
 -   `global_name` : The user's display name, if it is set (Amazing Name).
 -   `email` : The user's email (name@example.com).
 -   `avatar` : The user's avatar URL.
