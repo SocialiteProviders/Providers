@@ -11,11 +11,11 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'discord' => [    
-  'client_id' => env('DISCORD_CLIENT_ID'),  
-  'client_secret' => env('DISCORD_CLIENT_SECRET'),  
+'discord' => [
+  'client_id' => env('DISCORD_CLIENT_ID'),
+  'client_secret' => env('DISCORD_CLIENT_SECRET'),
   'redirect' => env('DISCORD_REDIRECT_URI'),
-  
+
   // optional
   'allow_gif_avatars' => (bool)env('DISCORD_AVATAR_GIF', true),
   'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'png'), // only pick from jpg, png, webp
@@ -47,8 +47,11 @@ return Socialite::driver('discord')->redirect();
 
 ### Returned User fields
 
-- ``id``
-- ``nickname``
-- ``name``
-- ``email``
-- ``avatar``
+You'll find all the information about the fields currently being returned on the [Discord Developer Portal - Users Resource](https://discord.com/developers/docs/resources/user).
+
+-   `id` : The user's id (snowflake).
+-   `username` : The user's username (name).
+-   `discriminator` : The user's Discord-tag (#0000).
+-   `global_name` : The user's display name, if it is set (Amazing Name).
+-   `email` : The user's email (name@example.com).
+-   `avatar` : The user's avatar URL.

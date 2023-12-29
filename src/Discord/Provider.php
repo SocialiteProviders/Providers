@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
     {
         $fields = parent::getCodeFields($state);
 
-        if (! $this->consent) {
+        if (!$this->consent) {
             $fields['prompt'] = 'none';
         }
 
@@ -82,7 +82,7 @@ class Provider extends AbstractProvider
             'https://discord.com/api/users/@me',
             [
                 RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
+                    'Authorization' => 'Bearer ' . $token,
                 ],
             ]
         );
@@ -115,11 +115,12 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'nickname' => $user['username'].($user['discriminator'] !== '0' ? '#'.$user['discriminator'] : ''),
-            'name'     => $user['username'],
-            'email'    => $user['email'] ?? null,
-            'avatar'   => $this->formatAvatar($user),
+            'id'            => $user['id'],
+            'username'      => $user['username'],
+            'discriminator' => $user['discriminator'],
+            'global_name'   => $user['global_name'],
+            'email'         => $user['email'] ?? null,
+            'avatar'        => $this->formatAvatar($user),
         ]);
     }
 
