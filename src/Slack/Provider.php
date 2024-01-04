@@ -5,10 +5,10 @@ namespace SocialiteProviders\Slack;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\InvalidStateException;
-use Laravel\Socialite\Two\SlackProvider;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends SlackProvider
+class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SLACK';
 
@@ -35,11 +35,7 @@ class Provider extends SlackProvider
         $fields = parent::getCodeFields($state);
 
         $fields['user_scope'] = $this->formatScopes($this->userScopes, $this->scopeSeparator);
-
-
-        if (!empty($this->scopes)) {
-            $fields['scope'] = $this->formatScopes($this->scopes, $this->scopeSeparator);
-        }
+        $fields['scope'] = $this->formatScopes($this->scopes, $this->scopeSeparator);
 
         return $fields;
     }
@@ -81,6 +77,31 @@ class Provider extends SlackProvider
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => $this->getTokenHeaders($code),
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+
+    public function getAuthUrl($state)
+    {
+        return $this->buildAuthUrlFromBase('https://slack.com/oauth/v2/authorize', $state);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenUrl()
+    {
+        return 'https://slack.com/api/oauth.v2.access';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getUserByToken($token)
+    {
+        $response = $this->getHttpClient()->get('https://slack.com/api/users.identity', [
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer ' . $token],
         ]);
 
         return json_decode($response->getBody(), true);
