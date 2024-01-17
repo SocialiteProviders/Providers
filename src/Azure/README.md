@@ -75,7 +75,7 @@ function getConfig(): \SocialiteProviders\Manager\Config
     env('AD_CLIENT_ID', 'some-client-id'), // a different clientID for this separate Azure directory
     env('AD_CLIENT_SECRET'), // a different secret for this separate Azure directory
     url(env('AD_REDIRECT_PATH', '/azuread/callback')), // the redirect path i.e. a different callback to the other azureAD callbacks
-    ['tenant' => env('AD_TENTANT_ID', 'common')], // this could be something special if need be, but can also be left out entirely
+    ['tenant' => env('AD_TENANT_ID', 'common')], // this could be something special if need be, but can also be left out entirely
   );
 }
 //....//
@@ -90,3 +90,8 @@ $socialUser = Socialite::driver('azure')
     ->setConfig(getConfig())
     ->user();
 ```
+
+If the application that you are authenticating against is anything other single tenant, use the following values in place of the client_id:
+ - Multitenant applications: "organizations"
+ - Multitenant and personal accounts: "common"
+ - Personal accounts only: "consumers"
