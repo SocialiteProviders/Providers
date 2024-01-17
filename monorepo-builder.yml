@@ -90,6 +90,7 @@ parameters:
     src/Instructure: 'git@github.com:SocialiteProviders/Instructure.git'
     src/Intercom: 'git@github.com:SocialiteProviders/Intercom.git'
     src/Jira: 'git@github.com:SocialiteProviders/Jira.git'
+    src/JumpCloud: 'git@github.com:SocialiteProviders/JumpCloud.git'
     src/Kakao: 'git@github.com:SocialiteProviders/Kakao.git'
     src/Keycloak: 'git@github.com:SocialiteProviders/Keycloak.git'
     src/LaravelPassport: 'git@github.com:SocialiteProviders/Laravel-Passport.git'
