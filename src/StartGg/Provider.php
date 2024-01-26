@@ -96,4 +96,24 @@ class Provider extends AbstractProvider
             'discriminator' => $user['discriminator'],
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRefreshTokenResponse($refreshToken)
+    {
+        $response = $this->getHttpClient()->post('https://api.start.gg/oauth/refresh', [
+            RequestOptions::HEADERS => ['Content-Type' => 'application/json'],
+            RequestOptions::FORM_PARAMS => [
+                'grant_type'    => 'refresh_token',
+                'refresh_token' => $refreshToken,
+                'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+                'client_id'     => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'redirect_uri'  => $this->redirectUrl,
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
+    }
 }
