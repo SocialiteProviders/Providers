@@ -14,17 +14,20 @@ jobs:
       matrix:
         validate: [ false ]
         fail-fast: [ false ]
-        php-versions: [ '8.0', '8.1', '8.2' ]
+        php-versions: [ '8.0', '8.1', '8.2', '8.3' ]
         exclude:
           - php-versions: '8.0'
           - php-versions: '8.1'
           - php-versions: '8.2'
+          - php-versions: '8.3'
         include:
           - php-versions: '8.0'
             fail-fast: true
           - php-versions: '8.1'
             fail-fast: true
           - php-versions: '8.2'
+            fail-fast: true
+          - php-versions: '8.3'
             validate: true
 
     name: PHP ${{ matrix.php-versions }}

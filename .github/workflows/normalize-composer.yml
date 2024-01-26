@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       php:
-        default: '8.2'
+        default: '8.3'
         type: string
         description: The PHP version to use
         required: false
