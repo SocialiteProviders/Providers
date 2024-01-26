@@ -40,3 +40,9 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('indeed')->redirect();
 ```
+
+### Returned User fields
+
+- ``sub`` (**string**) Unique identifier for the user's account. e.g. `248289761001`
+- ``email`` (**string**) User's email address.
+- ``email_verified`` (**boolean**) Indicates whether the user has verified their email address. e.g. `true`
