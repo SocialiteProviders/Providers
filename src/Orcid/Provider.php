@@ -180,10 +180,12 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $given_name = $user['person']['name']['given-names']['value'] ?? "";
+        $family_name = $user['person']['name']['family-name']['value'] ?? "";
         return (new User())->setRaw($user)->map([
             $this->getConfig('uid_fieldname', 'id') => $user['orcid-identifier']['path'],
-            'nickname'                              => $user['person']['name']['given-names']['value'],
-            'name'                                  => sprintf('%s %s', $user['person']['name']['given-names']['value'], $user['person']['name']['family-name']['value']),
+            'nickname'                              => $given_name,
+            'name'                                  => sprintf('%s %s', $given_name, $family_name),
             'email'                                 => Arr::get($user, 'email'),
         ]);
     }
