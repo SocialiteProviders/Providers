@@ -110,6 +110,7 @@ parameters:
     src/Medium: 'git@github.com:SocialiteProviders/Medium.git'
     src/Meetup: 'git@github.com:SocialiteProviders/Meetup.git'
     src/MercadoLibre: 'git@github.com:SocialiteProviders/MercadoLibre.git'
+    src/MercadoPago: 'git@github.com:SocialiteProviders/MercadoPago.git'
     src/Microsoft: 'git@github.com:SocialiteProviders/Microsoft.git'
     src/Minecraft: 'git@github.com:SocialiteProviders/Minecraft.git'
     src/Mixcloud: 'git@github.com:SocialiteProviders/Mixcloud.git'
