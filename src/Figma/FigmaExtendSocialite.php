@@ -8,6 +8,6 @@ class FigmaExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {
-        $socialiteWasCalled->extendSocialite('Figma', Provider::class);
+        $socialiteWasCalled->extendSocialite('figma', Provider::class);
     }
 }
