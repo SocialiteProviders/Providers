@@ -72,7 +72,7 @@ class MercadoPagoProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        $url = "https://auth.mercadopago.com.br";
+        $url = self::DOMAIN[config('services.mercadopago.country')] ?? 'https://auth.mercadopago.com.ar';
         return $this->buildAuthUrlFromBase($url.'/authorization', $state);
     }
 
