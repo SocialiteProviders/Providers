@@ -12,8 +12,6 @@ use SocialiteProviders\Manager\OAuth2\User;
  */
 class MercadoPagoProvider extends AbstractProvider implements ProviderInterface
 {
-    public const IDENTIFIER = 'MERCADOPAGO';
-
     public const DOMAIN = [
         'AR' => 'https://auth.mercadopago.com.ar',
         'BO' => 'https://auth.mercadopago.com.bo',
@@ -38,7 +36,7 @@ class MercadoPagoProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['offline_access', 'read'];
+    protected $scopes = ['read'];
 
     /**
      * {@inheritdoc}
