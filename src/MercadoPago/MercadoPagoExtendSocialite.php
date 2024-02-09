@@ -8,6 +8,6 @@ class MercadoPagoExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {
-        $socialiteWasCalled->extendSocialite('mercadolibre', Provider::class);
+        $socialiteWasCalled->extendSocialite('mercadopago', Provider::class);
     }
 }
