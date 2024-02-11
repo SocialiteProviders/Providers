@@ -14,9 +14,12 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'zendesk' => [    
   'client_id' => env('ZENDESK_CLIENT_ID'),  
   'client_secret' => env('ZENDESK_CLIENT_SECRET'),  
-  'redirect' => env('ZENDESK_REDIRECT_URI') 
+  'redirect' => env('ZENDESK_REDIRECT_URI'),
+  'subdomain' => env('ZENDESK_SUBDOMAIN')
 ],
 ```
+
+`ZENDESK_SUBDOMAIN` is the subdomain for your zendesk instance (**subdomain**.zendesk.com).
 
 ### Add provider event listener
 

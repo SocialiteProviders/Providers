@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/jumpcloud",
+    "description": "JumpCloud OpenID Connect (OIDC) Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "jumpcloud",
+        "laravel",
+        "openid",
+        "connect",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Yevhen Salitrynskyi",
+            "email": "ysalitrynskyi@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/jumpcloud"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\JumpCloud\\": ""
+        }
+    }
+}

@@ -31,6 +31,7 @@ use LightSaml\Helper;
 use LightSaml\Model\Assertion\Assertion;
 use LightSaml\Model\Assertion\AttributeStatement;
 use LightSaml\Model\Assertion\Issuer;
+use LightSaml\Model\Assertion\NameID;
 use LightSaml\Model\Context\DeserializationContext;
 use LightSaml\Model\Context\SerializationContext;
 use LightSaml\Model\Metadata\AssertionConsumerService;
@@ -43,6 +44,7 @@ use LightSaml\Model\Metadata\Organization;
 use LightSaml\Model\Metadata\SingleLogoutService;
 use LightSaml\Model\Metadata\SpSsoDescriptor;
 use LightSaml\Model\Protocol\AuthnRequest;
+use LightSaml\Model\Protocol\LogoutRequest;
 use LightSaml\Model\Protocol\LogoutResponse;
 use LightSaml\Model\Protocol\NameIDPolicy;
 use LightSaml\Model\Protocol\SamlMessage;
@@ -167,6 +169,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_org_url',
             'sp_default_binding_method',
             'sp_name_id_format',
+            'sp_sign_assertions',
             'idp_binding_method',
             'attribute_map',
         ];
@@ -207,6 +210,23 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $this->sendMessage($authnRequest, $identityProviderConsumerService->getBinding());
     }
 
+    public function logoutRequest(string $nameId): HttpFoundationResponse
+    {
+        $identityProviderConsumerService = $this->getIdentityProviderEntityDescriptor()
+            ->getFirstIdpSsoDescriptor()
+            ->getFirstSingleLogoutService();
+
+        $logoutRequest = new LogoutRequest;
+        $logoutRequest
+            ->setID(Helper::generateID())
+            ->setIssueInstant(new DateTime())
+            ->setDestination($identityProviderConsumerService->getLocation())
+            ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()))
+            ->setNameID(new NameID($nameId));
+
+        return $this->sendMessage($logoutRequest, SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
+    }
+
     public function logoutResponse(): HttpFoundationResponse
     {
         $this->receive();
@@ -240,6 +260,10 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $messageContext = new MessageContext();
         $messageContext->setMessage($message);
+
+        if ($this->messageContext->getMessage() instanceof SamlMessage) {
+            $messageContext->getMessage()->setRelayState($this->messageContext->getMessage()->getRelayState());
+        }
 
         $binding = (new BindingFactory())->create($bindingType);
 
@@ -345,7 +369,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
         $spSsoDescriptor = new SpSsoDescriptor();
-        $spSsoDescriptor->setWantAssertionsSigned(true)->addNameIDFormat($this->getNameIDFormat());
+        $spSsoDescriptor
+            ->setWantAssertionsSigned((bool) $this->getConfig('sp_sign_assertions', true))
+            ->addNameIDFormat($this->getNameIDFormat());
 
         foreach ([SamlConstants::BINDING_SAML2_HTTP_REDIRECT, SamlConstants::BINDING_SAML2_HTTP_POST] as $binding) {
             $acsRoute = $this->getAssertionConsumerServiceRoute();

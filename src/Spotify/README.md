@@ -45,6 +45,6 @@ return Socialite::driver('spotify')->redirect();
 
 - ``id``
 - ``name``
-- ``email``
+- ``email`` (`user-read-email` scope is required)
 - ``avatar``
 - ``profileUrl``
