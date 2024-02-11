@@ -134,18 +134,18 @@ class Provider extends AbstractProvider
     protected function getJwtConfig()
     {
         if (!$this->jwtConfig) {
-            $private_key_path = config('services.apple.private_key', '');
-            $private_key_passphrase = config('services.apple.passphrase', '');
-            $signer = config('services.apple.signer', '');
+            $private_key_path = $this->getConfig('private_key', '');
+            $private_key_passphrase = $this->getConfig('passphrase', '');
+            $signer = $this->getConfig('signer', '');
 
             if (empty($signer) || !class_exists($signer)) {
                 $signer = !empty($private_key_path) ? \Lcobucci\JWT\Signer\Ecdsa\Sha256::class : AppleSignerNone::class;
             }
-            
-            $this->privateKey = $private_key_path; // Support for plain text private keys
 
             if (!empty($private_key_path) && file_exists($private_key_path)) {
                 $this->privateKey = file_get_contents($private_key_path);
+            } else {
+                $this->privateKey = $private_key_path; // Support for plain text private keys
             }
 
             $this->jwtConfig = Configuration::forSymmetricSigner(
@@ -367,5 +367,13 @@ class Provider extends AbstractProvider
                 'refresh_token'   => $refreshToken,
             ],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['private_key', 'passphrase', 'signer'];
     }
 }
