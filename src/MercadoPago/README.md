@@ -19,27 +19,16 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ],
 ```
 
-Available countries:
+[Available countries](https://www.mercadopago.com.br/developers/en/docs/getting-started#bookmark_availability_of_solutions_in_each_country):
 | Code | Country |
 | ---- | ------- |
 | AR | Argentina |
-| BO | Bolivia |
 | BR | Brasil |
 | CL | Chile |
 | CO | Colombia |
-| CR | Costa Rica |
-| DO | Dominicana |
-| EC | Ecuador |
-| GT | Guatemala |
-| HN | Honduras |
 | MX | México |
-| NI | Nicaragua |
-| PA | Panamá |
-| PY | Paraguay |
 | PE | Perú |
-| SV | Salvador |
 | UY | Uruguay |
-| VE | Venezuela |
 
 ### Add provider event listener
 
