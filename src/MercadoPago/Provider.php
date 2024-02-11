@@ -14,23 +14,12 @@ class MercadoPagoProvider extends AbstractProvider implements ProviderInterface
 {
     public const DOMAIN = [
         'AR' => 'https://auth.mercadopago.com.ar',
-        'BO' => 'https://auth.mercadopago.com.bo',
         'BR' => 'https://auth.mercadopago.com.br',
         'CL' => 'https://auth.mercadopago.cl',
         'CO' => 'https://auth.mercadopago.com.co',
-        'CR' => 'https://auth.mercadopago.co.cr',
-        'DO' => 'https://auth.mercadopago.com.do',
-        'EC' => 'https://auth.mercadopago.com.ec',
-        'GT' => 'https://auth.mercadopago.com.gt',
-        'HN' => 'https://auth.mercadopago.com.hn',
         'MX' => 'https://auth.mercadopago.com.mx',
-        'NI' => 'https://auth.mercadopago.com.ni',
-        'PA' => 'https://auth.mercadopago.com.pa',
-        'PY' => 'https://auth.mercadopago.com.py',
         'PE' => 'https://auth.mercadopago.com.pe',
-        'SV' => 'https://auth.mercadopago.com.sv',
         'UY' => 'https://auth.mercadopago.com.uy',
-        'VE' => 'https://auth.mercadopago.com.ve',
     ];
 
     /**
@@ -72,7 +61,7 @@ class MercadoPagoProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        $url = self::DOMAIN[config('services.mercadopago.country')] ?? 'https://auth.mercadopago.com.ar';
+        $url = self::DOMAIN[config('services.mercadopago.country')] ?? 'https://auth.mercadopago.com';
         return $this->buildAuthUrlFromBase($url.'/authorization', $state);
     }
 
