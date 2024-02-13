@@ -173,7 +173,7 @@ class Provider extends AbstractProvider
      * @param  string|null  $state
      * @return string
      */
-    public function getLogoutUrl(string $idToken, string $redirectUri = null, string $state = null)
+    public function getLogoutUrl(string $idToken, ?string $redirectUri = null, ?string $state = null)
     {
         $url = $this->getOktaServerUrl().'v1/logout';
 

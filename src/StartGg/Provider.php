@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
             [
                 RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
-                    'Authorization' => 'Bearer ' . $token,
+                    'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::FORM_PARAMS => [
                     'query' => 'query {
@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
                                 gamerTag
                             }
                         }
-                    }'
+                    }',
                 ],
             ]
         );
@@ -103,7 +103,7 @@ class Provider extends AbstractProvider
     public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post('https://api.start.gg/oauth/refresh', [
-            RequestOptions::HEADERS => ['Content-Type' => 'application/json'],
+            RequestOptions::HEADERS     => ['Content-Type' => 'application/json'],
             RequestOptions::FORM_PARAMS => [
                 'grant_type'    => 'refresh_token',
                 'refresh_token' => $refreshToken,

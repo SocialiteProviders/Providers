@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
      * Work out the shopify domain based on either the
      * `subdomain` config setting or the current request.
      *
-     * @param  string  $uri URI to append to the domain
+     * @param  string  $uri  URI to append to the domain
      * @return string The fully qualified *.myshopify.com url
      */
     private function shopifyUrl($uri = null)

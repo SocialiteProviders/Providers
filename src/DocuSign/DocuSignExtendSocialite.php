@@ -9,7 +9,7 @@ class DocuSignExtendSocialite
     /**
      * Register the provider.
      *
-     * @param SocialiteWasCalled $socialiteWasCalled
+     * @param  SocialiteWasCalled  $socialiteWasCalled
      */
     public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {

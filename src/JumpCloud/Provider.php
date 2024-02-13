@@ -2,8 +2,8 @@
 
 namespace SocialiteProviders\JumpCloud;
 
-use Illuminate\Support\Arr;
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -33,7 +33,7 @@ class Provider extends AbstractProvider
     public function getAccessToken($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)],
+            'headers' => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
             'body'    => $this->getTokenFields($code),
         ]);
 

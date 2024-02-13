@@ -41,16 +41,16 @@ class MercadoPagoProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritdoc }
+     * {@inheritdoc}
      */
     protected function getCodeFields($state = null): array
     {
         $fields = [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'response_type' => 'code',
-            'platform_id' => 'mp',
-            'state' => $state,
-            'redirect_uri' => $this->redirectUrl,
+            'platform_id'   => 'mp',
+            'state'         => $state,
+            'redirect_uri'  => $this->redirectUrl,
         ];
 
         return array_merge($fields, $this->parameters);
@@ -62,6 +62,7 @@ class MercadoPagoProvider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         $url = self::DOMAIN[config('services.mercadopago.country')] ?? 'https://auth.mercadopago.com';
+
         return $this->buildAuthUrlFromBase($url.'/authorization', $state);
     }
 

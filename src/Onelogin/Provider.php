@@ -152,7 +152,7 @@ class Provider extends AbstractProvider
      * @param  string|null  $state
      * @return string
      */
-    public function getLogoutUrl(string $idToken, string $redirectUri = null, bool $logout = true, string $state = null)
+    public function getLogoutUrl(string $idToken, ?string $redirectUri = null, bool $logout = true, ?string $state = null)
     {
         $url = $this->getOneloginUrl().'/logout';
 

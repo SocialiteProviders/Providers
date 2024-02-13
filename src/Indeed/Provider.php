@@ -18,7 +18,7 @@ class Provider extends AbstractProvider
     protected $scopes = ['email', 'offline_access'];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getAuthUrl($state)
     {
@@ -26,21 +26,21 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getTokenUrl()
     {
-        return "https://apis.indeed.com/oauth/v2/tokens";
+        return 'https://apis.indeed.com/oauth/v2/tokens';
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://secure.indeed.com/v2/api/userinfo', [
             RequestOptions::HEADERS => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function mapUserToObject(array $user)
     {

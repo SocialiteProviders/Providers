@@ -64,10 +64,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user, 'user.id'),
-            'name' => Arr::get($user, 'user.name'),
-            'email' => Arr::get($user, 'user.email'),
-            'avatar' => Arr::get($user, 'user.image_512'),
+            'id'              => Arr::get($user, 'user.id'),
+            'name'            => Arr::get($user, 'user.name'),
+            'email'           => Arr::get($user, 'user.email'),
+            'avatar'          => Arr::get($user, 'user.image_512'),
             'organization_id' => Arr::get($user, 'team.id'),
         ]);
     }
@@ -75,7 +75,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => $this->getTokenHeaders($code),
+            RequestOptions::HEADERS     => $this->getTokenHeaders($code),
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
@@ -101,7 +101,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://slack.com/api/users.identity', [
-            RequestOptions::HEADERS => ['Authorization' => 'Bearer ' . $token],
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
         ]);
 
         return json_decode($response->getBody(), true);

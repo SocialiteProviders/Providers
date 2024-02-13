@@ -32,7 +32,7 @@ class Server extends BaseServer
      * @param  ClientCredentialsInterface|array  $clientCredentials
      * @param  SignatureInterface  $signature
      */
-    public function __construct($clientCredentials, SignatureInterface $signature = null)
+    public function __construct($clientCredentials, ?SignatureInterface $signature = null)
     {
         // Pass through an array or client credentials, we don't care
         if (is_array($clientCredentials)) {
