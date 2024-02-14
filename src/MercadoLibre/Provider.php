@@ -13,27 +13,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MERCADOLIBRE';
 
-    public const DOMAIN = [
-        'AR' => 'https://auth.mercadolibre.com.ar',
-        'BO' => 'https://auth.mercadolibre.com.bo',
-        'BR' => 'https://auth.mercadolivre.com.br',
-        'CL' => 'https://auth.mercadolibre.cl',
-        'CO' => 'https://auth.mercadolibre.com.co',
-        'CR' => 'https://auth.mercadolibre.co.cr',
-        'DO' => 'https://auth.mercadolibre.com.do',
-        'EC' => 'https://auth.mercadolibre.com.ec',
-        'GT' => 'https://auth.mercadolibre.com.gt',
-        'HN' => 'https://auth.mercadolibre.com.hn',
-        'MX' => 'https://auth.mercadolibre.com.mx',
-        'NI' => 'https://auth.mercadolibre.com.ni',
-        'PA' => 'https://auth.mercadolibre.com.pa',
-        'PY' => 'https://auth.mercadolibre.com.py',
-        'PE' => 'https://auth.mercadolibre.com.pe',
-        'SV' => 'https://auth.mercadolibre.com.sv',
-        'UY' => 'https://auth.mercadolibre.com.uy',
-        'VE' => 'https://auth.mercadolibre.com.ve',
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -57,9 +36,30 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        $url = self::DOMAIN[$this->getConfig('country')] ?? 'https://auth.mercadolibre.com.ar';
+        $domains = [
+            'AR' => 'https://auth.mercadolibre.com.ar',
+            'BO' => 'https://auth.mercadolibre.com.bo',
+            'BR' => 'https://auth.mercadolivre.com.br',
+            'CL' => 'https://auth.mercadolibre.cl',
+            'CO' => 'https://auth.mercadolibre.com.co',
+            'CR' => 'https://auth.mercadolibre.co.cr',
+            'DO' => 'https://auth.mercadolibre.com.do',
+            'EC' => 'https://auth.mercadolibre.com.ec',
+            'GT' => 'https://auth.mercadolibre.com.gt',
+            'HN' => 'https://auth.mercadolibre.com.hn',
+            'MX' => 'https://auth.mercadolibre.com.mx',
+            'NI' => 'https://auth.mercadolibre.com.ni',
+            'PA' => 'https://auth.mercadolibre.com.pa',
+            'PE' => 'https://auth.mercadolibre.com.pe',
+            'PY' => 'https://auth.mercadolibre.com.py',
+            'SV' => 'https://auth.mercadolibre.com.sv',
+            'UY' => 'https://auth.mercadolibre.com.uy',
+            'VE' => 'https://auth.mercadolibre.com.ve',
+        ];
 
-        return $this->buildAuthUrlFromBase($url.'/authorization', $state);
+        $countryCode = $this->getConfig('country', 'AR');
+
+        return $this->buildAuthUrlFromBase($domains[$countryCode].'/authorization', $state);
     }
 
     /**
