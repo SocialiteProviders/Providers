@@ -108,6 +108,20 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function getTokenFields($code)
+    {
+        $fields = parent::getTokenFields($code);
+
+        // Okta doesn't like credentials being provided in both the Authorization header and body
+        unset($fields['client_id']);
+        unset($fields['client_secret']);
+
+        return $fields;
+    }
+
+    /**
      * Get the client access token response.
      *
      * @param  array|string  $scopes
