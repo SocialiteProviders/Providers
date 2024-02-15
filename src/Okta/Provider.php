@@ -114,7 +114,7 @@ class Provider extends AbstractProvider
     {
         $fields = parent::getTokenFields($code);
 
-        // Okta doesn't like credentials being provided in both the Authorization header and body
+        // Okta does not support credentials being provided in both the Authorization header and body.
         unset($fields['client_id']);
         unset($fields['client_secret']);
 
