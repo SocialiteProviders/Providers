@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/clerk",
+    "description": "Clerk OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ignacio Cano",
+            "email": "dev@nacho.sh"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Clerk\\": ""
+        }
+    }
+}

@@ -29,6 +29,7 @@ parameters:
     src/CampaignMonitor: 'git@github.com:SocialiteProviders/CampaignMonitor.git'
     src/Cheddar: 'git@github.com:SocialiteProviders/Cheddar.git'
     src/ClaveUnica: 'git@github.com:SocialiteProviders/ClaveUnica.git'
+    src/Clerk: 'git@github.com:SocialiteProviders/Clerk.git'
     src/Cognito: 'git@github.com:SocialiteProviders/Cognito.git'
     src/Coinbase: 'git@github.com:SocialiteProviders/Coinbase.git'
     src/ConstantContact: 'git@github.com:SocialiteProviders/ConstantContact.git'
