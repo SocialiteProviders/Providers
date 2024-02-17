@@ -52,8 +52,6 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('clerk')->redirect();
 ```
 
-@TODO
-
 ### Returned User fields
 
 -   `id`
