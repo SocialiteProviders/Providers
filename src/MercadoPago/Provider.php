@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Providers;
+namespace SocialiteProviders\MercadoPago;
 
 use GuzzleHttp\RequestOptions;
-use Laravel\Socialite\Two\AbstractProvider;
-use Laravel\Socialite\Two\ProviderInterface;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 /**
  * @see https://www.mercadopago.com.br/developers/pt/reference/oauth/_oauth_token/post
  */
-class MercadoPagoProvider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     public const DOMAIN = [
         'AR' => 'https://auth.mercadopago.com.ar',
