@@ -1,7 +1,7 @@
 # Bitrix24
 
 ```bash
-composer require socialiteproviders/bitix24
+composer require socialiteproviders/bitrix24
 ```
 
 ## Installation & Basic Usage
@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'bitix24' => [
+'bitrix24' => [
       'endpoint' => env('BITRIX24_ENDPOINT_URI'),
       'client_id' => env('BITRIX24_CLIENT_ID'),
       'client_secret' => env('BITRIX24_CLIENT_SECRET'),
