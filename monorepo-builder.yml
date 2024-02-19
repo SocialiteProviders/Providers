@@ -94,6 +94,7 @@ parameters:
     src/Jira: 'git@github.com:SocialiteProviders/Jira.git'
     src/JumpCloud: 'git@github.com:SocialiteProviders/JumpCloud.git'
     src/Kakao: 'git@github.com:SocialiteProviders/Kakao.git'
+    src/Kanidm: 'git@github.com:SocialiteProviders/Kanidm.git'
     src/Keycloak: 'git@github.com:SocialiteProviders/Keycloak.git'
     src/LaravelPassport: 'git@github.com:SocialiteProviders/Laravel-Passport.git'
     src/Lichess: 'git@github.com:SocialiteProviders/Lichess.git'
