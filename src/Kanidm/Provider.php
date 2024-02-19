@@ -3,7 +3,7 @@
 namespace SocialiteProviders\Kanidm;
 
 use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -15,22 +15,38 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
+        'email',
         'openid',
         'profile',
-        'email',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
-    protected function getKanidmUrl()
+    /**
+     * Get the base URL.
+     *
+     * @return string
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function getBaseUrl(): string
     {
-        return $this->getConfig('base_url');
+        $baseUrl = $this->getConfig('base_url');
+
+        if ($baseUrl === null) {
+            throw new InvalidArgumentException('Missing base URL value.');
+        }
+
+        return $baseUrl;
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['base_url'];
     }
@@ -38,17 +54,17 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase($this->getKanidmUrl().'/ui/oauth2', $state);
+        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/ui/oauth2', $state);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
-        return $this->getKanidmUrl().'/oauth2/token';
+        return $this->getBaseUrl().'/oauth2/token';
     }
 
     /**
@@ -56,7 +72,9 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getKanidmUrl().'/oauth2/openid/'.$this->getConfig('client_id').'/userinfo', [
+        $uri = "{$this->getBaseUrl()}/oauth2/openid/{$this->clientId}/userinfo";
+
+        $response = $this->getHttpClient()->get($uri, [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -70,10 +88,10 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['sub'],
             'nickname' => $user['preferred_username'],
-            'name'     => Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', ''),
+            'name'     => trim(($user['given_name'] ?? '').' '.($user['family_name'] ?? '')),
             'email'    => $user['email'],
             'avatar'   => null,
         ]);
