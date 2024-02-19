@@ -2,20 +2,19 @@
 
 namespace SocialiteProviders\Clerk;
 
+use GuzzleHttp\RequestOptions;
+use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'CLERK';
 
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['profile','email'];
+    protected $scopes = ['email', 'profile'];
 
     /**
      * {@inheritdoc}
@@ -23,17 +22,27 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * {@inheritdoc}
+     * Get the base URL.
+     *
+     * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     protected function getBaseUrl()
     {
-        return $this->getConfig('base_url');
+        $baseUrl = $this->getConfig('base_url');
+
+        if ($baseUrl === null) {
+            throw new InvalidArgumentException('Missing Base URL value.');
+        }
+
+        return $baseUrl;
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['base_url'];
     }
@@ -41,17 +50,17 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase("{$this->getBaseUrl()}/oauth/authorize", $state);
+        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/oauth/authorize', $state);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
-        return "{$this->getBaseUrl()}/oauth/token";
+        return $this->getBaseUrl().'/oauth/token';
     }
 
     /**
@@ -59,12 +68,13 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get("{$this->getBaseUrl()}/oauth/userinfo", [
-            'headers' => [
+        $response = $this->getHttpClient()->get($this->getBaseUrl().'/oauth/userinfo', [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
-        return json_decode($response->getBody(), true);
+
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -72,12 +82,12 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id'       => $user['user_id'],
+        return (new User)->setRaw($user)->map([
+            'id' => $user['user_id'],
             'nickname' => $user['username'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => $user['picture'],
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => $user['picture'],
         ]);
     }
 }

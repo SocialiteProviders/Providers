@@ -23,7 +23,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ### Add base URL to `.env`
 
-Clerk provides a customer URL for your different projects for this reason you need to provide a base_url
+Clerk provides a customer URL for your different projects. For this reason you need to provide a `base_url`.
 
 ```bash
 CLERK_BASE_URL=https://example.clerk.accounts.dev
