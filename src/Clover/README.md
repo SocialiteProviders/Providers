@@ -15,7 +15,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_id' => env('CLOVER_CLIENT_ID'),
   'client_secret' => env('CLOVER_CLIENT_SECRET'),
   'redirect' => env('CLOVER_REDIRECT_URI')
-  'mode' => env('CLOVER_ENVIRONMENT', 'production'),
+  'sandbox-mode' => env('CLOVER_SANDBOX_MODE', false),
 ],
 ```
 
