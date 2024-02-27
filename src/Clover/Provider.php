@@ -18,14 +18,18 @@ class Provider extends AbstractProvider
     protected $scopes = [''];
 
     /**
-     * Tests whether we are integrating to the Clover sandbox or production environments
-     * Change the value of CLOVER_ENVIRONMENT in your .env to switch.
+     * Indicates if the session state should be utilized.
      *
-     * @return bool
+     * @var bool
      */
-    protected function useSandbox()
+    protected $stateless = true;
+
+    protected function getApiDomain(): string
     {
-        return $this->getConfig('environment') !== 'production';
+        return match (true) {
+            config('services.clover.sandbox-mode') => 'sandbox.dev.clover.com',
+            default => 'www.clover.com',
+        };
     }
 
     /**
@@ -33,12 +37,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        $domain = match ($this->useSandbox()) {
-            'sandbox' => 'sandbox.dev.clover.com',
-            default => 'www.clover.com',
-        };
-
-        return $this->buildAuthUrlFromBase('https://'.$domain.'/oauth/v2/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://'.$this->getApiDomain().'/oauth/v2/authorize', $state);
     }
 
     /**
@@ -46,12 +45,16 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        $domain = match ($this->useSandbox()) {
-            'sandbox' => 'apisandbox.dev.clover.com',
+        $domain = match (true) {
+            config('services.clover.sandbox-mode') => 'apisandbox.dev.clover.com',
             default => 'api.clover.com',
         };
 
-        return 'https://'.$domain.'/oauth/token';
+        return 'https://'.$domain.'/oauth/token?'.Arr::query([
+            'client_id' => config('services.clover.client_id'),
+            'client_secret' => config('services.clover.client_secret'),
+            'code' => $this->getCode(),
+        ]);
     }
 
     /**
