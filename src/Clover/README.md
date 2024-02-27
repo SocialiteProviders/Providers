@@ -8,6 +8,8 @@ composer require socialiteproviders/clover
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
 
+Ensure the app has permission to read employees.
+
 ### Add configuration to `config/services.php`
 
 ```php
