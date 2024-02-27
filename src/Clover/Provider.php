@@ -2,6 +2,8 @@
 
 namespace SocialiteProviders\Clover;
 
+use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -62,7 +64,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('', [
+        $requestParams = str(request()->fullUrl())
+            ->after('?')
+            ->explode('&')
+            ->mapWithKeys(fn (string $keyAndValue) => [str($keyAndValue)->before('=')->toString() => str($keyAndValue)->after('=')->toString()]);
+
+        $response = $this->getHttpClient()->get('https://'.$this->getApiDomain().'/v3/merchants/'.$requestParams['merchant_id'].'/employees/'.$requestParams['employee_id'], [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -77,11 +84,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
-            'nickname' => $user['username'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => $user['avatar'],
+            'id' => $user['id'],
+            'nickname' => $user['name'],
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => null,
         ]);
     }
 
