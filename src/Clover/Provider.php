@@ -93,12 +93,17 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
+     * Get the access token response for the given code.
+     *
+     * @param  string  $code
+     * @return array
      */
-    protected function getTokenFields($code)
+    public function getAccessTokenResponse($code)
     {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+        $response = $this->getHttpClient()->get($this->getTokenUrl(), [
+            RequestOptions::HEADERS => $this->getTokenHeaders($code),
         ]);
+
+        return json_decode($response->getBody(), true);
     }
 }
