@@ -43,3 +43,16 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('clover')->redirect();
 ```
+
+Presumably you are using this OAuth provider in order to retrieve an API token for calling other API endpoints.
+
+The user includes a `token` property that you can use to retrieve the API token like this:
+
+```php
+Route::get('clover/auth/callback', function () {
+    $user = Socialite::driver('clover')->user();
+
+    // Save this token somewhere for other use.
+    $token = $user->token;
+});
+```
