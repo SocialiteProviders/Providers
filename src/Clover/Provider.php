@@ -2,8 +2,6 @@
 
 namespace SocialiteProviders\Clover;
 
-use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -17,7 +15,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [''];
+    protected $scopes = [];
 
     /**
      * Indicates if the session state should be utilized.
@@ -26,11 +24,18 @@ class Provider extends AbstractProvider
      */
     protected $stateless = true;
 
+    public static function additionalConfigKeys()
+    {
+        return [
+            'environment',
+        ];
+    }
+
     protected function getApiDomain(): string
     {
-        return match (true) {
-            config('services.clover.sandbox-mode') => 'sandbox.dev.clover.com',
-            default => 'www.clover.com',
+        return match ($this->getConfig('environment')) {
+            'sandbox' => 'sandbox.dev.clover.com',
+            default   => 'www.clover.com',
         };
     }
 
@@ -39,7 +44,10 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://'.$this->getApiDomain().'/oauth/v2/authorize', $state);
+        return $this->buildAuthUrlFromBase(
+            sprintf('https://%s/oauth/v2/authorize', $this->getApiDomain()),
+            $state
+        );
     }
 
     /**
@@ -47,16 +55,12 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        $domain = match (true) {
-            config('services.clover.sandbox-mode') => 'apisandbox.dev.clover.com',
-            default => 'api.clover.com',
+        $domain = match ($this->getConfig('environment')) {
+            'sandbox' => 'apisandbox.dev.clover.com',
+            default   => 'api.clover.com',
         };
 
-        return 'https://'.$domain.'/oauth/token?'.Arr::query([
-            'client_id' => config('services.clover.client_id'),
-            'client_secret' => config('services.clover.client_secret'),
-            'code' => $this->getCode(),
-        ]);
+        return sprintf('https://%s/oauth/token', $domain);
     }
 
     /**
@@ -69,13 +73,18 @@ class Provider extends AbstractProvider
             ->explode('&')
             ->mapWithKeys(fn (string $keyAndValue) => [str($keyAndValue)->before('=')->toString() => str($keyAndValue)->after('=')->toString()]);
 
-        $response = $this->getHttpClient()->get('https://'.$this->getApiDomain().'/v3/merchants/'.$requestParams['merchant_id'].'/employees/'.$requestParams['employee_id'], [
+        $response = $this->getHttpClient()->get(sprintf(
+            'https://%s/v3/merchants/%s/employees/%s',
+            $this->getApiDomain(),
+            $requestParams['merchant_id'],
+            $requestParams['employee_id'],
+        ), [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -84,26 +93,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['name'],
-            'name' => $user['name'],
-            'email' => $user['email'],
-            'avatar' => null,
+            'name'     => $user['name'],
+            'email'    => $user['email'],
+            'avatar'   => null,
         ]);
-    }
-
-    /**
-     * Get the access token response for the given code.
-     *
-     * @param  string  $code
-     * @return array
-     */
-    public function getAccessTokenResponse($code)
-    {
-        $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            RequestOptions::HEADERS => $this->getTokenHeaders($code),
-        ]);
-
-        return json_decode($response->getBody(), true);
     }
 }
