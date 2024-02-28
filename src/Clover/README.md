@@ -17,7 +17,7 @@ Ensure the app has permission to read employees.
   'client_id' => env('CLOVER_CLIENT_ID'),
   'client_secret' => env('CLOVER_CLIENT_SECRET'),
   'redirect' => env('CLOVER_REDIRECT_URI')
-  'sandbox-mode' => env('CLOVER_SANDBOX_MODE', false),
+  'environment' => env('CLOVER_ENVIRONMENT', 'production'),
 ],
 ```
 
