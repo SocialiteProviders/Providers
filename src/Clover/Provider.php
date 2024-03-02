@@ -2,47 +2,51 @@
 
 namespace SocialiteProviders\Clover;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
-    const IDENTIFIER = 'clover';
+    public const IDENTIFIER = 'clover';
 
     /**
      * {@inheritdoc}
-     */
-    protected $scopes = [];
-
-    /**
-     * Indicates if the session state should be utilized.
-     *
-     * @var bool
      */
     protected $stateless = true;
 
-    public static function additionalConfigKeys()
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys(): array
     {
-        return [
-            'environment',
-        ];
+        return ['environment'];
     }
 
+    /**
+     * Determine if the current environment is sandbox.
+     *
+     * @return bool
+     */
+    protected function isSandbox(): bool
+    {
+        return $this->getConfig('environment') === 'sandbox';
+    }
+
+    /**
+     * Get the API domain.
+     *
+     * @return string
+     */
     protected function getApiDomain(): string
     {
-        return match ($this->getConfig('environment')) {
-            'sandbox' => 'sandbox.dev.clover.com',
-            default   => 'www.clover.com',
-        };
+        return $this->isSandbox() ? 'sandbox.dev.clover.com' : 'www.clover.com';
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(
             sprintf('https://%s/oauth/v2/authorize', $this->getApiDomain()),
@@ -53,12 +57,9 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
-        $domain = match ($this->getConfig('environment')) {
-            'sandbox' => 'apisandbox.dev.clover.com',
-            default   => 'api.clover.com',
-        };
+        $domain = $this->isSandbox() ? 'apisandbox.dev.clover.com' : 'api.clover.com';
 
         return sprintf('https://%s/oauth/token', $domain);
     }
@@ -68,18 +69,13 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $requestParams = str(request()->fullUrl())
-            ->after('?')
-            ->explode('&')
-            ->mapWithKeys(fn (string $keyAndValue) => [str($keyAndValue)->before('=')->toString() => str($keyAndValue)->after('=')->toString()]);
-
         $response = $this->getHttpClient()->get(sprintf(
             'https://%s/v3/merchants/%s/employees/%s',
             $this->getApiDomain(),
-            $requestParams['merchant_id'],
-            $requestParams['employee_id'],
+            $this->request->query('merchant_id'),
+            $this->request->query('employee_id')
         ), [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
