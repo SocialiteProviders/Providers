@@ -63,4 +63,29 @@ class Provider extends AbstractProvider
             'id'       => $user['user_id'],
         ]);
     }
+
+    /**
+     * Acquire a new access token using the refresh token.
+     *
+     * @see https://developers.hubspot.com/docs/api/oauth-quickstart-guide#refreshing_tokens
+     *
+     * @param string $refreshToken
+     * @return ResponseInterface
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function refreshToken($refreshToken): ResponseInterface
+    {
+        return $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+            ],
+            RequestOptions::FORM_PARAMS => [
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $refreshToken
+            ]
+        ]);
+    }
 }
