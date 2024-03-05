@@ -52,7 +52,21 @@ The user includes a `token` property that you can use to retrieve the API token 
 Route::get('clover/auth/callback', function () {
     $user = Socialite::driver('clover')->user();
 
-    // Save this token somewhere for other use.
-    $token = $user->token;
+    // Save these tokens somewhere for use with the API.
+    $token = $user->accessTokenResponseBody;
+
+    // Here’s what it looks like:
+    // [
+    //     'access_token' => 'JWT',
+    //     'access_token_expiration' => 1709563149,
+    //     'refresh_token' => 'clvroar-6e49ffe9b5122f137aa39d8f7f930558',
+    //     'refresh_token_expiration' => 1741097349,
+    // ]
+
+    // You may also want to store the merchant ID somewhere.
+    $merchantId = request()->input('merchant_id');
+
+    // Here’s what it looks like:
+    // 'ABC123DEF4567'
 });
 ```
