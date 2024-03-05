@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Clover;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -29,6 +30,22 @@ class Provider extends AbstractProvider
         return [
             'environment',
         ];
+    }
+
+    /**
+     * Get the access token response for the given code.
+     *
+     * @param  string  $code
+     * @return array
+     */
+    public function getAccessTokenResponse($code)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS => $this->getTokenHeaders($code),
+            RequestOptions::JSON => $this->getTokenFields($code),
+        ]);
+
+        return json_decode($response->getBody(), true);
     }
 
     protected function getApiDomain(): string
