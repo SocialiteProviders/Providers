@@ -35,7 +35,7 @@ class Provider extends AbstractProvider
     {
         return match ($this->getConfig('environment')) {
             'sandbox' => 'sandbox.dev.clover.com',
-            default   => 'www.clover.com',
+            default => 'www.clover.com',
         };
     }
 
@@ -57,7 +57,7 @@ class Provider extends AbstractProvider
     {
         $domain = match ($this->getConfig('environment')) {
             'sandbox' => 'apisandbox.dev.clover.com',
-            default   => 'api.clover.com',
+            default => 'api.clover.com',
         };
 
         return sprintf('https://%s/oauth/v2/token', $domain);
@@ -93,11 +93,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['name'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => null,
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => null,
         ]);
     }
 }
