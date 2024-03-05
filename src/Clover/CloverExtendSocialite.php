@@ -6,7 +6,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class CloverExtendSocialite
 {
-    public function handle(SocialiteWasCalled $socialiteWasCalled)
+    public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {
         $socialiteWasCalled->extendSocialite(Provider::IDENTIFIER, Provider::class);
     }
