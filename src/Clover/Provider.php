@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Clover;
 
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -116,5 +117,16 @@ class Provider extends AbstractProvider
             'email' => $user['email'],
             'avatar' => null,
         ]);
+    }
+
+    /**
+     * Get the expires in from the token response body.
+     *
+     * @param  array  $body
+     * @return string
+     */
+    protected function parseExpiresIn($body)
+    {
+        return (string) (Arr::get($body, 'access_token_expiration') - time());
     }
 }
