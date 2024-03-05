@@ -26,7 +26,7 @@ class Provider extends AbstractProvider
      */
     protected $stateless = true;
 
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return [
             'environment',
@@ -37,9 +37,8 @@ class Provider extends AbstractProvider
      * Get the access token response for the given code.
      *
      * @param  string  $code
-     * @return array
      */
-    public function getAccessTokenResponse($code)
+    public function getAccessTokenResponse($code): array
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => $this->getTokenHeaders($code),
@@ -60,7 +59,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(
             sprintf('https://%s/oauth/v2/authorize', $this->getApiDomain()),
@@ -71,7 +70,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         $domain = match ($this->getConfig('environment')) {
             'sandbox' => 'apisandbox.dev.clover.com',
@@ -86,16 +85,11 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $requestParams = str(request()->fullUrl())
-            ->after('?')
-            ->explode('&')
-            ->mapWithKeys(fn (string $keyAndValue) => [str($keyAndValue)->before('=')->toString() => str($keyAndValue)->after('=')->toString()]);
-
         $response = $this->getHttpClient()->get(sprintf(
             'https://%s/v3/merchants/%s/employees/%s',
             $this->getApiDomain(),
-            $requestParams['merchant_id'],
-            $requestParams['employee_id'],
+            $this->request->query('merchant_id'),
+            $this->request->query('employee_id'),
         ), [
             'headers' => [
                 'Authorization' => 'Bearer '.$token,
