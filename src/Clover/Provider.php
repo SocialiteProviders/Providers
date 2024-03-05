@@ -60,7 +60,7 @@ class Provider extends AbstractProvider
             default   => 'api.clover.com',
         };
 
-        return sprintf('https://%s/oauth/token', $domain);
+        return sprintf('https://%s/oauth/v2/token', $domain);
     }
 
     /**
