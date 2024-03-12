@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/docusign",
+    "description": "Docusign OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "docusign",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Swan Gonçalves",
+            "email": "hello@swanou.dev"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/docusign"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\DocuSign\\": ""
+        }
+    }
+}

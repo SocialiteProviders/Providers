@@ -1,22 +1,27 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+use Illuminate\Http\Client\Factory;
 
-use Zttp\Zttp;
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$http = new Factory();
 
 /**
- * Automatically update all of the repos to have a consistent description/URL and point people to the correct
+ * Automatically update all the repos to have a consistent description/URL and point people to the correct
  * documentation.
  */
 $repos = collect(range(1, 5))
-    ->map(fn (int $page) => Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json())
-    ->flatten(1)
+    ->flatMap(fn(int $page) => $http
+        ->withHeaders(['Accept' => 'application/vnd.github.v3+json'])
+        ->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page=' . $page)
+        ->json()
+    )
     ->sortBy('name')
-    ->filter(fn (array $repo) => $repo['has_issues'] === false)
-    ->each(function (array $repo) {
-        $res = Zttp::withHeaders([
-            'Accept'        => 'application/vnd.github.v3+json',
-            'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
+    ->filter(fn(array $repo) => $repo['has_issues'] === false)
+    ->each(function (array $repo) use ($http) {
+        $res = $http->withHeaders([
+            'Accept' => 'application/vnd.github.v3+json',
+            'Authorization' => 'token ' . getenv('GITHUB_TOKEN'),
         ])->get(sprintf('https://api.github.com/repos/SocialiteProviders/%s/pulls?state=open', $repo['name']));
 
         $prs = collect($res->json());
@@ -27,17 +32,17 @@ $repos = collect(range(1, 5))
             return;
         }
 
-        $prs->map(function (array $pr) {
-            Zttp::withHeaders([
-                'Accept'        => 'application/vnd.github.v3+json',
-                'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
+        $prs->map(function (array $pr) use ($http) {
+            $http->withHeaders([
+                'Accept' => 'application/vnd.github.v3+json',
+                'Authorization' => 'token ' . getenv('GITHUB_TOKEN'),
             ])->patch($pr['url'], [
                 'state' => 'closed',
             ]);
 
-            Zttp::withHeaders([
-                'Accept'        => 'application/vnd.github.v3+json',
-                'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
+            $http->withHeaders([
+                'Accept' => 'application/vnd.github.v3+json',
+                'Authorization' => 'token ' . getenv('GITHUB_TOKEN'),
             ])->post($pr['comments_url'], [
                 'body' => "This repository is a **READ ONLY** subtree split from [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers).\n\nPlease open a PR against [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers). ",
             ]);

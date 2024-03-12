@@ -41,9 +41,9 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('microsoft')->redirect();
 ```
 
-### Extended features
+## Extended features
 
-#### Tenant Details
+### Tenant Details
 You can also retrieve Tenant information at the same time as you retrieve users, this can be useful if you need to allow only your tenant/s or filter certain tenants.
 
 To do this you first need to edit your `config/services.php` file and within your microsoft settings array include 'include_tenant_info' like the following:
@@ -70,3 +70,7 @@ By default this returns:
 * verifiedDomains
 
 Any additional fields can be returned with the attribute names detailed [here](https://learn.microsoft.com/en-us/graph/api/resources/organization?view=graph-rest-1.0).
+
+### Refresh token
+By default Microsoft doesn't return a refresh token. But if you do need a refresh token you need to add the `offline_access` scope. 
+Adding the scope is done on the `redirect` method as is described in the Laravel [docs](https://laravel.com/docs/master/socialite#access-scopes).

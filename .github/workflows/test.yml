@@ -10,27 +10,14 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       max-parallel: 15
-      fail-fast: false
+      fail-fast: true
       matrix:
-        validate: [ false ]
-        fail-fast: [ false ]
-        php-versions: [ '8.0', '8.1', '8.2' ]
-        exclude:
-          - php-versions: '8.0'
-          - php-versions: '8.1'
-          - php-versions: '8.2'
-        include:
-          - php-versions: '8.0'
-            fail-fast: true
-          - php-versions: '8.1'
-            fail-fast: true
-          - php-versions: '8.2'
-            validate: true
+        php-versions: [ '8.1', '8.2', '8.3' ]
 
     name: PHP ${{ matrix.php-versions }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -46,7 +33,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache composer dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: "php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.json') }}"

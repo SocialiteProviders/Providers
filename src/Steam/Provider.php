@@ -254,7 +254,7 @@ class Provider extends AbstractProvider
     /**
      * Parse openID response to an array.
      *
-     * @param  string  $results openid response body
+     * @param  string  $results  openid response body
      * @return array
      */
     public function parseResults($results)

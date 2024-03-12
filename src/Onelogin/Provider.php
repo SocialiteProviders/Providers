@@ -108,9 +108,9 @@ class Provider extends AbstractProvider
 
     /**
      * @param  string  $refreshToken
-     * @return array
+     * @return array|null
      */
-    public function getRefreshTokenResponse(string $refreshToken)
+    public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
@@ -152,7 +152,7 @@ class Provider extends AbstractProvider
      * @param  string|null  $state
      * @return string
      */
-    public function getLogoutUrl(string $idToken, string $redirectUri = null, bool $logout = true, string $state = null)
+    public function getLogoutUrl(string $idToken, ?string $redirectUri = null, bool $logout = true, ?string $state = null)
     {
         $url = $this->getOneloginUrl().'/logout';
 

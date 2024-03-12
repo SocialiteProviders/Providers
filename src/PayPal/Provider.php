@@ -66,7 +66,7 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => str_replace('https://www.paypal.com/webapps/auth/identity/user/', null, $user['user_id']),
+            'id'       => str_replace('https://www.paypal.com/webapps/auth/identity/user/', '', $user['user_id']),
             'nickname' => null,
             'name'     => $user['name'] ?? null,
             'email'    => collect($user['emails'] ?? [])->firstWhere('primary')['value'] ?? null,

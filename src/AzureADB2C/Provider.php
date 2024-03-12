@@ -23,6 +23,8 @@ class Provider extends AbstractProvider
         'openid',
     ];
 
+    protected $scopeSeparator = ' ';
+
     /**
      * Get the policy.
      *

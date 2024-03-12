@@ -21,7 +21,7 @@
     "support": {
         "issues": "https://github.com/socialiteproviders/providers/issues",
         "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/aps"
+        "docs": "https://socialiteproviders.com/AutodeskAPS"
     },
     "require": {
         "php": "^8.0",
@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialiteProviders\\APS\\": ""
+            "SocialiteProviders\\AutodeskAPS\\": ""
         }
     }
 }

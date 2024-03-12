@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://api.figma.com/v1/me', [
             RequestOptions::HEADERS => [
-                'X-FIGMA-TOKEN' => $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
