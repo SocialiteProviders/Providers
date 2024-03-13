@@ -41,10 +41,16 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('tiktok')->redirect();
 ```
 
+### Important information
+For proper operation make sure you have the following permissions/scopes approved:
+ - `user.basic.info`*
+ - `user.info.profile`*
+ - `user.info.stats`(optional and recommended)
+
 # Returned User Fields
 
 - id
-- username
+- username (requires the permission/scope `user.info.profile`)
 - union_id
 - name
 - avatar
