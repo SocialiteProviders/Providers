@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Client\Factory;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 $http = new Factory();
 
@@ -20,29 +20,29 @@ $excludedRepos = [
 ];
 
 $repos = collect(range(1, 5))
-    ->map(fn(int $page
-    ) => $http->withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page=' . $page)->json())
+    ->map(fn (int $page
+    ) => $http->withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json())
     ->flatten(1)
-    ->filter(fn(array $repo) => !$repo['archived'] && !in_array($repo['name'], $excludedRepos, true))
+    ->filter(fn (array $repo) => ! $repo['archived'] && ! in_array($repo['name'], $excludedRepos, true))
     ->sortBy('name')
     ->each(function (array $repo) use ($http) {
         $res = $http->withHeaders([
-            'Accept' => 'application/vnd.github.v3+json',
-            'Authorization' => 'token ' . getenv('GITHUB_TOKEN'),
+            'Accept'        => 'application/vnd.github.v3+json',
+            'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])
             ->patch($repo['url'], [
                 'description' => sprintf('[READ ONLY] Subtree split of the SocialiteProviders/%s Provider (see SocialiteProviders/Providers)', $repo['name']),
-                'homepage' => sprintf('https://socialiteproviders.com/%s/', $repo['name']),
-                'has_issues' => false,
+                'homepage'    => sprintf('https://socialiteproviders.com/%s/', $repo['name']),
+                'has_issues'  => false,
             ]);
 
         echo sprintf("Updated Repo: %s, response code: %s\n", $repo['name'], $res->status());
 
         $res = $http->withHeaders([
-            'Accept' => 'application/vnd.github.mercy-preview+json',
-            'Authorization' => 'token ' . getenv('GITHUB_TOKEN'),
+            'Accept'        => 'application/vnd.github.mercy-preview+json',
+            'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])
-            ->put($repo['url'] . '/topics', [
+            ->put($repo['url'].'/topics', [
                 'names' => ['laravel', 'oauth', 'socialite', 'oauth1', 'oauth2', 'socialite-providers', 'social-media'],
             ]);
 
