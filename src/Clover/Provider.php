@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => $this->getTokenHeaders($code),
-            RequestOptions::JSON => $this->getTokenFields($code),
+            RequestOptions::JSON    => $this->getTokenFields($code),
         ]);
 
         return json_decode($response->getBody(), true);
@@ -51,8 +51,10 @@ class Provider extends AbstractProvider
     protected function getApiDomain(): string
     {
         return match ($this->getConfig('environment')) {
-            'sandbox' => 'sandbox.dev.clover.com',
-            default => 'www.clover.com',
+            'sandbox'       => 'sandbox.dev.clover.com',
+            'europe'        => 'api.eu.clover.com',
+            'latin_america' => 'api.la.clover.com',
+            default         => 'api.clover.com',
         };
     }
 
@@ -73,8 +75,10 @@ class Provider extends AbstractProvider
     protected function getTokenUrl(): string
     {
         $domain = match ($this->getConfig('environment')) {
-            'sandbox' => 'apisandbox.dev.clover.com',
-            default => 'api.clover.com',
+            'sandbox'       => 'apisandbox.dev.clover.com',
+            'europe'        => 'eu.clover.com',
+            'latin_america' => 'la.clover.com',
+            default         => 'api.clover.com',
         };
 
         return sprintf('https://%s/oauth/v2/token', $domain);
@@ -105,11 +109,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'       => $user['id'],
             'nickname' => $user['name'],
-            'name' => $user['name'],
-            'email' => $user['email'],
-            'avatar' => null,
+            'name'     => $user['name'],
+            'email'    => $user['email'],
+            'avatar'   => null,
         ]);
     }
 
