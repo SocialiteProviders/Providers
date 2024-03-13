@@ -46,17 +46,11 @@ class Provider extends AbstractProvider
      */
     public function getLogoutUrl(?string $redirectUri = null)
     {
-        $queryParams = [];
-        if ($redirectUri !== null) {
-            $queryParams['post_logout_redirect_uri'] = $redirectUri;
-        }
-        
-        $logoutUrl = $this->getBaseUrl() . '/oauth2/logout';
-        if (!empty($queryParams)) {
-            $logoutUrl .= '?' . http_build_query($queryParams, '', '&', $this->encodingType);
-        }
-        
-        return $logoutUrl;
+        $logoutUrl = $this->getBaseUrl().'/oauth2/logout';
+
+        return $redirectUri === null ?
+            $logoutUrl :
+            $logoutUrl.'?'.http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
     }
 
     /**
