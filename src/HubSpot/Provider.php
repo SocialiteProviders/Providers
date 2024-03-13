@@ -70,13 +70,13 @@ class Provider extends AbstractProvider
      * @see https://developers.hubspot.com/docs/api/oauth-quickstart-guide#refreshing_tokens
      *
      * @param string $refreshToken
-     * @return ResponseInterface
+     * @return array
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function refreshToken($refreshToken): ResponseInterface
     {
-        return $this->getHttpClient()->post($this->getTokenUrl(), [
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
                 'Accept' => 'application/json',
             ],
@@ -87,5 +87,7 @@ class Provider extends AbstractProvider
                 'refresh_token' => $refreshToken
             ]
         ]);
+        
+        return json_decode((string) $response->getBody(), true);
     }
 }
