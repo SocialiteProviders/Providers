@@ -52,7 +52,9 @@ class Provider extends AbstractProvider
     {
         return match ($this->getConfig('environment')) {
             'sandbox' => 'sandbox.dev.clover.com',
-            default => 'www.clover.com',
+            'europe' => 'api.eu.clover.com',
+            'latin_america' => 'api.la.clover.com',
+            default => 'api.clover.com',
         };
     }
 
@@ -74,6 +76,8 @@ class Provider extends AbstractProvider
     {
         $domain = match ($this->getConfig('environment')) {
             'sandbox' => 'apisandbox.dev.clover.com',
+            'europe' => 'eu.clover.com',
+            'latin_america' => 'la.clover.com',
             default => 'api.clover.com',
         };
 
