@@ -37,16 +37,20 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Return the logout endpoint with post_logout_redirect_uri query parameter.
+     * Return the logout endpoint with an optional post_logout_redirect_uri query parameter.
      *
-     * @param  string  $redirectUri
-     * @return string
+     * @param string|null $redirectUri The URI to redirect to after logout, if provided.
+     *                                 If not provided, no post_logout_redirect_uri parameter will be included.
+     *
+     * @return string The logout endpoint URL.
      */
-    public function getLogoutUrl(string $redirectUri)
+    public function getLogoutUrl(?string $redirectUri = null)
     {
-        return $this->getBaseUrl()
-            .'/oauth2/logout?'
-            .http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
+        $logoutUrl = $this->getBaseUrl().'/oauth2/logout';
+
+        return $redirectUri === null ?
+            $logoutUrl :
+            $logoutUrl.'?'.http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
     }
 
     /**
