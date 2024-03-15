@@ -23,6 +23,12 @@ class Provider extends AbstractProvider
         'openid',
     ];
 
+    /**
+     * The scope separator used for Azure AD B2C authentication.
+     * https://learn.microsoft.com/en-us/azure/active-directory-b2c/openid-connect#get-a-token:~:text=example%20b2c_1_sign_in.-,HTTP,-Copy
+     * 
+     * @var string
+     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -198,11 +204,18 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        //check is $user['email'] is array - it shouldn't be, but we are not sure
+        if (is_array($user['email'])) {
+            $email = $user['email'][0];
+        } else {
+            $email = $user['email'];
+        }
+
         return (new User())->setRaw($user)->map([
             'id'       => $user['sub'],
             'nickname' => $user['name'],
             'name'     => $user['name'],
-            'email'    => $user['emails'][0],
+            'email'    => $email,
         ]);
     }
 
