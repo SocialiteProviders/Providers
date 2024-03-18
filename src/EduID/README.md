@@ -14,9 +14,13 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'eduid' => [
   'client_id' => env('EDUID_CLIENT_ID'),
   'client_secret' => env('EDUID_CLIENT_SECRET'),
-  'redirect' => env('EDUID_REDIRECT_URI')
+  'redirect' => env('EDUID_REDIRECT_URI'),
+  'use_test_idp' => false,
 ],
 ```
+
+Please note that `use_test_idp` could be omitted and would default to `false`.
+
 
 ### Add provider event listener
 

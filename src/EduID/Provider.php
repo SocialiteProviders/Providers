@@ -47,6 +47,10 @@ class Provider extends AbstractProvider
      */
     protected function getEduIdUrl(): string
     {
+        if ($this->getConfig('use_test_idp')) {
+            return 'https://login.test.eduid.ch/idp/profile/oidc/';
+        }
+
         return 'https://login.eduid.ch/idp/profile/oidc/';
     }
 
@@ -55,7 +59,7 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['base_url', 'auth_server_id'];
+        return ['use_test_idp'];
     }
 
     /**
