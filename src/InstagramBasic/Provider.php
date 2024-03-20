@@ -86,13 +86,15 @@ class Provider extends AbstractProvider
      */
     protected function getCodeFields($state = null)
     {
-        return [
+        $fields = [
             'state'         => $state,
             'response_type' => 'code',
             'app_id'        => $this->clientId,
             'redirect_uri'  => $this->redirectUrl,
             'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
         ];
+
+        return array_merge($fields, $this->parameters);
     }
 
     public function getAccessToken($code)
