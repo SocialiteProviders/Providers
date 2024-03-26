@@ -23,7 +23,7 @@ class Provider extends AbstractProvider
     /**
      * LifeScience Login config URL.
      */
-    public const CONFIG_URL = 'https://proxy.aai.lifescience-ri.eu/.well-known/openid-configuration';
+    public const CONFIG_URL = 'https://login.aai.lifescience-ri.eu/oidc/.well-known/openid-configuration';
 
     /**
      * Cache key for the OpenID config.
