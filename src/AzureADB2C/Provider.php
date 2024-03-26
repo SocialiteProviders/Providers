@@ -202,7 +202,7 @@ class Provider extends AbstractProvider
             'id'       => $user['sub'],
             'nickname' => $user['name'],
             'name'     => $user['name'],
-            'email'    => $user['emails'][0],
+            'email'    => $user['emails'][0] ?? $user['email'],
         ]);
     }
 
