@@ -22,6 +22,21 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
+### **Laravel 11**
+
+Add the event to your `boot` function in `app/Providers/AppServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
+
+```php
+    public function boot(): void
+    {
+        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+            $event->extendSocialite('microsoft', \SocialiteProviders\Microsoft\Provider::class,);
+            });
+    }
+```
+
+### **Laravel 10 or Below**
+
 Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
 
 ```php
