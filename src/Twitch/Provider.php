@@ -4,6 +4,7 @@ namespace SocialiteProviders\Twitch;
 
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
+use Laravel\Socialite\Two\Token;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -73,5 +74,20 @@ class Provider extends AbstractProvider
             'email'    => Arr::get($user, 'email'),
             'avatar'   => $user['profile_image_url'],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function refreshToken($refreshToken)
+    {
+        $response = $this->getRefreshTokenResponse($refreshToken);
+
+        return new Token(
+            Arr::get($response, 'access_token'),
+            Arr::get($response, 'refresh_token'),
+            Arr::get($response, 'expires_in'),
+            Arr::get($response, 'scope', [])
+        );
     }
 }
