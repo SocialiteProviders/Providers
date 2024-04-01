@@ -1,26 +1,6 @@
 <?php
 
 $stub = <<<DOC
-# %PROVIDER%
-
-```bash
-composer require socialiteproviders/%PROVIDER_LOWER%
-```
-
-## Installation & Basic Usage
-
-Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
-
-### Add configuration to `config/services.php`
-
-```php
-'%PROVIDER_ALIAS%' => [
-  'client_id' => env('%PROVIDER_UPPER%_CLIENT_ID'),
-  'client_secret' => env('%PROVIDER_UPPER%_CLIENT_SECRET'),
-  'redirect' => env('%PROVIDER_UPPER%_REDIRECT_URI')
-],
-```
-
 ### Add provider event listener
 
 #### Laravel 11+
@@ -53,22 +33,23 @@ protected \$listen = [
 </details>
 
 ### Usage
-
-You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
-
-```php
-return Socialite::driver('%PROVIDER_ALIAS%')->redirect();
-```
-
 DOC;
 
 $directories = array_map('basename', glob('../src'.'/*', GLOB_ONLYDIR));
 
 foreach ($directories as $provider) {
     $path = sprintf('%s/../src/%s/README.md', __DIR__, $provider);
-    if (file_exists($path)) {
+    if (!file_exists($path)) {
         continue;
     }
+
+    $existingReadmeContent =  file_get_contents($path);
+
+    if (str_contains($existingReadmeContent, '#### Laravel 11+')) {
+        continue;
+    }
+
+    $newContent = preg_replace('/### Add provider event listener\n(.*)\n### Usage/sm', $stub, $existingReadmeContent);
 
     preg_match(
         "/extendSocialite\('(.*?)',/",
@@ -79,10 +60,10 @@ foreach ($directories as $provider) {
     $doc = str_replace(
         ['%PROVIDER%', '%PROVIDER_LOWER%', '%PROVIDER_UPPER%', '%PROVIDER_ALIAS%'],
         [$provider, strtolower($provider), strtoupper($provider), $providerAlias[1] ?? $provider],
-        $stub
+        $newContent
     );
 
     file_put_contents($path, $doc);
 
-    echo sprintf("Generated doc for provider: %s\n", $provider);
+    echo sprintf("Updated doc for provider: %s\n", $provider);
 }
