@@ -4,7 +4,7 @@ namespace SocialiteProviders\Gusto;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class GustoExtendedSocialite
+class GustoExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {

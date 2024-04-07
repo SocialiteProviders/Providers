@@ -77,6 +77,7 @@ parameters:
     src/GovBR: 'git@github.com:SocialiteProviders/GovBR.git'
     src/Graph: 'git@github.com:SocialiteProviders/Microsoft-Graph.git'
     src/Gumroad: 'git@github.com:SocialiteProviders/Gumroad.git'
+    src/Gusto: 'git@github.com:SocialiteProviders/Gusto.git'
     src/HabrCareer: 'git@github.com:SocialiteProviders/HabrCareer.git'
     src/HarID: 'git@github.com:SocialiteProviders/HarID.git'
     src/Harvest: 'git@github.com:SocialiteProviders/Harvest.git'
