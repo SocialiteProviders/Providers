@@ -1,0 +1,32 @@
+{
+    "name": "socialiteproviders/discord",
+    "description": "Roblox OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "roblox",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Olivier Flentge",
+            "email": "flentgeolivier@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Roblox\\": ""
+        }
+    }
+}
