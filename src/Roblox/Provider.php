@@ -79,12 +79,4 @@ class Provider extends AbstractProvider
             'picture'   => $user['picture'] ?? null,  // Roblox may leave this null if the account is new
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
-    {
-        return [];
-    }
 }

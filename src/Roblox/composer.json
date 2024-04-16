@@ -1,5 +1,5 @@
 {
-    "name": "socialiteproviders/discord",
+    "name": "socialiteproviders/roblox",
     "description": "Roblox OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
