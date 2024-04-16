@@ -58,6 +58,13 @@ return Socialite::driver('vatsim')->requiredScopes(['email'])->redirect();
 
 ### Returned User fields
 
-- ``id``
-- ``name``
+- ``cid``
+- ``first_name``
+- ``last_name``
+- ``full_name``
 - ``email``
+- ``rating``
+- ``pilotrating``
+- ``region``
+- ``division``
+- ``subdivision``
