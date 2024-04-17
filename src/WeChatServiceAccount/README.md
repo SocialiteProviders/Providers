@@ -1,7 +1,7 @@
 # WeChatServiceAccount
 
 ```bash
-composer require socialiteproviders/wechatserviceaccount
+composer require socialiteproviders/wechat-service-account
 ```
 
 ## Installation & Basic Usage
