@@ -1,7 +1,7 @@
 # WeChatWeb
 
 ```bash
-composer require socialiteproviders/wechatweb
+composer require socialiteproviders/wechat-web
 ```
 
 ## Installation & Basic Usage
