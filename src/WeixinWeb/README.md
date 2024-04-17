@@ -1,7 +1,7 @@
 # WeixinWeb
 
 ```bash
-composer require socialiteproviders/weixinweb
+composer require socialiteproviders/weixin-web
 ```
 
 ## Installation & Basic Usage
