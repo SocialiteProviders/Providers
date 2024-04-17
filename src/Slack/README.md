@@ -1,14 +1,12 @@
-# ~~Slack~~
+# Slack
 
-## Moved to official provider
+## Comparison to offical provider
 
-Socialite now has an official slack provider. This provider is deprecated.
+Socialite now has an official slack provider, but there are some important differences between the socialite one and the offical one.
+Namley, this provider allows you to request both user and bot scopes, and thus get both bot tokens and user tokens. See the section below on that.
 
-https://laravel.com/docs/10.x/socialite#installation
 
-```bash
-composer require socialiteproviders/slack
-```
+https://laravel.com/docs/11.x/socialite#installation
 
 ## Installation & Basic Usage
 
@@ -61,6 +59,12 @@ You should now be able to use the provider like you would regularly use Socialit
 
 ```php
 return Socialite::driver('slack')->redirect();
+```
+
+This package allows you to request both bot and user scopes. User scopes are set using the standard `->scopes()` method, and bot scopes are via the `->botScopes()` method.
+
+```php
+return Socialite::driver('slack')->scopes(['identity.basic', 'identity.email', 'identity.team'])->botScopes(['chat:write','commands'])->redirect();
 ```
 
 ### Returned User fields
