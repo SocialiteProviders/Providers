@@ -59,7 +59,7 @@ return Socialite::driver('tiktok')->redirect();
 
 ### Important information
 For proper operation make sure you have the following permissions/scopes approved:
- - `user.basic.info`*
+ - `user.info.basic`*
  - `user.info.profile`*
  - `user.info.stats`(optional and recommended)
 
