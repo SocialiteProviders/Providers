@@ -98,12 +98,23 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
+        $fields = [
+            'open_id',
+            'union_id',
+            'display_name',
+            'avatar_large_url',
+        ];
+
+        if (in_array('user.info.profile', $this->scopes, true)) {
+            $fields[] = 'username';
+        }
+
         $response = $this->getHttpClient()->get('https://open.tiktokapis.com/v2/user/info/', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
             RequestOptions::QUERY => [
-                'fields' => 'open_id,union_id,display_name,avatar_large_url,username',
+                'fields' => implode(',', $fields),
             ],
         ]);
 
