@@ -39,11 +39,11 @@ $directories = array_map('basename', glob('../src'.'/*', GLOB_ONLYDIR));
 
 foreach ($directories as $provider) {
     $path = sprintf('%s/../src/%s/README.md', __DIR__, $provider);
-    if (!file_exists($path)) {
+    if (! file_exists($path)) {
         continue;
     }
 
-    $existingReadmeContent =  file_get_contents($path);
+    $existingReadmeContent = file_get_contents($path);
 
     if (str_contains($existingReadmeContent, '#### Laravel 11+')) {
         continue;

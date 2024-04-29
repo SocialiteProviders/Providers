@@ -89,7 +89,7 @@ class Provider extends AbstractProvider
         $fields = parent::getCodeFields($state);
         $fields['app_id'] = $fields['client_id'];
         unset($fields['client_id']);
-    
+
         return $fields;
     }
 
