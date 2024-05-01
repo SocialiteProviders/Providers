@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/fiken",
+    "description": "Fiken OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "fiken",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Audun Rundberg",
+            "email": "audun@rundberg.no"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/fiken"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Fiken\\": ""
+        }
+    }
+}

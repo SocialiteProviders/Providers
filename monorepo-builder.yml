@@ -57,6 +57,7 @@ parameters:
     src/Facebook: 'git@github.com:SocialiteProviders/Facebook.git'
     src/Faceit: 'git@github.com:SocialiteProviders/Faceit.git'
     src/Figma: 'git@github.com:SocialiteProviders/Figma.git'
+    src/Fiken: 'git@github.com:SocialiteProviders/Fiken.git'
     src/Fitbit: 'git@github.com:SocialiteProviders/Fitbit.git'
     src/FiveHundredPixel: 'git@github.com:SocialiteProviders/500px.git'
     src/Flattr: 'git@github.com:SocialiteProviders/Flattr.git'
