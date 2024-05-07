@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'linkedin' => [    
+'linkedin-openid' => [   
   'client_id' => env('LINKEDIN_CLIENT_ID'),  
   'client_secret' => env('LINKEDIN_CLIENT_SECRET'),  
   'redirect' => env('LINKEDIN_REDIRECT_URI') 
@@ -54,7 +54,7 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('linkedin')->redirect();
+return Socialite::driver('linkedin-openid')->redirect();
 ```
 
 ### Returned User fields
