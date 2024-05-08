@@ -62,21 +62,21 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'uuid'       => $user['uuid'],
-            'sub'       => $user['sub'],
-            'fullnameAR' => $user['fullnameAR'],
-            'firstnameAR' => $user['firstnameAR'],
-            'lastnameAR' => $user['lastnameAR'],
-            'firstnameEN' => $user['firstnameEN'],
-            'lastnameEN' => $user['lastnameEN'],
-            'fullnameEN' => $user['fullnameEN'],
-            'profileType' => $user['profileType'],
-            'unifiedID' => $user['unifiedID'],
-            'email'    => $user['email'],
-            'idn' => $user['idn'],
-            'gender' => $user['gender'],
-            'mobile' => $user['mobile'],
-            'userType' => $user['userType'],
+            'uuid'          => $user['uuid'],
+            'sub'           => $user['sub'],
+            'fullnameAR'    => $user['fullnameAR'],
+            'firstnameAR'   => $user['firstnameAR'],
+            'lastnameAR'    => $user['lastnameAR'],
+            'firstnameEN'   => $user['firstnameEN'],
+            'lastnameEN'    => $user['lastnameEN'],
+            'fullnameEN'    => $user['fullnameEN'],
+            'profileType'   => $user['profileType'] ?? null,
+            'unifiedID'     => $user['unifiedID'] ?? null,
+            'email'         => $user['email'],
+            'idn'           => $user['idn'] ?? null,
+            'gender'        => $user['gender'] ?? null,
+            'mobile'        => $user['mobile'],
+            'userType'      => $user['userType'] ?? null,
             'nationalityEN' => $user['nationalityEN'],
             'nationalityAR' => $user['nationalityAR'],
         ]);
@@ -88,7 +88,10 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
+                'Content-Type'  => 'multipart/form-data',
+            ],
             RequestOptions::QUERY   => $this->getTokenFields($code),
         ]);
 
@@ -98,11 +101,11 @@ class Provider extends AbstractProvider
     protected function getBaseUrl(): string
     {
         if($this->getConfig('UAE_PASS_ENV', 'staging') === 'staging'){
-            return 'https://stg-id.uaepass.ae/';
+            return 'https://stg-id.uaepass.ae';
         }elseif($this->getConfig('UAE_PASS_ENV', 'production') === 'production'){
-            return 'https://id.uaepass.ae/';
+            return 'https://id.uaepass.ae';
         }else{
-            return 'https://stg-id.uaepass.ae/';
+            return 'https://stg-id.uaepass.ae';
         }
     }
 
