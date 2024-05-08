@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'zoom' => [
+'uaepass' => [
   'client_id' => env('UAEPASS_CLIENT_ID'),
   'client_secret' => env('UAEPAS_CLIENT_SECRET'),
   'redirect' => env('UAEPAS_REDIRECT_URI')
