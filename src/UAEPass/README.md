@@ -1,4 +1,4 @@
-# Zoom
+# UAEPass
 
 ```bash
 composer require socialiteproviders/uaepass
