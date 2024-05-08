@@ -54,7 +54,9 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('uaepass')->redirect();
+return Socialite::driver('uaepass')
+->with(['acr_values' => 'urn:safelayer:tws:policies:authentication:level:low'])
+->redirect();
 ```
 
 ### Returned User fields
