@@ -62,6 +62,22 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Return the logout endpoint with an optional post_logout_redirect_uri query parameter.
+     *
+     * @param  string|null  $redirectUri  The URI to redirect to after logout, if provided.
+     *                                    If not provided, no post_logout_redirect_uri parameter will be included.
+     * @return string The logout endpoint URL.
+     */
+    public function getLogoutUrl(?string $redirectUri = null)
+    {
+        $logoutUrl = sprintf('https://login.microsoftonline.com/%s/oauth2/logout', $this->getConfig('tenant', 'common'));
+
+        return $redirectUri === null ?
+            $logoutUrl :
+            $logoutUrl.'?'.http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getUserByToken($token)
