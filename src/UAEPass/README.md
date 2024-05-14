@@ -3,6 +3,13 @@
 ```bash
 composer require socialiteproviders/uaepass
 ```
+# Set UAE PASS Environment
+```env
+UAEPASS_ENV="staging"
+UAEPASS_CLIENT_ID="sandbox_stage"
+UAEPAS_CLIENT_SECRET="sandbox_stage"
+UAEPAS_REDIRECT_URI="http://my-app.test/callback"
+```
 
 ## Installation & Basic Usage
 

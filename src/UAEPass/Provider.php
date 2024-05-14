@@ -100,9 +100,9 @@ class Provider extends AbstractProvider
 
     protected function getBaseUrl(): string
     {
-        if($this->getConfig('UAE_PASS_ENV', 'staging') === 'staging'){
+        if(env('UAEPASS_ENV', 'staging') == 'staging'){
             return 'https://stg-id.uaepass.ae';
-        }elseif($this->getConfig('UAE_PASS_ENV', 'production') === 'production'){
+        }elseif(env('UAEPASS_ENV') == 'production'){
             return 'https://id.uaepass.ae';
         }else{
             return 'https://stg-id.uaepass.ae';
