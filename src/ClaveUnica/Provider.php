@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->post('https://www.claveunica.gob.cl/openid/userinfo', [
+        $response = $this->getHttpClient()->post('https://accounts.claveunica.gob.cl/openid/userinfo', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
