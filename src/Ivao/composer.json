@@ -1,0 +1,35 @@
+{
+    "name": "socialiteproviders/ivao",
+    "description": "IVAO OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "socialite",
+        "oauth",
+        "oauth2",
+        "provider",
+        "ivao"
+    ],
+    "authors": [
+        {
+            "name": "Arthur Parienté",
+            "email": "arthur.pariente06@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/ivao"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Ivao\\": ""
+        }
+    }
+}
