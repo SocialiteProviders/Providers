@@ -3,6 +3,7 @@
 namespace SocialiteProviders\UAEPass;
 
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -62,23 +63,23 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'uuid'          => $user['uuid'],
-            'sub'           => $user['sub'],
-            'fullnameAR'    => $user['fullnameAR'],
-            'firstnameAR'   => $user['firstnameAR'],
-            'lastnameAR'    => $user['lastnameAR'],
-            'firstnameEN'   => $user['firstnameEN'],
-            'lastnameEN'    => $user['lastnameEN'],
-            'fullnameEN'    => $user['fullnameEN'],
-            'profileType'   => $user['profileType'] ?? null,
-            'unifiedID'     => $user['unifiedID'] ?? null,
-            'email'         => $user['email'],
-            'idn'           => $user['idn'] ?? null,
-            'gender'        => $user['gender'] ?? null,
-            'mobile'        => $user['mobile'],
-            'userType'      => $user['userType'] ?? null,
-            'nationalityEN' => $user['nationalityEN'],
-            'nationalityAR' => $user['nationalityAR'],
+            'uuid'          => Arr::get($user, 'uuid'),
+            'sub'           => Arr::get($user, 'sub'),
+            'fullnameAR'    => Arr::get($user, 'fullnameAR'),
+            'firstnameAR'   => Arr::get($user, 'firstnameAR'),
+            'lastnameAR'    => Arr::get($user, 'lastnameAR'),
+            'firstnameEN'   => Arr::get($user, 'firstnameEN'),
+            'lastnameEN'    => Arr::get($user, 'lastnameEN'),
+            'fullnameEN'    => Arr::get($user, 'fullnameEN'),
+            'profileType'   =>  Arr::get($user, 'profileType'),
+            'unifiedID'     => Arr::get($user, 'unifiedID'),
+            'email'         => Arr::get($user, 'email'),
+            'idn'           => Arr::get($user, 'idn'),
+            'gender'        => Arr::get($user, 'gender'),
+            'mobile'        => Arr::get($user, 'mobile'),
+            'userType'      => Arr::get($user, 'userType'),
+            'nationalityEN' => Arr::get($user, 'nationalityEN'),
+            'nationalityAR' => Arr::get($user, 'nationalityAR'),
         ]);
     }
 
