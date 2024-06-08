@@ -93,6 +93,7 @@ parameters:
     src/InstagramBasic: 'git@github.com:SocialiteProviders/InstagramBasic.git'
     src/Instructure: 'git@github.com:SocialiteProviders/Instructure.git'
     src/Intercom: 'git@github.com:SocialiteProviders/Intercom.git'
+    src/Ivao: 'git@github.com:SocialiteProviders/Ivao.git'
     src/Jira: 'git@github.com:SocialiteProviders/Jira.git'
     src/JumpCloud: 'git@github.com:SocialiteProviders/JumpCloud.git'
     src/Kakao: 'git@github.com:SocialiteProviders/Kakao.git'
