@@ -158,7 +158,7 @@ parameters:
     src/Redbooth: 'git@github.com:SocialiteProviders/Redbooth.git'
     src/Reddit: 'git@github.com:SocialiteProviders/Reddit.git'
     src/Rekono: 'git@github.com:SocialiteProviders/Rekono.git'
-    src/Roblox: 'git@gitub.com:SocialiteProviders/Roblox.git'
+    src/Roblox: 'git@github.com:SocialiteProviders/Roblox.git'
     src/RunKeeper: 'git@github.com:SocialiteProviders/RunKeeper.git'
     src/SURFconext: 'git@github.com:SocialiteProviders/SURFconext.git'
     src/Sage: 'git@github.com:SocialiteProviders/Sage.git'
