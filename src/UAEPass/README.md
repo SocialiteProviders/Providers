@@ -5,7 +5,7 @@ composer require socialiteproviders/uaepass
 ```
 # Set UAE PASS Environment
 ```env
-UAEPASS_ENV="staging"
+UAEPASS_BASE_URL="https://stg-id.uaepass.ae"
 UAEPASS_CLIENT_ID="sandbox_stage"
 UAEPAS_CLIENT_SECRET="sandbox_stage"
 UAEPAS_REDIRECT_URI="http://my-app.test/callback"
