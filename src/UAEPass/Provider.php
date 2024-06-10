@@ -17,7 +17,13 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['urn:uae:digitalid:profile:general'];
+    protected $scopes = [
+        'urn',
+        'uae',
+        'digitalid',
+        'profile',
+        'general'
+    ];
 
     protected $scopeSeparator = ':';
 
@@ -27,7 +33,7 @@ class Provider extends AbstractProvider
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            $this->getBaseUrl().'/idshub/authorize',
+            $this->getBaseUrl() . '/idshub/authorize',
             $state
         );
     }
@@ -37,7 +43,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getBaseUrl().'/idshub/token';
+        return $this->getBaseUrl() . '/idshub/token';
     }
 
     /**
@@ -46,15 +52,15 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            $this->getBaseUrl().'/idshub/userinfo',
+            $this->getBaseUrl() . '/idshub/userinfo',
             [
                 RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
+                    'Authorization' => 'Bearer ' . $token,
                 ],
             ]
         );
 
-        return json_decode((string) $response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -63,21 +69,21 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'uuid'          => Arr::get($user, 'uuid'),
-            'sub'           => Arr::get($user, 'sub'),
-            'fullnameAR'    => Arr::get($user, 'fullnameAR'),
-            'firstnameAR'   => Arr::get($user, 'firstnameAR'),
-            'lastnameAR'    => Arr::get($user, 'lastnameAR'),
-            'firstnameEN'   => Arr::get($user, 'firstnameEN'),
-            'lastnameEN'    => Arr::get($user, 'lastnameEN'),
-            'fullnameEN'    => Arr::get($user, 'fullnameEN'),
-            'profileType'   =>  Arr::get($user, 'profileType'),
-            'unifiedID'     => Arr::get($user, 'unifiedID'),
-            'email'         => Arr::get($user, 'email'),
-            'idn'           => Arr::get($user, 'idn'),
-            'gender'        => Arr::get($user, 'gender'),
-            'mobile'        => Arr::get($user, 'mobile'),
-            'userType'      => Arr::get($user, 'userType'),
+            'uuid' => Arr::get($user, 'uuid'),
+            'sub' => Arr::get($user, 'sub'),
+            'fullnameAR' => Arr::get($user, 'fullnameAR'),
+            'firstnameAR' => Arr::get($user, 'firstnameAR'),
+            'lastnameAR' => Arr::get($user, 'lastnameAR'),
+            'firstnameEN' => Arr::get($user, 'firstnameEN'),
+            'lastnameEN' => Arr::get($user, 'lastnameEN'),
+            'fullnameEN' => Arr::get($user, 'fullnameEN'),
+            'profileType' => Arr::get($user, 'profileType'),
+            'unifiedID' => Arr::get($user, 'unifiedID'),
+            'email' => Arr::get($user, 'email'),
+            'idn' => Arr::get($user, 'idn'),
+            'gender' => Arr::get($user, 'gender'),
+            'mobile' => Arr::get($user, 'mobile'),
+            'userType' => Arr::get($user, 'userType'),
             'nationalityEN' => Arr::get($user, 'nationalityEN'),
             'nationalityAR' => Arr::get($user, 'nationalityAR'),
         ]);
@@ -90,24 +96,18 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
-                'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
-                'Content-Type'  => 'multipart/form-data',
+                'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
+                'Content-Type' => 'multipart/form-data',
             ],
-            RequestOptions::QUERY   => $this->getTokenFields($code),
+            RequestOptions::QUERY => $this->getTokenFields($code),
         ]);
 
-        return json_decode((string) $response->getBody(), true);
+        return json_decode((string)$response->getBody(), true);
     }
 
     protected function getBaseUrl(): string
     {
-        if(env('UAEPASS_ENV', 'staging') == 'staging'){
-            return 'https://stg-id.uaepass.ae';
-        }elseif(env('UAEPASS_ENV') == 'production'){
-            return 'https://id.uaepass.ae';
-        }else{
-            return 'https://stg-id.uaepass.ae';
-        }
+        return $this->getConfig('base_url', 'https://stg-id.uaepass.ae');
     }
 
     /**
@@ -126,16 +126,21 @@ class Provider extends AbstractProvider
     /**
      * Return the logout endpoint with an optional post_logout_redirect_uri query parameter.
      *
-     * @param  string|null  $redirectUri  The URI to redirect to after logout, if provided.
+     * @param string|null $redirectUri The URI to redirect to after logout, if provided.
      *                                    If not provided, no post_logout_redirect_uri parameter will be included.
      * @return string The logout endpoint URL.
      */
-    public function getLogoutUrl(?string $redirectUri = null)
+    public function getLogoutUrl(?string $redirectUri = null): string
     {
-        $logoutUrl = $this->getBaseUrl().'/idshub/logout';
+        $logoutUrl = $this->getBaseUrl() . '/idshub/logout';
 
         return $redirectUri === null ?
             $logoutUrl :
-            $logoutUrl.'?'.http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
+            $logoutUrl . '?' . http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
+    }
+
+    public static function additionalConfigKeys(): array
+    {
+        return ['base_url'];
     }
 }
