@@ -107,7 +107,7 @@ class Provider extends AbstractProvider
 
     protected function getBaseUrl(): string
     {
-        return $this->getConfig('base_url', 'https://stg-id.uaepass.ae');
+        return $this->getConfig('base_url');
     }
 
     /**

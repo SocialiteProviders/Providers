@@ -19,10 +19,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 'uaepass' => [
-    'base_url' => env('UAEPASS_BASE_URL'),
-    'client_id' => env('UAEPASS_CLIENT_ID'),
+    'base_url'      => env('UAEPASS_BASE_URL', 'https://stg-id.uaepass.ae'),
+    'client_id'     => env('UAEPASS_CLIENT_ID'),
     'client_secret' => env('UAEPAS_CLIENT_SECRET'),
-    'redirect' => env('UAEPAS_REDIRECT_URI')
+    'redirect'      => env('UAEPAS_REDIRECT_URI')
 ],
 ```
 
