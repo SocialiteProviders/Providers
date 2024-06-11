@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/uaepass",
+    "description": "UAEPass Oauth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "uaepass"
+    ],
+    "authors": [
+        {
+            "name": "Haneef Ansari",
+            "email": "haneef5k@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/uaepass"
+    },
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\UAEPass\\": ""
+        }
+    }
+}
