@@ -201,6 +201,7 @@ parameters:
     src/TwitCasting: 'git@github.com:SocialiteProviders/TwitCasting.git'
     src/Twitch: 'git@github.com:SocialiteProviders/Twitch.git'
     src/Twitter: 'git@github.com:SocialiteProviders/Twitter.git'
+    src/UAEPass: 'git@github.com:SocialiteProviders/UAEPass.git'
     src/UCL: 'git@github.com:SocialiteProviders/UCL.git'
     src/UFS: 'git@github.com:SocialiteProviders/UFS.git'
     src/Uber: 'git@github.com:SocialiteProviders/Uber.git'
