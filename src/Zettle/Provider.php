@@ -3,7 +3,6 @@
 namespace SocialiteProviders\Zettle;
 
 use GuzzleHttp\RequestOptions;
-use Psr\Http\Message\ResponseInterface;
 use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
