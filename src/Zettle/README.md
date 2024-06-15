@@ -59,6 +59,14 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('zettle')->redirect();
 ```
 
+Note that the Zettle API does not return any user information except a user ID and organization ID, both in the form of UUIDs.
+
+```php
+$user = Socialite::driver('zettle')->user();
+$user->id; // 6c2828b9-c939-4713-8aad-17e1ef68bc96
+$user->user["organizationUuid"]; // 138a9091-a154-4cf5-a32a-55d8a76b8e32
+```
+
 You can delete an app connection by calling the `disconnect` method with an access token:
 
 ```php
