@@ -6,7 +6,7 @@ use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
-class ZettleProvider extends AbstractProvider
+class Provider extends AbstractProvider
 {
     protected $usesPKCE = true;
 
