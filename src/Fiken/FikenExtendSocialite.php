@@ -8,6 +8,6 @@ class FikenExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled)
     {
-        $socialiteWasCalled->extendSocialite('fiken', FikenProvider::class);
+        $socialiteWasCalled->extendSocialite('fiken', Provider::class);
     }
 }

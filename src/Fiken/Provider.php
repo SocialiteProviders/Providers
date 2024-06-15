@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
-class FikenProvider extends AbstractProvider
+class Provider extends AbstractProvider
 {
     /**
      * Fiken Oauth base url.
