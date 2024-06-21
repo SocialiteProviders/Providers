@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/threads",
+    "description": "Threads OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "threads",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Nick Been",
+            "email": "nick@nickbeen.nl",
+            "homepage": "https://nickbeen.nl"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/threads"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Threads\\": ""
+        }
+    }
+}
