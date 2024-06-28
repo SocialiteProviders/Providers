@@ -61,8 +61,6 @@ return Socialite::driver('aikido')->redirect();
 
 - ``id``
 - ``name``
-- ``linked_provider``
-- ``linked_provider_org_name``
 
 ### Reference
 
