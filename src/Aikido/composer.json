@@ -13,7 +13,7 @@
         {
             "name": "Oliver Nybroe",
             "email": "oliver@laravel.com"
-        },
+        }
     ],
     "support": {
         "issues": "https://github.com/socialiteproviders/providers/issues",
