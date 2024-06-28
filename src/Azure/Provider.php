@@ -10,6 +10,13 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'AZURE';
 
     /**
+     * Default field list to request from Microsoft.
+     *
+     * @see https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions
+     */
+    protected const DEFAULT_FIELDS_USER = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'mail', 'mobilePhone', 'department', 'officeLocation', 'preferredLanguage', 'surname', 'userPrincipalName'];
+
+    /**
      * The base Azure Graph URL.
      *
      * @var string
@@ -82,6 +89,9 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Bearer '.$token,
             ],
             RequestOptions::PROXY => $this->getConfig('proxy'),
+            RequestOptions::QUERY => [
+                '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_USER, $this->getConfig('fields', []))),
+            ],
         ]);
 
         return json_decode((string) $response->getBody(), true);
