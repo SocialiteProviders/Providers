@@ -6,40 +6,24 @@ use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-/**
- * The Socialite provider for Aikido OAuth.
- */
 class Provider extends AbstractProvider
 {
-    /**
-     * The base URL for the Aikido OAuth provider.
-     */
-    private const BASE_URL = 'https://app.aikido.dev';
-
     public const IDENTIFIER = 'AIKIDO';
 
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [''];
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            self::BASE_URL . '/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://app.aikido.dev/oauth/authorize', $state);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
-        return self::BASE_URL . '/api/oauth/token';
+        return 'https://app.aikido.dev/api/oauth/token';
     }
 
     /**
@@ -47,39 +31,25 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            self::BASE_URL . '/api/public/v1/workspace',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => "Bearer {$token}",
-                ],
-            ]
-        );
-
-        return json_decode($response->getBody()->getContents(), true);
-    }
-
-    /**
-     * Create the headers for the token request.
-     *
-     * @return array{Authorization: string, Accept: string}
-     */
-    protected function getTokenHeaders($code): array
-    {
-        return array_merge(parent::getTokenHeaders($code), [
-            'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
+        $response = $this->getHttpClient()->get('https://app.aikido.dev/api/public/v1/workspace', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
         ]);
+
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
      * Map the raw user array to a Socialite User instance.
      *
-     * @param array{id: string, name: string} $user
+     * @param  array{id: string, name: string}  $user
+     * @return \SocialiteProviders\Manager\OAuth2\User
      */
     protected function mapUserToObject(array $user): User
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+            'id'   => $user['id'],
             'name' => $user['name'],
         ]);
     }
@@ -87,19 +57,24 @@ class Provider extends AbstractProvider
     /**
      * Get the refresh token response for the given refresh token.
      *
-     * @param string $refreshToken
+     * @param  string  $refreshToken
      * @return array{access_token: string, expires_in: int, refresh_token: string, scope: string}
      */
     protected function getRefreshTokenResponse($refreshToken): array
     {
-        $response = json_decode($this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => $this->getTokenHeaders($refreshToken),
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::FORM_PARAMS => [
-                'grant_type' => 'refresh_token',
+                'grant_type'    => 'refresh_token',
                 'refresh_token' => $refreshToken,
             ],
-        ])->getBody(), true);
+            RequestOptions::HEADERS => [
+                'Accept'        => 'application/json',
+                'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
+            ],
+        ]);
 
-        return array_merge($response, ['refresh_token' => $refreshToken]);
+        $data = json_decode((string) $response->getBody(), true);
+
+        return array_merge($data, ['refresh_token' => $refreshToken]);
     }
 }
