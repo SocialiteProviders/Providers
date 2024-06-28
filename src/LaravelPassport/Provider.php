@@ -104,8 +104,7 @@ class Provider extends AbstractProvider
         return rtrim($this->getConfig('host'), '/').'/'.ltrim($this->getConfig($type, Arr::get([
             'authorize_uri' => 'oauth/authorize',
             'token_uri'     => 'oauth/token',
-            'userinfo_uri'  => $this->getConfig('userinfo_uri')',
-        ], $type)), '/');
+            'userinfo_uri'  => $this->getConfig('userinfo_uri', 'api/user'),
     }
 
     protected function getUserData($user, $key)
