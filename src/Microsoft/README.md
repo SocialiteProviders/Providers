@@ -76,7 +76,7 @@ To do this you first need to edit your `config/services.php` file and within you
 ```
 **NOTE: if you use `'tenant' => env('MICROSOFT_TENANT_ID')` then you should ensure that your .env file still uses 'common' as the tenant ID.**
 
-By default this returns:
+The default tenant fields returned are:
 * ID
 * displayName
 * city
@@ -86,8 +86,58 @@ By default this returns:
 * street
 * verifiedDomains
 
-Any additional fields can be returned with the attribute names detailed [here](https://learn.microsoft.com/en-us/graph/api/resources/organization?view=graph-rest-1.0).
-
 ### Refresh token
 By default Microsoft doesn't return a refresh token. But if you do need a refresh token you need to add the `offline_access` scope. 
 Adding the scope is done on the `redirect` method as is described in the Laravel [docs](https://laravel.com/docs/master/socialite#access-scopes).
+
+#### Tenant types
+
+The [supported values (defined by MS Identity Platform)](https://learn.microsoft.com/en-au/azure/active-directory/develop/active-directory-v2-protocols#endpoints)
+for 'tenant' are listed below and can be used to control who can sign into the application.
+- `common` - for both Microsoft accounts and work or school accounts (**most permissive**),
+- `organizations` - for work or school accounts only,
+- `consumers` - for Microsoft accounts only (_only services like Xbox, Teams for Life, or Outlook_),
+- `tenant identifiers` - such as the tenant ID or domain name (**most restrictive**).
+
+**Note:** when configuring the services.php microsoft entry with
+
+- `tenant => 'common'`
+- `include_tenant_info => true`
+
+and attempting to login with a 'consumer' account, the user's tenant value will be null
+
+e.g.
+
+```
+$user = Socialite::driver('microsoft')->user();
+if ($user->tenant === null) {
+
+    // do some consumer/public specific workflow
+    
+} else {
+
+    // do your work / school tenant workflow
+    Log::info(sprintf("Tenant found - %s", $user->tenant->displayName));
+     
+}
+```
+
+
+#### Additional tenant fields `tenant_fields`
+
+Any additional fields can be returned with the attribute names detailed [here](https://learn.microsoft.com/en-us/graph/api/resources/organization?view=graph-rest-1.0).
+
+e.g. `'tenantType', 'technicalNotificationMails'` can be requested as such
+
+```
+    'microsoft' => [
+        'client_id' => env('MICROSOFT_CLIENT_ID'), 
+        'client_secret' => env('MICROSOFT_CLIENT_SECRET'),
+        'redirect' => env('MICROSOFT_REDIRECT_URI'), 
+        'tenant' => env('MICROSOFT_TENANT_ID', 'common'), 
+        'include_tenant_info' => true,
+        'tenant_fields' => [ 'tenantType', 'technicalNotificationMails' ],
+        'include_avatar' => true,
+        'include_avatar_size' => '648x648',
+    ], 
+```
