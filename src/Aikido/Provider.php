@@ -41,6 +41,16 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function getTokenHeaders($code): array
+    {
+        return array_merge(parent::getTokenHeaders($code), [
+            'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
+        ]);
+    }
+
+    /**
      * Map the raw user array to a Socialite User instance.
      *
      * @param  array{id: string, name: string}  $user
