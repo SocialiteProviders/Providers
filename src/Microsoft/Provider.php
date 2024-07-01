@@ -17,7 +17,7 @@ class Provider extends AbstractProvider
      *
      * @see https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions
      */
-    protected const DEFAULT_FIELDS_USER = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'mail', 'mobilePhone', 'officeLocation', 'preferredLanguage', 'surname', 'userPrincipalName'];
+    protected const DEFAULT_FIELDS_USER = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'department', 'mail', 'mobilePhone', 'officeLocation', 'preferredLanguage', 'surname', 'userPrincipalName'];
 
     /**
      * Default tenant field list to request from Microsoft.
@@ -157,6 +157,7 @@ class Provider extends AbstractProvider
             'displayName'       => Arr::get($user, 'displayName'),
             'givenName'         => Arr::get($user, 'givenName'),
             'jobTitle'          => Arr::get($user, 'jobTitle'),
+            'department'        => Arr::get($user, 'department'),
             'mail'              => Arr::get($user, 'mail'),
             'mobilePhone'       => Arr::get($user, 'mobilePhone'),
             'officeLocation'    => Arr::get($user, 'officeLocation'),
