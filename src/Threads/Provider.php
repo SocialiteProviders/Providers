@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Threads;
 
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -77,11 +78,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'           => $user['id'],
-            'nickname'     => $user['username'],
+            'id'           => Arr::get($user, 'id'),
+            'nickname'     => Arr::get($user, 'username'),
             'name'         => null,
             'email'        => null,
-            'avatar'       => $user['threads_profile_picture_url'],
+            'avatar'       => Arr::get($user, 'threads_profile_picture_url'),
         ]);
     }
 }
