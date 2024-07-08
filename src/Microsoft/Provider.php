@@ -134,7 +134,7 @@ class Provider extends AbstractProvider
             }
         }
 
-        if ($this->getConfig('tenant', 'common') === 'common' && $this->getConfig('include_tenant_info', false)) {
+        if ($this->getConfig('include_tenant_info', false)) {
             try {
                 $responseTenant = $this->getHttpClient()->get(
                     'https://graph.microsoft.com/v1.0/organization',
