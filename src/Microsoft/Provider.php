@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Microsoft;
 
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -133,7 +134,7 @@ class Provider extends AbstractProvider
             }
         }
 
-        if ($this->getConfig('tenant', 'common') === 'common' && $this->getConfig('include_tenant_info', false)) {
+        if ($this->getConfig('include_tenant_info', false)) {
             try {
                 $responseTenant = $this->getHttpClient()->get(
                     'https://graph.microsoft.com/v1.0/organization',
@@ -149,7 +150,7 @@ class Provider extends AbstractProvider
                     ]
                 );
                 $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
-            } catch (ClientException) {
+            } catch (RequestException) {
                 //if exception then tenant does not exist.
                 $formattedResponse['tenant'] = null;
             }
