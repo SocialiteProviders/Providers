@@ -3,7 +3,7 @@
 namespace SocialiteProviders\Microsoft;
 
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
@@ -150,7 +150,7 @@ class Provider extends AbstractProvider
                     ]
                 );
                 $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
-            } catch (ServerException) {
+            } catch (RequestException) {
                 //if exception then tenant does not exist.
                 $formattedResponse['tenant'] = null;
             }
