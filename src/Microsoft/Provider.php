@@ -31,6 +31,7 @@ class Provider extends AbstractProvider
         'preferredLanguage',
         'surname',
         'userPrincipalName',
+        'employeeId',
     ];
 
     /**
@@ -193,6 +194,7 @@ class Provider extends AbstractProvider
             'preferredLanguage' => Arr::get($user, 'preferredLanguage'),
             'surname' => Arr::get($user, 'surname'),
             'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
+            'employeeId' => Arr::get($user, 'employeeId'),
 
             'tenant' => Arr::get($user, 'tenant'),
         ]);
