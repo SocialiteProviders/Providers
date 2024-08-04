@@ -14,7 +14,7 @@ class Provider extends AbstractProvider
 
     protected $scopes = [];
 
-    protected array $userScopes = ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
+    protected array $userScopes = ['openid', 'profile', 'email'];
 
     public function scopes($scopes)
     {
@@ -64,18 +64,18 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'              => Arr::get($user, 'user.id'),
-            'name'            => Arr::get($user, 'user.name'),
-            'email'           => Arr::get($user, 'user.email'),
-            'avatar'          => Arr::get($user, 'user.image_512'),
-            'organization_id' => Arr::get($user, 'team.id'),
+            'id' => Arr::get($user, 'https://slack.com/user_id'),
+            'name' => Arr::get($user, 'name'),
+            'email' => Arr::get($user, 'email'),
+            'avatar' => Arr::get($user, 'https://slack.com/user_image_512'),
+            'organization_id' => Arr::get($user, 'https://slack.com/team_id'),
         ]);
     }
 
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS     => $this->getTokenHeaders($code),
+            RequestOptions::HEADERS => $this->getTokenHeaders($code),
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
@@ -84,7 +84,7 @@ class Provider extends AbstractProvider
 
     public function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://slack.com/oauth/v2/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://slack.com/openid/connect/authorize', $state);
     }
 
     /**
@@ -92,7 +92,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://slack.com/api/oauth.v2.access';
+        return 'https://slack.com/api/openid.connect.token';
     }
 
     /**
@@ -100,8 +100,8 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://slack.com/api/users.identity', [
-            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
+        $response = $this->getHttpClient()->get('https://slack.com/api/openid.connect.userInfo', [
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer ' . $token],
         ]);
 
         return json_decode($response->getBody(), true);

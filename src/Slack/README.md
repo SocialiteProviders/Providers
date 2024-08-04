@@ -64,7 +64,7 @@ return Socialite::driver('slack')->redirect();
 This package allows you to request both bot and user scopes. User scopes are set using the standard `->scopes()` method, and bot scopes are via the `->botScopes()` method.
 
 ```php
-return Socialite::driver('slack')->scopes(['identity.basic', 'identity.email', 'identity.team'])->botScopes(['chat:write','commands'])->redirect();
+return Socialite::driver('slack')->scopes(['openid', 'profile', 'email'])->botScopes(['chat:write','commands'])->redirect();
 ```
 
 ### Returned User fields
