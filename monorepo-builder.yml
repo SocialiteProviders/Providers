@@ -48,6 +48,7 @@ parameters:
     src/Douban: 'git@github.com:SocialiteProviders/Douban.git'
     src/Dribbble: 'git@github.com:SocialiteProviders/Dribbble.git'
     src/Dropbox: 'git@github.com:SocialiteProviders/Dropbox.git'
+    src/EduID: 'git@github.com:SocialiteProviders/EduID.git'
     src/Envato: 'git@github.com:SocialiteProviders/Envato.git'
     src/Etsy: 'git@github.com:SocialiteProviders/Etsy.git'
     src/Eventbrite: 'git@github.com:SocialiteProviders/Eventbrite.git'

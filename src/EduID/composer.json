@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/eduid",
+    "description": "EduID OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "eduid",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Raphael Portmann",
+            "email": "raphael@webkinder.ch"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/eduid"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\EduID\\": ""
+        }
+    }
+}
