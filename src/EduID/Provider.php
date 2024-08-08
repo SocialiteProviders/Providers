@@ -48,10 +48,10 @@ class Provider extends AbstractProvider
     protected function getEduIdUrl(): string
     {
         if ($this->getConfig('use_test_idp')) {
-            return 'https://login.test.eduid.ch/idp/profile/oidc/';
+            return 'https://login.test.eduid.ch/idp/profile/';
         }
 
-        return 'https://login.eduid.ch/idp/profile/oidc/';
+        return 'https://login.eduid.ch/idp/profile/';
     }
 
     /**
@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->getEduIdUrl().'authorize', $state);
+        return $this->buildAuthUrlFromBase($this->getEduIdUrl().'oidc/authorize', $state);
     }
 
     /**
@@ -75,7 +75,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->getEduIdUrl().'token';
+        return $this->getEduIdUrl().'oidc/token';
     }
 
     /**
@@ -83,7 +83,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getEduIdUrl().'userinfo', [
+        $response = $this->getHttpClient()->get($this->getEduIdUrl().'oidc/userinfo', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -155,7 +155,7 @@ class Provider extends AbstractProvider
      */
     public function revokeToken(string $token, string $hint = 'access_token')
     {
-        $url = $this->getEduIdUrl().'revocation';
+        $url = $this->getEduIdUrl().'oauth2/revocation';
 
         return $this->getHttpClient()->post($url, [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
@@ -174,7 +174,7 @@ class Provider extends AbstractProvider
      */
     public function introspectToken(string $token, string $hint = 'access_token')
     {
-        $url = $this->getEduIdUrl().'introspection';
+        $url = $this->getEduIdUrl().'oauth2/introspection';
         $resp = $this->getHttpClient()->post($url, [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
             RequestOptions::HEADERS     => ['Accept' => 'application/json'],
