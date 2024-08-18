@@ -239,6 +239,7 @@ parameters:
     src/Zalo: 'git@github.com:SocialiteProviders/Zalo.git'
     src/Zendesk: 'git@github.com:SocialiteProviders/Zendesk.git'
     src/Zettle: 'git@github.com:SocialiteProviders/Zettle.git'
+    src/Zitadel: 'git@github.com:SocialiteProviders/Zitadel.git'
     src/Zoho: 'git@github.com:SocialiteProviders/Zoho.git'
     src/Zoom: 'git@github.com:SocialiteProviders/Zoom.git'
     src/xREL: 'git@github.com:SocialiteProviders/xREL.git'
