@@ -82,7 +82,7 @@ class Provider extends AbstractProvider
             'nickname'     => Arr::get($user, 'username'),
             'name'         => null,
             'email'        => null,
-            'avatar'       => Arr::get($user, 'threads_profile_picture_url'),
+            'avatar'       => Arr::get($user, 'threads_profile_picture_url') ?? null,
         ]);
     }
 }
