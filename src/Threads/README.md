@@ -11,10 +11,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'threads' => [    
-  'client_id' => env('THREADS_CLIENT_ID'),  
-  'client_secret' => env('THREADS_CLIENT_SECRET'),  
-  'redirect' => env('THREADS_REDIRECT_URI') 
+'threads' => [
+  'client_id' => env('THREADS_CLIENT_ID'),
+  'client_secret' => env('THREADS_CLIENT_SECRET'),
+  'redirect' => env('THREADS_REDIRECT_URI')
 ],
 ```
 
@@ -24,13 +24,14 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 In Laravel 11, the default `EventServiceProvider` provider was removed. Instead, add the listener using the `listen` method on the `Event` facade, in your `AppServiceProvider` `boot` method.
 
-* Note: You do not need to add anything for the built-in socialite providers unless you override them with your own providers.
+-   Note: You do not need to add anything for the built-in socialite providers unless you override them with your own providers.
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
     $event->extendSocialite('threads', \SocialiteProviders\Threads\Provider::class);
 });
 ```
+
 <details>
 <summary>
 Laravel 10 or below
@@ -43,10 +44,11 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\StartGg\ThreadsExtendSocialite::class.'@handle',
+        \SocialiteProviders\Threads\ThreadsExtendSocialite::class.'@handle',
     ],
 ];
 ```
+
 </details>
 
 ### Usage
@@ -59,9 +61,9 @@ return Socialite::driver('threads')->redirect();
 
 ### Returned User fields
 
-- ``id``
-- ``nickname``
-- ``avatar``
+-   `id`
+-   `nickname`
+-   `avatar`
 
 ### Refreshing access tokens
 
@@ -84,7 +86,7 @@ public function exchangeAccessToken(string $accessToken): string
         ]);
 
     $response = json_decode((string) $response->getBody(), true);
-    
+
     return $response['access_token'];
 }
 ```
@@ -105,11 +107,11 @@ public function refreshAccessToken(string $accessToken): string
         ]);
 
     $response = json_decode((string) $response->getBody(), true);
-    
+
     return $response['access_token'];
 }
 ```
 
 ### Reference
 
-- [Threads API](https://developers.facebook.com/docs/threads)
+-   [Threads API](https://developers.facebook.com/docs/threads)
