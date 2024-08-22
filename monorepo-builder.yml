@@ -235,6 +235,7 @@ parameters:
     src/Yammer: 'git@github.com:SocialiteProviders/Yammer.git'
     src/Yandex: 'git@github.com:SocialiteProviders/Yandex.git'
     src/Yiban: 'git@github.com:SocialiteProviders/Yiban.git'
+    src/YNAB: 'git@github.com:SocialiteProviders/YNAB.git'
     src/YouTube: 'git@github.com:SocialiteProviders/YouTube.git'
     src/Zalo: 'git@github.com:SocialiteProviders/Zalo.git'
     src/Zendesk: 'git@github.com:SocialiteProviders/Zendesk.git'
