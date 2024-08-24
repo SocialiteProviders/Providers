@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl(): string
     {
-        return 'https://api.ynab.com/oauth2/token';
+        return 'https://api.ynab.com/oauth/token';
     }
 
     /**
