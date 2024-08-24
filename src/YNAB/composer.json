@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/ynab",
+    "description": "YNAB OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "ynab",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Cameron Wilby",
+            "email": "cameron@wilby.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/ynab"
+    },
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\YNAB\\": ""
+        }
+    }
+}
