@@ -12,10 +12,9 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 'ynab' => [
-    'client_id' => env('YNAB_CLIENT_ID'),
-    'client_secret' => env('YNAB_CLIENT_SECRET'),
-    'redirect' => env('YNAB_CALLBACK_URL'),
-    'scope' => explode(",", env('YNAB_SCOPES'))
+  'client_id' => env('YNAB_CLIENT_ID'),
+  'client_secret' => env('YNAB_CLIENT_SECRET'),
+  'redirect' => env('YNAB_REDIRECT_URI')
 ],
 ```
 
@@ -57,18 +56,3 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('ynab')->redirect();
 ```
-
-Example env
-```php
-YNAB_CLIENT_ID=abc123
-YNAB_CLIENT_SECRET=abc123
-YNAB_CALLBACK_URL=https://your-app.ngrok.io/oauth2/callback
-YNAB_LOGIN_SCOPE="read-only"
-```
-
-#### Helpful tips
-- YNAB only provides the ID of the user, and does not provide the name or email address or other oauth2 attributes.
-
-### Returned User fields
-
-- ``id``
