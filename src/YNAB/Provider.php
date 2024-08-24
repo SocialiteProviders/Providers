@@ -34,7 +34,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://app.ynab.com/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://api.ynab.com/oauth/authorize', $state);
     }
 
     /**
@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl(): string
     {
-        return 'https://app.ynab.com/oauth2/token';
+        return 'https://api.ynab.com/oauth2/token';
     }
 
     /**
@@ -50,7 +50,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token): array
     {
-        $response = $this->getHttpClient()->get('https://app.ynab.com/v1/user', [
+        $response = $this->getHttpClient()->get('https://api.ynab.com/v1/user', [
             RequestOptions::HEADERS => [
                 'Authorization' => "Bearer $token",
             ],
