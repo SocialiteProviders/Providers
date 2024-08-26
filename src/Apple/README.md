@@ -22,6 +22,25 @@ See [Configure Apple ID Authentication](https://developer.okta.com/blog/2019/06/
 
 > Note: the client secret used for "Sign In with Apple" is a JWT token that can have a maximum lifetime of 6 months. The article above explains how to generate the client secret on demand and you'll need to update this every 6 months. To generate the client secret for each request, see [Generating A Client Secret For Sign In With Apple On Each Request](https://bannister.me/blog/generating-a-client-secret-for-sign-in-with-apple-on-each-request)
 
+If you don't have secret token, or you don't want to it do manually, you can use a private key ([see official docs](https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens#3262048)).
+Add lines to the configuration as follows:
+
+```php
+'apple' => [
+  'client_id' => env('APPLE_CLIENT_ID'), // Required. Bundle ID from Identifier in Apple Developer.
+  'client_secret' => env('APPLE_CLIENT_SECRET'), // Empty. We create it from private key.
+  'key_id' => env('APPLE_KEY_ID'), // Required. Key ID from Keys in Apple Developer.
+  'team_id' => env('APPLE_TEAM_ID'), // Required. App ID Prefix from Identifier in Apple Developer.
+  'private_key' => env('APPLE_PRIVATE_KEY'), // Required. Must be absolute path, e.g. /var/www/cert/AuthKey_XYZ.p8
+  'passphrase' => env('APPLE_PASSPHRASE'), // Optional. Set if your private key have a passphrase.
+  'signer' => env('APPLE_SIGNER'), // Optional. Signer used for Configuration::forSymmetricSigner(). Default: \Lcobucci\JWT\Signer\Ecdsa\Sha256
+  'redirect' => env('APPLE_REDIRECT_URI') // Required.
+],
+```
+
+If you receive error `400 Bad Request {"error":"invalid_client"}` , a possible solution is to use another Signer (Asymmetric algorithms), see [Asymmetric algorithms](https://lcobucci-jwt.readthedocs.io/en/stable/supported-algorithms/#asymmetric-algorithms).
+
+
 ### Add provider event listener
 
 #### Laravel 11+
