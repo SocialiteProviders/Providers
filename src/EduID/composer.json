@@ -3,9 +3,9 @@
     "description": "EduID OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
+        "eduid",
         "laravel",
         "oauth",
-        "eduid",
         "provider",
         "socialite"
     ],

@@ -3,12 +3,12 @@
     "description": "IVAO OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
+        "ivao",
         "laravel",
-        "socialite",
         "oauth",
         "oauth2",
         "provider",
-        "ivao"
+        "socialite"
     ],
     "authors": [
         {

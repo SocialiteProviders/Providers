@@ -3,11 +3,11 @@
     "description": "Zettle OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
-        "zettle",
         "laravel",
         "oauth",
         "provider",
-        "socialite"
+        "socialite",
+        "zettle"
     ],
     "authors": [
         {

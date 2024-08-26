@@ -3,10 +3,10 @@
     "description": "Roblox OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
-        "roblox",
         "laravel",
         "oauth",
         "provider",
+        "roblox",
         "socialite"
     ],
     "authors": [

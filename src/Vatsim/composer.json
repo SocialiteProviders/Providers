@@ -4,10 +4,10 @@
     "license": "MIT",
     "keywords": [
         "laravel",
-        "socialite",
         "oauth",
         "oauth2",
         "provider",
+        "socialite",
         "vatsim"
     ],
     "authors": [

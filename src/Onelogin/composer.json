@@ -2,6 +2,14 @@
     "name": "socialiteproviders/onelogin",
     "description": "Onelogin OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "oauth2",
+        "oneligin",
+        "provider",
+        "socialite"
+    ],
     "authors": [
         {
             "name": "Amnuay",

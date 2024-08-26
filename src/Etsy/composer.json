@@ -5,6 +5,7 @@
     "keywords": [
         "etsy",
         "laravel",
+        "oauth",
         "oauth2",
         "provider",
         "socialite"

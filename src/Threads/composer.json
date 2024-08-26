@@ -3,11 +3,11 @@
     "description": "Threads OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
-        "threads",
         "laravel",
         "oauth",
         "provider",
-        "socialite"
+        "socialite",
+        "threads"
     ],
     "authors": [
         {

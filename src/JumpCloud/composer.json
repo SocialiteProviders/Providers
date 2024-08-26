@@ -3,10 +3,11 @@
     "description": "JumpCloud OpenID Connect (OIDC) Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
+        "connect",
         "jumpcloud",
         "laravel",
+        "oauth",
         "openid",
-        "connect",
         "provider",
         "socialite"
     ],

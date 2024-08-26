@@ -3,8 +3,8 @@
     "description": "Linode OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
-        "linode",
         "laravel",
+        "linode",
         "oauth",
         "provider",
         "socialite"

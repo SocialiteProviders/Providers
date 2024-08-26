@@ -3,11 +3,11 @@
     "description": "YNAB OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
-        "ynab",
         "laravel",
         "oauth",
         "provider",
-        "socialite"
+        "socialite",
+        "ynab"
     ],
     "authors": [
         {

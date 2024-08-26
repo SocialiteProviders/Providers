@@ -3,8 +3,8 @@
     "description": "Mediawiki OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
-        "mediawiki",
         "laravel",
+        "mediawiki",
         "oauth",
         "provider",
         "socialite"
