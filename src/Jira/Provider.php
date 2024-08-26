@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
 
     protected function mapUserToObject(array $user)
     {
-        $userObject = new User();
+        $userObject = new User;
 
         if (isset($user['extra'])) {
             $userObject = $userObject->setRaw($user['extra']);

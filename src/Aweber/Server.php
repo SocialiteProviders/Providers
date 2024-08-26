@@ -52,7 +52,7 @@ class Server extends BaseServer
     {
         $data = $data['entries'][0];
 
-        $user = new User();
+        $user = new User;
         $user->id = $data['id'];
         $user->extra = array_diff_key($data, array_flip([
             'id',

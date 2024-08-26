@@ -90,7 +90,7 @@ class Provider extends AbstractProvider
         $key = $this->getConfig('userinfo_key');
         $data = ($key === null) === true ? $user : Arr::get($user, $key, []);
 
-        return (new User())->setRaw($data)->map([
+        return (new User)->setRaw($data)->map([
             'id'       => $this->getUserData($data, 'id'),
             'nickname' => $this->getUserData($data, 'nickname'),
             'name'     => $this->getUserData($data, 'name'),

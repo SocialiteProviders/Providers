@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
         }
 
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException();
+            throw new InvalidStateException;
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
@@ -128,7 +128,7 @@ class Provider extends AbstractProvider
     {
         $user = $user['data']['user'];
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['open_id'],
             'nickname' => $user['username'] ?? null,
             'union_id' => $user['union_id'] ?? null,

@@ -34,7 +34,7 @@ class Provider extends AbstractProvider
     public function user()
     {
         if ($this->hasInvalidState() || ! $this->getCode()) {
-            throw new InvalidStateException();
+            throw new InvalidStateException;
         }
         $response = $this->getAccessTokenResponse($this->getCode());
         $user = $this->mapUserToObject($this->getUserByToken(
@@ -74,7 +74,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => Arr::get($user, 'upi'),
             'name'     => Arr::get($user, 'full_name'),
             'nickname' => Arr::get($user, 'given_name'),

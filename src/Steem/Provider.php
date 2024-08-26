@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
     {
         $metadata = json_decode($user['account']['json_metadata'], true);
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'          => $user['user'],
             'nickname'    => $user['user'],
             'name'        => Arr::get($metadata, 'profile.name', $user['user']),

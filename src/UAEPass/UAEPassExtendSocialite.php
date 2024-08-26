@@ -1,4 +1,5 @@
 <?php
+
 namespace SocialiteProviders\UAEPass;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;

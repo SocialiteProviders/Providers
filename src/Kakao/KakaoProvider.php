@@ -75,7 +75,7 @@ class KakaoProvider extends AbstractProvider
         $validEmail = Arr::get($user, 'kakao_account.is_email_valid');
         $verifiedEmail = Arr::get($user, 'kakao_account.is_email_verified');
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'        => $user['id'],
             'nickname'  => Arr::get($user, 'properties.nickname'),
             'name'      => Arr::get($user, 'properties.nickname'),

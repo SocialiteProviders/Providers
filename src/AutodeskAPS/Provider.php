@@ -35,60 +35,60 @@ class Provider extends AbstractProvider
         return 'https://developer.api.autodesk.com/authentication/v2/token';
     }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function getCodeFields($state = null)
-	{
-		$fields = [
-			'client_id' => $this->getConfig('client_id') ?? $this->clientId,
-			'redirect_uri' => $this->getConfig('redirect') ?? $this->redirectUrl,
-			'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
-			'response_type' => 'code',
-		];
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCodeFields($state = null)
+    {
+        $fields = [
+            'client_id'     => $this->getConfig('client_id') ?? $this->clientId,
+            'redirect_uri'  => $this->getConfig('redirect') ?? $this->redirectUrl,
+            'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+            'response_type' => 'code',
+        ];
 
-		if ($this->usesState()) {
-			$fields['state'] = $state;
-		}
+        if ($this->usesState()) {
+            $fields['state'] = $state;
+        }
 
-		if ($this->usesPKCE()) {
-			$fields['code_challenge'] = $this->getCodeChallenge();
-			$fields['code_challenge_method'] = $this->getCodeChallengeMethod();
-		}
+        if ($this->usesPKCE()) {
+            $fields['code_challenge'] = $this->getCodeChallenge();
+            $fields['code_challenge_method'] = $this->getCodeChallengeMethod();
+        }
 
-		return array_merge($fields, $this->parameters);
-	}
+        return array_merge($fields, $this->parameters);
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function getTokenFields($code)
-	{
-		$fields = [
-			'grant_type' => 'authorization_code',
-			'code' => $code,
-			'redirect_uri' => $this->getConfig('redirect') ?? $this->redirectUrl,
-		];
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenFields($code)
+    {
+        $fields = [
+            'grant_type'   => 'authorization_code',
+            'code'         => $code,
+            'redirect_uri' => $this->getConfig('redirect') ?? $this->redirectUrl,
+        ];
 
-		if ($this->usesPKCE()) {
-			$fields['code_verifier'] = $this->request->session()->pull('code_verifier');
-		}
+        if ($this->usesPKCE()) {
+            $fields['code_verifier'] = $this->request->session()->pull('code_verifier');
+        }
 
-		return array_merge($fields, $this->parameters);
-	}
+        return array_merge($fields, $this->parameters);
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenHeaders($code): array
+    {
+        $base64 = base64_encode(($this->getConfig('client_id') ?? $this->clientId).':'.($this->getConfig('client_secret') ?? $this->clientSecret));
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function getTokenHeaders($code): array
-	{
-		$base64 = base64_encode(($this->getConfig('client_id') ?? $this->clientId).':'.($this->getConfig('client_secret') ?? $this->clientSecret));
-		return [
-			'Content-Type' => 'application/x-www-form-urlencoded',
-			'Authorization' => 'Basic '.$base64,
-		];
-	}
+        return [
+            'Content-Type'  => 'application/x-www-form-urlencoded',
+            'Authorization' => 'Basic '.$base64,
+        ];
+    }
 
     /**
      * @param  string  $token
@@ -118,7 +118,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user): User
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'             => $user['sub'],
             'email'          => $user['email'],
             'email_verified' => $user['email_verified'],

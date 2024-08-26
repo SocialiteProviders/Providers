@@ -116,7 +116,7 @@ class Provider extends AbstractProvider
     public function user()
     {
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException();
+            throw new InvalidStateException;
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
@@ -183,7 +183,7 @@ class Provider extends AbstractProvider
         $given_name = $user['person']['name']['given-names']['value'] ?? '';
         $family_name = $user['person']['name']['family-name']['value'] ?? '';
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             $this->getConfig('uid_fieldname', 'id') => $user['orcid-identifier']['path'],
             'nickname'                              => $given_name,
             'name'                                  => sprintf('%s %s', $given_name, $family_name),

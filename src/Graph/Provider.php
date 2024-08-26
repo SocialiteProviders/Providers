@@ -97,7 +97,7 @@ class Provider extends AbstractProvider
     {
         // Mapping default Laravel user keys to the keys that are nested in the
         // response from the provider.
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'    => $user['id'],
             'name'  => $user['displayName'],
             'email' => $user['mail'] ?? $user['userPrincipalName'],

@@ -59,7 +59,7 @@ class Provider extends AbstractProvider
             return $data['data'];
         }
 
-        throw new AuthenticationException();
+        throw new AuthenticationException;
     }
 
     /**
@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $this->getUniqueUserId(),
             'nickname' => null,
             'name'     => $user['name'],
@@ -103,7 +103,7 @@ class Provider extends AbstractProvider
             return $data['data'];
         }
 
-        throw new AuthenticationException();
+        throw new AuthenticationException;
     }
 
     /**

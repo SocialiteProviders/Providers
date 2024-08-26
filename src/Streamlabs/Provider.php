@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
     {
         $mainAccount = $user['streamlabs'];
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'        => $mainAccount['id'],
             'name'      => $mainAccount['display_name'],
             'accounts'  => [

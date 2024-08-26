@@ -75,7 +75,7 @@ class Server extends BaseServer
      */
     public function userDetails($data, TokenCredentials $tokenCredentials)
     {
-        $user = new User();
+        $user = new User;
 
         $user->nickname = $data['username'];
         $user->name = $data['fullName'];
@@ -97,9 +97,7 @@ class Server extends BaseServer
     /**
      * {@inheritdoc}
      */
-    public function userEmail($data, TokenCredentials $tokenCredentials)
-    {
-    }
+    public function userEmail($data, TokenCredentials $tokenCredentials) {}
 
     /**
      * {@inheritdoc}

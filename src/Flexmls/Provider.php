@@ -84,7 +84,7 @@ class Provider extends AbstractProvider
     {
         $profile = $user['D']['Results'][0];
 
-        return (new User())->setRaw($profile)->map([
+        return (new User)->setRaw($profile)->map([
             'id'       => $profile['Id'],
             'name'     => $profile['Name'],
             'email'    => $profile['Emails'][0]['Address'],

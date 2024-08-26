@@ -53,7 +53,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'              => $user['sub'],
             'likely_human'    => $user['https://id.worldcoin.org/beta']['likely_human'],
             'credential_type' => $user['https://id.worldcoin.org/beta']['credential_type'],

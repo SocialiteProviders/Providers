@@ -5,7 +5,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Composer\Semver\Comparator;
 use Illuminate\Http\Client\Factory;
 
-$http = new Factory();
+$http = new Factory;
 
 /**
  * Release a new major version across all providers.

@@ -85,7 +85,7 @@ class Provider extends AbstractProvider
 
         $avatar = count((array) $activeSkin) === 1 ? $activeSkin[0]['url'] : null;
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'uuid'     => $uuid,
             'nickname' => null,
