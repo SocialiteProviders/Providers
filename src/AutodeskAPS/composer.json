@@ -4,8 +4,8 @@
     "license": "MIT",
     "keywords": [
         "aps",
-        "autodesk platform services",
         "autodesk",
+        "autodesk platform services",
         "forge",
         "laravel",
         "oauth",
