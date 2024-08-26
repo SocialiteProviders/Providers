@@ -3,7 +3,6 @@
     "name": "socialiteproviders/zitadel",
     "description": "Zitadel OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "version": "1.0.0",
     "autoload": {
         "psr-4": {
             "Socialiteproviders\\Zitadel\\": ""
