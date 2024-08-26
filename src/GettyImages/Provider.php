@@ -44,7 +44,7 @@ class Provider extends AbstractProvider
                         $this->clientId.':'.$this->clientSecret
                     ),
                 ],
-                RequestOptions::BODY    => $this->getTokenFields($code),
+                RequestOptions::BODY => $this->getTokenFields($code),
             ]
         );
 
@@ -73,7 +73,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'first_name' => $user['first_name'],
             'last_name'  => $user['last_name'],
         ]);

@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'     => $user['uuid'], 'nickname' => null, 'name' => null,
             'email'  => $user['email'],
             'avatar' => 'https://www.gravatar.com/avatar/'.md5($user['email']),

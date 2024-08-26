@@ -4,7 +4,7 @@ use Illuminate\Http\Client\Factory;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$http = new Factory();
+$http = new Factory;
 
 /**
  * Automatically update all the repos to have a consistent description/URL and point people to the correct

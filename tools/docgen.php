@@ -62,11 +62,11 @@ return Socialite::driver('%PROVIDER_ALIAS%')->redirect();
 
 DOC;
 
-$providersDir = realpath(__DIR__ . '/../src');
-$directories = array_map('basename', glob($providersDir . '/*', GLOB_ONLYDIR));
+$providersDir = realpath(__DIR__.'/../src');
+$directories = array_map('basename', glob($providersDir.'/*', GLOB_ONLYDIR));
 
 foreach ($directories as $provider) {
-    $path = $providersDir . '/' . $provider . '/README.md';
+    $path = $providersDir.'/'.$provider.'/README.md';
     if (file_exists($path)) {
         continue;
     }

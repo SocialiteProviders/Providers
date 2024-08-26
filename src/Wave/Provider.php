@@ -66,7 +66,7 @@ class Provider extends AbstractProvider
         $firstName = data_get($user, 'data.user.firstName');
         $lastName = data_get($user, 'data.user.lastName');
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'          => data_get($user, 'data.user.id'),
             'name'        => "{$firstName} {$lastName}",
             'first_name'  => $firstName,

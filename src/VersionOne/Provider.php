@@ -94,7 +94,7 @@ class Provider extends AbstractProvider
 
         $user = $user[0][0];
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => str_replace('Member:', '', $user['_oid']),
             'nickname' => $user['Username'], 'name' => $user['Name'],
             'email'    => $user['Email'], 'avatar' => Arr::get($user, 'Avatar.Content'),

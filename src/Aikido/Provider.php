@@ -46,7 +46,7 @@ class Provider extends AbstractProvider
     protected function getTokenHeaders($code): array
     {
         return array_merge(parent::getTokenHeaders($code), [
-            'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
+            'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
         ]);
     }
 
@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user): User
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'   => $user['id'],
             'name' => $user['name'],
         ]);

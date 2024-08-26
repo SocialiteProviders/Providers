@@ -89,8 +89,8 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            RequestOptions::FORM_PARAMS    => $this->getTokenFields($code),
+            RequestOptions::HEADERS     => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -134,13 +134,13 @@ class Provider extends AbstractProvider
     public static function verify($jwt)
     {
         $jwtContainer = Configuration::forSymmetricSigner(
-            new AppleSignerNone(),
+            new AppleSignerNone,
             AppleSignerInMemory::plainText('')
         );
         $token = $jwtContainer->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
-            $response = (new Client())->get(self::URL.'/auth/keys');
+            $response = (new Client)->get(self::URL.'/auth/keys');
 
             return json_decode((string) $response->getBody(), true);
         });
@@ -151,7 +151,7 @@ class Provider extends AbstractProvider
         if (isset($publicKeys[$kid])) {
             $publicKey = openssl_pkey_get_details($publicKeys[$kid]->getKeyMaterial());
             $constraints = [
-                new SignedWith(new Sha256(), AppleSignerInMemory::plainText($publicKey['key'])),
+                new SignedWith(new Sha256, AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
                 new LooseValidAt(SystemClock::fromSystemTimezone()),
             ];
@@ -190,7 +190,7 @@ class Provider extends AbstractProvider
             }
 
             if ($this->hasInvalidState()) {
-                throw new InvalidStateException();
+                throw new InvalidStateException;
             }
         }
 
@@ -221,7 +221,7 @@ class Provider extends AbstractProvider
             );
         }
 
-        return (new User())
+        return (new User)
             ->setRaw($user)
             ->map([
                 'id'    => $user['sub'],
@@ -265,7 +265,7 @@ class Provider extends AbstractProvider
     public function revokeToken(string $token, string $hint = 'access_token')
     {
         return $this->getHttpClient()->post($this->getRevokeUrl(), [
-            RequestOptions::FORM_PARAMS    => [
+            RequestOptions::FORM_PARAMS => [
                 'client_id'       => $this->clientId,
                 'client_secret'   => $this->clientSecret,
                 'token'           => $token,
@@ -290,10 +290,10 @@ class Provider extends AbstractProvider
     {
         return $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::FORM_PARAMS => [
-                'client_id'       => $this->clientId,
-                'client_secret'   => $this->clientSecret,
-                'grant_type'      => 'refresh_token',
-                'refresh_token'   => $refreshToken,
+                'client_id'     => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'grant_type'    => 'refresh_token',
+                'refresh_token' => $refreshToken,
             ],
         ]);
     }

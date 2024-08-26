@@ -55,7 +55,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'nickname' => null,
             'name'     => null,
             'email'    => $user['user'],
@@ -69,7 +69,7 @@ class Provider extends AbstractProvider
      *
      * @see https://developers.hubspot.com/docs/api/oauth-quickstart-guide#refreshing_tokens
      *
-     * @param string $refreshToken
+     * @param  string  $refreshToken
      * @return array
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -81,13 +81,13 @@ class Provider extends AbstractProvider
                 'Accept' => 'application/json',
             ],
             RequestOptions::FORM_PARAMS => [
-                'client_id' => $this->clientId,
+                'client_id'     => $this->clientId,
                 'client_secret' => $this->clientSecret,
-                'grant_type' => 'refresh_token',
-                'refresh_token' => $refreshToken
-            ]
+                'grant_type'    => 'refresh_token',
+                'refresh_token' => $refreshToken,
+            ],
         ]);
-        
+
         return json_decode((string) $response->getBody(), true);
     }
 }

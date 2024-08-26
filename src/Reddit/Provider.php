@@ -74,7 +74,7 @@ class Provider extends AbstractProvider
             $name = $user['subreddit']['title'];
         }
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'   => $user['id'], 'nickname' => $user['name'],
             'name' => $name, 'email' => null, 'avatar' => $avatar,
         ]);

@@ -130,19 +130,19 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id'                    => Arr::get($user, 'sub'),
-            'email'                 => Arr::get($user, 'email'),
-            'email_verified'        => Arr::get($user, 'email_verified', false),
-            'preferred_username'    => Arr::get($user, 'preferred_username'),
-            'nickname'              => Arr::get($user, 'nickname'),
-            'name'                  => Arr::get($user, 'name'),
-            'first_name'            => Arr::get($user, 'given_name'),
-            'last_name'             => Arr::get($user, 'family_name'),
-            'groups'                => Arr::get($user, 'groups'),
-            'locale'                => Arr::get($user, 'locale'),
-            'phone'                 => Arr::get($user, 'phone_number'),
-            'id_token'              => $this->credentialsResponseBody['id_token'] ?? null,
+        return (new User)->setRaw($user)->map([
+            'id'                 => Arr::get($user, 'sub'),
+            'email'              => Arr::get($user, 'email'),
+            'email_verified'     => Arr::get($user, 'email_verified', false),
+            'preferred_username' => Arr::get($user, 'preferred_username'),
+            'nickname'           => Arr::get($user, 'nickname'),
+            'name'               => Arr::get($user, 'name'),
+            'first_name'         => Arr::get($user, 'given_name'),
+            'last_name'          => Arr::get($user, 'family_name'),
+            'groups'             => Arr::get($user, 'groups'),
+            'locale'             => Arr::get($user, 'locale'),
+            'phone'              => Arr::get($user, 'phone_number'),
+            'id_token'           => $this->credentialsResponseBody['id_token'] ?? null,
         ]);
     }
 

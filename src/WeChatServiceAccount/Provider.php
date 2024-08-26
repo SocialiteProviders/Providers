@@ -60,9 +60,9 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             // HACK: use unionid as user id
-            'id'       => in_array('unionid', $this->getScopes(), true) ? $user['unionid'] : $user['openid'],
+            'id' => in_array('unionid', $this->getScopes(), true) ? $user['unionid'] : $user['openid'],
             // HACK: Tencent scope snsapi_base only return openid
             'nickname' => $user['nickname'] ?? null,
             'name'     => null,

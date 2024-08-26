@@ -4,7 +4,7 @@ use Illuminate\Http\Client\Factory;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$http = new Factory();
+$http = new Factory;
 
 /**
  * Create a new repo with preset information.

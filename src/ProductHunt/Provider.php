@@ -82,7 +82,7 @@ class Provider extends AbstractProvider
         $user = $user['data']['viewer']['user'] ?? [];
         $avatar = $user['profileImage'] ?? null;
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['username'],
             'name'     => $user['name'],

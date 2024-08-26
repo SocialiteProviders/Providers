@@ -21,7 +21,7 @@ class Provider extends AbstractProvider
      * {@inheritdoc}
      */
     protected $scopes = [
-        self::SCOPE_READONLY
+        self::SCOPE_READONLY,
     ];
 
     /**
@@ -67,12 +67,12 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => null,
             'name'     => null,
             'email'    => null,
-            'avatar'   => null
+            'avatar'   => null,
         ]);
     }
 }

@@ -4,8 +4,8 @@ namespace SocialiteProviders\Fiken;
 
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
-use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
@@ -48,7 +48,7 @@ class Provider extends AbstractProvider
 
     protected function mapUserToObject(array $user): User
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'name'  => $user['name'],
             'email' => $user['email'],
         ]);
@@ -89,7 +89,7 @@ class Provider extends AbstractProvider
     /**
      * Revoke a token
      *
-     * @param string $token Access token
+     * @param  string  $token  Access token
      */
     public function revokeToken(string $token): ResponseInterface
     {

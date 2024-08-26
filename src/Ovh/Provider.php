@@ -35,8 +35,8 @@ class Provider extends AbstractProvider
         $request = $ovh->requestCredentials(
             [
                 [
-                    'method'    => 'GET',
-                    'path'      => '/me',
+                    'method' => 'GET',
+                    'path'   => '/me',
                 ],
             ],
             $this->redirectUrl.'?state='.$state
@@ -101,7 +101,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map(
+        return (new User)->setRaw($user)->map(
             [
                 'avatar'   => null,
                 'email'    => $user['email'],

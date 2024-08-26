@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get(
             'https://api-ssl.bitly.com/v4/user',
             [
-                RequestOptions::HEADERS   => [
+                RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
@@ -53,7 +53,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => null,
             'nickname' => $user['login'],
             'name'     => $user['name'],

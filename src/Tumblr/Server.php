@@ -52,7 +52,7 @@ class Server extends BaseServer
 
         $data = $data['response']['user'];
 
-        $user = new User();
+        $user = new User;
 
         $user->nickname = $data['name'];
 
@@ -80,9 +80,7 @@ class Server extends BaseServer
     /**
      * {@inheritdoc}
      */
-    public function userEmail($data, TokenCredentials $tokenCredentials)
-    {
-    }
+    public function userEmail($data, TokenCredentials $tokenCredentials) {}
 
     /**
      * {@inheritdoc}

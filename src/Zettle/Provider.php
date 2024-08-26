@@ -3,8 +3,8 @@
 namespace SocialiteProviders\Zettle;
 
 use GuzzleHttp\RequestOptions;
-use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
@@ -44,7 +44,7 @@ class Provider extends AbstractProvider
 
     protected function mapUserToObject(array $user): User
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id' => $user['uuid'],
         ]);
     }
@@ -52,7 +52,7 @@ class Provider extends AbstractProvider
     /**
      * Remove a Zettle merchant from your app by disconnecting them from the app. This can be useful to clean up registered webhooks and remove access.
      *
-     * @param string $token
+     * @param  string  $token
      */
     public function disconnect($token): void
     {

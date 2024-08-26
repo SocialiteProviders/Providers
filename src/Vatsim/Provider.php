@@ -75,17 +75,16 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'cid'    => Arr::get($user, 'data.cid'),
-            'first_name' => Arr::get($user, 'data.personal.name_first'),
-            'last_name' => Arr::get($user, 'data.personal.name_last'),
-            'full_name'  => Arr::get($user, 'data.personal.name_full'),
-            'rating' => Arr::get($user, 'data.vatsim.rating.id'),
+        return (new User)->setRaw($user)->map([
+            'cid'          => Arr::get($user, 'data.cid'),
+            'first_name'   => Arr::get($user, 'data.personal.name_first'),
+            'last_name'    => Arr::get($user, 'data.personal.name_last'),
+            'full_name'    => Arr::get($user, 'data.personal.name_full'),
+            'rating'       => Arr::get($user, 'data.vatsim.rating.id'),
             'pilot_rating' => Arr::get($user, 'data.vatsim.pilotrating.id'),
-            'region' => Arr::get($user, 'data.vatsim.region.id'),
-            'division' => Arr::get($user, 'data.vatsim.division.id'),
-            'subdivision' => Arr::get($user, 'data.vatsim.subdivision.id'),
-
+            'region'       => Arr::get($user, 'data.vatsim.region.id'),
+            'division'     => Arr::get($user, 'data.vatsim.division.id'),
+            'subdivision'  => Arr::get($user, 'data.vatsim.subdivision.id'),
 
         ]);
     }

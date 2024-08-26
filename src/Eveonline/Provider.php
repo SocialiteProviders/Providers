@@ -86,7 +86,7 @@ class Provider extends AbstractProvider
         }
 
         if ($decodedArray['exp'] <= time()) {
-            throw new ExpiredException();
+            throw new ExpiredException;
         }
 
         return $decodedArray;
@@ -97,7 +97,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'character_owner_hash' => $user['owner'],
             'character_name'       => $user['name'],
             'character_id'         => ltrim($user['sub'], 'CHARACTER:EVE:'),

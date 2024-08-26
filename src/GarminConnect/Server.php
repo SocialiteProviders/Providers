@@ -59,7 +59,7 @@ class Server extends BaseServer
      */
     public function userDetails($data, TokenCredentials $tokenCredentials)
     {
-        $user = new User();
+        $user = new User;
         $user->id = $data['id'];
         $user->nickname = $data['nickname'];
         $user->name = $data['name'];

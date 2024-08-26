@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
         $userData = $user['data'];
         $userAttributes = $userData['attributes'];
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $userData['id'],
             'nickname' => Arr::get($userAttributes, 'vanity', $userAttributes['full_name']),
             'name'     => $userAttributes['full_name'],

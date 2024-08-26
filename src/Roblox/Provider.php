@@ -37,7 +37,7 @@ class Provider extends AbstractProvider
     protected function getCodeFields($state = null)
     {
         return array_merge(parent::getCodeFields($state), [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'response_type' => 'code',
         ]);
     }
@@ -59,7 +59,7 @@ class Provider extends AbstractProvider
             'https://apis.roblox.com/oauth/v1/userinfo',
             [
                 RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer ' . $token,
+                    'Authorization' => 'Bearer '.$token,
                 ],
             ]
         );
@@ -72,11 +72,11 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['sub'],  // Roblox user ID
             'username' => $user['preferred_username'], // Roblox username (not display name)
             'nickname' => $user['preferred_username'], // Roblox display name (not guaranteed to be unique)
-            'picture'   => $user['picture'] ?? null,  // Roblox may leave this null if the account is new
+            'picture'  => $user['picture'] ?? null,  // Roblox may leave this null if the account is new
         ]);
     }
 }

@@ -53,7 +53,7 @@ class Server extends BaseServer
             $data = $data['body']['users'][0];
         }
 
-        $user = new User();
+        $user = new User;
 
         $user->uid = $data['id'];
         $user->name = $data['firstname'].' '.$data['lastname'];
@@ -92,16 +92,12 @@ class Server extends BaseServer
     /**
      * {@inheritdoc}
      */
-    public function userEmail($data, TokenCredentials $tokenCredentials)
-    {
-    }
+    public function userEmail($data, TokenCredentials $tokenCredentials) {}
 
     /**
      * {@inheritdoc}
      */
-    public function userScreenName($data, TokenCredentials $tokenCredentials)
-    {
-    }
+    public function userScreenName($data, TokenCredentials $tokenCredentials) {}
 
     /**
      * Creates temporary credentials from the body response.
@@ -119,7 +115,7 @@ class Server extends BaseServer
             throw new CredentialsException('Unable to parse temporary credentials response.');
         }
 
-        $temporaryCredentials = new TemporaryCredentials();
+        $temporaryCredentials = new TemporaryCredentials;
         $temporaryCredentials->setIdentifier($data['oauth_token']);
         $temporaryCredentials->setSecret($data['oauth_token_secret']);
 

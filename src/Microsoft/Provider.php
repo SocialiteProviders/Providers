@@ -79,9 +79,8 @@ class Provider extends AbstractProvider
     /**
      * Return the logout endpoint with an optional post_logout_redirect_uri query parameter.
      *
-     * @param string|null $redirectUri The URI to redirect to after logout, if provided.
+     * @param  string|null  $redirectUri  The URI to redirect to after logout, if provided.
      *                                    If not provided, no post_logout_redirect_uri parameter will be included.
-     *
      * @return string The logout endpoint URL.
      */
     public function getLogoutUrl(?string $redirectUri = null)
@@ -90,7 +89,7 @@ class Provider extends AbstractProvider
 
         return $redirectUri === null ?
             $logoutUrl :
-            $logoutUrl . '?' . http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
+            $logoutUrl.'?'.http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
     }
 
     /**
@@ -102,8 +101,8 @@ class Provider extends AbstractProvider
             'https://graph.microsoft.com/v1.0/me',
             [
                 RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token,
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::QUERY => [
                     '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_USER, $this->getConfig('fields', []))),
@@ -121,8 +120,8 @@ class Provider extends AbstractProvider
                     "https://graph.microsoft.com/v1.0/me/photos/{$imageSize}/\$value",
                     [
                         RequestOptions::HEADERS => [
-                            'Accept' => 'image/jpg',
-                            'Authorization' => 'Bearer ' . $token,
+                            'Accept'        => 'image/jpg',
+                            'Authorization' => 'Bearer '.$token,
                         ],
                         RequestOptions::PROXY => $this->getConfig('proxy'),
                     ]
@@ -141,8 +140,8 @@ class Provider extends AbstractProvider
                     'https://graph.microsoft.com/v1.0/organization',
                     [
                         RequestOptions::HEADERS => [
-                            'Accept' => 'application/json',
-                            'Authorization' => 'Bearer ' . $token,
+                            'Accept'        => 'application/json',
+                            'Authorization' => 'Bearer '.$token,
                         ],
                         RequestOptions::QUERY => [
                             '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields', []))),
@@ -163,9 +162,9 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+            RequestOptions::HEADERS     => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
-            RequestOptions::PROXY => $this->getConfig('proxy'),
+            RequestOptions::PROXY       => $this->getConfig('proxy'),
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -176,25 +175,25 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
+        return (new User)->setRaw($user)->map([
+            'id'       => $user['id'],
             'nickname' => null,
-            'name' => $user['displayName'],
-            'email' => $user['userPrincipalName'],
-            'avatar' => Arr::get($user, 'avatar'),
+            'name'     => $user['displayName'],
+            'email'    => $user['userPrincipalName'],
+            'avatar'   => Arr::get($user, 'avatar'),
 
-            'businessPhones' => Arr::get($user, 'businessPhones'),
-            'displayName' => Arr::get($user, 'displayName'),
-            'givenName' => Arr::get($user, 'givenName'),
-            'jobTitle' => Arr::get($user, 'jobTitle'),
-            'department' => Arr::get($user, 'department'),
-            'mail' => Arr::get($user, 'mail'),
-            'mobilePhone' => Arr::get($user, 'mobilePhone'),
-            'officeLocation' => Arr::get($user, 'officeLocation'),
+            'businessPhones'    => Arr::get($user, 'businessPhones'),
+            'displayName'       => Arr::get($user, 'displayName'),
+            'givenName'         => Arr::get($user, 'givenName'),
+            'jobTitle'          => Arr::get($user, 'jobTitle'),
+            'department'        => Arr::get($user, 'department'),
+            'mail'              => Arr::get($user, 'mail'),
+            'mobilePhone'       => Arr::get($user, 'mobilePhone'),
+            'officeLocation'    => Arr::get($user, 'officeLocation'),
             'preferredLanguage' => Arr::get($user, 'preferredLanguage'),
-            'surname' => Arr::get($user, 'surname'),
+            'surname'           => Arr::get($user, 'surname'),
             'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
-            'employeeId' => Arr::get($user, 'employeeId'),
+            'employeeId'        => Arr::get($user, 'employeeId'),
 
             'tenant' => Arr::get($user, 'tenant'),
         ]);

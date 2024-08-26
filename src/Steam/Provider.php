@@ -127,7 +127,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['steamid'],
             'nickname' => Arr::get($user, 'personaname'),
             'name'     => Arr::get($user, 'realname'),
@@ -293,16 +293,12 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getAccessTokenResponse($code)
-    {
-    }
+    public function getAccessTokenResponse($code) {}
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
-    {
-    }
+    protected function getTokenUrl() {}
 
     /**
      * {@inheritdoc}
