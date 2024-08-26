@@ -10,7 +10,7 @@ use InvalidArgumentException;
 
 class Provider extends AbstractProvider
 {
-    public const INDENTIFIER = 'ZITADEL';
+    public const IDENTIFIER = 'ZITADEL';
 
     /** @inheritDoc */
     protected $scopeSeparator = ' ';
