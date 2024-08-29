@@ -30,6 +30,13 @@ class Provider extends AbstractProvider
         return $this;
     }
 
+    public function setUserScopes($scopes)
+    {
+        $this->userScopes = (array) $scopes;
+
+        return $this;
+    }
+
     protected function getCodeFields($state = null)
     {
         $fields = parent::getCodeFields($state);
