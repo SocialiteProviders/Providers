@@ -15,9 +15,9 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 'salla' => [    
-  'client_id' => env('SALLA_CLIENT_ID'),  
-  'client_secret' => env('SALLA_CLIENT_SECRET'),  
-  'redirect' => env('SALLA_REDIRECT_URI') 
+    'client_id' => env('SALLA_CLIENT_ID'),
+    'client_secret' => env('SALLA_CLIENT_SECRET'),
+    'redirect' => env('SALLA_REDIRECT_URI'),
 ],
 ```
 
