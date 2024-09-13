@@ -14,7 +14,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'line' => [    
   'client_id' => env('LINE_CLIENT_ID'),  
   'client_secret' => env('LINE_CLIENT_SECRET'),  
-  'redirect' => env('LINE_REDIRECT_URI') 
+  'redirect' => env('LINE_REDIRECT_URI'),
+  'bot_prompt' => env('LINE_BOT_PROMPT', 'normal'),
 ],
 ```
 
