@@ -120,4 +120,31 @@ class Provider extends AbstractProvider
             ->setRefreshToken($this->parseRefreshToken($response))
             ->setExpiresIn($this->parseExpiresIn($response));
     }
+
+      /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return [
+            'bot_prompt',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function getCodeFields($state = null)
+    {
+        $fields = parent::getCodeFields($state);
+
+        $botPrompt = $this->getConfig('bot_prompt');
+        if (! empty($botPrompt)) {
+            $fields['bot_prompt'] = $botPrompt;
+        }
+
+        return $fields;
+    }
 }
