@@ -1,7 +1,7 @@
-# CampaignMonitor
+# Calendly
 
 ```bash
-composer require socialiteproviders/campaignmonitor
+composer require socialiteproviders/calendly
 ```
 
 ## Installation & Basic Usage
@@ -11,10 +11,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'campaignmonitor' => [    
-  'client_id' => env('CAMPAIGNMONITOR_CLIENT_ID'),  
-  'client_secret' => env('CAMPAIGNMONITOR_CLIENT_SECRET'),  
-  'redirect' => env('CAMPAIGNMONITOR_REDIRECT_URI') 
+'calendly' => [    
+  'client_id' => env('CALENDLY_CLIENT_ID'),  
+  'client_secret' => env('CALENDLY_CLIENT_SECRET'),  
+  'redirect' => env('CALENDLY_REDIRECT_URI') 
 ],
 ```
 
@@ -28,7 +28,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('campaignmonitor', \SocialiteProviders\CampaignMonitor\Provider::class);
+    $event->extendSocialite('calendly', \SocialiteProviders\HubSpot\Provider::class);
 });
 ```
 <details>
@@ -43,7 +43,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\CampaignMonitor\CampaignMonitorExtendSocialite::class.'@handle',
+        \SocialiteProviders\Calendly\CalendlyExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -54,5 +54,9 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('campaignmonitor')->redirect();
+return Socialite::driver('calendly')->redirect();
 ```
+
+### Returned User fields
+
+- ``email``
