@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/calendly",
+    "description": "Calendly OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "calendly",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Paul Chris Luke",
+            "email": "paulchrisluke@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/calendly"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Calendly\\": ""
+        }
+    }
+}

@@ -27,6 +27,7 @@ parameters:
     src/Blackboard: 'git@github.com:SocialiteProviders/Blackboard.git'
     src/Box: 'git@github.com:SocialiteProviders/Box.git'
     src/Buffer: 'git@github.com:SocialiteProviders/Buffer.git'
+    src/Calendly: 'git@github.com:SocialiteProviders/Calendly.git'
     src/CampaignMonitor: 'git@github.com:SocialiteProviders/CampaignMonitor.git'
     src/Cheddar: 'git@github.com:SocialiteProviders/Cheddar.git'
     src/ClaveUnica: 'git@github.com:SocialiteProviders/ClaveUnica.git'
