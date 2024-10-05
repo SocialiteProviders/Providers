@@ -59,4 +59,8 @@ return Socialite::driver('calendly')->redirect();
 
 ### Returned User fields
 
+- ``id``
 - ``email``
+- ``name`` 
+- ``avatar``
+
