@@ -31,6 +31,7 @@ parameters:
     src/Cheddar: 'git@github.com:SocialiteProviders/Cheddar.git'
     src/ClaveUnica: 'git@github.com:SocialiteProviders/ClaveUnica.git'
     src/Clerk: 'git@github.com:SocialiteProviders/Clerk.git'
+    src/ClickUp: 'git@github.com:SocialiteProviders/ClickUp.git'
     src/Clover: 'git@github.com:SocialiteProviders/Clover.git'
     src/Cognito: 'git@github.com:SocialiteProviders/Cognito.git'
     src/Coinbase: 'git@github.com:SocialiteProviders/Coinbase.git'
