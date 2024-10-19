@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Calendly;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -13,9 +14,7 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'CALENDLY';
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 
@@ -24,10 +23,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(
-            'https://auth.calendly.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://auth.calendly.com/oauth/authorize', $state);
     }
 
     /**
@@ -43,15 +39,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.calendly.com/users/me',
-            [
-                'headers' => [
-                    'Authorization' => 'Bearer '.$token,
-                    'Content-Type' => 'application/json',
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get('https://api.calendly.com/users/me', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+                'Content-Type'  => 'application/json',
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -61,10 +54,10 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id'    => $user['resource']['uri'],
-            'email' => $user['resource']['email'],
-            'name'  => $user['resource']['name'],
+        return (new User)->setRaw($user)->map([
+            'id'     => $user['resource']['uri'],
+            'email'  => $user['resource']['email'],
+            'name'   => $user['resource']['name'],
             'avatar' => $user['resource']['avatar_url'],
         ]);
     }
@@ -76,10 +69,8 @@ class Provider extends AbstractProvider
      *
      * @param  string  $refreshToken
      * @return array
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function refreshToken($refreshToken): ResponseInterface
+    public function refreshToken($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
@@ -94,12 +85,5 @@ class Provider extends AbstractProvider
         ]);
 
         return json_decode((string) $response->getBody(), true);
-    }
-
-    protected function getTokenFields($code)
-    {
-        return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code',
-        ]);
     }
 }
