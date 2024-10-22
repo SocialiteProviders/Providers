@@ -15,11 +15,6 @@ class Provider extends AbstractProvider
     const IDENTIFIER = 'clover';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [];
-
-    /**
      * Indicates if the session state should be utilized.
      *
      * @var bool

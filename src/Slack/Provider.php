@@ -12,8 +12,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SLACK';
 
-    protected $scopes = [];
-
     protected array $userScopes = ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
 
     public function scopes($scopes)

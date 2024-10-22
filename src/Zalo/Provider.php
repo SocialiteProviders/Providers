@@ -13,11 +13,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [''];
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://oauth.zaloapp.com/v4/permission', $state);

@@ -11,11 +11,6 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'OSCHINA';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [''];
-
-    /**
      * @var string OAuth Domain
      */
     protected $domain = 'https://www.oschina.net';
