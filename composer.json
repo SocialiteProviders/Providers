@@ -10,7 +10,12 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
+        "firebase/php-jwt": "^6.8",
+        "lcobucci/clock": "^2.0 || ^3.0",
+        "lcobucci/jwt": "^4.1.5 || ^5.0.0",
         "league/oauth1-client": "^1.9",
+        "litesaml/lightsaml": "^4.0",
+        "ovh/ovh": "^3.0",
         "socialiteproviders/manager": "^4.4"
     },
     "require-dev": {
