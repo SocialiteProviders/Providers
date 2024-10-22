@@ -61,13 +61,13 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token, $userAgent)
+    protected function getUserByToken($token, $userId, $userAgent)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.nuvemshop.com.br/v1/store',
+            "https://api.nuvemshop.com.br/v1/$userId/store",
             [
                 RequestOptions::HEADERS => [
-                    'Authentication' => 'Bearer ' . $token,
+                    'Authentication' => 'bearer ' . $token,
                     'User-Agent' => $userAgent
                 ]
             ]
