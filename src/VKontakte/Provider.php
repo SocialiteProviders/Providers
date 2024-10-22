@@ -66,14 +66,11 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        $contents = (string) $response->getBody();
-
-        $response = json_decode($contents, true);
+        $response = json_decode((string) $response->getBody(), true);
 
         if (! is_array($response) || ! isset($response['response'][0])) {
             throw new RuntimeException(sprintf(
-                'Invalid JSON response from VK: %s',
-                $contents
+                'Invalid JSON response from VK: %s', $response->getBody()
             ));
         }
 

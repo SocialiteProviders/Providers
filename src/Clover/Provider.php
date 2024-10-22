@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
             RequestOptions::JSON    => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     protected function getApiDomain(): string
