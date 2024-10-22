@@ -88,33 +88,4 @@ class Provider extends AbstractProvider
             'avatar' => null
         ]);
     }
-
-    /**
-     * Acquire a new access token using the refresh token.
-     *
-     * @see https://dev.nuvemshop.com.br/es/docs/applications/authentication
-     *
-     * @param string $refreshToken
-     * @return ResponseInterface
-     *
-     */
-    public function refreshToken($refreshToken): ResponseInterface
-    {
-        $response = $this->getHttpClient()->post(
-            $this->getTokenUrl(),
-            [
-                RequestOptions::HEADERS => [
-                    'Accept' => 'application/json'
-                ],
-                RequestOptions::FORM_PARAMS => [
-                    'client_id' => $this->clientId,
-                    'client_secret' => $this->clientSecret,
-                    'grant_type' => 'authorization_code',
-                    'code' => $refreshToken
-                ]
-            ]
-        );
-
-        return json_decode((string)$response->getBody(), true);
-    }
 }
