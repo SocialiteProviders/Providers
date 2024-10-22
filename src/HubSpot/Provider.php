@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\HubSpot;
 
+use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -13,9 +14,7 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'HUBSPOT';
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 
@@ -24,10 +23,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(
-            'https://app.hubspot.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://app.hubspot.com/oauth/authorize', $state);
     }
 
     /**
@@ -43,9 +39,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://api.hubspot.com/oauth/v1/access-tokens/'.$token
-        );
+        $response = $this->getHttpClient()->get('https://api.hubspot.com/oauth/v1/access-tokens/'.$token);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -71,10 +65,8 @@ class Provider extends AbstractProvider
      *
      * @param  string  $refreshToken
      * @return array
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function refreshToken($refreshToken): ResponseInterface
+    public function refreshToken($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::HEADERS => [
