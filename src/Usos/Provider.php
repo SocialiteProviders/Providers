@@ -7,9 +7,6 @@ use SocialiteProviders\Manager\OAuth1\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'USOS';
 
     protected function mapUserToObject(array $user)

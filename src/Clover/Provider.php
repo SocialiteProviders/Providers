@@ -9,10 +9,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
-    const IDENTIFIER = 'clover';
+    public const IDENTIFIER = 'clover';
 
     /**
      * {@inheritdoc}
