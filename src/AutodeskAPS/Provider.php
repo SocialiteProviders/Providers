@@ -41,7 +41,7 @@ class Provider extends AbstractProvider
     protected function getCodeFields($state = null)
     {
         $fields = [
-            'client_id'     => $this->getConfig('client_id') ?? $this->clientId,
+            'client_id'     => $this->clientId,
             'redirect_uri'  => $this->getConfig('redirect') ?? $this->redirectUrl,
             'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
             'response_type' => 'code',
@@ -82,7 +82,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenHeaders($code): array
     {
-        $base64 = base64_encode(($this->getConfig('client_id') ?? $this->clientId).':'.($this->getConfig('client_secret') ?? $this->clientSecret));
+        $base64 = base64_encode("{$this->clientId}:{$this->clientSecret}");
 
         return [
             'Content-Type'  => 'application/x-www-form-urlencoded',
