@@ -2,10 +2,14 @@
 
 namespace SocialiteProviders\Nuvemshop;
 
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
+/**
+ * @see https://tiendanube.github.io/api-documentation/authentication
+ */
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'NUVEMSHOP';
@@ -13,9 +17,37 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected $scopes = ['read'];
+
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
+
+    /**
+     * Returns the configured user id that we're authenticating with
+     *
+     * @return string
+     */
+    private function getClientId()
+    {
+        return $this->getConfig('client_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase($this->nuvemshopUrl('/admin/oauth/authorize'), $state);
+        return $this->buildAuthUrlFromBase(
+            sprintf(
+                'https://www.tiendanube.com/apps/%s/authorize',
+                $this->getClientId()
+            ),
+            $state
+        );
     }
 
     /**
@@ -23,7 +55,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return $this->nuvemshopUrl('/admin/oauth/access_token');
+        return 'https://www.tiendanube.com/apps/authorize/token';
     }
 
     /**
@@ -31,14 +63,16 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->nuvemshopUrl('/admin/shop.json'), [
-            RequestOptions::HEADERS => [
-                'Accept'                 => 'application/json',
-                'X-Nuvemshop-Access-Token' => $token,
-            ],
-        ]);
+        $response = $this->getHttpClient()->get(
+            'https://api.nuvemshop.com.br/v1/store',
+            [
+                RequestOptions::HEADERS => [
+                    'Authentication' => 'Bearer ' . $token
+                ]
+            ]
+        );
 
-        return json_decode((string) $response->getBody(), true)['shop'];
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
@@ -47,38 +81,40 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id'       => $user['id'],
-            'nickname' => $user['mynuvemshop_domain'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => null,
+            'id' => $user['user_id'],
+            'nickname' => null,
+            'name' => null,
+            'email' => $user['email'],
+            'avatar' => null
         ]);
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
-    {
-        return ['subdomain'];
-    }
-
-    /**
-     * Work out the nuvemshop domain based on either the
-     * `subdomain` config setting or the current request.
+     * Acquire a new access token using the refresh token.
      *
-     * @param  string  $uri  URI to append to the domain
-     * @return string The fully qualified *.mynuvemshop.com url
+     * @see https://dev.nuvemshop.com.br/es/docs/applications/authentication
+     *
+     * @param string $refreshToken
+     * @return ResponseInterface
+     *
      */
-    private function nuvemshopUrl($uri = null)
+    public function refreshToken($refreshToken): ResponseInterface
     {
-        if (! empty($this->parameters['subdomain'])) {
-            return 'https://'.$this->parameters['subdomain'].'.mynuvemshop.com'.$uri;
-        }
-        if ($this->getConfig('subdomain')) {
-            return "https://{$this->getConfig('subdomain')}.mynuvemshop.com".$uri;
-        }
+        $response = $this->getHttpClient()->post(
+            $this->getTokenUrl(),
+            [
+                RequestOptions::HEADERS => [
+                    'Accept' => 'application/json'
+                ],
+                RequestOptions::FORM_PARAMS => [
+                    'client_id' => $this->clientId,
+                    'client_secret' => $this->clientSecret,
+                    'grant_type' => 'authorization_code',
+                    'code' => $refreshToken
+                ]
+            ]
+        );
 
-        return 'https://'.$this->request->get('shop').$uri;
+        return json_decode((string)$response->getBody(), true);
     }
 }
