@@ -42,7 +42,7 @@ class Provider extends AbstractProvider
     {
         $fields = [
             'client_id'     => $this->clientId,
-            'redirect_uri'  => $this->getConfig('redirect') ?? $this->redirectUrl,
+            'redirect_uri'  => $this->redirectUrl,
             'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
             'response_type' => 'code',
         ];
@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
         $fields = [
             'grant_type'   => 'authorization_code',
             'code'         => $code,
-            'redirect_uri' => $this->getConfig('redirect') ?? $this->redirectUrl,
+            'redirect_uri' => $this->redirectUrl,
         ];
 
         if ($this->usesPKCE()) {

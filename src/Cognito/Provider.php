@@ -121,7 +121,7 @@ class Provider extends AbstractProvider
 
         return sprintf('%s/logout?', $authHost).http_build_query([
             'client_id'     => $this->clientId,
-            'redirect_uri'  => $this->getConfig('redirect'),
+            'redirect_uri'  => $this->redirectUrl,
             'response_type' => 'code',
             'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
         ]);
