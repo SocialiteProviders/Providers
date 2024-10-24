@@ -15,11 +15,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [''];
-
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys()
     {
         return ['endpoint'];

@@ -13,11 +13,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [''];
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase('https://redbooth.com/oauth2/authorize', $state);
