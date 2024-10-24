@@ -10,9 +10,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'GOVBR';
 
     public const SCOPE_OPENID = 'openid';
