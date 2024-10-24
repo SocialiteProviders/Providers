@@ -58,11 +58,13 @@ class Provider extends AbstractProvider
     /** {@inheritDoc} */
     protected function getUserByToken($token)
     {
-        return json_decode($this->getHttpClient()->get($this->getConfig('base_url').'/oidc/v1/userinfo', [
+        $response = $this->getHttpClient()->get($this->getConfig('base_url').'/oidc/v1/userinfo', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
-        ])->getBody(), true);
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
     }
 
     /** {@inheritDoc} */

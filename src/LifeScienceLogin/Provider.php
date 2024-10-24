@@ -112,7 +112,7 @@ class Provider extends AbstractProvider
                 throw new InvalidStateException("Error on getting OpenID Configuration. {$e}");
             }
 
-            return json_decode($response->getBody());
+            return json_decode((string) $response->getBody());
         });
 
         return $config;
