@@ -60,6 +60,7 @@ return Socialite::driver('nuvemshop')->redirect();
 ### Returned User fields
 
 - ``id``
-- ``nickname``
 - ``name``
+- ``nickname``
 - ``email``
+- ``avatar``
