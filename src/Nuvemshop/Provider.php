@@ -61,13 +61,16 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token, $userId)
+    protected function getUserByToken($token)
     {
+        $accessToken = explode('.', $token)[0];
+        $userId = explode('.', $token)[1];
+
         $response = $this->getHttpClient()->get(
             "https://api.nuvemshop.com.br/v1/$userId/store",
             [
                 RequestOptions::HEADERS => [
-                    'Authentication' => 'bearer ' . $token,
+                    'Authentication' => 'bearer ' . $accessToken,
                     'User-Agent' => $this->getClientId()
                 ]
             ]
@@ -84,7 +87,9 @@ class Provider extends AbstractProvider
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
             'name' => $user['name'],
-            'email' => $user['email']
+            'nickname' => null,
+            'email' => $user['email'],
+            'avatar' => null
         ]);
     }
 }
