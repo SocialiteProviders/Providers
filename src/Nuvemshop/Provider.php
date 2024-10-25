@@ -17,7 +17,20 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['read'];
+    protected $scopes = [
+        'read_content',
+        'write_content',
+        'read_products',
+        'write_products',
+        'read_customers',
+        'write_customers',
+        'read_orders',
+        'write_orders',
+        'read_coupons',
+        'write_coupons',
+        'write_scripts',
+        'write_shipping'
+    ];
 
     /**
      * The separating character for the requested scopes.
