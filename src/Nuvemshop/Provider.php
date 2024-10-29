@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Nuvemshop;
 
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -40,21 +39,15 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            sprintf(
-                'https://www.tiendanube.com/apps/%s/authorize',
-                $this->clientId
-            ),
-            $state
-        );
+        return $this->buildAuthUrlFromBase("https://www.tiendanube.com/apps/{$this->clientId}/authorize", $state);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.tiendanube.com/apps/authorize/token';
     }
@@ -62,7 +55,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function getUserByToken($token): array
     {
         [$bearerToken, $userId] = explode('.', $token, 2);
 
