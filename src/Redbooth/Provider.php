@@ -13,7 +13,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://redbooth.com/oauth2/authorize', $state);
     }
@@ -21,7 +21,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://redbooth.com/oauth2/token';
     }

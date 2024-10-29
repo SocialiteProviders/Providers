@@ -15,15 +15,18 @@ class Provider extends AbstractProvider
      */
     private const BASE_URL = 'https://oauth.zettle.com';
 
-    protected function getAuthUrl($state)
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            self::BASE_URL.'/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase(self::BASE_URL.'/authorize', $state);
     }
 
-    protected function getTokenUrl()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenUrl(): string
     {
         return self::BASE_URL.'/token';
     }

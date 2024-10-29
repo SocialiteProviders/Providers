@@ -70,7 +70,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildUrl();
     }
@@ -292,9 +292,6 @@ class Provider extends AbstractProvider
      */
     public function getAccessTokenResponse($code) {}
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl() {}
 
     /**

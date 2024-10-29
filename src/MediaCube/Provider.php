@@ -14,18 +14,15 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://mediacube.id/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://mediacube.id/oauth/authorize', $state);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://mediacube.id/oauth/token';
     }

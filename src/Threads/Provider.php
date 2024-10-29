@@ -33,17 +33,17 @@ class Provider extends AbstractProvider
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://threads.net/oauth/authorize', $state);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://graph.threads.net/oauth/access_token';
     }

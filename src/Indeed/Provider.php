@@ -18,17 +18,17 @@ class Provider extends AbstractProvider
     protected $scopes = ['email', 'offline_access'];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://secure.indeed.com/oauth/v2/authorize', $state);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://apis.indeed.com/oauth/v2/tokens';
     }

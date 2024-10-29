@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $url = self::DOMAIN[config('services.mercadopago.country')] ?? 'https://auth.mercadopago.com';
 
@@ -68,7 +68,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.mercadopago.com/oauth/token';
     }

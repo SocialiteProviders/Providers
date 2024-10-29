@@ -18,7 +18,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(self::BASE_URL.'/oauth2/authorize', $state);
     }
@@ -26,7 +26,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return self::BASE_URL.'/oauth2/access_token';
     }

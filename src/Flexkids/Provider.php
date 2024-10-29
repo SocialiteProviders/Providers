@@ -26,7 +26,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $bashUrl = $this->buildAuthUrlFromBase($this->getConfig('authurl'), $state);
 
@@ -36,7 +36,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getConfig('server').'/v2/oauth/connect/token';
     }

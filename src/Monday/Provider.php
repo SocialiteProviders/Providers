@@ -25,17 +25,17 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://auth.monday.com/oauth2/authorize', $state);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://auth.monday.com/oauth2/token';
     }

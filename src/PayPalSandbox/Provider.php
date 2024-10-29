@@ -23,18 +23,15 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize', $state);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice';
     }
