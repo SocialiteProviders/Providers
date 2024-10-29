@@ -59,15 +59,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        // get the user
-        $response = $this->getHttpClient()->get(
-            $this->baseUrl().'/me/?format=json',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get($this->baseUrl().'/me/', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'format' => 'json',
+            ],
+        ]);
 
         // parse the response and add the email address in.
         $result = json_decode((string) $response->getBody(), true);
