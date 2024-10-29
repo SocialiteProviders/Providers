@@ -32,8 +32,10 @@ class Provider extends AbstractProvider
         return array_merge($this->scopes, $additionalScopes);
     }
 
-    /** {@inheritDoc} */
-    public static function additionalConfigKeys()
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys(): array
     {
         return [
             'base_url',

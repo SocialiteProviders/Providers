@@ -123,7 +123,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['platform', 'app_id', 'version_string'];
     }

@@ -107,7 +107,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['environment'];
     }
