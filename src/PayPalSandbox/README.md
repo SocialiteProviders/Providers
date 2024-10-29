@@ -1,7 +1,7 @@
 # PayPalSandbox
 
 ```bash
-composer require socialiteproviders/paypalsandbox
+composer require socialiteproviders/paypal-sandbox
 ```
 
 ## Installation & Basic Usage
