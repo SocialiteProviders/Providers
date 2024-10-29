@@ -37,6 +37,9 @@ class Provider extends AbstractProvider
         self::SCOPE_EMAIL,
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**

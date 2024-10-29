@@ -11,6 +11,9 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SURFconext';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopes = ['openid'];
 
     /**

@@ -20,7 +20,7 @@ class Provider extends AbstractProvider
     ];
 
     /**
-     * The separating character for the requested scopes.
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 

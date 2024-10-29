@@ -11,16 +11,12 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'PRODUCTHUNT';
 
     /**
-     * The scopes being requested.
-     *
-     * @var array
+     * {@inheritdoc}
      */
     protected $scopes = ['public', 'private'];
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 

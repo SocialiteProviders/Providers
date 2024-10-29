@@ -17,9 +17,7 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * The scopes being requested.
-     *
-     * @var array
+     * {@inheritdoc}
      */
     protected $scopes = ['me'];
 

@@ -12,16 +12,12 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'LINE';
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 
     /**
-     * The scopes being requested.
-     *
-     * @var array
+     * {@inheritdoc}
      */
     protected $scopes = [
         'openid',
@@ -121,7 +117,7 @@ class Provider extends AbstractProvider
             ->setExpiresIn($this->parseExpiresIn($response));
     }
 
-      /**
+    /**
      * {@inheritdoc}
      */
     public static function additionalConfigKeys()

@@ -19,6 +19,9 @@ class Provider extends AbstractProvider
         'name',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**

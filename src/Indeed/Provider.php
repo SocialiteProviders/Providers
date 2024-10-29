@@ -15,6 +15,9 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopes = ['email', 'offline_access'];
 
     /**

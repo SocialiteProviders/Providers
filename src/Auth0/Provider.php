@@ -20,6 +20,9 @@ class Provider extends AbstractProvider
         'email',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     protected function getAuth0Url()

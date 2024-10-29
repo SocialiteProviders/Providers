@@ -12,6 +12,9 @@ class Provider extends AbstractProvider
 
     protected $usesPKCE = true;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopes = ['signature'];
 
     /**

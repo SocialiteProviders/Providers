@@ -15,6 +15,9 @@ class Provider extends AbstractProvider
 
     public const BASE_URL = 'https://ims-na1.adobelogin.com/ims';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopes = ['openid', 'email', 'profile'];
 
     protected function getAuthUrl($state): string

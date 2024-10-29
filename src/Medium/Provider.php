@@ -10,6 +10,9 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MEDIUM';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopes = ['basicProfile'];
 
     /**

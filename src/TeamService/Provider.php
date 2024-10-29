@@ -12,6 +12,9 @@ class Provider extends AbstractProvider
 
     protected $encodingType = PHP_QUERY_RFC3986;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**

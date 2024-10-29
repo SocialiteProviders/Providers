@@ -12,9 +12,7 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'SPOTIFY';
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 

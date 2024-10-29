@@ -11,9 +11,7 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'OAUTHGEN';
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 

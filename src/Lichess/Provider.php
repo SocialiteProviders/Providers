@@ -11,9 +11,7 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'LICHESS';
 
     /**
-     * The scopes being requested.
-     *
-     * @var array
+     * {@inheritdoc}
      */
     protected $scopes = [
         'email:read',
