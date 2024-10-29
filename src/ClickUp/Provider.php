@@ -51,16 +51,16 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id'       => $user['user']['id'],
-            'nickname' => $user['user']['username'],
-            'name'     => $user['user']['username'],
-            'email'    => $user['user']['email'],
-            'avatar'   => $user['user']['profilePicture'],
-            'color' => $user['user']['color'] ?? null,
-            'initials' => $user['user']['initials'] ?? null,
-            'weekStartDay' => $user['user']['week_start_day'] ?? 0,
+            'id'                => $user['user']['id'],
+            'nickname'          => $user['user']['username'],
+            'name'              => $user['user']['username'],
+            'email'             => $user['user']['email'],
+            'avatar'            => $user['user']['profilePicture'],
+            'color'             => $user['user']['color'] ?? null,
+            'initials'          => $user['user']['initials'] ?? null,
+            'weekStartDay'      => $user['user']['week_start_day'] ?? 0,
             'globalFontSupport' => $user['user']['global_font_support'] ?? true,
-            'timezone' => $user['user']['timezone'] ?? null,
+            'timezone'          => $user['user']['timezone'] ?? null,
         ]);
     }
 }
