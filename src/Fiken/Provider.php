@@ -19,15 +19,18 @@ class Provider extends AbstractProvider
      */
     private const BASE_URL = 'https://api.fiken.no/api/v2';
 
-    protected function getAuthUrl($state)
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            self::URL.'/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase(self::URL.'/oauth/authorize', $state);
     }
 
-    protected function getTokenUrl()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenUrl(): string
     {
         return self::URL.'/oauth/token';
     }

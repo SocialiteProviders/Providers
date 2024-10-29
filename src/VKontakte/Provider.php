@@ -28,18 +28,15 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://oauth.vk.com/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://oauth.vk.com/authorize', $state);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://oauth.vk.com/access_token';
     }

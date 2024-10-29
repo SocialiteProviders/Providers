@@ -20,9 +20,11 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        $url = $this->isChina() ? 'https://www.battlenet.com.cn/oauth/authorize' : 'https://'.$this->getRegion().'.battle.net/oauth/authorize';
+        $url = $this->isChina() ?
+            'https://www.battlenet.com.cn/oauth/authorize' :
+            'https://'.$this->getRegion().'.battle.net/oauth/authorize';
 
         return $this->buildAuthUrlFromBase($url, $state);
     }
@@ -30,7 +32,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         if ($this->isChina()) {
             return 'https://www.battlenet.com.cn/oauth/token';

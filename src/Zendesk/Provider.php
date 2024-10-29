@@ -26,18 +26,15 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://'.$this->getSubdomain().'.zendesk.com/oauth/authorizations/new',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://'.$this->getSubdomain().'.zendesk.com/oauth/authorizations/new', $state);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://'.$this->getSubdomain().'.zendesk.com/oauth/tokens';
     }

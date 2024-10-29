@@ -21,10 +21,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://accounts.salesloft.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://accounts.salesloft.com/oauth/authorize', $state);
     }
 
     /**

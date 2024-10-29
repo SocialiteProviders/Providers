@@ -55,10 +55,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            sprintf('https://%s/oauth/v2/authorize', $this->getApiDomain()),
-            $state
-        );
+        return $this->buildAuthUrlFromBase(sprintf('https://%s/oauth/v2/authorize', $this->getApiDomain()), $state);
     }
 
     /**

@@ -24,17 +24,17 @@ class Provider extends AbstractProvider
     protected $requiredScopes = ['email'];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://sso.ivao.aero/authorize', $state);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.ivao.aero/v2/oauth/token';
     }
