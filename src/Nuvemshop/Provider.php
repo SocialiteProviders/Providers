@@ -33,21 +33,9 @@ class Provider extends AbstractProvider
     ];
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
-
-    /**
-     * Returns the configured user id that we're authenticating with
-     *
-     * @return string
-     */
-    private function getClientId()
-    {
-        return $this->getConfig('client_id');
-    }
 
     /**
      * {@inheritdoc}
@@ -57,7 +45,7 @@ class Provider extends AbstractProvider
         return $this->buildAuthUrlFromBase(
             sprintf(
                 'https://www.tiendanube.com/apps/%s/authorize',
-                $this->getClientId()
+                $this->clientId
             ),
             $state
         );
@@ -76,15 +64,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $accessToken = explode('.', $token)[0];
-        $userId = explode('.', $token)[1];
+        [$bearerToken, $userId] = explode('.', $token, 2);
 
         $response = $this->getHttpClient()->get(
             "https://api.nuvemshop.com.br/v1/$userId/store",
             [
                 RequestOptions::HEADERS => [
-                    'Authentication' => 'bearer ' . $accessToken,
-                    'User-Agent' => $this->getClientId()
+                    'Authentication' => 'bearer ' . $bearerToken,
+                    'User-Agent' => $this->clientId
                 ]
             ]
         );
