@@ -87,7 +87,7 @@ class Provider extends AbstractProvider
             $this->request->query('merchant_id'),
             $this->request->query('employee_id'),
         ), [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
