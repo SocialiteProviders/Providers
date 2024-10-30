@@ -179,7 +179,7 @@ class Provider extends AbstractProvider
             'id'       => $user['id'],
             'nickname' => null,
             'name'     => $user['displayName'],
-            'email'    => $user['userPrincipalName'],
+            'email'    => $user['mail'],
             'avatar'   => Arr::get($user, 'avatar'),
 
             'businessPhones'    => Arr::get($user, 'businessPhones'),
