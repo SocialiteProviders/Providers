@@ -55,7 +55,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $url = self::DOMAIN[$this->getConfig('country')] ?? 'https://auth.mercadolibre.com.ar';
 
@@ -65,7 +65,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.mercadolibre.com/oauth/token';
     }

@@ -739,12 +739,18 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $format;
     }
 
-    protected function getTokenUrl()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTokenUrl(): string
     {
         throw new NotSupportedException;
     }
 
-    protected function getAuthUrl($state)
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAuthUrl($state): string
     {
         throw new NotSupportedException;
     }

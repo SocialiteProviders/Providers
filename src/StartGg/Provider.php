@@ -32,10 +32,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://start.gg/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://start.gg/oauth/authorize', $state);
     }
 
     /**

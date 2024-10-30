@@ -30,25 +30,17 @@ class Provider extends AbstractProvider
     ];
 
     /**
-     * Get the authentication URL for the provider.
-     *
-     * @param  string  $state
-     * @return string
+     * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://access.line.me/oauth2/v2.1/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://access.line.me/oauth2/v2.1/authorize', $state);
     }
 
     /**
-     * Get the token URL for the provider.
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.line.me/oauth2/v2.1/token';
     }

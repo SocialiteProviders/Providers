@@ -37,22 +37,17 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Get the authentication URL for the provider.
-     *
-     * @param  string  $state
-     * @return string
+     * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getLaravelPassportUrl('authorize_uri'), $state);
     }
 
     /**
-     * Get the token URL for the provider.
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getLaravelPassportUrl('token_uri');
     }
