@@ -90,9 +90,9 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['test'];
     }
