@@ -17,9 +17,7 @@ class Provider extends AbstractProvider
     protected $scopes = ['user_info', 'emails'];
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 

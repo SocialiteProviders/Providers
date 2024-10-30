@@ -10,6 +10,9 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'STREAMELEMENTS';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**

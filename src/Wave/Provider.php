@@ -15,6 +15,9 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['user:read'];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**

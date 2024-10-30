@@ -13,8 +13,14 @@ class Provider extends AbstractProvider
 
     protected $version = '2';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopes = ['ageless'];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = '+';
 
     /**

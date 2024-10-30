@@ -43,7 +43,6 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
-     * https://msdn.microsoft.com/en-us/library/azure/ad/graph/howto/azure-ad-graph-api-permission-scopes.
      */
     protected $scopes = ['User.Read'];
 

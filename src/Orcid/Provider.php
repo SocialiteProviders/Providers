@@ -33,20 +33,12 @@ class Provider extends AbstractProvider
     public const productionProfileURL = 'https://pub.orcid.org/v2.1/';
 
     /**
-     * The scopes being requested.
-     * Others include: '/activities/update','/person/update'.
-     *
-     * You can customise the scopes when invoking the ORCID Socialite provider
-     * if this needs to change
-     *
-     * @var array
+     * {@inheritdoc}
      */
     protected $scopes = ['/authenticate', '/read-limited'];
 
     /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
+     * {@inheritdoc}
      */
     protected $scopeSeparator = ' ';
 

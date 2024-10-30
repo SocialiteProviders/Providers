@@ -23,6 +23,9 @@ class Provider extends AbstractProvider
         'openid',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
     /**

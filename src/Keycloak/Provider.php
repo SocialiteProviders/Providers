@@ -12,8 +12,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'KEYCLOAK';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopeSeparator = ' ';
 
+    /**
+     * {@inheritdoc}
+     */
     protected $scopes = ['openid'];
 
     /**
