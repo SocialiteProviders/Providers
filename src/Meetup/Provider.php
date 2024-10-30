@@ -39,14 +39,14 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         // https://www.meetup.com/meetup_api/auth/#oauth2-resources
-        $response = $this->getHttpClient()->get(
-            'https://api.meetup.com/'.$this->version.'/member/self?access_token='.$token,
-            [
-                RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get("https://api.meetup.com/{$this->version}/member/self", [
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+            ],
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }

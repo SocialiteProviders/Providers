@@ -60,12 +60,13 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $url = $this->originUrl.'/'.$this->version.'/people/me?callingData=true';
-
-        $response = $this->getHttpClient()->get($url, [
+        $response = $this->getHttpClient()->get("{$this->originUrl}/{$this->version}/people/me", [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'Accept'        => 'application/json',
+            ],
+            RequestOptions::QUERY => [
+                'callingData' => 'true',
             ],
         ]);
 

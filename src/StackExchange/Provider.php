@@ -73,21 +73,16 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         // https://api.stackexchange.com/docs/me
-        $response = $this->getHttpClient()->get(
-            'https://api.stackexchange.com/'.$this->version.
-            '/me?'.http_build_query(
-                [
-                    'site'         => $this->getConfig('site'),
-                    'access_token' => $token,
-                    'key'          => $this->getConfig('key'),
-                ]
-            ),
-            [
-                RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get("https://api.stackexchange.com/{$this->version}/me", [
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+            ],
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+                'key'          => $this->getConfig('key'),
+                'site'         => $this->getConfig('site'),
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
