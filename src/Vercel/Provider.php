@@ -33,12 +33,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $teamId = $this->credentialsResponseBody['team_id'];
+        $teamId = $this->credentialsResponseBody['team_id'] ?? null;
+        $queryParameters = $teamId !== null ? ['teamId' => $teamId] : [];
 
-        $response = $this->getHttpClient()->get('https://api.vercel.com/www/user'.($teamId ? "?teamId={$teamId}" : ''), [
+        $response = $this->getHttpClient()->get('https://api.vercel.com/www/user', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
+            RequestOptions::QUERY => $queryParameters,
         ]);
 
         return json_decode((string) $response->getBody(), true);
