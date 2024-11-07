@@ -15,10 +15,7 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['read'];
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['subdomain'];
     }

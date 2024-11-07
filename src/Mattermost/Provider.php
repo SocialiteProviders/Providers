@@ -96,10 +96,7 @@ class Provider extends AbstractProvider
         return $uri;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['api_version', 'instance_uri'];
     }

@@ -82,10 +82,7 @@ class Provider extends AbstractProvider
         return $this->getConfig('instance_url', 'https://login.salesforce.com');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['instance_url'];
     }

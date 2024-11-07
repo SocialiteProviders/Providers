@@ -83,10 +83,7 @@ class Provider extends AbstractProvider
         return strtolower($this->getRegion()) === 'cn';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['region'];
     }

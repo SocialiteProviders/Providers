@@ -39,9 +39,6 @@ class Provider extends AbstractProvider
         return $baseUrl;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['base_url'];

@@ -92,10 +92,7 @@ class Provider extends AbstractProvider
         return 'https://api.nocks.com/api/v2/';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['test'];
     }

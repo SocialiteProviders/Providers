@@ -24,10 +24,7 @@ class Provider extends AbstractProvider
         return $this->buildAuthUrlFromBase($this->getInstanceUrl().'/login/oauth2/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['instance_url'];
     }

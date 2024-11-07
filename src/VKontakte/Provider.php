@@ -127,10 +127,7 @@ class Provider extends AbstractProvider
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['lang'];
     }

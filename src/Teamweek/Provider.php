@@ -74,10 +74,7 @@ class Provider extends AbstractProvider
         return $this->getConfig('instance_uri', 'https://teamweek.com');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['instance_uri'];
     }

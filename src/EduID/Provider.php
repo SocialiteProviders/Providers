@@ -54,10 +54,7 @@ class Provider extends AbstractProvider
         return 'https://login.eduid.ch/idp/profile/';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['use_test_idp'];
     }

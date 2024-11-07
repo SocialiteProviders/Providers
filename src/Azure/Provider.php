@@ -128,10 +128,7 @@ class Provider extends AbstractProvider
         return 'https://login.microsoftonline.com/'.$this->getConfig('tenant', 'common');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['tenant', 'proxy'];
     }
