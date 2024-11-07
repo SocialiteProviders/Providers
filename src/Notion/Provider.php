@@ -58,7 +58,7 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
                 'Content-Type'  => 'application/json',
             ],
-            'json' => [
+            RequestOptions::JSON => [
                 'grant_type'   => 'authorization_code',
                 'code'         => $code,
                 'redirect_uri' => $this->redirectUrl,
