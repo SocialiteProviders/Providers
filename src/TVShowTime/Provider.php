@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TVSHOWTIME';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['basic'];
 
     /**

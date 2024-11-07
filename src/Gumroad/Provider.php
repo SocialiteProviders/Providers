@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'GUMROAD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['view_sales'];
 
     /**

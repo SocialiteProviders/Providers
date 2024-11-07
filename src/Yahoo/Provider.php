@@ -11,9 +11,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'YAHOO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid2'];
 
     /**

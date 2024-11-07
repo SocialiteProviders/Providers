@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'UBER';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['profile'];
 
     /**

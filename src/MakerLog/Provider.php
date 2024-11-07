@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MAKERLOG';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user:read user:email'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

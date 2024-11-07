@@ -12,9 +12,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'VERSIONONE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['apiv1 query-api-1.0'];
 
     /**

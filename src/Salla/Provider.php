@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SALLA';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'offline_access',
     ];

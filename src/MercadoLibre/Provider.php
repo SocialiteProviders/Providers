@@ -34,14 +34,8 @@ class Provider extends AbstractProvider
         'VE' => 'https://auth.mercadolibre.com.ve',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['offline_access', 'read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

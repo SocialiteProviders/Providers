@@ -16,9 +16,6 @@ class Provider extends AbstractProvider
 
     public const SYNC_URL = 'https://api.todoist.com/sync/v9/sync';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'data:read',
     ];

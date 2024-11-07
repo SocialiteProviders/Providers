@@ -15,14 +15,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'WHMCS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'email', 'profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

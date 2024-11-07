@@ -14,14 +14,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PAYPAL';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'profile', 'email'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

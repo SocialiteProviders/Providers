@@ -10,16 +10,10 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'LICHESS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'email:read',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PLANNINGCENTER';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['people'];
 
     /**

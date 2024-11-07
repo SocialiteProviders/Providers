@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MUSICBRAINZ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

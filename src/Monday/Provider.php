@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MONDAY';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['me:read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

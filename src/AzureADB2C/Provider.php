@@ -16,16 +16,10 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'AZUREADB2C';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

@@ -11,14 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'EXMENT';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['me'];
 
     /**

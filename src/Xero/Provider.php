@@ -11,14 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'XERO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'profile',

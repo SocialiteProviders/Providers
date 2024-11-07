@@ -12,14 +12,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ZITADEL';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'profile', 'email'];
 
     /** {@inheritDoc} */

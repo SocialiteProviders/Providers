@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'COINBASE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['wallet:user:read', 'wallet:user:email'];
 
     /**

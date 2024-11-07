@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'NOCKS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user.read'];
 
     /**

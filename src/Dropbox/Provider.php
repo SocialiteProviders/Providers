@@ -11,14 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DROPBOX';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'account_info.read',
     ];

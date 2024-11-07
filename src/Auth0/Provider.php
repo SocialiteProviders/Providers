@@ -11,18 +11,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'AUTH0';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'profile',
         'email',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     protected function getAuth0Url()

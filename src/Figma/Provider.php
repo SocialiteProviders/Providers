@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'FIGMA';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['file_read'];
 
     /**

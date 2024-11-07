@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'WAVE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user:read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

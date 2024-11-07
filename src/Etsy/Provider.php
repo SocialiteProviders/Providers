@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ETSY';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['email_r'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

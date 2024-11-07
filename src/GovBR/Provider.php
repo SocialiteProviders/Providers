@@ -36,14 +36,8 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected $productionUrl = 'https://sso.acesso.gov.br';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         self::SCOPE_OPENID,
         self::SCOPE_EMAIL,

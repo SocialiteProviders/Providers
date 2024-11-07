@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'BINANCE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user:email'];
 
     /**

@@ -11,14 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'OPENSTREETMAP';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['read_prefs'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

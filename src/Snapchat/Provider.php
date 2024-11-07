@@ -11,17 +11,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SNAPCHAT';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'https://auth.snapchat.com/oauth2/api/user.display_name',
         'https://auth.snapchat.com/oauth2/api/user.bitmoji.avatar',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

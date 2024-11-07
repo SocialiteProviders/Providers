@@ -24,17 +24,11 @@ class Provider extends AbstractProvider
 
     public const SCOPE_PROFILE = 'profile';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         self::SCOPE_OPENID,
         self::SCOPE_PROFILE,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

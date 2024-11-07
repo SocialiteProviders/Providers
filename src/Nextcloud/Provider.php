@@ -13,9 +13,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'NEXTCLOUD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

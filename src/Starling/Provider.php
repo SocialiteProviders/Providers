@@ -30,14 +30,8 @@ class Provider extends AbstractProvider
      */
     public const TOKEN_IDENTITY_ENDPOINT = '/identity/token';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['authorising-individual:read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'COURSERA';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['view_profile'];
 
     /**

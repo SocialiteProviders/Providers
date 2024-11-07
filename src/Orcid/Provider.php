@@ -32,14 +32,8 @@ class Provider extends AbstractProvider
      */
     public const productionProfileURL = 'https://pub.orcid.org/v2.1/';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['/authenticate', '/read-limited'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

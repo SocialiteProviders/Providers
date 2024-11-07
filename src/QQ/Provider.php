@@ -29,9 +29,6 @@ class Provider extends AbstractProvider
      */
     protected $withUnionId = false;
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['get_user_info'];
 
     /**

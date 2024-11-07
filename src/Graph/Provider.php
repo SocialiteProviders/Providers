@@ -11,14 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'GRAPH';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['User.Read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

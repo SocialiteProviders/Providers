@@ -11,14 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'CLERK';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['email', 'profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

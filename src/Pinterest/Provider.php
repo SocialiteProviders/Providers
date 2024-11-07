@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PINTEREST';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user_accounts:read'];
 
     /**

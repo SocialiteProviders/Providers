@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'LIVE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['User.Read User.ReadBasic.All'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

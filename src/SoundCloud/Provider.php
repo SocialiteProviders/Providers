@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SOUNDCLOUD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['non-expiring'];
 
     /**

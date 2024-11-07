@@ -41,14 +41,8 @@ class Provider extends AbstractProvider
      */
     protected const DEFAULT_FIELDS_TENANT = ['id', 'displayName', 'city', 'country', 'countryLetterCode', 'state', 'street', 'verifiedDomains'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['User.Read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

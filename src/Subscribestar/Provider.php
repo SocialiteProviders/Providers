@@ -13,14 +13,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SUBSCRIBESTAR';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user.read', 'user.email.read', 'subscriber.read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

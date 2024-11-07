@@ -14,9 +14,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'FLEXKIDS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['basic'];
 
     protected $idToken;

@@ -10,18 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'REKONO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'profile',
         'email',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

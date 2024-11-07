@@ -11,9 +11,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'YANDEX';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'VIMEO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['public'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

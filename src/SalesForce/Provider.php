@@ -13,9 +13,6 @@ class Provider extends AbstractProvider
 
     public const PROVIDER_NAME = 'salesforce';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

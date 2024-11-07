@@ -11,9 +11,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DRIBBBLE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['public'];
 
     /**

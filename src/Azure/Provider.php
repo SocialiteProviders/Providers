@@ -16,14 +16,8 @@ class Provider extends AbstractProvider
      */
     protected $graphUrl = 'https://graph.microsoft.com/v1.0/me';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['User.Read'];
 
     /**
