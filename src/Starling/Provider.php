@@ -131,9 +131,6 @@ class Provider extends AbstractProvider
         return $this->getConfig('use_mtls', false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['env', 'use_mtls'];

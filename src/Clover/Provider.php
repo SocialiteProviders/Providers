@@ -18,9 +18,6 @@ class Provider extends AbstractProvider
      */
     protected $stateless = true;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return [

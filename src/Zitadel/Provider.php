@@ -32,9 +32,6 @@ class Provider extends AbstractProvider
         return array_merge($this->scopes, $additionalScopes);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return [

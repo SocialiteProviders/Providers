@@ -23,9 +23,6 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['me'];
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['exment_uri'];

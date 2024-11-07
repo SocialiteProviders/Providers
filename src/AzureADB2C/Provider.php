@@ -218,9 +218,6 @@ class Provider extends AbstractProvider
             .urlencode($post_logout_uri);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return [

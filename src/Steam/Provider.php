@@ -297,9 +297,6 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl() {}
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['realm', 'proxy', 'allowed_hosts', 'force_https'];

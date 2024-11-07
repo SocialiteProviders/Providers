@@ -21,9 +21,6 @@ class Provider extends AbstractProvider
         return sprintf('https://www.amocrm.%s', $this->getTld());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['tld'];

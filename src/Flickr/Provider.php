@@ -9,9 +9,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'FLICKR';
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['perms'];

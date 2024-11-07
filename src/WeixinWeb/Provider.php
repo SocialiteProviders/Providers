@@ -133,9 +133,6 @@ class Provider extends AbstractProvider
         return $this->credentialsResponseBody;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['auth_base_uri'];

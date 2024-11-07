@@ -43,9 +43,6 @@ class Provider extends AbstractProvider
         return rtrim($baseUrl).'/oauth2';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return [

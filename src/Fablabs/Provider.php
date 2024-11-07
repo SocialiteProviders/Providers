@@ -64,9 +64,6 @@ class Provider extends AbstractProvider
         return $this->getConfig('instance_uri', 'https://api.fablabs.io/');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['instance_uri'];

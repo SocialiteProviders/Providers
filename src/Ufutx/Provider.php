@@ -59,9 +59,6 @@ class Provider extends AbstractProvider
         return $this->getConfig('instance_uri', 'https://account.ufutx.com/');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['instance_uri'];
