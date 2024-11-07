@@ -25,10 +25,7 @@ class Provider extends AbstractProvider
      */
     protected $user;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $fields = [
             'client_key'    => $this->clientId,

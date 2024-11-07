@@ -68,18 +68,12 @@ class Provider extends AbstractProvider
         return ['base_url', 'auth_server_id'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getOktaServerUrl().'v1/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getOktaServerUrl().'v1/token';
     }

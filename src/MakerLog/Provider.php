@@ -24,21 +24,12 @@ class Provider extends AbstractProvider
         return 'https://api.getmakerlog.com';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            $this->baseUrl().'/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->baseUrl().'/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->baseUrl().'/oauth/token/';
     }

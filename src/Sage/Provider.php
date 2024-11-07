@@ -12,18 +12,12 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['full_access'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www.sageone.com/oauth2/auth/central', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://oauth.accounting.sage.com/token';
     }

@@ -42,10 +42,7 @@ class Provider extends AbstractProvider
         return $this->getConfig('tenant_id', 'common');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(
             sprintf(
@@ -56,10 +53,7 @@ class Provider extends AbstractProvider
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return sprintf(
             'https://login.microsoftonline.com/%s/oauth2/v2.0/token',

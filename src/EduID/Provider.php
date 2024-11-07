@@ -53,18 +53,12 @@ class Provider extends AbstractProvider
         return ['use_test_idp'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getEduIdUrl().'oidc/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getEduIdUrl().'oidc/token';
     }

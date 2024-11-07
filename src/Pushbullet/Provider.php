@@ -10,21 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PUSHBULLET';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://www.pushbullet.com/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://www.pushbullet.com/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.pushbullet.com/oauth2/token';
     }

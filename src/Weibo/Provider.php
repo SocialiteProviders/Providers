@@ -10,18 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'WEIBO';
 
-    /**
-     * {@inheritdoc}.
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://api.weibo.com/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}.
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.weibo.com/oauth2/access_token';
     }

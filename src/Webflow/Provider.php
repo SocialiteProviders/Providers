@@ -13,21 +13,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'WEBFLOW';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://webflow.com/oauth/authorize/',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://webflow.com/oauth/authorize/', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.webflow.com/oauth/access_token';
     }

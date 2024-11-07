@@ -12,18 +12,12 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['openid'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://id.worldcoin.org/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://id.worldcoin.org/token';
     }

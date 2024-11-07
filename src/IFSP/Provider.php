@@ -12,18 +12,12 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['read'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://suap.ifsp.edu.br/o/authorize/', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://suap.ifsp.edu.br/o/token/';
     }

@@ -36,20 +36,14 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['openid', 'email', 'profile'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $config = $this->getOpenIdConfiguration();
 
         return $this->buildAuthUrlFromBase($config->authorization_endpoint, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         $config = $this->getOpenIdConfiguration();
 

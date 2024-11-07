@@ -20,20 +20,14 @@ class Provider extends AbstractProvider
 
     protected $uniqueUserId;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $bashUrl = $this->buildAuthUrlFromBase($this->getConfig('authurl'), $state);
 
         return sprintf('%s&resource=%s', $bashUrl, urlencode($this->getConfig('resource')));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getConfig('server').'/v2/oauth/connect/token';
     }

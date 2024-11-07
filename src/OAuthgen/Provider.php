@@ -21,18 +21,12 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['blaze.graph.me', 'noconsent'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->oauthUrl.'/oauth2/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->oauthUrl.'/oauth2/token';
     }

@@ -47,10 +47,7 @@ class Provider extends AbstractProvider
         return ['logout_redirect'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         //It is used to prevent replay attacks
         $this->parameters['nonce'] = Str::random(20);
@@ -58,10 +55,7 @@ class Provider extends AbstractProvider
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getBaseUrl().'/token';
     }

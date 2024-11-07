@@ -34,18 +34,12 @@ class Provider extends AbstractProvider
         return (bool) $this->getConfig('use_test_idp', false) === true ? 'https://test.harid.ee/et' : 'https://harid.ee/et';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getEndpointBaseUrl().'/authorizations/new', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getEndpointBaseUrl().'/access_tokens';
     }

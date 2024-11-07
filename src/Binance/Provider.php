@@ -12,21 +12,12 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['user:email'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://accounts.binance.com/en/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://accounts.binance.com/en/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://accounts.binance.com/oauth/token';
     }

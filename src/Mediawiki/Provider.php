@@ -21,18 +21,12 @@ class Provider extends AbstractProvider
         return ['base_url'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getMediawikiUrl().'/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getMediawikiUrl().'/oauth2/access_token';
     }

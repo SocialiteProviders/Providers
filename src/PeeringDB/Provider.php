@@ -23,18 +23,12 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['profile email networks'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://auth.peeringdb.com/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://auth.peeringdb.com/oauth2/token/';
     }

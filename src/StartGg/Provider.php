@@ -21,20 +21,11 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://start.gg/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://start.gg/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.start.gg/oauth/access_token';

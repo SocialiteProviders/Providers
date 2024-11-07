@@ -14,15 +14,9 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://apis.roblox.com/oauth/v1/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://apis.roblox.com/oauth/v1/authorize', $state);
     }
 
     /**
@@ -36,10 +30,7 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://apis.roblox.com/oauth/v1/token';
     }

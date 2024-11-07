@@ -108,21 +108,12 @@ class Provider extends AbstractProvider
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            $this->getOpenIdConfiguration()->authorization_endpoint,
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->getOpenIdConfiguration()->authorization_endpoint, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getOpenIdConfiguration()->token_endpoint;
     }

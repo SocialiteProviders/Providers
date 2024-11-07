@@ -20,21 +20,12 @@ class Provider extends AbstractProvider
         'data:read',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            self::AUTH_URL,
-            $state
-        );
+        return $this->buildAuthUrlFromBase(self::AUTH_URL, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return self::TOKEN_URL;
     }

@@ -30,18 +30,11 @@ class Provider extends AbstractProvider
         return $host;
     }
 
-    /**
-     * {@inheritdoc}
-     * Get the login URL, Links to IMIS SSO Client Application.
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getImisUrl().$this->clientId.'.aspx', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getImisUrl().'/token';

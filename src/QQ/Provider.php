@@ -31,22 +31,12 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['get_user_info'];
 
-    /**
-     * {@inheritdoc}.
-     *
-     * @see \Laravel\Socialite\Two\AbstractProvider::getAuthUrl()
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://graph.qq.com/oauth2.0/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}.
-     *
-     * @see \Laravel\Socialite\Two\AbstractProvider::getTokenUrl()
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://graph.qq.com/oauth2.0/token';
     }

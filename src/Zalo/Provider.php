@@ -10,10 +10,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ZALO';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://oauth.zaloapp.com/v4/permission', $state);
     }
@@ -43,10 +40,7 @@ class Provider extends AbstractProvider
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://oauth.zaloapp.com/v4/access_token';
     }

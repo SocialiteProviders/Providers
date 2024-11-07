@@ -42,15 +42,9 @@ class Provider extends AbstractProvider
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            $this->getOpenidConfig()['authorization_endpoint'],
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->getOpenidConfig()['authorization_endpoint'], $state);
     }
 
     /**
@@ -72,10 +66,7 @@ class Provider extends AbstractProvider
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getOpenidConfig()['token_endpoint'];
     }

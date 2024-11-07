@@ -12,21 +12,12 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['basic_access', 'email'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://connect.deezer.com/oauth/auth.php',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://connect.deezer.com/oauth/auth.php', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://connect.deezer.com/oauth/access_token.php';
     }

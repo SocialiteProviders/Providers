@@ -10,21 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'THIRTYSEVENSIGNALS';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://launchpad.37signals.com/authorization/new',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://launchpad.37signals.com/authorization/new', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://launchpad.37signals.com/authorization/token';
     }

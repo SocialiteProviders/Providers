@@ -46,20 +46,14 @@ class Provider extends AbstractProvider
         return array_merge($fields, $this->parameters);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $url = self::DOMAIN[config('services.mercadopago.country')] ?? 'https://auth.mercadopago.com';
 
         return $this->buildAuthUrlFromBase($url.'/authorization', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.mercadopago.com/oauth/token';
     }

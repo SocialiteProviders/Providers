@@ -92,10 +92,7 @@ class Provider extends AbstractProvider
         return $this->buildAuthUrlFromBase('https://slack.com/oauth/v2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://slack.com/api/oauth.v2.access';
     }

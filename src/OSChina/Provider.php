@@ -15,18 +15,12 @@ class Provider extends AbstractProvider
      */
     protected $domain = 'https://www.oschina.net';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->domain.'/action/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->domain.'/action/openapi/token';
     }

@@ -18,21 +18,12 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://idp.rekono.si/openid-connect-server-webapp/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://idp.rekono.si/openid-connect-server-webapp/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://idp.rekono.si/openid-connect-server-webapp/token';
     }

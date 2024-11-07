@@ -40,14 +40,12 @@ class Provider extends AbstractProvider
         ];
     }
 
-    /** {@inheritDoc} */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getConfig('base_url').'/oauth/v2/authorize', $state);
     }
 
-    /** {@inheritDoc} */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getConfig('base_url').'/oauth/v2/token';
     }

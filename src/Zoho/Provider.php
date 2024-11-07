@@ -12,10 +12,7 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['aaaserver.profile.READ'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://accounts.zoho.com/oauth/v2/auth', $state);
     }
@@ -28,10 +25,7 @@ class Provider extends AbstractProvider
         return $this->request->input('accounts-server', 'https://accounts.zoho.com');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getAccountsServerUrl().'/oauth/v2/token';
     }

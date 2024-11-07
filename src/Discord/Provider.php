@@ -22,15 +22,9 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://discord.com/api/oauth2/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://discord.com/api/oauth2/authorize', $state);
     }
 
     /**
@@ -59,10 +53,7 @@ class Provider extends AbstractProvider
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://discord.com/api/oauth2/token';
     }

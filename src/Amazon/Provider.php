@@ -12,18 +12,12 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['profile'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www.amazon.com/ap/oa', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.amazon.com/auth/o2/token';
     }
