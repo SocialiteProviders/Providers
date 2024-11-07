@@ -111,10 +111,7 @@ class Provider extends AbstractProvider
             ->setExpiresIn($this->parseExpiresIn($response));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return [
             'bot_prompt',

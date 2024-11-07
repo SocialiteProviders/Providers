@@ -42,10 +42,7 @@ class Provider extends AbstractProvider
         return config('app.env') === 'production' ? self::PROD_BASE_URL : self::TEST_BASE_URL;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['logout_redirect'];
     }

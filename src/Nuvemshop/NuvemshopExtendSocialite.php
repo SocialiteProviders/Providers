@@ -1,13 +1,13 @@
 <?php
 
-namespace SocialiteProviders\Zettle;
+namespace SocialiteProviders\Nuvemshop;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-class ZettleExtendSocialite
+class NuvemshopExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {
-        $socialiteWasCalled->extendSocialite('zettle', Provider::class);
+        $socialiteWasCalled->extendSocialite('nuvemshop', Provider::class);
     }
 }

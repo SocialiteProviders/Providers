@@ -12,10 +12,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'BITRIX24';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['endpoint'];
     }

@@ -10,10 +10,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'HEADHUNTER';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['user_agent'];
     }

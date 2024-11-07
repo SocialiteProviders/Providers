@@ -20,7 +20,7 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['profile_fields_selector', 'domain'];
     }

@@ -35,14 +35,16 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            'https://'.$this->getAccount().'.vssps.visualstudio.com/_apis/profile/profiles/me?api-version=5.0-preview.3',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $uri = 'https://'.$this->getAccount().'.vssps.visualstudio.com/_apis/profile/profiles/me';
+
+        $response = $this->getHttpClient()->get($uri, [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'api-version' => '5.0-preview.3',
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -85,10 +87,7 @@ class Provider extends AbstractProvider
         return $this->getConfig('account', 'app');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['account'];
     }

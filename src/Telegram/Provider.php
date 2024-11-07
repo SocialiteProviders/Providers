@@ -11,10 +11,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TELEGRAM';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['bot'];
     }

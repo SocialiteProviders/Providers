@@ -21,17 +21,16 @@ class Provider extends AbstractProvider
     {
         $additionalScopes = [];
         if ($this->getConfig('organization_id')) {
-            array_push($additionalScopes, 'urn:zitadel:iam:org:id:'.$this->getConfig('organization_id'));
+            $additionalScopes[] = 'urn:zitadel:iam:org:id:'.$this->getConfig('organization_id');
         }
         if ($this->getConfig('project_id')) {
-            array_push($additionalScopes, 'urn:zitadel:iam:org:project:id:'.$this->getConfig('project_id').':aud');
+            $additionalScopes[] = 'urn:zitadel:iam:org:project:id:'.$this->getConfig('project_id').':aud';
         }
 
         return array_merge($this->scopes, $additionalScopes);
     }
 
-    /** {@inheritDoc} */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return [
             'base_url',

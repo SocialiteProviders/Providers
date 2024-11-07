@@ -63,10 +63,7 @@ class Provider extends AbstractProvider
         return $this->getOktaUrl().'/oauth2/'.$this->getAuthServerId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['base_url', 'auth_server_id'];
     }

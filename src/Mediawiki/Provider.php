@@ -16,10 +16,7 @@ class Provider extends AbstractProvider
         return $this->getConfig('base_url');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['base_url'];
     }

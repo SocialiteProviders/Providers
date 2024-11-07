@@ -19,10 +19,7 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['use_test_idp'];
     }

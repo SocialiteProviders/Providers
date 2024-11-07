@@ -202,13 +202,7 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * Add the additional configuration key 'tenant' to enable the branded sign-in experience,
-     * and the key 'fields' to request extra fields from the Microsoft Graph.
-     *
-     * @return array
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return [
             'tenant',

@@ -215,10 +215,7 @@ class Provider extends AbstractProvider
             .urlencode($post_logout_uri);
     }
 
-    /**
-     * @return array
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return [
             'domain',
