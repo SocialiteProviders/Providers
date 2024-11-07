@@ -19,9 +19,6 @@ class Provider extends AbstractProvider
      */
     public const TRANQUILITY_ENDPOINT = 'https://login.eveonline.com';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

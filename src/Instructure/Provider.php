@@ -11,9 +11,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'INSTRUCTURE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['url:GET|/api/v1/users/:user_id/profile'];
 
     /**

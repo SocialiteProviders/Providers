@@ -15,9 +15,6 @@ class Provider extends AbstractProvider
      */
     protected $openId;
 
-    /**
-     * {@inheritdoc}.
-     */
     protected $scopes = ['snsapi_userinfo'];
 
     /**

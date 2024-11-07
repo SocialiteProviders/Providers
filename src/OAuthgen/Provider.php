@@ -10,11 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'OAUTHGEN';
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -24,9 +19,6 @@ class Provider extends AbstractProvider
 
     protected $graphUrl = 'https://graph.oauthgen.com/api/v1';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['blaze.graph.me', 'noconsent'];
 
     /**

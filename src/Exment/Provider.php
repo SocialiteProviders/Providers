@@ -11,16 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'EXMENT';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
     protected $scopes = ['me'];
 
     public static function additionalConfigKeys(): array

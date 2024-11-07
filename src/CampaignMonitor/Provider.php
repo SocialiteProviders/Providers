@@ -9,9 +9,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'CAMPAIGNMONITOR';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['ViewReports'];
 
     /**

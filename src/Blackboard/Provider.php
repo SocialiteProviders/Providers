@@ -11,14 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'BLACKBOARD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     public static function additionalConfigKeys(): array

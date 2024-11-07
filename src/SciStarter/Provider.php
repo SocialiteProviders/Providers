@@ -11,16 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SCISTARTER';
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'profile',

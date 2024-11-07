@@ -15,9 +15,6 @@ class Provider extends AbstractProvider
 
     public const IDENTIFIER = 'VKONTAKTE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['email'];
 
     /**

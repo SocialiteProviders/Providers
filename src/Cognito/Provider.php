@@ -24,19 +24,11 @@ class Provider extends AbstractProvider
 
     public const SCOPE_PROFILE = 'profile';
 
-    /**
-     * Adjust the available read / write attributes in cognito client app.
-     *
-     * {@inheritdoc}
-     */
     protected $scopes = [
         self::SCOPE_OPENID,
         self::SCOPE_PROFILE,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

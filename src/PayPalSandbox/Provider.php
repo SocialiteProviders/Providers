@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PAYPALSANDBOX';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'profile', 'email'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

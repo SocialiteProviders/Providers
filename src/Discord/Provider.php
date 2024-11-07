@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DISCORD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'identify',
         'email',
@@ -23,9 +20,6 @@ class Provider extends AbstractProvider
      */
     protected $consent = false;
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

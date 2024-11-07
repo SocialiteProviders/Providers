@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TEAMLEADER';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['users'];
 
     /**

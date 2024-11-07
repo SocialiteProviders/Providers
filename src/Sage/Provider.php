@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SAGE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['full_access'];
 
     /**

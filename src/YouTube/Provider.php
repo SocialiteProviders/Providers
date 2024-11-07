@@ -10,16 +10,10 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'YOUTUBE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'https://www.googleapis.com/auth/youtube.readonly',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

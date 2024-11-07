@@ -17,9 +17,6 @@ class Provider extends AbstractProvider
      */
     protected $fields = ['account_type', 'id', 'username'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user_profile'];
 
     /**

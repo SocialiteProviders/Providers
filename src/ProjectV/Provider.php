@@ -11,18 +11,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PROJECTV';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'https://v.enl.one/oauth/api/v1/email',
         'https://v.enl.one/oauth/api/v1/googledata',
         'https://v.enl.one/oauth/api/v1/userinfo',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

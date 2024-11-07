@@ -20,14 +20,8 @@ class Provider extends AbstractProvider
      */
     public const USER_PRODUCTION_ENDPOINT = 'https://accounts.platform.intuit.com/v1/openid_connect/userinfo';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'profile', 'email'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

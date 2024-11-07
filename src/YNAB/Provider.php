@@ -17,16 +17,10 @@ class Provider extends AbstractProvider
      */
     public const SCOPE_READONLY = 'read-only';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         self::SCOPE_READONLY,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

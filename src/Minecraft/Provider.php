@@ -25,14 +25,8 @@ class Provider extends AbstractProvider
      */
     protected const XSTS_TOKEN_URL = 'https://xsts.auth.xboxlive.com/xsts/authorize';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['XboxLive.signin'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

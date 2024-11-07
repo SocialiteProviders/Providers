@@ -11,18 +11,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PATREON';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'campaigns',
         'identity',
         'identity[email]',
     ];
 
-    /**
-     * {@inherticdoc}.
-     */
     protected $scopeSeparator = ' ';
 
     /**

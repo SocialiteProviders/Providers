@@ -29,11 +29,6 @@ class Provider extends AbstractProvider
      */
     protected $withUnionId = false;
 
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
     protected $scopes = ['get_user_info'];
 
     /**

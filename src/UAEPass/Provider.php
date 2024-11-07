@@ -14,9 +14,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'UAEPASS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'urn',
         'uae',

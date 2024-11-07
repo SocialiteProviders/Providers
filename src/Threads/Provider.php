@@ -25,9 +25,6 @@ class Provider extends AbstractProvider
         'username',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'threads_basic',
     ];

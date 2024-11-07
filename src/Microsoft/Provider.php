@@ -41,15 +41,8 @@ class Provider extends AbstractProvider
      */
     protected const DEFAULT_FIELDS_TENANT = ['id', 'displayName', 'city', 'country', 'countryLetterCode', 'state', 'street', 'verifiedDomains'];
 
-    /**
-     * {@inheritdoc}
-     * https://msdn.microsoft.com/en-us/library/azure/ad/graph/howto/azure-ad-graph-api-permission-scopes.
-     */
     protected $scopes = ['User.Read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

@@ -11,18 +11,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'KANIDM';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'email',
         'openid',
         'profile',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

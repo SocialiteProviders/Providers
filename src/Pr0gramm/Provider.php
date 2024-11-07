@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PR0GRAMM';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'user.me',
     ];
@@ -22,11 +19,6 @@ class Provider extends AbstractProvider
      */
     protected $encodingType = PHP_QUERY_RFC3986;
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
     /**

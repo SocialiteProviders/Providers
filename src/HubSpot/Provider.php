@@ -13,9 +13,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'HUBSPOT';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

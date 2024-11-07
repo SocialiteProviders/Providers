@@ -13,9 +13,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ZOOM';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user:read:admin'];
 
     /**

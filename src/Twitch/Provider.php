@@ -12,14 +12,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TWITCH';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user:read:email'];
 
-    /**
-     * {@inherticdoc}.
-     */
     protected $scopeSeparator = ' ';
 
     /**

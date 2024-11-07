@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ROBLOX';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

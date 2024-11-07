@@ -21,14 +21,8 @@ class Provider extends AbstractProvider
         'UY' => 'https://auth.mercadopago.com.uy',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     public static function additionalConfigKeys(): array

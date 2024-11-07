@@ -21,9 +21,6 @@ class Provider extends AbstractProvider
 
     public const SCOPE_NETWORKS = 'networks';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['profile email networks'];
 
     /**

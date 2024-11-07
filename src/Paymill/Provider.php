@@ -9,9 +9,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PAYMILL';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['transactions_rw'];
 
     /**

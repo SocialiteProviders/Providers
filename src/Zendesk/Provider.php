@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ZENDESK';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['read'];
 
     public static function additionalConfigKeys(): array

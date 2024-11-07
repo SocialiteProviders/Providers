@@ -19,11 +19,6 @@ class Provider extends AbstractProvider
 
     public const IDENTIFIER = 'FRANCECONNECT';
 
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
     protected $scopes = [
         'openid',
         'given_name',
@@ -35,9 +30,6 @@ class Provider extends AbstractProvider
         'preferred_username',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

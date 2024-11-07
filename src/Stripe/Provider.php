@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'STRIPE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['read_write'];
 
     /**

@@ -11,18 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'LINE';
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
     protected $scopes = [
         'openid',
         'profile',
@@ -120,7 +110,6 @@ class Provider extends AbstractProvider
             ->setRefreshToken($this->parseRefreshToken($response))
             ->setExpiresIn($this->parseExpiresIn($response));
     }
-
 
     public static function additionalConfigKeys(): array
     {

@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ZOHO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['aaaserver.profile.READ'];
 
     /**

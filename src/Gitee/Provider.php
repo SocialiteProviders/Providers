@@ -11,16 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'GITEE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user_info', 'emails'];
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
     /**

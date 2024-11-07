@@ -16,9 +16,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TIKTOK';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'user.info.basic',
     ];

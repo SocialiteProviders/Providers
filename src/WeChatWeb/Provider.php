@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'WECHAT_WEB';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['snsapi_login'];
 
     private $openId;

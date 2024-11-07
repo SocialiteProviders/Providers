@@ -28,9 +28,6 @@ class Provider extends AbstractProvider
 
     public const SCOPE_OFFLINE_ACCESS = 'offline_access';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         self::SCOPE_OPENID,
         self::SCOPE_PROFILE,

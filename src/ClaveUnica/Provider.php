@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'CLAVEUNICA';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'run',

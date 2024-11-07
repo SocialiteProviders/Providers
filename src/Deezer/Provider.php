@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DEEZER';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['basic_access', 'email'];
 
     /**

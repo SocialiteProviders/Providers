@@ -10,18 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MONDAY';
 
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
     protected $scopes = ['me:read'];
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
     /**

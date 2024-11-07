@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SUPEROFFICE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

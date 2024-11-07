@@ -11,14 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ODNOKLASSNIKI';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['VALUABLE_ACCESS', 'GET_EMAIL'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ';';
 
     /**

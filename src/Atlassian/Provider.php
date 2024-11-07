@@ -18,14 +18,8 @@ class Provider extends AbstractProvider
         'audience' => 'api.atlassian.com',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['read:me'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

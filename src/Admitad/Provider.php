@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ADMITAD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['private_data', 'private_data_email'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

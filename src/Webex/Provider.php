@@ -24,14 +24,8 @@ class Provider extends AbstractProvider
      */
     protected $version = 'v1';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['spark:people_read', 'spark:kms'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**

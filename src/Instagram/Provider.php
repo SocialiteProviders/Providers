@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'INSTAGRAM';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -22,9 +19,6 @@ class Provider extends AbstractProvider
      */
     protected $fields = ['account_type', 'id', 'username', 'media_count'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user_profile'];
 
     /**

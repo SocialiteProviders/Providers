@@ -32,14 +32,8 @@ class Provider extends AbstractProvider
      */
     protected $usesPKCE = true;
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'email', 'profile'];
 
     /**
