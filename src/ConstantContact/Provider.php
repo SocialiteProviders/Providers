@@ -18,9 +18,6 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://authz.constantcontact.com/oauth2/default/v1/authorize', $state);
@@ -45,9 +42,6 @@ class Provider extends AbstractProvider
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://authz.constantcontact.com/oauth2/default/v1/token';

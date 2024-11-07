@@ -28,7 +28,7 @@ class Provider extends AbstractProvider
         'read_coupons',
         'write_coupons',
         'write_scripts',
-        'write_shipping'
+        'write_shipping',
     ];
 
     /**
@@ -36,17 +36,11 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase("https://www.tiendanube.com/apps/{$this->clientId}/authorize", $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://www.tiendanube.com/apps/authorize/token';
@@ -63,13 +57,13 @@ class Provider extends AbstractProvider
             "https://api.nuvemshop.com.br/v1/$userId/store",
             [
                 RequestOptions::HEADERS => [
-                    'Authentication' => 'bearer ' . $bearerToken,
-                    'User-Agent' => $this->clientId
-                ]
+                    'Authentication' => 'bearer '.$bearerToken,
+                    'User-Agent'     => $this->clientId,
+                ],
             ]
         );
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -78,11 +72,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['id'],
-            'name' => $user['name'],
+            'id'       => $user['id'],
+            'name'     => $user['name'],
             'nickname' => null,
-            'email' => $user['email'],
-            'avatar' => null
+            'email'    => $user['email'],
+            'avatar'   => null,
         ]);
     }
 }

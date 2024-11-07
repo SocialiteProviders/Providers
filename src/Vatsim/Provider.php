@@ -37,17 +37,11 @@ class Provider extends AbstractProvider
         return 'auth.vatsim.net';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://'.$this->getHostname().'/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://'.$this->getHostname().'/oauth/token';

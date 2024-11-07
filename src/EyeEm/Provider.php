@@ -10,17 +10,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'EYEEM';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www.eyeem.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.eyeem.com/v2/oauth/token';

@@ -54,17 +54,11 @@ class Provider extends AbstractProvider
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getFusionAuthUrl().'/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getFusionAuthUrl().'/token';

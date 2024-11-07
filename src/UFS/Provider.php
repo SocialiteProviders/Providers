@@ -10,17 +10,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'UFS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUri().'/authorization', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getBaseUri().'/token';

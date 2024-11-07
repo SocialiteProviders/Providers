@@ -17,17 +17,11 @@ class Provider extends AbstractProvider
 
     private $openId;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://open.weixin.qq.com/connect/qrconnect', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.weixin.qq.com/sns/oauth2/access_token';

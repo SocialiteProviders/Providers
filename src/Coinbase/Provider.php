@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['wallet:user:read', 'wallet:user:email'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www.coinbase.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.coinbase.com/oauth/token';

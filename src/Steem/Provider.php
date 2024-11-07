@@ -21,17 +21,11 @@ class Provider extends AbstractProvider
      */
     protected $domain = 'https://v2.steemconnect.com/';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->domain.'oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->domain.'api/oauth2/token';

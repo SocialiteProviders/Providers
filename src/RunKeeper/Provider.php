@@ -10,17 +10,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'RUNKEEPER';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://runkeeper.com/apps/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://runkeeper.com/apps/token';

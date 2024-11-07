@@ -29,17 +29,11 @@ class Provider extends AbstractProvider
         'email',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://access.line.me/oauth2/v2.1/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.line.me/oauth2/v2.1/token';

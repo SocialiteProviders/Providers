@@ -17,9 +17,6 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://api.waveapps.com/oauth2/authorize', $state);
@@ -30,9 +27,6 @@ class Provider extends AbstractProvider
         return 'https://gql.waveapps.com/graphql/public';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.waveapps.com/oauth2/token/';

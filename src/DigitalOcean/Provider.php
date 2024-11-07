@@ -10,17 +10,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DIGITALOCEAN';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://cloud.digitalocean.com/v1/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://cloud.digitalocean.com/v1/oauth/token';

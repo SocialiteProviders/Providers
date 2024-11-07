@@ -11,17 +11,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'FOURSQUARE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://foursquare.com/oauth2/authenticate', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://foursquare.com/oauth2/access_token';

@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://app.clickup.com/api', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://app.clickup.com/api/v2/oauth/token';

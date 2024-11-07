@@ -10,17 +10,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ANGELLIST';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://angel.co/api/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://angel.co/api/oauth/token';

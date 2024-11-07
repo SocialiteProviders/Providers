@@ -14,17 +14,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['ViewReports'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://api.createsend.com/oauth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.createsend.com/oauth/token';

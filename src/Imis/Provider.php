@@ -30,17 +30,11 @@ class Provider extends AbstractProvider
         return $host;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getImisUrl().$this->clientId.'.aspx', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getImisUrl().'/token';

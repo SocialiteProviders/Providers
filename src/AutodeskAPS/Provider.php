@@ -15,9 +15,6 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return
@@ -27,9 +24,6 @@ class Provider extends AbstractProvider
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://developer.api.autodesk.com/authentication/v2/token';

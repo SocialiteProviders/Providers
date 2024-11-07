@@ -55,17 +55,11 @@ class Provider extends AbstractProvider
         return sprintf('https://%s.blackboard.com', $this->getConfig('subdomain'));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getBaseUrl().'/learn/api/public/v1/oauth2/token';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/learn/api/public/v1/oauth2/authorizationcode', $state);

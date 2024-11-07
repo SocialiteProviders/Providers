@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     public const BASE_URL = 'https://apiv2.twitcasting.tv';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(self::BASE_URL.'/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return self::BASE_URL.'/oauth2/access_token';

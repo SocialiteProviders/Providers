@@ -18,17 +18,11 @@ class Provider extends AbstractProvider
         return ['client_account'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://id.getharvest.com/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://id.getharvest.com/api/v1/oauth2/token';

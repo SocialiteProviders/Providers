@@ -14,17 +14,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['transactions_rw'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://connect.paymill.com/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://connect.paymill.com/token';

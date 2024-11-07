@@ -11,17 +11,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'BITLY';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://bitly.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api-ssl.bitly.com/oauth/access_token';

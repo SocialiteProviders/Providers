@@ -17,17 +17,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['apiv1 query-api-1.0'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www11.v1host.com/V1Integrations/oauth.v1/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://www11.v1host.com/V1Integrations/oauth.v1/token';

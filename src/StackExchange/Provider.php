@@ -16,9 +16,6 @@ class Provider extends AbstractProvider
 
     protected $version = '2.2';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://stackexchange.com/oauth', $state);
@@ -44,9 +41,6 @@ class Provider extends AbstractProvider
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://stackexchange.com/oauth/access_token';

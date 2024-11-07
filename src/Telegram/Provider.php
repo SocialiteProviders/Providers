@@ -19,17 +19,11 @@ class Provider extends AbstractProvider
         return ['bot'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return null;

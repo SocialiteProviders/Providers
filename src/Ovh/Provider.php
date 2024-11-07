@@ -21,9 +21,6 @@ class Provider extends AbstractProvider
         return ['endpoint'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         $ovh = new Ovh(
@@ -65,9 +62,6 @@ class Provider extends AbstractProvider
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return null;

@@ -31,17 +31,11 @@ class Provider extends AbstractProvider
         return ['exment_uri'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUri().'/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getBaseUri().'/oauth/token';

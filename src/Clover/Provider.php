@@ -50,17 +50,11 @@ class Provider extends AbstractProvider
         };
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(sprintf('https://%s/oauth/v2/authorize', $this->getApiDomain()), $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         $domain = match ($this->getConfig('environment')) {

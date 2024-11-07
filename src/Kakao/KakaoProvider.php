@@ -11,17 +11,11 @@ class KakaoProvider extends AbstractProvider
 {
     public const IDENTIFIER = 'KAKAO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://kauth.kakao.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://kauth.kakao.com/oauth/token';

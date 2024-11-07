@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['openid profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://idp.bexio.com/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://idp.bexio.com/token';

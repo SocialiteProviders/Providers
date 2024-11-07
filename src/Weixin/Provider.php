@@ -30,9 +30,6 @@ class Provider extends AbstractProvider
         $this->openId = $openId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://open.weixin.qq.com/connect/oauth2/authorize', $state);
@@ -61,9 +58,6 @@ class Provider extends AbstractProvider
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.weixin.qq.com/sns/oauth2/access_token';

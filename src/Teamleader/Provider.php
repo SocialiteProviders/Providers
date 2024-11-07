@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['users'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://focus.teamleader.eu/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://focus.teamleader.eu/oauth2/access_token';

@@ -11,17 +11,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'UNTAPPD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://untappd.com/oauth/authenticate/', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://untappd.com/oauth/authorize/';

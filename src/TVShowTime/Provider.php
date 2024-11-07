@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['basic'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www.tvshowtime.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.tvshowtime.com/v1/oauth/access_token';

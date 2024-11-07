@@ -18,17 +18,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['user:read:admin'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://zoom.us/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://zoom.us/oauth/token';

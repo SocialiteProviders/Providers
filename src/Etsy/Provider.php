@@ -25,17 +25,11 @@ class Provider extends AbstractProvider
      */
     protected $usesPKCE = true;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www.etsy.com/oauth/connect', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://openapi.etsy.com/v3/public/oauth/token';

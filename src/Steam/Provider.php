@@ -67,9 +67,6 @@ class Provider extends AbstractProvider
      */
     protected $stateless = true;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildUrl();

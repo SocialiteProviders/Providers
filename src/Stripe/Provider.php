@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['read_write'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://connect.stripe.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://connect.stripe.com/oauth/token';

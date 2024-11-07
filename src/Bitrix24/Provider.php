@@ -20,9 +20,6 @@ class Provider extends AbstractProvider
         return ['endpoint'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getPortalUrl().'/oauth/authorize', $state);
@@ -46,9 +43,6 @@ class Provider extends AbstractProvider
         return $endpoint;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://oauth.bitrix.info/oauth/token/';

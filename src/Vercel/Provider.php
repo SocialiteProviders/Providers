@@ -12,17 +12,11 @@ class Provider extends AbstractProvider
 
     protected static $authUrl = 'https://vercel.com/oauth/authorize';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(static::$authUrl, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.vercel.com/v2/oauth/access_token';

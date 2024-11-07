@@ -28,17 +28,11 @@ class Provider extends AbstractProvider
         return 'connect.surfconext.nl/oidc';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://'.$this->getHostname().'/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://'.$this->getHostname().'/token';

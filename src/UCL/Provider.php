@@ -12,17 +12,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'UCL';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://uclapi.com/oauth/authorise/', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://uclapi.com/oauth/token';

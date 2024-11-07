@@ -40,9 +40,6 @@ class Provider extends AbstractProvider
      */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         $url = $this->isSandbox() ? 'https://oauth-sandbox.starlingbank.com' : 'https://oauth.starlingbank.com';
@@ -50,9 +47,6 @@ class Provider extends AbstractProvider
         return $this->buildAuthUrlFromBase($url, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         if ($this->useMTLS()) {

@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['base'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://oauth.pipedrive.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://oauth.pipedrive.com/oauth/token';

@@ -17,17 +17,11 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['openid', 'email', 'profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(self::BASE_URL.'/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return self::BASE_URL.'/token';

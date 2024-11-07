@@ -14,17 +14,11 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['signature'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://account-d.docusign.com/oauth/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://account-d.docusign.com/oauth/token';

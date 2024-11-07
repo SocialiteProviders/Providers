@@ -18,17 +18,11 @@ class Provider extends AbstractProvider
         return ['site_url'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getConfig('site_url').'/_layouts/15/OAuthAuthorize.aspx', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://accounts.accesscontrol.windows.net/72ada2a1-5d29-4eed-b194-f8745777149e/tokens/OAuth/2';

@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['view_profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://accounts.coursera.org/oauth2/v1/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://accounts.coursera.org/oauth2/v1/token';

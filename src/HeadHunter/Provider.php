@@ -18,17 +18,11 @@ class Provider extends AbstractProvider
         return ['user_agent'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://hh.ru/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://hh.ru/oauth/token';

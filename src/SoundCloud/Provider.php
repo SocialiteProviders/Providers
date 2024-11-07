@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['non-expiring'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://soundcloud.com/connect', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.soundcloud.com/oauth2/token';

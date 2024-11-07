@@ -16,17 +16,11 @@ class Provider extends AbstractProvider
 
     public const PROVIDER_NAME = 'salesloft';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://accounts.salesloft.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://accounts.salesloft.com/oauth/token';

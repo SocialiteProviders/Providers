@@ -16,9 +16,6 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['openid2'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         $parseUrl = parse_url($this->redirectUrl);
@@ -29,9 +26,6 @@ class Provider extends AbstractProvider
         return $this->buildAuthUrlFromBase('https://api.login.yahoo.com/oauth2/request_auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.login.yahoo.com/oauth2/get_token';

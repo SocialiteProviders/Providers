@@ -28,9 +28,6 @@ class Provider extends AbstractProvider
      */
     protected $user;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         $fields = [

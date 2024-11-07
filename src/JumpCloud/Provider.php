@@ -11,17 +11,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'JUMPCLOUD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://oauth.id.jumpcloud.com/oauth2/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://oauth.id.jumpcloud.com/oauth2/token';

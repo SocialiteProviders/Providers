@@ -56,17 +56,11 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected $usesPKCE = true;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrlForEnvironment().'/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getBaseUrlForEnvironment().'/token';

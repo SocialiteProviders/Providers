@@ -17,9 +17,6 @@ class Provider extends AbstractProvider
 
     protected static $region;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         $url = $this->isChina() ?
@@ -29,9 +26,6 @@ class Provider extends AbstractProvider
         return $this->buildAuthUrlFromBase($url, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         if ($this->isChina()) {

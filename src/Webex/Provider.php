@@ -39,17 +39,11 @@ class Provider extends AbstractProvider
      */
     protected $encodingType = PHP_QUERY_RFC3986;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->originUrl.'/'.$this->version.'/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->originUrl.'/'.$this->version.'/access_token';

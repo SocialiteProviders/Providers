@@ -20,17 +20,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['public'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://unsplash.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://unsplash.com/oauth/token';

@@ -30,17 +30,11 @@ class Provider extends AbstractProvider
         'accounting.contacts',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://login.xero.com/identity/connect/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://identity.xero.com/connect/token';

@@ -13,17 +13,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PIXNET';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://emma.pixnet.cc/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://emma.pixnet.cc/oauth2/grant';

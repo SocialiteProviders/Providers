@@ -50,9 +50,6 @@ class Provider extends AbstractProvider
         return $this->getConfig('tenant_id', 'common');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(
@@ -64,9 +61,6 @@ class Provider extends AbstractProvider
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return sprintf(

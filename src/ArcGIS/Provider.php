@@ -18,17 +18,11 @@ class Provider extends AbstractProvider
         return 'https://'.$this->getServerHost().$port.$subdirectory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/sharing/rest/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getBaseUrl().'/sharing/rest/oauth2/token';

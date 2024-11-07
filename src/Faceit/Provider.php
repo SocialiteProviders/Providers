@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'FACEIT';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://cdn.faceit.com/widgets/sso/index.html', $state);
@@ -23,9 +20,6 @@ class Provider extends AbstractProvider
         return $url.'?'.http_build_query($this->getCodeFields($state), '', '&', $this->encodingType).'&redirect_popup=true';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.faceit.com/auth/v1/oauth/token';

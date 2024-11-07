@@ -11,17 +11,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MEDIACUBE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://mediacube.id/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://mediacube.id/oauth/token';

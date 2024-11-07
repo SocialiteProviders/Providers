@@ -17,17 +17,11 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = '+';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return urldecode($this->buildAuthUrlFromBase('https://secure.meetup.com/oauth2/authorize', $state));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://secure.meetup.com/oauth2/access';

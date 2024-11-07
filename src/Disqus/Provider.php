@@ -16,17 +16,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://disqus.com/api/oauth/2.0/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://disqus.com/api/oauth/2.0/access_token/';

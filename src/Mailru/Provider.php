@@ -15,17 +15,11 @@ class Provider extends AbstractProvider
      */
     protected $scopes = ['userinfo'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://oauth.mail.ru/login', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://oauth.mail.ru/token';

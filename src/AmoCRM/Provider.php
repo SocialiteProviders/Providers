@@ -47,17 +47,11 @@ class Provider extends AbstractProvider
         return $tld;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase("{$this->getBaseUrl()}/oauth", $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         $domain = $this->request->get('referer');
