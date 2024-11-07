@@ -1,7 +1,7 @@
-# PayPalSandbox
+# Nuvemshop
 
 ```bash
-composer require socialiteproviders/paypal-sandbox
+composer require socialiteproviders/nuvemshop
 ```
 
 ## Installation & Basic Usage
@@ -11,10 +11,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'paypal_sandbox' => [    
-  'client_id' => env('PAYPALSANDBOX_CLIENT_ID'),  
-  'client_secret' => env('PAYPALSANDBOX_CLIENT_SECRET'),  
-  'redirect' => env('PAYPALSANDBOX_REDIRECT_URI') 
+'nuvemshop' => [    
+  'client_id' => env('NUVEMSHOP_CLIENT_ID'),  
+  'client_secret' => env('NUVEMSHOP_CLIENT_SECRET'),  
+  'redirect' => env('NUVEMSHOP_REDIRECT_URI') 
 ],
 ```
 
@@ -28,7 +28,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('paypal_sandbox', \SocialiteProviders\PayPalSandbox\Provider::class);
+    $event->extendSocialite('nuvemshop', \SocialiteProviders\Nuvemshop\Provider::class);
 });
 ```
 <details>
@@ -43,7 +43,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\PayPalSandbox\PayPalSandboxExtendSocialite::class.'@handle',
+        \SocialiteProviders\Nuvemshop\NuvemshopExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -54,11 +54,13 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('paypal_sandbox')->redirect();
+return Socialite::driver('nuvemshop')->redirect();
 ```
 
 ### Returned User fields
 
 - ``id``
 - ``name``
+- ``nickname``
 - ``email``
+- ``avatar``

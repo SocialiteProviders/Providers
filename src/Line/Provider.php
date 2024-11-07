@@ -121,6 +121,7 @@ class Provider extends AbstractProvider
             ->setExpiresIn($this->parseExpiresIn($response));
     }
 
+
     public static function additionalConfigKeys(): array
     {
         return [

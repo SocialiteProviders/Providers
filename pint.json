@@ -1,6 +1,7 @@
 {
     "preset": "laravel",
     "rules": {
+        "array_push": true,
         "binary_operator_spaces": {
             "operators": {
                 "=>": "align"
