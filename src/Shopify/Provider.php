@@ -10,6 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SHOPIFY';
 
+    private const API_VERSION = '2024-10';
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->shopifyUrl('/admin/oauth/authorize'), $state);
@@ -25,14 +27,24 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->shopifyUrl('/admin/shop.json'), [
+        $response = $this->getHttpClient()->post($this->shopifyUrl('/admin/api/'.self::API_VERSION.'/graphql.json'), [
             RequestOptions::HEADERS => [
                 'Accept'                 => 'application/json',
                 'X-Shopify-Access-Token' => $token,
             ],
+            RequestOptions::JSON => [
+                'query' => '{
+                    shop {
+                        id
+                        email
+                        myshopifyDomain
+                        shopOwnerName
+                    }
+                }'
+            ]
         ]);
 
-        return json_decode((string) $response->getBody(), true)['shop'];
+        return json_decode($response->getBody(), true)['data']['shop'];
     }
 
     /**
@@ -42,8 +54,8 @@ class Provider extends AbstractProvider
     {
         return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
-            'nickname' => $user['myshopify_domain'],
-            'name'     => $user['name'],
+            'nickname' => $user['myshopifyDomain'],
+            'name'     => $user['shopOwnerName'],
             'email'    => $user['email'],
             'avatar'   => null,
         ]);
