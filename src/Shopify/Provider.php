@@ -40,8 +40,8 @@ class Provider extends AbstractProvider
                         myshopifyDomain
                         shopOwnerName
                     }
-                }'
-            ]
+                }',
+            ],
         ]);
 
         return json_decode($response->getBody(), true)['data']['shop'];

@@ -11,6 +11,14 @@
         "no_superfluous_elseif": true,
         "no_superfluous_phpdoc_tags": false,
         "no_useless_else": true,
+        "ordered_class_elements": {
+            "order": [
+                "use_trait",
+                "constant",
+                "property",
+                "method"
+            ]
+        },
         "yoda_style": {
             "always_move_variable": true,
             "equal": false,
