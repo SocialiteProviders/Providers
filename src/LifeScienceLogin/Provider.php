@@ -90,7 +90,8 @@ class Provider extends AbstractProvider
     private function getOpenIdConfiguration()
     {
         $expires = Carbon::now()->addHour();
-        $config = Cache::remember(self::CACHE_KEY, $expires, function () {
+
+        return Cache::remember(self::CACHE_KEY, $expires, function () {
             try {
                 $response = $this->getHttpClient()->get(self::CONFIG_URL);
             } catch (Exception $e) {
@@ -99,7 +100,5 @@ class Provider extends AbstractProvider
 
             return json_decode((string) $response->getBody());
         });
-
-        return $config;
     }
 }
