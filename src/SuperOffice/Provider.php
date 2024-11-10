@@ -52,7 +52,7 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return (array) json_decode((string) $response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     protected function mapUserToObject(array $user): User
