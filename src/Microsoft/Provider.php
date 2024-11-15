@@ -71,7 +71,7 @@ class Provider extends AbstractProvider
      */
     public function getLogoutUrl(?string $redirectUri = null)
     {
-        $logoutUrl = sprintf('https://login.microsoftonline.com/%s/oauth2/logout', $this->getConfig('tenant', 'common'));
+        $logoutUrl = sprintf('https://login.microsoftonline.com/%s/oauth2/v2.0/logout', $this->getConfig('tenant', 'common'));
 
         return $redirectUri === null ?
             $logoutUrl :
