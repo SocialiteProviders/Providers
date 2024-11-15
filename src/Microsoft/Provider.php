@@ -41,7 +41,13 @@ class Provider extends AbstractProvider
      */
     protected const DEFAULT_FIELDS_TENANT = ['id', 'displayName', 'city', 'country', 'countryLetterCode', 'state', 'street', 'verifiedDomains'];
 
-    protected $scopes = ['User.Read'];
+    /**
+     * {@inheritdoc}
+     * https://learn.microsoft.com/en-us/graph/permissions-overview
+     * https://learn.microsoft.com/en-us/entra/identity-platform/scopes-oidc#openid-connect-scopes
+     * https://learn.microsoft.com/en-us/entra/identity-platform/id-tokens
+     */
+    protected $scopes = ['openid', 'profile', 'User.Read'];
 
     protected $scopeSeparator = ' ';
 
