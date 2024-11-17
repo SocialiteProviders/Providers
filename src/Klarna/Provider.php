@@ -27,8 +27,8 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://login.klarna.com/eu/lp/idp/userinfo', [
             RequestOptions::HEADERS => [
-                'Authorization' => 'Bearer '.$token,
                 'Accept'        => 'application/json',
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -41,9 +41,9 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id'        => $user['sub'],
-            'name'      => $user['given_name'] . ' ' . $user['family_name'],
-            'email'     => $user['email'],
+            'id'    => $user['sub'],
+            'name'  => $user['given_name'].' '.$user['family_name'],
+            'email' => $user['email'],
         ]);
     }
 }

@@ -3,11 +3,11 @@
     "description": "Klarna Oauth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
+        "klarna",
         "laravel",
         "oauth",
         "provider",
-        "socialite",
-        "klarna"
+        "socialite"
     ],
     "authors": [
         {

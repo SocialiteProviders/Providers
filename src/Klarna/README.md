@@ -12,8 +12,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 'klarna' => [
-  'client_id' => env('CLIENT_ID'),
-  'client_secret' => env('CLIENT_SECRET'),
+  'client_id' => env('KLARNA_CLIENT_ID'),
+  'client_secret' => env('KLARNA_CLIENT_SECRET'),
   'redirect' => env('KLARNA_REDIRECT_URI')
 ],
 ```
