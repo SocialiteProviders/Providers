@@ -19,7 +19,7 @@ class Provider extends AbstractProvider
         return $this->buildAuthUrlFromBase('https://login.infomaniak.com/authorize', $state);
     }
 
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://login.infomaniak.com/token';
     }
@@ -31,7 +31,7 @@ class Provider extends AbstractProvider
     {
         $response = $this->getHttpClient()->get('https://login.infomaniak.com/oauth2/userinfo', [
             RequestOptions::HEADERS => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
@@ -44,10 +44,10 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id'       => $user['sub'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => $user['picture'],
+            'id'     => $user['sub'],
+            'name'   => $user['name'],
+            'email'  => $user['email'],
+            'avatar' => $user['picture'],
         ]);
     }
 }
