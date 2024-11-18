@@ -56,3 +56,15 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('klarna')->redirect();
 ```
+
+### Returned User fields
+
+- ``id``
+- ``name``
+- ``nickname`` (same as ``first_name`` in ``name``)
+- ``email``
+- ``email_verified`` (boolean indicating if the email is verified)
+- ``phone``
+- ``phone_verified`` (boolean indicating if the phone is verified)
+- ``national_identification_number``
+- ``national_identification_number_country``

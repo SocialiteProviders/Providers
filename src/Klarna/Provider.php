@@ -40,10 +40,29 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
-            'id'    => $user['sub'],
-            'name'  => $user['given_name'].' '.$user['family_name'],
-            'email' => $user['email'],
-        ]);
+        return (new User)->setRaw($user)->map(
+          array_merge(
+            [
+              'id'    => $user['sub'],
+              'nickname' => $user['given_name'],
+              'name'  => $user['given_name'].' '.$user['family_name'],
+              'email' => $user['email'],
+              'email_verified' => $user['email_verified'],
+              'avatar' => null,
+            ],
+            isset($user['national_identification_number']) && !empty($user['national_identification_number'])
+              ? ['national_identification_number' => $user['national_identification_number']]
+              : [],
+            isset($user['national_identification_number_country']) && !empty($user['national_identification_number_country'])
+              ? ['national_identification_number_country' => $user['national_identification_number_country']]
+              : [],
+            isset($user['phone']) && !empty($user['phone'])
+              ? ['phone' => $user['phone']]
+              : [],
+            isset($user['phone_verified'])
+              ? ['phone_verified' => $user['phone_verified']]
+              : []
+          )
+        );
     }
 }
