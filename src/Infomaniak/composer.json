@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/infomaniak",
+    "description": "Infomaniak OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "infomaniak",
+        "laravel",
+        "oauth",
+        "oauth2",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Leopold Jacquot",
+            "email": "leopold.jacquot@infomaniak.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/qq"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Infomaniak\\": ""
+        }
+    }
+}
