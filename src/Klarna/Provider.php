@@ -10,6 +10,13 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'KLARNA';
 
+    /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ' ';
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://login.klarna.com/eu/lp/idp/oauth2/auth', $state);
