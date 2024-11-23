@@ -10,11 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'KLARNA';
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
     protected function getAuthUrl($state): string

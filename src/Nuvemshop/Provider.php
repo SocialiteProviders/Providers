@@ -13,9 +13,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'NUVEMSHOP';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'read_content',
         'write_content',
@@ -31,9 +28,6 @@ class Provider extends AbstractProvider
         'write_shipping',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     protected function getAuthUrl($state): string
