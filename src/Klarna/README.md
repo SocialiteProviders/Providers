@@ -1,4 +1,4 @@
-# Intercom
+# Klarna
 
 ```bash
 composer require socialiteproviders/klarna
