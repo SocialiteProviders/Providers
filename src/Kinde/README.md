@@ -1,9 +1,9 @@
-# Clerk
+# Kinde
 
-This is a provider for [Clerk](https://clerk.com/)
+This is a provider for [Kinde](https://kinde.com/)
 
 ```bash
-composer require socialiteproviders/clerk
+composer require socialiteproviders/kinde
 ```
 
 ## Installation & Basic Usage
@@ -13,20 +13,20 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'clerk' => [
-  'client_id' => env('CLERK_CLIENT_ID'),
-  'client_secret' => env('CLERK_CLIENT_SECRET'),
-  'redirect' => env('CLERK_CALLBACK_URL'),
-  'base_url' => env('CLERK_BASE_URL'),
+'kinde' => [
+  'domain' => env('KINDE_DOMAIN'),
+  'client_id' => env('KINDE_CLIENT_ID'),
+  'client_secret' => env('KINDE_CLIENT_SECRET'),
+  'redirect' => env('KINDE_CALLBACK_URL'),
 ],
 ```
 
-### Add base URL to `.env`
+### Add domain to `.env`
 
-Clerk provides a customer URL for your different projects. For this reason you need to provide a `base_url`.
+Kinde provides a customer URL for your different projects. For this reason you need to provide a `domain`.
 
 ```bash
-CLERK_BASE_URL=https://example.clerk.accounts.dev
+KINDE_DOMAIN=https://example.kinde.com
 ```
 
 ### Add provider event listener
@@ -39,7 +39,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('clerk', \SocialiteProviders\Clerk\Provider::class);
+    $event->extendSocialite('kinde', \SocialiteProviders\Kinde\Provider::class);
 });
 ```
 <details>
@@ -54,7 +54,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\Clerk\ClerkExtendSocialite::class.'@handle',
+        \SocialiteProviders\Kinde\KindeExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -65,7 +65,7 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('clerk')->redirect();
+return Socialite::driver('kinde')->redirect();
 ```
 
 ### Returned User fields
@@ -75,3 +75,16 @@ return Socialite::driver('clerk')->redirect();
 -   `name`
 -   `email`
 -   `avatar`
+
+### Kinde specific fields
+
+If you need to access the `org_code` or `permissions` fields, you can retrieve those from the `raw` user array:
+
+```php
+$user = Socialite::driver('kinde')->user();
+
+$rawUser = $user->getRaw();
+
+$orgCode = $rawUser['org_code'];
+$permissions = $rawUser['permissions'];
+```
