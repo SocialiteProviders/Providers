@@ -64,7 +64,6 @@ class Provider extends AbstractProvider
         // Merge user details with org_code and permissions from the token
         // No need to validate the token because it is already validated
         // by succesful profile request.
-
         $payload = json_decode(base64_decode(explode('.', $token)[1]), true); // assuming valid JWT token
 
         return array_merge($user, [
