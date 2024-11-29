@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/kinde",
+    "description": "Clerk OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "clerk",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Ignacio Cano",
+            "email": "dev@nacho.sh"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/clerk"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Clerk\\": ""
+        }
+    }
+}
