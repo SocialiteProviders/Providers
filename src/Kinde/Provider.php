@@ -53,7 +53,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getDomain().'/oauth2/user_profile', [
+        $response = $this->getHttpClient()->get($this->getDomain().'/oauth2/v2/user_profile', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -79,10 +79,10 @@ class Provider extends AbstractProvider
     {
         return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
-            'nickname' => $user['username'],
+            'nickname' => $user['preferred_username'],
             'avatar'   => $user['picture'],
-            'name'     => $user['first_name'].' '.$user['last_name'],
-            'email'    => $user['preferred_email'],
+            'name'     => $user['name'],
+            'email'    => $user['email'],
         ]);
     }
 }
