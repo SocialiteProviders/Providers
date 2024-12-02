@@ -60,7 +60,7 @@ class Provider extends AbstractProvider
      *
      * @return string
      */
-    private function getSubdomain()
+    protected function getSubdomain()
     {
         return $this->getConfig('subdomain');
     }
