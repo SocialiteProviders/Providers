@@ -22,12 +22,12 @@ class Provider extends AbstractProvider
      *
      * @throws \InvalidArgumentException
      */
-    protected function getDomain()
+    protected function getDomain(): string
     {
         $baseUrl = $this->getConfig('domain');
 
         if ($baseUrl === null) {
-            throw new InvalidArgumentException('Missing Base URL value.');
+            throw new InvalidArgumentException('Missing domain value.');
         }
 
         return $baseUrl;
@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function getUserByToken($token): array
     {
         $response = $this->getHttpClient()->get($this->getDomain().'/oauth2/v2/user_profile', [
             RequestOptions::HEADERS => [
@@ -63,7 +63,7 @@ class Provider extends AbstractProvider
 
         // Merge user details with org_code and permissions from the token
         // No need to validate the token because it is already validated
-        // by succesful profile request.
+        // by successful profile request.
         $payload = json_decode(base64_decode(explode('.', $token)[1]), true); // assuming valid JWT token
 
         return array_merge($user, [
@@ -75,7 +75,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user)
+    protected function mapUserToObject(array $user): User
     {
         return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
