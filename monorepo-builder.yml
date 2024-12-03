@@ -105,6 +105,7 @@ parameters:
     src/Kanidm: 'git@github.com:SocialiteProviders/Kanidm.git'
     src/Keycloak: 'git@github.com:SocialiteProviders/Keycloak.git'
     src/Klarna: 'git@github.com:SocialiteProviders/Klarna.git'
+    src/Kinde: 'git@github.com:SocialiteProviders/Kinde.git'
     src/LaravelPassport: 'git@github.com:SocialiteProviders/Laravel-Passport.git'
     src/Lichess: 'git@github.com:SocialiteProviders/Lichess.git'
     src/Line: 'git@github.com:SocialiteProviders/Line.git'
