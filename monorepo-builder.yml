@@ -158,6 +158,7 @@ parameters:
     src/Procore: 'git@github.com:SocialiteProviders/Procore.git'
     src/ProductHunt: 'git@github.com:SocialiteProviders/ProductHunt.git'
     src/ProjectV: 'git@github.com:SocialiteProviders/ProjectV.git'
+    src/PropelAuth: 'git@github.com:SocialiteProviders/PropelAuth.git'
     src/Pushbullet: 'git@github.com:SocialiteProviders/Pushbullet.git'
     src/QQ: 'git@github.com:SocialiteProviders/QQ.git'
     src/QuickBooks: 'git@github.com:SocialiteProviders/QuickBooks.git'
