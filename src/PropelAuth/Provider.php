@@ -27,7 +27,7 @@ class Provider extends AbstractProvider
         $baseUrl = $this->getConfig('auth_url');
 
         if ($baseUrl === null) {
-            throw new InvalidArgumentException('Missing Base URL value.');
+            throw new InvalidArgumentException('Missing Auth URL value.');
         }
 
         return $baseUrl;
@@ -40,12 +40,12 @@ class Provider extends AbstractProvider
 
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase($this->getPropelAuthUrl().'/oauth/authorize', $state);
+        return $this->buildAuthUrlFromBase($this->getPropelAuthUrl().'/propelauth/oauth/authorize', $state);
     }
 
     protected function getTokenUrl(): string
     {
-        return $this->getPropelAuthUrl().'/oauth/token';
+        return $this->getPropelAuthUrl().'/propelauth/oauth/token';
     }
 
     /**
@@ -53,11 +53,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getPropelAuthUrl().'/oauth/userinfo', [
+        $response = $this->getHttpClient()->get($this->getPropelAuthUrl().'/propelauth/oauth/userinfo', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
+        
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -67,9 +68,6 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
-            'id'       => $user['user_id'],
-            'email'    => $user['email'],
-        ]);
+        return (new PropelAuthUser)->setRaw($user)->map($user);
     }
 }

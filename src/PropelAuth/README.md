@@ -23,7 +23,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ### Add base URL to `.env`
 
-Get your Auth URL from PropelAuth in the Frontend Integration page.
+Get your Auth URL from PropelAuth in the Frontend Integration page. The `PROPELAUTH_CALLBACK_URL` value must be entered as a **Redirect URI** in PropelAuth.
 
 ```bash
 PROPELAUTH_AUTH_URL=https://example.propelauth.com
