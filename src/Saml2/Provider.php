@@ -70,6 +70,33 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Provider extends AbstractProvider implements SocialiteProvider
 {
+    public const ATTRIBUTE_MAP = [
+        'email' => [
+            ClaimTypes::EMAIL_ADDRESS,
+            OasisAttributeNameUris::MAIL,
+            ClaimTypes::ADFS_1_EMAIL,
+        ],
+        'name' => [
+            ClaimTypes::NAME,
+            OasisAttributeNameUris::DISPLAY_NAME,
+            ClaimTypes::COMMON_NAME,
+            OasisAttributeNameUris::COMMON_NAME,
+        ],
+        'first_name' => [
+            ClaimTypes::GIVEN_NAME,
+            OasisAttributeNameUris::GIVEN_NAME,
+        ],
+        'last_name' => [
+            ClaimTypes::SURNAME,
+            OasisAttributeNameUris::SURNAME,
+        ],
+        'upn' => [
+            ClaimTypes::UPN,
+            OasisAttributeNameUris::UID,
+            ClaimTypes::ADFS_1_UPN,
+        ],
+    ];
+
     /**
      * The HTTP request instance.
      *
@@ -97,33 +124,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
      * @var array
      */
     protected $config;
-
-    public const ATTRIBUTE_MAP = [
-        'email' => [
-            ClaimTypes::EMAIL_ADDRESS,
-            OasisAttributeNameUris::MAIL,
-            ClaimTypes::ADFS_1_EMAIL,
-        ],
-        'name' => [
-            ClaimTypes::NAME,
-            OasisAttributeNameUris::DISPLAY_NAME,
-            ClaimTypes::COMMON_NAME,
-            OasisAttributeNameUris::COMMON_NAME,
-        ],
-        'first_name' => [
-            ClaimTypes::GIVEN_NAME,
-            OasisAttributeNameUris::GIVEN_NAME,
-        ],
-        'last_name' => [
-            ClaimTypes::SURNAME,
-            OasisAttributeNameUris::SURNAME,
-        ],
-        'upn' => [
-            ClaimTypes::UPN,
-            OasisAttributeNameUris::UID,
-            ClaimTypes::ADFS_1_UPN,
-        ],
-    ];
 
     public function __construct(Request $request)
     {

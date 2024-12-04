@@ -11,16 +11,16 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    protected $fields = ['id', 'email', 'first_name', 'last_name', 'screen_name', 'photo_200'];
-
     public const IDENTIFIER = 'VKONTAKTE';
-
-    protected $scopes = ['email'];
 
     /**
      * Last API version.
      */
     public const VERSION = '5.131';
+
+    protected $fields = ['id', 'email', 'first_name', 'last_name', 'screen_name', 'photo_200'];
+
+    protected $scopes = ['email'];
 
     protected function getAuthUrl($state): string
     {

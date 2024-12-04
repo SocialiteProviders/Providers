@@ -20,16 +20,6 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    public $steamId;
-
-    /**
-     * @var array
-     */
-    protected $customRequestOptions = [];
-
-    /**
-     * @var string
-     */
     public const OPENID_URL = 'https://steamcommunity.com/openid/login';
 
     /**
@@ -61,6 +51,16 @@ class Provider extends AbstractProvider
      * @var string
      */
     public const OPENID_ERROR = 'openid_error';
+
+    /**
+     * @var string
+     */
+    public $steamId;
+
+    /**
+     * @var array
+     */
+    protected $customRequestOptions = [];
 
     /**
      * {@inheritdoc}

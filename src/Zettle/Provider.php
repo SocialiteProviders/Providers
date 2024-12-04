@@ -8,12 +8,12 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    protected $usesPKCE = true;
-
     /**
      * Zettle OAuth base url.
      */
     private const BASE_URL = 'https://oauth.zettle.com';
+
+    protected $usesPKCE = true;
 
     protected function getAuthUrl($state): string
     {
