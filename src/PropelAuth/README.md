@@ -67,8 +67,3 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('propelauth')->redirect();
 ```
-
-### Returned User fields
-
--   `id`
--   `email`
