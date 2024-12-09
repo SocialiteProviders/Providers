@@ -42,6 +42,7 @@ Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
     $event->extendSocialite('propelauth', \SocialiteProviders\PropelAuth\Provider::class);
 });
 ```
+
 <details>
 <summary>
 Laravel 10 or below
@@ -58,6 +59,7 @@ protected $listen = [
     ],
 ];
 ```
+
 </details>
 
 ### Usage
@@ -70,11 +72,10 @@ return Socialite::driver('propelauth')->redirect();
 
 ### Returned User fields
 
--   `id`
--   `email`
--   `first_name`
--   `last_name`
-
+- `id`
+- `email`
+- `first_name`
+- `last_name`
 
 ### Additional PropelAuth Fields
 
