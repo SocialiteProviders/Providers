@@ -72,6 +72,8 @@ return Socialite::driver('propelauth')->redirect();
 
 -   `id`
 -   `email`
+-   `first_name`
+-   `last_name`
 
 
 ### Additional PropelAuth Fields
@@ -84,6 +86,4 @@ $user = Socialite::driver('propelauth')->user();
 $rawUser = $user->getRaw();
 
 $orgs = $rawUser['org_id_to_org_info'];
-$firstName = $rawUser['first_name'];
-$lastName = $rawUser['last_name'];
 ```

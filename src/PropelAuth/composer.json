@@ -3,9 +3,9 @@
     "description": "PropelAuth OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
-        "propelauth",
         "laravel",
         "oauth",
+        "propelauth",
         "provider",
         "socialite"
     ],
