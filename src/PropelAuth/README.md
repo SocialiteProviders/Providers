@@ -67,3 +67,23 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('propelauth')->redirect();
 ```
+
+### Returned User fields
+
+-   `id`
+-   `email`
+
+
+### Additional PropelAuth Fields
+
+If you need to access the `org_code` or `permissions` fields, you can retrieve those from the `raw` user array:
+
+```php
+$user = Socialite::driver('propelauth')->user();
+
+$rawUser = $user->getRaw();
+
+$orgs = $rawUser['org_id_to_org_info'];
+$firstName = $rawUser['first_name'];
+$lastName = $rawUser['last_name'];
+```
