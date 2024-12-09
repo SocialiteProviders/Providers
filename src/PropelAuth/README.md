@@ -76,7 +76,7 @@ return Socialite::driver('propelauth')->redirect();
 
 ### Additional PropelAuth Fields
 
-If you need to access the `org_code` or `permissions` fields, you can retrieve those from the `raw` user array:
+If you need to access additional user fields, you can retrieve those from the `raw` user array:
 
 ```php
 $user = Socialite::driver('propelauth')->user();
