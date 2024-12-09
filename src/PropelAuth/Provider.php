@@ -30,7 +30,7 @@ class Provider extends AbstractProvider
             throw new InvalidArgumentException('Missing Auth URL value.');
         }
 
-        return $baseUrl;
+        return rtrim($baseUrl, '/');
     }
 
     public static function additionalConfigKeys(): array
