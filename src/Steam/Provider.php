@@ -40,17 +40,17 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    public const OPENID_SIG = 'openid_sig';
+    public const OPENID_SIG = 'openid.sig';
 
     /**
      * @var string
      */
-    public const OPENID_SIGNED = 'openid_signed';
+    public const OPENID_SIGNED = 'openid.signed';
 
     /**
      * @var string
      */
-    public const OPENID_ASSOC_HANDLE = 'openid_assoc_handle';
+    public const OPENID_ASSOC_HANDLE = 'openid.assoc_handle';
 
     /**
      * @var string
