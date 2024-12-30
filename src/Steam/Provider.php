@@ -161,7 +161,7 @@ class Provider extends AbstractProvider
     public function validate()
     {
         if (! $this->requestIsValid()) {
-            return false;
+            throw new OpenIDValidationException('A critical openid parameter is missing from the request');
         }
 
         if (! $this->validateHost($this->request->get('openid_return_to'))) {
