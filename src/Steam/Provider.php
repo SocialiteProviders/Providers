@@ -60,7 +60,17 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    public const OPENID_ERROR = 'openid_error';
+    public const OPENID_ERROR = 'openid.error';
+
+    /**
+     * @var string
+     */
+    public const OPENID_RETURN_TO = 'openid.return_to';
+
+    /**
+     * @var string
+     */
+    public const OPENID_CLAIMED_ID = 'openid.claimed_id';
 
     /**
      * {@inheritdoc}
@@ -160,11 +170,13 @@ class Provider extends AbstractProvider
      */
     public function validate()
     {
+        $this->normalizeOpenidKeys();
+
         if (! $this->requestIsValid()) {
             throw new OpenIDValidationException('A critical openid parameter is missing from the request');
         }
 
-        if (! $this->validateHost($this->request->get('openid_return_to'))) {
+        if (! $this->validateHost($this->request->get(self::OPENID_RETURN_TO))) {
             throw new OpenIDValidationException('Invalid return_to host');
         }
 
@@ -198,6 +210,26 @@ class Provider extends AbstractProvider
         return $this->request->has(self::OPENID_ASSOC_HANDLE)
             && $this->request->has(self::OPENID_SIGNED)
             && $this->request->has(self::OPENID_SIG);
+    }
+
+    /**
+     * Normlize openid keys from diffrent requests
+     *
+     * @return void
+     */
+    private function normalizeOpenidKeys()
+    {
+        $normalized = [];
+        foreach ($this->request->all() as $key => $value) {
+            if (str_starts_with($key, 'openid_')) {
+                $normalizedKey = 'openid.'.substr($key, 7);
+            } else {
+                $normalizedKey = $key;
+            }
+            $normalized[$normalizedKey] = $value;
+        }
+
+        $this->request->replace($normalized);
     }
 
     /**
@@ -238,7 +270,7 @@ class Provider extends AbstractProvider
         $signedParams = explode(',', $this->request->get(self::OPENID_SIGNED));
 
         foreach ($signedParams as $item) {
-            $value = $this->request->get('openid_'.str_replace('.', '_', $item));
+            $value = $this->request->get('openid.'.str_replace('.', '_', $item));
             $params['openid.'.$item] = $value;
         }
 
@@ -277,7 +309,7 @@ class Provider extends AbstractProvider
     {
         preg_match(
             '#^https?://steamcommunity.com/openid/id/([0-9]{17,25})#',
-            $this->request->get('openid_claimed_id'),
+            $this->request->get(self::OPENID_CLAIMED_ID),
             $matches
         );
 
