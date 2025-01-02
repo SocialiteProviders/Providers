@@ -219,15 +219,9 @@ class Provider extends AbstractProvider
      */
     private function normalizeOpenidKeys()
     {
-        $normalized = [];
-        foreach ($this->request->all() as $key => $value) {
-            if (str_starts_with($key, 'openid_')) {
-                $normalizedKey = 'openid.'.substr($key, 7);
-            } else {
-                $normalizedKey = $key;
-            }
-            $normalized[$normalizedKey] = $value;
-        }
+        $normalized = $this->request->collect()->mapWithKeys(function ($value, $key) {
+            return [preg_replace('/^openid_/', 'openid.', $key) => $value];
+        })->all();
 
         $this->request->replace($normalized);
     }
