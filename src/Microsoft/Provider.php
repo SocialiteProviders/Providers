@@ -344,7 +344,7 @@ class Provider extends AbstractProvider
 
             // aud validation - an Application ID URI or GUID
             // Identifies the intended audience of the token.
-            if (! str_contains($jwtPayload->aud, $this->config['client_id'])) {
+            if (! str_contains($jwtPayload->aud, $this->clientId)) {
                 throw new InvalidStateException('aud on id_token does not match the client_id for this application');
             }
 
