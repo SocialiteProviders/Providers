@@ -8,10 +8,10 @@
         "docs": "https://socialiteproviders.com"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-json": "*",
         "league/oauth1-client": "^1.9",
-        "socialiteproviders/manager": "^4.4"
+        "socialiteproviders/manager": "^4.8"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.8",
