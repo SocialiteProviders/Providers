@@ -623,7 +623,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function hasInvalidState(): bool
     {
-        if ($this->isStateless()) {
+        if ($this->stateless) {
             return false;
         }
 
