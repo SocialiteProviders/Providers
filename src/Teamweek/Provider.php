@@ -10,6 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TEAMWEEK';
 
+    protected static array $additionalConfigKeys = ['instance_uri'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceUri().'/oauth/login', $state);
@@ -66,10 +68,5 @@ class Provider extends AbstractProvider
     protected function getInstanceUri()
     {
         return $this->getConfig('instance_uri', 'https://teamweek.com');
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['instance_uri'];
     }
 }

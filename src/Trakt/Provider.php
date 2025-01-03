@@ -10,6 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TRAKT';
 
+    protected static array $additionalConfigKeys = ['api_version'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://api.trakt.tv/oauth/authorize', $state);
@@ -48,10 +50,5 @@ class Provider extends AbstractProvider
             'nickname' => $user['username'],
             'name'     => $user['name'],
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['api_version'];
     }
 }

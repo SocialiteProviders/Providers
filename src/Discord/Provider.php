@@ -22,6 +22,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['allow_gif_avatars', 'avatar_default_extension'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://discord.com/api/oauth2/authorize', $state);
@@ -106,10 +108,5 @@ class Provider extends AbstractProvider
             'email'    => $user['email'] ?? null,
             'avatar'   => $this->formatAvatar($user),
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['allow_gif_avatars', 'avatar_default_extension'];
     }
 }

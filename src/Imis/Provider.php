@@ -12,6 +12,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'IMIS';
 
+    protected static array $additionalConfigKeys = ['host'];
+
     /**
      * Get the host Base URL.
      *
@@ -95,10 +97,5 @@ class Provider extends AbstractProvider
             'email'    => $user['email'] ?? null,
             'avatar'   => null,
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['host'];
     }
 }

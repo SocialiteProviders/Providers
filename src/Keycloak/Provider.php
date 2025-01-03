@@ -16,10 +16,7 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['openid'];
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['base_url', 'realms'];
-    }
+    protected static array $additionalConfigKeys = ['base_url', 'realms'];
 
     protected function getBaseUrl()
     {

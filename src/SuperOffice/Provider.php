@@ -14,6 +14,11 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = [
+        'environment',
+        'customer_id',
+    ];
+
     protected function getAuthUrl($state): string
     {
         return
@@ -63,14 +68,6 @@ class Provider extends AbstractProvider
             'email'    => $user['EMailAddress'],
             'username' => $user['UserName'],
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'environment',
-            'customer_id',
-        ];
     }
 
     private function getBaseApiUrl(): string

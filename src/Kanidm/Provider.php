@@ -19,6 +19,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['base_url'];
+
     /**
      * Get the base URL.
      *
@@ -35,11 +37,6 @@ class Provider extends AbstractProvider
         }
 
         return $baseUrl;
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['base_url'];
     }
 
     protected function getAuthUrl($state): string

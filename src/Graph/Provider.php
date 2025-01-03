@@ -15,6 +15,11 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = [
+        'tenant_id',
+        'user_endpoint_version',
+    ];
+
     /**
      * Allows you to override the tenant id that the provider is configured
      * with.
@@ -101,13 +106,5 @@ class Provider extends AbstractProvider
             'surname'           => Arr::get($user, 'surname'),
             'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'tenant_id',
-            'user_endpoint_version',
-        ];
     }
 }

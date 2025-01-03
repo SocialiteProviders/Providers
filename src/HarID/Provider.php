@@ -19,10 +19,7 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['use_test_idp'];
-    }
+    protected static array $additionalConfigKeys = ['use_test_idp'];
 
     /**
      * Returns base URL for idP endpoints with check for test or live environment.

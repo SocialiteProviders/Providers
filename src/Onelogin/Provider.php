@@ -36,10 +36,7 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['base_url'];
-    }
+    protected static array $additionalConfigKeys = ['base_url'];
 
     protected function getOneloginUrl()
     {

@@ -19,6 +19,8 @@ class Provider extends AbstractProvider
         'email',
     ];
 
+    protected static array $additionalConfigKeys = ['bot_prompt'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://access.line.me/oauth2/v2.1/authorize', $state);
@@ -95,13 +97,6 @@ class Provider extends AbstractProvider
         return $user->setToken($this->parseAccessToken($response))
             ->setRefreshToken($this->parseRefreshToken($response))
             ->setExpiresIn($this->parseExpiresIn($response));
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'bot_prompt',
-        ];
     }
 
     /**

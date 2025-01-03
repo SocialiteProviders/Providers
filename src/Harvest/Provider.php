@@ -10,10 +10,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'HARVEST';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['client_account'];
-    }
+    protected static array $additionalConfigKeys = ['client_account'];
 
     protected function getAuthUrl($state): string
     {

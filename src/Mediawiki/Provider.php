@@ -11,14 +11,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MEDIAWIKI';
 
+    protected static array $additionalConfigKeys = ['base_url'];
+
     protected function getMediawikiUrl()
     {
         return $this->getConfig('base_url');
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['base_url'];
     }
 
     protected function getAuthUrl($state): string

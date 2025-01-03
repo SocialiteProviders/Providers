@@ -16,6 +16,8 @@ class Provider extends AbstractProvider
 
     protected $version = '2.2';
 
+    protected static array $additionalConfigKeys = ['site', 'key'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://stackexchange.com/oauth', $state);
@@ -79,11 +81,6 @@ class Provider extends AbstractProvider
         ]);
 
         return json_decode((string) $response->getBody(), true);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['site', 'key'];
     }
 
     /**

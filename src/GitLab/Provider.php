@@ -14,6 +14,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['instance_uri'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceUri().'oauth/authorize', $state);
@@ -55,10 +57,5 @@ class Provider extends AbstractProvider
     protected function getInstanceUri()
     {
         return $this->getConfig('instance_uri', 'https://gitlab.com/');
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['instance_uri'];
     }
 }

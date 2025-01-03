@@ -12,6 +12,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['user.read'];
 
+    protected static array $additionalConfigKeys = ['test'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getWebsiteUrl().'oauth/authorize', $state);
@@ -81,10 +83,5 @@ class Provider extends AbstractProvider
         }
 
         return 'https://api.nocks.com/api/v2/';
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['test'];
     }
 }

@@ -50,6 +50,8 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected $usesPKCE = true;
 
+    protected static array $additionalConfigKeys = ['environment'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrlForEnvironment().'/authorize', $state);
@@ -90,11 +92,6 @@ class Provider extends AbstractProvider implements ProviderInterface
             'avatar_url'            => $user['picture'] ?? null,
             'profile'               => $user['profile'] ?? null,
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['environment'];
     }
 
     /**

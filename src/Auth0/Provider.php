@@ -19,14 +19,11 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['base_url'];
+
     protected function getAuth0Url()
     {
         return $this->getConfig('base_url');
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['base_url'];
     }
 
     protected function getAuthUrl($state): string

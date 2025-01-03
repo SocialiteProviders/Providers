@@ -34,6 +34,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['use_test_idp'];
+
     /**
      * Get the Edu ID server URL.
      *
@@ -46,11 +48,6 @@ class Provider extends AbstractProvider
         }
 
         return 'https://login.eduid.ch/idp/profile/';
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['use_test_idp'];
     }
 
     protected function getAuthUrl($state): string

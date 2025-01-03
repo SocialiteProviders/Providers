@@ -13,10 +13,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'OVH';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['endpoint'];
-    }
+    protected static array $additionalConfigKeys = ['endpoint'];
 
     protected function getAuthUrl($state): string
     {

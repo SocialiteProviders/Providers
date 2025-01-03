@@ -20,6 +20,8 @@ class Provider extends AbstractProvider
 
     protected $uniqueUserId;
 
+    protected static array $additionalConfigKeys = ['resource', 'apiuser', 'authurl', 'server'];
+
     protected function getAuthUrl($state): string
     {
         $bashUrl = $this->buildAuthUrlFromBase($this->getConfig('authurl'), $state);
@@ -106,11 +108,6 @@ class Provider extends AbstractProvider
             'resource'       => $this->getConfig('resource'),
             'user_api_token' => $this->getConfig('apiuser'),
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['resource', 'apiuser', 'authurl', 'server'];
     }
 
     private function setIdToken(string $idToken): static

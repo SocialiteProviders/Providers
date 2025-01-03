@@ -18,12 +18,7 @@ class Provider extends AbstractProvider
      */
     protected $stateless = true;
 
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'environment',
-        ];
-    }
+    protected static array $additionalConfigKeys = ['environment'];
 
     /**
      * Get the access token response for the given code.

@@ -13,6 +13,13 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    /**
+     * Mattermost API version. Used for user avatar URL and more.
+     */
+    protected $apiVersion = 'v4';
+
+    protected static array $additionalConfigKeys = ['api_version', 'instance_uri'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceUri().'oauth/authorize', $state);
@@ -22,11 +29,6 @@ class Provider extends AbstractProvider
     {
         return $this->getInstanceUri().'oauth/access_token';
     }
-
-    /**
-     * Mattermost API version. Used for user avatar URL and more.
-     */
-    protected $apiVersion = 'v4';
 
     /**
      * Mattermost.
@@ -82,10 +84,5 @@ class Provider extends AbstractProvider
         }
 
         return $uri;
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['api_version', 'instance_uri'];
     }
 }

@@ -32,6 +32,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['logout_redirect'];
+
     /**
      * Return API Base URL.
      *
@@ -42,14 +44,9 @@ class Provider extends AbstractProvider
         return config('app.env') === 'production' ? self::PROD_BASE_URL : self::TEST_BASE_URL;
     }
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['logout_redirect'];
-    }
-
     protected function getAuthUrl($state): string
     {
-        //It is used to prevent replay attacks
+        // It is used to prevent replay attacks
         $this->parameters['nonce'] = Str::random(20);
 
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/authorize', $state);
@@ -88,7 +85,7 @@ class Provider extends AbstractProvider
             $token = Arr::get($response, 'access_token')
         ));
 
-        //store tokenId session for logout url generation
+        // store tokenId session for logout url generation
         $this->request->session()->put('fc_token_id', Arr::get($response, 'id_token'));
 
         return $user->setTokenId(Arr::get($response, 'id_token'))
