@@ -20,6 +20,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['User.Read'];
 
+    protected static array $additionalConfigKeys = ['tenant', 'proxy'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/oauth2/v2.0/authorize', $state);
@@ -112,10 +114,5 @@ class Provider extends AbstractProvider
     protected function getBaseUrl(): string
     {
         return 'https://login.microsoftonline.com/'.$this->getConfig('tenant', 'common');
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['tenant', 'proxy'];
     }
 }

@@ -12,6 +12,8 @@ class Provider extends AbstractProvider
 
     private const API_VERSION = '2024-10';
 
+    protected static array $additionalConfigKeys = ['subdomain'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->shopifyUrl('/admin/oauth/authorize'), $state);
@@ -40,8 +42,8 @@ class Provider extends AbstractProvider
                         myshopifyDomain
                         shopOwnerName
                     }
-                }'
-            ]
+                }',
+            ],
         ]);
 
         return json_decode($response->getBody(), true)['data']['shop'];
@@ -59,11 +61,6 @@ class Provider extends AbstractProvider
             'email'    => $user['email'],
             'avatar'   => null,
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['subdomain'];
     }
 
     /**

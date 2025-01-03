@@ -11,6 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'AMOCRM';
 
+    protected static array $additionalConfigKeys = ['tld'];
+
     /**
      * Get the base URL.
      *
@@ -19,11 +21,6 @@ class Provider extends AbstractProvider
     protected function getBaseUrl()
     {
         return sprintf('https://www.amocrm.%s', $this->getTld());
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['tld'];
     }
 
     /**

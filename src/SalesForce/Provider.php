@@ -15,6 +15,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['instance_url'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceURL().'/services/oauth2/authorize', $state);
@@ -66,10 +68,5 @@ class Provider extends AbstractProvider
     private function getInstanceURL()
     {
         return $this->getConfig('instance_url', 'https://login.salesforce.com');
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['instance_url'];
     }
 }

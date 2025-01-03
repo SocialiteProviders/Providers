@@ -36,13 +36,10 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'environment',
-            'uid_fieldname',
-        ];
-    }
+    protected static array $additionalConfigKeys = [
+        'environment',
+        'uid_fieldname',
+    ];
 
     /**
      * Tests whether we are integrating to the ORCID Sandbox or Production environments

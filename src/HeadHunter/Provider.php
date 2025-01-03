@@ -10,10 +10,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'HEADHUNTER';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['user_agent'];
-    }
+    protected static array $additionalConfigKeys = ['user_agent'];
 
     protected function getAuthUrl($state): string
     {

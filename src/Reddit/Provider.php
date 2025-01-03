@@ -12,6 +12,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['identity'];
 
+    protected static array $additionalConfigKeys = ['platform', 'app_id', 'version_string'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://ssl.reddit.com/api/v1/authorize', $state);
@@ -57,7 +59,7 @@ class Provider extends AbstractProvider
         }
 
         $name = null;
-        //Check if user has a display name
+        // Check if user has a display name
         if (! empty($user['subreddit']['title'])) {
             $name = $user['subreddit']['title'];
         }
@@ -106,10 +108,5 @@ class Provider extends AbstractProvider
             $this->getConfig('app_id'),
             $this->getConfig('version_string'),
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['platform', 'app_id', 'version_string'];
     }
 }

@@ -20,16 +20,6 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    public $steamId;
-
-    /**
-     * @var array
-     */
-    protected $customRequestOptions = [];
-
-    /**
-     * @var string
-     */
     public const OPENID_URL = 'https://steamcommunity.com/openid/login';
 
     /**
@@ -73,9 +63,21 @@ class Provider extends AbstractProvider
     public const OPENID_CLAIMED_ID = 'openid.claimed_id';
 
     /**
+     * @var string
+     */
+    public $steamId;
+
+    /**
+     * @var array
+     */
+    protected $customRequestOptions = [];
+
+    /**
      * {@inheritdoc}
      */
     protected $stateless = true;
+
+    protected static array $additionalConfigKeys = ['realm', 'proxy', 'allowed_hosts', 'force_https'];
 
     protected function getAuthUrl($state): string
     {
@@ -316,11 +318,6 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code) {}
 
     protected function getTokenUrl() {}
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['realm', 'proxy', 'allowed_hosts', 'force_https'];
-    }
 
     /**
      * Validation of the domain available for authorization.
