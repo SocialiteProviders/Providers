@@ -629,7 +629,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $state = $this->request->session()->pull('state');
 
-        return ! (strlen($state) > 0 && $state === $this->messageContext->getMessage()->getRelayState());
+        return $state === '' || $state !== $this->messageContext->getMessage()->getRelayState();
     }
 
     protected function receive(): void
