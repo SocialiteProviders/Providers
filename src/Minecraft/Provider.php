@@ -10,6 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MINECRAFT';
 
+    protected $stateless = true;
+
     /**
      * Used to get a token from XBOX Live.
      */
@@ -37,14 +39,6 @@ class Provider extends AbstractProvider
     protected function getTokenUrl(): string
     {
         return 'https://api.minecraftservices.com/authentication/login_with_xbox';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function isStateless()
-    {
-        return true;
     }
 
     /**

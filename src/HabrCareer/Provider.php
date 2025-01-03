@@ -10,6 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'HABRCAREER';
 
+    protected $stateless = true;
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://career.habr.com/integrations/oauth/authorize', $state);
@@ -46,10 +48,5 @@ class Provider extends AbstractProvider
             'email'    => $user['email'],
             'avatar'   => $user['avatar'],
         ]);
-    }
-
-    protected function isStateless()
-    {
-        return true;
     }
 }
