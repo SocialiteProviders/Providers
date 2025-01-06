@@ -14,33 +14,18 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'STARTGG';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'user.identity',
         'user.email',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://start.gg/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://start.gg/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.start.gg/oauth/access_token';
@@ -56,7 +41,7 @@ class Provider extends AbstractProvider
             [
                 RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
-                    'Authorization' => 'Bearer ' . $token,
+                    'Authorization' => 'Bearer '.$token,
                 ],
                 RequestOptions::FORM_PARAMS => [
                     'query' => 'query {
@@ -72,7 +57,7 @@ class Provider extends AbstractProvider
                                 gamerTag
                             }
                         }
-                    }'
+                    }',
                 ],
             ]
         );
@@ -87,7 +72,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user): User
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'            => $user['id'],
             'nickname'      => Arr::get($user, 'player.gamerTag'),
             'name'          => Arr::get($user, 'name'),
@@ -103,7 +88,7 @@ class Provider extends AbstractProvider
     public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post('https://api.start.gg/oauth/refresh', [
-            RequestOptions::HEADERS => ['Content-Type' => 'application/json'],
+            RequestOptions::HEADERS     => ['Content-Type' => 'application/json'],
             RequestOptions::FORM_PARAMS => [
                 'grant_type'    => 'refresh_token',
                 'refresh_token' => $refreshToken,

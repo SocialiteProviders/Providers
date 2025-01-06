@@ -10,25 +10,16 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'WECHAT_WEB';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['snsapi_login'];
 
     private $openId;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://open.weixin.qq.com/connect/qrconnect', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.weixin.qq.com/sns/oauth2/access_token';
     }
@@ -54,7 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             // HACK: use unionid as user id
             'id'       => in_array('unionid', $this->getScopes(), true) ? $user['unionid'] : $user['openid'],
             // HACK: Tencent scope snsapi_base only return openid

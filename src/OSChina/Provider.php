@@ -11,27 +11,16 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'OSCHINA';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [''];
-
-    /**
      * @var string OAuth Domain
      */
     protected $domain = 'https://www.oschina.net';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->domain.'/action/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->domain.'/action/openapi/token';
     }
@@ -56,7 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'         => $user['id'],
             'name'       => $user['name'],
             'nickname'   => $user['name'],

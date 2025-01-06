@@ -11,21 +11,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'NAVER';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://nid.naver.com/oauth2.0/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://nid.naver.com/oauth2.0/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://nid.naver.com/oauth2.0/token';
     }
@@ -54,7 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'        => Arr::get($user, 'response.id'),
             'name'      => Arr::get($user, 'response.name'),
             'nickname'  => Arr::get($user, 'response.nickname'),

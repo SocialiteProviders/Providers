@@ -11,35 +11,20 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PROJECTV';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'https://v.enl.one/oauth/api/v1/email',
         'https://v.enl.one/oauth/api/v1/googledata',
         'https://v.enl.one/oauth/api/v1/userinfo',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://v.enl.one/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://v.enl.one/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://v.enl.one/oauth/token';
     }
@@ -66,7 +51,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'gid'         => Arr::get($user, 'data.gid'),               //googledata
             'vid'         => Arr::get($user, 'data.enlid'),             //profile
             'nickname'    => Arr::get($user, 'data.agent'),             //profile

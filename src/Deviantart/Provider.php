@@ -10,26 +10,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DEVIANTART';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['basic'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://www.deviantart.com/oauth2/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://www.deviantart.com/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.deviantart.com/oauth2/token';
     }
@@ -56,7 +44,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'   => $user['userid'], 'nickname' => $user['username'],
             'name' => null, 'email' => null, 'avatar' => $user['usericon'],
         ]);

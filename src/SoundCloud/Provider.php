@@ -10,26 +10,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SOUNDCLOUD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['non-expiring'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://soundcloud.com/connect',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://soundcloud.com/connect', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.soundcloud.com/oauth2/token';
     }
@@ -56,7 +44,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'   => $user['id'], 'nickname' => $user['username'],
             'name' => null, 'email' => null, 'avatar' => $user['avatar_url'],
         ]);

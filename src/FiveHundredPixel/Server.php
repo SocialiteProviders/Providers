@@ -47,7 +47,7 @@ class Server extends BaseServer
     {
         $data = $data['user'];
 
-        $user = new User();
+        $user = new User;
         $user->id = $data['id'];
         $user->nickname = $data['username'];
         $user->name = $data['fullname'];

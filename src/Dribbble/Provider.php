@@ -11,26 +11,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DRIBBBLE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['public'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://dribbble.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://dribbble.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://dribbble.com/oauth/token';
     }
@@ -54,7 +42,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'     => $user['id'], 'nickname' => $user['login'],
             'name'   => $user['name'], 'email' => Arr::get($user, 'email'),
             'avatar' => $user['avatar_url'],

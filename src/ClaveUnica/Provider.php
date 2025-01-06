@@ -10,30 +10,20 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'CLAVEUNICA';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'run',
         'name',
-        'email',
     ];
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://accounts.claveunica.gob.cl/openid/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://accounts.claveunica.gob.cl/openid/token';
     }
@@ -43,7 +33,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->post('https://www.claveunica.gob.cl/openid/userinfo', [
+        $response = $this->getHttpClient()->post('https://accounts.claveunica.gob.cl/openid/userinfo', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -57,7 +47,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'         => $user['RolUnico']['numero'],
             'name'       => $user['name'],
             'first_name' => implode(' ', $user['name']['nombres']),

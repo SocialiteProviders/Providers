@@ -21,10 +21,7 @@ class Provider extends AbstractProvider
         return sprintf('https://www.amocrm.%s', $this->getTld());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['tld'];
     }
@@ -47,18 +44,12 @@ class Provider extends AbstractProvider
         return $tld;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase("{$this->getBaseUrl()}/oauth", $state);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         $domain = $this->request->get('referer');
 
@@ -94,7 +85,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'name'     => $user['name'],
             'nickname' => $user['email'],

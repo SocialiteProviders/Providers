@@ -10,21 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DIGITALOCEAN';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://cloud.digitalocean.com/v1/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://cloud.digitalocean.com/v1/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://cloud.digitalocean.com/v1/oauth/token';
     }
@@ -51,7 +42,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'     => $user['uuid'], 'nickname' => null, 'name' => null,
             'email'  => $user['email'],
             'avatar' => 'https://www.gravatar.com/avatar/'.md5($user['email']),

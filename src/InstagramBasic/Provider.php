@@ -17,26 +17,14 @@ class Provider extends AbstractProvider
      */
     protected $fields = ['account_type', 'id', 'username'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user_profile'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://api.instagram.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://api.instagram.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.instagram.com/oauth/access_token';
     }
@@ -70,7 +58,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'           => $user['id'],
             'nickname'     => $user['username'],
             'name'         => null,
@@ -86,13 +74,11 @@ class Provider extends AbstractProvider
      */
     protected function getCodeFields($state = null)
     {
-        return [
-            'state'         => $state,
-            'response_type' => 'code',
-            'app_id'        => $this->clientId,
-            'redirect_uri'  => $this->redirectUrl,
-            'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
-        ];
+        $fields = parent::getCodeFields($state);
+        $fields['app_id'] = $fields['client_id'];
+        unset($fields['client_id']);
+
+        return $fields;
     }
 
     public function getAccessToken($code)

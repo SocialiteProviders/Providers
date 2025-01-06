@@ -21,6 +21,21 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ### Add provider event listener
 
+#### Laravel 11+
+
+In Laravel 11, the default `EventServiceProvider` provider was removed. Instead, add the listener using the `listen` method on the `Event` facade, in your `AppServiceProvider` `boot` method.
+
+* Note: You do not need to add anything for the built-in socialite providers unless you override them with your own providers.
+
+```php
+Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+    $event->extendSocialite('laravelpassport', \SocialiteProviders\LaravelPassport\Provider::class);
+});
+```
+<details>
+<summary>
+Laravel 10 or below
+</summary>
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
 Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
@@ -33,24 +48,7 @@ protected $listen = [
     ],
 ];
 ```
-
-### Passport server configuration note
-
-If you are experiencing successful authentication, but the returned user contains null attributes, you may need to change your `routes/api.php` file.  The default routes file uses the `auth:sanctum` middleware:
-
-```php
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-```
-
-It may need to be changed to `auth:api` in order to return the correct attributes:
-
-```php
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-```
+</details>
 
 ### Usage
 

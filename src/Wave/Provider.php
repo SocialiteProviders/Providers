@@ -8,22 +8,13 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'WAVE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user:read'];
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://api.waveapps.com/oauth2/authorize', $state);
     }
@@ -33,10 +24,7 @@ class Provider extends AbstractProvider
         return 'https://gql.waveapps.com/graphql/public';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.waveapps.com/oauth2/token/';
     }
@@ -66,7 +54,7 @@ class Provider extends AbstractProvider
         $firstName = data_get($user, 'data.user.firstName');
         $lastName = data_get($user, 'data.user.lastName');
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'          => data_get($user, 'data.user.id'),
             'name'        => "{$firstName} {$lastName}",
             'first_name'  => $firstName,

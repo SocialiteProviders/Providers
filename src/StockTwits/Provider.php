@@ -10,21 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'STOCKTWITS';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://api.stocktwits.com/api/2/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://api.stocktwits.com/api/2/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.stocktwits.com/api/2/oauth/token';
     }
@@ -48,7 +39,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'     => $user['id'], 'nickname' => $user['username'],
             'name'   => $user['name'], 'email' => null,
             'avatar' => $user['avatar_url'],

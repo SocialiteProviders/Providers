@@ -10,26 +10,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'STREAMLABS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://streamlabs.com/api/v2.0/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://streamlabs.com/api/v2.0/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://streamlabs.com/api/v2.0/token';
     }
@@ -58,7 +46,7 @@ class Provider extends AbstractProvider
     {
         $mainAccount = $user['streamlabs'];
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'        => $mainAccount['id'],
             'name'      => $mainAccount['display_name'],
             'accounts'  => [

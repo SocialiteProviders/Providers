@@ -10,23 +10,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'BEXIO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid profile'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://idp.bexio.com/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://idp.bexio.com/token';
     }
@@ -50,7 +41,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user): User
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'name'        => trim(($user['given_name'] ?? '').' '.($user['family_name'] ?? '')),
             'email'       => $user['sub'],
             'given_name'  => $user['given_name'],

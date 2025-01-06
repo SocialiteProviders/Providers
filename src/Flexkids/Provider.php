@@ -14,29 +14,20 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'FLEXKIDS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['basic'];
 
     protected $idToken;
 
     protected $uniqueUserId;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $bashUrl = $this->buildAuthUrlFromBase($this->getConfig('authurl'), $state);
 
         return sprintf('%s&resource=%s', $bashUrl, urlencode($this->getConfig('resource')));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getConfig('server').'/v2/oauth/connect/token';
     }
@@ -59,7 +50,7 @@ class Provider extends AbstractProvider
             return $data['data'];
         }
 
-        throw new AuthenticationException();
+        throw new AuthenticationException;
     }
 
     /**
@@ -67,7 +58,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $this->getUniqueUserId(),
             'nickname' => null,
             'name'     => $user['name'],
@@ -103,7 +94,7 @@ class Provider extends AbstractProvider
             return $data['data'];
         }
 
-        throw new AuthenticationException();
+        throw new AuthenticationException;
     }
 
     /**
@@ -117,10 +108,7 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['resource', 'apiuser', 'authurl', 'server'];
     }

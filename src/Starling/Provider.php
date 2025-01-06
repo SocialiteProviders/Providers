@@ -30,30 +30,18 @@ class Provider extends AbstractProvider
      */
     public const TOKEN_IDENTITY_ENDPOINT = '/identity/token';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['authorising-individual:read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $url = $this->isSandbox() ? 'https://oauth-sandbox.starlingbank.com' : 'https://oauth.starlingbank.com';
 
         return $this->buildAuthUrlFromBase($url, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         if ($this->useMTLS()) {
             return $this->isSandbox() ?
@@ -92,7 +80,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'          => $user['accountHolderUid'],
             'name'        => trim(sprintf('%s %s %s', $user['title'], $user['firstName'], $user['lastName'])),
             'email'       => $user['email'],
@@ -131,10 +119,7 @@ class Provider extends AbstractProvider
         return $this->getConfig('use_mtls', false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['env', 'use_mtls'];
     }

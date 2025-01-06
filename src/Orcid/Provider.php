@@ -32,28 +32,11 @@ class Provider extends AbstractProvider
      */
     public const productionProfileURL = 'https://pub.orcid.org/v2.1/';
 
-    /**
-     * The scopes being requested.
-     * Others include: '/activities/update','/person/update'.
-     *
-     * You can customise the scopes when invoking the ORCID Socialite provider
-     * if this needs to change
-     *
-     * @var array
-     */
     protected $scopes = ['/authenticate', '/read-limited'];
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return [
             'environment',
@@ -92,18 +75,12 @@ class Provider extends AbstractProvider
         return ($this->useSandbox() ? self::sandboxProfileURL : self::productionProfileURL).$path;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->baseUrl('oauth/authorize'), $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->baseUrl('oauth/token');
     }
@@ -116,7 +93,7 @@ class Provider extends AbstractProvider
     public function user()
     {
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException();
+            throw new InvalidStateException;
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
@@ -180,9 +157,10 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        $given_name = $user['person']['name']['given-names']['value'] ?? "";
-        $family_name = $user['person']['name']['family-name']['value'] ?? "";
-        return (new User())->setRaw($user)->map([
+        $given_name = $user['person']['name']['given-names']['value'] ?? '';
+        $family_name = $user['person']['name']['family-name']['value'] ?? '';
+
+        return (new User)->setRaw($user)->map([
             $this->getConfig('uid_fieldname', 'id') => $user['orcid-identifier']['path'],
             'nickname'                              => $given_name,
             'name'                                  => sprintf('%s %s', $given_name, $family_name),

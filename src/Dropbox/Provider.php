@@ -11,33 +11,18 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DROPBOX';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'account_info.read',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://www.dropbox.com/oauth2/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://www.dropbox.com/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.dropboxapi.com/oauth2/token';
     }
@@ -64,7 +49,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['account_id'],
             'nickname' => null,
             'name'     => $user['name']['display_name'],

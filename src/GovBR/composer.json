@@ -3,8 +3,8 @@
     "description": "GovBR OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
-        "laravel",
         "govbr",
+        "laravel",
         "oauth",
         "provider",
         "socialite"

@@ -16,10 +16,7 @@ class Provider extends AbstractProvider
 
     protected $version = '2.2';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://stackexchange.com/oauth', $state);
     }
@@ -44,10 +41,7 @@ class Provider extends AbstractProvider
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://stackexchange.com/oauth/access_token';
     }
@@ -73,29 +67,21 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         // https://api.stackexchange.com/docs/me
-        $response = $this->getHttpClient()->get(
-            'https://api.stackexchange.com/'.$this->version.
-            '/me?'.http_build_query(
-                [
-                    'site'         => $this->getConfig('site'),
-                    'access_token' => $token,
-                    'key'          => $this->getConfig('key'),
-                ]
-            ),
-            [
-                RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get("https://api.stackexchange.com/{$this->version}/me", [
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+            ],
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+                'key'          => $this->getConfig('key'),
+                'site'         => $this->getConfig('site'),
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['site', 'key'];
     }
@@ -105,7 +91,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map(
+        return (new User)->setRaw($user)->map(
             [
                 'id'       => $user['items'][0]['account_id'],
                 'nickname' => $user['items'][0]['display_name'],

@@ -10,21 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MIXCLOUD';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://www.mixcloud.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://www.mixcloud.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.mixcloud.com/oauth/access_token';
     }
@@ -48,7 +39,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'     => null, 'nickname' => $user['username'],
             'name'   => $user['name'], 'email' => null,
             'avatar' => $user['pictures']['large'],

@@ -11,20 +11,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'BLACKBOARD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['subdomain'];
     }
@@ -55,18 +46,12 @@ class Provider extends AbstractProvider
         return sprintf('https://%s.blackboard.com', $this->getConfig('subdomain'));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getBaseUrl().'/learn/api/public/v1/oauth2/token';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/learn/api/public/v1/oauth2/authorizationcode', $state);
     }
@@ -97,7 +82,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'     => $user['id'],
             'email'  => Arr::get($user, 'contact.email'),
             'avatar' => Arr::get($user, 'avatar.viewUrl'),

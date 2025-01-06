@@ -11,31 +11,19 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SNAPCHAT';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'https://auth.snapchat.com/oauth2/api/user.display_name',
         'https://auth.snapchat.com/oauth2/api/user.bitmoji.avatar',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://accounts.snapchat.com/accounts/oauth2/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://accounts.snapchat.com/accounts/oauth2/token';
     }
@@ -62,7 +50,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => Arr::get($user, 'data.me.externalId'),
             'name'     => Arr::get($user, 'data.me.displayName'),
             'avatar'   => Arr::get($user, 'data.me.bitmoji.avatar'),

@@ -54,7 +54,7 @@ class Server extends BaseServer
      */
     public function userDetails($data, TokenCredentials $tokenCredentials)
     {
-        $user = new User();
+        $user = new User;
         $user->id = (int) $data->user->attributes()->id;
         $user->name = (string) $data->user->name;
         $user->extra = json_decode(json_encode($data), true);
@@ -73,16 +73,12 @@ class Server extends BaseServer
     /**
      * {@inheritdoc}
      */
-    public function userEmail($data, TokenCredentials $tokenCredentials)
-    {
-    }
+    public function userEmail($data, TokenCredentials $tokenCredentials) {}
 
     /**
      * {@inheritdoc}
      */
-    public function userScreenName($data, TokenCredentials $tokenCredentials)
-    {
-    }
+    public function userScreenName($data, TokenCredentials $tokenCredentials) {}
 
     /**
      * {@inheritdoc}
@@ -95,7 +91,7 @@ class Server extends BaseServer
             throw new CredentialsException('Unable to parse temporary credentials response.');
         }
 
-        $temporaryCredentials = new TemporaryCredentials();
+        $temporaryCredentials = new TemporaryCredentials;
         $temporaryCredentials->setIdentifier($data['oauth_token']);
         $temporaryCredentials->setSecret($data['oauth_token_secret']);
 

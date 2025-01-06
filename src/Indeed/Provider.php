@@ -10,48 +10,39 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'INDEED';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     protected $scopes = ['email', 'offline_access'];
 
-    /**
-     * @inheritDoc
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://secure.indeed.com/oauth/v2/authorize', $state);
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
-        return "https://apis.indeed.com/oauth/v2/tokens";
+        return 'https://apis.indeed.com/oauth/v2/tokens';
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://secure.indeed.com/v2/api/userinfo', [
             RequestOptions::HEADERS => [
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user);
+        return (new User)->setRaw($user);
     }
 }

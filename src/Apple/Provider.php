@@ -27,9 +27,6 @@ class Provider extends AbstractProvider
 
     public const URL = 'https://appleid.apple.com';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'name',
         'email',
@@ -40,11 +37,6 @@ class Provider extends AbstractProvider
      */
     protected $encodingType = PHP_QUERY_RFC3986;
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -64,15 +56,12 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(self::URL.'/auth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return self::URL.'/auth/token';
     }
@@ -192,7 +181,7 @@ class Provider extends AbstractProvider
         $token = $this->getJwtConfig()->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
-            $response = (new Client())->get(self::URL.'/auth/keys');
+            $response = (new Client)->get(self::URL.'/auth/keys');
 
             return json_decode((string) $response->getBody(), true);
         });
@@ -203,7 +192,7 @@ class Provider extends AbstractProvider
         if (isset($publicKeys[$kid])) {
             $publicKey = openssl_pkey_get_details($publicKeys[$kid]->getKeyMaterial());
             $constraints = [
-                new SignedWith(new Sha256(), AppleSignerInMemory::plainText($publicKey['key'])),
+                new SignedWith(new Sha256, AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
                 new LooseValidAt(SystemClock::fromSystemTimezone()),
             ];
@@ -261,7 +250,7 @@ class Provider extends AbstractProvider
             }
 
             if ($this->hasInvalidState()) {
-                throw new InvalidStateException();
+                throw new InvalidStateException;
             }
         }
 
@@ -292,7 +281,7 @@ class Provider extends AbstractProvider
             );
         }
 
-        return (new User())
+        return (new User)
             ->setRaw($user)
             ->map([
                 'id'    => $user['sub'],

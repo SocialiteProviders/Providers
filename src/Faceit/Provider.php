@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'FACEIT';
 
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://cdn.faceit.com/widgets/sso/index.html', $state);
     }
@@ -20,7 +20,7 @@ class Provider extends AbstractProvider
         return $url.'?'.http_build_query($this->getCodeFields($state), '', '&', $this->encodingType).'&redirect_popup=true';
     }
 
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.faceit.com/auth/v1/oauth/token';
     }
@@ -65,7 +65,7 @@ class Provider extends AbstractProvider
 
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['guid'],
             'nickname' => $user['nickname'],
             'avatar'   => $user['picture'] ?? null,

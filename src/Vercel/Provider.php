@@ -12,18 +12,12 @@ class Provider extends AbstractProvider
 
     protected static $authUrl = 'https://vercel.com/oauth/authorize';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(static::$authUrl, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.vercel.com/v2/oauth/access_token';
     }
@@ -33,12 +27,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $teamId = $this->credentialsResponseBody['team_id'];
+        $teamId = $this->credentialsResponseBody['team_id'] ?? null;
+        $queryParameters = $teamId !== null ? ['teamId' => $teamId] : [];
 
-        $response = $this->getHttpClient()->get('https://api.vercel.com/www/user'.($teamId ? "?teamId={$teamId}" : ''), [
+        $response = $this->getHttpClient()->get('https://api.vercel.com/www/user', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
+            RequestOptions::QUERY => $queryParameters,
         ]);
 
         return json_decode((string) $response->getBody(), true);
@@ -49,7 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user['user'])->map([
+        return (new User)->setRaw($user['user'])->map([
             'id'       => $user['user']['uid'],
             'nickname' => $user['user']['username'],
             'name'     => $user['user']['name'],

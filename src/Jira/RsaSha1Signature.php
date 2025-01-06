@@ -55,7 +55,7 @@ class RsaSha1Signature extends Signature
     /**
      * Set cert passphrase.
      *
-     * @param $certPassphrase
+     * @param  $certPassphrase
      */
     public function setCertPassphrase($certPassphrase)
     {

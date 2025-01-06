@@ -11,16 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'XERO';
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'profile',
@@ -30,18 +22,12 @@ class Provider extends AbstractProvider
         'accounting.contacts',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://login.xero.com/identity/connect/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://identity.xero.com/connect/token';
     }
@@ -69,7 +55,7 @@ class Provider extends AbstractProvider
         $bodyb64 = explode('.', $idToken)[1];
         $jwtDecoded = JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64));
 
-        return (new User())->map([
+        return (new User)->map([
             'id'       => $jwtDecoded->xero_userid,
             'nickname' => $jwtDecoded->given_name,
             'name'     => $jwtDecoded->given_name.' '.$jwtDecoded->family_name,

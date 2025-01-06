@@ -21,23 +21,14 @@ class Provider extends AbstractProvider
 
     public const SCOPE_NETWORKS = 'networks';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['profile email networks'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://auth.peeringdb.com/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://auth.peeringdb.com/oauth2/token/';
     }
@@ -61,7 +52,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'    => $user['id'],
             'name'  => $user['name'],
             'email' => $user['email'],

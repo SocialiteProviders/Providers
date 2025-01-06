@@ -12,8 +12,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SLACK';
 
-    protected $scopes = [];
-
     protected array $userScopes = ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
 
     public function scopes($scopes)
@@ -26,6 +24,13 @@ class Provider extends AbstractProvider
     public function botScopes($scopes)
     {
         $this->scopes = array_unique(array_merge($this->scopes, (array) $scopes));
+
+        return $this;
+    }
+
+    public function setUserScopes($scopes)
+    {
+        $this->userScopes = (array) $scopes;
 
         return $this;
     }
@@ -63,11 +68,11 @@ class Provider extends AbstractProvider
 
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user, 'user.id'),
-            'name' => Arr::get($user, 'user.name'),
-            'email' => Arr::get($user, 'user.email'),
-            'avatar' => Arr::get($user, 'user.image_512'),
+        return (new User)->setRaw($user)->map([
+            'id'              => Arr::get($user, 'user.id'),
+            'name'            => Arr::get($user, 'user.name'),
+            'email'           => Arr::get($user, 'user.email'),
+            'avatar'          => Arr::get($user, 'user.image_512'),
             'organization_id' => Arr::get($user, 'team.id'),
         ]);
     }
@@ -75,11 +80,11 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => $this->getTokenHeaders($code),
+            RequestOptions::HEADERS     => $this->getTokenHeaders($code),
             RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     public function getAuthUrl($state)
@@ -87,10 +92,7 @@ class Provider extends AbstractProvider
         return $this->buildAuthUrlFromBase('https://slack.com/oauth/v2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://slack.com/api/oauth.v2.access';
     }
@@ -101,9 +103,9 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get('https://slack.com/api/users.identity', [
-            RequestOptions::HEADERS => ['Authorization' => 'Bearer ' . $token],
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
         ]);
 
-        return json_decode($response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 }

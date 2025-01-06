@@ -11,28 +11,16 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ODNOKLASSNIKI';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['VALUABLE_ACCESS', 'GET_EMAIL'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ';';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://connect.ok.ru/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.ok.ru/oauth/token.do';
     }
@@ -66,7 +54,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => Arr::get($user, 'uid'),
             'nickname' => null,
             'name'     => Arr::get($user, 'name'),

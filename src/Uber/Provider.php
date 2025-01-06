@@ -10,31 +10,16 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'UBER';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['profile'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://login.uber.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://login.uber.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://login.uber.com/oauth/token';
     }
@@ -61,7 +46,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'    => $user['uuid'], 'nickname' => null,
             'name'  => $user['first_name'].' '.$user['last_name'],
             'email' => $user['email'], 'avatar' => $user['picture'],

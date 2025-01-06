@@ -10,18 +10,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SHOPIFY';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    private const API_VERSION = '2024-10';
+
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->shopifyUrl('/admin/oauth/authorize'), $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->shopifyUrl('/admin/oauth/access_token');
     }
@@ -31,14 +27,24 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->shopifyUrl('/admin/shop.json'), [
+        $response = $this->getHttpClient()->post($this->shopifyUrl('/admin/api/'.self::API_VERSION.'/graphql.json'), [
             RequestOptions::HEADERS => [
                 'Accept'                 => 'application/json',
                 'X-Shopify-Access-Token' => $token,
             ],
+            RequestOptions::JSON => [
+                'query' => '{
+                    shop {
+                        id
+                        email
+                        myshopifyDomain
+                        shopOwnerName
+                    }
+                }'
+            ]
         ]);
 
-        return json_decode((string) $response->getBody(), true)['shop'];
+        return json_decode($response->getBody(), true)['data']['shop'];
     }
 
     /**
@@ -46,19 +52,16 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
-            'nickname' => $user['myshopify_domain'],
-            'name'     => $user['name'],
+            'nickname' => $user['myshopifyDomain'],
+            'name'     => $user['shopOwnerName'],
             'email'    => $user['email'],
             'avatar'   => null,
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['subdomain'];
     }
@@ -67,7 +70,7 @@ class Provider extends AbstractProvider
      * Work out the shopify domain based on either the
      * `subdomain` config setting or the current request.
      *
-     * @param  string  $uri URI to append to the domain
+     * @param  string  $uri  URI to append to the domain
      * @return string The fully qualified *.myshopify.com url
      */
     private function shopifyUrl($uri = null)

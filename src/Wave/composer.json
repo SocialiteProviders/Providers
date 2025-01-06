@@ -3,13 +3,13 @@
     "description": "Wave OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
-        "wave",
-        "wave apps",
-        "wave accounting",
         "laravel",
         "oauth",
         "provider",
-        "socialite"
+        "socialite",
+        "wave",
+        "wave accounting",
+        "wave apps"
     ],
     "authors": [
         {

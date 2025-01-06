@@ -15,15 +15,12 @@ use SocialiteProviders\Manager\OAuth2\User;
  */
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'LIFESCIENCELOGIN';
 
     /**
      * LifeScience Login config URL.
      */
-    public const CONFIG_URL = 'https://proxy.aai.lifescience-ri.eu/.well-known/openid-configuration';
+    public const CONFIG_URL = 'https://login.aai.lifescience-ri.eu/oidc/.well-known/openid-configuration';
 
     /**
      * Cache key for the OpenID config.
@@ -35,30 +32,18 @@ class Provider extends AbstractProvider
      */
     protected $usesPKCE = true;
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'email', 'profile'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $config = $this->getOpenIdConfiguration();
 
         return $this->buildAuthUrlFromBase($config->authorization_endpoint, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         $config = $this->getOpenIdConfiguration();
 
@@ -86,7 +71,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'          => $user['sub'],
             'name'        => $user['name'],
             'given_name'  => $user['given_name'],
@@ -105,16 +90,15 @@ class Provider extends AbstractProvider
     private function getOpenIdConfiguration()
     {
         $expires = Carbon::now()->addHour();
-        $config = Cache::remember(self::CACHE_KEY, $expires, function () {
+
+        return Cache::remember(self::CACHE_KEY, $expires, function () {
             try {
                 $response = $this->getHttpClient()->get(self::CONFIG_URL);
             } catch (Exception $e) {
                 throw new InvalidStateException("Error on getting OpenID Configuration. {$e}");
             }
 
-            return json_decode($response->getBody());
+            return json_decode((string) $response->getBody());
         });
-
-        return $config;
     }
 }

@@ -11,20 +11,9 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'LARAVELPASSPORT';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [''];
-
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return [
             'host',
@@ -41,23 +30,12 @@ class Provider extends AbstractProvider
         ];
     }
 
-    /**
-     * Get the authentication URL for the provider.
-     *
-     * @param  string  $state
-     * @return string
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getLaravelPassportUrl('authorize_uri'), $state);
     }
 
-    /**
-     * Get the token URL for the provider.
-     *
-     * @return string
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getLaravelPassportUrl('token_uri');
     }
@@ -76,7 +54,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return (array) json_decode((string) $response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
@@ -90,7 +68,7 @@ class Provider extends AbstractProvider
         $key = $this->getConfig('userinfo_key');
         $data = ($key === null) === true ? $user : Arr::get($user, $key, []);
 
-        return (new User())->setRaw($data)->map([
+        return (new User)->setRaw($data)->map([
             'id'       => $this->getUserData($data, 'id'),
             'nickname' => $this->getUserData($data, 'nickname'),
             'name'     => $this->getUserData($data, 'name'),
@@ -104,7 +82,7 @@ class Provider extends AbstractProvider
         return rtrim($this->getConfig('host'), '/').'/'.ltrim($this->getConfig($type, Arr::get([
             'authorize_uri' => 'oauth/authorize',
             'token_uri'     => 'oauth/token',
-            'userinfo_uri'  => 'api/user',
+            'userinfo_uri'  => $this->getConfig('userinfo_uri', 'api/user'),
         ], $type)), '/');
     }
 

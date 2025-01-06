@@ -11,32 +11,20 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PATREON';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'campaigns',
         'identity',
         'identity[email]',
     ];
 
-    /**
-     * {@inherticdoc}.
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www.patreon.com/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.patreon.com/oauth2/token';
     }
@@ -67,7 +55,7 @@ class Provider extends AbstractProvider
         $userData = $user['data'];
         $userAttributes = $userData['attributes'];
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $userData['id'],
             'nickname' => Arr::get($userAttributes, 'vanity', $userAttributes['full_name']),
             'name'     => $userAttributes['full_name'],

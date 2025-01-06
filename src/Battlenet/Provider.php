@@ -10,27 +10,20 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'BATTLENET';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = '+';
 
     protected static $region;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        $url = $this->isChina() ? 'https://www.battlenet.com.cn/oauth/authorize' : 'https://'.$this->getRegion().'.battle.net/oauth/authorize';
+        $url = $this->isChina() ?
+            'https://www.battlenet.com.cn/oauth/authorize' :
+            'https://'.$this->getRegion().'.battle.net/oauth/authorize';
 
         return $this->buildAuthUrlFromBase($url, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         if ($this->isChina()) {
             return 'https://www.battlenet.com.cn/oauth/token';
@@ -60,7 +53,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['battletag'],
             'name'     => null,
@@ -83,10 +76,7 @@ class Provider extends AbstractProvider
         return strtolower($this->getRegion()) === 'cn';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['region'];
     }

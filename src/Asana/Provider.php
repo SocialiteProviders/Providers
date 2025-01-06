@@ -10,21 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ASANA';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://app.asana.com/-/oauth_authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://app.asana.com/-/oauth_authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://app.asana.com/-/oauth_token';
     }
@@ -51,7 +42,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'    => $user['gid'], 'nickname' => null, 'name' => $user['name'],
             'email' => $user['email'], 'avatar' => $user['photo'],
         ]);

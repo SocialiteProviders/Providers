@@ -15,20 +15,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'WHMCS';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'email', 'profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['url'];
     }
@@ -51,15 +42,9 @@ class Provider extends AbstractProvider
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            $this->getOpenidConfig()['authorization_endpoint'],
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->getOpenidConfig()['authorization_endpoint'], $state);
     }
 
     /**
@@ -81,10 +66,7 @@ class Provider extends AbstractProvider
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getOpenidConfig()['token_endpoint'];
     }
@@ -122,18 +104,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(
-            $this->getUserInfoUrl().'?'.http_build_query(
-                [
-                    'access_token' => $token,
-                ]
-            ),
-            [
-                RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get($this->getUserInfoUrl(), [
+            RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+            ],
+            RequestOptions::QUERY => [
+                'access_token' => $token,
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -143,7 +121,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map(
+        return (new User)->setRaw($user)->map(
             [
                 'avatar'   => null,
                 'email'    => $user['email'],

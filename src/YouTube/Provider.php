@@ -10,33 +10,18 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'YOUTUBE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'https://www.googleapis.com/auth/youtube.readonly',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://accounts.google.com/o/oauth2/v2/auth',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://accounts.google.com/o/oauth2/v2/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://oauth2.googleapis.com/token';
     }
@@ -66,7 +51,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'        => $user['id'] ?? null,
             'nickname'  => $user['snippet']['title'] ?? null,
             'name'      => null,

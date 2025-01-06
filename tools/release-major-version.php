@@ -3,7 +3,9 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Composer\Semver\Comparator;
-use Zttp\Zttp;
+use Illuminate\Http\Client\Factory;
+
+$http = new Factory;
 
 /**
  * Release a new major version across all providers.
@@ -20,12 +22,13 @@ $excludedRepos = [
 define('NEW_VERSION', '4.0.0');
 
 $repos = collect(range(1, 5))
-    ->map(fn (int $page) => Zttp::withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json())
+    ->map(fn (int $page
+    ) => $http->withHeaders(['Accept' => 'application/vnd.github.v3+json'])->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)->json())
     ->flatten(1)
     ->filter(fn (array $repo) => $repo['description'] && str_contains($repo['description'], '[READ ONLY] Subtree split'))
     ->sortBy('name')
-    ->each(function (array $repo) {
-        $res = Zttp::withHeaders([
+    ->each(function (array $repo) use ($http) {
+        $res = $http->withHeaders([
             'Accept'        => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])->get($repo['url'].'/releases');
@@ -38,7 +41,7 @@ $repos = collect(range(1, 5))
             return;
         }
 
-        $res = Zttp::withHeaders([
+        $res = $http->withHeaders([
             'Accept'        => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
         ])->post($repo['url'].'/releases', [

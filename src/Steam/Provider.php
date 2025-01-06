@@ -15,9 +15,6 @@ use SocialiteProviders\Manager\OAuth2\User;
  */
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'STEAM';
 
     /**
@@ -43,17 +40,17 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    public const OPENID_SIG = 'openid_sig';
+    public const OPENID_SIG = 'openid.sig';
 
     /**
      * @var string
      */
-    public const OPENID_SIGNED = 'openid_signed';
+    public const OPENID_SIGNED = 'openid.signed';
 
     /**
      * @var string
      */
-    public const OPENID_ASSOC_HANDLE = 'openid_assoc_handle';
+    public const OPENID_ASSOC_HANDLE = 'openid.assoc_handle';
 
     /**
      * @var string
@@ -63,17 +60,24 @@ class Provider extends AbstractProvider
     /**
      * @var string
      */
-    public const OPENID_ERROR = 'openid_error';
+    public const OPENID_ERROR = 'openid.error';
+
+    /**
+     * @var string
+     */
+    public const OPENID_RETURN_TO = 'openid.return_to';
+
+    /**
+     * @var string
+     */
+    public const OPENID_CLAIMED_ID = 'openid.claimed_id';
 
     /**
      * {@inheritdoc}
      */
     protected $stateless = true;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildUrl();
     }
@@ -127,7 +131,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['steamid'],
             'nickname' => Arr::get($user, 'personaname'),
             'name'     => Arr::get($user, 'realname'),
@@ -166,11 +170,13 @@ class Provider extends AbstractProvider
      */
     public function validate()
     {
+        $this->normalizeOpenidKeys();
+
         if (! $this->requestIsValid()) {
-            return false;
+            throw new OpenIDValidationException('A critical openid parameter is missing from the request');
         }
 
-        if (! $this->validateHost($this->request->get('openid_return_to'))) {
+        if (! $this->validateHost($this->request->get(self::OPENID_RETURN_TO))) {
             throw new OpenIDValidationException('Invalid return_to host');
         }
 
@@ -204,6 +210,20 @@ class Provider extends AbstractProvider
         return $this->request->has(self::OPENID_ASSOC_HANDLE)
             && $this->request->has(self::OPENID_SIGNED)
             && $this->request->has(self::OPENID_SIG);
+    }
+
+    /**
+     * Normlize openid keys from diffrent requests
+     *
+     * @return void
+     */
+    private function normalizeOpenidKeys()
+    {
+        $normalized = $this->request->collect()->mapWithKeys(function ($value, $key) {
+            return [preg_replace('/^openid_/', 'openid.', $key) => $value];
+        })->all();
+
+        $this->request->replace($normalized);
     }
 
     /**
@@ -244,7 +264,7 @@ class Provider extends AbstractProvider
         $signedParams = explode(',', $this->request->get(self::OPENID_SIGNED));
 
         foreach ($signedParams as $item) {
-            $value = $this->request->get('openid_'.str_replace('.', '_', $item));
+            $value = $this->request->get('openid.'.str_replace('.', '_', $item));
             $params['openid.'.$item] = $value;
         }
 
@@ -254,7 +274,7 @@ class Provider extends AbstractProvider
     /**
      * Parse openID response to an array.
      *
-     * @param  string  $results openid response body
+     * @param  string  $results  openid response body
      * @return array
      */
     public function parseResults($results)
@@ -283,7 +303,7 @@ class Provider extends AbstractProvider
     {
         preg_match(
             '#^https?://steamcommunity.com/openid/id/([0-9]{17,25})#',
-            $this->request->get('openid_claimed_id'),
+            $this->request->get(self::OPENID_CLAIMED_ID),
             $matches
         );
 
@@ -293,21 +313,11 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getAccessTokenResponse($code)
-    {
-    }
+    public function getAccessTokenResponse($code) {}
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
-    {
-    }
+    protected function getTokenUrl() {}
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['realm', 'proxy', 'allowed_hosts', 'force_https'];
     }

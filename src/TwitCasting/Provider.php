@@ -15,23 +15,12 @@ class Provider extends AbstractProvider
      */
     public const BASE_URL = 'https://apiv2.twitcasting.tv';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [''];
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(self::BASE_URL.'/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return self::BASE_URL.'/oauth2/access_token';
     }
@@ -55,7 +44,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['user']['id'],
             'nickname' => $user['user']['screen_id'],
             'name'     => $user['user']['name'],

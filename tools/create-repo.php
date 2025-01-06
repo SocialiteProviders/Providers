@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Http\Client\Factory;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Zttp\Zttp;
+$http = new Factory;
 
 /**
  * Create a new repo with preset information.
@@ -14,7 +16,7 @@ if (empty($repoName)) {
     exit(1);
 }
 
-$res = Zttp::withHeaders([
+$res = $http->withHeaders([
     'Accept'        => 'application/vnd.github.v3+json',
     'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
 ])->post('https://api.github.com/orgs/SocialiteProviders/repos', [
@@ -24,13 +26,13 @@ $res = Zttp::withHeaders([
     'has_issues'  => false,
 ]);
 
-echo sprintf("Created Repo: %s, response: %s\n", ! $res->isOk() ? $res->body() : $res->json()['full_name'], $res->status());
+echo sprintf("Created Repo: %s, response: %s\n", $res->failed() ? $res->body() : $res->json()['full_name'], $res->status());
 
-if (! $res->isOk()) {
+if ($res->failed()) {
     exit(1);
 }
 
-$res = Zttp::withHeaders([
+$res = $http->withHeaders([
     'Accept'        => 'application/vnd.github.mercy-preview+json',
     'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
 ])->put($res->json()['url'].'/topics', [

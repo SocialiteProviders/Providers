@@ -12,21 +12,12 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://api.streamelements.com/oauth2/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://api.streamelements.com/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.streamelements.com/oauth2/token';
     }
@@ -53,7 +44,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'            => $user['_id'],
             'nickname'      => $user['username'],
             'name'          => $user['displayName'],

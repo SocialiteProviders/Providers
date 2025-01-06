@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/zitadel",
+    "description": "Zitadel OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "zitadel"
+    ],
+    "authors": [
+        {
+            "name": "Gurkirat Singh",
+            "email": "tbhaxor@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/zitadel"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Zitadel\\": ""
+        }
+    }
+}
