@@ -3,38 +3,28 @@
 namespace SocialiteProviders\FreshBooks;
 
 use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    const IDENTIFIER = 'FRESHBOOKS';
+    public const IDENTIFIER = 'FRESHBOOKS';
 
     protected $scopes = ['user:profile:read'];
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://auth.freshbooks.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://api.freshbooks.com/auth/oauth/token';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getUserByToken($token)
+    protected function getUserByToken($token): array
     {
         $response = $this->getHttpClient()->get('https://api.freshbooks.com/auth/api/v1/users/me', [
             RequestOptions::HEADERS => [
@@ -45,32 +35,30 @@ class Provider extends AbstractProvider
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function mapUserToObject(array $user)
+    protected function mapUserToObject(array $user): User
     {
+        $data = $user['response'];
+
         return (new User)->setRaw($user)->map([
-            'id' => Arr::get($user, 'response.id'),
-            'name' => Arr::get($user, 'response.first_name') . ' ' . Arr::get($user, 'response.last_name'),
-            'email' => Arr::get($user, 'response.email'),
+            'id'    => $data['id'],
+            'name'  => trim($data['first_name'].' '.$data['last_name']),
+            'email' => $data['email'],
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getRefreshTokenResponse($refreshToken)
+    protected function getRefreshTokenResponse($refreshToken): array
     {
-        return json_decode($this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::FORM_PARAMS => [
-                'grant_type' => 'refresh_token',
-                'refresh_token' => $refreshToken,
-                'client_id' => $this->clientId,
+                'client_id'     => $this->clientId,
                 'client_secret' => $this->clientSecret,
-                'redirect_uri' => $this->redirectUrl,
+                'grant_type'    => 'refresh_token',
+                'redirect_uri'  => $this->redirectUrl,
+                'refresh_token' => $refreshToken,
             ],
-        ])->getBody(), true);
+            RequestOptions::HEADERS => ['Accept' => 'application/json'],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
     }
 }

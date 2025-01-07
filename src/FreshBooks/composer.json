@@ -1,13 +1,25 @@
 {
-    "name": "sobanfarooq/freshbooks",
+    "name": "socialiteproviders/freshbooks",
     "description": "FreshBooks OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
+    "keywords": [
+        "freshbooks",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
     "authors": [
         {
             "name": "Soban Farooq",
             "email": "sobanfarooq3@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/freshbooks"
+    },
     "require": {
         "php": "^8.0",
         "ext-json": "*",

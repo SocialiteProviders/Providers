@@ -6,13 +6,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class FreshBooksExtendSocialite
 {
-    /**
-     * Register the provider.
-     *
-     * @param  \SocialiteProviders\Manager\SocialiteWasCalled  $socialiteWasCalled
-     * @return void
-     */
-    public function handle(SocialiteWasCalled $socialiteWasCalled)
+    public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {
         $socialiteWasCalled->extendSocialite('freshbooks', Provider::class);
     }
