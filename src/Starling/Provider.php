@@ -34,6 +34,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['env', 'use_mtls'];
+
     protected function getAuthUrl($state): string
     {
         $url = $this->isSandbox() ? 'https://oauth-sandbox.starlingbank.com' : 'https://oauth.starlingbank.com';
@@ -117,10 +119,5 @@ class Provider extends AbstractProvider
     protected function useMTLS()
     {
         return $this->getConfig('use_mtls', false);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['env', 'use_mtls'];
     }
 }

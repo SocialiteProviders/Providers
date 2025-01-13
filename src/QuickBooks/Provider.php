@@ -24,6 +24,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['env'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://appcenter.intuit.com/connect/oauth2', $state);
@@ -65,10 +67,5 @@ class Provider extends AbstractProvider
             'name'  => trim(sprintf('%s %s', $user['givenName'], $user['familyName'])),
             'email' => $user['email'],
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['env'];
     }
 }

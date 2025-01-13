@@ -22,6 +22,15 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = [
+        'domain',
+        'policy',
+        'redirect_template',
+        'default_algorithm',
+        'custom_domain',
+        'tenant',
+    ];
+
     /**
      * Get the policy.
      *
@@ -204,17 +213,5 @@ class Provider extends AbstractProvider
         return $this->getOpenIdConfiguration()->end_session_endpoint
             .'?logout&post_logout_redirect_uri='
             .urlencode($post_logout_uri);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'domain',
-            'policy',
-            'redirect_template',
-            'default_algorithm',
-            'custom_domain',
-            'tenant',
-        ];
     }
 }
