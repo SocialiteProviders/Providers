@@ -13,6 +13,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected $scopes = ['users.readonly'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://marketplace.leadconnectorhq.com/oauth/chooselocation', $state);
