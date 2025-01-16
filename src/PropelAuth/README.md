@@ -8,6 +8,8 @@ composer require socialiteproviders/propelauth
 
 ## Installation & Basic Usage
 
+**For a full guide on how to integrate PropelAuth and Laravel, see our [docs here](/guides-and-examples/guides/laravel-authentication).**
+
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the [docs here](https://docs.propelauth.com/overview/authentication/oauth2) on how to setup an OAuth provider in PropelAuth.
 
 ### Add configuration to `config/services.php`
