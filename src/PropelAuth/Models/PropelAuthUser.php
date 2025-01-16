@@ -54,7 +54,7 @@ class PropelAuthUser extends SocialiteUser
 
     public function getMetadata(): ?array
     {
-        return $this->getRaw()['metadata'] ?? null;
+        return $this->getUserProperty('metadata');
     }
 
     public function getLegacyUserId(): ?string
@@ -130,7 +130,7 @@ class PropelAuthUser extends SocialiteUser
 
     public function getActiveOrgId(): ?string
     {
-        return $this->getRaw()['org_member_info']['org_id'] ?? null;
+        return $this->getRaw()['org_member_info'] ?? [] ['org_id'] ?? null;
     }
 
     public function getAccessToken(): string
