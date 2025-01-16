@@ -6,6 +6,7 @@ use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use Illuminate\Support\Facades\Http; 
 
 class Provider extends AbstractProvider
 {
@@ -34,6 +35,17 @@ class Provider extends AbstractProvider
         }
 
         return rtrim($baseUrl, '/');
+    }
+
+    public function logout($refreshToken): bool
+    {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->post(env('PROPELAUTH_AUTH_URL') . '/api/backend/v1/logout', [
+            'refresh_token' => $refreshToken,
+        ]);
+    
+        return !$response->failed();
     }
 
     public static function additionalConfigKeys(): array
