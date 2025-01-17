@@ -24,22 +24,22 @@ class PropelAuthUser extends SocialiteUser
 
     public function getUserId(): string
     {
-        return $this->user_id;
+        return $this->getRaw()['user_id'];
     }
 
     public function getEmail(): string
     {
-        return $this->email;
+        return $this->getRaw()['email'];
     }
 
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
-        return $this->first_name;
+        return $this->getRaw()['first_name'];
     }
 
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
-        return $this->last_name;
+        return $this->getRaw()['last_name'];
     }
 
     public function getUsername(): ?string
