@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/authelia",
+    "description": "Authelia OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "authelia",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "yajtpg",
+            "email": "yajtpg@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/authentik"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Authelia\\": ""
+        }
+    }
+}
