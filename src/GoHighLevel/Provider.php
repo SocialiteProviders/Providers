@@ -15,9 +15,22 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['users.readonly'];
 
+    protected bool $sameWindow = true;
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://marketplace.leadconnectorhq.com/oauth/chooselocation', $state);
+    }
+
+    protected function getCodeFields($state = null)
+    {
+        $fields = parent::getCodeFields($state);
+
+        if ($this->sameWindow) {
+            $fields['loginWindowOpenMode'] = 'self';
+        }
+
+        return array_merge($fields, $this->parameters);
     }
 
     protected function getTokenUrl(): string
@@ -39,7 +52,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://services.leadconnectorhq.com/users/' . $userId, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
-                'Version' => '2021-07-28'
+                'Version' => '2021-07-28',
             ],
         ]);
 
@@ -86,5 +99,12 @@ class Provider extends AbstractProvider
         ]);
 
         return json_decode((string) $response->getBody(), true);
+    }
+
+    public function inSameWindow(bool $sameWindow = true): self
+    {
+        $this->sameWindow = $sameWindow;
+
+        return $this;
     }
 }
