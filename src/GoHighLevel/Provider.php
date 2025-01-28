@@ -36,7 +36,12 @@ class Provider extends AbstractProvider
             return null;
         }
 
-        $response = $this->getHttpClient()->get('https://services.leadconnectorhq.com/users/' . $userId);
+        $response = $this->getHttpClient()->get('https://services.leadconnectorhq.com/users/' . $userId, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token,
+                'Version' => '2021-07-28'
+            ],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
@@ -46,6 +51,8 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        $user = array_merge($user, Arr::only($this->credentialsResponseBody, ['locationId', 'companyId', 'approvedLocations', 'planId', 'userType']));
+
         return (new User)->setRaw($user)->map([
             'name' => Arr::get($user, 'name'),
             'email' => Arr::get($user, 'email'),
