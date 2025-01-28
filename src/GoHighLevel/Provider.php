@@ -30,7 +30,7 @@ class Provider extends AbstractProvider
             $fields['loginWindowOpenMode'] = 'self';
         }
 
-        return array_merge($fields, $this->parameters);
+        return $fields;
     }
 
     protected function getTokenUrl(): string
