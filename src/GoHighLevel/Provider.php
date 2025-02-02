@@ -4,6 +4,7 @@ namespace SocialiteProviders\GoHighLevel;
 
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
+use Laravel\Socialite\Two\Token;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -69,7 +70,7 @@ class Provider extends AbstractProvider
      *
      * @param string $refreshToken
      *
-     * @return array
+     * @return Token
      */
     public function refreshToken($refreshToken)
     {
@@ -85,6 +86,13 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode((string) $response->getBody(), true);
+        $token = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+        return new Token(
+            Arr::get($token, 'access_token'),
+            Arr::get($token, 'refresh_token'),
+            Arr::get($token, 'expires_in'),
+            explode($this->scopeSeparator, Arr::get($token, 'scope', ''))
+        );
     }
 }
