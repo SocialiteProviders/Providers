@@ -21,7 +21,7 @@
         "docs": "https://socialiteproviders.com/authentik"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "ext-json": "*",
         "socialiteproviders/manager": "^4.8"
     },

@@ -11,7 +11,9 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'AUTHELIA';
 
-    protected $scopes = ['openid profile email groups'];
+    protected $scopes = ['openid', 'profile', 'email', 'groups'];
+
+    protected $scopeSeparator = ' ';
 
     public static function additionalConfigKeys(): array
     {
@@ -20,12 +22,13 @@ class Provider extends AbstractProvider
 
     protected function getBaseUrl()
     {
-        $baseurl = $this->getConfig('base_url');
-        if ($baseurl === null) {
+        $baseUrl = $this->getConfig('base_url');
+
+        if (empty($baseUrl)) {
             throw new InvalidArgumentException('Missing base_url');
         }
 
-        return rtrim($baseurl, '/');
+        return rtrim($baseUrl, '/');
     }
 
     protected function getAuthUrl($state): string
