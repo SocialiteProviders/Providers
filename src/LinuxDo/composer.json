@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/linuxdo",
+    "description": "LinuxDo OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "linuxdo",
+        "linux.do",
+        "oauth",
+        "socialite",
+        "provider"
+    ],
+    "authors": [
+        {
+            "name": "Travis Tang",
+            "email": "me@investravis.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/Travisun/oauthProviders/issues",
+        "source": "https://github.com/Travisun/oauthProviders",
+        "docs": "https://github.com/Travisun/oauthProviders"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\LinuxDo\\": ""
+        }
+    }
+}
