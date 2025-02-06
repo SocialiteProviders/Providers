@@ -13,22 +13,19 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'host',
-            'authorize_uri',
-            'token_uri',
-            'userinfo_uri',
-            'userinfo_key',
-            'user_id',
-            'user_nickname',
-            'user_name',
-            'user_email',
-            'user_avatar',
-            'guzzle',
-        ];
-    }
+    protected static array $additionalConfigKeys = [
+        'host',
+        'authorize_uri',
+        'token_uri',
+        'userinfo_uri',
+        'userinfo_key',
+        'user_id',
+        'user_nickname',
+        'user_name',
+        'user_email',
+        'user_avatar',
+        'guzzle',
+    ];
 
     protected function getAuthUrl($state): string
     {

@@ -10,6 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'UFS';
 
+    protected static array $additionalConfigKeys = ['dev_mode'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUri().'/authorization', $state);
@@ -46,11 +48,6 @@ class Provider extends AbstractProvider
             'email'    => $user['pessoa']['email'],
             'avatar'   => $user['arquivo'],
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['dev_mode'];
     }
 
     /**

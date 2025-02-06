@@ -19,10 +19,7 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['url'];
-    }
+    protected static array $additionalConfigKeys = ['url'];
 
     /**
      * @return array OpenID data for WHMCS

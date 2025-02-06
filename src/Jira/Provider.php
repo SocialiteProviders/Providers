@@ -10,6 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'JIRA';
 
+    protected static array $additionalConfigKeys = ['base_uri', 'cert_path', 'cert_passphrase'];
+
     protected function mapUserToObject(array $user)
     {
         $userObject = new User;
@@ -28,10 +30,5 @@ class Provider extends AbstractProvider
             'timezone' => Arr::get($user, 'timeZone'),
             'locale'   => Arr::get($user, 'locale'),
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['base_uri', 'cert_path', 'cert_passphrase'];
     }
 }

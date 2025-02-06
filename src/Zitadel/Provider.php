@@ -16,6 +16,13 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['openid', 'profile', 'email'];
 
+    protected static array $additionalConfigKeys = [
+        'base_url',
+        'organization_id',
+        'project_id',
+        'post_logout_redirect_uri',
+    ];
+
     /** {@inheritDoc} */
     public function getScopes()
     {
@@ -28,16 +35,6 @@ class Provider extends AbstractProvider
         }
 
         return array_merge($this->scopes, $additionalScopes);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'base_url',
-            'organization_id',
-            'project_id',
-            'post_logout_redirect_uri',
-        ];
     }
 
     protected function getAuthUrl($state): string

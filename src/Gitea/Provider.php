@@ -12,6 +12,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['instance_uri'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceUri().'login/oauth/authorize', $state);
@@ -56,10 +58,5 @@ class Provider extends AbstractProvider
     protected function getInstanceUri()
     {
         return $this->getConfig('instance_uri', 'http://gitea:3000/');
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['instance_uri'];
     }
 }
