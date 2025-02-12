@@ -24,6 +24,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ':';
 
+    protected static array $additionalConfigKeys = ['base_url'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/idshub/authorize', $state);
@@ -124,10 +126,5 @@ class Provider extends AbstractProvider
         return $redirectUri === null ?
             $logoutUrl :
             $logoutUrl.'?'.http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['base_url'];
     }
 }

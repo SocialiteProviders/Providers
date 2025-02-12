@@ -10,6 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'UFUTX';
 
+    protected static array $additionalConfigKeys = ['instance_uri'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceUri().'oauth/authorize', $state);
@@ -41,20 +43,15 @@ class Provider extends AbstractProvider
     {
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
-            //'mobile' => $user['mobile'],
+            // 'mobile' => $user['mobile'],
             'name'  => $user['name'],
             'email' => $user['email'],
-            //'avatar' => $user['avatar_url'],
+            // 'avatar' => $user['avatar_url'],
         ]);
     }
 
     protected function getInstanceUri()
     {
         return $this->getConfig('instance_uri', 'https://account.ufutx.com/');
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['instance_uri'];
     }
 }

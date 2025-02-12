@@ -13,14 +13,11 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['url:GET|/api/v1/users/:user_id/profile'];
 
+    protected static array $additionalConfigKeys = ['instance_url'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceUrl().'/login/oauth2/auth', $state);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['instance_url'];
     }
 
     protected function getTokenUrl(): string

@@ -18,6 +18,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['snsapi_login'];
 
+    protected static array $additionalConfigKeys = ['auth_base_uri'];
+
     /**
      * set Open Id.
      *
@@ -30,7 +32,7 @@ class Provider extends AbstractProvider
 
     protected function getAuthUrl($state): string
     {
-        //return $this->buildAuthUrlFromBase('https://open.weixin.qq.com/connect/qrconnect', $state);
+        // return $this->buildAuthUrlFromBase('https://open.weixin.qq.com/connect/qrconnect', $state);
         return $this->buildAuthUrlFromBase($this->getConfig(
             'auth_base_uri',
             'https://open.weixin.qq.com/connect/qrconnect'
@@ -120,12 +122,7 @@ class Provider extends AbstractProvider
         $this->credentialsResponseBody = json_decode((string) $response->getBody(), true);
         $this->openId = $this->credentialsResponseBody['openid'];
 
-        //return $this->parseAccessToken($response->getBody());
+        // return $this->parseAccessToken($response->getBody());
         return $this->credentialsResponseBody;
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['auth_base_uri'];
     }
 }
