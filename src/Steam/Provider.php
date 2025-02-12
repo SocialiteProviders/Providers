@@ -234,6 +234,7 @@ class Provider extends AbstractProvider
         return [
             RequestOptions::FORM_PARAMS => $this->getParams(),
             RequestOptions::PROXY       => $this->getConfig('proxy'),
+            RequestOptions::HEADERS     => $this->getHeaders(),
         ];
     }
 
@@ -269,6 +270,15 @@ class Provider extends AbstractProvider
         }
 
         return $params;
+    }
+
+    public function getHeaders(): array
+    {
+        // Without it Steam returns 403 Forbidden
+        return [
+            'referer' => 'https://steamcommunity.com/',
+            'origin'  => 'https://steamcommunity.com',
+        ];
     }
 
     /**
