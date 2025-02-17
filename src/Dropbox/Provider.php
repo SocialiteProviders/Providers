@@ -19,6 +19,8 @@ class Provider extends AbstractProvider
 
     protected function getAuthUrl($state): string
     {
+        $this->parameters['token_access_type'] = 'offline';
+        
         return $this->buildAuthUrlFromBase('https://www.dropbox.com/oauth2/authorize', $state);
     }
 
