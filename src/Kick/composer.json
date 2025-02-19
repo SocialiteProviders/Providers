@@ -1,0 +1,28 @@
+{
+  "name": "socialiteproviders/kick",
+  "description": "Kick OAuth2 Provider for Laravel Socialite",
+  "license": "MIT",
+  "keywords": [
+      "kick",
+      "laravel",
+      "oauth",
+      "provider",
+      "socialite"
+  ],
+  "authors": [],
+  "support": {
+      "issues": "https://github.com/socialiteproviders/providers/issues",
+      "source": "https://github.com/socialiteproviders/providers",
+      "docs": "https://socialiteproviders.com/kick"
+  },
+  "require": {
+      "php": "^8.0",
+      "ext-json": "*",
+      "socialiteproviders/manager": "^4.4"
+  },
+  "autoload": {
+      "psr-4": {
+          "SocialiteProviders\\Kick\\": ""
+      }
+  }
+}
