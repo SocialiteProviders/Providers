@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/sapoid",
+    "description": "SAPO ID OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "sapo",
+        "sapoid",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "José Correia",
+            "email": "javcorreia@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/sapoid"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\SapoId\\": ""
+        }
+    }
+}
