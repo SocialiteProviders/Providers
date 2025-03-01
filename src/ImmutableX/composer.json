@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/immutablex",
+    "description": "Immutable X OAuth2 Provider for Laravel Socialite",
+    "require": {
+        "php": "^8.0",
+        "laravel/socialite": "^5.2",
+        "socialiteproviders/manager": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\ImmutableX\\": "src/ImmutableX/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SocialiteProviders\\ImmutableX\\ImmutableXExtendSocialite"
+            ]
+        }
+    }
+}
