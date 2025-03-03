@@ -49,7 +49,7 @@ class Provider extends AbstractProvider
         $userId = $this->credentialsResponseBody['userId'] ?? null;
 
         if (!$userId) {
-            return null;
+            return [];
         }
 
         try {
@@ -64,7 +64,7 @@ class Provider extends AbstractProvider
             return json_decode((string) $response->getBody(), true);
         } catch (ClientException $e) {
             Log::debug('Failed to fetch user information.', ['exception' => (string) $e]);
-            return null;
+            return [];
         }
     }
 
