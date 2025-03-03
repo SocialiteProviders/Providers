@@ -2,8 +2,10 @@
 
 namespace SocialiteProviders\GoHighLevel;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Two\Token;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -50,14 +52,20 @@ class Provider extends AbstractProvider
             return null;
         }
 
-        $response = $this->getHttpClient()->get('https://services.leadconnectorhq.com/users/' . $userId, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-                'Version' => '2021-07-28',
-            ],
-        ]);
+        try {
 
-        return json_decode((string) $response->getBody(), true);
+            $response = $this->getHttpClient()->get('https://services.leadconnectorhq.com/users/' . $userId, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    'Version' => '2021-07-28',
+                ],
+            ]);
+
+            return json_decode((string) $response->getBody(), true);
+        } catch (ClientException $e) {
+            Log::debug('Failed to fetch user information.', ['exception' => (string) $e]);
+            return null;
+        }
     }
 
     /**
