@@ -13,6 +13,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['openid'];
 
+    protected static array $additionalConfigKeys = ['test'];
+
     /**
      * @see https://connect.surfconext.nl/.well-known/openid-configuration
      * @see https://connect.test.surfconext.nl/.well-known/openid-configuration
@@ -82,10 +84,5 @@ class Provider extends AbstractProvider
             'eduperson_principal_name'     => Arr::get($user, 'eduperson_principal_name'),
             'eduperson_entitlement'        => Arr::get($user, 'eduperson_entitlement'),
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['test'];
     }
 }

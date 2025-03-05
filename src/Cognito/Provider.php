@@ -31,6 +31,13 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = [
+        'client_id',
+        'host',
+        'logout_uri',
+        'redirect',
+    ];
+
     /**
      * Get the host URL.
      *
@@ -111,15 +118,5 @@ class Provider extends AbstractProvider
             'response_type' => 'code',
             'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'client_id',
-            'host',
-            'logout_uri',
-            'redirect',
-        ];
     }
 }

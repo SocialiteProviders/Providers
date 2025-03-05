@@ -14,6 +14,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['account'];
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://app.vssps.visualstudio.com/oauth2/authorize', $state);
@@ -79,10 +81,5 @@ class Provider extends AbstractProvider
     protected function getAccount()
     {
         return $this->getConfig('account', 'app');
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['account'];
     }
 }

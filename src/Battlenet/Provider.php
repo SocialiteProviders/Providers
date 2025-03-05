@@ -14,6 +14,8 @@ class Provider extends AbstractProvider
 
     protected static $region;
 
+    protected static array $additionalConfigKeys = ['region'];
+
     protected function getAuthUrl($state): string
     {
         $url = $this->isChina() ?
@@ -74,11 +76,6 @@ class Provider extends AbstractProvider
     protected function isChina()
     {
         return strtolower($this->getRegion()) === 'cn';
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['region'];
     }
 
     public static function setRegion($region)

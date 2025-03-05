@@ -36,6 +36,8 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = ['base_url', 'auth_server_id'];
+
     protected function getOktaUrl()
     {
         return $this->getConfig('base_url');
@@ -61,11 +63,6 @@ class Provider extends AbstractProvider
     protected function getOktaServerUrl(): string
     {
         return $this->getOktaUrl().'/oauth2/'.$this->getAuthServerId();
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['base_url', 'auth_server_id'];
     }
 
     protected function getAuthUrl($state): string
