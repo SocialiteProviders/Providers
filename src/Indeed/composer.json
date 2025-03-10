@@ -21,9 +21,9 @@
         "docs": "https://socialiteproviders.com/indeed"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-json": "*",
-        "socialiteproviders/manager": "^4.4"
+        "socialiteproviders/manager": "^4.8"
     },
     "autoload": {
         "psr-4": {
