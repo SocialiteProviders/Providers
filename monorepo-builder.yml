@@ -136,6 +136,7 @@ parameters:
     src/Netlify: 'git@github.com:SocialiteProviders/Netlify.git'
     src/Neto: 'git@github.com:SocialiteProviders/Neto.git'
     src/Nextcloud: 'git@github.com:SocialiteProviders/Nextcloud.git'
+    src/NFDILogin: 'git@github.com:SocialiteProviders/NFDILogin.git'
     src/Nocks: 'git@github.com:SocialiteProviders/Nocks.git'
     src/Notion: 'git@github.com:SocialiteProviders/Notion.git'
     src/Nuvemshop: 'git@github.com:SocialiteProviders/Nuvemshop.git'
