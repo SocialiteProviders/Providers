@@ -73,9 +73,7 @@ class Provider extends AbstractProvider
             'nickname'     => Arr::get($user, 'username'),
             'name'         => null,
             'email'        => null,
-            'avatar'       => array_key_exists('threads_profile_picture_url', $user)
-                                ? $user['threads_profile_picture_url']
-                                : null,
+            'avatar'       => Arr::get($user, 'threads_profile_picture_url', null),
         ]);
     }
 }
