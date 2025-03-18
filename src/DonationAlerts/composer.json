@@ -1,0 +1,36 @@
+{
+  "name": "socialiteproviders/donationalerts",
+  "description": "Donation Alerts OAuth2 Provider for Laravel Socialite",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "oauth",
+    "provider",
+    "socialite",
+    "donation",
+    "alerts",
+    "donbaton alerts"
+  ],
+  "authors": [
+    {
+      "name": "PepperFM",
+      "email": "Damon3453@yandex.ru"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/socialiteproviders/providers/issues",
+    "source": "https://github.com/socialiteproviders/providers",
+    "docs": "https://socialiteproviders.com/donationalerts"
+  },
+  "require": {
+    "php": "^8.0",
+    "ext-json": "*",
+    "socialiteproviders/manager": "^4.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "SocialiteProviders\\DonationAlerts\\": ""
+    }
+  },
+  "minimum-stability": "stable"
+}
