@@ -60,6 +60,16 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
+    protected static array $additionalConfigKeys = [
+        'tenant',
+        'include_tenant_info',
+        'include_avatar',
+        'include_avatar_size',
+        'fields',
+        'tenant_fields',
+        'proxy',
+    ];
+
     protected function getAuthUrl($state): string
     {
         return
@@ -130,7 +140,7 @@ class Provider extends AbstractProvider
 
                 $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents()) ?? null;
             } catch (ClientException) {
-                //if exception then avatar does not exist.
+                // if exception then avatar does not exist.
                 $formattedResponse['avatar'] = null;
             }
         }
@@ -208,19 +218,6 @@ class Provider extends AbstractProvider
         return array_merge(parent::getTokenFields($code), [
             'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'tenant',
-            'include_tenant_info',
-            'include_avatar',
-            'include_avatar_size',
-            'fields',
-            'tenant_fields',
-            'proxy',
-        ];
     }
 
     /**

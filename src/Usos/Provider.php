@@ -9,6 +9,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'USOS';
 
+    protected static array $additionalConfigKeys = ['profile_fields_selector', 'domain'];
+
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user['extra'])->map([
@@ -18,10 +20,5 @@ class Provider extends AbstractProvider
             'email'    => $user['email'],
             'avatar'   => $user['avatar'],
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['profile_fields_selector', 'domain'];
     }
 }
