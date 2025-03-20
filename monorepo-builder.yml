@@ -154,6 +154,7 @@ parameters:
     src/PeeringDB: 'git@github.com:SocialiteProviders/PeeringDB.git'
     src/Pinterest: 'git@github.com:SocialiteProviders/Pinterest.git'
     src/Pipedrive: 'git@github.com:SocialiteProviders/Pipedrive.git'
+    src/PixelTools: 'git@github.com:SocialiteProviders/PixelTools.git'
     src/Pixnet: 'git@github.com:SocialiteProviders/Pixnet.git'
     src/PlanningCenter: 'git@github.com/SocialiteProviders/PlanningCenter.git'
     src/Podio: 'git@github.com:SocialiteProviders/Podio.git'
