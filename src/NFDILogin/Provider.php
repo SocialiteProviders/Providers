@@ -4,9 +4,6 @@ namespace SocialiteProviders\NfdiLogin;
 
 use Exception;
 use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
-use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -16,16 +13,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'NFDILOGIN';
-
-    /**
-     * NFDI Login config URL.
-     */
-    public const CONFIG_URL = 'https://infraproxy.nfdi-aai.dfn.de/.well-known/openid-configuration';
-
-    /**
-     * Cache key for the OpenID config.
-     */
-    public const CACHE_KEY = 'nfdi_login_openid_config';
 
     protected $scopes = ['openid', 'email'];
 
@@ -58,9 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state): string
     {
-        $config = $this->getOpenIdConfiguration();
-
-        return $this->buildAuthUrlFromBase($config->authorization_endpoint, $state);
+        return $this->buildAuthUrlFromBase('https://infraproxy.nfdi-aai.dfn.de/idp/profile/oidc/authorize', $state);
     }
 
     /**
@@ -68,9 +53,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl(): string
     {
-        $config = $this->getOpenIdConfiguration();
-
-        return $config->token_endpoint;
+        return 'https://infraproxy.nfdi-aai.dfn.de/idp/profile/oidc/token';
     }
 
     /**
@@ -78,9 +61,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $config = $this->getOpenIdConfiguration();
-
-        $response = $this->getHttpClient()->get($config->userinfo_endpoint, [
+        $response = $this->getHttpClient()->get('https://infraproxy.nfdi-aai.dfn.de/idp/profile/oidc/userinfo', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -101,27 +82,5 @@ class Provider extends AbstractProvider
             'family_name' => $user['family_name'],
             'email'       => $user['email'],
         ]);
-    }
-
-    /**
-     * Get OpenID Configuration.
-     *
-     * @return mixed
-     *
-     * @throws Laravel\Socialite\Two\InvalidStateException
-     */
-    private function getOpenIdConfiguration()
-    {
-        $expires = Carbon::now()->addHour();
-
-        return Cache::remember(self::CACHE_KEY, $expires, function () {
-            try {
-                $response = $this->getHttpClient()->get(self::CONFIG_URL);
-            } catch (Exception $e) {
-                throw new InvalidStateException("Error on getting OpenID Configuration. {$e}");
-            }
-
-            return json_decode((string) $response->getBody());
-        });
     }
 }
