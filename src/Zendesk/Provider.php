@@ -12,10 +12,7 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['read'];
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['subdomain'];
-    }
+    protected static array $additionalConfigKeys = ['subdomain'];
 
     protected function getAuthUrl($state): string
     {

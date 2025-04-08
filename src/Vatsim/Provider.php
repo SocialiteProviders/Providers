@@ -20,6 +20,8 @@ class Provider extends AbstractProvider
      */
     protected $requiredScopes = [];
 
+    protected static array $additionalConfigKeys = ['test'];
+
     /**
      * @see https://github.com/vatsimnetwork/developer-info/wiki/Connect-Development-Environment
      *
@@ -78,11 +80,6 @@ class Provider extends AbstractProvider
             'subdivision'  => Arr::get($user, 'data.vatsim.subdivision.id'),
 
         ]);
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return ['test'];
     }
 
     /**

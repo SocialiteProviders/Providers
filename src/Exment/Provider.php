@@ -15,10 +15,7 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['me'];
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['exment_uri'];
-    }
+    protected static array $additionalConfigKeys = ['exment_uri'];
 
     protected function getAuthUrl($state): string
     {

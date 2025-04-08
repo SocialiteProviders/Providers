@@ -70,6 +70,33 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Provider extends AbstractProvider implements SocialiteProvider
 {
+    public const ATTRIBUTE_MAP = [
+        'email' => [
+            ClaimTypes::EMAIL_ADDRESS,
+            OasisAttributeNameUris::MAIL,
+            ClaimTypes::ADFS_1_EMAIL,
+        ],
+        'name' => [
+            ClaimTypes::NAME,
+            OasisAttributeNameUris::DISPLAY_NAME,
+            ClaimTypes::COMMON_NAME,
+            OasisAttributeNameUris::COMMON_NAME,
+        ],
+        'first_name' => [
+            ClaimTypes::GIVEN_NAME,
+            OasisAttributeNameUris::GIVEN_NAME,
+        ],
+        'last_name' => [
+            ClaimTypes::SURNAME,
+            OasisAttributeNameUris::SURNAME,
+        ],
+        'upn' => [
+            ClaimTypes::UPN,
+            OasisAttributeNameUris::UID,
+            ClaimTypes::ADFS_1_UPN,
+        ],
+    ];
+
     /**
      * The HTTP request instance.
      *
@@ -98,31 +125,33 @@ class Provider extends AbstractProvider implements SocialiteProvider
      */
     protected $config;
 
-    public const ATTRIBUTE_MAP = [
-        'email' => [
-            ClaimTypes::EMAIL_ADDRESS,
-            OasisAttributeNameUris::MAIL,
-            ClaimTypes::ADFS_1_EMAIL,
-        ],
-        'name' => [
-            ClaimTypes::NAME,
-            OasisAttributeNameUris::DISPLAY_NAME,
-            ClaimTypes::COMMON_NAME,
-            OasisAttributeNameUris::COMMON_NAME,
-        ],
-        'first_name' => [
-            ClaimTypes::GIVEN_NAME,
-            OasisAttributeNameUris::GIVEN_NAME,
-        ],
-        'last_name' => [
-            ClaimTypes::SURNAME,
-            OasisAttributeNameUris::SURNAME,
-        ],
-        'upn' => [
-            ClaimTypes::UPN,
-            OasisAttributeNameUris::UID,
-            ClaimTypes::ADFS_1_UPN,
-        ],
+    protected static array $additionalConfigKeys = [
+        'client_id',
+        'client_secret',
+        'redirect',
+        'metadata',
+        'ttl',
+        'acs',
+        'entityid',
+        'certificate',
+        'sp_acs',
+        'sp_sls',
+        'sp_entityid',
+        'sp_certificate',
+        'sp_private_key',
+        'sp_private_key_passphrase',
+        'sp_tech_contact_surname',
+        'sp_tech_contact_givenname',
+        'sp_tech_contact_email',
+        'sp_org_lang',
+        'sp_org_name',
+        'sp_org_display_name',
+        'sp_org_url',
+        'sp_default_binding_method',
+        'sp_name_id_format',
+        'sp_sign_assertions',
+        'idp_binding_method',
+        'attribute_map',
     ];
 
     public function __construct(Request $request)
@@ -138,38 +167,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $this->config = $config;
 
         return $this;
-    }
-
-    public static function additionalConfigKeys(): array
-    {
-        return [
-            'client_id',
-            'client_secret',
-            'redirect',
-            'metadata',
-            'ttl',
-            'acs',
-            'entityid',
-            'certificate',
-            'sp_acs',
-            'sp_sls',
-            'sp_entityid',
-            'sp_certificate',
-            'sp_private_key',
-            'sp_private_key_passphrase',
-            'sp_tech_contact_surname',
-            'sp_tech_contact_givenname',
-            'sp_tech_contact_email',
-            'sp_org_lang',
-            'sp_org_name',
-            'sp_org_display_name',
-            'sp_org_url',
-            'sp_default_binding_method',
-            'sp_name_id_format',
-            'sp_sign_assertions',
-            'idp_binding_method',
-            'attribute_map',
-        ];
     }
 
     protected function getConfig($key = null, $default = null)

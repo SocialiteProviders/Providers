@@ -10,10 +10,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SHAREPOINT';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['site_url'];
-    }
+    protected static array $additionalConfigKeys = ['site_url'];
 
     protected function getAuthUrl($state): string
     {

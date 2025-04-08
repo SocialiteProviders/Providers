@@ -38,10 +38,7 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['country'];
-    }
+    protected static array $additionalConfigKeys = ['country'];
 
     protected function getAuthUrl($state): string
     {

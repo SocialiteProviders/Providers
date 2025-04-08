@@ -9,10 +9,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'FLICKR';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['perms'];
-    }
+    protected static array $additionalConfigKeys = ['perms'];
 
     protected function mapUserToObject(array $user)
     {

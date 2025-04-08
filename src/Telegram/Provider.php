@@ -11,10 +11,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TELEGRAM';
 
-    public static function additionalConfigKeys(): array
-    {
-        return ['bot'];
-    }
+    protected static array $additionalConfigKeys = ['bot'];
 
     protected function getAuthUrl($state): string
     {
