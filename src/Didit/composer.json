@@ -1,0 +1,36 @@
+{
+    "name": "socialiteproviders/didit",
+    "description": "Didit OAuth2/OpenID Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "didit",
+        "kyc",
+        "laravel",
+        "oauth",
+        "oauth2",
+        "openid",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Alex Stewart",
+            "email": "didit@alexstewartja.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/didit"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Didit\\": ""
+        }
+    }
+}
