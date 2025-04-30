@@ -19,7 +19,7 @@ class Provider extends AbstractProvider
      */
     protected $fields = ['account_type', 'id', 'username', 'media_count'];
 
-    protected $scopes = ['user_profile'];
+    protected $scopes = ['instagram_business_basic'];
 
     protected function getAuthUrl($state): string
     {
