@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Apple;
 
+use DateInterval;
 use Firebase\JWT\JWK;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
