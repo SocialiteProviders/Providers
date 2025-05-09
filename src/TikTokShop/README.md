@@ -6,7 +6,8 @@ composer require socialiteproviders/manager
 
 ## Installation & Basic Usage
 
-Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
+Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific
+instructions below.
 
 ## Configuration
 
@@ -14,9 +15,9 @@ First, add your TikTok Shop app credentials to `config/services.php`:
 
 ```php
 'tiktokshop' => [
-    'app_key'     => env('TIKTOKSHOP_APP_KEY'),       // Your Partner Center App Key
-    'app_secret'  => env('TIKTOKSHOP_APP_SECRET'),    // Your Partner Center App Secret
-    'redirect'    => env('TIKTOKSHOP_REDIRECT_URI'),  // Your callback URI
+    'client_id'      => env('TIKTOKSHOP_APP_KEY'),       // Your Partner Center App Key
+    'client_secret'  => env('TIKTOKSHOP_APP_SECRET'),    // Your Partner Center App Secret
+    'redirect'       => env('TIKTOKSHOP_REDIRECT_URI'),  // Your callback URI
 ],
 ```
 
