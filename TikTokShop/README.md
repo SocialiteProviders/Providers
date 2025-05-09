@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\Event;
 public function boot()
 {
     Event::listen(function (SocialiteProviders\Manager\SocialiteWasCalled $event) {
-        $event->extendSocialite('tiktokshop', \App\Providers\Socialite\TikTokShop\TikTokShopProvider::class);
+        $event->extendSocialite('tiktokshop', \App\Providers\Socialite\TikTokShop\Provider::class);
     });
 }
 ```
