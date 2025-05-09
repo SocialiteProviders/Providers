@@ -2,15 +2,15 @@
 
 namespace App\Providers\Socialite\TikTokShop;
 
-use Laravel\Socialite\Two\AbstractProvider;
-use Laravel\Socialite\Two\ProviderInterface;
-use Laravel\Socialite\Two\User;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
-class TikTokShopProvider extends AbstractProvider implements ProviderInterface
+/**
+ * @see https://partner.tiktokshop.com/docv2/page/678e3a3292b0f40314a92d75
+ */
+class Provider extends AbstractProvider implements ProviderInterface
 {
-    /**
-     * TikTok Shop doesn’t use scopes at this step.
-     */
+    public const IDENTIFIER = 'TIKTOKSHOP';
     protected $scopes = [];
 
     /**
