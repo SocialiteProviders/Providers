@@ -156,6 +156,8 @@ class Provider extends AbstractProvider
             $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
         }
 
+        $formattedResponse['id_token'] = $this->credentialsResponseBody['id_token'] ?? null,
+
         return $formattedResponse;
     }
 
@@ -194,6 +196,7 @@ class Provider extends AbstractProvider
             'surname'           => Arr::get($user, 'surname'),
             'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
             'employeeId'        => Arr::get($user, 'employeeId'),
+            'id_token'          => Arr::get($user, 'id_token'),
 
             'tenant' => Arr::get($user, 'tenant'),
         ]);
