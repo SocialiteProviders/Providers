@@ -14,9 +14,16 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'arcgis' => [    
   'client_id' => env('ARCGIS_CLIENT_ID'),  
   'client_secret' => env('ARCGIS_CLIENT_SECRET'),  
-  'redirect' => env('ARCGIS_REDIRECT_URI') 
+  'redirect' => env('ARCGIS_REDIRECT_URI'),
+
+  // For ArcGIS Enterprise, add the following :
+  'arcgis_host' => env('ARCGIS_HOST'), // required
+  'arcgis_port' => env('ARCGIS_PORT'), // optional
+  'arcgis_directory' => env('ARCGIS_DIRECTORY'), // required - make sure the directory points to Portal for ArcGIS
 ],
 ```
+
+By default, the endpoint is ArcGIS Online. It can be customized for ArcGIS Enterprise with optional configurations.
 
 ### Add provider event listener
 
