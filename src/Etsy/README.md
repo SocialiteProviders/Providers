@@ -28,7 +28,19 @@ ETSY_CLIENT_SECRET={YOUR SECRET}
 ETSY_REDIRECT_URI=https://example.com/callback
 ```
 
-### Add provider event listener `app/Providers/EventServiceProvider`
+### Laravel 11+
+In Laravel 11, the default `EventServiceProvider` provider was removed. Instead, add the listener using the `listen` method on the `Event` facade, in your `AppServiceProvider` boot method.
+
+```php
+Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+    $event->extendSocialite('etsy', \SocialiteProviders\Etsy\Provider::class);
+});
+```
+<details>
+<summary>
+Laravel 10 or below
+</summary>
+Add provider event listener `app/Providers/EventServiceProvider`
 
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
@@ -42,6 +54,7 @@ protected $listen = [
     ],
 ];
 ```
+</details>
 
 ### Usage `web/routes.php`
 
