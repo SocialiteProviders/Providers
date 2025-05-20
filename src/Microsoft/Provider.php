@@ -232,7 +232,7 @@ class Provider extends AbstractProvider
      *
      * @return array
      */
-    public function getRoles(): bool
+    public function getRoles(): array
     {
         if ($idToken = $this->parseIdToken($this->credentialsResponseBody)) {
 
