@@ -156,7 +156,7 @@ class Provider extends AbstractProvider
             $formattedResponse['tenant'] = json_decode((string) $responseTenant->getBody(), true)['value'][0] ?? null;
         }
 
-        $formattedResponse['id_token'] = $this->credentialsResponseBody['id_token'] ?? null,
+        $formattedResponse['roles'] = $this->getRoles();
 
         return $formattedResponse;
     }
@@ -196,7 +196,7 @@ class Provider extends AbstractProvider
             'surname'           => Arr::get($user, 'surname'),
             'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
             'employeeId'        => Arr::get($user, 'employeeId'),
-            'id_token'          => Arr::get($user, 'id_token'),
+            'roles'             => Arr::get($user, 'roles'),
 
             'tenant' => Arr::get($user, 'tenant'),
         ]);
@@ -224,6 +224,23 @@ class Provider extends AbstractProvider
             'tenant_fields',
             'proxy',
         ];
+    }
+
+    /**
+     * Get user's roles from the ID_TOKEN.
+     * https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims#configure-groups-optional-claims
+     *
+     * @return array
+     */
+    public function getRoles(): bool
+    {
+        if ($idToken = $this->parseIdToken($this->credentialsResponseBody)) {
+
+            $claims = $this->validate($idToken);
+
+        }
+
+        return $claims?->roles ?? [];
     }
 
     /**
