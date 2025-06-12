@@ -32,7 +32,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('twitter', \SocialiteProviders\Twitter\Provider::class);
+    $event->extendSocialite('twitter', \SocialiteProviders\Twitter\Provider::class, \SocialiteProviders\Twitter\Server::class);
 });
 ```
 <details>
