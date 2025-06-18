@@ -1,0 +1,35 @@
+{
+    "name": "socialiteproviders/crowdin",
+    "description": "Crowdin OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "crowdin",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "WentTheFox",
+            "email": "mail@went.tf",
+            "homepage": "https://went.tf",
+            "role": "developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/crowdin"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Crowdin\\": ""
+        }
+    }
+}
