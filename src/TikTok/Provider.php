@@ -25,14 +25,35 @@ class Provider extends AbstractProvider
      */
     protected $user;
 
+    /**
+     * Generate a random code_verifier for PKCE (43-128 chars, allowed chars only)
+     */
+    protected function generateCodeVerifier(): string
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+        $verifier = '';
+        for ($i = 0; $i < 64; $i++) {
+            $verifier .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+        return $verifier;
+    }
+
     protected function getAuthUrl($state): string
     {
+
+        $codeVerifier = $this->generateCodeVerifier();
+        $codeChallenge = hash('sha256', $codeVerifier);
+
+        session(['tiktok_code_verifier' => $codeVerifier]);
+
         $fields = [
-            'client_key'    => $this->clientId,
-            'state'         => $state,
-            'response_type' => 'code',
-            'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
-            'redirect_uri'  => $this->redirectUrl,
+            'client_key'            => $this->clientId,
+            'state'                 => $state,
+            'response_type'         => 'code',
+            'scope'                 => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+            'redirect_uri'          => $this->redirectUrl,
+            'code_challenge'        => $codeChallenge,
+            'code_challenge_method' => 'S256',
         ];
 
         $fields = array_merge($fields, $this->parameters);
@@ -83,6 +104,8 @@ class Provider extends AbstractProvider
         $fields = parent::getTokenFields($code);
         $fields['client_key'] = $this->clientId;
         unset($fields['client_id']);
+
+        $fields['code_verifier'] = session('tiktok_code_verifier');
 
         return $fields;
     }
