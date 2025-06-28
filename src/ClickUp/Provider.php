@@ -10,16 +10,18 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'CLICKUP';
 
+    protected const BASE_URL = 'https://api.clickup.com/api';
+
     protected $scopes = ['profile'];
 
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase('https://app.clickup.com/api', $state);
+        return $this->buildAuthUrlFromBase(self::BASE_URL, $state);
     }
 
     protected function getTokenUrl(): string
     {
-        return 'https://app.clickup.com/api/v2/oauth/token';
+        return self::BASE_URL.'/v2/oauth/token';
     }
 
     /**
@@ -27,7 +29,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://app.clickup.com/api/v2/user', [
+        $response = $this->getHttpClient()->get(self::BASE_URL.'/v2/user', [
             RequestOptions::HEADERS => [
                 'Authorization' => $token,
             ],

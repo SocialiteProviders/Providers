@@ -1,7 +1,7 @@
-# ArcGIS
+# Crowdin
 
 ```bash
-composer require socialiteproviders/arcgis
+composer require socialiteproviders/crowdin
 ```
 
 ## Installation & Basic Usage
@@ -11,19 +11,12 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'arcgis' => [    
-  'client_id' => env('ARCGIS_CLIENT_ID'),  
-  'client_secret' => env('ARCGIS_CLIENT_SECRET'),  
-  'redirect' => env('ARCGIS_REDIRECT_URI'),
-
-  // For ArcGIS Enterprise, add the following :
-  'arcgis_host' => env('ARCGIS_HOST'), // required
-  'arcgis_port' => env('ARCGIS_PORT'), // optional
-  'arcgis_directory' => env('ARCGIS_DIRECTORY'), // required - make sure the directory points to Portal for ArcGIS
+'crowdin' => [    
+  'client_id' => env('CROWDIN_CLIENT_ID'),  
+  'client_secret' => env('CROWDIN_CLIENT_SECRET'),  
+  'redirect' => env('CROWDIN_REDIRECT_URI'),
 ],
 ```
-
-By default, the endpoint is ArcGIS Online. It can be customized for ArcGIS Enterprise with optional configurations.
 
 ### Add provider event listener
 
@@ -35,7 +28,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('arcgis', \SocialiteProviders\ArcGIS\Provider::class);
+    $event->extendSocialite('crowdin', \SocialiteProviders\Crowdin\Provider::class);
 });
 ```
 <details>
@@ -50,7 +43,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\ArcGIS\ArcGISExtendSocialite::class.'@handle',
+        \SocialiteProviders\Crowdin\CrowdinExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -61,13 +54,13 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('arcgis')->redirect();
+return Socialite::driver('crowdin')->redirect();
 ```
 
 ### Returned User fields
 
 - ``id``
-- ``nickname`` (same as ``id``)
+- ``nickname``
 - ``name``
 - ``email``
 - ``avatar``

@@ -1,0 +1,32 @@
+{
+    "name": "socialiteproviders/tiktokshop",
+    "description": "TikTok Shop OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "tiktokshop"
+    ],
+    "authors": [
+        {
+            "name": "Gabriel R. Barbosa",
+            "email": "gabrieltads2016@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/tiktokshop"
+    },
+    "require": {
+        "php": "^8.0",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\TikTokShop\\": ""
+        }
+    }
+}

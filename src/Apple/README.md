@@ -88,4 +88,4 @@ return Socialite::driver('apple')->redirect();
 
 ### Reference
 
-- [Apple API Reference](https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api)
+- [Apple API Reference](https://developer.apple.com/documentation/signinwithapplerestapi/)
