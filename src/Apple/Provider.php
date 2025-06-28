@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Apple;
 
+use DateInterval;
 use Firebase\JWT\JWK;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -139,7 +140,8 @@ class Provider extends AbstractProvider
             $constraints = [
                 new SignedWith(new Sha256, AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
-                new LooseValidAt(SystemClock::fromSystemTimezone()),
+                // fix for #1354
+                new LooseValidAt(SystemClock::fromSystemTimezone(), new DateInterval('PT3S')),
             ];
 
             try {
