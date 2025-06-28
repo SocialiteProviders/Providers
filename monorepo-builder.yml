@@ -44,6 +44,7 @@ parameters:
     src/Dataporten: 'git@github.com:SocialiteProviders/Dataporten.git'
     src/Deezer: 'git@github.com:SocialiteProviders/Deezer.git'
     src/Deviantart: 'git@github.com:SocialiteProviders/deviantART.git'
+    src/Didit: 'git@github.com:SocialiteProviders/Didit.git'
     src/DigitalOcean: 'git@github.com:SocialiteProviders/DigitalOcean.git'
     src/Discogs: 'git@github.com:SocialiteProviders/Discogs.git'
     src/Discord: 'git@github.com:SocialiteProviders/Discord.git'
