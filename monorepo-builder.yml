@@ -39,6 +39,7 @@ parameters:
     src/Coinbase: 'git@github.com:SocialiteProviders/Coinbase.git'
     src/ConstantContact: 'git@github.com:SocialiteProviders/ConstantContact.git'
     src/Coursera: 'git@github.com:SocialiteProviders/Coursera.git'
+    src/Crowdin: 'git@github.com:SocialiteProviders/Crowdin.git'
     src/Dailymotion: 'git@github.com:SocialiteProviders/Dailymotion.git'
     src/Dataporten: 'git@github.com:SocialiteProviders/Dataporten.git'
     src/Deezer: 'git@github.com:SocialiteProviders/Deezer.git'
