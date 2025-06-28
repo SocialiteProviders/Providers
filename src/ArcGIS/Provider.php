@@ -10,6 +10,15 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ARCGIS';
 
+    public static function additionalConfigKeys(): array
+    {
+        return [
+            'arcgis_host',
+            'arcgis_port',
+            'arcgis_directory',
+        ];
+    }
+
     protected function getBaseUrl()
     {
         $port = null === $this->getServerPort() ? '' : ':'.$this->getServerPort();
