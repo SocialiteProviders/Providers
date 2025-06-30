@@ -180,6 +180,7 @@ parameters:
     src/Salesloft: 'git@github.com:SocialiteProviders/Salesloft.git'
     src/Salla: 'git@github.com:SocialiteProviders/Salla.git'
     src/Saml2: 'git@github.com:SocialiteProviders/Saml2.git'
+    src/SapoId: 'git@github.com:SocialiteProviders/SapoId.git'
     src/SciStarter: 'git@github.com:SocialiteProviders/SciStarter.git'
     src/SharePoint: 'git@github.com:SocialiteProviders/SharePoint.git'
     src/Shopify: 'git@github.com:SocialiteProviders/Shopify.git'
