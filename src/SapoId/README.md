@@ -15,8 +15,6 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_id' => env('SAPOID_CLIENT_ID'),
   'client_secret' => env('SAPOID_CLIENT_SECRET'),
   'redirect' => env('SAPOID_REDIRECT_URI'),
-  // optional, depending on the extra scopes you've configured in your app
-  'scopes' => ['profile', 'email'],
 ],
 ```
 
@@ -61,3 +59,10 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('sapoid')->redirect();
 ```
+
+### Returned User fields
+
+- `id`: (**string**) The unique identifier for the user in SAPO ID.
+- `name`: (**string**) The full name of the user.
+- `email`: (**string**) The email address of the user.
+- `avatar`: (**string**) The URL of the user's avatar image.
