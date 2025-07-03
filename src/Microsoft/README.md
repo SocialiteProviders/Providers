@@ -60,6 +60,28 @@ return Socialite::driver('microsoft')->redirect();
 
 ## Extended features
 
+### Roles
+
+By enabling the 'Emit groups as role claims' setting, you can retrieve a user's group membership (such as ADFS Security Groups or Entra ID App Roles) and use this information to assign roles within your application, as described in the [Microsoft documentation](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-fed-group-claims).
+
+e.g. Emit group names without DOMAIN_NAME\ prefix as role claims:
+
+```php
+"optionalClaims": {
+    "accessToken": [{
+        "name": "groups",
+        "additionalProperties": ["sam_account_name"]
+    }]
+}
+```
+
+`Socialite::driver('microsoft')->user()->getRoles()` would return:
+
+```php
+[ 'GROUP_NAME_A', 'GROUP_NAME_B' ]
+```
+
+
 ### Tenant Details
 You can also retrieve Tenant information at the same time as you retrieve users, this can be useful if you need to allow only your tenant/s or filter certain tenants.
 
@@ -141,3 +163,4 @@ e.g. `'tenantType', 'technicalNotificationMails'` can be requested as such
         'include_avatar_size' => '648x648',
     ], 
 ```
+
