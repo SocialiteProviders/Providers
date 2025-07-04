@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Apple;
 
+use Carbon\CarbonImmutable;
 use DateInterval;
 use Firebase\JWT\JWK;
 use GuzzleHttp\Client;
@@ -13,11 +14,17 @@ use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Signer\Rsa\Sha256;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Exception;
+use Lcobucci\JWT\Signer;
+use Lcobucci\JWT\Signer\Ecdsa\Sha256 as EcdsaSha256;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\Rsa\Sha256 as RsaSha256;
+use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use Lcobucci\JWT\Validation\Validator;
 use Psr\Http\Message\ResponseInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -26,7 +33,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'APPLE';
 
-    public const URL = 'https://appleid.apple.com';
+    private const URL = 'https://appleid.apple.com';
 
     protected $scopes = [
         'name',
@@ -41,18 +48,11 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
-     * JWT Configuration.
+     * JWT Configuration for Apple Authentication Token.
      *
      * @var ?Configuration
      */
-    protected $jwtConfig = null;
-
-    /**
-     * Private Key.
-     *
-     * @var string
-     */
-    protected $privateKey = '';
+    protected ?Configuration $jwtConfig = null;
 
     /**
      * {@inheritdoc}
@@ -114,43 +114,53 @@ class Provider extends AbstractProvider
 
     protected function getClientSecret()
     {
-        if (!$this->jwtConfig) {
-            $this->getJwtConfig(); // Generate Client Secret from private key if not set.
+        if (!empty($this->privateKey)) {
+            $this->clientSecret = $this->generateApplePrivateTokenString();
+            config()->set('services.apple.client_secret', $this->clientSecret);
         }
 
         return $this->clientSecret;
     }
 
-    protected function getJwtConfig()
+    protected function createJwtConfig(): void
     {
-        if (!$this->jwtConfig) {
+        if (!$this->jwtConfig instanceof Configuration) {
             $private_key_path = $this->getConfig('private_key', '');
             $private_key_passphrase = $this->getConfig('passphrase', '');
-            $signer = $this->getConfig('signer', '');
+            $signerClassName = $this->getConfig('signer', '');
 
-            if (empty($signer) || !class_exists($signer)) {
-                $signer = !empty($private_key_path) ? \Lcobucci\JWT\Signer\Ecdsa\Sha256::class : AppleSignerNone::class;
+            if (empty($signerClassName) || !class_exists($signerClassName) || !is_a($signerClassName, Signer::class, true)) {
+                $signerClassName = EcdsaSha256::class;
             }
 
             if (!empty($private_key_path) && file_exists($private_key_path)) {
-                $this->privateKey = file_get_contents($private_key_path);
+                $key = InMemory::file($private_key_path, $private_key_passphrase);
             } else {
-                $this->privateKey = $private_key_path; // Support for plain text private keys
+                $key = InMemory::plainText($private_key_path, $private_key_passphrase);
             }
 
             $this->jwtConfig = Configuration::forSymmetricSigner(
-                new $signer(),
-                AppleSignerInMemory::plainText($this->privateKey, $private_key_passphrase)
+                new $signerClassName(),
+                $key
             );
-
-            if (!empty($this->privateKey)) {
-                $appleToken = new AppleToken($this->getJwtConfig());
-                $this->clientSecret = $appleToken->generate();
-                config()->set('services.apple.client_secret', $this->clientSecret);
-            }
         }
+    }
 
-        return $this->jwtConfig;
+    private function generateApplePrivateTokenString(): string
+    {
+        $now = CarbonImmutable::now();
+        $this->createJwtConfig();
+
+        $token = $this->jwtConfig->builder()
+            ->issuedBy(config('services.apple.team_id'))
+            ->issuedAt($now)
+            ->expiresAt($now->addHour())
+            ->permittedFor(Provider::URL)
+            ->relatedTo(config('services.apple.client_id'))
+            ->withHeader('kid', config('services.apple.key_id'))
+            ->getToken($this->jwtConfig->signer(), $this->jwtConfig->signingKey());
+
+        return $token->toString();
     }
 
     /**
@@ -179,7 +189,11 @@ class Provider extends AbstractProvider
      */
     public function checkToken($jwt)
     {
-        $token = $this->getJwtConfig()->parser()->parse($jwt);
+        try {
+            $token = (new Parser(new JoseEncoder()))->parse($jwt);
+        } catch (Exception $e) {
+            throw new InvalidStateException($e->getMessage());
+        }
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
             $response = (new Client)->get(self::URL.'/auth/keys');
@@ -190,25 +204,23 @@ class Provider extends AbstractProvider
         $publicKeys = JWK::parseKeySet($data);
         $kid = $token->headers()->get('kid');
 
-        if (isset($publicKeys[$kid])) {
-            $publicKey = openssl_pkey_get_details($publicKeys[$kid]->getKeyMaterial());
+        if (!isset($publicKeys[$kid])) {
+            throw new InvalidStateException('Invalid JWT Signature');
+        }
+
+        $publicKey = openssl_pkey_get_details($publicKeys[$kid]->getKeyMaterial());
+        try {
             $constraints = [
-                new SignedWith(new Sha256, AppleSignerInMemory::plainText($publicKey['key'])),
+                new SignedWith(new RsaSha256, InMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
-                // fix for #1354
                 new LooseValidAt(SystemClock::fromSystemTimezone(), new DateInterval('PT3S')),
             ];
 
-            try {
-                $this->jwtConfig->validator()->assert($token, ...$constraints);
-
-                return true;
-            } catch (RequiredConstraintsViolated $e) {
-                throw new InvalidStateException($e->getMessage());
-            }
+            (new Validator())->assert($token, ...$constraints);
+        } catch (Exception $e) {
+            throw new InvalidStateException($e->getMessage());
         }
-
-        throw new InvalidStateException('Invalid JWT Signature');
+        return true;
     }
 
     /**
