@@ -230,7 +230,7 @@ class Provider extends AbstractProvider
      * Get user's roles from the ID_TOKEN.
      * https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims#configure-groups-optional-claims
      *
-     * @return array
+     * @return array<string>
      */
     public function getRoles(): array
     {
