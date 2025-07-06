@@ -60,6 +60,13 @@ return Socialite::driver('microsoft')->redirect();
 
 ## Extended features
 
+### Roles
+
+`Socialite::driver('microsoft')->user()->getRoles()` returns an array of strings containing the names of the Microsoft 365/Azure AD groups the authenticated user belongs to. You can use this information to assign users to application roles at login.
+
+- ref. [Emit groups as role claims in Entra ID](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-fed-group-claims)
+
+
 ### Tenant Details
 You can also retrieve Tenant information at the same time as you retrieve users, this can be useful if you need to allow only your tenant/s or filter certain tenants.
 
@@ -141,3 +148,4 @@ e.g. `'tenantType', 'technicalNotificationMails'` can be requested as such
         'include_avatar_size' => '648x648',
     ], 
 ```
+
