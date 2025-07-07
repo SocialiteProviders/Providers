@@ -66,16 +66,17 @@ To add more scopes you can use the below:
 return Socialite::driver('sapoid')->scopes(['add','scopes','here'])->redirect();
 ```
 
-To override the default scopes you can use the below:
+Available scopes: 
 
-```php
-return Socialite::driver('sapoid')->setScopes(['override','scopes','here'])->redirect();
-```
+- `email`: provides access to user email
+- `profile`: provides access to user name and avatar
+
+Access to these scopes must be configured per app in its config page: `https://id.sapo.pt/connect/`
 
 ### Returned User fields
-The default scope only has `id` and `name`, other scopes are needed for `email` and `avatar`
+The default scope only has the `id`, other scopes are needed for `name`, `email` and `avatar`
 
 - `id`: (**string**) The unique identifier for the user in SAPO ID.
-- `name`: (**string**) The full name of the user.
+- `name`: (**string**|**null**) The full name of the user.
 - `email`: (**string**|**null**) The email address of the user.
 - `avatar`: (**string**|**null**) The URL of the user's avatar image.
