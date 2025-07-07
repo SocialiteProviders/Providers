@@ -60,9 +60,22 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('sapoid')->redirect();
 ```
 
+To add more scopes you can use the below:
+
+```php
+return Socialite::driver('sapoid')->scopes(['add','scopes','here'])->redirect();
+```
+
+To override the default scopes you can use the below:
+
+```php
+return Socialite::driver('sapoid')->setScopes(['override','scopes','here'])->redirect();
+```
+
 ### Returned User fields
+The default scope only has `id` and `name`, other scopes are needed for `email` and `avatar`
 
 - `id`: (**string**) The unique identifier for the user in SAPO ID.
 - `name`: (**string**) The full name of the user.
-- `email`: (**string**) The email address of the user.
-- `avatar`: (**string**) The URL of the user's avatar image.
+- `email`: (**string**|**null**) The email address of the user.
+- `avatar`: (**string**|**null**) The URL of the user's avatar image.

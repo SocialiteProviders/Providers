@@ -3,15 +3,17 @@
 namespace SocialiteProviders\SapoId;
 
 use GuzzleHttp\RequestOptions;
-use Laravel\Socialite\Two\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
-class Provider extends AbstractProvider implements ProviderInterface
+class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SAPOID';
+
     protected const ID_AUTH_URL = 'https://id.sapo.pt/oauth/v2/authorize';
+
     protected const ID_TOKEN_URL = 'https://id.sapo.pt/oauth/v2/token';
+
     protected const ID_USER_URL = 'https://id.sapo.pt/userinfo';
 
     protected $scopeSeparator = ' ';
@@ -19,13 +21,6 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected $scopes = ['openid'];
 
     protected $usesPKCE = true;
-
-    public function setScopes($scopes)
-    {
-        $this->scopes = config('services.sapoid.scopes', $this->scopes);
-
-        return $this;
-    }
 
     protected function getAuthUrl($state): string
     {
@@ -41,7 +36,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->get(self::ID_USER_URL, [
             RequestOptions::HEADERS => [
-                'Accept' => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
             ],
         ]);
@@ -56,7 +51,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         $responseUser['email'] = $user['email'] ?? '';
         $responseUser['avatar'] = $user['picture'] ?? null;
 
-        return (new User())->setRaw($responseUser)->map([
+        return (new User)->setRaw($responseUser)->map([
             'id'        => $responseUser['id'],
             'name'      => $responseUser['name'],
             'email'     => $responseUser['email'],
