@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Socialite\TikTokShop;
+namespace SocialiteProviders\TikTokShop;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
