@@ -107,7 +107,7 @@ $socialUser = Socialite::driver('azure')
     ->user();
 ```
 
-If the application that you are authenticating against is anything other single tenant, use the following values in place of the client_id:
+If the application that you are authenticating against is anything other single tenant, use the following values in place of the tenant_id:
  - Multitenant applications: "organizations"
  - Multitenant and personal accounts: "common"
  - Personal accounts only: "consumers"
