@@ -28,7 +28,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('kakao', \SocialiteProviders\Kakao\Provider::class);
+    $event->extendSocialite('kakao', \SocialiteProviders\Kakao\KakaoProvider::class);
 });
 ```
 <details>
