@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/runsignup",
+    "description": "RunSignup/TicketSignup/GiveSignup OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "runsignup",
+		"ticketsignup",
+		"givesignup"
+    ],
+    "authors": [
+        {
+            "name": "Joel Peterson",
+            "email": "info@runsignup.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/runsignup"
+    },
+    "require": {
+        "php": "^8.0",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\RunSignup\\": ""
+        }
+    }
+}
