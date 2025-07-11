@@ -31,7 +31,7 @@ RUNSIGNUP_CLINET_SECRET=your_partner_center_app_secret
 RUNSIGNUP_REDIRECT_URI=https://yourapp.com/auth/runsignup/callback
 ```
 
-### Register an application
+### Register an Application
 1. Create a user on https://runsignup.com.
 2. Navigate to https://runsignup.com/Profile/OAuth2 and click `App Development`.
 3. Click the `Add Client` button and provide a name and a description. Additionally include the redirect URL that will be used in the integration.
@@ -40,8 +40,7 @@ RUNSIGNUP_REDIRECT_URI=https://yourapp.com/auth/runsignup/callback
 #### Test Environment
 RunSignup offers a separate test platform which replicates the production environment and is ideal for use while in development. To use the test environment follow the above steps to register an application and replace all usages of https://runsignup.com with https://test.runsignup.com. Additionally be sure to add `RUNSIGNUP_ENV=test` to your `.env`.
 
-
-### Add provider event listener
+### Add Provider Event Listener
 
 #### Laravel 11+
 
@@ -54,8 +53,6 @@ Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
     $event->extendSocialite('runsignup', \SocialiteProviders\RunSignup\Provider::class);
 });
 ```
-
-
 <details>
 <summary>
 Laravel 10 or below
