@@ -14,12 +14,12 @@ class Provider extends AbstractProvider
 
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase('https://ssl.reddit.com/api/v1/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://www.reddit.com/api/v1/authorize', $state);
     }
 
     protected function getTokenUrl(): string
     {
-        return 'https://ssl.reddit.com/api/v1/access_token';
+        return 'https://www.reddit.com/api/v1/access_token';
     }
 
     /**
