@@ -3,6 +3,7 @@
 namespace SocialiteProviders\LightspeedRetail;
 
 use GuzzleHttp\RequestOptions;
+use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\Contracts\OAuth2\ProviderInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
