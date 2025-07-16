@@ -13,6 +13,18 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    protected function getHttpClient()
+    {
+        return new \GuzzleHttp\Client([
+            'headers' => [
+                'User-Agent' => $this->config['user_agent'] ?? 'socialite-discogs',
+            ],
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function user()
     {
         if (! $this->hasNecessaryVerifier()) {
