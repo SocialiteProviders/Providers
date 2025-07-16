@@ -28,7 +28,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('discogs', \SocialiteProviders\Discogs\Provider::class);
+    $event->extendSocialite('discogs', \SocialiteProviders\Discogs\Provider::class ,\SocialiteProvider\Discogs\Server::class);
 });
 ```
 <details>
