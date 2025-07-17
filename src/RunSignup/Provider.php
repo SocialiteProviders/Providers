@@ -18,7 +18,7 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys(): array
     {
-        return ['rsu_env'];
+        return ['environment'];
     }
 
     /**
@@ -28,11 +28,11 @@ class Provider extends AbstractProvider
      */
     protected function getBaseUrl()
     {
-        $rsuEnv = $this->getConfig('rsu_env', 'prod');
+        $rsuEnv = $this->getConfig('environment', 'prod');
         if (! in_array($rsuEnv, ['prod', 'test'], true)) {
             throw new InvalidArgumentException('Invalid RSU environment value.');
         }
-        return 'https://'.($rsuEnv === 'prod' ? '' : 'test.').'runsignup.com';
+        return sprintf('https://%srunsignup.com', $rsuEnv === 'prod' ? '' : 'test.');
     }
 
     protected function getAuthUrl($state)
