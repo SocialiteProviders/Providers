@@ -12,7 +12,7 @@ class Provider extends AbstractProvider implements ProviderInterface
 {
     const IDENTIFIER = 'LIGHTSPEEDRETAIL';
 
-    protected $scopes = [''];
+    protected $scopes = [];
 
     /**
      * The domain prefix for the current OAuth flow.
@@ -95,12 +95,14 @@ class Provider extends AbstractProvider implements ProviderInterface
             $this->domainPrefix = $response['domain_prefix'];
         }
 
-        $user = $this->mapUserToObject($this->getUserByToken(
+        $userData = $this->getUserByToken(
             $token = $this->parseAccessToken($response)
-        ));
+        );
 
-        // Store domain prefix with the user
-        $user->domainPrefix = $this->domainPrefix;
+        // Add domain prefix to the raw user data
+        $userData['domain_prefix'] = $this->domainPrefix;
+
+        $user = $this->mapUserToObject($userData);
 
         return $user->setToken($token)
                     ->setRefreshToken($this->parseRefreshToken($response))

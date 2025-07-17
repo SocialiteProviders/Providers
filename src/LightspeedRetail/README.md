@@ -63,7 +63,6 @@ return Socialite::driver('lightspeedretail')->redirect();
 - ``nickname``
 - ``name``
 - ``email``
-- ``domainPrefix`` (specific to Lightspeed Retail - store this for API calls)
 
 ### Domain Prefix Management
 
@@ -72,7 +71,7 @@ Lightspeed Retail uses a domain prefix (e.g., `example` in `example.retail.light
 ```php
 // Get user with domain prefix
 $user = Socialite::driver('lightspeedretail')->user();
-$domainPrefix = $user->domainPrefix;
+$domainPrefix = $user->user['domain_prefix'];
 
 // Store domain prefix with tokens for future use
 $authUser = User::updateOrCreate([
@@ -81,7 +80,7 @@ $authUser = User::updateOrCreate([
     'name' => $user->name,
     'lightspeed_token' => $user->token,
     'lightspeed_refresh_token' => $user->refreshToken,
-    'lightspeed_domain_prefix' => $user->domainPrefix,
+    'lightspeed_domain_prefix' => $domainPrefix,
     'token_expires_at' => now()->addSeconds($user->expiresIn)
 ]);
 
