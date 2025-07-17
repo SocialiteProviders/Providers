@@ -15,10 +15,10 @@ First, add your RunSignup app credentials to `config/services.php`:
 
 ```php
 'runsignup' => [
-    'environment'        => env('RUNSIGNUP_ENV', 'prod'),		// RunSignup Environment (`prod`, `test`)
-    'client_id'      => env('RUNSIGNUP_CLIENT_ID'),			// Your Client ID
-    'client_secret'  => env('RUNSIGNUP_CLINET_SECRET'),		// Your Client Secret
-    'redirect'       => env('RUNSIGNUP_REDIRECT_URI'),		// Your Callback URI
+    'environment'    => env('RUNSIGNUP_ENV', 'prod'),       // RunSignup Environment (`prod`, `test`)
+    'client_id'      => env('RUNSIGNUP_CLIENT_ID'),         // Your Client ID
+    'client_secret'  => env('RUNSIGNUP_CLINET_SECRET'),     // Your Client Secret
+    'redirect'       => env('RUNSIGNUP_REDIRECT_URI'),      // Your Callback URI
 ],
 ```
 

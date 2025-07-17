@@ -8,8 +8,8 @@
         "provider",
         "socialite",
         "runsignup",
-		"ticketsignup",
-		"givesignup"
+        "ticketsignup",
+        "givesignup"
     ],
     "authors": [
         {
