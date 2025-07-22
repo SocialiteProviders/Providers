@@ -78,29 +78,6 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function user()
-    {
-        if ($this->hasInvalidState()) {
-            throw new InvalidStateException();
-        }
-
-        $response = $this->getAccessTokenResponse($this->getCode());
-
-        $user = $this->mapUserToObject($this->getUserByToken($response));
-
-        $this->credentialsResponseBody = $response;
-
-        if ($user instanceof User) {
-            $user->setAccessTokenResponseBody($this->credentialsResponseBody);
-        }
-
-        return $user->setToken($this->parseAccessToken($response))
-            ->setExpiresIn($this->parseExpiresIn($response));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
