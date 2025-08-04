@@ -159,6 +159,7 @@ parameters:
     src/Pipedrive: 'git@github.com:SocialiteProviders/Pipedrive.git'
     src/Pixnet: 'git@github.com:SocialiteProviders/Pixnet.git'
     src/PlanningCenter: 'git@github.com/SocialiteProviders/PlanningCenter.git'
+    src/PocketID: 'git@github.com:SocialiteProviders/PocketID.git'
     src/Podio: 'git@github.com:SocialiteProviders/Podio.git'
     src/Pr0gramm: 'git@github.com:SocialiteProviders/Pr0gramm.git'
     src/Procore: 'git@github.com:SocialiteProviders/Procore.git'
