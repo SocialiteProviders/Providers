@@ -28,7 +28,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('garmin-connect', \SocialiteProviders\GarminConnect\Provider::class);
+    $event->extendSocialite('garmin-connect', \SocialiteProviders\GarminConnect\Provider::class, \SocialiteProviders\GarminConnect\Server::class);
 });
 ```
 <details>
