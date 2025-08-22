@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/vkid",
+    "description": "VK ID OAuth2 Provider for Laravel Socialite",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "vkontakte",
+        "vkid"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir Kharinenkov",
+            "email": "vhar@mail.ru"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\VKID\\": ""
+        }
+    },
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/vkid"
+    }
+}

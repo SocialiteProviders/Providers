@@ -228,6 +228,7 @@ parameters:
     src/Unsplash: 'git@github.com:SocialiteProviders/Unsplash.git'
     src/Untappd: 'git@github.com:SocialiteProviders/Untappd.git'
     src/Usos: 'git@github.com:SocialiteProviders/Usos.git'
+    src/VKID: 'git@github.com:SocialiteProviders/VKID.git'
     src/VKontakte: 'git@github.com:SocialiteProviders/VKontakte.git'
     src/Vatsim: 'git@github.com:SocialiteProviders/Vatsim.git'
     src/Venmo: 'git@github.com:SocialiteProviders/Venmo.git'
