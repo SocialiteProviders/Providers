@@ -15,11 +15,11 @@
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.9",
-        "illuminate/http": "^11.0",
+        "illuminate/http": "^8.0",
         "laravel/pint": "^1.18",
         "php-parallel-lint/php-console-highlighter": "^1.0",
         "php-parallel-lint/php-parallel-lint": "^1.4",
-        "symplify/monorepo-builder": "^11.0"
+        "symplify/monorepo-builder": "^8.0"
     },
     "autoload": {
         "psr-4": {
