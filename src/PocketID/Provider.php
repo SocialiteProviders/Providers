@@ -11,7 +11,9 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'POCKETID';
 
-    protected $scopes = ['openid profile email'];
+    protected $scopes = ['openid', 'profile', 'email'];
+
+    protected $scopeSeparator = ' ';
 
     /**
      * {@inheritdoc}
