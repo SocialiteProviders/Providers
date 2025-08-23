@@ -1,0 +1,21 @@
+{
+    "name": "socialiteproviders/kommo",
+    "description": "Kommo OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rafael Girão",
+            "email": "rgiraon@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Kommo\\": ""
+        }
+    }
+}
