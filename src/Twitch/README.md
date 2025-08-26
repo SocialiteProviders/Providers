@@ -64,3 +64,4 @@ return Socialite::driver('twitch')->redirect();
 - ``name``
 - ``email``
 - ``avatar``
+- ``broadcaster_type``
