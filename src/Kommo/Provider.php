@@ -11,7 +11,7 @@ class Provider extends AbstractProvider
     /**
      * Unique Provider Identifier.
      */
-    public const string IDENTIFIER = 'KOMMO';
+    public const IDENTIFIER = 'KOMMO';
 
     /**
      * {@inheritdoc}
@@ -29,15 +29,7 @@ class Provider extends AbstractProvider
      */
     protected function getSubdomain()
     {
-        // Try to get subdomain from request parameters first
-        $subdomain = $this->request->get('subdomain');
-
-        if ($subdomain) {
-            return $subdomain;
-        }
-
-        // Fall back to config
-        return $this->getConfig('subdomain', 'yayforms');
+        return $this->getConfig('subdomain');
     }
 
     /**
@@ -52,8 +44,6 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
-     *
-     * @throws GuzzleException
      */
     protected function getUserByToken($token)
     {
