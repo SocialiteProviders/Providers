@@ -2,7 +2,6 @@
 
 namespace SocialiteProviders\Kommo;
 
-use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -12,6 +11,14 @@ class Provider extends AbstractProvider
      * Unique Provider Identifier.
      */
     public const IDENTIFIER = 'KOMMO';
+
+    /**
+     * Expose additional config keys supported by this provider.
+     */
+    public static function additionalConfigKeys(): array
+    {
+        return ['subdomain'];
+    }
 
     /**
      * {@inheritdoc}
@@ -25,11 +32,22 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Get the subdomain from config or request parameters
+     * Get the subdomain strictly from config.
+     *
+     * @return string
      */
     protected function getSubdomain()
     {
-        return $this->getConfig('subdomain');
+
+        $subdomain = (string) $this->getConfig('subdomain');
+
+        if ($subdomain === '') {
+            throw new \InvalidArgumentException(
+                'Missing Kommo subdomain configuration. Please set it in config/services.php [services.kommo.subdomain] or define the KOMMO_SUBDOMAIN environment variable.'
+            );
+        }
+
+        return $subdomain;
     }
 
     /**
