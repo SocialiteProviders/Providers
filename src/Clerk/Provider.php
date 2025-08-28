@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
             'nickname' => $user['username'] ?? ($user['given_name'] ?? null),
             'name' => $user['name'],
             'email' => $user['email'],
-            'avatar' => $user['picture'],
+            'avatar' => $user['picture'] ?? null,
         ]);
     }
 }
