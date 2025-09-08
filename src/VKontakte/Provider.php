@@ -20,16 +20,16 @@ class Provider extends AbstractProvider
     /**
      * Last API version.
      */
-    public const VERSION = '5.131';
+    public const VERSION = '5.199';
 
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase('https://oauth.vk.com/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://oauth.vk.ru/authorize', $state);
     }
 
     protected function getTokenUrl(): string
     {
-        return 'https://oauth.vk.com/access_token';
+        return 'https://oauth.vk.ru/access_token';
     }
 
     /**
@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
             $token = $token['access_token'];
         }
 
-        $response = $this->getHttpClient()->get('https://api.vk.com/method/users.get', [
+        $response = $this->getHttpClient()->get('https://api.vk.ru/method/users.get', [
             RequestOptions::QUERY => [
                 'access_token' => $token,
                 'fields'       => implode(',', $this->fields),

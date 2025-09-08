@@ -6,7 +6,7 @@ composer require socialiteproviders/vkid
 
 ## Register an application 
 
-Add new application at [vk.com](https://id.vk.com/about/business/go).
+Add new application at [vk.ru](https://id.vk.ru/about/business/go).
 
 ## Installation & Basic Usage
 
@@ -69,4 +69,4 @@ return Socialite::driver('vkid')->redirect();
 
 ### Reference
 
-- [VK ID Reference](https://id.vk.com/about/business/go/docs/ru/vkid/latest/methods)
+- [VK ID Reference](https://id.vk.ru/about/business/go/docs/ru/vkid/latest/methods)
