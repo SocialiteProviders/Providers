@@ -37,7 +37,7 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase('https://id.vk.com/authorize', $state);
+        return $this->buildAuthUrlFromBase('https://id.vk.ru/authorize', $state);
     }
 
     /**
@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function getTokenUrl()
     {
-        return 'https://id.vk.com/oauth2/auth';
+        return 'https://id.vk.ru/oauth2/auth';
     }
 
     /**
@@ -53,7 +53,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->post('https://id.vk.com/oauth2/user_info', [
+        $response = $this->getHttpClient()->post('https://id.vk.ru/oauth2/user_info', [
             RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => [
                 'access_token' => $token['access_token'],
