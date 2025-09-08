@@ -6,7 +6,7 @@ composer require socialiteproviders/vkontakte
 
 ## Register an application 
 
-Add new application at [vk.com](https://vk.com/editapp?act=create).
+Add new application at [vk.ru](https://vk.ru/editapp?act=create).
 
 ## Installation & Basic Usage
 
@@ -71,4 +71,4 @@ return Socialite::driver('vkontakte')->redirect();
 
 ### Reference
 
-- [Vk.com API Reference](https://vk.com/dev/methods)
+- [vk.ru API Reference](https://vk.ru/dev/methods)
