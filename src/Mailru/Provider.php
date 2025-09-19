@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Mailru;
 
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -43,7 +44,7 @@ class Provider extends AbstractProvider
     {
         return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
-            'nickname' => \Arr::get($user, 'nickname'),
+            'nickname' => Arr::get($user, 'nickname'),
             'name'     => $user['name'],
             'email'    => $user['email'],
             'avatar'   => $user['image'],
