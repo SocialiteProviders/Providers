@@ -63,3 +63,4 @@ return Socialite::driver('instagram')->redirect();
 - ``username``
 - ``account_type``
 - ``media_count``
+- ``avatar``
