@@ -1,0 +1,41 @@
+{
+    "name": "socialiteproviders/telegramwebapp",
+    "description": "Telegram WebApp Authentication Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "telegram",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "webapp",
+        "telegramwebapp"
+    ],
+    "authors": [
+        {
+            "name": "Kirill Kudryashov",
+            "email": "rouzoo.pro@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/telegramwebapp"
+    },
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "extra": {
+        "laravel": {
+            "aliases": {
+                "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\TelegramWebApp\\": ""
+        }
+    }
+}
