@@ -42,9 +42,7 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        $rawData = $this->request->getQueryString();
-        
-        parse_str($rawData, $data);
+        $data = $this->request->query();
         
         if (!$this->validateTelegramHash($data)) {
             throw new InvalidArgumentException('Invalid Telegram WebApp data');
@@ -63,12 +61,12 @@ class Provider extends AbstractProvider
         return $this->mapUserToObject($telegramUser);
     }
 
-    private function validateTelegramHash($data): bool
+    private function validateTelegramHash(array $data): bool
     {
         $sign = $data['hash'];
-    
+
         $checkString = collect($data)
-        ->except('hash')
+            ->except('hash')
             ->sortKeys()
             ->transform(fn ($v, $k) => "$k=$v")
             ->join("\n");
@@ -76,6 +74,6 @@ class Provider extends AbstractProvider
         $secret = hash_hmac('sha256', $this->clientSecret, 'WebAppData', true);
         $calculatedHash = bin2hex(hash_hmac('sha256', $checkString, $secret, true));
 
-        return $calculatedHash === $sign;
+        return  hash_equals($sign, $calculatedHash);
     }
 }

@@ -23,7 +23,7 @@
         "docs": "https://socialiteproviders.com/telegramwebapp"
     },
     "require": {
-        "php": "^7.2 || ^8.0",
+        "php": "^8.2",
         "socialiteproviders/manager": "^4.4"
     },
     "extra": {
