@@ -22,6 +22,24 @@ class Provider extends AbstractProvider
         return [];
     }
 
+    protected function getAuthUrl($state): string
+    {
+        return null;
+    }
+
+    protected function getTokenUrl(): string
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getUserByToken($token)
+    {
+        return null;
+    }
+
     /**
      * {@inheritdoc}
      */
