@@ -2,12 +2,9 @@
 
 namespace SocialiteProviders\Slack;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
-use Psr\Http\Message\ResponseInterface;
+use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -15,80 +12,121 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SLACK';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getScopes()
+    protected array $userScopes = ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
+
+    public function scopes($scopes)
     {
-        if (count($this->scopes) > 0) {
-            return $this->scopes;
+        $this->userScopes = array_unique(array_merge($this->userScopes, (array) $scopes));
+
+        return $this;
+    }
+
+    public function botScopes($scopes)
+    {
+        $this->scopes = array_unique(array_merge($this->scopes, (array) $scopes));
+
+        return $this;
+    }
+
+    public function setUserScopes($scopes)
+    {
+        $this->userScopes = (array) $scopes;
+
+        return $this;
+    }
+
+    protected function getCodeFields($state = null)
+    {
+        $fields = parent::getCodeFields($state);
+
+        if ($this->shouldUseOpenIdConnect()) {
+            $fields['scope'] = $this->formatScopes($this->userScopes, ' ');
+        } else {
+            $fields['user_scope'] = $this->formatScopes($this->userScopes, $this->scopeSeparator);
+            $fields['scope'] = $this->formatScopes($this->scopes, $this->scopeSeparator);
         }
 
-        // Provide some default scopes if the user didn't define some.
-        // See: https://github.com/SocialiteProviders/Providers/pull/53
-        return ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
+        return $fields;
     }
 
-    /**
-     * Middleware that throws exceptions for non successful slack api calls
-     * "http_error" request option is set to true.
-     *
-     * @return callable Returns a function that accepts the next handler.
-     */
-    private function getSlackApiErrorMiddleware()
+    public function user()
     {
-        return fn (callable $handler) => function ($request, array $options) use ($handler) {
-            if (empty($options['http_errors'])) {
-                return $handler($request, $options);
-            }
-
-            return $handler($request, $options)->then(
-                function (ResponseInterface $response) use ($request) {
-                    $body = json_decode((string) $response->getBody(), true);
-                    $response->getBody()->rewind();
-
-                    if ($body['ok']) {
-                        return $response;
-                    }
-
-                    throw RequestException::create($request, $response);
-                }
-            );
-        };
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getHttpClient()
-    {
-        $handler = HandlerStack::create();
-        $handler->push($this->getSlackApiErrorMiddleware(), 'slack_api_errors');
-
-        if ($this->httpClient === null) {
-            $this->httpClient = new Client(['handler' => $handler]);
+        if ($this->user) {
+            return $this->user;
         }
 
-        return $this->httpClient;
+        if ($this->hasInvalidState()) {
+            throw new InvalidStateException;
+        }
+
+        $response = $this->getAccessTokenResponse($this->getCode());
+
+        if ($this->shouldUseOpenIdConnect()) {
+            $token = Arr::get($response, 'access_token');
+        } else {
+            $token = Arr::get($response, 'authed_user.access_token');
+        }
+
+        $user = $this->getUserByToken($token);
+
+        /** @var User $userInstance */
+        $userInstance = $this->userInstance($response, $user);
+        $userInstance->setAccessTokenResponseBody($response);
+
+        return $userInstance;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function mapUserToObject(array $user)
     {
-        return $this->buildAuthUrlFromBase(
-            'https://slack.com/oauth/authorize',
-            $state
-        );
+        if ($this->usesOpenIdScopes()) {
+            $attributes = [
+                'id'              => Arr::get($user, 'sub'),
+                'name'            => Arr::get($user, 'name'),
+                'email'           => Arr::get($user, 'email'),
+                'avatar'          => Arr::get($user, 'picture'),
+                'organization_id' => Arr::get($user, 'https://slack.com/team_id'),
+            ];
+        } else {
+            $attributes = [
+                'id'              => Arr::get($user, 'user.id'),
+                'name'            => Arr::get($user, 'user.name'),
+                'email'           => Arr::get($user, 'user.email'),
+                'avatar'          => Arr::get($user, 'user.image_512'),
+                'organization_id' => Arr::get($user, 'team.id'),
+            ];
+        }
+
+        return (new User)->setRaw($user)->map($attributes);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    public function getAccessTokenResponse($code)
     {
-        return 'https://slack.com/api/oauth.access';
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            RequestOptions::HEADERS     => $this->getTokenHeaders($code),
+            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
+    }
+
+    public function getAuthUrl($state): string
+    {
+        if ($this->shouldUseOpenIdConnect()) {
+            $url = 'https://slack.com/openid/connect/authorize';
+        } else {
+            $url = 'https://slack.com/oauth/v2/authorize';
+        }
+
+        return $this->buildAuthUrlFromBase($url, $state);
+    }
+
+    protected function getTokenUrl(): string
+    {
+        if ($this->shouldUseOpenIdConnect()) {
+            return 'https://slack.com/api/openid.connect.token';
+        }
+
+        return 'https://slack.com/api/oauth.v2.access';
     }
 
     /**
@@ -96,44 +134,32 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        try {
-            $response = $this->getHttpClient()->get(
-                'https://slack.com/api/users.identity',
-                [
-                    RequestOptions::HEADERS => [
-                        'Authorization' => 'Bearer '.$token,
-                    ],
-                ]
-            );
-        } catch (RequestException $exception) {
-            // Getting user informations requires the "identity.*" scopes, however we might want to not add them to the
-            // scope list for various reasons. Instead of throwing an exception on this error, we return an empty user.
-
-            if ($exception->hasResponse()) {
-                $data = json_decode((string) $exception->getResponse()->getBody(), true);
-
-                if (Arr::get($data, 'error') === 'missing_scope') {
-                    return [];
-                }
-            }
-
-            throw $exception;
+        if ($this->usesOpenIdScopes()) {
+            $url = 'https://slack.com/api/openid.connect.userInfo';
+        } else {
+            $url = 'https://slack.com/api/users.identity';
         }
+
+        $response = $this->getHttpClient()->get($url, [
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
+        ]);
 
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function mapUserToObject(array $user)
+    protected function shouldUseOpenIdConnect(): bool
     {
-        return (new User())->setRaw($user)->map([
-            'id'              => Arr::get($user, 'user.id'),
-            'name'            => Arr::get($user, 'user.name'),
-            'email'           => Arr::get($user, 'user.email'),
-            'avatar'          => Arr::get($user, 'user.image_192'),
-            'organization_id' => Arr::get($user, 'team.id'),
-        ]);
+        return $this->usesOpenIdScopes() && empty($this->scopes);
+    }
+
+    protected function usesOpenIdScopes(): bool
+    {
+        $openidScopes = ['openid', 'email', 'profile'];
+        $identityScopes = ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
+
+        $hasOpenIdScopes = ! empty(array_intersect($this->userScopes, $openidScopes));
+        $hasIdentityScopes = ! empty(array_intersect($this->userScopes, $identityScopes));
+
+        return $hasOpenIdScopes && ! $hasIdentityScopes;
     }
 }

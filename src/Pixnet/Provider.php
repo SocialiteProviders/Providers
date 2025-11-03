@@ -13,18 +13,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PIXNET';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://emma.pixnet.cc/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://emma.pixnet.cc/oauth2/grant';
     }
@@ -43,7 +37,7 @@ class Provider extends AbstractProvider
 
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['account']['identity'],
             'nickname' => $user['account']['display_name'],
             'name'     => $user['account']['name'],

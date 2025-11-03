@@ -2,9 +2,11 @@
 
 namespace SocialiteProviders\Apple;
 
+use DateInterval;
 use Firebase\JWT\JWK;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -24,11 +26,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'APPLE';
 
-    private const URL = 'https://appleid.apple.com';
+    public const URL = 'https://appleid.apple.com';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'name',
         'email',
@@ -39,25 +38,31 @@ class Provider extends AbstractProvider
      */
     protected $encodingType = PHP_QUERY_RFC3986;
 
+    protected $scopeSeparator = ' ';
+
     /**
-     * The separating character for the requested scopes.
+     * JWT Configuration.
+     *
+     * @var ?Configuration
+     */
+    protected $jwtConfig = null;
+
+    /**
+     * Private Key.
      *
      * @var string
      */
-    protected $scopeSeparator = ' ';
+    protected $privateKey = '';
 
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase(self::URL.'/auth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return self::URL.'/auth/token';
     }
@@ -89,7 +94,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
+            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->getClientSecret())],
             RequestOptions::FORM_PARAMS    => $this->getTokenFields($code),
         ]);
 
@@ -101,10 +106,51 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        static::verify($token);
+        $this->checkToken($token);
         $claims = explode('.', $token)[1];
 
         return json_decode(base64_decode($claims), true);
+    }
+
+    protected function getClientSecret()
+    {
+        if (!$this->jwtConfig) {
+            $this->getJwtConfig(); // Generate Client Secret from private key if not set.
+        }
+
+        return $this->clientSecret;
+    }
+
+    protected function getJwtConfig()
+    {
+        if (!$this->jwtConfig) {
+            $private_key_path = $this->getConfig('private_key', '');
+            $private_key_passphrase = $this->getConfig('passphrase', '');
+            $signer = $this->getConfig('signer', '');
+
+            if (empty($signer) || !class_exists($signer)) {
+                $signer = !empty($private_key_path) ? \Lcobucci\JWT\Signer\Ecdsa\Sha256::class : AppleSignerNone::class;
+            }
+
+            if (!empty($private_key_path) && file_exists($private_key_path)) {
+                $this->privateKey = file_get_contents($private_key_path);
+            } else {
+                $this->privateKey = $private_key_path; // Support for plain text private keys
+            }
+
+            $this->jwtConfig = Configuration::forSymmetricSigner(
+                new $signer(),
+                AppleSignerInMemory::plainText($this->privateKey, $private_key_passphrase)
+            );
+
+            if (!empty($this->privateKey)) {
+                $appleToken = new AppleToken($this->getJwtConfig());
+                $this->clientSecret = $appleToken->generate();
+                config()->set('services.apple.client_secret', $this->clientSecret);
+            }
+        }
+
+        return $this->jwtConfig;
     }
 
     /**
@@ -124,23 +170,19 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Verify Apple jwt.
+     * Verify Apple JWT.
      *
      * @param  string  $jwt
      * @return bool
      *
      * @see https://appleid.apple.com/auth/keys
      */
-    public static function verify($jwt)
+    public function checkToken($jwt)
     {
-        $jwtContainer = Configuration::forSymmetricSigner(
-            new AppleSignerNone(),
-            AppleSignerInMemory::plainText('')
-        );
-        $token = $jwtContainer->parser()->parse($jwt);
+        $token = $this->getJwtConfig()->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
-            $response = (new Client())->get(self::URL.'/auth/keys');
+            $response = (new Client)->get(self::URL.'/auth/keys');
 
             return json_decode((string) $response->getBody(), true);
         });
@@ -151,13 +193,14 @@ class Provider extends AbstractProvider
         if (isset($publicKeys[$kid])) {
             $publicKey = openssl_pkey_get_details($publicKeys[$kid]->getKeyMaterial());
             $constraints = [
-                new SignedWith(new Sha256(), AppleSignerInMemory::plainText($publicKey['key'])),
+                new SignedWith(new Sha256, AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
-                new LooseValidAt(SystemClock::fromSystemTimezone()),
+                // fix for #1354
+                new LooseValidAt(SystemClock::fromSystemTimezone(), new DateInterval('PT3S')),
             ];
 
             try {
-                $jwtContainer->validator()->assert($token, ...$constraints);
+                $this->jwtConfig->validator()->assert($token, ...$constraints);
 
                 return true;
             } catch (RequiredConstraintsViolated $e) {
@@ -166,6 +209,25 @@ class Provider extends AbstractProvider
         }
 
         throw new InvalidStateException('Invalid JWT Signature');
+    }
+
+    /**
+     * Verify Apple jwt via static function.
+     *
+     * @param string $jwt
+     *
+     * @return bool
+     *
+     * @see https://appleid.apple.com/auth/keys
+     */
+    public static function verify($jwt)
+    {
+        return (new self(
+            new Request(),
+            config('services.apple.client_id'),
+            config('services.apple.client_secret'),
+            config('services.apple.redirect')
+        ))->checkToken($jwt);
     }
 
     /**
@@ -190,7 +252,7 @@ class Provider extends AbstractProvider
             }
 
             if ($this->hasInvalidState()) {
-                throw new InvalidStateException();
+                throw new InvalidStateException;
             }
         }
 
@@ -221,7 +283,7 @@ class Provider extends AbstractProvider
             );
         }
 
-        return (new User())
+        return (new User)
             ->setRaw($user)
             ->map([
                 'id'    => $user['sub'],
@@ -265,9 +327,9 @@ class Provider extends AbstractProvider
     public function revokeToken(string $token, string $hint = 'access_token')
     {
         return $this->getHttpClient()->post($this->getRevokeUrl(), [
-            RequestOptions::FORM_PARAMS    => [
+            RequestOptions::FORM_PARAMS => [
                 'client_id'       => $this->clientId,
-                'client_secret'   => $this->clientSecret,
+                'client_secret'   => $this->getClientSecret(),
                 'token'           => $token,
                 'token_type_hint' => $hint,
             ],
@@ -286,7 +348,7 @@ class Provider extends AbstractProvider
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function refreshToken(string $refreshToken): ResponseInterface
+    public function refreshToken($refreshToken): ResponseInterface
     {
         return $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::FORM_PARAMS => [
@@ -296,5 +358,13 @@ class Provider extends AbstractProvider
                 'refresh_token'   => $refreshToken,
             ],
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalConfigKeys()
+    {
+        return ['private_key', 'passphrase', 'signer'];
     }
 }

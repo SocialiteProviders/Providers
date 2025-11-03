@@ -11,31 +11,19 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'INSTRUCTURE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['url:GET|/api/v1/users/:user_id/profile'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceUrl().'/login/oauth2/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['instance_url'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getInstanceUrl().'/login/oauth2/token';
     }
@@ -59,7 +47,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => null,
             'name'     => $user['name'],

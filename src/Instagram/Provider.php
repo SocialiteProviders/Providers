@@ -8,14 +8,8 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'INSTAGRAM';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -23,28 +17,16 @@ class Provider extends AbstractProvider
      *
      * @var array
      */
-    protected $fields = ['account_type', 'id', 'username', 'media_count'];
+    protected $fields = ['account_type', 'id', 'username', 'media_count', 'profile_picture_url'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = ['user_profile'];
+    protected $scopes = ['instagram_business_basic'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://api.instagram.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://api.instagram.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.instagram.com/oauth/access_token';
     }
@@ -78,11 +60,12 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'            => $user['id'],
             'name'          => $user['username'],
             'account_type'  => $user['account_type'],
             'media_count'   => $user['media_count'] ?? null,
+            'avatar'        => $user['profile_picture_url'] ?? null,
         ]);
     }
 

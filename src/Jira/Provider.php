@@ -12,7 +12,7 @@ class Provider extends AbstractProvider
 
     protected function mapUserToObject(array $user)
     {
-        $userObject = new User();
+        $userObject = new User;
 
         if (isset($user['extra'])) {
             $userObject = $userObject->setRaw($user['extra']);
@@ -30,10 +30,7 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['base_uri', 'cert_path', 'cert_passphrase'];
     }

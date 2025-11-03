@@ -10,31 +10,16 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'LIVE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['User.Read User.ReadBasic.All'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://login.microsoftonline.com/common/oauth2/v2.0/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://login.microsoftonline.com/common/oauth2/v2.0/token';
     }
@@ -61,7 +46,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => null,
             'name'     => $user['displayName'],

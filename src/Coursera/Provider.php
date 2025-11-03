@@ -10,23 +10,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'COURSERA';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['view_profile'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://accounts.coursera.org/oauth2/v1/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://accounts.coursera.org/oauth2/v1/token';
     }
@@ -54,7 +45,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'     => $user['elements'][0]['id'], 'nickname' => null,
             'name'   => $user['elements'][0]['name'], 'email' => null,
             'avatar' => null,

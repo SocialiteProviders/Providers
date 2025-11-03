@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/klarna",
+    "description": "Klarna Oauth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "klarna",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Taher Dhilawala",
+            "email": "taher.dhilawala@klarna.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/klarna"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Klarna\\": ""
+        }
+    }
+}

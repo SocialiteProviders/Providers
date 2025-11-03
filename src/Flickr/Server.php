@@ -56,7 +56,7 @@ class Server extends BaseServer
         $data = $this->getProfile($data['user']['id']);
         $data = $data['person'];
 
-        $user = new User();
+        $user = new User;
         $user->id = $data['id'];
         $user->nickname = $data['username']['_content'];
         $user->name = Arr::get($data, 'realname._content');

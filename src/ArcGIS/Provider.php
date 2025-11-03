@@ -10,6 +10,15 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ARCGIS';
 
+    public static function additionalConfigKeys(): array
+    {
+        return [
+            'arcgis_host',
+            'arcgis_port',
+            'arcgis_directory',
+        ];
+    }
+
     protected function getBaseUrl()
     {
         $port = null === $this->getServerPort() ? '' : ':'.$this->getServerPort();
@@ -18,21 +27,12 @@ class Provider extends AbstractProvider
         return 'https://'.$this->getServerHost().$port.$subdirectory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            $this->getBaseUrl().'/sharing/rest/oauth2/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/sharing/rest/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getBaseUrl().'/sharing/rest/oauth2/token';
     }
@@ -60,7 +60,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['username'],
             'nickname' => $user['username'],
             'name'     => $user['fullName'],

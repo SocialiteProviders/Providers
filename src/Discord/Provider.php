@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'DISCORD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'identify',
         'email',
@@ -23,20 +20,11 @@ class Provider extends AbstractProvider
      */
     protected $consent = false;
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://discord.com/api/oauth2/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://discord.com/api/oauth2/authorize', $state);
     }
 
     /**
@@ -65,10 +53,7 @@ class Provider extends AbstractProvider
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://discord.com/api/oauth2/token';
     }
@@ -104,7 +89,7 @@ class Provider extends AbstractProvider
 
         $isGif = preg_match('/a_.+/m', $user['avatar']) === 1;
         $extension = $this->getConfig('allow_gif_avatars', true) && $isGif ? 'gif' :
-            $this->getConfig('avatar_default_extension', 'jpg');
+            $this->getConfig('avatar_default_extension', 'png');
 
         return sprintf('https://cdn.discordapp.com/avatars/%s/%s.%s', $user['id'], $user['avatar'], $extension);
     }
@@ -114,7 +99,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['username'].($user['discriminator'] !== '0' ? '#'.$user['discriminator'] : ''),
             'name'     => $user['username'],
@@ -123,10 +108,7 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['allow_gif_avatars', 'avatar_default_extension'];
     }

@@ -8,16 +8,10 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    public const IDENTIFIER = 'makerlog';
+    public const IDENTIFIER = 'MAKERLOG';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user:read user:email'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -30,21 +24,12 @@ class Provider extends AbstractProvider
         return 'https://api.getmakerlog.com';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            $this->baseUrl().'/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->baseUrl().'/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->baseUrl().'/oauth/token/';
     }
@@ -59,15 +44,14 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        // get the user
-        $response = $this->getHttpClient()->get(
-            $this->baseUrl().'/me/?format=json',
-            [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer '.$token,
-                ],
-            ]
-        );
+        $response = $this->getHttpClient()->get($this->baseUrl().'/me/', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'format' => 'json',
+            ],
+        ]);
 
         // parse the response and add the email address in.
         $result = json_decode((string) $response->getBody(), true);
@@ -81,7 +65,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['username'],
             'name'     => $user['first_name'].' '.$user['last_name'],

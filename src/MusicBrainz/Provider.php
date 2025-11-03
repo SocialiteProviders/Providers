@@ -10,14 +10,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MUSICBRAINZ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['profile'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -25,21 +19,12 @@ class Provider extends AbstractProvider
      */
     protected $usesPKCE = true;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://musicbrainz.org/oauth2/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://musicbrainz.org/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://musicbrainz.org/oauth2/token';
     }
@@ -66,7 +51,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'   => $user['metabrainz_user_id'],
             'name' => $user['sub'],
         ]);

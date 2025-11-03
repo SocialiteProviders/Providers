@@ -5,9 +5,9 @@
     "keywords": [
         "laravel",
         "oauth",
-        "subscribestar",
         "provider",
-        "socialite"
+        "socialite",
+        "subscribestar"
     ],
     "authors": [
         {

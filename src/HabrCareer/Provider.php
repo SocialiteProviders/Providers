@@ -10,18 +10,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'HABRCAREER';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected $stateless = true;
+
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://career.habr.com/integrations/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://career.habr.com/integrations/oauth/token';
     }
@@ -45,17 +41,12 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['login'],
             'nickname' => $user['login'],
             'name'     => trim($user['first_name'].' '.$user['last_name']),
             'email'    => $user['email'],
             'avatar'   => $user['avatar'],
         ]);
-    }
-
-    protected function isStateless()
-    {
-        return true;
     }
 }

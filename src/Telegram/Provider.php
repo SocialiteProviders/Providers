@@ -11,26 +11,17 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TELEGRAM';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['bot'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return null;
     }
@@ -80,7 +71,7 @@ class Provider extends AbstractProvider
     {
         $name = trim(sprintf('%s %s', $user['first_name'] ?? '', $user['last_name'] ?? ''));
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'        => $user['id'],
             'nickname'  => $user['username'] ?? $user['first_name'],
             'name'      => ! empty($name) ? $name : null,

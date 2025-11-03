@@ -16,20 +16,11 @@ class Provider extends AbstractProvider
 
     public const PROVIDER_NAME = 'salesloft';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://accounts.salesloft.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://accounts.salesloft.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return 'https://accounts.salesloft.com/oauth/token';
@@ -47,7 +38,7 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        $response = json_decode($response->getBody()->getContents(), true);
+        $response = json_decode((string) $response->getBody(), true);
 
         return $response['data'];
     }
@@ -57,7 +48,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user): User
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'    => $user['id'],
             'name'  => $user['name'],
             'email' => $user['email'],

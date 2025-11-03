@@ -16,10 +16,7 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['openid'];
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['base_url', 'realms'];
     }
@@ -29,18 +26,12 @@ class Provider extends AbstractProvider
         return rtrim(rtrim($this->getConfig('base_url'), '/').'/realms/'.$this->getConfig('realms', 'master'), '/');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/protocol/openid-connect/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getBaseUrl().'/protocol/openid-connect/token';
     }
@@ -64,7 +55,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'        => Arr::get($user, 'sub'),
             'nickname'  => Arr::get($user, 'preferred_username'),
             'name'      => Arr::get($user, 'name'),
@@ -84,7 +75,7 @@ class Provider extends AbstractProvider
      *
      * @throws InvalidArgumentException
      */
-    public function getLogoutUrl(string $redirectUri = null, string $clientId = null, string $idTokenHint = null, ...$additionalParameters): string
+    public function getLogoutUrl(?string $redirectUri = null, ?string $clientId = null, ?string $idTokenHint = null, ...$additionalParameters): string
     {
         $logoutUrl = $this->getBaseUrl().'/protocol/openid-connect/logout';
 

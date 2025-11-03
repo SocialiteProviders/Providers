@@ -22,6 +22,21 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ### Add provider event listener
 
+#### Laravel 11+
+
+In Laravel 11, the default `EventServiceProvider` provider was removed. Instead, add the listener using the `listen` method on the `Event` facade, in your `AppServiceProvider` `boot` method.
+
+* Note: You do not need to add anything for the built-in socialite providers unless you override them with your own providers.
+
+```php
+Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+    $event->extendSocialite('azure', \SocialiteProviders\Azure\Provider::class);
+});
+```
+<details>
+<summary>
+Laravel 10 or below
+</summary>
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
 Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
@@ -34,6 +49,7 @@ protected $listen = [
     ],
 ];
 ```
+</details>
 
 ### Usage
 
@@ -75,7 +91,7 @@ function getConfig(): \SocialiteProviders\Manager\Config
     env('AD_CLIENT_ID', 'some-client-id'), // a different clientID for this separate Azure directory
     env('AD_CLIENT_SECRET'), // a different secret for this separate Azure directory
     url(env('AD_REDIRECT_PATH', '/azuread/callback')), // the redirect path i.e. a different callback to the other azureAD callbacks
-    ['tenant' => env('AD_TENTANT_ID', 'common')], // this could be something special if need be, but can also be left out entirely
+    ['tenant' => env('AD_TENANT_ID', 'common')], // this could be something special if need be, but can also be left out entirely
   );
 }
 //....//
@@ -90,3 +106,8 @@ $socialUser = Socialite::driver('azure')
     ->setConfig(getConfig())
     ->user();
 ```
+
+If the application that you are authenticating against is anything other single tenant, use the following values in place of the tenant_id:
+ - Multitenant applications: "organizations"
+ - Multitenant and personal accounts: "common"
+ - Personal accounts only: "consumers"

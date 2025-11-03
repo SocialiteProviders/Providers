@@ -16,12 +16,11 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'AZUREADB2C';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
     ];
+
+    protected $scopeSeparator = ' ';
 
     /**
      * Get the policy.
@@ -109,21 +108,12 @@ class Provider extends AbstractProvider
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            $this->getOpenIdConfiguration()->authorization_endpoint,
-            $state
-        );
+        return $this->buildAuthUrlFromBase($this->getOpenIdConfiguration()->authorization_endpoint, $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getOpenIdConfiguration()->token_endpoint;
     }
@@ -176,7 +166,7 @@ class Provider extends AbstractProvider
                 throw new InvalidStateException('iss on id_token does not match issuer value on the OpenID configuration');
             }
             // aud validation
-            if (! str_contains($payloadJson['aud'], $this->config['client_id'])) {
+            if (! str_contains($payloadJson['aud'], $this->clientId)) {
                 throw new InvalidStateException('aud on id_token does not match the client_id for this application');
             }
             // exp validation
@@ -196,11 +186,11 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['sub'],
-            'nickname' => $user['name'],
-            'name'     => $user['name'],
-            'email'    => $user['emails'][0],
+            'nickname' => $user['name'] ?? null,
+            'name'     => $user['name'] ?? null,
+            'email'    => $user['emails'][0] ?? $user['email'] ?? null,
         ]);
     }
 
@@ -216,10 +206,7 @@ class Provider extends AbstractProvider
             .urlencode($post_logout_uri);
     }
 
-    /**
-     * @return array
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return [
             'domain',

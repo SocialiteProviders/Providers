@@ -10,35 +10,20 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'REKONO';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'profile',
         'email',
     ];
 
-    /**
-     * The separating character for the requested scopes.
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://idp.rekono.si/openid-connect-server-webapp/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://idp.rekono.si/openid-connect-server-webapp/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://idp.rekono.si/openid-connect-server-webapp/token';
     }
@@ -65,7 +50,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject($user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'    => $user['sub'],
             'name'  => $user['name'] ?? null,
             'email' => $user['email'],

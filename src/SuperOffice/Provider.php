@@ -10,19 +10,10 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'SUPEROFFICE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAuthUrl($state): string
     {
         return
@@ -35,9 +26,6 @@ class Provider extends AbstractProvider
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return sprintf(
@@ -64,12 +52,12 @@ class Provider extends AbstractProvider
             ]
         );
 
-        return (array) json_decode((string) $response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     protected function mapUserToObject(array $user): User
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['EjUserId'],
             'name'     => $user['FullName'],
             'email'    => $user['EMailAddress'],
@@ -77,9 +65,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return [

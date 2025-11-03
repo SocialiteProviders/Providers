@@ -24,19 +24,11 @@ class Provider extends AbstractProvider
 
     public const SCOPE_PROFILE = 'profile';
 
-    /**
-     * Adjust the available read / write attributes in cognito client app.
-     *
-     * {@inheritdoc}
-     */
     protected $scopes = [
         self::SCOPE_OPENID,
         self::SCOPE_PROFILE,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -49,17 +41,11 @@ class Provider extends AbstractProvider
         return $this->getConfig('host');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getCognitoUrl().'/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getCognitoUrl().'/oauth2/token';
@@ -87,7 +73,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['sub'] ?? null,
             'nickname' => $user['nickname'] ?? null,
             'name'     => trim(Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', '')),
@@ -104,7 +90,7 @@ class Provider extends AbstractProvider
     public function logoutCognitoUser(): string
     {
         $authHost = $this->getConfig('host');
-        $clientId = $this->getConfig('client_id');
+        $clientId = $this->clientId;
         $logoutUri = $this->getConfig('logout_uri');
 
         return sprintf('%s/logout?client_id=%s&logout_uri=%s', $authHost, $clientId, $logoutUri);
@@ -120,16 +106,13 @@ class Provider extends AbstractProvider
         $authHost = $this->getConfig('host');
 
         return sprintf('%s/logout?', $authHost).http_build_query([
-            'client_id'     => $this->getConfig('client_id'),
-            'redirect_uri'  => $this->getConfig('redirect'),
+            'client_id'     => $this->clientId,
+            'redirect_uri'  => $this->redirectUrl,
             'response_type' => 'code',
             'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return [

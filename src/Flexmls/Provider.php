@@ -45,18 +45,12 @@ class Provider extends AbstractProvider
         return json_decode((string) $response->getBody(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://sparkplatform.com/oauth2', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://sparkapi.com/v1/oauth2/grant';
     }
@@ -84,7 +78,7 @@ class Provider extends AbstractProvider
     {
         $profile = $user['D']['Results'][0];
 
-        return (new User())->setRaw($profile)->map([
+        return (new User)->setRaw($profile)->map([
             'id'       => $profile['Id'],
             'name'     => $profile['Name'],
             'email'    => $profile['Emails'][0]['Address'],

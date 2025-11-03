@@ -24,6 +24,6 @@ class Provider extends AbstractProvider
             $token = $token['tokenCredentials'];
         }
 
-        return (new User())->setToken($token->getIdentifier(), $token->getSecret());
+        return (new User)->setToken($token->getIdentifier(), $token->getSecret());
     }
 }

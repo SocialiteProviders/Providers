@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/nuvemshop",
+    "description": "Nuvemshop OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "nuvemshop",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "João Marcel",
+            "email": "jmarcel@redemidiainterativa.com.br"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/nuvemshop"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Nuvemshop\\": ""
+        }
+    }
+}

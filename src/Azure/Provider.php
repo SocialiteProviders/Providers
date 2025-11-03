@@ -16,43 +16,32 @@ class Provider extends AbstractProvider
      */
     protected $graphUrl = 'https://graph.microsoft.com/v1.0/me';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
     protected $scopes = ['User.Read'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrl().'/oauth2/v2.0/authorize', $state);
     }
 
     /**
-     * Return the logout endpoint with post_logout_redirect_uri query parameter.
+     * Return the logout endpoint with an optional post_logout_redirect_uri query parameter.
      *
-     * @param  string  $redirectUri
-     * @return string
+     * @param  string|null  $redirectUri  The URI to redirect to after logout, if provided.
+     *                                    If not provided, no post_logout_redirect_uri parameter will be included.
+     * @return string The logout endpoint URL.
      */
-    public function getLogoutUrl(string $redirectUri)
+    public function getLogoutUrl(?string $redirectUri = null)
     {
-        return $this->getBaseUrl()
-            .'/oauth2/logout?'
-            .http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
+        $logoutUrl = $this->getBaseUrl().'/oauth2/logout';
+
+        return $redirectUri === null ?
+            $logoutUrl :
+            $logoutUrl.'?'.http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getBaseUrl().'/oauth2/v2.0/token';
     }
@@ -89,7 +78,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'            => $user['id'],
             'nickname'      => null,
             'name'          => $user['displayName'],
@@ -125,10 +114,7 @@ class Provider extends AbstractProvider
         return 'https://login.microsoftonline.com/'.$this->getConfig('tenant', 'common');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['tenant', 'proxy'];
     }

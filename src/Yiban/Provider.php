@@ -15,9 +15,6 @@ class Provider extends AbstractProvider
      */
     protected $openId;
 
-    /**
-     * {@inheritdoc}.
-     */
     protected $scopes = ['snsapi_userinfo'];
 
     /**
@@ -51,18 +48,12 @@ class Provider extends AbstractProvider
         return 'https://openapi.yiban.cn/oauth/revoke_token';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://openapi.yiban.cn/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://openapi.yiban.cn/oauth/access_token';
     }
@@ -89,7 +80,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'        => $user['info']['yb_userid'],
             'name'      => $user['info']['yb_username'],
             'sex'       => $user['info']['yb_sex'],

@@ -30,18 +30,11 @@ class Provider extends AbstractProvider
         return $host;
     }
 
-    /**
-     * {@inheritdoc}
-     * Get the login URL, Links to IMIS SSO Client Application.
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getImisUrl().$this->clientId.'.aspx', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getTokenUrl(): string
     {
         return $this->getImisUrl().'/token';
@@ -95,7 +88,7 @@ class Provider extends AbstractProvider
 
         $user = $user['Items']['$values'][0];
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['sub'] ?? null,
             'nickname' => null,
             'name'     => trim(($user['given_name'] ?? '').' '.($user['family_name'] ?? '')),
@@ -104,9 +97,6 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return ['host'];

@@ -10,18 +10,10 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'LICHESS';
 
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
     protected $scopes = [
         'email:read',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -29,18 +21,12 @@ class Provider extends AbstractProvider
      */
     protected $usesPKCE = true;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://lichess.org/oauth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://lichess.org/api/token';
     }
@@ -103,7 +89,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'username' => $user['username'],
             'email'    => $user['email'],

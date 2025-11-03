@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/clickup",
+    "description": "ClickUp OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "clickup",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Luca Patera",
+            "email": "lucapatera@outlook.it",
+            "homepage": "https://wwww.lucapatera.it"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/clickup"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\ClickUp\\": ""
+        }
+    }
+}

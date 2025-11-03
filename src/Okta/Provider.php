@@ -28,18 +28,12 @@ class Provider extends AbstractProvider
 
     public const SCOPE_OFFLINE_ACCESS = 'offline_access';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         self::SCOPE_OPENID,
         self::SCOPE_PROFILE,
         self::SCOPE_EMAIL,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     protected function getOktaUrl()
@@ -69,26 +63,17 @@ class Provider extends AbstractProvider
         return $this->getOktaUrl().'/oauth2/'.$this->getAuthServerId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['base_url', 'auth_server_id'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getOktaServerUrl().'v1/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getOktaServerUrl().'v1/token';
     }
@@ -130,9 +115,9 @@ class Provider extends AbstractProvider
 
     /**
      * @param  string  $refreshToken
-     * @return array
+     * @return array|null
      */
-    public function getRefreshTokenResponse(string $refreshToken)
+    public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
@@ -152,7 +137,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'             => Arr::get($user, 'sub'),
             'email'          => Arr::get($user, 'email'),
             'email_verified' => Arr::get($user, 'email_verified', false),
@@ -173,7 +158,7 @@ class Provider extends AbstractProvider
      * @param  string|null  $state
      * @return string
      */
-    public function getLogoutUrl(string $idToken, string $redirectUri = null, string $state = null)
+    public function getLogoutUrl(string $idToken, ?string $redirectUri = null, ?string $state = null)
     {
         $url = $this->getOktaServerUrl().'v1/logout';
 

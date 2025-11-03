@@ -11,9 +11,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'VATSIM';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -37,18 +34,12 @@ class Provider extends AbstractProvider
         return 'auth.vatsim.net';
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://'.$this->getHostname().'/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://'.$this->getHostname().'/oauth/token';
     }
@@ -75,17 +66,21 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id'    => Arr::get($user, 'data.cid'),
-            'name'  => Arr::get($user, 'data.personal.name_full'),
-            'email' => Arr::get($user, 'data.personal.email'),
+        return (new User)->setRaw($user)->map([
+            'cid'          => Arr::get($user, 'data.cid'),
+            'first_name'   => Arr::get($user, 'data.personal.name_first'),
+            'last_name'    => Arr::get($user, 'data.personal.name_last'),
+            'full_name'    => Arr::get($user, 'data.personal.name_full'),
+            'rating'       => Arr::get($user, 'data.vatsim.rating.id'),
+            'pilot_rating' => Arr::get($user, 'data.vatsim.pilotrating.id'),
+            'region'       => Arr::get($user, 'data.vatsim.region.id'),
+            'division'     => Arr::get($user, 'data.vatsim.division.id'),
+            'subdivision'  => Arr::get($user, 'data.vatsim.subdivision.id'),
+
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['test'];
     }

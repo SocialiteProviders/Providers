@@ -10,9 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'HARID';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'profile',
@@ -20,15 +17,9 @@ class Provider extends AbstractProvider
         'session_type',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['use_test_idp'];
     }
@@ -43,18 +34,12 @@ class Provider extends AbstractProvider
         return (bool) $this->getConfig('use_test_idp', false) === true ? 'https://test.harid.ee/et' : 'https://harid.ee/et';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getEndpointBaseUrl().'/authorizations/new', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getEndpointBaseUrl().'/access_tokens';
     }
@@ -82,7 +67,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['sub'],
             'nickname' => $user['sub'],
             'name'     => $user['name'],

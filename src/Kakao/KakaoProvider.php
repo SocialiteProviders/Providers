@@ -11,23 +11,12 @@ class KakaoProvider extends AbstractProvider
 {
     public const IDENTIFIER = 'KAKAO';
 
-    /**
-     * Get the authentication URL for the provider.
-     *
-     * @param  string  $state
-     * @return string
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://kauth.kakao.com/oauth/authorize', $state);
     }
 
-    /**
-     * Get the token URL for the provider.
-     *
-     * @return string
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://kauth.kakao.com/oauth/token';
     }
@@ -75,7 +64,7 @@ class KakaoProvider extends AbstractProvider
         $validEmail = Arr::get($user, 'kakao_account.is_email_valid');
         $verifiedEmail = Arr::get($user, 'kakao_account.is_email_verified');
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'        => $user['id'],
             'nickname'  => Arr::get($user, 'properties.nickname'),
             'name'      => Arr::get($user, 'properties.nickname'),

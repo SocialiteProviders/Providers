@@ -6,13 +6,8 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class AutodeskAPSExtendSocialite
 {
-    /**
-     * Register the provider.
-     *
-     * @param  \SocialiteProviders\Manager\SocialiteWasCalled  $socialiteWasCalled
-     */
-    public function handle(SocialiteWasCalled $socialiteWasCalled)
+    public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {
-        $socialiteWasCalled->extendSocialite('aps', Provider::class);
+        $socialiteWasCalled->extendSocialite('autodeskaps', Provider::class);
     }
 }

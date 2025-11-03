@@ -61,6 +61,21 @@ configuration options at the same time.
 
 ### Add provider event listener
 
+#### Laravel 11+
+
+In Laravel 11, the default `EventServiceProvider` provider was removed. Instead, add the listener using the `listen` method on the `Event` facade, in your `AppServiceProvider` `boot` method.
+
+* Note: You do not need to add anything for the built-in socialite providers unless you override them with your own providers.
+
+```php
+Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+    $event->extendSocialite('saml2', \SocialiteProviders\Saml2\Provider::class);
+});
+```
+<details>
+<summary>
+Laravel 10 or below
+</summary>
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
 Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
@@ -73,6 +88,7 @@ protected $listen = [
     ],
 ];
 ```
+</details>
 
 ### Usage
 
@@ -160,6 +176,7 @@ SAML2 supports the signing and encryption of messages and assertions. Many Ident
   'sp_certificate' => file_get_contents('path/to/sp_saml.crt'),
   'sp_private_key' => file_get_contents('path/to/sp_saml.pem'),
   'sp_private_key_passphrase' => 'passphrase to your private key, provide it only if you have one',
+  'sp_sign_assertions' => true, // or false to disable assertion signing
 ],
 ```
 

@@ -10,11 +10,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'OAUTHGEN';
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
     /**
@@ -24,23 +19,14 @@ class Provider extends AbstractProvider
 
     protected $graphUrl = 'https://graph.oauthgen.com/api/v1';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['blaze.graph.me', 'noconsent'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->oauthUrl.'/oauth2/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->oauthUrl.'/oauth2/token';
     }
@@ -64,7 +50,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'name'     => $user['name'],
             'email'    => $user['email'],

@@ -10,21 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PODIO';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://podio.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://podio.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://podio.com/oauth/token';
     }
@@ -51,7 +42,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['profile']['user_id'],
             'nickname' => $user['profile']['name'], 'name' => null,
             'email'    => $user['profile']['mail'][0], 'avatar' => null,

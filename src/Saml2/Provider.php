@@ -128,7 +128,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     public function __construct(Request $request)
     {
         parent::__construct($request, '', '', '');
-        $this->messageContext = new MessageContext();
+        $this->messageContext = new MessageContext;
     }
 
     public function setConfig(ConfigInterface $config): Provider
@@ -140,9 +140,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function additionalConfigKeys(): array
     {
         return [
@@ -169,6 +166,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_org_url',
             'sp_default_binding_method',
             'sp_name_id_format',
+            'sp_sign_assertions',
             'idp_binding_method',
             'attribute_map',
         ];
@@ -191,13 +189,13 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->getFirstIdpSsoDescriptor()
             ->getFirstSingleSignOnService($bindingType);
 
-        $authnRequest = new AuthnRequest();
+        $authnRequest = new AuthnRequest;
         $authnRequest
             ->setID(Helper::generateID())
             ->setProtocolBinding($this->getDefaultAssertionConsumerServiceBinding())
-            ->setIssueInstant(new DateTime())
+            ->setIssueInstant(new DateTime)
             ->setDestination($identityProviderConsumerService->getLocation())
-            ->setNameIDPolicy((new NameIDPolicy())->setFormat($this->getNameIDFormat()))
+            ->setNameIDPolicy((new NameIDPolicy)->setFormat($this->getNameIDFormat()))
             ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()))
             ->setAssertionConsumerServiceURL($this->getServiceProviderAssertionConsumerUrl());
 
@@ -218,7 +216,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $logoutRequest = new LogoutRequest;
         $logoutRequest
             ->setID(Helper::generateID())
-            ->setIssueInstant(new DateTime())
+            ->setIssueInstant(new DateTime)
             ->setDestination($identityProviderConsumerService->getLocation())
             ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()))
             ->setNameID(new NameID($nameId));
@@ -238,15 +236,15 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->getFirstIdpSsoDescriptor()
             ->getFirstSingleLogoutService($bindingType);
 
-        $logoutResponse = new LogoutResponse();
+        $logoutResponse = new LogoutResponse;
         $logoutResponse
             ->setID(Helper::generateID())
             ->setInResponseTo($this->messageContext->getMessage()->getID())
             ->setRelayState($this->messageContext->getMessage()->getRelayState())
-            ->setIssueInstant(new DateTime())
+            ->setIssueInstant(new DateTime)
             ->setDestination($identityProviderLogoutService->getLocation())
             ->setIssuer(new Issuer($this->getServiceProviderEntityDescriptor()->getEntityID()))
-            ->setStatus((new Status())->setSuccess());
+            ->setStatus((new Status)->setSuccess());
 
         return $this->sendMessage($logoutResponse, $identityProviderLogoutService->getBinding());
     }
@@ -257,14 +255,14 @@ class Provider extends AbstractProvider implements SocialiteProvider
             $message->setSignature($this->signature($credential));
         }
 
-        $messageContext = new MessageContext();
+        $messageContext = new MessageContext;
         $messageContext->setMessage($message);
 
         if ($this->messageContext->getMessage() instanceof SamlMessage) {
             $messageContext->getMessage()->setRelayState($this->messageContext->getMessage()->getRelayState());
         }
 
-        $binding = (new BindingFactory())->create($bindingType);
+        $binding = (new BindingFactory)->create($bindingType);
 
         return $binding->send($messageContext);
     }
@@ -289,7 +287,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected function getIdpEntityDescriptorFromXml(string $xml): EntityDescriptor
     {
         /** @var EntitiesDescriptor|EntityDescriptor $metadata */
-        $metadata = Metadata::fromXML($xml, new DeserializationContext());
+        $metadata = Metadata::fromXML($xml, new DeserializationContext);
 
         if ($metadata instanceof EntityDescriptor) {
             return $metadata;
@@ -367,14 +365,16 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     public function getServiceProviderEntityDescriptor(): EntityDescriptor
     {
-        $spSsoDescriptor = new SpSsoDescriptor();
-        $spSsoDescriptor->setWantAssertionsSigned(true)->addNameIDFormat($this->getNameIDFormat());
+        $spSsoDescriptor = new SpSsoDescriptor;
+        $spSsoDescriptor
+            ->setWantAssertionsSigned((bool) $this->getConfig('sp_sign_assertions', true))
+            ->addNameIDFormat($this->getNameIDFormat());
 
         foreach ([SamlConstants::BINDING_SAML2_HTTP_REDIRECT, SamlConstants::BINDING_SAML2_HTTP_POST] as $binding) {
             $acsRoute = $this->getAssertionConsumerServiceRoute();
             if ($this->hasRouteBindingType($acsRoute, $binding)) {
                 $spSsoDescriptor->addAssertionConsumerService(
-                    (new AssertionConsumerService())
+                    (new AssertionConsumerService)
                         ->setIsDefault($binding === $this->getDefaultAssertionConsumerServiceBinding())
                         ->setBinding($binding)
                         ->setLocation(URL::to($acsRoute))
@@ -387,7 +387,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             }
         }
 
-        $entityDescriptor = new EntityDescriptor();
+        $entityDescriptor = new EntityDescriptor;
         $entityDescriptor->setID(Helper::generateID())
             ->setEntityID($this->getConfig('sp_entityid', URL::to('auth/saml2')))
             ->addItem($spSsoDescriptor);
@@ -401,7 +401,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         if ($this->getConfig('sp_org_name')) {
             $entityDescriptor->addOrganization(
-                (new Organization())->setLang($this->getConfig('sp_org_lang', 'en'))
+                (new Organization)->setLang($this->getConfig('sp_org_lang', 'en'))
                     ->setOrganizationDisplayName($this->getConfig('sp_org_display_name'))
                     ->setOrganizationName($this->getConfig('sp_org_name'))
                     ->setOrganizationURL($this->getConfig('sp_org_url'))
@@ -410,7 +410,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         if ($this->getConfig('sp_tech_contact_email')) {
             $entityDescriptor->addContactPerson(
-                (new ContactPerson())->setContactType('technical')
+                (new ContactPerson)->setContactType('technical')
                     ->setEmailAddress($this->getConfig('sp_tech_contact_email'))
                     ->setSurName($this->getConfig('sp_tech_contact_surname'))
                     ->setGivenName($this->getConfig('sp_tech_contact_givenname'))
@@ -481,7 +481,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function validateAssertion(): void
     {
-        $assertionValidator = new AssertionValidator(new NameIdValidator(), new SubjectValidator(new NameIdValidator()), new StatementValidator());
+        $assertionValidator = new AssertionValidator(new NameIdValidator, new SubjectValidator(new NameIdValidator), new StatementValidator);
         $assertionValidator->validateAssertion($this->getFirstAssertion());
     }
 
@@ -502,7 +502,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             new LocationCriteria($recipient),
         ]);
 
-        $endpoints = (new DescriptorTypeEndpointResolver())
+        $endpoints = (new DescriptorTypeEndpointResolver)
             ->resolve($criteriaSet, $this->getServiceProviderEntityDescriptor()->getAllEndpoints());
 
         if (empty($endpoints)) {
@@ -524,7 +524,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function validateTimestamps(): void
     {
-        (new AssertionTimeValidator())
+        (new AssertionTimeValidator)
             ->validateTimeRestrictions($this->getFirstAssertion(), Carbon::now()->timestamp, $this->getConfig('validation.clock_skew', 120));
     }
 
@@ -572,7 +572,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $this->ensureSuccessfulStatus();
 
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException();
+            throw new InvalidStateException;
         }
 
         $this->decryptAssertions();
@@ -587,7 +587,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $assertion = $this->getFirstAssertion();
         $attributeStatement = $assertion->getFirstAttributeStatement();
 
-        $this->user = new User();
+        $this->user = new User;
         $this->user->setAssertion($assertion);
         $this->user->map(['id' => $assertion->getSubject()->getNameID()->getValue()]);
 
@@ -623,18 +623,18 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function hasInvalidState(): bool
     {
-        if ($this->isStateless()) {
+        if ($this->stateless) {
             return false;
         }
 
         $state = $this->request->session()->pull('state');
 
-        return ! (strlen($state) > 0 && $state === $this->messageContext->getMessage()->getRelayState());
+        return $state === '' || $state !== $this->messageContext->getMessage()->getRelayState();
     }
 
     protected function receive(): void
     {
-        $bindingFactory = new BindingFactory();
+        $bindingFactory = new BindingFactory;
         $bindingType = $bindingFactory->detectBindingType($this->request);
         $bindingFactory->create($bindingType)->receive($this->request, $this->messageContext);
         $this->messageContext->setBindingType($bindingType);
@@ -654,17 +654,17 @@ class Provider extends AbstractProvider implements SocialiteProvider
             return;
         }
 
-        $assertion = $reader->decryptAssertion($credential->getPrivateKey(), new DeserializationContext());
+        $assertion = $reader->decryptAssertion($credential->getPrivateKey(), new DeserializationContext);
         $this->messageContext->asResponse()->addAssertion($assertion);
     }
 
     public function getServiceProviderMetadata(): Response
     {
         $entityDescriptor = $this->getServiceProviderEntityDescriptor();
-        $serializationContext = new SerializationContext();
+        $serializationContext = new SerializationContext;
         $entityDescriptor->serialize($serializationContext->getDocument(), $serializationContext);
 
-        return (new Response())
+        return (new Response)
             ->header('content-type', 'application/samlmetadata+xml')
             ->setContent($serializationContext->getDocument()->saveXML());
     }
@@ -703,7 +703,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function makeCertificate(?string $data): X509Certificate
     {
-        $cert = new X509Certificate();
+        $cert = new X509Certificate;
 
         if ($data === null) {
             return $cert;
@@ -736,24 +736,24 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return $format;
     }
 
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
-        throw new NotSupportedException();
+        throw new NotSupportedException;
     }
 
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        throw new NotSupportedException();
+        throw new NotSupportedException;
     }
 
     protected function getUserByToken($token)
     {
-        throw new NotSupportedException();
+        throw new NotSupportedException;
     }
 
     protected function mapUserToObject(array $user)
     {
-        throw new NotSupportedException();
+        throw new NotSupportedException;
     }
 
     protected function cacheKey(string $key): string

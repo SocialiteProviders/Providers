@@ -10,26 +10,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PINTEREST';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['user_accounts:read'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://www.pinterest.com/oauth/',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://www.pinterest.com/oauth/', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.pinterest.com/v5/oauth/token';
     }
@@ -56,7 +44,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map(
+        return (new User)->setRaw($user)->map(
             [
                 'id'       => $user['username'],
                 'nickname' => $user['username'],

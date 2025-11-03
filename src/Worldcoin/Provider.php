@@ -8,28 +8,16 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'WORLDCOIN';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://id.worldcoin.org/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://id.worldcoin.org/token';
     }
@@ -53,7 +41,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'              => $user['sub'],
             'likely_human'    => $user['https://id.worldcoin.org/beta']['likely_human'],
             'credential_type' => $user['https://id.worldcoin.org/beta']['credential_type'],

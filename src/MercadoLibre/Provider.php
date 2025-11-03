@@ -34,38 +34,23 @@ class Provider extends AbstractProvider
         'VE' => 'https://auth.mercadolibre.com.ve',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['offline_access', 'read'];
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['country'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $url = self::DOMAIN[$this->getConfig('country')] ?? 'https://auth.mercadolibre.com.ar';
 
         return $this->buildAuthUrlFromBase($url.'/authorization', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.mercadolibre.com/oauth/token';
     }
@@ -89,7 +74,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => $user['nickname'],
             'name'     => $user['first_name'].' '.$user['last_name'],

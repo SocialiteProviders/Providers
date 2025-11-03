@@ -11,9 +11,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'AUTH0';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'openid',
         'profile',
@@ -27,26 +24,17 @@ class Provider extends AbstractProvider
         return $this->getConfig('base_url');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['base_url'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getAuth0Url().'/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getAuth0Url().'/oauth/token';
     }
@@ -70,11 +58,11 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['sub'],
             'nickname' => $user['nickname'],
             'name'     => Arr::get($user, 'given_name', '').' '.Arr::get($user, 'family_name', ''),
-            'email'    => $user['email'],
+            'email'    => Arr::get($user, 'email'),
             'avatar'   => null,
         ]);
     }

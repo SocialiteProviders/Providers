@@ -10,18 +10,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'NOTION';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceUri().'oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getInstanceUri().'oauth/token';
     }
@@ -39,7 +33,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['bot_id'],
             'nickname' => $user['workspace_name'],
             'name'     => $user['workspace_name'],
@@ -58,7 +52,7 @@ class Provider extends AbstractProvider
                 'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
                 'Content-Type'  => 'application/json',
             ],
-            'json' => [
+            RequestOptions::JSON => [
                 'grant_type'   => 'authorization_code',
                 'code'         => $code,
                 'redirect_uri' => $this->redirectUrl,
@@ -73,10 +67,7 @@ class Provider extends AbstractProvider
         return $this->getConfig('instance_uri', 'https://api.notion.com/v1/');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['instance_uri'];
     }

@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Http\Client\Factory;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Zttp\Zttp;
+$http = new Factory;
 
 /**
  * Create a new repo with preset information.
@@ -10,11 +12,11 @@ use Zttp\Zttp;
 $repoName = $argv[1] ?? null;
 
 if (empty($repoName)) {
-    echo 'No name provided';
+    echo 'No name provided' . PHP_EOL;
     exit(1);
 }
 
-$res = Zttp::withHeaders([
+$res = $http->withHeaders([
     'Accept'        => 'application/vnd.github.v3+json',
     'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
 ])->post('https://api.github.com/orgs/SocialiteProviders/repos', [
@@ -24,17 +26,24 @@ $res = Zttp::withHeaders([
     'has_issues'  => false,
 ]);
 
-echo sprintf("Created Repo: %s, response: %s\n", ! $res->isOk() ? $res->body() : $res->json()['full_name'], $res->status());
+$responseData = $res->json();
+echo sprintf("Created Repo: %s, response: %s\n", $res->failed() ? $res->body() : ($responseData['full_name'] ?? 'Unknown'), $res->status());
 
-if (! $res->isOk()) {
+if ($res->failed()) {
     exit(1);
 }
 
-$res = Zttp::withHeaders([
-    'Accept'        => 'application/vnd.github.mercy-preview+json',
-    'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
-])->put($res->json()['url'].'/topics', [
-    'names' => ['laravel', 'oauth', 'socialite', 'oauth1', 'oauth2', 'socialite-providers', 'social-media'],
-]);
+$repoUrl = $responseData['url'] ?? null;
+if ($repoUrl) {
+    $res = $http->withHeaders([
+        'Accept'        => 'application/vnd.github.mercy-preview+json',
+        'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
+    ])->put($repoUrl.'/topics', [
+        'names' => ['laravel', 'oauth', 'socialite', 'oauth1', 'oauth2', 'socialite-providers', 'social-media'],
+    ]);
+} else {
+    echo "Warning: Could not get repository URL for topics update\n";
+    exit(1);
+}
 
 echo sprintf("Updated Repo Topics: %s, response code: %s\n", $repoName, $res->status());

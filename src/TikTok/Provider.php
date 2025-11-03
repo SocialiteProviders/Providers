@@ -16,9 +16,6 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'TIKTOK';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         'user.info.basic',
     ];
@@ -28,10 +25,7 @@ class Provider extends AbstractProvider
      */
     protected $user;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         $fields = [
             'client_key'    => $this->clientId,
@@ -56,7 +50,7 @@ class Provider extends AbstractProvider
         }
 
         if ($this->hasInvalidState()) {
-            throw new InvalidStateException();
+            throw new InvalidStateException;
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
@@ -98,12 +92,23 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
+        $fields = [
+            'open_id',
+            'union_id',
+            'display_name',
+            'avatar_large_url',
+        ];
+
+        if (in_array('user.info.profile', $this->scopes, true)) {
+            $fields[] = 'username';
+        }
+
         $response = $this->getHttpClient()->get('https://open.tiktokapis.com/v2/user/info/', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
             RequestOptions::QUERY => [
-                'fields' => 'open_id,union_id,display_name,avatar_large_url',
+                'fields' => implode(',', $fields),
             ],
         ]);
 
@@ -117,8 +122,9 @@ class Provider extends AbstractProvider
     {
         $user = $user['data']['user'];
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['open_id'],
+            'nickname' => $user['username'] ?? null,
             'union_id' => $user['union_id'] ?? null,
             'name'     => $user['display_name'],
             'avatar'   => $user['avatar_large_url'],

@@ -10,9 +10,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'GOVBR';
 
     public const SCOPE_OPENID = 'openid';
@@ -39,14 +36,8 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected $productionUrl = 'https://sso.acesso.gov.br';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         self::SCOPE_OPENID,
         self::SCOPE_EMAIL,
@@ -59,18 +50,12 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected $usesPKCE = true;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getBaseUrlForEnvironment().'/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getBaseUrlForEnvironment().'/token';
     }
@@ -94,7 +79,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'                    => $user['sub'],
             'cpf'                   => $user['sub'],
             'name'                  => $user['name'],
@@ -107,10 +92,7 @@ class Provider extends AbstractProvider implements ProviderInterface
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['environment'];
     }

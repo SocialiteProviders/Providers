@@ -10,32 +10,16 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MONDAY';
 
-    /**
-     * The scopes being requested.
-     *
-     * @var array
-     */
     protected $scopes = ['me:read'];
 
-    /**
-     * The separating character for the requested scopes.
-     *
-     * @var string
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://auth.monday.com/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://auth.monday.com/oauth2/token';
     }
@@ -98,7 +82,7 @@ GQL
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'     => $user['id'],
             'name'   => $user['name'],
             'email'  => $user['email'],

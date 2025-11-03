@@ -10,34 +10,19 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'ZENDESK';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['read'];
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['subdomain'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://'.$this->getSubdomain().'.zendesk.com/oauth/authorizations/new',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://'.$this->getSubdomain().'.zendesk.com/oauth/authorizations/new', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://'.$this->getSubdomain().'.zendesk.com/oauth/tokens';
     }
@@ -64,7 +49,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'    => $user['id'], 'nickname' => null, 'name' => $user['name'],
             'email' => $user['email'], 'avatar' => null,
         ]);
@@ -75,7 +60,7 @@ class Provider extends AbstractProvider
      *
      * @return string
      */
-    private function getSubdomain()
+    protected function getSubdomain()
     {
         return $this->getConfig('subdomain');
     }

@@ -12,23 +12,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'BITRIX24';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $scopes = [''];
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['endpoint'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getPortalUrl().'/oauth/authorize', $state);
     }
@@ -51,10 +40,7 @@ class Provider extends AbstractProvider
         return $endpoint;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://oauth.bitrix.info/oauth/token/';
     }
@@ -89,7 +75,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'    => $user['ID'],
             'name'  => trim($user['NAME'].' '.$user['LAST_NAME']),
             'email' => $user['EMAIL'],

@@ -13,23 +13,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'NEXTCLOUD';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getInstanceUri().'/apps/oauth2/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getInstanceUri().'/apps/oauth2/api/v1/token';
     }
@@ -39,9 +30,12 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getInstanceUri().'/ocs/v2.php/cloud/user?format=json', [
+        $response = $this->getHttpClient()->get($this->getInstanceUri().'/ocs/v2.php/cloud/user', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
+            ],
+            RequestOptions::QUERY => [
+                'format' => 'json',
             ],
         ]);
 
@@ -53,7 +47,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['ocs']['data']['id'],
             'nickname' => $user['ocs']['data']['id'],
             'name'     => $user['ocs']['data']['display-name'],
@@ -66,10 +60,7 @@ class Provider extends AbstractProvider
         return $this->getConfig('instance_uri');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['instance_uri'];
     }

@@ -11,21 +11,12 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'YAMMER';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://www.yammer.com/dialog/oauth',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://www.yammer.com/dialog/oauth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.yammer.com/oauth2/access_token.json';
     }
@@ -52,7 +43,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'     => $user['id'], 'nickname' => $user['name'],
             'name'   => $user['full_name'], 'email' => $user['email'],
             'avatar' => $user['mugshot_url'],

@@ -2,11 +2,7 @@
 
 namespace SocialiteProviders\LifeScienceLogin;
 
-use Exception;
 use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
-use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -15,54 +11,25 @@ use SocialiteProviders\Manager\OAuth2\User;
  */
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'LIFESCIENCELOGIN';
-
-    /**
-     * LifeScience Login config URL.
-     */
-    public const CONFIG_URL = 'https://proxy.aai.lifescience-ri.eu/.well-known/openid-configuration';
-
-    /**
-     * Cache key for the OpenID config.
-     */
-    public const CACHE_KEY = 'lslogin_openid_config';
 
     /**
      * {@inheritdoc}
      */
     protected $usesPKCE = true;
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['openid', 'email', 'profile'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        $config = $this->getOpenIdConfiguration();
-
-        return $this->buildAuthUrlFromBase($config->authorization_endpoint, $state);
+        return $this->buildAuthUrlFromBase('https://login.aai.lifescience-ri.eu/oidc/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
-        $config = $this->getOpenIdConfiguration();
-
-        return $config->token_endpoint;
+        return 'https://login.aai.lifescience-ri.eu/oidc/token';
     }
 
     /**
@@ -70,9 +37,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $config = $this->getOpenIdConfiguration();
-
-        $response = $this->getHttpClient()->get($config->userinfo_endpoint, [
+        $response = $this->getHttpClient()->get('https://login.aai.lifescience-ri.eu/oidc/userinfo', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -86,35 +51,12 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'          => $user['sub'],
             'name'        => $user['name'],
             'given_name'  => $user['given_name'],
             'family_name' => $user['family_name'],
             'email'       => $user['email'],
         ]);
-    }
-
-    /**
-     * Get OpenID Configuration.
-     *
-     * @return mixed
-     *
-     * @throws Laravel\Socialite\Two\InvalidStateException
-     */
-    private function getOpenIdConfiguration()
-    {
-        $expires = Carbon::now()->addHour();
-        $config = Cache::remember(self::CACHE_KEY, $expires, function () {
-            try {
-                $response = $this->getHttpClient()->get(self::CONFIG_URL);
-            } catch (Exception $e) {
-                throw new InvalidStateException("Error on getting OpenID Configuration. {$e}");
-            }
-
-            return json_decode($response->getBody());
-        });
-
-        return $config;
     }
 }

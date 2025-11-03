@@ -23,6 +23,21 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ### Add provider event listener
 
+#### Laravel 11+
+
+In Laravel 11, the default `EventServiceProvider` provider was removed. Instead, add the listener using the `listen` method on the `Event` facade, in your `AppServiceProvider` `boot` method.
+
+* Note: You do not need to add anything for the built-in socialite providers unless you override them with your own providers.
+
+```php
+Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled \$event) {
+    \$event->extendSocialite('%PROVIDER_ALIAS%', \SocialiteProviders\%PROVIDER%\Provider::class);
+});
+```
+<details>
+<summary>
+Laravel 10 or below
+</summary>
 Configure the package's listener to listen for `SocialiteWasCalled` events.
 
 Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
@@ -31,10 +46,11 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected \$listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        'SocialiteProviders\\\%PROVIDER%\\\%PROVIDER%ExtendSocialite@handle',
+        \SocialiteProviders\%PROVIDER%\%PROVIDER%ExtendSocialite::class.'@handle',
     ],
 ];
 ```
+</details>
 
 ### Usage
 
@@ -46,10 +62,11 @@ return Socialite::driver('%PROVIDER_ALIAS%')->redirect();
 
 DOC;
 
-$directories = array_map('basename', glob('../src'.'/*', GLOB_ONLYDIR));
+$providersDir = realpath(__DIR__.'/../src');
+$directories = array_map('basename', glob($providersDir.'/*', GLOB_ONLYDIR));
 
 foreach ($directories as $provider) {
-    $path = sprintf('%s/../src/%s/README.md', __DIR__, $provider);
+    $path = $providersDir.'/'.$provider.'/README.md';
     if (file_exists($path)) {
         continue;
     }

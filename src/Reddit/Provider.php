@@ -10,28 +10,16 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'REDDIT';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = ['identity'];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://ssl.reddit.com/api/v1/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://www.reddit.com/api/v1/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
-        return 'https://ssl.reddit.com/api/v1/access_token';
+        return 'https://www.reddit.com/api/v1/access_token';
     }
 
     /**
@@ -74,7 +62,7 @@ class Provider extends AbstractProvider
             $name = $user['subreddit']['title'];
         }
 
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'   => $user['id'], 'nickname' => $user['name'],
             'name' => $name, 'email' => null, 'avatar' => $avatar,
         ]);
@@ -120,10 +108,7 @@ class Provider extends AbstractProvider
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['platform', 'app_id', 'version_string'];
     }

@@ -10,26 +10,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'PROCORE';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(
-            'https://login.procore.com/oauth/authorize',
-            $state
-        );
+        return $this->buildAuthUrlFromBase('https://login.procore.com/oauth/authorize', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://login.procore.com/oauth/token';
     }
@@ -77,7 +65,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'       => $user['id'],
             'name'     => $user['name'],
             'email'    => $user['login'],

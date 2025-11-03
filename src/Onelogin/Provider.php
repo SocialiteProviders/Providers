@@ -9,9 +9,6 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    /**
-     * Unique Provider Identifier.
-     */
     public const IDENTIFIER = 'ONELOGIN';
 
     /**
@@ -31,9 +28,6 @@ class Provider extends AbstractProvider
 
     public const SCOPE_OFFLINE_ACCESS = 'offline_access';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $scopes = [
         self::SCOPE_OPENID,
         self::SCOPE_PROFILE,
@@ -42,10 +36,7 @@ class Provider extends AbstractProvider
 
     protected $scopeSeparator = ' ';
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function additionalConfigKeys()
+    public static function additionalConfigKeys(): array
     {
         return ['base_url'];
     }
@@ -55,18 +46,12 @@ class Provider extends AbstractProvider
         return $this->getConfig('base_url');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAuthUrl($state)
+    protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase($this->getOneloginUrl().'/auth', $state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->getOneloginUrl().'/token';
     }
@@ -108,9 +93,9 @@ class Provider extends AbstractProvider
 
     /**
      * @param  string  $refreshToken
-     * @return array
+     * @return array|null
      */
-    public function getRefreshTokenResponse(string $refreshToken)
+    public function getRefreshTokenResponse($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             RequestOptions::AUTH        => [$this->clientId, $this->clientSecret],
@@ -130,7 +115,7 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User())->setRaw($user)->map([
+        return (new User)->setRaw($user)->map([
             'id'                    => Arr::get($user, 'sub'),
             'email'                 => Arr::get($user, 'email'),
             'email_verified'        => Arr::get($user, 'email_verified', false),
@@ -152,7 +137,7 @@ class Provider extends AbstractProvider
      * @param  string|null  $state
      * @return string
      */
-    public function getLogoutUrl(string $idToken, string $redirectUri = null, bool $logout = true, string $state = null)
+    public function getLogoutUrl(string $idToken, ?string $redirectUri = null, bool $logout = true, ?string $state = null)
     {
         $url = $this->getOneloginUrl().'/logout';
 
