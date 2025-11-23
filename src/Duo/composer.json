@@ -1,0 +1,37 @@
+{
+    "name": "socialiteproviders/duo",
+    "description": "Duo SSO OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "duo",
+        "duo security",
+        "duo sso",
+        "laravel",
+        "oauth",
+        "oidc",
+        "openid",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Reno Philibert",
+            "email": "hello@reno.sh"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/duo"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Duo\\": ""
+        }
+    }
+}
