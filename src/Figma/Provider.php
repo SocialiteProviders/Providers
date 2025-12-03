@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'FIGMA';
 
-    protected $scopes = ['file_read'];
+    protected $scopes = ['file_content:read'];
 
     protected function getAuthUrl($state): string
     {
@@ -19,7 +19,7 @@ class Provider extends AbstractProvider
 
     protected function getTokenUrl(): string
     {
-        return 'https://www.figma.com/api/oauth/token';
+        return 'https://api.figma.com/v1/oauth/token';
     }
 
     /**
