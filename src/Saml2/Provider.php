@@ -765,8 +765,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function getState()
     {
-        return ! empty($this->parameters['RelayState'])
-            ? $this->parameters['RelayState']
-            : parent::getState();
+        return $this->parameters['RelayState'] ?? parent::getState();
     }
 }
