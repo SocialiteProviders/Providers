@@ -762,4 +762,11 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         return sprintf('socialite_saml2_%s_%s', $hash, $key);
     }
+
+    protected function getState()
+    {
+        return ! empty($this->parameters['RelayState'])
+            ? $this->parameters['RelayState']
+            : parent::getState();
+    }
 }
