@@ -22,7 +22,7 @@
         "docs": "https://socialiteproviders.com/tailscale"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.3",
         "ext-json": "*",
         "socialiteproviders/manager": "^4.4"
     },
