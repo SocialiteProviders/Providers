@@ -12,6 +12,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 
 ```php
 'pocketid' => [
+  'use_pkce' => env('POCKETID_USE_PKCE', false),
+  'base_url' => env('POCKETID_BASE_URL'),
   'client_id' => env('POCKETID_CLIENT_ID'),
   'client_secret' => env('POCKETID_CLIENT_SECRET'),
   'redirect' => env('POCKETID_REDIRECT_URI'),
