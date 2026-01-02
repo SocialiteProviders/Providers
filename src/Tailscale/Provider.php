@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\SocialiteProviders;
+namespace SocialiteProviders\Tailscale;
 
 use Illuminate\Support\Arr;
 use GuzzleHttp\RequestOptions;
