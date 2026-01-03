@@ -7,7 +7,7 @@ use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
-class Tailscale extends AbstractProvider
+class Provider extends AbstractProvider
 {
 	const IDENTIFIER = 'TAILSCALE';
 
