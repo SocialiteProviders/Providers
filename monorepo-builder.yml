@@ -118,6 +118,7 @@ parameters:
     src/LinkedIn: 'git@github.com:SocialiteProviders/LinkedIn.git'
     src/Live: 'git@github.com:SocialiteProviders/Microsoft-Live.git'
     src/LifeScienceLogin: 'git@github.com:SocialiteProviders/LifeScienceLogin.git'
+    src/LinuxDo: 'git@github.com:SocialiteProviders/LinuxDo.git'
     src/MailChimp: 'git@github.com:SocialiteProviders/MailChimp.git'
     src/Mailru: 'git@github.com:SocialiteProviders/Mailru.git'
     src/MakerLog: 'git@github.com:SocialiteProviders/MakerLog.git'
