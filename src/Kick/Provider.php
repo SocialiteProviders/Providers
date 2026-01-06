@@ -14,6 +14,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['user:read'];
 
+    protected $usesPKCE = true;
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://id.kick.com/oauth/authorize', $state);
