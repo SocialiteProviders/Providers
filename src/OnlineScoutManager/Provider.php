@@ -52,10 +52,10 @@ class Provider extends AbstractProvider
         $user_data = $user['data'];
 
         return (new User)->setRaw($user)->map([
-            'id'     => $user_data['user_id'],
-            'name'   => $user_data['full_name'],
-            'email'  => $user_data['email'],
-            'avatar' => $user_data['profile_picture_url'] ?? null,
+            'id'        => $user_data['user_id'],
+            'name'      => $user_data['full_name'],
+            'email'     => $user_data['email'],
+            'avatar'    => $user_data['profile_picture_url'] ?? null,
             'is_leader' => $user_data['has_section_access'] ?? false
         ]);
     }
