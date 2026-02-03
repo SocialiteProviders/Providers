@@ -8,6 +8,6 @@ class OnlineScoutManagerExtendSocialite
 {
     public function handle(SocialiteWasCalled $socialiteWasCalled): void
     {
-        $socialiteWasCalled->extendSocialite('osm', Provider::class);
+        $socialiteWasCalled->extendSocialite('onlinescoutmanager', Provider::class);
     }
 }

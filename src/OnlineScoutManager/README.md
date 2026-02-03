@@ -1,7 +1,7 @@
 # Online Scout Manager
 
 ```bash
-composer require socialiteproviders/osm
+composer require socialiteproviders/onlinescoutmanager
 ```
 
 ## Installation & Basic Usage
@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'osm' => [
+'onlinescoutmanager' => [
   'client_id' => env('OSM_CLIENT_ID'),
   'client_secret' => env('OSM_CLIENT_SECRET'),
   'redirect' => env('OSM_REDIRECT_URI'),
@@ -28,7 +28,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('osm', \SocialiteProviders\OnlineScoutManager\Provider::class);
+    $event->extendSocialite('onlinescoutmanager', \SocialiteProviders\OnlineScoutManager\Provider::class);
 });
 ```
 <details>
@@ -54,7 +54,7 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('osm')->redirect();
+return Socialite::driver('onlinescoutmanager')->redirect();
 ```
 
 ### Returned User fields

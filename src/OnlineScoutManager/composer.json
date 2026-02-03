@@ -1,5 +1,5 @@
 {
-    "name": "socialiteproviders/osm",
+    "name": "socialiteproviders/onlinescoutmanager",
     "description": "OnlineScoutManager OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
@@ -8,8 +8,7 @@
         "oauth2",
         "provider",
         "socialite",
-        "onlinescoutmanager",
-        "osm"
+        "onlinescoutmanager"
     ],
     "authors": [
         {
@@ -20,7 +19,7 @@
     "support": {
         "issues": "https://github.com/socialiteproviders/providers/issues",
         "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/osm"
+        "docs": "https://socialiteproviders.com/onlinescoutmanager"
     },
     "require": {
         "php": "^8.4",
