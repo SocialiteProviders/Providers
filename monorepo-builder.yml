@@ -144,6 +144,7 @@ parameters:
     src/Notion: 'git@github.com:SocialiteProviders/Notion.git'
     src/Nuvemshop: 'git@github.com:SocialiteProviders/Nuvemshop.git'
     src/OAuthgen: 'git@github.com:SocialiteProviders/OAuthgen.git'
+    src/OnlineScoutManager: 'git@github.com:SocialiteProviders/OnlineScoutManager.git'
     src/OSChina: 'git@github.com:SocialiteProviders/OSChina.git'
     src/Odnoklassniki: 'git@github.com:SocialiteProviders/Odnoklassniki.git'
     src/Okta: 'git@github.com:SocialiteProviders/Okta.git'
