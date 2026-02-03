@@ -27,7 +27,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getInstanceUri().'0/me.json', [
+        $response = $this->getHttpClient()->get($this->getInstanceUri().'api/me', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -52,7 +52,7 @@ class Provider extends AbstractProvider
 
     protected function getInstanceUri()
     {
-        return $this->getConfig('instance_uri', 'https://api.fablabs.io/');
+        return $this->getConfig('instance_uri', 'https://www.fablabs.io/');
     }
 
     public static function additionalConfigKeys(): array
