@@ -12,12 +12,12 @@ class AppleToken
     private string $clientId;
     private string $keyId;
 
-    public function __construct(Configuration $jwtConfig, string $teamId, string $clientId, string $keyId)
+    public function __construct(Configuration $jwtConfig, ?string $teamId = null, ?string $clientId = null, ?string $keyId = null)
     {
         $this->jwtConfig = $jwtConfig;
-        $this->teamId = $teamId;
-        $this->clientId = $clientId;
-        $this->keyId = $keyId;
+        $this->teamId = $teamId ?? config('services.apple.team_id');
+        $this->clientId = $clientId ?? config('services.apple.client_id');
+        $this->keyId = $keyId ?? config('services.apple.key_id');
     }
 
     public function generate(): string
