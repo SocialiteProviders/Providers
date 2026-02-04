@@ -153,6 +153,7 @@ parameters:
     src/Orcid: 'git@github.com:SocialiteProviders/Orcid.git'
     src/Ovh: 'git@github.com:SocialiteProviders/Ovh.git'
     src/Patreon: 'git@github.com:SocialiteProviders/Patreon.git'
+    src/Paymenter: 'git@github.com:SocialiteProviders/Paymenter.git'
     src/PayPal: 'git@github.com:SocialiteProviders/PayPal.git'
     src/PayPalSandbox: 'git@github.com:SocialiteProviders/PayPal-Sandbox.git'
     src/Paymill: 'git@github.com:SocialiteProviders/Paymill.git'
