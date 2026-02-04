@@ -56,7 +56,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->post('https://id.vk.ru/oauth2/user_info', [
             RequestOptions::HEADERS => ['Accept' => 'application/json'],
             RequestOptions::FORM_PARAMS => [
-                'access_token' => $token,
+                'access_token' => is_array($token) ? $token['access_token'] : $token,
                 'client_id' => $this->clientId,
             ],
         ]);
