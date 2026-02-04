@@ -16,6 +16,9 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_secret' => env('KANIDM_CLIENT_SECRET'),
   'redirect' => env('KANIDM_REDIRECT_URI'),
   'base_url' => env('KANIDM_BASE_URL'),
+
+  // Recommended for security reasons and is default for OAuth clients in Kanidm
+  'enable_pkce' => env('KANIDM_ENABLE_PKCE', true),
 ],
 ```
 

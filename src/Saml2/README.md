@@ -101,10 +101,24 @@ Route::get('/auth/redirect', function () {
 });
 ```
 
+(Optional) Initiate the auth flow with RelayState::
+```php
+Route::get('/auth/redirect', function () {
+    $redirectUrl = 'https://example.com/url-after-login';
+
+    return Socialite::driver('saml2')
+        ->with(['RelayState' => $redirectUrl])
+        ->redirect();
+});
+```
+
 To receive the callback:
 ```php
 Route::get('/auth/callback', function () {
     $user = Socialite::driver('saml2')->user();
+    
+    // Optional: retrieve RelayState if it was provided
+    $relayState = request()->get('RelayState');
 });
 ```
 

@@ -11,6 +11,8 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'AUTHENTIK';
 
+    protected $scopeSeparator = ' ';
+    
     protected $scopes = ['openid goauthentik.io/api profile email'];
 
     public static function additionalConfigKeys(): array

@@ -34,12 +34,20 @@ class Provider extends AbstractProvider
             throw new InvalidArgumentException('Missing base URL value.');
         }
 
+        /**
+         * PKCE is the default in recent versions of Kanidm, and heavily encouraged
+         * to be enforced whenever possible.
+         */
+        if (!$this->usesPKCE() && $this->getConfig('enable_pkce')) {
+            $this->enablePKCE();
+        }
+
         return $baseUrl;
     }
 
     public static function additionalConfigKeys(): array
     {
-        return ['base_url'];
+        return ['base_url', 'enable_pkce'];
     }
 
     protected function getAuthUrl($state): string
