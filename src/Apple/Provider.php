@@ -365,6 +365,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['private_key', 'passphrase', 'signer'];
+        return ['private_key', 'passphrase', 'signer', 'team_id', 'key_id'];
     }
 }
