@@ -66,5 +66,4 @@ return Socialite::driver('fablabs')->redirect();
 
 ### Reference
 
-- [Fablabs.io](https://fablabs.io/);
-- [OAuth authorization Docs](https://docs.fablabs.io/);
+- [Fablabs.io](https://www.fablabs.io/oauth/applications) (Login and go to the Developer Console)

@@ -17,7 +17,7 @@ class Provider extends AbstractProvider
      *
      * @var array
      */
-    protected $fields = ['account_type', 'id', 'username', 'media_count'];
+    protected $fields = ['account_type', 'id', 'username', 'media_count', 'profile_picture_url'];
 
     protected $scopes = ['instagram_business_basic'];
 
@@ -65,6 +65,7 @@ class Provider extends AbstractProvider
             'name'          => $user['username'],
             'account_type'  => $user['account_type'],
             'media_count'   => $user['media_count'] ?? null,
+            'avatar'        => $user['profile_picture_url'] ?? null,
         ]);
     }
 

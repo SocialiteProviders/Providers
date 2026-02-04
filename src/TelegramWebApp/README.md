@@ -1,24 +1,28 @@
-# VK ID
+# TelegramWebApp
 
 ```bash
-composer require socialiteproviders/vkid
+composer require socialiteproviders/telegramwebapp
 ```
-
-## Register an application 
-
-Add new application at [vk.ru](https://id.vk.ru/about/business/go).
 
 ## Installation & Basic Usage
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
 
-### Add configuration to `config/services.php`
+## Configuration
+
+First of all, you must create a bot by contacting [@BotFather](http://t.me/BotFather) (https://core.telegram.org/bots#6-botfather)
+
+Next you must add WebApp script to your page, please see the [Initializing Mini Apps Guide](https://core.telegram.org/bots/webapps#initializing-mini-apps).
+
+> Don't forget to set your website URL using `/setdomain`
+
+Then, you need to add your bot's configuration to `config/services.php`. The bot username is required, `client_id` must be `null`. The provider will also ask permission for the bot to write to the user.
 
 ```php
-'vkid' => [
-  'client_id' => env('VKID_CLIENT_ID'),
-  'client_secret' => env('VKID_CLIENT_SECRET'),
-  'redirect' => env('VKID_REDIRECT_URI')
+'telegramwebapp' => [
+    'client_id' => null,
+    'client_secret' => env('TELEGRAM_TOKEN'),
+    'redirect' => env('TELEGRAM_REDIRECT_URI'),
 ],
 ```
 
@@ -32,7 +36,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('vkid', \SocialiteProviders\VKID\Provider::class);
+    $event->extendSocialite('telegramwebapp', \SocialiteProviders\TelegramWebApp\Provider::class);
 });
 ```
 <details>
@@ -47,7 +51,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\VKID\VKIDExtendSocialite::class.'@handle',
+        \SocialiteProviders\TelegramWebApp\TelegramWebAppExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -58,15 +62,13 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('vkid')->redirect();
+return Socialite::driver('telegramwebapp')->redirect();
 ```
 
 ### Returned User fields
+
 - ``id``
-- ``name``
-- ``email``
-- ``avatar``
-
-### Reference
-
-- [VK ID Reference](https://id.vk.ru/about/business/go/docs/ru/vkid/latest/methods)
+- ``first_name``
+- ``last_name``
+- ``username``
+- ``photo_url``

@@ -1,12 +1,12 @@
-# VK ID
+# Tailscale (tsidp)
 
 ```bash
-composer require socialiteproviders/vkid
+composer require socialiteproviders/tailscale
 ```
 
-## Register an application 
+## Prerequisites
 
-Add new application at [vk.ru](https://id.vk.ru/about/business/go).
+Install [Tailscale OpenID Connect (OIDC) Identity Provider (tsidp)](https://github.com/tailscale/tsidp) and make it available on your Tailscale network.
 
 ## Installation & Basic Usage
 
@@ -15,10 +15,11 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'vkid' => [
-  'client_id' => env('VKID_CLIENT_ID'),
-  'client_secret' => env('VKID_CLIENT_SECRET'),
-  'redirect' => env('VKID_REDIRECT_URI')
+'tailscale' => [
+  'base_url' => env('TAILSCALE_BASE_URL'),
+  'client_id' => env('TAILSCALE_CLIENT_ID'),
+  'client_secret' => env('TAILSCALE_CLIENT_SECRET'),
+  'redirect' => env('TAILSCALE_REDIRECT_URI'),
 ],
 ```
 
@@ -32,7 +33,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('vkid', \SocialiteProviders\VKID\Provider::class);
+    $event->extendSocialite('tailscale', \SocialiteProviders\Tailscale\Provider::class);
 });
 ```
 <details>
@@ -47,7 +48,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\VKID\VKIDExtendSocialite::class.'@handle',
+        \SocialiteProviders\Tailscale\TailscaleExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -58,15 +59,12 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('vkid')->redirect();
+return Socialite::driver('tailscale')->redirect();
 ```
 
 ### Returned User fields
+
 - ``id``
-- ``name``
 - ``email``
-- ``avatar``
-
-### Reference
-
-- [VK ID Reference](https://id.vk.ru/about/business/go/docs/ru/vkid/latest/methods)
+- ``name``
+- ``username`` (same as `name`)

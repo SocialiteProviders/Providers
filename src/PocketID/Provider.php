@@ -20,8 +20,13 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['base_url'];
+        return ['base_url', 'use_pkce'];
     }
+
+  	protected function usesPKCE()
+	{
+		return $this->getConfig('use_pkce') == true ? true : false;
+	}
 
     protected function getBaseUrl()
     {
