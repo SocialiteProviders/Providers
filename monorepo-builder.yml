@@ -210,6 +210,7 @@ parameters:
     src/Teamleader: 'git@github.com:SocialiteProviders/Teamleader.git'
     src/Teamweek: 'git@github.com:SocialiteProviders/Teamweek.git'
     src/Telegram: 'git@github.com:SocialiteProviders/Telegram.git'
+    src/TelegramWebApp: 'git@github.com:SocialiteProviders/TelegramWebApp.git'
     src/Tailscale: 'git@github.com:SocialiteProviders/Tailscale.git'
     src/ThirtySevenSignals: 'git@github.com:SocialiteProviders/37Signals.git'
     src/Threads: 'git@github.com:SocialiteProviders/Threads.git'
