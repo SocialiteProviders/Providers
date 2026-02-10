@@ -1,0 +1,38 @@
+{
+    "name": "socialiteproviders/oneid",
+    "description": "OneID (Uzbekistan SSO) provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "provider",
+        "laravel",
+        "socialite",
+        "socialiteproviders",
+        "oneid",
+        "oauth",
+        "oauth2",
+        "uzbekistan",
+        "sso"
+    ],
+    "authors": [
+        {
+            "name": "aslnbxrz",
+            "email": "bexruz.aslonov1@gmail.com",
+            "homepage": "https://aslonov.uz",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/oneid"
+    },
+    "require": {
+        "php": "^8.0",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aslnbxrz\\OneID\\": ""
+        }
+    }
+}
