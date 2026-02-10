@@ -226,6 +226,7 @@ parameters:
     src/TwentyThreeAndMe: 'git@github.com:SocialiteProviders/23andme.git'
     src/TwitCasting: 'git@github.com:SocialiteProviders/TwitCasting.git'
     src/Twitch: 'git@github.com:SocialiteProviders/Twitch.git'
+    src/Trovo: 'git@github.com:SocialiteProviders/Trovo.git'
     src/Twitter: 'git@github.com:SocialiteProviders/Twitter.git'
     src/UAEPass: 'git@github.com:SocialiteProviders/UAEPass.git'
     src/UCL: 'git@github.com:SocialiteProviders/UCL.git'
