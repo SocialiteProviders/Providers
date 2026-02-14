@@ -16,6 +16,14 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'MICROSOFT';
 
+    private const OPENID_CONFIGURATION_CACHE_TTL_SECONDS = 3600;
+
+    private const JWKS_CACHE_TTL_SECONDS = 300;
+
+    private mixed $openIdConfiguration = null;
+
+    private ?array $jwtKeys = null;
+
     /**
      * The tenant id associated with personal Microsoft accounts (services like Xbox, Teams for Life, or Outlook).
      * Note: only reported in JWT ID_TOKENs and not in call's to Graph Organization endpoint.
@@ -90,7 +98,7 @@ class Provider extends AbstractProvider
 
         return $redirectUri === null ?
             $logoutUrl :
-            $logoutUrl.'?'.http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
+            $logoutUrl . '?' . http_build_query(['post_logout_redirect_uri' => $redirectUri], '', '&', $this->encodingType);
     }
 
     /**
@@ -103,7 +111,7 @@ class Provider extends AbstractProvider
             [
                 RequestOptions::HEADERS => [
                     'Accept'        => 'application/json',
-                    'Authorization' => 'Bearer '.$token,
+                    'Authorization' => 'Bearer ' . $token,
                 ],
                 RequestOptions::QUERY => [
                     '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_USER, $this->getConfig('fields', []))),
@@ -122,7 +130,7 @@ class Provider extends AbstractProvider
                     [
                         RequestOptions::HEADERS => [
                             'Accept'        => 'image/jpg',
-                            'Authorization' => 'Bearer '.$token,
+                            'Authorization' => 'Bearer ' . $token,
                         ],
                         RequestOptions::PROXY => $this->getConfig('proxy'),
                     ]
@@ -130,7 +138,7 @@ class Provider extends AbstractProvider
 
                 $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents()) ?? null;
             } catch (ClientException) {
-                //if exception then avatar does not exist.
+                // if exception then avatar does not exist.
                 $formattedResponse['avatar'] = null;
             }
         }
@@ -144,7 +152,7 @@ class Provider extends AbstractProvider
                 [
                     RequestOptions::HEADERS => [
                         'Accept'        => 'application/json',
-                        'Authorization' => 'Bearer '.$token,
+                        'Authorization' => 'Bearer ' . $token,
                     ],
                     RequestOptions::QUERY => [
                         '$select' => implode(',', array_merge(self::DEFAULT_FIELDS_TENANT, $this->getConfig('tenant_fields', []))),
@@ -200,7 +208,6 @@ class Provider extends AbstractProvider
 
             'tenant' => Arr::get($user, 'tenant'),
         ]);
-
     }
 
     /**
@@ -237,7 +244,6 @@ class Provider extends AbstractProvider
         if ($idToken = $this->parseIdToken($this->credentialsResponseBody)) {
 
             $claims = $this->validate($idToken);
-
         }
 
         return $claims?->roles ?? [];
@@ -283,11 +289,53 @@ class Provider extends AbstractProvider
      */
     private function getJWTKeys(): array
     {
-        $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri, [
-            RequestOptions::PROXY => $this->getConfig('proxy'),
-        ]);
-        
-        return json_decode((string) $response->getBody(), true);
+        return $this->getJWTKeysWithCache(false);
+    }
+
+    /**
+     * Get public keys to verify id_token from jwks_uri, optionally forcing a refresh.
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function getJWTKeysWithCache(bool $forceRefresh): array
+    {
+        if (! $forceRefresh && $this->jwtKeys !== null) {
+            return $this->jwtKeys;
+        }
+
+        $jwksUri = $this->getOpenIdConfiguration()->jwks_uri;
+        $cacheKey = 'socialite:microsoft:jwks:' . sha1((string) $jwksUri);
+
+        $fetch = function () use ($jwksUri, $forceRefresh) {
+            $options = [
+                RequestOptions::PROXY => $this->getConfig('proxy'),
+            ];
+
+            if ($forceRefresh) {
+                $options[RequestOptions::HEADERS] = [
+                    'Cache-Control' => 'no-cache',
+                    'Pragma'        => 'no-cache',
+                ];
+            }
+
+            $response = $this->getHttpClient()->get($jwksUri, $options);
+
+            return json_decode((string) $response->getBody(), true);
+        };
+
+        if (class_exists(\Illuminate\Support\Facades\Cache::class)) {
+            if ($forceRefresh) {
+                \Illuminate\Support\Facades\Cache::forget($cacheKey);
+            }
+
+            $this->jwtKeys = \Illuminate\Support\Facades\Cache::remember($cacheKey, self::JWKS_CACHE_TTL_SECONDS, $fetch);
+
+            return $this->jwtKeys;
+        }
+
+        $this->jwtKeys = $fetch();
+
+        return $this->jwtKeys;
     }
 
     /**
@@ -299,6 +347,10 @@ class Provider extends AbstractProvider
      */
     private function getOpenIdConfiguration(): mixed
     {
+        if ($this->openIdConfiguration !== null) {
+            return $this->openIdConfiguration;
+        }
+
         try {
             // URI Discovery Mechanism for the Provider Configuration URI
             //
@@ -306,12 +358,26 @@ class Provider extends AbstractProvider
             //
             $discovery = sprintf('https://login.microsoftonline.com/%s/v2.0/.well-known/openid-configuration', $this->getConfig('tenant', 'common'));
 
+            $cacheKey = 'socialite:microsoft:openid:' . sha1((string) $discovery);
+
+            if (class_exists(\Illuminate\Support\Facades\Cache::class)) {
+                $this->openIdConfiguration = \Illuminate\Support\Facades\Cache::remember($cacheKey, self::OPENID_CONFIGURATION_CACHE_TTL_SECONDS, function () use ($discovery) {
+                    $response = $this->getHttpClient()->get($discovery, [RequestOptions::PROXY => $this->getConfig('proxy')]);
+
+                    return json_decode((string) $response->getBody());
+                });
+
+                return $this->openIdConfiguration;
+            }
+
             $response = $this->getHttpClient()->get($discovery, [RequestOptions::PROXY => $this->getConfig('proxy')]);
         } catch (Exception $ex) {
             throw new InvalidStateException("Error on getting OpenID Configuration. {$ex}");
         }
 
-        return json_decode((string) $response->getBody());
+        $this->openIdConfiguration = json_decode((string) $response->getBody());
+
+        return $this->openIdConfiguration;
     }
 
     /**
@@ -323,8 +389,10 @@ class Provider extends AbstractProvider
     private function getTokenSigningAlgorithm($jwtHeader): string
     {
         return $jwtHeader?->alg ?? (string) collect(
-            array_merge($this->getOpenIdConfiguration()->id_token_signing_alg_values_supported,
-                [$this->getConfig('default_algorithm', 'RS256')])
+            array_merge(
+                $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported,
+                [$this->getConfig('default_algorithm', 'RS256')]
+            )
         )->first();
     }
 
@@ -354,7 +422,17 @@ class Provider extends AbstractProvider
             // decode body with signature check
             $alg = $this->getTokenSigningAlgorithm($jwtHeaders);
             $headers = new \stdClass;
-            $jwtPayload = JWT::decode($idToken, JWK::parseKeySet($this->getJWTKeys(), $alg), $headers);
+            try {
+                $jwtPayload = JWT::decode($idToken, JWK::parseKeySet($this->getJWTKeysWithCache(false), $alg), $headers);
+            } catch (\UnexpectedValueException $e) {
+                // During Azure key rotation, tokens may be signed with a key that isn't yet present in the published JWKS.
+                // Refresh the JWKS once and retry to avoid intermittent validation failures.
+                if (str_contains($e->getMessage(), '"kid" invalid') && str_contains($e->getMessage(), 'unable to lookup correct key')) {
+                    $jwtPayload = JWT::decode($idToken, JWK::parseKeySet($this->getJWTKeysWithCache(true), $alg), $headers);
+                } else {
+                    throw $e;
+                }
+            }
 
             // iss validation -  a security token service (STS) URI
             // Identifies the STS that constructs and returns the token, and the Microsoft Entra tenant of the authenticated user.
@@ -377,7 +455,6 @@ class Provider extends AbstractProvider
             }
 
             return $jwtPayload;
-
         } catch (Exception $e) {
             throw new InvalidStateException("Error on validating id_token. {$e}");
         }
