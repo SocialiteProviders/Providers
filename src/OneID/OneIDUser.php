@@ -1,6 +1,6 @@
 <?php
 
-namespace Aslnbxrz\OneID;
+namespace SocialiteProviders\OneID;
 
 use SocialiteProviders\Manager\OAuth2\User as OAuth2User;
 
