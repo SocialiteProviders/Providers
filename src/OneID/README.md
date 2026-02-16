@@ -7,18 +7,12 @@ OneID (Uzbekistan SSO) provider for [SocialiteProviders](https://github.com/Soci
 - PHP 8.1+
 - Laravel 10/11+
 - `laravel/socialite`
-- `socialiteproviders/manager` or `aslnbxrz/oneid-socialite`
+- `socialiteproviders/manager`
 
 ## Installation
 
 ```bash
 composer require socialiteproviders/oneid
-```
-
-or
-
-```bash
-composer require aslnbxrz/oneid-socialite
 ```
 
 ## Configuration
@@ -54,7 +48,7 @@ Place this in a service provider boot() method (e.g. App\Providers\AppServicePro
 ```php
 use Illuminate\Support\Facades\Event;
 use SocialiteProviders\Manager\SocialiteWasCalled;
-use SocialiteProviders\OneID\Provider; // or Aslnbxrz\OneID\Provider
+use SocialiteProviders\OneID\Provider;
 
 public function boot(): void
 {
@@ -78,7 +72,6 @@ Route::get('/auth/oneid/redirect', function () {
 
 // Callback
 Route::get('/auth/oneid/callback', function () {
-    /** @var \Aslnbxrz\OneID\OneIDUser $user */
     $user = Socialite::driver('oneid')->user();
 
     // Standard fields
@@ -113,7 +106,6 @@ Route::post('/api/auth/oneid/token', function (Request $request) {
         'access_token' => 'required|string',
     ]);
 
-    /** @var \Aslnbxrz\OneID\OneIDUser $user */
     $user = Socialite::driver('oneid')->userFromToken($validated['access_token']);
 
     return response()->json([
@@ -134,7 +126,6 @@ Route::post('/api/auth/oneid/code', function (Request $request) {
         'code' => 'required|string',
     ]);
 
-    /** @var \Aslnbxrz\OneID\OneIDUser $user */
     $user = Socialite::driver('oneid')->stateless()->user();
 
     return response()->json([
@@ -153,15 +144,20 @@ Route::post('/api/auth/oneid/code', function (Request $request) {
 ## OneID Logout
 
 In addition to logging out locally (revoking your Laravel session or API token), you may also notify OneID to invalidate
-the session on their side. This is **REQUIRED** and should be done **after** your database transaction commits.
+the session on their side.
 
 ### Usage
 
 ```php
-use Aslnbxrz\OneID\OneIDLogout;
+use GuzzleHttp\Exception\GuzzleException;
+use Laravel\Socialite\Facades\Socialite;
 
 // $accessTokenOrSessionId - access_token or sess_id
-$success = app(OneIDLogout::class)->handle($accessTokenOrSessionId);
+try {
+    Socialite::driver('oneid')->logout($accessTokenOrSessionId);
+} catch (GuzzleException $e) {
+    // Handle OneID logout request error
+}
 ```
 
 ## Endpoints
