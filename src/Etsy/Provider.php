@@ -38,7 +38,7 @@ class Provider extends AbstractProvider
         $response = $this->getHttpClient()->get('https://openapi.etsy.com/v3/application/users/'.$tokenData[0], [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
-                'x-api-key'     => $this->clientId,
+                'x-api-key'     => $this->clientId.':'.$this->clientSecret,
             ],
         ]);
 

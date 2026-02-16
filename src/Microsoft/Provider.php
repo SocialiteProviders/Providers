@@ -283,8 +283,10 @@ class Provider extends AbstractProvider
      */
     private function getJWTKeys(): array
     {
-        $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri);
-
+        $response = $this->getHttpClient()->get($this->getOpenIdConfiguration()->jwks_uri, [
+            RequestOptions::PROXY => $this->getConfig('proxy'),
+        ]);
+        
         return json_decode((string) $response->getBody(), true);
     }
 
@@ -304,7 +306,7 @@ class Provider extends AbstractProvider
             //
             $discovery = sprintf('https://login.microsoftonline.com/%s/v2.0/.well-known/openid-configuration', $this->getConfig('tenant', 'common'));
 
-            $response = $this->getHttpClient()->get($discovery);
+            $response = $this->getHttpClient()->get($discovery, [RequestOptions::PROXY => $this->getConfig('proxy')]);
         } catch (Exception $ex) {
             throw new InvalidStateException("Error on getting OpenID Configuration. {$ex}");
         }

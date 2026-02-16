@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/onlinescoutmanager",
+    "description": "OnlineScoutManager OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "oauth2",
+        "provider",
+        "socialite",
+        "onlinescoutmanager"
+    ],
+    "authors": [
+        {
+            "name": "Adam Francis",
+            "email": "me@adamfrancis.dev"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/onlinescoutmanager"
+    },
+    "require": {
+        "php": "^8.4",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\OnlineScoutManager\\": ""
+        }
+    }
+}

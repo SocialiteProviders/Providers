@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/tailscale",
+    "description": "Tailscale OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "tailscale",
+        "tsidp"
+    ],
+    "authors": [
+        {
+            "name": "Winfred van Kuijk",
+            "email": "winfred@vankuijk.net"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/tailscale"
+    },
+    "require": {
+        "php": "^8.3",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Tailscale\\": ""
+        }
+    }
+}

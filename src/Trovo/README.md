@@ -1,7 +1,7 @@
-# PocketID
+# Trovo
 
 ```bash
-composer require socialiteproviders/pocketid
+composer require socialiteproviders/trovo
 ```
 
 ## Installation & Basic Usage
@@ -11,12 +11,10 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'pocketid' => [
-  'use_pkce' => env('POCKETID_USE_PKCE', false),
-  'base_url' => env('POCKETID_BASE_URL'),
-  'client_id' => env('POCKETID_CLIENT_ID'),
-  'client_secret' => env('POCKETID_CLIENT_SECRET'),
-  'redirect' => env('POCKETID_REDIRECT_URI'),
+'trovo' => [    
+  'client_id' => env('TROVO_CLIENT_ID'),  
+  'client_secret' => env('TROVO_CLIENT_SECRET'),  
+  'redirect' => env('TROVO_REDIRECT_URI') 
 ],
 ```
 
@@ -30,7 +28,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('pocketid', \SocialiteProviders\PocketID\Provider::class);
+    $event->extendSocialite('trovo', \SocialiteProviders\Trovo\Provider::class);
 });
 ```
 <details>
@@ -45,7 +43,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\PocketID\PocketIDExtendSocialite::class.'@handle',
+        \SocialiteProviders\Trovo\TrovoExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -56,16 +54,13 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('pocketid')->redirect();
+return Socialite::driver('trovo')->redirect();
 ```
 
 ### Returned User fields
 
 - ``id``
 - ``name``
-- ``given_name``
-- ``family_name``
-- ``preferred_username``
+- ``nickname``
 - ``email``
-- ``email_verified``
-- ``picture``
+- ``avatar``

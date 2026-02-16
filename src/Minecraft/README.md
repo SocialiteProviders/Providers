@@ -7,7 +7,7 @@ composer require socialiteproviders/minecraft
 ## Installation & Basic Usage
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
-This provider is based on the [Microsoft Authentication Scheme](https://wiki.vg/Microsoft_Authentication_Scheme) described in [this document](https://mojang-api-docs.netlify.app/authentication/msa.html#oauth-2).
+This provider is based on the [Microsoft Authentication Scheme](https://minecraft.wiki/w/Microsoft_authentication) described in [this document](https://mojang-api-docs.netlify.app/authentication/msa.html#oauth-2).
 
 ### Add configuration to `config/services.php`
 

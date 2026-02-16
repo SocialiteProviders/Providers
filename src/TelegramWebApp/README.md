@@ -1,22 +1,28 @@
-# PocketID
+# TelegramWebApp
 
 ```bash
-composer require socialiteproviders/pocketid
+composer require socialiteproviders/telegramwebapp
 ```
 
 ## Installation & Basic Usage
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
 
-### Add configuration to `config/services.php`
+## Configuration
+
+First of all, you must create a bot by contacting [@BotFather](http://t.me/BotFather) (https://core.telegram.org/bots#6-botfather)
+
+Next you must add WebApp script to your page, please see the [Initializing Mini Apps Guide](https://core.telegram.org/bots/webapps#initializing-mini-apps).
+
+> Don't forget to set your website URL using `/setdomain`
+
+Then, you need to add your bot's configuration to `config/services.php`. The bot username is required, `client_id` must be `null`. The provider will also ask permission for the bot to write to the user.
 
 ```php
-'pocketid' => [
-  'use_pkce' => env('POCKETID_USE_PKCE', false),
-  'base_url' => env('POCKETID_BASE_URL'),
-  'client_id' => env('POCKETID_CLIENT_ID'),
-  'client_secret' => env('POCKETID_CLIENT_SECRET'),
-  'redirect' => env('POCKETID_REDIRECT_URI'),
+'telegramwebapp' => [
+    'client_id' => null,
+    'client_secret' => env('TELEGRAM_TOKEN'),
+    'redirect' => env('TELEGRAM_REDIRECT_URI'),
 ],
 ```
 
@@ -30,7 +36,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('pocketid', \SocialiteProviders\PocketID\Provider::class);
+    $event->extendSocialite('telegramwebapp', \SocialiteProviders\TelegramWebApp\Provider::class);
 });
 ```
 <details>
@@ -45,7 +51,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\PocketID\PocketIDExtendSocialite::class.'@handle',
+        \SocialiteProviders\TelegramWebApp\TelegramWebAppExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -56,16 +62,13 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('pocketid')->redirect();
+return Socialite::driver('telegramwebapp')->redirect();
 ```
 
 ### Returned User fields
 
 - ``id``
-- ``name``
-- ``given_name``
-- ``family_name``
-- ``preferred_username``
-- ``email``
-- ``email_verified``
-- ``picture``
+- ``first_name``
+- ``last_name``
+- ``username``
+- ``photo_url``

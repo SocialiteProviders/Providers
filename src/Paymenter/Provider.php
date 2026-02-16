@@ -1,6 +1,6 @@
 <?php
 
-namespace SocialiteProviders\Authentik;
+namespace SocialiteProviders\Paymenter;
 
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
@@ -9,11 +9,9 @@ use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
-    public const IDENTIFIER = 'AUTHENTIK';
+    public const IDENTIFIER = 'PAYMENTER';
 
-    protected $scopeSeparator = ' ';
-    
-    protected $scopes = ['openid goauthentik.io/api profile email'];
+    protected $scopes = ['profile'];
 
     public static function additionalConfigKeys(): array
     {
@@ -32,12 +30,12 @@ class Provider extends AbstractProvider
 
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/application/o/authorize/', $state);
+        return $this->buildAuthUrlFromBase($this->getBaseUrl().'/oauth/authorize', $state);
     }
 
     protected function getTokenUrl(): string
     {
-        return $this->getBaseUrl().'/application/o/token/';
+        return $this->getBaseUrl().'/api/oauth/token';
     }
 
     /**
@@ -45,7 +43,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getBaseUrl().'/application/o/userinfo/', [
+        $response = $this->getHttpClient()->get($this->getBaseUrl().'/api/oauth/me', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -77,15 +75,12 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'email'              => $user['email'] ?? null,
-            'email_verified'     => $user['email_verified'] ?? null,
-            'name'               => $user['name'] ?? null,
-            'given_name'         => $user['given_name'] ?? null,
-            'family_name'        => $user['family_name'] ?? null,
-            'preferred_username' => $user['preferred_username'] ?? null,
-            'nickname'           => $user['nickname'] ?? null,
-            'groups'             => $user['groups'] ?? null,
-            'id'                 => $user['sub'],
+            'email'              => $user['email'],
+            'email_verified'     => !empty($user['email_verified_at']),
+            'name'               => $user['first_name'],
+            'family_name'        => $user['last_name'],
+            'groups'             => $user['role_id'],
+            'id'                 => $user['id'],
         ]);
     }
 }

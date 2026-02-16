@@ -1,8 +1,12 @@
-# PocketID
+# Tailscale (tsidp)
 
 ```bash
-composer require socialiteproviders/pocketid
+composer require socialiteproviders/tailscale
 ```
+
+## Prerequisites
+
+Install [Tailscale OpenID Connect (OIDC) Identity Provider (tsidp)](https://github.com/tailscale/tsidp) and make it available on your Tailscale network.
 
 ## Installation & Basic Usage
 
@@ -11,12 +15,11 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'pocketid' => [
-  'use_pkce' => env('POCKETID_USE_PKCE', false),
-  'base_url' => env('POCKETID_BASE_URL'),
-  'client_id' => env('POCKETID_CLIENT_ID'),
-  'client_secret' => env('POCKETID_CLIENT_SECRET'),
-  'redirect' => env('POCKETID_REDIRECT_URI'),
+'tailscale' => [
+  'base_url' => env('TAILSCALE_BASE_URL'),
+  'client_id' => env('TAILSCALE_CLIENT_ID'),
+  'client_secret' => env('TAILSCALE_CLIENT_SECRET'),
+  'redirect' => env('TAILSCALE_REDIRECT_URI'),
 ],
 ```
 
@@ -30,7 +33,7 @@ In Laravel 11, the default `EventServiceProvider` provider was removed. Instead,
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-    $event->extendSocialite('pocketid', \SocialiteProviders\PocketID\Provider::class);
+    $event->extendSocialite('tailscale', \SocialiteProviders\Tailscale\Provider::class);
 });
 ```
 <details>
@@ -45,7 +48,7 @@ Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. 
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
-        \SocialiteProviders\PocketID\PocketIDExtendSocialite::class.'@handle',
+        \SocialiteProviders\Tailscale\TailscaleExtendSocialite::class.'@handle',
     ],
 ];
 ```
@@ -56,16 +59,12 @@ protected $listen = [
 You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
 
 ```php
-return Socialite::driver('pocketid')->redirect();
+return Socialite::driver('tailscale')->redirect();
 ```
 
 ### Returned User fields
 
 - ``id``
-- ``name``
-- ``given_name``
-- ``family_name``
-- ``preferred_username``
 - ``email``
-- ``email_verified``
-- ``picture``
+- ``name``
+- ``username`` (same as `name`)
