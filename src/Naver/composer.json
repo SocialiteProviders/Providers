@@ -22,7 +22,6 @@
     },
     "require": {
         "php": "^8.0",
-        "ext-json": "*",
         "ext-libxml": "*",
         "ext-simplexml": "*",
         "socialiteproviders/manager": "^4.4"

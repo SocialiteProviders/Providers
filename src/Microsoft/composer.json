@@ -22,7 +22,6 @@
     },
     "require": {
         "php": "^8.0",
-        "ext-json": "*",
         "firebase/php-jwt": "^7.0",
         "socialiteproviders/manager": "^4.4"
     },
