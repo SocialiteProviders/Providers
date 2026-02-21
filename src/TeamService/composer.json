@@ -27,7 +27,6 @@
     },
     "require": {
         "php": "^8.0",
-        "ext-json": "*",
         "socialiteproviders/manager": "^4.4"
     },
     "autoload": {

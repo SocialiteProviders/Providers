@@ -9,7 +9,6 @@
     },
     "require": {
         "php": "^8.0",
-        "ext-json": "*",
         "league/oauth1-client": "^1.9",
         "socialiteproviders/manager": "^4.4"
     },

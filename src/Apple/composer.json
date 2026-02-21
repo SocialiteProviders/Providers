@@ -37,7 +37,6 @@
     },
     "require": {
         "php": "^8.0",
-        "ext-json": "*",
         "ext-openssl": "*",
         "firebase/php-jwt": "^7.0",
         "lcobucci/clock": "^2.0 || ^3.0",
