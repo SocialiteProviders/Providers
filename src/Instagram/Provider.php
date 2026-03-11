@@ -10,7 +10,7 @@ class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'INSTAGRAM';
 
-    protected $scopeSeparator = ' ';
+    protected $scopeSeparator = ',';
 
     /**
      * The user fields being requested.
@@ -20,6 +20,18 @@ class Provider extends AbstractProvider
     protected $fields = ['account_type', 'id', 'username', 'media_count', 'profile_picture_url'];
 
     protected $scopes = ['instagram_business_basic'];
+
+    protected function buildAuthUrlFromBase($url, $state)
+    {
+        $query = http_build_query(
+            $this->getCodeFields($state),
+            '',
+            '&',
+            $this->encodingType
+        );
+
+        return $url . '?' . urldecode($query);
+    }
 
     protected function getAuthUrl($state): string
     {
