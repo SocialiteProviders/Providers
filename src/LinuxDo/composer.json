@@ -1,0 +1,29 @@
+{
+    "name": "socialiteproviders/linuxdo",
+    "description": "LinuxDo OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "linuxdo",
+        "laravel",
+        "oauth",
+        "oauth2",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "puzzle9",
+            "email": "happypuzzle@126.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\LinuxDo\\": ""
+        }
+    }
+}
