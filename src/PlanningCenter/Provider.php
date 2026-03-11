@@ -12,6 +12,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['people'];
 
+    protected $scopeSeparator = ' ';
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://api.planningcenteronline.com/oauth/authorize', $state);
