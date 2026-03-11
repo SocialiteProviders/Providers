@@ -144,7 +144,7 @@ class Provider extends AbstractProvider
             );
 
             if (!empty($this->privateKey)) {
-                $appleToken = new AppleToken($this->getJwtConfig());
+                $appleToken = new AppleToken($this->getJwtConfig(), $this->getConfig('team_id', ''), $this->clientId, $this->getConfig('key_id', ''));
                 $this->clientSecret = $appleToken->generate();
                 config()->set('services.apple.client_secret', $this->clientSecret);
             }
@@ -365,6 +365,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['private_key', 'passphrase', 'signer'];
+        return ['private_key', 'passphrase', 'signer', 'team_id', 'key_id'];
     }
 }
