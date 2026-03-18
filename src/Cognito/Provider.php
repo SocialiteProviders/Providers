@@ -120,6 +120,7 @@ class Provider extends AbstractProvider
             'host',
             'logout_uri',
             'redirect',
+            'scope',
         ];
     }
 }
