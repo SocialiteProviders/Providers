@@ -59,12 +59,12 @@ class Provider extends AbstractProvider
      */
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase(self::URL.'/auth/authorize', $state);
+        return $this->buildAuthUrlFromBase(self::URL . '/auth/authorize', $state);
     }
 
     protected function getTokenUrl(): string
     {
-        return self::URL.'/auth/token';
+        return self::URL . '/auth/token';
     }
 
     /**
@@ -82,7 +82,7 @@ class Provider extends AbstractProvider
 
         if ($this->usesState()) {
             $fields['state'] = $state;
-            $fields['nonce'] = Str::uuid().'.'.$state;
+            $fields['nonce'] = Str::uuid() . '.' . $state;
         }
 
         return array_merge($fields, $this->parameters);
@@ -94,7 +94,7 @@ class Provider extends AbstractProvider
     public function getAccessTokenResponse($code)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS        => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->getClientSecret())],
+            RequestOptions::HEADERS        => ['Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->getClientSecret())],
             RequestOptions::FORM_PARAMS    => $this->getTokenFields($code),
         ]);
 
@@ -182,7 +182,7 @@ class Provider extends AbstractProvider
         $token = $this->getJwtConfig()->parser()->parse($jwt);
 
         $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
-            $response = (new Client)->get(self::URL.'/auth/keys');
+            $response = (new Client)->get(self::URL . '/auth/keys');
 
             return json_decode((string) $response->getBody(), true);
         });
@@ -196,7 +196,7 @@ class Provider extends AbstractProvider
                 new SignedWith(new Sha256, AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
                 // fix for #1354
-                new LooseValidAt(SystemClock::fromSystemTimezone(), new DateInterval('PT3S')),
+                new LooseValidAt(SystemClock::fromSystemTimezone(), new DateInterval($this->getConfig('jwt_issued_time_leeway', 'PT3S'))),
             ];
 
             try {
@@ -278,8 +278,8 @@ class Provider extends AbstractProvider
             $user['name'] = $userRequest['name'];
             $fullName = trim(
                 ($user['name']['firstName'] ?? '')
-                .' '
-                .($user['name']['lastName'] ?? '')
+                    . ' '
+                    . ($user['name']['lastName'] ?? '')
             );
         }
 
@@ -314,7 +314,7 @@ class Provider extends AbstractProvider
      */
     protected function getRevokeUrl(): string
     {
-        return self::URL.'/auth/revoke';
+        return self::URL . '/auth/revoke';
     }
 
     /**
@@ -365,6 +365,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['private_key', 'passphrase', 'signer'];
+        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway'];
     }
 }
