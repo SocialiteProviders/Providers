@@ -26,7 +26,8 @@ if [[ -z "${GITHUB_TOKEN:-}" ]] && [[ "$DRY_RUN" == false ]]; then
 fi
 
 # Use GIT_ASKPASS to avoid embedding the token in command arguments or error output
-GIT_ASKPASS_SCRIPT=$(mktemp)
+# Placed in .git/ so it's never committed and persists for all background jobs
+GIT_ASKPASS_SCRIPT="$REPO_ROOT/.git/.askpass"
 cat > "$GIT_ASKPASS_SCRIPT" <<'SCRIPT'
 #!/bin/sh
 echo "$GITHUB_TOKEN"
@@ -34,7 +35,6 @@ SCRIPT
 chmod +x "$GIT_ASKPASS_SCRIPT"
 export GIT_ASKPASS="$GIT_ASKPASS_SCRIPT"
 export GIT_TERMINAL_PROMPT=0
-trap 'rm -f "$GIT_ASKPASS_SCRIPT"' EXIT
 
 # Build associative array of overrides
 declare -A OVERRIDES
@@ -84,4 +84,5 @@ for package in "${packages[@]}"; do
 done
 
 wait
+rm -f "$GIT_ASKPASS_SCRIPT"
 echo "All ${#packages[@]} packages split successfully."
