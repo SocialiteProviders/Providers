@@ -18,10 +18,10 @@ jobs:
 
       - name: Install splitsh-lite
         run: |
-          wget -qO /tmp/splitsh-lite.tar.gz https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz
-          tar -zxf /tmp/splitsh-lite.tar.gz --directory /tmp
-          sudo mv /tmp/splitsh-lite /usr/local/bin/splitsh-lite
-          sudo chmod +x /usr/local/bin/splitsh-lite
+          mkdir -p /tmp/splitsh
+          wget -qO /tmp/splitsh/splitsh-lite.tar.gz https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz
+          tar -zxf /tmp/splitsh/splitsh-lite.tar.gz -C /tmp/splitsh
+          sudo mv /tmp/splitsh/splitsh-lite /usr/local/bin/splitsh-lite
 
       - name: Split Amazon to SplitTest
         run: |
