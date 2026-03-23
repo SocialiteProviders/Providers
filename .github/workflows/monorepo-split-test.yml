@@ -31,6 +31,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}
 
+      - name: Split Amazon to SplitTestTwo (blank repo)
+        run: |
+          SHA=$(splitsh-lite --prefix=src/Amazon)
+          git push --force "https://${GITHUB_TOKEN}@github.com/SocialiteProviders/SplitTestTwo.git" "$SHA:refs/heads/master"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:

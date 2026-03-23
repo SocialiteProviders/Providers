@@ -17,6 +17,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Create repos for new providers
+        run: php tools/create-repos.php "${{ github.sha }}" "${{ github.repository }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}
+
       - name: Install splitsh-lite
         run: |
           mkdir -p /tmp/splitsh

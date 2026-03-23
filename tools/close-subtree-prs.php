@@ -1,27 +1,26 @@
 <?php
 
+/**
+ * Automatically close PRs opened against read-only subtree split repos
+ * and comment directing contributors to the main Providers repo.
+ */
+
 use Illuminate\Http\Client\Factory;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$http = new Factory;
-$token = getenv('GITHUB_TOKEN');
+$http = (new Factory)->withToken(getenv('GITHUB_TOKEN'))->baseUrl('https://api.github.com');
 
-/**
- * Automatically update all the repos to have a consistent description/URL and point people to the correct
- * documentation.
- */
-$repos = collect(range(1, 5))
+collect(range(1, 5))
     ->flatMap(fn (int $page) => $http
-        ->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)
+        ->get('/orgs/SocialiteProviders/repos', ['per_page' => 100, 'page' => $page])
         ->json()
     )
     ->sortBy('name')
     ->filter(fn (array $repo) => $repo['has_issues'] === false)
-    ->each(function (array $repo) use ($http, $token) {
+    ->each(function (array $repo) use ($http) {
         $prs = collect(
-            $http->withToken($token)
-                ->get(sprintf('https://api.github.com/repos/SocialiteProviders/%s/pulls?state=open', $repo['name']))
+            $http->get(sprintf('/repos/SocialiteProviders/%s/pulls', $repo['name']), ['state' => 'open'])
                 ->json()
         );
 
@@ -31,16 +30,12 @@ $repos = collect(range(1, 5))
             return;
         }
 
-        $prs->map(function (array $pr) use ($http, $token) {
-            $http->withToken($token)
-                ->patch($pr['url'], [
-                    'state' => 'closed',
-                ]);
+        $prs->each(function (array $pr) use ($http) {
+            $http->patch($pr['url'], ['state' => 'closed']);
 
-            $http->withToken($token)
-                ->post($pr['comments_url'], [
-                    'body' => "This repository is a **READ ONLY** subtree split from [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers).\n\nPlease open a PR against [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers). ",
-                ]);
+            $http->post($pr['comments_url'], [
+                'body' => "This repository is a **READ ONLY** subtree split from [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers).\n\nPlease open a PR against [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers). ",
+            ]);
 
             echo sprintf("Closed PR %d in %s\n", $pr['number'], $pr['url']);
         });
