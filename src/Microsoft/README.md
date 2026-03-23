@@ -60,6 +60,12 @@ return Socialite::driver('microsoft')->redirect();
 
 ## Extended features
 
+### ID token validation and key rollover
+
+When using the `openid` scope, Microsoft returns an `id_token` JWT. This provider validates the `id_token` signature and claims.
+
+Microsoft (Entra ID / Azure AD) periodically rotates signing keys. During rollover there can be a short window where a token is signed with a new key that is not yet available from the published JWKS endpoints. To reduce intermittent login failures, the provider caches JWKS briefly and will refresh the JWKS and retry validation once when it encounters an unknown `kid`.
+
 ### Roles
 
 `Socialite::driver('microsoft')->user()->getRoles()` returns an array of strings containing the names of the Microsoft 365/Azure AD groups the authenticated user belongs to. You can use this information to assign users to application roles at login.
