@@ -88,14 +88,14 @@ for package in "${packages[@]}"; do
     running=$((running + 1))
 
     if [[ $running -ge $MAX_PARALLEL ]]; then
-        wait -n || ((failed++))
+        wait -n || failed=$((failed + 1))
         running=$((running - 1))
     fi
 done
 
 # Wait for remaining jobs
 while [[ $running -gt 0 ]]; do
-    wait -n || ((failed++))
+    wait -n || failed=$((failed + 1))
     running=$((running - 1))
 done
 
