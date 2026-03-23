@@ -45,20 +45,29 @@ done < <(jq -r 'to_entries[] | "\(.key)=\(.value)"' "$OVERRIDES_FILE")
 split_package() {
     local package="$1"
     local repo="${OVERRIDES[$package]:-$package}"
+    local label="$package -> $ORG/$repo"
 
-    echo "[split] $package -> $ORG/$repo"
+    local sha stats
+    stats=$(splitsh-lite --prefix="src/$package" 2>&1 >/tmp/splitsh-sha-$$-"$package")
+    sha=$(cat /tmp/splitsh-sha-$$-"$package")
+    rm -f /tmp/splitsh-sha-$$-"$package"
 
-    local sha
-    sha=$(splitsh-lite --prefix="src/$package")
+    if [[ -z "$sha" ]]; then
+        echo "[error] $label - splitsh-lite failed"
+        return 1
+    fi
 
     if [[ "$DRY_RUN" == true ]]; then
-        echo "[dry-run] Would push $sha to $ORG/$repo ($BRANCH)"
+        echo "[dry-run] $label: $stats"
         return
     fi
 
-    git push --quiet --force "https://x-access-token@github.com/${ORG}/${repo}.git" "$sha:refs/heads/$BRANCH"
-
-    echo "[split] $package done"
+    if git push --quiet --force "https://x-access-token@github.com/${ORG}/${repo}.git" "$sha:refs/heads/$BRANCH" 2>/dev/null; then
+        echo "[ok] $label ($stats)"
+    else
+        echo "[error] $label - push failed"
+        return 1
+    fi
 }
 
 cd "$REPO_ROOT"
@@ -71,18 +80,30 @@ done
 
 echo "Splitting ${#packages[@]} packages (max $MAX_PARALLEL parallel)..."
 
-# Run splits in parallel batches
+# Run splits in parallel batches, tracking failures
+failed=0
 running=0
 for package in "${packages[@]}"; do
     split_package "$package" &
     running=$((running + 1))
 
     if [[ $running -ge $MAX_PARALLEL ]]; then
-        wait -n
+        wait -n || ((failed++))
         running=$((running - 1))
     fi
 done
 
-wait
+# Wait for remaining jobs
+while [[ $running -gt 0 ]]; do
+    wait -n || ((failed++))
+    running=$((running - 1))
+done
+
 rm -f "$GIT_ASKPASS_SCRIPT"
+
+if [[ $failed -gt 0 ]]; then
+    echo "$failed package(s) failed to split."
+    exit 1
+fi
+
 echo "All ${#packages[@]} packages split successfully."
