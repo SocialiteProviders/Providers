@@ -1,0 +1,27 @@
+{
+    "name": "socialiteproviders/kit",
+    "description": "Kit OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "convertkit",
+        "kit",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/kit"
+    },
+    "require": {
+        "php": "^8.0",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Kit\\": ""
+        }
+    }
+}

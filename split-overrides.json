@@ -1,0 +1,20 @@
+{
+    "AppNet": "App.net",
+    "Azure": "Microsoft-Azure",
+    "Battlenet": "Battle.net",
+    "Bitly": "Bit.ly",
+    "Deviantart": "deviantART",
+    "FiveHundredPixel": "500px",
+    "Google": "Google-Plus",
+    "Graph": "Microsoft-Graph",
+    "HubSpot": "Hubspot",
+    "HumanApi": "Human-API",
+    "LaravelPassport": "Laravel-Passport",
+    "Live": "Microsoft-Live",
+    "MediaCube": "Mediacube",
+    "PayPalSandbox": "PayPal-Sandbox",
+    "TeamService": "Microsoft-TeamService",
+    "ThirtySevenSignals": "37Signals",
+    "TwentyThreeAndMe": "23andme",
+    "WeixinWeb": "Weixin-Web"
+}

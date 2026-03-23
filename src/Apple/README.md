@@ -34,7 +34,9 @@ Add lines to the configuration as follows:
   'private_key' => env('APPLE_PRIVATE_KEY'), // Required. Must be absolute path, e.g. /var/www/cert/AuthKey_XYZ.p8
   'passphrase' => env('APPLE_PASSPHRASE'), // Optional. Set if your private key have a passphrase.
   'signer' => env('APPLE_SIGNER'), // Optional. Signer used for Configuration::forSymmetricSigner(). Default: \Lcobucci\JWT\Signer\Ecdsa\Sha256
-  'redirect' => env('APPLE_REDIRECT_URI') // Required.
+  'redirect' => env('APPLE_REDIRECT_URI'), // Required.
+
+  'jwt_issued_time_leeway' => env('APPLE_JWT_ISSUED_TIME_LEEWAY'), // Optional. Set this to add a leeway to your JWT issued_time value. See section below
 ],
 ```
 
@@ -85,6 +87,18 @@ return Socialite::driver('apple')->redirect();
 - ``id``
 - ``name``
 - ``email``
+
+### Known Issues
+
+#### JWT Issued_at
+Sometimes the plugin may throw an exception due to a mismatch in time - See #1354. Use `config('services.apple.jwt_issued_time_leeway')` to 'rewind' the time. Default value is 3 seconds (PT3S).
+
+Examples of possible values are PT3S -> 3 seconds, PT1M -> 1 Minute etc ...
+
+The thrown exception may look like this:
+```
+[object] (Laravel\\Socialite\\Two\\InvalidStateException(code: 0): The token violates some mandatory constraints, details:                                                                                           - The token was issued in the future at /vendor/socialiteproviders/apple/Provider.php:207)                      [stacktrace]              
+```
 
 ### Reference
 

@@ -43,7 +43,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->getBaseUrl().'/api/oauth/me', [
+        $response = $this->getHttpClient()->get($this->getBaseUrl().'/api/me', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],

@@ -1,30 +1,34 @@
 <?php
 
+/**
+ * Automatically close PRs opened against read-only subtree split repos
+ * and comment directing contributors to the main Providers repo.
+ */
+
 use Illuminate\Http\Client\Factory;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$http = new Factory;
+$token = getenv('GITHUB_TOKEN');
+if (! $token) {
+    echo "Error: GITHUB_TOKEN is required\n";
+    exit(1);
+}
 
-/**
- * Automatically update all the repos to have a consistent description/URL and point people to the correct
- * documentation.
- */
-$repos = collect(range(1, 5))
+$http = (new Factory)->withToken($token)->baseUrl('https://api.github.com');
+
+collect(range(1, 5))
     ->flatMap(fn (int $page) => $http
-        ->withHeaders(['Accept' => 'application/vnd.github.v3+json'])
-        ->get('https://api.github.com/orgs/SocialiteProviders/repos?per_page=100&page='.$page)
+        ->get('/orgs/SocialiteProviders/repos', ['per_page' => 100, 'page' => $page])
         ->json()
     )
     ->sortBy('name')
     ->filter(fn (array $repo) => $repo['has_issues'] === false)
     ->each(function (array $repo) use ($http) {
-        $res = $http->withHeaders([
-            'Accept'        => 'application/vnd.github.v3+json',
-            'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
-        ])->get(sprintf('https://api.github.com/repos/SocialiteProviders/%s/pulls?state=open', $repo['name']));
-
-        $prs = collect($res->json());
+        $prs = collect(
+            $http->get(sprintf('/repos/SocialiteProviders/%s/pulls', $repo['name']), ['state' => 'open'])
+                ->json()
+        );
 
         echo sprintf("Found Repo: %s, %d open PRs\n", $repo['name'], $prs->count());
 
@@ -32,18 +36,10 @@ $repos = collect(range(1, 5))
             return;
         }
 
-        $prs->map(function (array $pr) use ($http) {
-            $http->withHeaders([
-                'Accept'        => 'application/vnd.github.v3+json',
-                'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
-            ])->patch($pr['url'], [
-                'state' => 'closed',
-            ]);
+        $prs->each(function (array $pr) use ($http) {
+            $http->patch($pr['url'], ['state' => 'closed']);
 
-            $http->withHeaders([
-                'Accept'        => 'application/vnd.github.v3+json',
-                'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
-            ])->post($pr['comments_url'], [
+            $http->post($pr['comments_url'], [
                 'body' => "This repository is a **READ ONLY** subtree split from [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers).\n\nPlease open a PR against [SocialiteProviders/Providers](https://github.com/SocialiteProviders/Providers). ",
             ]);
 
