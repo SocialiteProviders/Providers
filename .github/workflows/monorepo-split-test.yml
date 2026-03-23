@@ -1,0 +1,25 @@
+name: Test Monorepo Split
+
+on:
+  push:
+    branches:
+      - test-monorepo-split
+
+jobs:
+  split:
+    name: Test Split Amazon -> SplitTest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: danharrin/monorepo-split-github-action@v2.4.0
+        with:
+          package_directory: 'src/Amazon'
+          repository_organization: 'SocialiteProviders'
+          repository_name: 'SplitTest'
+          user_email: 'socialite@atymic.dev'
+          user_name: 'SocialiteProviders Bot'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}
