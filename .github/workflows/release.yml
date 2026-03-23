@@ -1,0 +1,35 @@
+name: Release providers
+
+on:
+  workflow_run:
+    workflows: ['Split providers into their individual repos']
+    types:
+      - completed
+
+jobs:
+  release:
+    name: Release changed providers
+    runs-on: ubuntu-latest
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Release providers
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}
+        run: php tools/release.php "${{ github.event.workflow_run.head_sha }}" "${{ github.repository }}"

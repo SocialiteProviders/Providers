@@ -27,7 +27,23 @@ jobs:
       - name: Split Amazon to SplitTest
         run: |
           SHA=$(splitsh-lite --prefix=src/Amazon)
-          git remote add split-target "https://${GITHUB_TOKEN}@github.com/SocialiteProviders/SplitTest.git"
-          git push split-target "$SHA:refs/heads/master" -f
+          git push --force "https://${GITHUB_TOKEN}@github.com/SocialiteProviders/SplitTest.git" "$SHA:refs/heads/master"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Test release (patch Amazon -> SplitTest)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}
+          RELEASE_BUMP: patch
+          RELEASE_PACKAGES: Amazon
+          RELEASE_REPO_MAP: '{"Amazon":"SplitTest"}'
+        run: php tools/release.php "${{ github.sha }}" "${{ github.repository }}"
