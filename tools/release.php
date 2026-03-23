@@ -44,8 +44,9 @@ if ($repoMap = getenv('RELEASE_REPO_MAP')) {
     $overrides = array_merge($overrides, json_decode($repoMap, true));
 }
 
-// Determine bump type
+// Determine bump type and PR info
 $bump = getenv('RELEASE_BUMP') ?: null;
+$pr = null;
 
 if (! $bump) {
     $response = $http->get(sprintf('/repos/%s/commits/%s/pulls', $repository, $commitSha));
@@ -56,14 +57,20 @@ if (! $bump) {
     }
 
     $pr = $response->json()[0];
-    $bump = collect($pr['labels'] ?? [])
-        ->pluck('name')
+    $labels = collect($pr['labels'] ?? [])->pluck('name');
+
+    $bump = $labels
         ->filter(fn (string $label) => str_starts_with($label, 'release:'))
         ->map(fn (string $label) => str_replace('release:', '', $label))
         ->first();
+
+    // new-provider label triggers an initial release
+    if (! $bump && $labels->contains('new-provider')) {
+        $bump = 'new-provider';
+    }
 }
 
-if (! $bump || ! in_array($bump, ['major', 'minor', 'patch'])) {
+if (! $bump || ! in_array($bump, ['major', 'minor', 'patch', 'new-provider'])) {
     echo "No release label found on PR, skipping\n";
     exit(0);
 }
@@ -103,20 +110,22 @@ foreach ($changedPackages as $package) {
     $response = $http->get(sprintf('/repos/%s/%s/releases/latest', $org, $repo));
     $latest = $response->successful() ? $response->json('tag_name') : null;
 
-    if (! $latest) {
-        echo sprintf("[release] No existing release for %s, starting at 1.0.0\n", $repo);
+    if ($bump === 'new-provider' || ! $latest) {
         $newVersion = '1.0.0';
+        echo sprintf("[release] Initial release for %s at %s\n", $repo, $newVersion);
     } else {
         $newVersion = bumpVersion(ltrim($latest, 'v'), $bump, $parser);
     }
 
     echo sprintf("[release] %s: %s -> %s\n", $repo, $latest ?? 'none', $newVersion);
 
+    $body = generateReleaseBody($newVersion, $latest, $pr, $repository);
+
     $response = $http->post(sprintf('/repos/%s/%s/releases', $org, $repo), [
         'tag_name' => $newVersion,
         'target_commitish' => 'master',
         'name' => $newVersion,
-        'body' => sprintf('Release %s', $newVersion),
+        'body' => $body,
     ]);
 
     if ($response->failed()) {
@@ -129,6 +138,28 @@ foreach ($changedPackages as $package) {
 }
 
 echo "All releases complete.\n";
+
+function generateReleaseBody(string $newVersion, ?string $previousVersion, ?array $pr, string $repository): string
+{
+    $lines = ["## What's Changed"];
+
+    if ($pr) {
+        $lines[] = sprintf(
+            '* %s by @%s in https://github.com/%s/pull/%d',
+            $pr['title'],
+            $pr['user']['login'],
+            $repository,
+            $pr['number']
+        );
+    }
+
+    if ($previousVersion) {
+        $lines[] = '';
+        $lines[] = sprintf('**Full Changelog**: https://github.com/%s/compare/%s...%s', $repository, $previousVersion, $newVersion);
+    }
+
+    return implode("\n", $lines);
+}
 
 function bumpVersion(string $version, string $type, VersionParser $parser): string
 {
