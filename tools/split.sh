@@ -49,10 +49,10 @@ split_package() {
     local label="$package -> $ORG/$repo"
 
     local sha
-    sha=$(splitsh-lite --prefix="src/$package")
+    sha=$(splitsh-lite --prefix="src/$package" | tail -1)
 
-    if [[ -z "$sha" ]]; then
-        echo "[error] $label - splitsh-lite failed"
+    if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
+        echo "[error] $label - splitsh-lite returned invalid SHA: $sha"
         return 1
     fi
 
