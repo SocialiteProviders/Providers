@@ -52,6 +52,9 @@ split_package() {
 
 cd "$REPO_ROOT"
 
+# Remove the default GITHUB_TOKEN credential helper set by actions/checkout
+git config --unset-all http.https://github.com/.extraheader 2>/dev/null || true
+
 # Collect all packages
 packages=()
 for dir in src/*/; do
