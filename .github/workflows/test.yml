@@ -8,13 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 15
-      fail-fast: true
-      matrix:
-        php-versions: ['8.3', '8.4', '8.5' ]
+    name: Lint
 
-    name: PHP ${{ matrix.php-versions }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,28 +18,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           coverage: none
-          php-version: ${{ matrix.php-versions }}
+          php-version: '8.5'
           extensions: json, mbstring
-        env:
-          fail-fast: ${{ matrix.fail-fast }}
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: "php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.json') }}"
-          restore-keys: "php-${{ matrix.php-versions }}-${{ hashFiles('**/composer.json') }}"
 
       - name: Install dependencies
-        run: composer install --no-interaction  --prefer-dist
+        run: composer install --no-interaction --prefer-dist
 
       - name: Lint the code
         run: vendor/bin/parallel-lint --exclude vendor .
 
       - name: Lint composer.json
-        if: matrix.validate == true
         run: composer validate --strict

@@ -35,7 +35,7 @@ protected \$listen = [
 ### Usage
 DOC;
 
-$directories = array_map('basename', glob('../src'.'/*', GLOB_ONLYDIR));
+$directories = array_map('basename', glob(__DIR__.'/../src/*', GLOB_ONLYDIR));
 
 foreach ($directories as $provider) {
     $path = sprintf('%s/../src/%s/README.md', __DIR__, $provider);
