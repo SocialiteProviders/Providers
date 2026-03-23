@@ -6,27 +6,37 @@ on:
       - master
 
 jobs:
-  split:
-    name: Split Providers
+  config:
+    name: Generate Split Matrix
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
-      # Required due to GH detached head bug https://github.com/actions/checkout/issues/6
-      - name: Prepare repository
-        run: git checkout "${GITHUB_REF:11}"
+      - name: Generate matrix
+        id: set-matrix
+        run: echo "matrix=$(php tools/generate-split-matrix.php)" >> $GITHUB_OUTPUT
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+  split:
+    name: Split ${{ matrix.package }}
+    needs: config
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.config.outputs.matrix) }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: danharrin/monorepo-split-github-action@v2.4.0
         with:
-          php-version: '8.4'
-          coverage: none
-
-      - name: Install dependencies
-        run: composer install -vvv
-
-      - name: Split
-        run: ./vendor/bin/monorepo-builder split --max-processes 8
+          package_directory: 'src/${{ matrix.package }}'
+          repository_organization: 'SocialiteProviders'
+          repository_name: '${{ matrix.split_repository || matrix.package }}'
+          user_email: 'socialite@atymic.dev'
+          user_name: 'SocialiteProviders Bot'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}

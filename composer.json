@@ -8,17 +8,16 @@
         "docs": "https://socialiteproviders.com"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.5",
         "league/oauth1-client": "^1.9",
         "socialiteproviders/manager": "^4.4"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.9",
-        "illuminate/http": "^8.0",
+        "illuminate/http": "^12.0",
         "laravel/pint": "^1.18",
         "php-parallel-lint/php-console-highlighter": "^1.0",
-        "php-parallel-lint/php-parallel-lint": "^1.4",
-        "symplify/monorepo-builder": "^8.0"
+        "php-parallel-lint/php-parallel-lint": "^1.4"
     },
     "autoload": {
         "psr-4": {

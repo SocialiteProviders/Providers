@@ -5,6 +5,7 @@ use Illuminate\Http\Client\Factory;
 require_once __DIR__.'/../vendor/autoload.php';
 
 $http = new Factory;
+$token = getenv('GITHUB_TOKEN');
 
 /**
  * Create a new repo with preset information.
@@ -16,15 +17,13 @@ if (empty($repoName)) {
     exit(1);
 }
 
-$res = $http->withHeaders([
-    'Accept'        => 'application/vnd.github.v3+json',
-    'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
-])->post('https://api.github.com/orgs/SocialiteProviders/repos', [
-    'name'        => $repoName,
-    'description' => sprintf('[READ ONLY] Subtree split of the SocialiteProviders/%s Provider (see SocialiteProviders/Providers)', $repoName),
-    'homepage'    => sprintf('https://socialiteproviders.com/%s/', $repoName),
-    'has_issues'  => false,
-]);
+$res = $http->withToken($token)
+    ->post('https://api.github.com/orgs/SocialiteProviders/repos', [
+        'name'        => $repoName,
+        'description' => sprintf('[READ ONLY] Subtree split of the SocialiteProviders/%s Provider (see SocialiteProviders/Providers)', $repoName),
+        'homepage'    => sprintf('https://socialiteproviders.com/%s/', $repoName),
+        'has_issues'  => false,
+    ]);
 
 $responseData = $res->json();
 echo sprintf("Created Repo: %s, response: %s\n", $res->failed() ? $res->body() : ($responseData['full_name'] ?? 'Unknown'), $res->status());
@@ -35,12 +34,10 @@ if ($res->failed()) {
 
 $repoUrl = $responseData['url'] ?? null;
 if ($repoUrl) {
-    $res = $http->withHeaders([
-        'Accept'        => 'application/vnd.github.mercy-preview+json',
-        'Authorization' => 'token '.getenv('GITHUB_TOKEN'),
-    ])->put($repoUrl.'/topics', [
-        'names' => ['laravel', 'oauth', 'socialite', 'oauth1', 'oauth2', 'socialite-providers', 'social-media'],
-    ]);
+    $res = $http->withToken($token)
+        ->put($repoUrl.'/topics', [
+            'names' => ['laravel', 'oauth', 'socialite', 'oauth1', 'oauth2', 'socialite-providers', 'social-media'],
+        ]);
 } else {
     echo "Warning: Could not get repository URL for topics update\n";
     exit(1);
