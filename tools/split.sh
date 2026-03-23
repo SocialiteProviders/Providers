@@ -25,6 +25,17 @@ if [[ -z "${GITHUB_TOKEN:-}" ]] && [[ "$DRY_RUN" == false ]]; then
     exit 1
 fi
 
+# Use GIT_ASKPASS to avoid embedding the token in command arguments or error output
+GIT_ASKPASS_SCRIPT=$(mktemp)
+cat > "$GIT_ASKPASS_SCRIPT" <<'SCRIPT'
+#!/bin/sh
+echo "$GITHUB_TOKEN"
+SCRIPT
+chmod +x "$GIT_ASKPASS_SCRIPT"
+export GIT_ASKPASS="$GIT_ASKPASS_SCRIPT"
+export GIT_TERMINAL_PROMPT=0
+trap 'rm -f "$GIT_ASKPASS_SCRIPT"' EXIT
+
 # Build associative array of overrides
 declare -A OVERRIDES
 while IFS='=' read -r key value; do
@@ -45,7 +56,7 @@ split_package() {
         return
     fi
 
-    git push --quiet --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${ORG}/${repo}.git" "$sha:refs/heads/$BRANCH"
+    git push --quiet --force "https://x-access-token@github.com/${ORG}/${repo}.git" "$sha:refs/heads/$BRANCH"
 
     echo "[split] $package done"
 }
