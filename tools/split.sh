@@ -42,24 +42,12 @@ while IFS='=' read -r key value; do
     OVERRIDES["$key"]="$value"
 done < <(jq -r 'to_entries[] | "\(.key)=\(.value)"' "$OVERRIDES_FILE")
 
-split_package() {
+push_package() {
     set +e
     local package="$1"
+    local sha="$2"
     local repo="${OVERRIDES[$package]:-$package}"
     local label="$package -> $ORG/$repo"
-
-    local sha
-    sha=$(splitsh-lite --prefix="src/$package" | tail -1)
-
-    if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
-        echo "[error] $label - splitsh-lite returned invalid SHA: $sha"
-        return 1
-    fi
-
-    if [[ "$DRY_RUN" == true ]]; then
-        echo "[dry-run] $label"
-        return 0
-    fi
 
     if git push --force "https://x-access-token@github.com/${ORG}/${repo}.git" "$sha:refs/heads/$BRANCH"; then
         echo "[ok] $label"
@@ -77,13 +65,35 @@ for dir in src/*/; do
     packages+=("$(basename "$dir")")
 done
 
-echo "Splitting ${#packages[@]} packages (max $MAX_PARALLEL parallel)..."
+echo "Splitting ${#packages[@]} packages..."
 
-# Run splits in parallel batches, tracking failures
+# Phase 1: Run splitsh-lite sequentially (uses git lock, can't parallelise)
+declare -A SHAS
+for package in "${packages[@]}"; do
+    sha=$(splitsh-lite --prefix="src/$package")
+
+    if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
+        echo "[error] $package - splitsh-lite returned invalid SHA: $sha"
+        continue
+    fi
+
+    SHAS["$package"]="$sha"
+done
+
+echo "Split complete. Pushing ${#SHAS[@]} packages (max $MAX_PARALLEL parallel)..."
+
+if [[ "$DRY_RUN" == true ]]; then
+    for package in "${!SHAS[@]}"; do
+        echo "[dry-run] $package -> $ORG/${OVERRIDES[$package]:-$package}"
+    done
+    exit 0
+fi
+
+# Phase 2: Push in parallel
 failed=0
 running=0
-for package in "${packages[@]}"; do
-    split_package "$package" &
+for package in "${!SHAS[@]}"; do
+    push_package "$package" "${SHAS[$package]}" &
     running=$((running + 1))
 
     if [[ $running -ge $MAX_PARALLEL ]]; then
@@ -92,7 +102,6 @@ for package in "${packages[@]}"; do
     fi
 done
 
-# Wait for remaining jobs
 while [[ $running -gt 0 ]]; do
     wait -n || failed=$((failed + 1))
     running=$((running - 1))
@@ -101,8 +110,8 @@ done
 rm -f "$GIT_ASKPASS_SCRIPT"
 
 if [[ $failed -gt 0 ]]; then
-    echo "$failed package(s) failed to split."
+    echo "$failed package(s) failed to push."
     exit 1
 fi
 
-echo "All ${#packages[@]} packages split successfully."
+echo "All ${#SHAS[@]} packages split and pushed successfully."
