@@ -43,14 +43,13 @@ while IFS='=' read -r key value; do
 done < <(jq -r 'to_entries[] | "\(.key)=\(.value)"' "$OVERRIDES_FILE")
 
 split_package() {
+    set +e
     local package="$1"
     local repo="${OVERRIDES[$package]:-$package}"
     local label="$package -> $ORG/$repo"
 
-    local sha stats
-    stats=$(splitsh-lite --prefix="src/$package" 2>&1 >/tmp/splitsh-sha-$$-"$package")
-    sha=$(cat /tmp/splitsh-sha-$$-"$package")
-    rm -f /tmp/splitsh-sha-$$-"$package"
+    local sha
+    sha=$(splitsh-lite --prefix="src/$package")
 
     if [[ -z "$sha" ]]; then
         echo "[error] $label - splitsh-lite failed"
@@ -58,12 +57,12 @@ split_package() {
     fi
 
     if [[ "$DRY_RUN" == true ]]; then
-        echo "[dry-run] $label: $stats"
-        return
+        echo "[dry-run] $label"
+        return 0
     fi
 
-    if git push --quiet --force "https://x-access-token@github.com/${ORG}/${repo}.git" "$sha:refs/heads/$BRANCH" 2>/dev/null; then
-        echo "[ok] $label ($stats)"
+    if git push --force "https://x-access-token@github.com/${ORG}/${repo}.git" "$sha:refs/heads/$BRANCH"; then
+        echo "[ok] $label"
     else
         echo "[error] $label - push failed"
         return 1
