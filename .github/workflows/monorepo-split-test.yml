@@ -13,14 +13,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - uses: danharrin/monorepo-split-github-action@v2.4.0
         with:
-          package_directory: 'src/Amazon'
-          repository_organization: 'SocialiteProviders'
-          repository_name: 'SplitTest'
-          user_email: 'socialite@atymic.dev'
-          user_name: 'SocialiteProviders Bot'
-          branch: 'master'
+          fetch-depth: 0
+
+      - name: Install splitsh-lite
+        run: |
+          wget -qO /tmp/splitsh-lite.tar.gz https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz
+          tar -zxpf /tmp/splitsh-lite.tar.gz -C /usr/local/bin/
+          chmod +x /usr/local/bin/splitsh-lite
+
+      - name: Split Amazon to SplitTest
+        run: |
+          SHA=$(splitsh-lite --prefix=src/Amazon)
+          git remote add split-target "https://${GITHUB_TOKEN}@github.com/SocialiteProviders/SplitTest.git"
+          git push split-target "$SHA:refs/heads/master" -f
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}

@@ -6,37 +6,24 @@ on:
       - master
 
 jobs:
-  config:
-    name: Generate Split Matrix
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Generate matrix
-        id: set-matrix
-        run: echo "matrix=$(php tools/generate-split-matrix.php)" >> $GITHUB_OUTPUT
-
   split:
-    name: Split ${{ matrix.package }}
-    needs: config
+    name: Split Providers
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.config.outputs.matrix) }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - uses: danharrin/monorepo-split-github-action@v2.4.0
         with:
-          package_directory: 'src/${{ matrix.package }}'
-          repository_organization: 'SocialiteProviders'
-          repository_name: '${{ matrix.split_repository || matrix.package }}'
-          user_email: 'socialite@atymic.dev'
-          user_name: 'SocialiteProviders Bot'
+          fetch-depth: 0
+
+      - name: Install splitsh-lite
+        run: |
+          wget -qO /tmp/splitsh-lite.tar.gz https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz
+          tar -zxpf /tmp/splitsh-lite.tar.gz -C /usr/local/bin/
+          chmod +x /usr/local/bin/splitsh-lite
+
+      - name: Split packages
+        run: ./tools/split.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PUSH_TOKEN }}
+          MAX_PARALLEL: '8'
