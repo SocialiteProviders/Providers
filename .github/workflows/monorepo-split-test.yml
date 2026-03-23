@@ -3,7 +3,7 @@ name: Test Monorepo Split
 on:
   push:
     branches:
-      - test-monorepo-split
+      - fix/actions
 
 jobs:
   split:
