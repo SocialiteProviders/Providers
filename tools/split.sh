@@ -45,7 +45,7 @@ split_package() {
         return
     fi
 
-    git push --quiet --force "https://${GITHUB_TOKEN}@github.com/${ORG}/${repo}.git" "$sha:refs/heads/$BRANCH"
+    git push --quiet --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${ORG}/${repo}.git" "$sha:refs/heads/$BRANCH"
 
     echo "[split] $package done"
 }

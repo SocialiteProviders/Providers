@@ -75,7 +75,7 @@ if ($releasePackages) {
     $changedPackages = array_map('trim', explode(',', $releasePackages));
 } else {
     $output = shell_exec(sprintf('git diff-tree --no-commit-id --name-only -r %s', escapeshellarg($commitSha)));
-    $changedFiles = array_filter(explode("\n", trim($output)));
+    $changedFiles = array_filter(explode("\n", trim($output ?? '')));
 
     $changedPackages = [];
     foreach ($changedFiles as $file) {

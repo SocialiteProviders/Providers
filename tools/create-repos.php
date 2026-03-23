@@ -66,7 +66,7 @@ if ($createPackages) {
 
     // Find new src/* directories added in this commit
     $output = shell_exec(sprintf('git diff-tree --no-commit-id --name-only --diff-filter=A -r %s', escapeshellarg($commitSha)));
-    $addedFiles = array_filter(explode("\n", trim($output)));
+    $addedFiles = array_filter(explode("\n", trim($output ?? '')));
 
     $packages = [];
     foreach ($addedFiles as $file) {
@@ -100,8 +100,8 @@ foreach ($packages as $package) {
 
     $response = $http->post(sprintf('/orgs/%s/repos', $org), [
         'name' => $repo,
-        'description' => sprintf('[READ ONLY] Subtree split of the SocialiteProviders/%s Provider (see SocialiteProviders/Providers)', $repo),
-        'homepage' => sprintf('https://socialiteproviders.com/%s/', $repo),
+        'description' => sprintf('[READ ONLY] Subtree split of the SocialiteProviders/%s Provider (see SocialiteProviders/Providers)', $package),
+        'homepage' => sprintf('https://socialiteproviders.com/%s/', $package),
         'has_issues' => false,
     ]);
 

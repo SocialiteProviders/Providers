@@ -9,7 +9,13 @@ use Illuminate\Http\Client\Factory;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$http = (new Factory)->withToken(getenv('GITHUB_TOKEN'))->baseUrl('https://api.github.com');
+$token = getenv('GITHUB_TOKEN');
+if (! $token) {
+    echo "Error: GITHUB_TOKEN is required\n";
+    exit(1);
+}
+
+$http = (new Factory)->withToken($token)->baseUrl('https://api.github.com');
 
 collect(range(1, 5))
     ->flatMap(fn (int $page) => $http
