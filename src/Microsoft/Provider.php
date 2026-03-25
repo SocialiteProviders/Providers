@@ -20,7 +20,7 @@ class Provider extends AbstractProvider
 
     private const JWKS_CACHE_TTL_SECONDS = 300;
 
-    private mixed $openIdConfiguration = null;
+    private ?array $openIdConfiguration = null;
 
     private ?array $jwtKeys = null;
 
@@ -303,8 +303,8 @@ class Provider extends AbstractProvider
             return $this->jwtKeys;
         }
 
-        $jwksUri = $this->getOpenIdConfiguration()->jwks_uri;
-        $cacheKey = 'socialite:microsoft:jwks:' . sha1((string) $jwksUri);
+        $jwksUri = $this->getOpenIdConfiguration()['jwks_uri'];
+        $cacheKey = 'socialite:microsoft:jwks-v2:' . sha1((string) $jwksUri);
 
         $fetch = function () use ($jwksUri, $forceRefresh) {
             $options = [
@@ -341,11 +341,11 @@ class Provider extends AbstractProvider
     /**
      * Get OpenID Configuration.
      *
-     * @return mixed
+     * @return array<string, mixed>
      *
      * @throws \Laravel\Socialite\Two\InvalidStateException
      */
-    private function getOpenIdConfiguration(): mixed
+    private function getOpenIdConfiguration(): array
     {
         if ($this->openIdConfiguration !== null) {
             return $this->openIdConfiguration;
@@ -358,13 +358,13 @@ class Provider extends AbstractProvider
             //
             $discovery = sprintf('https://login.microsoftonline.com/%s/v2.0/.well-known/openid-configuration', $this->getConfig('tenant', 'common'));
 
-            $cacheKey = 'socialite:microsoft:openid:' . sha1((string) $discovery);
+            $cacheKey = 'socialite:microsoft:openid-v2:' . sha1((string) $discovery);
 
             if (class_exists(\Illuminate\Support\Facades\Cache::class)) {
                 $this->openIdConfiguration = \Illuminate\Support\Facades\Cache::remember($cacheKey, self::OPENID_CONFIGURATION_CACHE_TTL_SECONDS, function () use ($discovery) {
                     $response = $this->getHttpClient()->get($discovery, [RequestOptions::PROXY => $this->getConfig('proxy')]);
 
-                    return json_decode((string) $response->getBody());
+                    return json_decode((string) $response->getBody(), true);
                 });
 
                 return $this->openIdConfiguration;
@@ -375,7 +375,7 @@ class Provider extends AbstractProvider
             throw new InvalidStateException("Error on getting OpenID Configuration. {$ex}");
         }
 
-        $this->openIdConfiguration = json_decode((string) $response->getBody());
+        $this->openIdConfiguration = json_decode((string) $response->getBody(), true);
 
         return $this->openIdConfiguration;
     }
@@ -390,7 +390,7 @@ class Provider extends AbstractProvider
     {
         return $jwtHeader?->alg ?? (string) collect(
             array_merge(
-                $this->getOpenIdConfiguration()->id_token_signing_alg_values_supported,
+                $this->getOpenIdConfiguration()['id_token_signing_alg_values_supported'],
                 [$this->getConfig('default_algorithm', 'RS256')]
             )
         )->first();
@@ -437,7 +437,7 @@ class Provider extends AbstractProvider
             // iss validation -  a security token service (STS) URI
             // Identifies the STS that constructs and returns the token, and the Microsoft Entra tenant of the authenticated user.
             // https://learn.microsoft.com/en-au/entra/identity-platform/access-tokens#multitenant-applications
-            $issuer = str_replace('{tenantid}', $jwtPayload->tid, $this->getOpenIdConfiguration()->issuer);
+            $issuer = str_replace('{tenantid}', $jwtPayload->tid, $this->getOpenIdConfiguration()['issuer']);
             if (strcmp($iss = $jwtPayload->iss, $issuer)) {
                 throw new InvalidStateException('iss on id_token does not match issuer value on the OpenID configuration');
             }
