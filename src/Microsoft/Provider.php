@@ -364,7 +364,7 @@ class Provider extends AbstractProvider
                 $this->openIdConfiguration = \Illuminate\Support\Facades\Cache::remember($cacheKey, self::OPENID_CONFIGURATION_CACHE_TTL_SECONDS, function () use ($discovery) {
                     $response = $this->getHttpClient()->get($discovery, [RequestOptions::PROXY => $this->getConfig('proxy')]);
 
-                    return json_decode((string) $response->getBody(), true);
+                    return $this->decodeOpenIdConfiguration((string) $response->getBody());
                 });
 
                 return $this->openIdConfiguration;
@@ -375,9 +375,31 @@ class Provider extends AbstractProvider
             throw new InvalidStateException("Error on getting OpenID Configuration. {$ex}");
         }
 
-        $this->openIdConfiguration = json_decode((string) $response->getBody(), true);
+        $this->openIdConfiguration = $this->decodeOpenIdConfiguration((string) $response->getBody());
 
         return $this->openIdConfiguration;
+    }
+
+    /**
+     * Decode the OpenID configuration JSON response as an associative array.
+     *
+     * @return array<string, mixed>
+     *
+     * @throws \Laravel\Socialite\Two\InvalidStateException
+     */
+    private function decodeOpenIdConfiguration(string $body): array
+    {
+        try {
+            $decoded = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new InvalidStateException("Failed to decode OpenID configuration. {$e->getMessage()}");
+        }
+
+        if (!is_array($decoded) || !isset($decoded['jwks_uri'], $decoded['issuer'])) {
+            throw new InvalidStateException('Invalid OpenID configuration: missing required keys (jwks_uri, issuer).');
+        }
+
+        return $decoded;
     }
 
     /**
