@@ -12,6 +12,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['basic'];
 
+    protected $usesPKCE = true;
+
     protected function getAuthUrl($state): string
     {
         return $this->buildAuthUrlFromBase('https://www.deviantart.com/oauth2/authorize', $state);
