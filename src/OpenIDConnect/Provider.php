@@ -68,6 +68,9 @@ class Provider extends AbstractProvider
             'token_auth_method',
             'post_logout_redirect_uri',
             'cache_ttl',
+            'clock_skew',
+            'http_timeout',
+            'http_connect_timeout',
         ];
     }
 
@@ -181,6 +184,24 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * Apply connect/read timeouts so a slow or hanging IdP doesn't tie up
+     * PHP workers. Defaults: 5s connect, 10s total.
+     */
+    protected function getHttpClient()
+    {
+        if (is_null($this->httpClient)) {
+            $this->httpClient = new \GuzzleHttp\Client([
+                'connect_timeout' => (float) ($this->getConfig('http_connect_timeout') ?: 5),
+                'timeout'         => (float) ($this->getConfig('http_timeout') ?: 10),
+            ]);
+        }
+
+        return $this->httpClient;
+    }
+
+    /**
      * Get the current nonce stored in the session.
      */
     protected function getCurrentNonce(): ?string
@@ -244,8 +265,17 @@ class Provider extends AbstractProvider
             return $this->user;
         }
 
+        if ($this->request->filled('error')) {
+            $description = $this->request->input('error_description') ?: $this->request->input('error');
+            throw new InvalidArgumentException('Callback: IdP returned error - '.$description, 401);
+        }
+
         if ($this->hasInvalidState()) {
             throw new InvalidArgumentException('Callback: invalid state.', 401);
+        }
+
+        if (! $this->request->filled('code')) {
+            throw new InvalidArgumentException('Callback: missing authorization code.', 401);
         }
 
         $tokenResponse = $this->getAccessTokenResponse($this->request->input('code'));
@@ -300,6 +330,8 @@ class Provider extends AbstractProvider
     protected function verifyAndDecodeJWT(string $jwt, ?string $alg)
     {
         try {
+            JWT::$leeway = (int) ($this->getConfig('clock_skew') ?? 0);
+
             $publicKey = $this->getConfig('jwt_public_key');
             $configuredAlg = $this->getConfig('jwt_algorithm') ?: $alg ?: 'RS256';
 
@@ -376,6 +408,31 @@ class Provider extends AbstractProvider
 
         if ($accessToken !== null && isset($payload->at_hash) && $alg) {
             $this->validateAtHash($payload->at_hash, $accessToken, $alg);
+        }
+
+        $this->validateTimeClaims($payload);
+    }
+
+    /**
+     * Validate exp/nbf/iat with configurable leeway. Runs in both verified
+     * and unverified paths so a stale id_token is never accepted even when
+     * signature verification is disabled.
+     */
+    protected function validateTimeClaims($payload): void
+    {
+        $now = time();
+        $leeway = (int) ($this->getConfig('clock_skew') ?? 0);
+
+        if (isset($payload->exp) && $now - $leeway >= (int) $payload->exp) {
+            throw new InvalidArgumentException('JWT: Token has expired.', 401);
+        }
+
+        if (isset($payload->nbf) && $now + $leeway < (int) $payload->nbf) {
+            throw new InvalidArgumentException('JWT: Token not yet valid.', 401);
+        }
+
+        if (isset($payload->iat) && $now + $leeway < (int) $payload->iat) {
+            throw new InvalidArgumentException('JWT: Token issued in the future.', 401);
         }
     }
 

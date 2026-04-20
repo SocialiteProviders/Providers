@@ -51,6 +51,13 @@ then follow the provider specific instructions below.
     // Optional: TTL (in seconds) for the cached discovery document and JWKS.
     // Defaults to 3600 (1 hour).
     'cache_ttl'                => env('OIDC_CACHE_TTL'),
+
+    // Optional: clock skew leeway (in seconds) applied to exp/nbf/iat. 0 by default.
+    'clock_skew'               => env('OIDC_CLOCK_SKEW'),
+
+    // Optional: Guzzle connect/read timeouts for IdP calls. Defaults: 5s/10s.
+    'http_connect_timeout'     => env('OIDC_HTTP_CONNECT_TIMEOUT'),
+    'http_timeout'             => env('OIDC_HTTP_TIMEOUT'),
 ],
 ```
 
