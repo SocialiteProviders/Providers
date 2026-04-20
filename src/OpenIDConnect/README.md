@@ -127,10 +127,64 @@ Most IdPs require `id_token_hint` (the id_token from login) and a `post_logout_r
 If the IdP advertises a `revocation_endpoint` (RFC 7009), you can revoke an access or refresh token server-side — useful at logout to invalidate the refresh token immediately rather than waiting for it to expire:
 
 ```php
-Socialite::driver('openidconnect')->revoke($refreshToken, 'refresh_token');
+// In your login callback, stash the refresh_token alongside the id_token.
+$oidcUser = Socialite::driver('openidconnect')->user();
+session([
+    'oidc_id_token'      => $oidcUser->user['id_token'],
+    'oidc_refresh_token' => $oidcUser->refreshToken,
+]);
+
+// In your logout controller:
+if ($refresh = session('oidc_refresh_token')) {
+    Socialite::driver('openidconnect')->revoke($refresh, 'refresh_token');
+}
+
+return Socialite::driver('openidconnect')
+    ->logout(session('oidc_id_token'), route('home'));
 ```
 
-The second argument is a hint (`access_token` or `refresh_token`) and defaults to `refresh_token`. Returns `true` on a successful (200/204) response.
+The second argument to `revoke()` is a hint (`access_token` or `refresh_token`) and defaults to `refresh_token`. Returns `true` on a successful (200/204) response.
+
+### Storing tokens persistently
+
+The examples above use the session, which is fine when the user always logs out from the same browser session they logged in with. If you need refresh tokens to survive session expiry — for example, to call `revoke()` from a back-channel logout handler, or to refresh access tokens for background jobs — store them on the user record instead:
+
+```php
+// Migration
+Schema::table('users', function (Blueprint $table) {
+    $table->text('oidc_id_token')->nullable();
+    $table->text('oidc_refresh_token')->nullable();
+});
+
+// User model
+protected $casts = [
+    'oidc_id_token'      => 'encrypted',
+    'oidc_refresh_token' => 'encrypted',
+];
+
+// Login callback
+$oidcUser = Socialite::driver('openidconnect')->user();
+$user = User::updateOrCreate(
+    ['email' => $oidcUser->email],
+    [
+        'name'               => $oidcUser->name,
+        'oidc_id_token'      => $oidcUser->user['id_token'],
+        'oidc_refresh_token' => $oidcUser->refreshToken,
+    ],
+);
+Auth::login($user);
+
+// Logout controller
+if ($user->oidc_refresh_token) {
+    Socialite::driver('openidconnect')->revoke($user->oidc_refresh_token, 'refresh_token');
+}
+$idToken = $user->oidc_id_token;
+$user->update(['oidc_id_token' => null, 'oidc_refresh_token' => null]);
+
+return Socialite::driver('openidconnect')->logout($idToken, route('home'));
+```
+
+Both tokens are bearer credentials — always encrypt them at rest (`encrypted` cast) and never expose them to the browser via JavaScript-readable storage.
 
 ### Back-Channel Logout
 
