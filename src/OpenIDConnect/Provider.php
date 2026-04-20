@@ -623,4 +623,37 @@ class Provider extends AbstractProvider
 
         return new RedirectResponse($config['end_session_endpoint'].'?'.http_build_query($params));
     }
+
+    /**
+     * Revoke an access or refresh token at the IdP's revocation endpoint.
+     *
+     * @see https://datatracker.ietf.org/doc/html/rfc7009
+     *
+     * @param  string  $token          The token to revoke.
+     * @param  string  $tokenTypeHint  'access_token' or 'refresh_token'.
+     *
+     * @throws GuzzleException
+     */
+    public function revoke(string $token, string $tokenTypeHint = 'refresh_token'): bool
+    {
+        $config = $this->getOpenIdConfig();
+
+        if (empty($config['revocation_endpoint'])) {
+            throw new InvalidArgumentException('Provider does not advertise a revocation_endpoint.');
+        }
+
+        $response = $this->getHttpClient()->post(
+            $config['revocation_endpoint'],
+            $this->tokenRequestOptions([
+                'token'           => $token,
+                'token_type_hint' => $tokenTypeHint,
+                'client_id'       => $this->clientId,
+                'client_secret'   => $this->clientSecret,
+            ])
+        );
+
+        // RFC 7009: a successful response is 200, regardless of whether the
+        // token was valid. Some IdPs return 204.
+        return in_array($response->getStatusCode(), [200, 204], true);
+    }
 }

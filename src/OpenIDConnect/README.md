@@ -121,3 +121,13 @@ return Socialite::driver('openidconnect')
 ```
 
 Most IdPs require `id_token_hint` (the id_token from login) and a `post_logout_redirect_uri` that has been pre-registered with the client.
+
+### Token Revocation
+
+If the IdP advertises a `revocation_endpoint` (RFC 7009), you can revoke an access or refresh token server-side — useful at logout to invalidate the refresh token immediately rather than waiting for it to expire:
+
+```php
+Socialite::driver('openidconnect')->revoke($refreshToken, 'refresh_token');
+```
+
+The second argument is a hint (`access_token` or `refresh_token`) and defaults to `refresh_token`. Returns `true` on a successful (200/204) response.
