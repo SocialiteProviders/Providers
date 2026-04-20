@@ -131,3 +131,27 @@ Socialite::driver('openidconnect')->revoke($refreshToken, 'refresh_token');
 ```
 
 The second argument is a hint (`access_token` or `refresh_token`) and defaults to `refresh_token`. Returns `true` on a successful (200/204) response.
+
+### Back-Channel Logout
+
+If you register a `backchannel_logout_uri` with the IdP, the IdP will POST a signed `logout_token` to that URL whenever the user logs out elsewhere. Verify the token and destroy the matching local session:
+
+```php
+Route::post('/oidc/backchannel-logout', function (Request $request) {
+    $claims = Socialite::driver('openidconnect')
+        ->verifyLogoutToken($request->input('logout_token'));
+
+    // Replay protection: refuse tokens you've already seen.
+    if (Cache::has('oidc_logout_jti_'.$claims['jti'])) {
+        return response('', 400);
+    }
+    Cache::put('oidc_logout_jti_'.$claims['jti'], true, now()->addHour());
+
+    // Destroy sessions matching $claims['sid'] and/or $claims['sub'].
+    // (How you do that depends on your session store.)
+
+    return response('', 200);
+})->withoutMiddleware(['web']); // the IdP request has no CSRF token or session cookie
+```
+
+`verifyLogoutToken()` validates the signature, `iss`, `aud`, `iat`/`exp`, `jti`, the required `events` claim, and the absence of a `nonce`. The caller is responsible for replay protection (de-duping `jti`) and actually invalidating the session.

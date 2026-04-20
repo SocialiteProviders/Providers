@@ -656,4 +656,60 @@ class Provider extends AbstractProvider
         // token was valid. Some IdPs return 204.
         return in_array($response->getStatusCode(), [200, 204], true);
     }
+
+    /**
+     * Verify a back-channel logout token posted to the RP by the IdP.
+     *
+     * @see https://openid.net/specs/openid-connect-backchannel-1_0.html
+     *
+     * Performs signature verification (always — unlike id_token decoding, the
+     * logout token has no session nonce and must be trusted purely on its
+     * signature), then enforces the spec's claim rules. Returns the decoded
+     * payload so the caller can destroy sessions matching `sid` / `sub`.
+     *
+     * The caller is responsible for:
+     *   - ensuring the jti has not been seen before (replay protection),
+     *   - mapping `sid`/`sub` to local sessions and invalidating them.
+     *
+     * @throws InvalidArgumentException if the token is invalid.
+     */
+    public function verifyLogoutToken(string $logoutToken): array
+    {
+        $header = $this->decodeJwtHeader($logoutToken);
+        $alg = $header->alg ?? null;
+
+        $payload = $this->verifyAndDecodeJWT($logoutToken, $alg);
+
+        $expectedIssuer = $this->getConfig('issuer') ?: ($this->getOpenIdConfig()['issuer'] ?? null);
+        if ($expectedIssuer !== null && ($payload->iss ?? null) !== $expectedIssuer) {
+            throw new InvalidArgumentException('Logout token: invalid issuer.', 401);
+        }
+
+        $aud = $payload->aud ?? null;
+        $audList = is_array($aud) ? $aud : [$aud];
+        if (! in_array($this->clientId, $audList, true)) {
+            throw new InvalidArgumentException('Logout token: invalid audience.', 401);
+        }
+
+        $this->validateTimeClaims($payload);
+
+        if (empty($payload->jti ?? null)) {
+            throw new InvalidArgumentException('Logout token: missing jti.', 401);
+        }
+
+        if (isset($payload->nonce)) {
+            throw new InvalidArgumentException('Logout token: must not contain a nonce.', 401);
+        }
+
+        $events = (array) ($payload->events ?? []);
+        if (! array_key_exists('http://schemas.openid.net/event/backchannel-logout', $events)) {
+            throw new InvalidArgumentException('Logout token: missing backchannel-logout event.', 401);
+        }
+
+        if (empty($payload->sub ?? null) && empty($payload->sid ?? null)) {
+            throw new InvalidArgumentException('Logout token: must contain sub and/or sid.', 401);
+        }
+
+        return (array) $payload;
+    }
 }
