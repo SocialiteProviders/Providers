@@ -47,6 +47,10 @@ then follow the provider specific instructions below.
 
     // Optional: default post-logout redirect URI used by the logout() helper.
     'post_logout_redirect_uri' => env('OIDC_POST_LOGOUT_REDIRECT_URI'),
+
+    // Optional: TTL (in seconds) for the cached discovery document and JWKS.
+    // Defaults to 3600 (1 hour).
+    'cache_ttl'                => env('OIDC_CACHE_TTL'),
 ],
 ```
 

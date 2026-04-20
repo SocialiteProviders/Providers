@@ -67,6 +67,7 @@ class Provider extends AbstractProvider
             'issuer',
             'token_auth_method',
             'post_logout_redirect_uri',
+            'cache_ttl',
         ];
     }
 
@@ -172,6 +173,14 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * TTL (in seconds) for the cached discovery document and JWKS.
+     */
+    protected function getCacheTtl(): int
+    {
+        return (int) ($this->getConfig('cache_ttl') ?: 3600);
+    }
+
+    /**
      * Get the current nonce stored in the session.
      */
     protected function getCurrentNonce(): ?string
@@ -188,7 +197,7 @@ class Provider extends AbstractProvider
             $configUrl = rtrim($this->getConfig('base_url'), '/').'/.well-known/openid-configuration';
             $cacheKey = 'openidconnect_discovery_'.md5($configUrl);
 
-            $this->configurations = Cache::remember($cacheKey, 3600, function () use ($configUrl) {
+            $this->configurations = Cache::remember($cacheKey, $this->getCacheTtl(), function () use ($configUrl) {
                 try {
                     $response = $this->getHttpClient()->get($configUrl);
 
@@ -209,9 +218,7 @@ class Provider extends AbstractProvider
      */
     protected function getJwks(): array
     {
-        $cacheKey = 'openidconnect_jwks_'.md5($this->getConfig('base_url'));
-
-        return Cache::remember($cacheKey, 3600, function () {
+        return Cache::remember($this->jwksCacheKey(), $this->getCacheTtl(), function () {
             $config = $this->getOpenIdConfig();
 
             if (! isset($config['jwks_uri'])) {
@@ -299,13 +306,37 @@ class Provider extends AbstractProvider
             if ($publicKey) {
                 $decoded = JWT::decode($jwt, new Key($publicKey, $configuredAlg));
             } else {
-                $decoded = JWT::decode($jwt, JWK::parseKeySet($this->getJwks(), $configuredAlg));
+                $kid = $this->decodeJwtHeader($jwt)->kid ?? null;
+                $jwks = $this->getJwks();
+
+                if ($kid && ! $this->jwksContainsKid($jwks, $kid)) {
+                    Cache::forget($this->jwksCacheKey());
+                    $jwks = $this->getJwks();
+                }
+
+                $decoded = JWT::decode($jwt, JWK::parseKeySet($jwks, $configuredAlg));
             }
 
             return json_decode(json_encode($decoded));
         } catch (Exception $e) {
             throw new InvalidArgumentException('JWT: Verification failed - '.$e->getMessage(), 401);
         }
+    }
+
+    protected function jwksContainsKid(array $jwks, string $kid): bool
+    {
+        foreach ($jwks['keys'] ?? [] as $key) {
+            if (($key['kid'] ?? null) === $kid) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function jwksCacheKey(): string
+    {
+        return 'openidconnect_jwks_'.md5($this->getConfig('base_url'));
     }
 
     protected function decodeJwtHeader(string $jwt)
