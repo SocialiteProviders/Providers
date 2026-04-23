@@ -188,24 +188,91 @@ Both tokens are bearer credentials — always encrypt them at rest (`encrypted` 
 
 ### Back-Channel Logout
 
-If you register a `backchannel_logout_uri` with the IdP, the IdP will POST a signed `logout_token` to that URL whenever the user logs out elsewhere. Verify the token and destroy the matching local session:
+If you register a `backchannel_logout_uri` with the IdP, the IdP will POST a signed `logout_token` to that URL whenever the user logs out elsewhere (for example, another client in the same SSO federation). Your app must verify the token and destroy the matching local session.
+
+#### Mapping IdP sessions to Laravel sessions
+
+The IdP has no idea what your Laravel session ID is. It identifies the session by a `sid` claim that it mints itself and includes in both the id_token at login and the logout_token at logout. You are responsible for storing a mapping from `sid` → Laravel session ID at login time, and consulting it at logout time.
+
+Prerequisites:
+
+- The IdP advertises `backchannel_logout_session_supported: true` in its discovery document.
+- Your client registration has `backchannel_logout_session_required` enabled so the IdP actually includes `sid` in issued tokens.
+
+If the IdP does not support `sid`, logout tokens will only carry `sub`. You can still implement back-channel logout — you just have to kill **all** of the user's local sessions instead of only the one that ended. That is correct but coarser: a user logged in on three devices will be signed out of all three when they log out of one.
+
+```php
+// Migration
+Schema::create('oidc_sessions', function (Blueprint $table) {
+    $table->string('sid')->primary();             // the IdP's session id
+    $table->string('laravel_session_id');         // session()->getId()
+    $table->foreignId('user_id')->constrained();
+    $table->timestamps();
+    $table->index('user_id');
+});
+```
+
+#### Recording the mapping at login
+
+```php
+$oidcUser = Socialite::driver('openidconnect')->user();
+// ...find or create $user, Auth::login($user)...
+
+if ($sid = $oidcUser->user['sid'] ?? null) {
+    DB::table('oidc_sessions')->updateOrInsert(
+        ['sid' => $sid],
+        [
+            'laravel_session_id' => session()->getId(),
+            'user_id'            => $user->id,
+            'updated_at'         => now(),
+            'created_at'         => now(),
+        ],
+    );
+}
+```
+
+`sid` arrives via the raw id_token claims on the user (`$oidcUser->user['sid']`), not as a first-class field on the Socialite user — it's a session attribute, not a user attribute.
+
+#### Handling the logout POST
 
 ```php
 Route::post('/oidc/backchannel-logout', function (Request $request) {
-    $claims = Socialite::driver('openidconnect')
-        ->verifyLogoutToken($request->input('logout_token'));
-
-    // Replay protection: refuse tokens you've already seen.
-    if (Cache::has('oidc_logout_jti_'.$claims['jti'])) {
+    try {
+        $claims = Socialite::driver('openidconnect')
+            ->verifyLogoutToken($request->input('logout_token'));
+    } catch (\InvalidArgumentException $e) {
         return response('', 400);
     }
-    Cache::put('oidc_logout_jti_'.$claims['jti'], true, now()->addHour());
 
-    // Destroy sessions matching $claims['sid'] and/or $claims['sub'].
-    // (How you do that depends on your session store.)
+    // Replay protection: refuse a jti we've already processed.
+    $jtiKey = 'oidc_logout_jti_'.$claims['jti'];
+    if (Cache::has($jtiKey)) {
+        return response('', 400);
+    }
+    Cache::put($jtiKey, true, now()->addHour());
+
+    // Prefer sid (per-session); fall back to sub (all sessions for that user).
+    $rows = ! empty($claims['sid'])
+        ? DB::table('oidc_sessions')->where('sid', $claims['sid'])->get()
+        : DB::table('oidc_sessions')
+            ->join('users', 'users.id', '=', 'oidc_sessions.user_id')
+            ->where('users.oidc_sub', $claims['sub'] ?? '')
+            ->select('oidc_sessions.*')
+            ->get();
+
+    $handler = Session::getHandler();
+    foreach ($rows as $row) {
+        $handler->destroy($row->laravel_session_id);
+    }
+
+    DB::table('oidc_sessions')
+        ->whereIn('laravel_session_id', $rows->pluck('laravel_session_id'))
+        ->delete();
 
     return response('', 200);
-})->withoutMiddleware(['web']); // the IdP request has no CSRF token or session cookie
+})->withoutMiddleware(['web']); // no CSRF token or session cookie on IdP requests
 ```
+
+The `sub`-fallback path assumes you store the IdP's `sub` claim on the user record (e.g. in an `oidc_sub` column) at login. If you don't need that fallback — because your IdP always emits `sid` — you can skip it.
 
 `verifyLogoutToken()` validates the signature, `iss`, `aud`, `iat`/`exp`, `jti`, the required `events` claim, and the absence of a `nonce`. The caller is responsible for replay protection (de-duping `jti`) and actually invalidating the session.
