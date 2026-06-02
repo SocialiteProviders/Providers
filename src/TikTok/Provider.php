@@ -25,19 +25,20 @@ class Provider extends AbstractProvider
      */
     protected $user;
 
-    protected function getAuthUrl($state): string
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAuthUrl($state)
     {
-        $fields = [
-            'client_key'    => $this->clientId,
-            'state'         => $state,
-            'response_type' => 'code',
-            'scope'         => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
-            'redirect_uri'  => $this->redirectUrl,
-        ];
+        return $this->buildAuthUrlFromBase('https://www.tiktok.com/v2/auth/authorize/', $state);
+    }
 
-        $fields = array_merge($fields, $this->parameters);
-
-        return 'https://www.tiktok.com/v2/auth/authorize/?'.http_build_query($fields);
+    /**
+     * {@inheritdoc}
+     */
+    protected function buildAuthUrlFromBase($url, $state)
+    {
+        return $url.'?'.http_build_query($this->getCodeFields($state), '', '&', $this->encodingType);
     }
 
     /**
@@ -85,6 +86,26 @@ class Provider extends AbstractProvider
         unset($fields['client_id']);
 
         return $fields;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCodeFields($state = null)
+    {
+        $fields = parent::getCodeFields($state);
+        $fields['client_key'] = $this->clientId;
+        unset($fields['client_id']);
+
+        return $fields;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCodeChallenge()
+    {
+        return hash('sha256', $this->request->session()->get('code_verifier'));
     }
 
     /**
