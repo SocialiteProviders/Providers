@@ -149,6 +149,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'metadata',
             'ttl',
             'acs',
+            'slo',
             'entityid',
             'certificate',
             'sp_acs',
@@ -270,6 +271,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected function getIdentityProviderEntityDescriptorManually(): EntityDescriptor
     {
         $acs = $this->getConfig('acs');
+        $slo = $this->getConfig('slo');
         $entityId = $this->getConfig('entityid');
         $certificate = $this->getConfig('certificate');
 
@@ -281,7 +283,20 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $builder = new SimpleEntityDescriptorBuilder($entityId, $acs, $acs, $x509);
 
-        return $builder->get();
+        $entityDescriptor = $builder->get();
+
+        // SimpleEntityDescriptorBuilder only emits a SingleSignOnService, so when an IdP Single Logout location is
+        // configured manually (via "slo"), advertise it here. Without this, logoutResponse() cannot resolve the IdP
+        // logout endpoint unless the IdP is configured through metadata instead.
+        if ($slo) {
+            $idpSsoDescriptor = $entityDescriptor->getFirstIdpSsoDescriptor();
+
+            foreach ([SamlConstants::BINDING_SAML2_HTTP_REDIRECT, SamlConstants::BINDING_SAML2_HTTP_POST] as $binding) {
+                $idpSsoDescriptor->addSingleLogoutService(new SingleLogoutService($slo, $binding));
+            }
+        }
+
+        return $entityDescriptor;
     }
 
     protected function getIdpEntityDescriptorFromXml(string $xml): EntityDescriptor

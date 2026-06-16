@@ -182,6 +182,17 @@ To publish the SingleLogoutService in your service provider metadata, you also h
 ],
 ```
 
+When the Identity Provider is configured through `metadata`, its SingleLogoutService location is read from that metadata automatically. When configuring the Identity Provider manually (using `acs`), there is no metadata to read it from, so provide the IdP's Single Logout URL with the `slo` key:
+```php
+'saml2' => [
+  'acs' => 'https://idp.co/auth/sso', // the IDP's Single Sign-On URL
+  'slo' => 'https://idp.co/auth/slo', // the IDP's Single Logout URL
+  'entityid' => 'http://saml.to/trust',
+  'certificate' => 'MIIC4jCCAcqgAwIBAgIQbDO5YO....',
+],
+```
+Without `slo`, `logoutResponse()` cannot resolve the IdP logout endpoint for a manually configured Identity Provider.
+
 ### Signing and encryption
 
 SAML2 supports the signing and encryption of messages and assertions. Many Identity Providers make one or both mandatory. To enable this feature, you can generate a certificate for your application and provide it in `config/services.php` as:
