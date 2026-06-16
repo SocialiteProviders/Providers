@@ -30,6 +30,7 @@ use LightSaml\Error\LightSamlValidationException;
 use LightSaml\Helper;
 use LightSaml\Model\Assertion\Assertion;
 use LightSaml\Model\Assertion\AttributeStatement;
+use LightSaml\Model\Assertion\EncryptedAssertionReader;
 use LightSaml\Model\Assertion\Issuer;
 use LightSaml\Model\Assertion\NameID;
 use LightSaml\Model\Context\DeserializationContext;
@@ -158,6 +159,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
             'sp_certificate',
             'sp_private_key',
             'sp_private_key_passphrase',
+            'sp_previous_certificate',
+            'sp_previous_private_key',
+            'sp_previous_private_key_passphrase',
             'sp_tech_contact_surname',
             'sp_tech_contact_givenname',
             'sp_tech_contact_email',
@@ -407,11 +411,14 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setEntityID($this->getConfig('sp_entityid', URL::to('auth/saml2')))
             ->addItem($spSsoDescriptor);
 
-        if ($credential = $this->credential()) {
+        if ($credential = $this->signingCredential()) {
             $entityDescriptor->setSignature($this->signature($credential));
-            $spSsoDescriptor->setAuthnRequestsSigned(true)
-                ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_SIGNING, $credential->getCertificate()))
-                ->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_ENCRYPTION, $credential->getCertificate()));
+            $spSsoDescriptor->setAuthnRequestsSigned(true);
+
+            foreach ($this->metadataCertificates() as $certificate) {
+                $spSsoDescriptor->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_SIGNING, $certificate));
+                $spSsoDescriptor->addKeyDescriptor(new KeyDescriptor(KeyDescriptor::USE_ENCRYPTION, $certificate));
+            }
         }
 
         if ($this->getConfig('sp_org_name')) {
@@ -657,20 +664,25 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function decryptAssertions(): void
     {
-        $credential = $this->credential();
-        if ($credential === null) {
-            return;
-        }
-
-        /** @var \LightSaml\Model\Assertion\EncryptedAssertionReader $reader */
+        /** @var EncryptedAssertionReader|null $reader */
         $reader = $this->messageContext->asResponse()->getFirstEncryptedAssertion();
 
         if ($reader === null) {
             return;
         }
 
-        $assertion = $reader->decryptAssertion($credential->getPrivateKey(), new DeserializationContext);
-        $this->messageContext->asResponse()->addAssertion($assertion);
+        foreach ($this->decryptionCredentials() as $credential) {
+            try {
+                $assertion = $reader->decryptAssertion($credential->getPrivateKey(), new DeserializationContext);
+                $this->messageContext->asResponse()->addAssertion($assertion);
+
+                return;
+            } catch (LightSamlSecurityException) {
+                continue;
+            }
+        }
+
+        throw new LightSamlSecurityException('The encrypted assertion could not be decrypted');
     }
 
     public function getServiceProviderMetadata(): Response
@@ -682,6 +694,14 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return (new Response)
             ->header('content-type', 'application/samlmetadata+xml')
             ->setContent($serializationContext->getDocument()->saveXML());
+    }
+
+    /**
+     * @return X509Certificate[]
+     */
+    public function getServiceProviderCertificates(): array
+    {
+        return $this->metadataCertificates();
     }
 
     public function clearIdentityProviderMetadataCache()
@@ -701,15 +721,87 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function credential(): ?X509Credential
     {
-        if (! $this->getConfig('sp_certificate') || ! $this->getConfig('sp_private_key')) {
+        return $this->signingCredential();
+    }
+
+    protected function signingCredential(): ?X509Credential
+    {
+        return $this->makeCredential(
+            $this->getConfig('sp_certificate'),
+            $this->getConfig('sp_private_key'),
+            $this->getConfig('sp_private_key_passphrase')
+        );
+    }
+
+    protected function previousCredential(): ?X509Credential
+    {
+        $this->validateOverlappingCredentialConfig();
+
+        return $this->makeCredential(
+            $this->getConfig('sp_previous_certificate'),
+            $this->getConfig('sp_previous_private_key'),
+            $this->getConfig('sp_previous_private_key_passphrase')
+        );
+    }
+
+    /**
+     * @return X509Credential[]
+     */
+    protected function decryptionCredentials(): array
+    {
+        return array_values(array_filter([
+            $this->signingCredential(),
+            $this->previousCredential(),
+        ]));
+    }
+
+    /**
+     * @return X509Certificate[]
+     */
+    protected function metadataCertificates(): array
+    {
+        $this->validateOverlappingCredentialConfig();
+
+        $certificates = [];
+
+        foreach ([$this->signingCredential(), $this->previousCredential()] as $credential) {
+            if ($credential === null) {
+                continue;
+            }
+
+            $data = $credential->getCertificate()->getData();
+
+            if (! isset($certificates[$data])) {
+                $certificates[$data] = $credential->getCertificate();
+            }
+        }
+
+        return array_values($certificates);
+    }
+
+    protected function validateOverlappingCredentialConfig(): void
+    {
+        $hasPreviousCertificate = (bool) $this->getConfig('sp_previous_certificate');
+        $hasPreviousPrivateKey = (bool) $this->getConfig('sp_previous_private_key');
+
+        if ($hasPreviousCertificate xor $hasPreviousPrivateKey) {
+            throw new MissingConfigException(
+                'When using a previous service provider certificate during overlap rotation, both "sp_previous_certificate" and "sp_previous_private_key" must be set.'
+            );
+        }
+    }
+
+    protected function makeCredential(?string $certificate, ?string $privateKey, ?string $passphrase): ?X509Credential
+    {
+        if (! $certificate || ! $privateKey) {
             return null;
         }
 
         return new X509Credential(
-            $this->makeCertificate($this->getConfig('sp_certificate')),
+            $this->makeCertificate($certificate),
             KeyHelper::createPrivateKey(
-                $this->getConfig('sp_private_key'),
-                $this->getConfig('sp_private_key_passphrase'),
+                $privateKey,
+                $passphrase,
                 false,
                 XMLSecurityKey::RSA_SHA256
             )
