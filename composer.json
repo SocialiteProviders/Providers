@@ -16,21 +16,13 @@
         "guzzlehttp/guzzle": "^7.9",
         "illuminate/http": "^12.0",
         "laravel/pint": "^1.18",
-        "litesaml/lightsaml": "^4.0",
-        "orchestra/testbench": "^10.0",
         "php-parallel-lint/php-console-highlighter": "^1.0",
         "composer/semver": "^3.0",
-        "php-parallel-lint/php-parallel-lint": "^1.4",
-        "phpunit/phpunit": "^11.0"
+        "php-parallel-lint/php-parallel-lint": "^1.4"
     },
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "SocialiteProviders\\Saml2\\Tests\\": "src/Saml2/Tests/"
         }
     },
     "config": {
