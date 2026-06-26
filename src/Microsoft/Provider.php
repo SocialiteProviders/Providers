@@ -234,6 +234,28 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Get all claims from the ID_TOKEN
+     */
+    public function getClaims()
+    {
+        if ($idToken = $this->parseIdToken($this->credentialsResponseBody)) {
+
+            return $this->validate($idToken);
+        }
+
+        return [];
+    }
+
+    /**
+     * Get the optional groups from the ID_TOKEN.
+     * https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims-reference
+     */
+    public function getGroups()
+    {
+        return $this->getClaims()?->groups ?? [];
+    }
+
+    /**
      * Get user's roles from the ID_TOKEN.
      * https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims#configure-groups-optional-claims
      *
@@ -241,12 +263,7 @@ class Provider extends AbstractProvider
      */
     public function getRoles(): array
     {
-        if ($idToken = $this->parseIdToken($this->credentialsResponseBody)) {
-
-            $claims = $this->validate($idToken);
-        }
-
-        return $claims?->roles ?? [];
+        return $this->getClaims()?->roles ?? [];
     }
 
     /**
@@ -257,14 +274,7 @@ class Provider extends AbstractProvider
      */
     public function isConsumerTenant(): bool
     {
-        if ($idToken = $this->parseIdToken($this->credentialsResponseBody)) {
-
-            $claims = $this->validate($idToken);
-
-            return ($claims?->tid ?? '') === self::MS_ENTRA_CONSUMER_TENANT_ID;
-        }
-
-        return false;
+        return ($this->getClaims()?->tid ?? '') === self::MS_ENTRA_CONSUMER_TENANT_ID;
     }
 
     /**
