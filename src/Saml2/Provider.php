@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Saml2;
 
 use DateTime;
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -671,18 +672,20 @@ class Provider extends AbstractProvider implements SocialiteProvider
             return;
         }
 
+        $lastException = null;
+
         foreach ($this->decryptionCredentials() as $credential) {
             try {
                 $assertion = $reader->decryptAssertion($credential->getPrivateKey(), new DeserializationContext);
                 $this->messageContext->asResponse()->addAssertion($assertion);
 
                 return;
-            } catch (LightSamlSecurityException) {
-                continue;
+            } catch (Exception $exception) {
+                $lastException = $exception;
             }
         }
 
-        throw new LightSamlSecurityException('The encrypted assertion could not be decrypted');
+        throw $lastException ?? new LightSamlSecurityException('The encrypted assertion could not be decrypted');
     }
 
     public function getServiceProviderMetadata(): Response
