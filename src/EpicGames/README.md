@@ -11,7 +11,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 ### Add configuration to `config/services.php`
 
 ```php
-'epic_games' => [    
+'epic-games' => [    
   'client_id' => env('EPIC_GAMES_CLIENT_ID'),  
   'client_secret' => env('EPIC_GAMES_CLIENT_SECRET'),  
   'redirect' => env('EPIC_GAMES_REDIRECT_URI') 

@@ -4,8 +4,8 @@ namespace SocialiteProviders\EpicGames;
 
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
-use Laravel\Socialite\Two\User;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
@@ -92,7 +92,6 @@ class Provider extends AbstractProvider
             'nickname' => Arr::get($user, 'preferred_username'),
             'name' => Arr::get($user, 'name', Arr::get($user, 'preferred_username')),
             'email' => Arr::get($user, 'email'),
-            'avatar' => null,
         ]);
     }
 }
