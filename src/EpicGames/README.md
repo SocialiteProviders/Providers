@@ -1,3 +1,8 @@
+---
+category: Gaming
+name: Epic Games
+---
+
 # Epic Games
 
 ```bash
