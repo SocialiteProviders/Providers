@@ -40,8 +40,8 @@ class Provider extends AbstractProvider
                         myshopifyDomain
                         shopOwnerName
                     }
-                }'
-            ]
+                }',
+            ],
         ]);
 
         return json_decode($response->getBody(), true)['data']['shop'];
@@ -82,6 +82,6 @@ class Provider extends AbstractProvider
             return "https://{$this->getConfig('subdomain')}.myshopify.com".$uri;
         }
 
-        return 'https://'.$this->request->get('shop').$uri;
+        return 'https://'.$this->request->input('shop').$uri;
     }
 }
