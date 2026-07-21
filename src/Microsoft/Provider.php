@@ -24,6 +24,8 @@ class Provider extends AbstractProvider
 
     private ?array $jwtKeys = null;
 
+    private ?\stdClass $claims = null;
+
     /**
      * The tenant id associated with personal Microsoft accounts (services like Xbox, Teams for Life, or Outlook).
      * Note: only reported in JWT ID_TOKENs and not in call's to Graph Organization endpoint.
@@ -165,6 +167,7 @@ class Provider extends AbstractProvider
         }
 
         $formattedResponse['roles'] = $this->getRoles();
+        $formattedResponse['groups'] = $this->getGroups();
 
         return $formattedResponse;
     }
@@ -205,6 +208,7 @@ class Provider extends AbstractProvider
             'userPrincipalName' => Arr::get($user, 'userPrincipalName'),
             'employeeId'        => Arr::get($user, 'employeeId'),
             'roles'             => Arr::get($user, 'roles'),
+            'groups'            => Arr::get($user, 'groups'),
 
             'tenant' => Arr::get($user, 'tenant'),
         ]);
@@ -234,19 +238,41 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Get all claims from the ID_TOKEN.
+     */
+    public function getClaims(): ?\stdClass
+    {
+        if ($this->claims !== null) {
+            return $this->claims;
+        }
+
+        if ($idToken = $this->parseIdToken($this->credentialsResponseBody)) {
+            return $this->claims = $this->validate($idToken);
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the optional groups from the ID_TOKEN.
+     * https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims-reference
+     *
+     * @return array<string>
+     */
+    public function getGroups(): array
+    {
+        return $this->getClaims()?->groups ?? [];
+    }
+
+    /**
      * Get user's roles from the ID_TOKEN.
-     * https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims#configure-groups-optional-claims
+     * https://learn.microsoft.com/en-us/entra/identity-platform/howto-add-app-roles-in-microsoft-entra-apps
      *
      * @return array<string>
      */
     public function getRoles(): array
     {
-        if ($idToken = $this->parseIdToken($this->credentialsResponseBody)) {
-
-            $claims = $this->validate($idToken);
-        }
-
-        return $claims?->roles ?? [];
+        return $this->getClaims()?->roles ?? [];
     }
 
     /**
@@ -257,14 +283,7 @@ class Provider extends AbstractProvider
      */
     public function isConsumerTenant(): bool
     {
-        if ($idToken = $this->parseIdToken($this->credentialsResponseBody)) {
-
-            $claims = $this->validate($idToken);
-
-            return ($claims?->tid ?? '') === self::MS_ENTRA_CONSUMER_TENANT_ID;
-        }
-
-        return false;
+        return ($this->getClaims()?->tid ?? '') === self::MS_ENTRA_CONSUMER_TENANT_ID;
     }
 
     /**
