@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Dataporten;
 
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -25,7 +26,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get('https://auth.dataporten.no/userinfo', [
+        $response = $this->getHttpClient()->get('https://auth.dataporten.no/openid/userinfo', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
             ],
@@ -39,6 +40,11 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user);
+        return (new User)->setRaw($user)->map([
+            'id'     => Arr::get($user, 'sub'),
+            'name'   => Arr::get($user, 'name'),
+            'email'  => Arr::get($user, 'email'),
+            'avatar' => Arr::get($user, 'picture'),
+        ]);
     }
 }
