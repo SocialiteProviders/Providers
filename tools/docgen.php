@@ -1,6 +1,10 @@
 <?php
 
 $stub = <<<DOC
+---
+category: %PROVIDER_CATEGORY%
+---
+
 # %PROVIDER%
 
 ```bash
@@ -78,8 +82,8 @@ foreach ($directories as $provider) {
     );
 
     $doc = str_replace(
-        ['%PROVIDER%', '%PROVIDER_LOWER%', '%PROVIDER_UPPER%', '%PROVIDER_ALIAS%'],
-        [$provider, strtolower($provider), strtoupper($provider), $providerAlias[1] ?? $provider],
+        ['%PROVIDER%', '%PROVIDER_LOWER%', '%PROVIDER_UPPER%', '%PROVIDER_ALIAS%', '%PROVIDER_CATEGORY%'],
+        [$provider, strtolower($provider), strtoupper($provider), $providerAlias[1] ?? $provider, 'Misc'],
         $stub
     );
 
