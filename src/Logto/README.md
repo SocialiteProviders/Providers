@@ -1,3 +1,7 @@
+---
+category: Social / Platform
+---
+
 # Logto
 
 ```bash
