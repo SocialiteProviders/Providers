@@ -166,7 +166,7 @@ class Provider extends AbstractProvider
      *
      * @return bool
      *
-     * @throws \SocialiteProviders\Steam\OpenIDValidationException
+     * @throws OpenIDValidationException
      */
     public function validate()
     {
@@ -176,7 +176,7 @@ class Provider extends AbstractProvider
             throw new OpenIDValidationException('A critical openid parameter is missing from the request');
         }
 
-        if (! $this->validateHost($this->request->get(self::OPENID_RETURN_TO))) {
+        if (! $this->validateHost($this->request->input(self::OPENID_RETURN_TO))) {
             throw new OpenIDValidationException('Invalid return_to host');
         }
 
@@ -254,18 +254,18 @@ class Provider extends AbstractProvider
     public function getParams()
     {
         $params = [
-            'openid.assoc_handle' => $this->request->get(self::OPENID_ASSOC_HANDLE),
-            'openid.signed'       => $this->request->get(self::OPENID_SIGNED),
-            'openid.sig'          => $this->request->get(self::OPENID_SIG),
+            'openid.assoc_handle' => $this->request->input(self::OPENID_ASSOC_HANDLE),
+            'openid.signed'       => $this->request->input(self::OPENID_SIGNED),
+            'openid.sig'          => $this->request->input(self::OPENID_SIG),
             'openid.ns'           => self::OPENID_NS,
             'openid.mode'         => 'check_authentication',
-            'openid.error'        => $this->request->get(self::OPENID_ERROR),
+            'openid.error'        => $this->request->input(self::OPENID_ERROR),
         ];
 
-        $signedParams = explode(',', $this->request->get(self::OPENID_SIGNED));
+        $signedParams = explode(',', $this->request->input(self::OPENID_SIGNED));
 
         foreach ($signedParams as $item) {
-            $value = $this->request->get('openid.'.str_replace('.', '_', $item));
+            $value = $this->request->input('openid.'.str_replace('.', '_', $item));
             $params['openid.'.$item] = $value;
         }
 
@@ -313,7 +313,7 @@ class Provider extends AbstractProvider
     {
         preg_match(
             '#^https?://steamcommunity.com/openid/id/([0-9]{17,25})#',
-            $this->request->get(self::OPENID_CLAIMED_ID),
+            $this->request->input(self::OPENID_CLAIMED_ID),
             $matches
         );
 

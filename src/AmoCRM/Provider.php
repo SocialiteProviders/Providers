@@ -31,7 +31,7 @@ class Provider extends AbstractProvider
      *
      * @return string
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getTld()
     {
@@ -51,7 +51,7 @@ class Provider extends AbstractProvider
 
     protected function getTokenUrl(): string
     {
-        $domain = $this->request->get('referer');
+        $domain = $this->request->input('referer');
 
         return "https://{$domain}/oauth2/access_token";
     }
@@ -61,7 +61,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $domain = $this->request->get('referer');
+        $domain = $this->request->input('referer');
 
         $response = $this->getHttpClient()->get("https://$domain/api/v4/account", [
             RequestOptions::HEADERS => [
