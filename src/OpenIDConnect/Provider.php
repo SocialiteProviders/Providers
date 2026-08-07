@@ -68,6 +68,12 @@ class Provider extends AbstractProvider
     protected bool $verifyJwt = true;
 
     /**
+     * Indicates if a missing email should fail the login.
+     * Can be overridden by config 'require_email'.
+     */
+    protected bool $requireEmail = false;
+
+    /**
      * {@inheritdoc}
      */
     public static function additionalConfigKeys(): array
@@ -76,6 +82,7 @@ class Provider extends AbstractProvider
             'base_url',
             'scopes',
             'use_nonce',
+            'require_email',
             'verify_jwt',
             'jwt_public_key',
             'jwt_algorithm',
@@ -487,22 +494,27 @@ class Provider extends AbstractProvider
 
         $accessToken = Arr::get($tokenResponse, 'access_token');
 
-        $payload = $this->decodeJWT($idToken, $accessToken);
+        $claims = (array) $this->decodeJWT($idToken, $accessToken);
 
-        if ($this->hasEmptyEmail($payload)) {
-            // The userinfo endpoint is only reachable with an access token;
-            // an id_token-only response leaves the id_token claims as all we
-            // have to go on.
-            if (is_string($accessToken) && $accessToken !== '') {
-                $payload = $this->getUserByToken($accessToken);
-            }
-
-            if ($this->hasEmptyEmail($payload)) {
-                throw new InvalidArgumentException('JWT: User has no email.', 401);
-            }
+        // sub is the only identifier the OP must return (OIDC Core 2), so it
+        // is the one claim worth insisting on.
+        if (empty($claims['sub'])) {
+            throw new InvalidArgumentException('JWT: Missing required sub claim.', 401);
         }
 
-        $this->user = $this->mapUserToObject((array) $payload);
+        // The userinfo endpoint is only reachable with an access token; an
+        // id_token-only response leaves the id_token claims as all we have.
+        if ($this->hasEmptyEmail($claims) && is_string($accessToken) && $accessToken !== '') {
+            $claims = $this->mergeUserInfoClaims($claims, $this->getUserByToken($accessToken));
+        }
+
+        // email depends on the `email` scope being granted and is not
+        // guaranteed, so it is only fatal when explicitly required.
+        if ($this->requiresEmail() && $this->hasEmptyEmail($claims)) {
+            throw new InvalidArgumentException('JWT: User has no email.', 401);
+        }
+
+        $this->user = $this->mapUserToObject($claims);
 
         // Reimplementing user() means re-establishing what the Manager's base
         // sets, or this provider alone returns null for the standard
@@ -805,6 +817,47 @@ class Provider extends AbstractProvider
         }
 
         return ! (is_string($nonce) && strlen($nonce) > 0 && $nonce === $this->getCurrentNonce());
+    }
+
+    /**
+     * Merge the UserInfo response over the id_token claims.
+     *
+     * OIDC Core 5.3.2 requires the sub of the UserInfo response to be verified
+     * against the sub of the id_token, and the response not to be used if they
+     * do not match exactly.
+     *
+     * Merged rather than substituted so claims the id_token carried but
+     * UserInfo does not -- groups and role, typically -- are not lost.
+     */
+    protected function mergeUserInfoClaims(array $claims, $userInfo): array
+    {
+        if (! is_array($userInfo)) {
+            return $claims;
+        }
+
+        if (($userInfo['sub'] ?? null) !== $claims['sub']) {
+            throw new InvalidArgumentException('UserInfo: sub does not match the id_token.', 401);
+        }
+
+        return array_merge($claims, array_filter($userInfo, static fn ($value) => $value !== null));
+    }
+
+    /**
+     * Determine if a missing email should fail the login.
+     *
+     * Off by default: email is not a guaranteed claim, since it depends on the
+     * `email` scope being granted, and OIDC Core 2 makes sub the only
+     * identifier an OP must return.
+     */
+    protected function requiresEmail(): bool
+    {
+        $config = $this->getConfig();
+
+        if (is_array($config) && isset($config['require_email'])) {
+            return filter_var($config['require_email'], FILTER_VALIDATE_BOOLEAN);
+        }
+
+        return $this->requireEmail;
     }
 
     protected function hasEmptyEmail($payload): bool

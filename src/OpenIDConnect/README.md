@@ -71,6 +71,12 @@ then follow the provider specific instructions below.
     // (always off) in stateless mode, where there is no session to carry it.
     'use_nonce'                => env('OIDC_USE_NONCE', true),
 
+    // Optional: fail the login when no email can be obtained. Defaults to
+    // false, since email depends on the 'email' scope being granted and is not
+    // a claim the IdP is obliged to return -- only 'sub' is. Enable it if your
+    // application genuinely cannot create a user without one.
+    'require_email'            => env('OIDC_REQUIRE_EMAIL', false),
+
     // Optional: Guzzle connect/read timeouts for IdP calls. Defaults: 5s/10s.
     'http_connect_timeout'     => env('OIDC_HTTP_CONNECT_TIMEOUT'),
     'http_timeout'             => env('OIDC_HTTP_TIMEOUT'),
@@ -139,7 +145,9 @@ return Socialite::driver('openidconnect')->redirect();
 $user = Socialite::driver('openidconnect')->user();
 ```
 
-The returned user is populated from the `id_token` claims, falling back to the `userinfo` endpoint when the id_token does not contain an email. Mapped fields include `id` (`sub`), `email`, `name`, `nickname`, `given_name`, `family_name`, `idp`, `role`, and `groups`.
+The returned user is populated from the `id_token` claims. When the id_token carries no email and an access token is available, the `userinfo` endpoint is consulted and its claims merged over the id_token's — its `sub` is verified against the id_token first, as OIDC Core 5.3.2 requires. Mapped fields include `id` (`sub`), `email`, `name`, `nickname`, `given_name`, `family_name`, `idp`, `role`, and `groups`.
+
+Only `sub` is required; a login is rejected without it. `email` is not guaranteed — it depends on the `email` scope being granted — so a user without one is returned with a null email rather than failing. Set `require_email` if your application cannot proceed without it.
 
 The full token endpoint response is available on the standard `accessTokenResponseBody` property, so `$user->accessTokenResponseBody['id_token']` is where you read the id_token — stash it at login if you want to drive RP-initiated logout later. `$user->approvedScopes` holds the scopes the IdP actually granted, which is how you check whether something optional such as `offline_access` was honoured:
 
