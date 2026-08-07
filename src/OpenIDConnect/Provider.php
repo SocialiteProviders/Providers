@@ -6,6 +6,7 @@ use Exception;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\RedirectResponse;
@@ -343,8 +344,8 @@ class Provider extends AbstractProvider
      */
     protected function getHttpClient()
     {
-        if (is_null($this->httpClient)) {
-            $this->httpClient = new \GuzzleHttp\Client([
+        if ($this->httpClient === null) {
+            $this->httpClient = new Client([
                 'connect_timeout' => (float) ($this->getConfig('http_connect_timeout') ?: 5),
                 'timeout'         => (float) ($this->getConfig('http_timeout') ?: 10),
             ]);
@@ -991,9 +992,9 @@ class Provider extends AbstractProvider
      *
      * @see https://openid.net/specs/openid-connect-rpinitiated-1_0.html
      *
-     * @param  string|null  $idToken                 id_token returned at login; most IdPs require it as `id_token_hint`.
+     * @param  string|null  $idToken  id_token returned at login; most IdPs require it as `id_token_hint`.
      * @param  string|null  $postLogoutRedirectUri  Optional override; falls back to the `post_logout_redirect_uri` config.
-     * @param  array        $extra                   Additional query params (e.g. `ui_locales`).
+     * @param  array  $extra  Additional query params (e.g. `ui_locales`).
      *
      * @throws GuzzleException
      */
@@ -1059,7 +1060,7 @@ class Provider extends AbstractProvider
      *
      * @see https://datatracker.ietf.org/doc/html/rfc7009
      *
-     * @param  string  $token          The token to revoke.
+     * @param  string  $token  The token to revoke.
      * @param  string  $tokenTypeHint  'access_token' or 'refresh_token'.
      *
      * @throws GuzzleException
