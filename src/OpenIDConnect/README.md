@@ -170,14 +170,21 @@ session([
 
 // In your logout controller:
 if ($refresh = session('oidc_refresh_token')) {
-    Socialite::driver('openidconnect')->revoke($refresh, 'refresh_token');
+    try {
+        Socialite::driver('openidconnect')->revoke($refresh, 'refresh_token');
+    } catch (Throwable $e) {
+        // Revocation is best-effort: never block the logout on it.
+        report($e);
+    }
 }
 
 return Socialite::driver('openidconnect')
     ->logout(session('oidc_id_token'), route('home'));
 ```
 
-The second argument to `revoke()` is a hint (`access_token` or `refresh_token`) and defaults to `refresh_token`. Returns `true` on a successful (200/204) response.
+The second argument to `revoke()` is a hint (`access_token` or `refresh_token`) and defaults to `refresh_token`.
+
+It returns `true` for a 200/204 and `false` for any other status, so an IdP that answers 400 for an already-revoked token gives you `false` rather than an exception. A transport failure (timeout, DNS, connection refused) still throws, which is why the example above wraps the call — you generally want the user logged out even when the IdP is unreachable.
 
 ### Storing tokens persistently
 

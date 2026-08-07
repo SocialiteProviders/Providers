@@ -938,18 +938,26 @@ class Provider extends AbstractProvider
             throw new InvalidArgumentException('Provider does not advertise a revocation_endpoint.');
         }
 
-        $response = $this->getHttpClient()->post(
-            $config['revocation_endpoint'],
-            $this->tokenRequestOptions([
-                'token'           => $token,
-                'token_type_hint' => $tokenTypeHint,
-                'client_id'       => $this->clientId,
-                'client_secret'   => $this->clientSecret,
-            ])
-        );
+        $options = $this->tokenRequestOptions([
+            'token'           => $token,
+            'token_type_hint' => $tokenTypeHint,
+            'client_id'       => $this->clientId,
+            'client_secret'   => $this->clientSecret,
+        ]);
 
-        // RFC 7009: a successful response is 200, regardless of whether the
-        // token was valid. Some IdPs return 204.
+        // Guzzle raises on 4xx/5xx by default, which would leave the return
+        // value below unreachable -- only a 2xx could ever get there, so the
+        // result was always true. Worse, a non-conforming IdP answering 400
+        // for an already-revoked token would throw a ClientException out of
+        // the caller's logout flow. Branch on the status instead.
+        $options[RequestOptions::HTTP_ERRORS] = false;
+
+        $response = $this->getHttpClient()->post($config['revocation_endpoint'], $options);
+
+        // RFC 7009 section 2.2: a conforming server answers 200 whether or not
+        // the token was still valid. Some answer 204. Anything else means the
+        // revocation did not happen -- a 400 for an already-revoked token, or
+        // a 401 for rejected client credentials.
         return in_array($response->getStatusCode(), [200, 204], true);
     }
 
