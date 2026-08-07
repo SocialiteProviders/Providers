@@ -18,6 +18,7 @@ use InvalidArgumentException;
 use JsonException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use stdClass;
 
 class Provider extends AbstractProvider
 {
@@ -556,10 +557,11 @@ class Provider extends AbstractProvider
         } else {
             // Unverified: claims are read as-is, so sub/email/groups/role are
             // only as trustworthy as the TLS connection to the token endpoint.
-            try {
-                [, $jwtPayload] = explode('.', $jwt);
-                $payload = json_decode($this->base64UrlDecode($jwtPayload));
-            } catch (Exception $e) {
+            [, $payloadSegment] = $this->jwtSegments($jwt);
+
+            $payload = json_decode($this->base64UrlDecode($payloadSegment));
+
+            if (! $payload instanceof stdClass) {
                 throw new InvalidArgumentException('JWT: Failed to parse.', 401);
             }
         }
@@ -704,13 +706,35 @@ class Provider extends AbstractProvider
 
     protected function decodeJwtHeader(string $jwt)
     {
-        try {
-            [$headerB64] = explode('.', $jwt);
+        [$headerSegment] = $this->jwtSegments($jwt);
 
-            return json_decode($this->base64UrlDecode($headerB64));
-        } catch (Exception $e) {
+        $header = json_decode($this->base64UrlDecode($headerSegment));
+
+        if (! $header instanceof stdClass) {
             throw new InvalidArgumentException('JWT: Failed to parse header.', 401);
         }
+
+        return $header;
+    }
+
+    /**
+     * Split a JWT into its three segments.
+     *
+     * Destructuring explode() directly meant a token with no '.' produced a
+     * warning and then a TypeError from the null segment -- an Error, so it
+     * escaped the surrounding catch (Exception) entirely.
+     *
+     * @return string[]
+     */
+    protected function jwtSegments(string $jwt): array
+    {
+        $segments = explode('.', $jwt);
+
+        if (count($segments) !== 3) {
+            throw new InvalidArgumentException('JWT: Malformed token, expected three segments.', 401);
+        }
+
+        return $segments;
     }
 
     /**
@@ -808,9 +832,27 @@ class Provider extends AbstractProvider
         }
     }
 
+    /**
+     * Decode a base64url segment, rejecting anything malformed.
+     *
+     * Strict mode is the point of padding correctly: without it, base64_decode
+     * silently discards characters outside the alphabet and returns plausible
+     * bytes for input that was never valid base64. These segments are
+     * attacker-supplied, and the resulting garbage previously surfaced much
+     * later as a confusing "invalid nonce" rather than as a parse failure.
+     */
     private function base64UrlDecode(string $data): string
     {
-        return base64_decode(str_pad(strtr($data, '-_', '+/'), intdiv(strlen($data) + 3, 4) * 4, '=', STR_PAD_RIGHT));
+        $decoded = base64_decode(
+            str_pad(strtr($data, '-_', '+/'), intdiv(strlen($data) + 3, 4) * 4, '=', STR_PAD_RIGHT),
+            true
+        );
+
+        if ($decoded === false) {
+            throw new InvalidArgumentException('JWT: Malformed base64url segment.', 401);
+        }
+
+        return $decoded;
     }
 
     private function base64UrlEncode(string $data): string
