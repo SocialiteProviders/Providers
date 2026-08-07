@@ -174,6 +174,21 @@ return Socialite::driver('openidconnect')
 
 Most IdPs require `id_token_hint` (the id_token from login) and a `post_logout_redirect_uri` that has been pre-registered with the client.
 
+`logout()` mints a `state` and stores it in the session. It is only meaningful if you check it when the IdP redirects back, so validate it in the controller backing your `post_logout_redirect_uri`:
+
+```php
+// In the controller for your post_logout_redirect_uri:
+if (! Socialite::driver('openidconnect')->validateLogoutState($request)) {
+    // The redirect did not originate from a logout this session started.
+    abort(403);
+}
+
+Auth::logout();
+$request->session()->invalidate();
+```
+
+The stored value is consumed on the first call, so a state is good for exactly one round trip and a replayed redirect fails. If the request has no session there is nothing to compare against, so `logout()` sends no `state` and `validateLogoutState()` returns `false`.
+
 ### Token Revocation
 
 If the IdP advertises a `revocation_endpoint` (RFC 7009), you can revoke an access or refresh token server-side — useful at logout to invalidate the refresh token immediately rather than waiting for it to expire:

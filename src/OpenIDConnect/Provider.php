@@ -9,6 +9,7 @@ use Firebase\JWT\Key;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -1004,9 +1005,13 @@ class Provider extends AbstractProvider
             throw new InvalidArgumentException('Provider does not advertise an end_session_endpoint.');
         }
 
-        $state = Str::random(40);
+        // Only sent when it can actually be stored, and therefore checked
+        // later by validateLogoutState(). Emitting a state with nowhere to
+        // remember it would look like protection without being any.
+        $state = null;
+
         if ($this->request->hasSession()) {
-            $this->request->session()->put('logout_state', $state);
+            $this->request->session()->put('logout_state', $state = Str::random(40));
         }
 
         $params = array_filter(array_merge([
@@ -1017,6 +1022,36 @@ class Provider extends AbstractProvider
         ], $extra), fn ($v) => $v !== null && $v !== '');
 
         return new RedirectResponse($this->appendQuery($config['end_session_endpoint'], http_build_query($params)));
+    }
+
+    /**
+     * Validate the `state` the IdP returns to the post_logout_redirect_uri.
+     *
+     * logout() mints a state and stores it in the session; this is the other
+     * half, and without calling it the state is decorative. Consume it in the
+     * controller backing your post_logout_redirect_uri before acting on the
+     * redirect.
+     *
+     * The stored value is pulled, so a state is good for exactly one
+     * round trip and a replayed redirect fails.
+     *
+     * @param  Request|null  $request  Defaults to the provider's request.
+     */
+    public function validateLogoutState(?Request $request = null): bool
+    {
+        $request ??= $this->request;
+
+        if (! $request->hasSession()) {
+            return false;
+        }
+
+        $expected = $request->session()->pull('logout_state');
+        $returned = $request->input('state');
+
+        return is_string($expected)
+            && $expected !== ''
+            && is_string($returned)
+            && hash_equals($expected, $returned);
     }
 
     /**
