@@ -201,6 +201,34 @@ class Provider extends AbstractProvider
 
     /**
      * {@inheritdoc}
+     *
+     * Overridden because the parent hardcodes '?'. Discovered endpoints are
+     * not necessarily bare paths -- multi-tenant deployments advertise things
+     * like https://idp.example.com/authorize?realm=prod -- and a second '?'
+     * folds every parameter after it into the preceding value.
+     */
+    protected function buildAuthUrlFromBase($url, $state): string
+    {
+        return $this->appendQuery(
+            $url,
+            http_build_query($this->getCodeFields($state), '', '&', $this->encodingType)
+        );
+    }
+
+    /**
+     * Append an already-built query string to a URL that may carry one.
+     */
+    protected function appendQuery(string $url, string $query): string
+    {
+        if ($query === '') {
+            return $url;
+        }
+
+        return $url.(str_contains($url, '?') ? '&' : '?').$query;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     protected function getCodeFields($state = null): array
     {
@@ -927,7 +955,7 @@ class Provider extends AbstractProvider
             'state'                    => $state,
         ], $extra), fn ($v) => $v !== null && $v !== '');
 
-        return new RedirectResponse($config['end_session_endpoint'].'?'.http_build_query($params));
+        return new RedirectResponse($this->appendQuery($config['end_session_endpoint'], http_build_query($params)));
     }
 
     /**
