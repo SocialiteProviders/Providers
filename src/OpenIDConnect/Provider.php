@@ -827,7 +827,17 @@ class Provider extends AbstractProvider
         $options = [RequestOptions::HEADERS => ['Accept' => 'application/json']];
 
         if ($method === 'client_secret_basic') {
-            $options[RequestOptions::AUTH] = [$this->clientId, $this->clientSecret];
+            // Built by hand rather than via Guzzle's `auth` option, which
+            // base64s the raw "id:secret" pair. RFC 6749 2.3.1 requires each
+            // half to be form-urlencoded first, and the two only agree for
+            // alphanumeric credentials. A secret containing +, /, =, a space
+            // or non-ASCII would otherwise come back as an opaque
+            // invalid_client -- and base64-derived secrets routinely contain
+            // + and /.
+            $options[RequestOptions::HEADERS]['Authorization'] = 'Basic '.base64_encode(
+                urlencode($this->clientId).':'.urlencode($this->clientSecret)
+            );
+
             unset($fields['client_id'], $fields['client_secret']);
         }
 
