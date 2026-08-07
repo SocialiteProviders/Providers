@@ -26,7 +26,14 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = [
+    protected $scopes = self::DEFAULT_SCOPES;
+
+    /**
+     * Tracked separately so a configured `scopes` list can replace the
+     * defaults without discarding anything added through Socialite's fluent
+     * scopes() API.
+     */
+    protected const DEFAULT_SCOPES = [
         'openid',
         'email',
         'profile',
@@ -121,11 +128,46 @@ class Provider extends AbstractProvider
      */
     public function getScopes(): array
     {
-        if ($this->getConfig('scopes')) {
-            return array_merge($this->scopes, explode(' ', $this->getConfig('scopes')));
+        $configured = $this->parseScopeList($this->getConfig('scopes'));
+
+        if ($configured === []) {
+            $scopes = $this->scopes;
+        } else {
+            // Replace the defaults rather than extend them, so an OP that does
+            // not support `profile` can be narrowed down. Anything added via
+            // Socialite's fluent scopes() is still honoured.
+            $scopes = array_merge($configured, array_diff($this->scopes, self::DEFAULT_SCOPES));
         }
 
-        return $this->scopes;
+        // `openid` is what makes this an OIDC request at all -- without it the
+        // OP returns no id_token -- so it is always sent.
+        array_unshift($scopes, 'openid');
+
+        // Repeated values are malformed, and some OPs (Azure AD B2C among
+        // them) reject the request outright.
+        return array_values(array_unique($scopes));
+    }
+
+    /**
+     * Normalise a scope list given as an array, or as a string separated by
+     * whitespace and/or commas.
+     *
+     * @return string[]
+     */
+    protected function parseScopeList(mixed $scopes): array
+    {
+        if ($scopes === null || $scopes === '' || $scopes === []) {
+            return [];
+        }
+
+        $list = is_array($scopes)
+            ? $scopes
+            : preg_split('/[\s,]+/', (string) $scopes, -1, PREG_SPLIT_NO_EMPTY);
+
+        return array_values(array_filter(
+            array_map(static fn ($scope) => is_string($scope) ? trim($scope) : null, $list ?: []),
+            static fn (?string $scope) => $scope !== null && $scope !== ''
+        ));
     }
 
     /**

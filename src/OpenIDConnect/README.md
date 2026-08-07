@@ -23,8 +23,11 @@ then follow the provider specific instructions below.
     'client_secret'  => env('OIDC_CLIENT_SECRET'),
     'redirect'       => env('OIDC_REDIRECT_URI'),
 
-    // Optional: space-separated list of extra scopes to request in addition
-    // to the defaults ('openid email profile').
+    // Optional: the scopes to request, replacing the defaults
+    // ('openid email profile'). Accepts an array, or a string separated by
+    // whitespace and/or commas. 'openid' is always sent whether listed or not,
+    // and duplicates are removed. Set it to narrow the request for an OP that
+    // rejects one of the defaults, e.g. 'email' for one without 'profile'.
     'scopes'         => env('OIDC_SCOPES'),
 
     // Optional: verify id_token signatures using the provider's JWKS (or
