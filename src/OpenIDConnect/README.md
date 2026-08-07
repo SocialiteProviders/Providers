@@ -32,8 +32,11 @@ then follow the provider specific instructions below.
     // instead of fetching the JWKS.
     'jwt_public_key' => env('OIDC_JWT_PUBLIC_KEY'),
 
-    // Optional: signing algorithm hint (e.g. RS256, RS512, ES256, PS256).
-    // Defaults to the alg in the id_token header, or RS256.
+    // Optional: pin the accepted signing algorithm(s), e.g. 'RS256' or
+    // 'RS256,ES256'. If omitted, the provider accepts the algorithms the IdP
+    // advertises in 'id_token_signing_alg_values_supported', falling back to
+    // RS256. The alg in the token header is only ever checked against this
+    // list, never trusted to select the algorithm; 'none' is always rejected.
     'jwt_algorithm'  => env('OIDC_JWT_ALGORITHM'),
 
     // Optional: override the expected `iss` claim. Defaults to the issuer

@@ -326,18 +326,48 @@ class Provider extends AbstractProvider
 
     /**
      * Verify the JWT signature and decode it.
+     *
+     * The accepted signing algorithms are pinned by the RP and the token's own
+     * `alg` header is only ever checked against that allow list, never used to
+     * choose the verification algorithm. Deriving it from the header is the
+     * algorithm substitution attack of RFC 8725 section 2.1: php-jwt's only
+     * algorithm check compares the header against the Key it was handed, so if
+     * both come from the header an attacker can claim `alg: HS256` and
+     * HMAC-sign the token with the (non-secret) PEM public key as the MAC
+     * secret. OIDC Core 3.1.3.7 step 7 requires the registered
+     * `id_token_signed_response_alg` instead.
      */
     protected function verifyAndDecodeJWT(string $jwt, ?string $alg)
     {
+        $allowed = $this->getAllowedSigningAlgorithms();
+
+        if ($alg === null || ! in_array($alg, $allowed, true)) {
+            throw new InvalidArgumentException(
+                'JWT: Disallowed signing algorithm ['.($alg ?? 'missing').']; expected one of ['.implode(', ', $allowed).'].',
+                401
+            );
+        }
+
         try {
             JWT::$leeway = (int) ($this->getConfig('clock_skew') ?? 0);
 
             $publicKey = $this->getConfig('jwt_public_key');
-            $configuredAlg = $this->getConfig('jwt_algorithm') ?: $alg ?: 'RS256';
 
             if ($publicKey) {
-                $decoded = JWT::decode($jwt, new Key($publicKey, $configuredAlg));
+                // A PEM public key or certificate is not secret, so it must
+                // never be usable as an HMAC secret.
+                if ($this->isHmacAlgorithm($alg) && $this->isAsymmetricKey($publicKey)) {
+                    throw new InvalidArgumentException('HMAC algorithms cannot be used with an asymmetric public key.');
+                }
+
+                $decoded = JWT::decode($jwt, new Key($publicKey, $alg));
             } else {
+                // A JWKS distributes asymmetric public keys; an HMAC secret is
+                // never published this way.
+                if ($this->isHmacAlgorithm($alg)) {
+                    throw new InvalidArgumentException('HMAC algorithms cannot be verified against a JWKS.');
+                }
+
                 $kid = $this->decodeJwtHeader($jwt)->kid ?? null;
                 $jwks = $this->getJwks();
 
@@ -346,13 +376,65 @@ class Provider extends AbstractProvider
                     $jwks = $this->getJwks();
                 }
 
-                $decoded = JWT::decode($jwt, JWK::parseKeySet($jwks, $configuredAlg));
+                $decoded = JWT::decode($jwt, JWK::parseKeySet($jwks, $alg));
             }
 
             return json_decode(json_encode($decoded));
         } catch (Exception $e) {
             throw new InvalidArgumentException('JWT: Verification failed - '.$e->getMessage(), 401);
         }
+    }
+
+    /**
+     * The signing algorithms this client accepts, in order of preference:
+     * the pinned `jwt_algorithm` config, else the OP's advertised
+     * `id_token_signing_alg_values_supported`, else RS256.
+     *
+     * `none` is never accepted.
+     *
+     * @return string[]
+     *
+     * @throws GuzzleException
+     */
+    protected function getAllowedSigningAlgorithms(): array
+    {
+        $configured = $this->getConfig('jwt_algorithm');
+
+        if ($configured) {
+            $algorithms = is_array($configured)
+                ? $configured
+                : preg_split('/[\s,]+/', (string) $configured, -1, PREG_SPLIT_NO_EMPTY);
+        } else {
+            $algorithms = (array) ($this->getOpenIdConfig()['id_token_signing_alg_values_supported'] ?? []);
+        }
+
+        $algorithms = array_values(array_filter(
+            array_map(static fn ($alg) => is_string($alg) ? trim($alg) : null, $algorithms),
+            static fn (?string $alg) => $alg !== null && $alg !== '' && strcasecmp($alg, 'none') !== 0
+        ));
+
+        return $algorithms ?: ['RS256'];
+    }
+
+    /**
+     * Determine if the algorithm is a symmetric (HMAC) one.
+     */
+    protected function isHmacAlgorithm(string $alg): bool
+    {
+        return str_starts_with(strtoupper($alg), 'HS');
+    }
+
+    /**
+     * Determine if the key material is an asymmetric public key or certificate,
+     * i.e. public information that must not double as an HMAC secret.
+     */
+    protected function isAsymmetricKey(mixed $key): bool
+    {
+        if ($key instanceof \OpenSSLAsymmetricKey || $key instanceof \OpenSSLCertificate) {
+            return true;
+        }
+
+        return is_string($key) && str_contains($key, '-----BEGIN');
     }
 
     protected function jwksContainsKid(array $jwks, string $kid): bool
