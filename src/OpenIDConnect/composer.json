@@ -28,7 +28,7 @@
         "socialiteproviders/manager": "^4.4",
         "illuminate/http": "^9.0 | ^10.0 | ^11.0 | ^12.0 | ^13.0",
         "illuminate/support": "^9.0 | ^10.0 | ^11.0 | ^12.0 | ^13.0",
-        "firebase/php-jwt": "^6.4|^7.0"
+        "firebase/php-jwt": "^7.0"
     },
     "autoload": {
         "psr-4": {
