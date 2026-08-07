@@ -139,7 +139,17 @@ return Socialite::driver('openidconnect')->redirect();
 $user = Socialite::driver('openidconnect')->user();
 ```
 
-The returned user is populated from the `id_token` claims, falling back to the `userinfo` endpoint when the id_token does not contain an email. Mapped fields include `id` (`sub`), `email`, `name`, `nickname`, `given_name`, `family_name`, `idp`, `role`, and `groups`. The raw user also contains `id_token`, which you should stash in the session at login if you want to drive RP-initiated logout later.
+The returned user is populated from the `id_token` claims, falling back to the `userinfo` endpoint when the id_token does not contain an email. Mapped fields include `id` (`sub`), `email`, `name`, `nickname`, `given_name`, `family_name`, `idp`, `role`, and `groups`.
+
+The full token endpoint response is available on the standard `accessTokenResponseBody` property, so `$user->accessTokenResponseBody['id_token']` is where you read the id_token — stash it at login if you want to drive RP-initiated logout later. `$user->approvedScopes` holds the scopes the IdP actually granted, which is how you check whether something optional such as `offline_access` was honoured:
+
+```php
+$user = Socialite::driver('openidconnect')->user();
+
+$user->accessTokenResponseBody['id_token'];  // the raw id_token
+$user->approvedScopes;                        // e.g. ['openid', 'email', 'offline_access']
+$user->getRaw();                              // the id_token (or userinfo) claims
+```
 
 ### RP-Initiated Logout
 
@@ -147,7 +157,7 @@ If the IdP advertises an `end_session_endpoint` in its discovery document, you c
 
 ```php
 // In your login callback, stash the id_token so you can pass it back at logout.
-session(['oidc_id_token' => $user->user['id_token']]);
+session(['oidc_id_token' => $user->accessTokenResponseBody['id_token']]);
 
 // In your logout controller:
 return Socialite::driver('openidconnect')
@@ -164,7 +174,7 @@ If the IdP advertises a `revocation_endpoint` (RFC 7009), you can revoke an acce
 // In your login callback, stash the refresh_token alongside the id_token.
 $oidcUser = Socialite::driver('openidconnect')->user();
 session([
-    'oidc_id_token'      => $oidcUser->user['id_token'],
+    'oidc_id_token'      => $oidcUser->accessTokenResponseBody['id_token'],
     'oidc_refresh_token' => $oidcUser->refreshToken,
 ]);
 
@@ -209,7 +219,7 @@ $user = User::updateOrCreate(
     ['email' => $oidcUser->email],
     [
         'name'               => $oidcUser->name,
-        'oidc_id_token'      => $oidcUser->user['id_token'],
+        'oidc_id_token'      => $oidcUser->accessTokenResponseBody['id_token'],
         'oidc_refresh_token' => $oidcUser->refreshToken,
     ],
 );

@@ -470,6 +470,8 @@ class Provider extends AbstractProvider
             throw new InvalidArgumentException('Token endpoint: malformed response.', 401);
         }
 
+        $this->credentialsResponseBody = $tokenResponse;
+
         // Not every IdP signals failure with a 4xx -- some return 200 with an
         // error body, which Guzzle will not raise for us.
         if (Arr::has($tokenResponse, 'error')) {
@@ -500,17 +502,23 @@ class Provider extends AbstractProvider
             }
         }
 
-        $raw = (array) $payload;
-        $raw['id_token'] = $idToken;
+        $this->user = $this->mapUserToObject((array) $payload);
 
-        $this->user = $this->mapUserToObject($raw);
+        // Reimplementing user() means re-establishing what the Manager's base
+        // sets, or this provider alone returns null for the standard
+        // accessTokenResponseBody and approvedScopes. The former is also where
+        // the id_token belongs, rather than being folded into the raw claims.
+        if ($this->user instanceof User) {
+            $this->user->setAccessTokenResponseBody($this->credentialsResponseBody);
+        }
 
         // expires_in is optional (RFC 6749 4.2.2), as are access_token and
         // refresh_token here, so read them all defensively -- as Socialite's
         // and the Manager's own user() implementations do.
         return $this->user->setToken($accessToken)
-            ->setRefreshToken(Arr::get($tokenResponse, 'refresh_token'))
-            ->setExpiresIn(Arr::get($tokenResponse, 'expires_in'));
+            ->setRefreshToken($this->parseRefreshToken($tokenResponse))
+            ->setExpiresIn($this->parseExpiresIn($tokenResponse))
+            ->setApprovedScopes($this->parseApprovedScopes($tokenResponse));
     }
 
     /**
