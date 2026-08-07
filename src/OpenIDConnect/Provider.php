@@ -67,6 +67,7 @@ class Provider extends AbstractProvider
         return [
             'base_url',
             'scopes',
+            'use_nonce',
             'verify_jwt',
             'jwt_public_key',
             'jwt_algorithm',
@@ -96,6 +97,18 @@ class Provider extends AbstractProvider
         }
 
         if ($this->usesPKCE()) {
+            // Socialite carries the verifier in the session between the
+            // redirect and the callback (getCodeChallenge() and
+            // getTokenFields() both read it back), so without a session bound
+            // this would fail later with an opaque "Session store not set on
+            // request." from deep inside the parent.
+            if (! $this->request->hasSession()) {
+                throw new InvalidArgumentException(
+                    'OIDC: PKCE requires a session to carry the code_verifier from the redirect to the callback. '
+                    .'Bind a session, or call withoutPKCE() to opt out.'
+                );
+            }
+
             $this->request->session()->put('code_verifier', $this->getCodeVerifier());
         }
 
@@ -158,11 +171,54 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Determine if the provider is operating with nonce.
+     * Determine if the provider is operating with a nonce.
+     *
+     * The nonce is minted at the redirect and compared at the callback, which
+     * means it has to survive in the session between two requests. A stateless
+     * flow has no such session, so requiring one there would fail every login.
+     * Dropping it is safe for the authorization code flow used here: the code
+     * is bound to this client by PKCE and the exchange happens over the back
+     * channel. OIDC Core 3.1.2.1 only makes the nonce REQUIRED for the
+     * implicit and hybrid flows, where the token travels via the browser.
      */
     protected function usesNonce(): bool
     {
+        if ($this->isStateless()) {
+            return false;
+        }
+
+        $config = $this->getConfig();
+
+        // Read the raw config for the same reason as shouldVerifyJwt():
+        // getConfig() cannot distinguish an explicit false from an absent key.
+        if (is_array($config) && isset($config['use_nonce'])) {
+            return filter_var($config['use_nonce'], FILTER_VALIDATE_BOOLEAN);
+        }
+
         return $this->usesNonce;
+    }
+
+    /**
+     * Disable the nonce for this request.
+     */
+    public function withoutNonce(): static
+    {
+        $this->usesNonce = false;
+
+        return $this;
+    }
+
+    /**
+     * Disable PKCE for this request.
+     *
+     * Socialite ships enablePKCE() but no counterpart, and its PKCE support
+     * requires a session, so a flow without one needs a way to opt out.
+     */
+    public function withoutPKCE(): static
+    {
+        $this->usesPKCE = false;
+
+        return $this;
     }
 
     /**
@@ -223,7 +279,9 @@ class Provider extends AbstractProvider
      */
     protected function getCurrentNonce(): ?string
     {
-        return $this->request->session()->get('nonce');
+        return $this->request->hasSession()
+            ? $this->request->session()->get('nonce')
+            : null;
     }
 
     /**
@@ -387,7 +445,7 @@ class Provider extends AbstractProvider
 
         $this->validateIdTokenClaims($payload, $alg, $accessToken);
 
-        if ($this->usesNonce()) {
+        if ($this->usesNonce() && $this->request->hasSession()) {
             $this->request->session()->forget('nonce');
         }
 

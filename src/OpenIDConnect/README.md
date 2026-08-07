@@ -64,6 +64,10 @@ then follow the provider specific instructions below.
     // Optional: clock skew leeway (in seconds) applied to exp/nbf/iat. 0 by default.
     'clock_skew'               => env('OIDC_CLOCK_SKEW'),
 
+    // Optional: send and validate a nonce. Defaults to true, and is ignored
+    // (always off) in stateless mode, where there is no session to carry it.
+    'use_nonce'                => env('OIDC_USE_NONCE', true),
+
     // Optional: Guzzle connect/read timeouts for IdP calls. Defaults: 5s/10s.
     'http_connect_timeout'     => env('OIDC_HTTP_CONNECT_TIMEOUT'),
     'http_timeout'             => env('OIDC_HTTP_TIMEOUT'),
@@ -73,6 +77,24 @@ then follow the provider specific instructions below.
 The Authorization Code Flow with PKCE is used by default (`response_type=code`, PKCE is enabled on the `Provider`).
 
 `base_url` is the OIDC issuer URL (for example `https://id.example.com`). The provider appends `/.well-known/openid-configuration` automatically.
+
+### Stateless usage
+
+The nonce is minted at the redirect and compared at the callback, so it needs a
+session to survive between the two requests. In stateless mode it is therefore
+skipped automatically — this is safe for the authorization code flow, where the
+code is bound to the client by PKCE and exchanged over the back channel. It can
+also be turned off explicitly with the `use_nonce` config or `withoutNonce()`.
+
+PKCE has the same session dependency, and it is Socialite that owns it: the
+`code_verifier` is written to the session at the redirect and read back when the
+code is exchanged. It therefore still works in stateless mode as long as a
+session store is bound to the request. If there is genuinely no session, call
+`withoutPKCE()` to opt out:
+
+```php
+Socialite::driver('openidconnect')->stateless()->withoutPKCE()->redirect();
+```
 
 ### Add provider event listener
 
