@@ -733,7 +733,16 @@ class Provider extends AbstractProvider
             throw new InvalidArgumentException('JWT: Invalid audience.', 401);
         }
 
-        if (is_array($aud) && count($aud) > 1 && ($payload->azp ?? null) !== $this->clientId) {
+        // OIDC Core 3.1.3.7 step 4: multiple audiences should carry an azp.
+        if (is_array($aud) && count($aud) > 1 && ! isset($payload->azp)) {
+            throw new InvalidArgumentException('JWT: Multiple audiences require an azp claim.', 401);
+        }
+
+        // Step 5: whenever an azp is present it must be our client_id. This is
+        // not conditional on the audience count -- a token naming us as an
+        // audience but authorized to a different party (aud: us, azp: them) is
+        // not ours to accept.
+        if (isset($payload->azp) && $payload->azp !== $this->clientId) {
             throw new InvalidArgumentException('JWT: Invalid authorized party (azp).', 401);
         }
 
