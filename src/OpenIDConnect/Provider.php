@@ -48,10 +48,16 @@ class Provider extends AbstractProvider
     protected $usesPKCE = true;
 
     /**
-     * Indicates if JWT signature verification should be enabled.
+     * Indicates if id_token signature verification should be enabled.
      * Can be overridden by config 'verify_jwt'.
+     *
+     * OIDC Core 3.1.3.7 step 6 permits skipping signature validation for an
+     * id_token fetched over the back channel, substituting TLS server
+     * validation of the token endpoint. That exemption is only as good as the
+     * transport, so this defaults to on and getBaseUrl() refuses plaintext
+     * issuers; an OP that genuinely cannot serve a JWKS has to opt out.
      */
-    protected bool $verifyJwt = false;
+    protected bool $verifyJwt = true;
 
     /**
      * {@inheritdoc}
@@ -168,11 +174,22 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Determine if JWT signature verification is enabled.
+     * Determine if id_token signature verification is enabled.
+     *
+     * Read straight from the config array rather than via getConfig(), which
+     * treats any falsy value as absent and would therefore make an explicit
+     * `verify_jwt => false` indistinguishable from "unset" -- leaving no way
+     * to opt out now that the default is true.
      */
     protected function shouldVerifyJwt(): bool
     {
-        return (bool) $this->getConfig('verify_jwt', $this->verifyJwt);
+        $config = $this->getConfig();
+
+        if (is_array($config) && isset($config['verify_jwt'])) {
+            return filter_var($config['verify_jwt'], FILTER_VALIDATE_BOOLEAN);
+        }
+
+        return $this->verifyJwt;
     }
 
     /**
@@ -210,12 +227,52 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * The issuer base URL, validated to be on a secure transport.
+     *
+     * Every endpoint this provider talks to is derived from `base_url`, so a
+     * plaintext issuer would expose the discovery document, the JWKS and the
+     * token exchange to tampering. That matters doubly because OIDC Core
+     * 3.1.3.7 step 6 lets an RP substitute TLS server validation for id_token
+     * signature checking -- an exemption that is worthless without TLS.
+     *
+     * Loopback hosts are exempt so local development still works.
+     */
+    protected function getBaseUrl(): string
+    {
+        $baseUrl = rtrim((string) $this->getConfig('base_url'), '/');
+
+        if ($baseUrl === '') {
+            throw new InvalidArgumentException('OIDC: base_url is not configured.');
+        }
+
+        $scheme = strtolower((string) parse_url($baseUrl, PHP_URL_SCHEME));
+        $host = strtolower((string) parse_url($baseUrl, PHP_URL_HOST));
+
+        if ($scheme !== 'https' && ! ($scheme === 'http' && $this->isLoopbackHost($host))) {
+            throw new InvalidArgumentException(
+                'OIDC: base_url must use https (got '.($scheme ?: 'no scheme').'); plaintext is only permitted for loopback hosts.'
+            );
+        }
+
+        return $baseUrl;
+    }
+
+    /**
+     * Loopback hosts, where plaintext HTTP is not remotely interceptable.
+     */
+    protected function isLoopbackHost(string $host): bool
+    {
+        return in_array($host, ['localhost', '127.0.0.1', '[::1]', '::1'], true)
+            || str_ends_with($host, '.localhost');
+    }
+
+    /**
      * @throws GuzzleException
      */
     protected function getOpenIdConfig(): array
     {
         if ($this->configurations === null) {
-            $configUrl = rtrim($this->getConfig('base_url'), '/').'/.well-known/openid-configuration';
+            $configUrl = $this->getBaseUrl().'/.well-known/openid-configuration';
             $cacheKey = 'openidconnect_discovery_'.md5($configUrl);
 
             $this->configurations = Cache::remember($cacheKey, $this->getCacheTtl(), function () use ($configUrl) {
@@ -299,6 +356,17 @@ class Provider extends AbstractProvider
             ->setExpiresIn($tokenResponse['expires_in']);
     }
 
+    /**
+     * Decode an id_token received over the back channel from the token
+     * endpoint.
+     *
+     * Trust model: this token is the response to a request *we* initiated over
+     * TLS, and it is bound to this session by the nonce and PKCE verifier.
+     * That is what lets signature verification be optional here at all (OIDC
+     * Core 3.1.3.7 step 6) -- though it is on by default, since the exemption
+     * rests entirely on the transport. Contrast verifyLogoutToken(), which
+     * handles an unsolicited token and can never make that trade.
+     */
     protected function decodeJWT(string $jwt, ?string $accessToken = null)
     {
         $header = $this->decodeJwtHeader($jwt);
@@ -307,6 +375,8 @@ class Provider extends AbstractProvider
         if ($this->shouldVerifyJwt()) {
             $payload = $this->verifyAndDecodeJWT($jwt, $alg);
         } else {
+            // Unverified: claims are read as-is, so sub/email/groups/role are
+            // only as trustworthy as the TLS connection to the token endpoint.
             try {
                 [, $jwtPayload] = explode('.', $jwt);
                 $payload = json_decode($this->base64UrlDecode($jwtPayload));
@@ -450,7 +520,7 @@ class Provider extends AbstractProvider
 
     protected function jwksCacheKey(): string
     {
-        return 'openidconnect_jwks_'.md5($this->getConfig('base_url'));
+        return 'openidconnect_jwks_'.md5($this->getBaseUrl());
     }
 
     protected function decodeJwtHeader(string $jwt)
@@ -744,9 +814,13 @@ class Provider extends AbstractProvider
      *
      * @see https://openid.net/specs/openid-connect-backchannel-1_0.html
      *
-     * Performs signature verification (always — unlike id_token decoding, the
-     * logout token has no session nonce and must be trusted purely on its
-     * signature), then enforces the spec's claim rules. Returns the decoded
+     * Trust model: unlike decodeJWT(), this token arrives unsolicited from the
+     * public internet on an unauthenticated endpoint. There is no session
+     * nonce, no PKCE verifier and no request of ours for it to answer, so the
+     * TLS-in-place-of-signature exemption of OIDC Core 3.1.3.7 step 6 does not
+     * apply and cannot be opted out of: the signature is the only control.
+     * Verification is therefore always performed here regardless of
+     * `verify_jwt`, followed by the spec's claim rules. Returns the decoded
      * payload so the caller can destroy sessions matching `sid` / `sub`.
      *
      * The caller is responsible for:

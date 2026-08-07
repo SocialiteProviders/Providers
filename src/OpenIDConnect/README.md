@@ -15,6 +15,9 @@ then follow the provider specific instructions below.
 
 ```php
 'openidconnect' => [
+    // The issuer base URL. Must be https:// -- every endpoint is derived from
+    // it. Plaintext http:// is only accepted for loopback hosts (localhost,
+    // 127.0.0.1, ::1, *.localhost) so local development still works.
     'base_url'       => env('OIDC_BASE_URL'),
     'client_id'      => env('OIDC_CLIENT_ID'),
     'client_secret'  => env('OIDC_CLIENT_SECRET'),
@@ -24,9 +27,12 @@ then follow the provider specific instructions below.
     // to the defaults ('openid email profile').
     'scopes'         => env('OIDC_SCOPES'),
 
-    // Optional: when true, id_token signatures will be verified using the
-    // provider's JWKS (or 'jwt_public_key' below if set).
-    'verify_jwt'     => env('OIDC_VERIFY_JWT', false),
+    // Optional: verify id_token signatures using the provider's JWKS (or
+    // 'jwt_public_key' below if set). Defaults to true. Set it to false only
+    // for an OP that cannot serve a JWKS -- claims are then trusted on the
+    // strength of the TLS connection to the token endpoint alone. Back-channel
+    // logout tokens are always verified regardless of this setting.
+    'verify_jwt'     => env('OIDC_VERIFY_JWT', true),
 
     // Optional: PEM-encoded public key used to verify id_token signatures
     // instead of fetching the JWKS.
