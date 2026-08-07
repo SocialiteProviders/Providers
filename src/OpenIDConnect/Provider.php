@@ -9,6 +9,7 @@ use Firebase\JWT\Key;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -395,23 +396,51 @@ class Provider extends AbstractProvider
 
         $tokenResponse = $this->getAccessTokenResponse($this->request->input('code'));
 
-        $payload = $this->decodeJWT($tokenResponse['id_token'], $tokenResponse['access_token'] ?? null);
+        if (! is_array($tokenResponse)) {
+            throw new InvalidArgumentException('Token endpoint: malformed response.', 401);
+        }
+
+        // Not every IdP signals failure with a 4xx -- some return 200 with an
+        // error body, which Guzzle will not raise for us.
+        if (Arr::has($tokenResponse, 'error')) {
+            $description = Arr::get($tokenResponse, 'error_description') ?: Arr::get($tokenResponse, 'error');
+            throw new InvalidArgumentException('Token endpoint: returned error - '.$description, 401);
+        }
+
+        $idToken = Arr::get($tokenResponse, 'id_token');
+
+        if (! is_string($idToken) || $idToken === '') {
+            throw new InvalidArgumentException('Token endpoint: response contained no id_token.', 401);
+        }
+
+        $accessToken = Arr::get($tokenResponse, 'access_token');
+
+        $payload = $this->decodeJWT($idToken, $accessToken);
 
         if ($this->hasEmptyEmail($payload)) {
-            $payload = $this->getUserByToken($tokenResponse['access_token']);
-            if (empty($payload['email'] ?? null)) {
+            // The userinfo endpoint is only reachable with an access token;
+            // an id_token-only response leaves the id_token claims as all we
+            // have to go on.
+            if (is_string($accessToken) && $accessToken !== '') {
+                $payload = $this->getUserByToken($accessToken);
+            }
+
+            if ($this->hasEmptyEmail($payload)) {
                 throw new InvalidArgumentException('JWT: User has no email.', 401);
             }
         }
 
         $raw = (array) $payload;
-        $raw['id_token'] = $tokenResponse['id_token'];
+        $raw['id_token'] = $idToken;
 
         $this->user = $this->mapUserToObject($raw);
 
-        return $this->user->setToken($tokenResponse['access_token'])
-            ->setRefreshToken($tokenResponse['refresh_token'] ?? null)
-            ->setExpiresIn($tokenResponse['expires_in']);
+        // expires_in is optional (RFC 6749 4.2.2), as are access_token and
+        // refresh_token here, so read them all defensively -- as Socialite's
+        // and the Manager's own user() implementations do.
+        return $this->user->setToken($accessToken)
+            ->setRefreshToken(Arr::get($tokenResponse, 'refresh_token'))
+            ->setExpiresIn(Arr::get($tokenResponse, 'expires_in'));
     }
 
     /**
