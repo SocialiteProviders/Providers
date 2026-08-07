@@ -656,14 +656,29 @@ class Provider extends AbstractProvider
      * Validate exp/nbf/iat with configurable leeway. Runs in both verified
      * and unverified paths so a stale id_token is never accepted even when
      * signature verification is disabled.
+     *
+     * exp is required, not optional: OIDC Core 3.1.3.7 step 9 requires the
+     * current time to be before it. php-jwt is no backstop here because its
+     * own decode() gates the exp check on isset() too (JWT.php), so a token
+     * that simply omits the claim would be accepted forever by both paths.
+     *
+     * @param  bool  $requireIat  Back-Channel Logout 2.4 requires iat as well.
      */
-    protected function validateTimeClaims($payload): void
+    protected function validateTimeClaims($payload, bool $requireIat = false): void
     {
         $now = time();
         $leeway = (int) ($this->getConfig('clock_skew') ?? 0);
 
-        if (isset($payload->exp) && $now - $leeway >= (int) $payload->exp) {
+        if (! isset($payload->exp) || ! is_numeric($payload->exp)) {
+            throw new InvalidArgumentException('JWT: Missing required exp claim.', 401);
+        }
+
+        if ($now - $leeway >= (int) $payload->exp) {
             throw new InvalidArgumentException('JWT: Token has expired.', 401);
+        }
+
+        if ($requireIat && (! isset($payload->iat) || ! is_numeric($payload->iat))) {
+            throw new InvalidArgumentException('JWT: Missing required iat claim.', 401);
         }
 
         if (isset($payload->nbf) && $now + $leeway < (int) $payload->nbf) {
@@ -934,7 +949,7 @@ class Provider extends AbstractProvider
             throw new InvalidArgumentException('Logout token: invalid audience.', 401);
         }
 
-        $this->validateTimeClaims($payload);
+        $this->validateTimeClaims($payload, requireIat: true);
 
         if (empty($payload->jti ?? null)) {
             throw new InvalidArgumentException('Logout token: missing jti.', 401);
