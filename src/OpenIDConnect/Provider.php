@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
      * Use PKCE by default (Authorization Code Flow + PKCE).
      * This follows OAuth 2.1 / current OIDC best practice.
      */
-    protected $pkceEnabled = true;
+    protected $usesPKCE = true;
 
     /**
      * Indicates if JWT signature verification should be enabled.
