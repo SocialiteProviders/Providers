@@ -810,7 +810,7 @@ class Provider extends AbstractProvider
 
     private function base64UrlDecode(string $data): string
     {
-        return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
+        return base64_decode(str_pad(strtr($data, '-_', '+/'), intdiv(strlen($data) + 3, 4) * 4, '=', STR_PAD_RIGHT));
     }
 
     private function base64UrlEncode(string $data): string
