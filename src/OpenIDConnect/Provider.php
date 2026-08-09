@@ -1161,9 +1161,14 @@ class Provider extends AbstractProvider
      * `verify_jwt`, followed by the spec's claim rules. Returns the decoded
      * payload so the caller can destroy sessions matching `sid` / `sub`.
      *
-     * The caller is responsible for:
-     *   - ensuring the jti has not been seen before (replay protection),
-     *   - mapping `sid`/`sub` to local sessions and invalidating them.
+     * Replay protection is handled here: section 2.6 requires the RP to reject
+     * a `jti` it has already acted on, and leaving that to every caller meant
+     * every caller reimplementing it, or -- more often -- not. Set
+     * `logout_token_replay_ttl` to 0 to opt out and do it yourself.
+     *
+     * The caller remains responsible for mapping `sid`/`sub` to local sessions
+     * and invalidating them, which is the only part that depends on how the
+     * application stores sessions.
      *
      * @throws InvalidArgumentException if the token is invalid.
      */
@@ -1204,6 +1209,66 @@ class Provider extends AbstractProvider
             throw new InvalidArgumentException('Logout token: must contain sub and/or sid.', 401);
         }
 
+        // Claimed last, once the token is known to be genuine. Claiming
+        // earlier would let a forged token carrying a guessed jti burn the
+        // identifier of a legitimate one that had not arrived yet.
+        $this->assertLogoutTokenNotReplayed((string) $payload->jti, $payload->exp ?? null);
+
         return (array) $payload;
+    }
+
+    /**
+     * Record a logout token's `jti`, refusing one already acted on.
+     *
+     * Cache::add is the whole mechanism: it writes only when the key is
+     * absent, and does so atomically, so two deliveries of the same token
+     * racing each other cannot both win. A plain has()/put() pair would let
+     * both through, which matters because the identity provider retries.
+     *
+     * @param  int|float|null  $expiresAt  the token's `exp`, if it carries one
+     */
+    protected function assertLogoutTokenNotReplayed(string $jti, $expiresAt = null): void
+    {
+        $ttl = $this->logoutTokenReplayTtl($expiresAt);
+
+        if ($ttl <= 0) {
+            return;
+        }
+
+        $key = 'openidconnect_logout_jti_'.md5($this->getBaseUrl().'|'.$this->clientId.'|'.$jti);
+
+        if (! Cache::add($key, true, $ttl)) {
+            throw new InvalidArgumentException('Logout token: already used.', 401);
+        }
+    }
+
+    /**
+     * How long to remember a `jti`.
+     *
+     * Long enough to outlive the token, since a token that has expired is
+     * refused on its own merits and needs no further memory. Where the token
+     * says when that is, the answer is derived from it -- an identity provider
+     * that mints long-lived logout tokens should not need this tuned to match.
+     *
+     * @param  int|float|null  $expiresAt
+     */
+    protected function logoutTokenReplayTtl($expiresAt = null): int
+    {
+        $configured = $this->getConfig('logout_token_replay_ttl');
+
+        if ($configured !== null) {
+            return (int) $configured;
+        }
+
+        if (is_numeric($expiresAt)) {
+            // Past its own expiry, plus a margin for the clock skew already
+            // tolerated when the expiry itself was checked.
+            $remaining = (int) ceil((float) $expiresAt - time());
+            $skew = (int) ($this->getConfig('clock_skew') ?? 0);
+
+            return max(60, $remaining + $skew + 60);
+        }
+
+        return 900;
     }
 }
