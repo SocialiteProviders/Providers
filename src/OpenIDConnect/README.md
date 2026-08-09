@@ -60,6 +60,12 @@ then follow the provider specific instructions below.
     // Optional: default post-logout redirect URI used by the logout() helper.
     'post_logout_redirect_uri' => env('OIDC_POST_LOGOUT_REDIRECT_URI'),
 
+    // Optional: how long a back-channel logout token's `jti` is remembered,
+    // in seconds, so the same token cannot be acted on twice. Defaults to the
+    // token's own `exp` plus the tolerated clock skew. Set to 0 to turn it off
+    // and handle replay protection yourself.
+    'logout_token_replay_ttl'  => env('OIDC_LOGOUT_TOKEN_REPLAY_TTL'),
+
     // Optional: TTL (in seconds) for the cached discovery document and JWKS.
     // Defaults to 3600 (1 hour).
     'cache_ttl'                => env('OIDC_CACHE_TTL'),
@@ -318,13 +324,6 @@ Route::post('/oidc/backchannel-logout', function (Request $request) {
         return response('', 400);
     }
 
-    // Replay protection: refuse a jti we've already processed.
-    $jtiKey = 'oidc_logout_jti_'.$claims['jti'];
-    if (Cache::has($jtiKey)) {
-        return response('', 400);
-    }
-    Cache::put($jtiKey, true, now()->addHour());
-
     // Prefer sid (per-session); fall back to sub (all sessions for that user).
     $rows = ! empty($claims['sid'])
         ? DB::table('oidc_sessions')->where('sid', $claims['sid'])->get()
@@ -349,4 +348,4 @@ Route::post('/oidc/backchannel-logout', function (Request $request) {
 
 The `sub`-fallback path assumes you store the IdP's `sub` claim on the user record (e.g. in an `oidc_sub` column) at login. If you don't need that fallback — because your IdP always emits `sid` — you can skip it.
 
-`verifyLogoutToken()` validates the signature, `iss`, `aud`, `iat`/`exp`, `jti`, the required `events` claim, and the absence of a `nonce`. The caller is responsible for replay protection (de-duping `jti`) and actually invalidating the session.
+`verifyLogoutToken()` validates the signature, `iss`, `aud`, `iat`/`exp`, `jti`, the required `events` claim, and the absence of a `nonce`. It also records the `jti` and refuses a token that has already been acted on, so the `catch` above covers replays too — the write is atomic, which a `has()`/`put()` pair is not, and the IdP retries when it gets no answer. The caller remains responsible for invalidating the session, which is the only part that depends on how the application stores them.
