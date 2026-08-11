@@ -57,7 +57,9 @@ jobs:
           BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
           HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
         run: |
-          providers=$(php tools/changed-providers.php "$BASE_SHA" "$HEAD_SHA")
+          # Triple-dot diffs against the merge base, so commits landed on the
+          # base branch since this one forked are not counted as changes.
+          providers=$(php tools/changed-providers.php "$BASE_SHA...$HEAD_SHA")
           echo "providers=$providers" >> "$GITHUB_OUTPUT"
           echo "Testing: $providers"
 
@@ -96,12 +98,17 @@ jobs:
         env:
           PROVIDER: ${{ matrix.provider }}
         run: |
-          extra=$(jq -r '.require | keys[]' "src/$PROVIDER/composer.json" \
-            | grep -vE '^(php|ext-.*|socialiteproviders/manager)$' || true)
+          # Keep the version constraints, so CI resolves what a user installing
+          # this provider would actually get.
+          extra=$(jq -r '.require | to_entries[]
+              | select(.key | test("^(php|ext-|socialiteproviders/manager$)") | not)
+              | "\(.key):\(.value)"' "src/$PROVIDER/composer.json")
 
           if [ -n "$extra" ]; then
-            echo "Installing provider dependencies: $(echo "$extra" | tr '\n' ' ')"
-            composer require --no-interaction --prefer-dist --update-with-dependencies $extra
+            echo "Installing provider dependencies:"
+            echo "$extra"
+            echo "$extra" | tr '\n' '\0' \
+              | xargs -0 composer require --no-interaction --prefer-dist --update-with-dependencies
           else
             echo "No extra dependencies."
           fi

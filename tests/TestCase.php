@@ -77,7 +77,13 @@ abstract class TestCase extends BaseTestCase
             $this->fail("Missing fixture: {$path}");
         }
 
-        return file_get_contents($path);
+        $contents = @file_get_contents($path);
+
+        if ($contents === false) {
+            $this->fail("Unreadable fixture: {$path}");
+        }
+
+        return $contents;
     }
 
     /**

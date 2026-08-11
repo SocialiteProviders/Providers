@@ -69,7 +69,14 @@ $output = shell_exec(sprintf('git -C %s diff --name-only %s', escapeshellarg($ro
 $changedFiles = array_filter(explode("\n", trim($output ?? '')));
 
 // Changes to shared files can affect every provider.
-$global = ['composer.json', 'composer.lock', 'phpunit.xml.dist', 'tests/TestCase.php', '.github/workflows/test.yml'];
+$global = [
+    'composer.json',
+    'composer.lock',
+    'phpunit.xml.dist',
+    'tests/TestCase.php',
+    '.github/workflows/test.yml',
+    'tools/changed-providers.php',
+];
 
 foreach ($changedFiles as $file) {
     if (in_array($file, $global, true)) {
