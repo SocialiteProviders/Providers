@@ -1,0 +1,8 @@
+{
+    "openid_ns": "http://specs.openid.net/auth/2.0",
+    "openid_mode": "checkid_setup",
+    "openid_return_to": "https://example.com/auth/callback",
+    "openid_realm": "https://example.com",
+    "openid_identity": "http://specs.openid.net/auth/2.0/identifier_select",
+    "openid_claimed_id": "http://specs.openid.net/auth/2.0/identifier_select"
+}

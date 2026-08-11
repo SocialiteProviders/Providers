@@ -13,16 +13,24 @@
         "socialiteproviders/manager": "^4.4"
     },
     "require-dev": {
+        "composer/semver": "^3.0",
         "guzzlehttp/guzzle": "^7.9",
         "illuminate/http": "^12.0",
         "laravel/pint": "^1.18",
+        "mockery/mockery": "^1.6",
         "php-parallel-lint/php-console-highlighter": "^1.0",
-        "composer/semver": "^3.0",
-        "php-parallel-lint/php-parallel-lint": "^1.4"
+        "php-parallel-lint/php-parallel-lint": "^1.4",
+        "phpunit/phpunit": "^13.3",
+        "spatie/phpunit-snapshot-assertions": "^5.4"
     },
     "autoload": {
         "psr-4": {
             "SocialiteProviders\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SocialiteProviders\\Tests\\": "tests/"
         }
     },
     "config": {
