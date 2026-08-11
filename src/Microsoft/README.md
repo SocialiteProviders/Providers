@@ -72,6 +72,25 @@ Microsoft (Entra ID / Azure AD) periodically rotates signing keys. During rollov
 
 - ref. [Emit groups as role claims in Entra ID](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-fed-group-claims)
 
+### Groups
+
+`Socialite::driver('microsoft')->getGroups()` returns an array of the group IDs the authenticated user belongs to, taken from the `groups` claim of the ID token. The groups are also available on the user object as `$user->groups`.
+
+**Note:** the `groups` claim is not emitted by default. It has to be enabled in the Entra app registration (**Token configuration** → **Add groups claim**, or via `groupMembershipClaims` in the app manifest).
+
+**Note:** when a user is a member of too many groups (more than 200 for a JWT), Entra omits the `groups` claim entirely and emits `_claim_names`/`_claim_sources` claims pointing to a Microsoft Graph endpoint instead. In that case `getGroups()` returns an empty array and you need to query Graph for the user's groups yourself.
+
+- ref. [Configure group claims](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-fed-group-claims)
+- ref. [Groups overage claim](https://learn.microsoft.com/en-us/security/zero-trust/develop/configure-tokens-group-claims-app-roles#group-overages)
+
+### Claims
+
+`Socialite::driver('microsoft')->getClaims()` returns all claims from the validated ID token as a `\stdClass`, or `null` when no ID token is present (e.g. the `openid` scope was not requested). This gives access to any [optional claims](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims-reference) configured for the app registration:
+
+```php
+$user = Socialite::driver('microsoft')->user();
+$ipAddress = Socialite::driver('microsoft')->getClaims()?->ipaddr;
+```
 
 ### Tenant Details
 You can also retrieve Tenant information at the same time as you retrieve users, this can be useful if you need to allow only your tenant/s or filter certain tenants.

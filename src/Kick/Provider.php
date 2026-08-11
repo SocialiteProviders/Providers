@@ -14,6 +14,8 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['user:read'];
 
+    protected $scopeSeparator = ' ';
+
     protected $usesPKCE = true;
 
     protected function getAuthUrl($state): string

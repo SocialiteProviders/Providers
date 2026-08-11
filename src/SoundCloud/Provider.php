@@ -12,14 +12,19 @@ class Provider extends AbstractProvider
 
     protected $scopes = ['non-expiring'];
 
+    /**
+     * {@inheritdoc}
+     */
+    protected $usesPKCE = true;
+
     protected function getAuthUrl($state): string
     {
-        return $this->buildAuthUrlFromBase('https://soundcloud.com/connect', $state);
+        return $this->buildAuthUrlFromBase('https://secure.soundcloud.com/authorize', $state);
     }
 
     protected function getTokenUrl(): string
     {
-        return 'https://api.soundcloud.com/oauth2/token';
+        return 'https://secure.soundcloud.com/oauth/token';
     }
 
     /**
@@ -28,9 +33,10 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            'https://api.soundcloud.com/me.json',
+            'https://api.soundcloud.com/me',
             [
                 RequestOptions::HEADERS => [
+                    'Accept'        => 'application/json; charset=utf-8',
                     'Authorization' => 'OAuth '.$token,
                 ],
             ]

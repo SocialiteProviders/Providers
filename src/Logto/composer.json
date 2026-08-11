@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/logto",
+    "description": "Logto OAuth2/OIDC Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "logto",
+        "oidc",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Cold Code Labs",
+            "email": "dev@coldcodelabs.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/logto"
+    },
+    "require": {
+        "php": "^8.0",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Logto\\": ""
+        }
+    }
+}

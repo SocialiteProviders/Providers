@@ -11,6 +11,7 @@ use SocialiteProviders\Manager\OAuth2\User;
 class Provider extends AbstractProvider implements ProviderInterface
 {
     public const IDENTIFIER = 'TIKTOKSHOP';
+
     protected $scopes = [];
 
     protected function getAuthUrl($state)
@@ -35,10 +36,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     public function user()
     {
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            'query' => $this->getTokenFields($this->request->get('code')),
+            'query' => $this->getTokenFields($this->request->input('code')),
         ]);
 
-        $json = json_decode((string)$response->getBody(), true);
+        $json = json_decode((string) $response->getBody(), true);
         $tokenData = $json['data'] ?? $json;
 
         $user = $this->mapUserToObject($tokenData);
@@ -56,9 +57,9 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return [
-            'app_key' => $this->clientId,
+            'app_key'    => $this->clientId,
             'app_secret' => $this->clientSecret,
-            'auth_code' => $code,
+            'auth_code'  => $code,
             'grant_type' => 'authorized_code',
         ];
     }
@@ -69,11 +70,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
-            'id' => $user['open_id'] ?? null,
+            'id'       => $user['open_id'] ?? null,
             'nickname' => $user['seller_name'] ?? null,
-            'name' => $user['seller_name'] ?? null,
-            'email' => null,
-            'avatar' => null,
+            'name'     => $user['seller_name'] ?? null,
+            'email'    => null,
+            'avatar'   => null,
         ]);
     }
 }
