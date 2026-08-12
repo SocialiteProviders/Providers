@@ -599,6 +599,12 @@ class Provider extends AbstractProvider
             );
         }
 
+        // JWT::$leeway is global static state. In a long-running worker
+        // (Octane, RoadRunner, queues) leaving it set would apply this
+        // provider's clock skew to every later JWT validation in the process,
+        // so it is restored whichever way the decode exits.
+        $previousLeeway = JWT::$leeway;
+
         try {
             JWT::$leeway = (int) ($this->getConfig('clock_skew') ?? 0);
 
@@ -633,6 +639,8 @@ class Provider extends AbstractProvider
             return json_decode(json_encode($decoded));
         } catch (Exception $e) {
             throw new InvalidArgumentException('JWT: Verification failed - '.$e->getMessage(), 401);
+        } finally {
+            JWT::$leeway = $previousLeeway;
         }
     }
 
