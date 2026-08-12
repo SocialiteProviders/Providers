@@ -336,7 +336,9 @@ class Provider extends AbstractProvider
      */
     protected function getCacheTtl(): int
     {
-        return (int) ($this->getConfig('cache_ttl') ?: 3600);
+        $ttl = $this->getConfig('cache_ttl');
+
+        return ($ttl === null || $ttl === '') ? 3600 : (int) $ttl;
     }
 
     /**
