@@ -86,6 +86,57 @@ class EndpointQueryTest extends TestCase
     }
 
     #[Test]
+    public function a_fragment_stays_at_the_end_of_the_logout_url(): void
+    {
+        // Appending blindly would produce '/logout#done?id_token_hint=...',
+        // burying the whole query inside the fragment where the IdP never
+        // sees it.
+        $provider = $this->oidcProvider(discovery: $this->discoveryDocument([
+            'end_session_endpoint' => self::BASE_URL.'/logout#done',
+        ]));
+
+        $url = $provider->logout('the-id-token')->getTargetUrl();
+
+        $this->assertStringNotContainsString('#done?', $url);
+        $this->assertStringEndsWith('#done', $url);
+        $this->assertSame('the-id-token', $this->queryFrom($url)['id_token_hint']);
+    }
+
+    #[Test]
+    public function a_fragment_survives_alongside_an_existing_query(): void
+    {
+        $provider = $this->oidcProvider(discovery: $this->discoveryDocument([
+            'end_session_endpoint' => self::BASE_URL.'/logout?realm=prod#done',
+        ]));
+
+        $url = $provider->logout('the-id-token')->getTargetUrl();
+
+        $this->assertStringEndsWith('#done', $url);
+
+        $query = $this->queryFrom($url);
+
+        $this->assertSame('prod', $query['realm']);
+        $this->assertSame('the-id-token', $query['id_token_hint']);
+    }
+
+    #[Test]
+    public function a_fragment_on_the_authorize_endpoint_is_handled_too(): void
+    {
+        $provider = $this->oidcProvider(discovery: $this->discoveryDocument([
+            'authorization_endpoint' => self::BASE_URL.'/authorize#app',
+        ]));
+
+        $url = $provider->redirect()->getTargetUrl();
+
+        $this->assertStringEndsWith('#app', $url);
+
+        $query = $this->queryFrom($url);
+
+        $this->assertSame(self::CLIENT_ID, $query['client_id']);
+        $this->assertSame('code', $query['response_type']);
+    }
+
+    #[Test]
     public function extra_logout_parameters_survive_an_existing_query(): void
     {
         $provider = $this->oidcProvider(discovery: $this->discoveryDocument([
