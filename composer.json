@@ -15,6 +15,7 @@
     "require-dev": {
         "composer/semver": "^3.0",
         "guzzlehttp/guzzle": "^7.9",
+        "illuminate/cache": "^12.0",
         "illuminate/http": "^12.0",
         "laravel/pint": "^1.18",
         "mockery/mockery": "^1.6",
