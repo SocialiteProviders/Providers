@@ -92,6 +92,7 @@ class Provider extends AbstractProvider
             'issuer',
             'token_auth_method',
             'post_logout_redirect_uri',
+            'logout_token_replay_ttl',
             'cache_ttl',
             'clock_skew',
             'http_timeout',
