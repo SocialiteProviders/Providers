@@ -111,7 +111,7 @@ class Provider extends AbstractProvider
         }
 
         if ($this->usesNonce()) {
-            $this->request->session()->put('nonce', $this->getNonce());
+            $this->request->session()->put('openidconnect_nonce', $this->getNonce());
         }
 
         if ($this->usesPKCE()) {
