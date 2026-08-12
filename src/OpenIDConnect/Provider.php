@@ -234,7 +234,9 @@ class Provider extends AbstractProvider
             return $url;
         }
 
-        return $url.(str_contains($url, '?') ? '&' : '?').$query;
+        [$base, $fragment] = array_pad(explode('#', $url, 2), 2, null);
+        $withQuery = $base . (str_contains($base, '?') ? '&' : '?') . $query;
+        return $fragment !== null ? $withQuery . '#' . $fragment : $withQuery;
     }
 
     /**
