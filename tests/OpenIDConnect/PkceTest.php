@@ -58,8 +58,8 @@ class PkceTest extends TestCase
         $url = $provider->redirect()->getTargetUrl();
         parse_str(parse_url($url, PHP_URL_QUERY) ?: '', $query);
 
-        $this->assertNotEmpty($request->session()->get('nonce'));
-        $this->assertSame($request->session()->get('nonce'), $query['nonce'] ?? null);
+        $this->assertNotEmpty($request->session()->get('openidconnect_nonce'));
+        $this->assertSame($request->session()->get('openidconnect_nonce'), $query['nonce'] ?? null);
         $this->assertSame($request->session()->get('state'), $query['state'] ?? null);
     }
 }

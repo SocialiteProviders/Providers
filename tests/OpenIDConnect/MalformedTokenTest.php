@@ -18,7 +18,7 @@ class MalformedTokenTest extends TestCase
     {
         return $this->oidcProvider(
             $config,
-            $request ?? $this->request(session: ['nonce' => self::NONCE]),
+            $request ?? $this->request(session: ['openidconnect_nonce' => self::NONCE]),
             $discovery
         );
     }

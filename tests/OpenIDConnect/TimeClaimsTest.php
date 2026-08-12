@@ -41,7 +41,7 @@ class TimeClaimsTest extends TestCase
     {
         $this->seedJwks();
 
-        $provider = $this->oidcProvider([], $this->request(session: ['nonce' => self::NONCE]));
+        $provider = $this->oidcProvider([], $this->request(session: ['openidconnect_nonce' => self::NONCE]));
 
         $this->expectExceptionMessage('Missing required exp');
 
@@ -55,7 +55,7 @@ class TimeClaimsTest extends TestCase
         // bounding the token's lifetime.
         $provider = $this->oidcProvider(
             ['verify_jwt' => false],
-            $this->request(session: ['nonce' => self::NONCE])
+            $this->request(session: ['openidconnect_nonce' => self::NONCE])
         );
 
         $this->expectExceptionMessage('Missing required exp');
@@ -68,7 +68,7 @@ class TimeClaimsTest extends TestCase
     {
         $provider = $this->oidcProvider(
             ['verify_jwt' => false],
-            $this->request(session: ['nonce' => self::NONCE])
+            $this->request(session: ['openidconnect_nonce' => self::NONCE])
         );
 
         // JWT::encode() rejects a non-numeric exp itself, so this token has to
@@ -93,7 +93,7 @@ class TimeClaimsTest extends TestCase
     {
         $this->seedJwks();
 
-        $provider = $this->oidcProvider([], $this->request(session: ['nonce' => self::NONCE]));
+        $provider = $this->oidcProvider([], $this->request(session: ['openidconnect_nonce' => self::NONCE]));
 
         $this->assertSame('user-1', $provider->callDecodeJWT($this->tokenWithout([]))->sub);
     }
@@ -105,7 +105,7 @@ class TimeClaimsTest extends TestCase
         // here keeps this fix to what the spec actually mandates.
         $this->seedJwks();
 
-        $provider = $this->oidcProvider([], $this->request(session: ['nonce' => self::NONCE]));
+        $provider = $this->oidcProvider([], $this->request(session: ['openidconnect_nonce' => self::NONCE]));
 
         $this->assertSame('user-1', $provider->callDecodeJWT($this->tokenWithout(['iat']))->sub);
     }

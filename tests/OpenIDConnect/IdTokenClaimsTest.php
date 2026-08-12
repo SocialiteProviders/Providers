@@ -14,7 +14,7 @@ class IdTokenClaimsTest extends TestCase
 
         return $this->oidcProvider(
             $config,
-            $this->request(session: ['nonce' => self::NONCE]),
+            $this->request(session: ['openidconnect_nonce' => self::NONCE]),
             $discovery
         );
     }
@@ -32,13 +32,13 @@ class IdTokenClaimsTest extends TestCase
     #[Test]
     public function the_nonce_is_cleared_once_consumed(): void
     {
-        $request = $this->request(session: ['nonce' => self::NONCE]);
+        $request = $this->request(session: ['openidconnect_nonce' => self::NONCE]);
         $this->seedJwks();
         $provider = $this->oidcProvider([], $request);
 
         $provider->callDecodeJWT($this->idToken(['nonce' => self::NONCE]));
 
-        $this->assertNull($request->session()->get('nonce'));
+        $this->assertNull($request->session()->get('openidconnect_nonce'));
     }
 
     #[Test]
@@ -136,7 +136,7 @@ class IdTokenClaimsTest extends TestCase
     #[Test]
     public function an_expired_token_is_rejected_even_when_signature_verification_is_off(): void
     {
-        $request = $this->request(session: ['nonce' => self::NONCE]);
+        $request = $this->request(session: ['openidconnect_nonce' => self::NONCE]);
         $provider = $this->oidcProvider(['verify_jwt' => false], $request);
 
         $this->expectExceptionMessage('expired');
@@ -160,7 +160,7 @@ class IdTokenClaimsTest extends TestCase
     #[Test]
     public function a_token_that_is_not_yet_valid_is_rejected(): void
     {
-        $request = $this->request(session: ['nonce' => self::NONCE]);
+        $request = $this->request(session: ['openidconnect_nonce' => self::NONCE]);
         $provider = $this->oidcProvider(['verify_jwt' => false], $request);
 
         $this->expectExceptionMessage('not yet valid');
@@ -171,7 +171,7 @@ class IdTokenClaimsTest extends TestCase
     #[Test]
     public function a_token_issued_in_the_future_is_rejected(): void
     {
-        $request = $this->request(session: ['nonce' => self::NONCE]);
+        $request = $this->request(session: ['openidconnect_nonce' => self::NONCE]);
         $provider = $this->oidcProvider(['verify_jwt' => false], $request);
 
         $this->expectExceptionMessage('issued in the future');

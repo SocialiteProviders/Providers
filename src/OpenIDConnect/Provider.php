@@ -367,7 +367,7 @@ class Provider extends AbstractProvider
     protected function getCurrentNonce(): ?string
     {
         return $this->request->hasSession()
-            ? $this->request->session()->get('nonce')
+            ? $this->request->session()->get('openidconnect_nonce')
             : null;
     }
 
@@ -575,7 +575,7 @@ class Provider extends AbstractProvider
         $this->validateIdTokenClaims($payload, $alg, $accessToken);
 
         if ($this->usesNonce() && $this->request->hasSession()) {
-            $this->request->session()->forget('nonce');
+            $this->request->session()->forget('openidconnect_nonce');
         }
 
         return $payload;

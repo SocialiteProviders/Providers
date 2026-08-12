@@ -37,7 +37,7 @@ class VerificationDefaultsTest extends TestCase
     {
         $this->seedJwks();
 
-        $request = $this->request(session: ['nonce' => 'n']);
+        $request = $this->request(session: ['openidconnect_nonce' => 'n']);
         $provider = $this->oidcProvider(['verify_jwt' => null], $request);
 
         // A token the IdP never signed, claiming elevated group membership.
@@ -59,7 +59,7 @@ class VerificationDefaultsTest extends TestCase
         // Regression cover for ConfigTrait::getConfig() treating any falsy
         // value as absent: reading via getConfig() would discard this false
         // and fall back to the now-true default, stranding these operators.
-        $request = $this->request(session: ['nonce' => 'n']);
+        $request = $this->request(session: ['openidconnect_nonce' => 'n']);
         $provider = $this->oidcProvider(['verify_jwt' => false], $request);
 
         $header = $this->base64UrlEncode(json_encode(['alg' => 'RS256', 'typ' => 'JWT']));
@@ -73,7 +73,7 @@ class VerificationDefaultsTest extends TestCase
     #[Test]
     public function string_falsy_values_also_opt_out(): void
     {
-        $request = $this->request(session: ['nonce' => 'n']);
+        $request = $this->request(session: ['openidconnect_nonce' => 'n']);
         $provider = $this->oidcProvider(['verify_jwt' => 'false'], $request);
 
         $header = $this->base64UrlEncode(json_encode(['alg' => 'RS256', 'typ' => 'JWT']));

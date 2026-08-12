@@ -21,7 +21,7 @@ class AuthorizedPartyTest extends TestCase
     {
         $this->seedJwks();
 
-        $provider = $this->oidcProvider([], $this->request(session: ['nonce' => self::NONCE]));
+        $provider = $this->oidcProvider([], $this->request(session: ['openidconnect_nonce' => self::NONCE]));
 
         return $provider->callDecodeJWT($this->idToken($claims + ['nonce' => self::NONCE]));
     }

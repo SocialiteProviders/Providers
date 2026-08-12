@@ -39,7 +39,7 @@ class StatelessTest extends TestCase
         $url = $provider->redirect()->getTargetUrl();
         parse_str(parse_url($url, PHP_URL_QUERY) ?: '', $query);
 
-        $this->assertNull($request->session()->get('nonce'));
+        $this->assertNull($request->session()->get('openidconnect_nonce'));
         $this->assertArrayNotHasKey('nonce', $query);
         $this->assertArrayNotHasKey('state', $query);
     }
