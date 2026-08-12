@@ -338,9 +338,24 @@ class Provider extends AbstractProvider
      */
     protected function getCacheTtl(): int
     {
-        $ttl = $this->getConfig('cache_ttl');
+        $ttl = $this->rawConfig('cache_ttl');
 
         return ($ttl === null || $ttl === '') ? 3600 : (int) $ttl;
+    }
+
+    /**
+     * Read a config value without the manager's empty() collapse.
+     *
+     * ConfigTrait::getConfig() returns the default whenever the stored value
+     * is empty(), which folds a deliberate 0 -- and the '0' an environment
+     * variable produces -- into "not configured". For a TTL, 0 is a real
+     * setting and has to survive.
+     */
+    protected function rawConfig(string $key)
+    {
+        $config = $this->getConfig();
+
+        return is_array($config) ? ($config[$key] ?? null) : null;
     }
 
     /**
@@ -1268,9 +1283,9 @@ class Provider extends AbstractProvider
      */
     protected function logoutTokenReplayTtl($expiresAt = null): int
     {
-        $configured = $this->getConfig('logout_token_replay_ttl');
+        $configured = $this->rawConfig('logout_token_replay_ttl');
 
-        if ($configured !== null) {
+        if ($configured !== null && $configured !== '') {
             return (int) $configured;
         }
 

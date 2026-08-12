@@ -76,4 +76,14 @@ class ProviderStub extends Provider
     {
         return $this->tokenRequestOptions($fields);
     }
+
+    public function callGetCacheTtl(): int
+    {
+        return $this->getCacheTtl();
+    }
+
+    public function callLogoutTokenReplayTtl($expiresAt = null): int
+    {
+        return $this->logoutTokenReplayTtl($expiresAt);
+    }
 }
