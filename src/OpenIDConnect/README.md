@@ -115,7 +115,7 @@ Socialite::driver('openidconnect')->stateless()->withoutPKCE()->redirect();
 
 #### Laravel 11+
 
-In Laravel 11, the default `EventServiceProvider` provider was removed. Instead, add the listener using the `listen` method on the `Event` facade, in your `AppServiceProvider` `boot` method.
+In Laravel 11, the default `EventServiceProvider` was removed. Instead, add the listener using the `listen` method on the `Event` facade, in your `AppServiceProvider` `boot` method.
 
 ```php
 Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
@@ -139,6 +139,7 @@ protected $listen = [
     ],
 ];
 ```
+
 </details>
 
 ### Usage
