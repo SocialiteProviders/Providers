@@ -124,7 +124,7 @@ class Provider extends AbstractProvider
             if (! $this->request->hasSession()) {
                 throw new InvalidArgumentException(
                     'OIDC: PKCE requires a session to carry the code_verifier from the redirect to the callback. '
-                    .'Bind a session, or call withoutPKCE() to opt out.'
+                        .'Bind a session, or call withoutPKCE() to opt out.'
                 );
             }
 
@@ -236,8 +236,9 @@ class Provider extends AbstractProvider
         }
 
         [$base, $fragment] = array_pad(explode('#', $url, 2), 2, null);
-        $withQuery = $base . (str_contains($base, '?') ? '&' : '?') . $query;
-        return $fragment !== null ? $withQuery . '#' . $fragment : $withQuery;
+        $withQuery = $base.(str_contains($base, '?') ? '&' : '?').$query;
+
+        return $fragment !== null ? $withQuery.'#'.$fragment : $withQuery;
     }
 
     /**
