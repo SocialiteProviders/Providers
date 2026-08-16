@@ -1,0 +1,10 @@
+{
+    "sub": "e1b9c2d3f4a5b6c7",
+    "name": "Ada Lovelace",
+    "given_name": "Ada",
+    "family_name": "Lovelace",
+    "email": "ada@example.com",
+    "picture": "https://erp.example.com/files/ada.png",
+    "roles": ["System Manager", "Sales User"],
+    "iss": "https://erp.example.com"
+}
