@@ -16,6 +16,7 @@
         "composer/semver": "^3.0",
         "guzzlehttp/guzzle": "^7.9",
         "illuminate/http": "^12.0",
+        "illuminate/session": "^12.0",
         "laravel/pint": "^1.18",
         "mockery/mockery": "^1.6",
         "php-parallel-lint/php-console-highlighter": "^1.0",

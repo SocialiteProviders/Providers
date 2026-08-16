@@ -1,0 +1,73 @@
+---
+category: {{ category }}{{ nameLine }}
+---
+
+# {{ title }}
+
+```bash
+composer require socialiteproviders/{{ alias }}
+```
+
+## Installation & Basic Usage
+
+Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
+
+<!-- TODO: link the provider's own OAuth docs here, and note how to create an app. -->
+
+### Add configuration to `config/services.php`
+
+```php
+'{{ alias }}' => [
+{{ configLines }}
+],
+```
+
+### Add provider event listener
+
+#### Laravel 11+
+
+In Laravel 11, the default `EventServiceProvider` provider was removed. Instead, add the listener using the `listen` method on the `Event` facade, in your `AppServiceProvider` `boot` method.
+
+* Note: You do not need to add anything for the built-in socialite providers unless you override them with your own providers.
+
+```php
+Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+    $event->extendSocialite('{{ alias }}', \SocialiteProviders\{{ name }}\Provider::class);
+});
+```
+
+<details>
+<summary>
+Laravel 10 or below
+</summary>
+Configure the package's listener to listen for `SocialiteWasCalled` events.
+
+Add the event to your `listen[]` array in `app/Providers/EventServiceProvider`. See the [Base Installation Guide](https://socialiteproviders.com/usage/) for detailed instructions.
+
+```php
+protected $listen = [
+    \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+        // ... other providers
+        \SocialiteProviders\{{ name }}\{{ name }}ExtendSocialite::class.'@handle',
+    ],
+];
+```
+</details>
+
+### Usage
+
+You should now be able to use the provider like you would regularly use Socialite (assuming you have the facade installed):
+
+```php
+return Socialite::driver('{{ alias }}')->redirect();
+```
+
+### Returned User fields
+
+<!-- TODO: list only the fields this provider actually returns. -->
+
+- `id`
+- `nickname`
+- `name`
+- `email`
+- `avatar`
