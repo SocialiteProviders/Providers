@@ -1,0 +1,21 @@
+<?php
+
+namespace SocialiteProviders\Tests\{{ name }};
+
+use SocialiteProviders\{{ name }}\Provider;
+use SocialiteProviders\Tests\TestCase;
+
+class {{ name }}ProviderTest extends TestCase
+{
+    protected function provider(): string
+    {
+        return Provider::class;
+    }
+
+    public function test_identifier(): void
+    {
+        $this->assertSame('{{ identifier }}', Provider::IDENTIFIER);
+    }
+
+    // TODO: cover the Server endpoints and mapUserToObject().
+}

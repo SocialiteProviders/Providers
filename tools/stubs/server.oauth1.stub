@@ -1,0 +1,60 @@
+<?php
+
+namespace SocialiteProviders\{{ name }};
+
+use League\OAuth1\Client\Credentials\TokenCredentials;
+use SocialiteProviders\Manager\OAuth1\Server as BaseServer;
+use SocialiteProviders\Manager\OAuth1\User;
+
+class Server extends BaseServer
+{
+    public function urlTemporaryCredentials(): string
+    {
+        // TODO: the request token endpoint.
+        return '';
+    }
+
+    public function urlAuthorization(): string
+    {
+        // TODO: the authorize endpoint.
+        return '';
+    }
+
+    public function urlTokenCredentials(): string
+    {
+        // TODO: the access token endpoint.
+        return '';
+    }
+
+    public function urlUserDetails(): string
+    {
+        // TODO: the user details endpoint.
+        return '';
+    }
+
+    public function userDetails(array $data, TokenCredentials $tokenCredentials): User
+    {
+        $user = new User;
+
+        // TODO: populate from $data.
+        $user->nickname = $data['nickname'] ?? null;
+        $user->extra = $data;
+
+        return $user;
+    }
+
+    public function userUid(array $data, TokenCredentials $tokenCredentials)
+    {
+        return $data['id'] ?? null;
+    }
+
+    public function userEmail(array $data, TokenCredentials $tokenCredentials)
+    {
+        return $data['email'] ?? null;
+    }
+
+    public function userScreenName(array $data, TokenCredentials $tokenCredentials)
+    {
+        return $data['nickname'] ?? null;
+    }
+}

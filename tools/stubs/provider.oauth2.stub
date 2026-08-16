@@ -1,0 +1,56 @@
+<?php
+
+namespace SocialiteProviders\{{ name }};
+
+use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
+
+/**
+ * @see TODO link the provider's OAuth documentation here
+ */
+class Provider extends AbstractProvider
+{
+    public const IDENTIFIER = '{{ identifier }}';
+
+    // TODO: only set scopes the API actually requires, otherwise leave this empty.
+    protected $scopes = [];
+{{ pkce }}{{ config }}
+    protected function getAuthUrl($state): string
+    {
+        // TODO: the provider's authorize endpoint.
+        return $this->buildAuthUrlFromBase('', $state);
+    }
+
+    protected function getTokenUrl(): string
+    {
+        // TODO: the provider's token endpoint.
+        return '';
+    }
+
+    protected function getUserByToken($token)
+    {
+        // TODO: the provider's userinfo endpoint.
+        $response = $this->getHttpClient()->get('', [
+            RequestOptions::HEADERS => [
+                'Accept'        => 'application/json',
+                'Authorization' => 'Bearer '.$token,
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
+    }
+
+    protected function mapUserToObject(array $user)
+    {
+        // TODO: map only the fields this API returns, drop the rest.
+        return (new User)->setRaw($user)->map([
+            'id'       => Arr::get($user, 'id'),
+            'nickname' => Arr::get($user, 'nickname'),
+            'name'     => Arr::get($user, 'name'),
+            'email'    => Arr::get($user, 'email'),
+            'avatar'   => Arr::get($user, 'avatar'),
+        ]);
+    }
+}

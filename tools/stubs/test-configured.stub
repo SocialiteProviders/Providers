@@ -1,0 +1,17 @@
+
+    private function configured(?Request $request = null, array $responses = []): Provider
+    {
+        /** @var Provider $provider */
+        $provider = $this->makeProvider($request, $responses);
+
+        $provider->setConfig(new Config(
+            static::CLIENT_ID,
+            static::CLIENT_SECRET,
+            static::REDIRECT_URI,
+            [
+{{ configSets }}
+            ]
+        ));
+
+        return $provider;
+    }
