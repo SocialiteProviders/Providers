@@ -1,0 +1,45 @@
+<?php
+
+namespace SocialiteProviders\Tests\{{ name }};
+
+{{ imports }}
+
+class {{ name }}ProviderTest extends TestCase
+{
+    protected function provider(): string
+    {
+        return Provider::class;
+    }
+{{ configured }}
+    public function test_redirect_targets_the_authorize_endpoint(): void
+    {
+        $request = {{ redirectRequest }};
+
+        $url = {{ redirectSubject }}->stateless()->redirect()->getTargetUrl();
+
+        // TODO: assert the authorize endpoint and the query params that matter.
+        $params = $this->queryParams($url);
+
+        $this->assertSame(static::CLIENT_ID, $params['client_id']);
+        $this->assertSame(static::REDIRECT_URI, $params['redirect_uri']);
+        $this->assertSame('code', $params['response_type']);
+    }
+
+    public function test_user_is_mapped_from_the_api_response(): void
+    {
+        $responses = [
+            new Response(200, ['Content-Type' => 'application/json'], (string) json_encode([
+                'access_token' => 'access-token',
+            ])),
+            new Response(200, ['Content-Type' => 'application/json'], $this->fixture('user.json')),
+        ];
+
+        $request = {{ userRequest }};
+
+        $user = {{ userSubject }}->stateless()->user();
+
+        // TODO: assert against the real fixture values.
+        $this->assertSame('access-token', $user->token);
+        $this->assertNotNull($user->getId());
+    }
+}

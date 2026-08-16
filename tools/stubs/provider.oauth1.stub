@@ -1,0 +1,26 @@
+<?php
+
+namespace SocialiteProviders\{{ name }};
+
+use SocialiteProviders\Manager\OAuth1\AbstractProvider;
+use SocialiteProviders\Manager\OAuth1\User;
+
+/**
+ * @see TODO link the provider's OAuth documentation here
+ */
+class Provider extends AbstractProvider
+{
+    public const IDENTIFIER = '{{ identifier }}';
+
+    protected function mapUserToObject(array $user)
+    {
+        // TODO: map only the fields this API returns, drop the rest.
+        return (new User)->setRaw($user)->map([
+            'id'       => $user['id'] ?? null,
+            'nickname' => $user['nickname'] ?? null,
+            'name'     => $user['name'] ?? null,
+            'email'    => $user['email'] ?? null,
+            'avatar'   => $user['avatar'] ?? null,
+        ]);
+    }
+}

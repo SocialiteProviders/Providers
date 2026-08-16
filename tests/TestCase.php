@@ -7,6 +7,8 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Session\ArraySessionHandler;
+use Illuminate\Session\Store;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
@@ -52,6 +54,31 @@ abstract class TestCase extends BaseTestCase
     protected function makeRequest(array $query = [], ?string $uri = null): Request
     {
         return Request::create($uri ?? static::REDIRECT_URI, 'GET', $query);
+    }
+
+    /**
+     * A request backed by an array session.
+     *
+     * PKCE providers need this even under stateless(), since Socialite always
+     * puts the code verifier in the session.
+     *
+     * @param  array<string, mixed>  $query
+     * @param  array<string, mixed>  $session
+     */
+    protected function makeRequestWithSession(array $query = [], array $session = []): Request
+    {
+        $request = $this->makeRequest($query);
+
+        $store = new Store('test-session', new ArraySessionHandler(120));
+        $store->start();
+
+        foreach ($session as $key => $value) {
+            $store->put($key, $value);
+        }
+
+        $request->setLaravelSession($store);
+
+        return $request;
     }
 
     /**

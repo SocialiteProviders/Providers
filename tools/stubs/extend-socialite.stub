@@ -1,0 +1,13 @@
+<?php
+
+namespace SocialiteProviders\{{ name }};
+
+use SocialiteProviders\Manager\SocialiteWasCalled;
+
+class {{ name }}ExtendSocialite
+{
+    public function handle(SocialiteWasCalled $socialiteWasCalled): void
+    {
+        $socialiteWasCalled->extendSocialite('{{ alias }}', Provider::class);
+    }
+}

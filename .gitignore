@@ -3,3 +3,4 @@ composer.lock
 .idea
 .vscode
 .phpunit.cache
+.claude
