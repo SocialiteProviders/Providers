@@ -1,5 +1,5 @@
 {
-    "name": "socialiteproviders/openid-connect",
+    "name": "socialiteproviders/openidconnect",
     "description": "Generic OpenID Connect Provider for Laravel Socialite",
     "license": "MIT",
     "keywords": [
@@ -19,7 +19,7 @@
     "support": {
         "issues": "https://github.com/socialiteproviders/providers/issues",
         "source": "https://github.com/socialiteproviders/providers",
-        "docs": "https://socialiteproviders.com/openid-connect"
+        "docs": "https://socialiteproviders.com/openidconnect"
     },
     "require": {
         "php": "^8.2",

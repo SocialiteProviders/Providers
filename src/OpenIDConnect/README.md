@@ -5,7 +5,7 @@ A generic OpenID Connect driver for Laravel Socialite. Point it at any issuer th
 Endpoints come from the issuer's discovery document. Signing keys come from its JWKS and refresh automatically when the issuer rotates them. Every id_token is validated properly (signature, `iss`, `aud`, `azp`, `exp`, `nonce`, `at_hash`) and PKCE is on by default.
 
 ```bash
-composer require socialiteproviders/openid-connect
+composer require socialiteproviders/openidconnect
 ```
 
 ## Configure
