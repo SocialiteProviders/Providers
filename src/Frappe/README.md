@@ -1,5 +1,5 @@
 ---
-category: Business
+category: Productivity / Business
 name: Frappe / ERPNext
 ---
 
