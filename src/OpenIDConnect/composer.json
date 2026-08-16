@@ -1,0 +1,45 @@
+{
+    "name": "socialiteproviders/openid-connect",
+    "description": "Generic OpenID Connect Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "oidc",
+        "openid",
+        "openid-connect",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "adrum"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/openid-connect"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "firebase/php-jwt": "^7.0",
+        "illuminate/http": "^11.0 | ^12.0 | ^13.0",
+        "illuminate/support": "^11.0 | ^12.0 | ^13.0",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\OpenIDConnect\\": ""
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SocialiteProviders\\OpenIDConnect\\OpenIDConnectServiceProvider"
+            ]
+        }
+    }
+}
