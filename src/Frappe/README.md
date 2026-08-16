@@ -126,9 +126,15 @@ Socialite::driver('frappe')->revokeToken($user->token);
 Auth::logout();
 ```
 
-To also end the user's Frappe browser session, submit a `POST` form to
-`Socialite::driver('frappe')->getLogoutUrl()`. Do not redirect to this URL;
-current Frappe versions require `POST`. See Frappe's official
+To also end the user's Frappe browser session, send the user to
+`Socialite::driver('frappe')->getLogoutUrl()`.
+
+Frappe v15 and earlier accept a `GET`, so a redirect works. Frappe v16
+[restricted this endpoint to `POST`](https://github.com/frappe/frappe/commit/9c6594b47c04fd17095dd9058d2b2792dce8de26),
+and `POST` is CSRF-checked; submit a form carrying the session's `csrf_token`,
+or list your app's origin in the site's `allowed_referrers`.
+
+See Frappe's official
 [logout](https://docs.frappe.io/framework/user/en/guides/integration/rest_api/simple_authentication#get-api-method-logout)
 and [token revocation](https://docs.frappe.io/framework/user/en/guides/integration/rest_api/oauth-2#revoke-token-endpoint)
 documentation.

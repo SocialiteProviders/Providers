@@ -23,7 +23,7 @@
         "docs": "https://socialiteproviders.com/frappe"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.3",
         "socialiteproviders/manager": "^4.4"
     },
     "autoload": {

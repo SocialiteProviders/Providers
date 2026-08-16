@@ -22,7 +22,6 @@ class Provider extends AbstractProvider
         return ['base_url', 'fields'];
     }
 
-    /** {@inheritDoc} */
     public function getScopes()
     {
         return array_values(array_unique(array_merge(
@@ -44,9 +43,6 @@ class Provider extends AbstractProvider
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function refreshToken($refreshToken)
     {
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
@@ -88,9 +84,6 @@ class Provider extends AbstractProvider
         return rtrim($baseUrl, '/');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
@@ -121,14 +114,11 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        $fields = json_decode((string) $response->getBody(), true)['data'][0] ?? [];
+        $extra = json_decode((string) $response->getBody(), true)['data'][0] ?? [];
 
-        return array_merge($fields, $user);
+        return array_merge($extra, $user);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
