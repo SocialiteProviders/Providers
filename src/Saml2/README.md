@@ -214,6 +214,43 @@ An example command to generate a certificate and private key with openssl:
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout sp_saml.pem -out sp_saml.crt
 ```
 
+### Service provider certificate rotation
+
+Identity providers that pin your service provider signing certificate require a coordinated rotation. This mirrors the package's existing support for multiple identity provider signing certificates in metadata: during an overlap period, publish both the active and previous certificates while signing outbound messages with the active key only.
+
+Configure the active credential as usual, and optionally add the previous credential while customers update their identity provider:
+
+```php
+'saml2' => [
+  'sp_certificate' => file_get_contents('path/to/sp_saml.crt'),
+  'sp_private_key' => file_get_contents('path/to/sp_saml.pem'),
+
+  // Optional overlap credential during rotation
+  'sp_previous_certificate' => file_get_contents('path/to/sp_saml_previous.crt'),
+  'sp_previous_private_key' => file_get_contents('path/to/sp_saml_previous.pem'),
+  'sp_previous_private_key_passphrase' => null,
+],
+```
+
+During overlap:
+
+- Service provider metadata includes both certificates for signing and encryption.
+- `AuthnRequest`, `LogoutRequest`, and `LogoutResponse` messages are signed with the active key only.
+- Encrypted assertions are decrypted with the active key first, then the previous key.
+
+Recommended workflow:
+
+1. Deploy the new active certificate and private key.
+2. Keep the replaced certificate and private key in the `sp_previous_*` config keys for 30–90 days.
+3. Notify identity provider administrators to refresh metadata or update the pinned signing certificate.
+4. Remove the `sp_previous_*` keys after the grace period.
+
+Retrieve all currently published service provider certificates programmatically:
+
+```php
+Socialite::driver('saml2')->getServiceProviderCertificates();
+```
+
 ### Validation
 
 The provider validates the timestamps in the assertion including `NotBefore` and `NotOnOrAfter`.
