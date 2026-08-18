@@ -1,0 +1,6 @@
+{
+    "client_id": "client-id",
+    "redirect_uri": "https://example.com/auth/callback",
+    "scope": "read",
+    "response_type": "code"
+}

@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/steady",
+    "description": "Steady OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "steady",
+        "steadyhq"
+    ],
+    "authors": [
+        {
+            "name": "Markus Kautz",
+            "email": "markus.kautz@pixelorum.at"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/steady"
+    },
+    "require": {
+        "php": "^8.0",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Steady\\": ""
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "data": {
+        "id": "9b3d4e5f-7a8b-4c9d-8e0f-1a2b3c4d5e6f",
+        "type": "subscription",
+        "attributes": {
+            "state": "active",
+            "period": "monthly",
+            "currency": "EUR",
+            "monthly-amount": 500,
+            "expires-at": null,
+            "rss-feed-url": "https://steadyhq.com/feed/abc123",
+            "is-gift": false,
+            "shipping-address": null
+        }
+    }
+}
