@@ -16,7 +16,8 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'client_secret' => env('AZURE_CLIENT_SECRET'),
   'redirect' => env('AZURE_REDIRECT_URI'),
   'tenant' => env('AZURE_TENANT_ID'),
-  'proxy' => env('PROXY')  // optionally
+  'proxy' => env('PROXY'), // optionally
+  'graph_url' => env('AZURE_GRAPH_URL'), // optionally, defaults to https://graph.microsoft.com/v1.0/me
 ],
 ```
 

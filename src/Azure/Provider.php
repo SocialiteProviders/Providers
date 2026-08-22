@@ -62,7 +62,7 @@ class Provider extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get($this->graphUrl, [
+        $response = $this->getHttpClient()->get($this->getConfig('graph_url', $this->graphUrl), [
             RequestOptions::HEADERS => [
                 'Accept'        => 'application/json',
                 'Authorization' => 'Bearer '.$token,
@@ -116,6 +116,6 @@ class Provider extends AbstractProvider
 
     public static function additionalConfigKeys(): array
     {
-        return ['tenant', 'proxy'];
+        return ['tenant', 'proxy', 'graph_url'];
     }
 }

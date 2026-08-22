@@ -1,0 +1,6 @@
+{
+  "id": "azure-user-id",
+  "displayName": "Azure User",
+  "userPrincipalName": "azure.user@example.com",
+  "mail": "azure.user@example.com"
+}
