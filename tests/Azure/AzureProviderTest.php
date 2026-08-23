@@ -39,6 +39,28 @@ class AzureProviderTest extends TestCase
         $this->assertSame('https://graph.example.test/v1.0/me', (string) $mock->getLastRequest()?->getUri());
     }
 
+    public function test_empty_graph_url_uses_default(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, ['Content-Type' => 'application/json'], $this->fixture('user.json')),
+        ]);
+
+        /** @var Provider $provider */
+        $provider = $this->makeProvider();
+        $provider->setConfig(new Config(
+            static::CLIENT_ID,
+            static::CLIENT_SECRET,
+            static::REDIRECT_URI,
+            ['graph_url' => '']
+        ));
+        $provider->setHttpClient(new Client(['handler' => HandlerStack::create($mock)]));
+
+        $user = $provider->userFromToken('access-token');
+
+        $this->assertSame('azure-user-id', $user->getId());
+        $this->assertSame('https://graph.microsoft.com/v1.0/me', (string) $mock->getLastRequest()?->getUri());
+    }
+
     public function test_graph_url_is_an_additional_config_key(): void
     {
         $this->assertContains('graph_url', Provider::additionalConfigKeys());
