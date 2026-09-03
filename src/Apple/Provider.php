@@ -16,6 +16,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
+use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Psr\Http\Message\ResponseInterface;
@@ -195,6 +196,7 @@ class Provider extends AbstractProvider
             $constraints = [
                 new SignedWith(new Sha256, AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
+                new PermittedFor($this->clientId),
                 // fix for #1354
                 new LooseValidAt(SystemClock::fromSystemTimezone(), new DateInterval($this->getConfig('jwt_issued_time_leeway', 'PT3S'))),
             ];
