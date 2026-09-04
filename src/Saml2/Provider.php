@@ -3,7 +3,6 @@
 namespace SocialiteProviders\Saml2;
 
 use DateTime;
-use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -257,7 +256,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function sendMessage(SamlMessage $message, string $bindingType): HttpFoundationResponse
     {
-        if ($credential = $this->credential()) {
+        if ($credential = $this->signingCredential()) {
             $message->setSignature($this->signature($credential));
         }
 
@@ -672,20 +671,8 @@ class Provider extends AbstractProvider implements SocialiteProvider
             return;
         }
 
-        $lastException = null;
-
-        foreach ($this->decryptionCredentials() as $credential) {
-            try {
-                $assertion = $reader->decryptAssertion($credential->getPrivateKey(), new DeserializationContext);
-                $this->messageContext->asResponse()->addAssertion($assertion);
-
-                return;
-            } catch (Exception $exception) {
-                $lastException = $exception;
-            }
-        }
-
-        throw $lastException ?? new LightSamlSecurityException('The encrypted assertion could not be decrypted');
+        $assertion = $reader->decryptMultiAssertion($this->decryptionCredentials(), new DeserializationContext);
+        $this->messageContext->asResponse()->addAssertion($assertion);
     }
 
     public function getServiceProviderMetadata(): Response
@@ -697,14 +684,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return (new Response)
             ->header('content-type', 'application/samlmetadata+xml')
             ->setContent($serializationContext->getDocument()->saveXML());
-    }
-
-    /**
-     * @return X509Certificate[]
-     */
-    public function getServiceProviderCertificates(): array
-    {
-        return $this->metadataCertificates();
     }
 
     public function clearIdentityProviderMetadataCache()
@@ -720,11 +699,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
             $credential->getPrivateKey(),
             XMLSecurityDSig::SHA256
         );
-    }
-
-    protected function credential(): ?X509Credential
-    {
-        return $this->signingCredential();
     }
 
     protected function signingCredential(): ?X509Credential

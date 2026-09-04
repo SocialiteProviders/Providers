@@ -245,12 +245,6 @@ Recommended workflow:
 3. Notify identity provider administrators to refresh metadata or update the pinned signing certificate.
 4. Remove the `sp_previous_*` keys after the grace period.
 
-Retrieve all currently published service provider certificates programmatically:
-
-```php
-Socialite::driver('saml2')->getServiceProviderCertificates();
-```
-
 ### Validation
 
 The provider validates the timestamps in the assertion including `NotBefore` and `NotOnOrAfter`.
