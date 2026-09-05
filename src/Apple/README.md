@@ -82,6 +82,18 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('apple')->redirect();
 ```
 
+#### Native apps (identity token)
+
+Native iOS and Android clients hand your server an identity token directly. Pass
+the nonce from the authorization request to have it verified, as Apple requires:
+
+```php
+$user = Socialite::driver('apple')->userByIdentityToken($identityToken, $nonce);
+```
+
+The nonce is optional for backwards compatibility, but omitting it means a token
+can be replayed until it expires.
+
 ### Returned User fields
 
 - ``id``
@@ -98,6 +110,19 @@ Examples of possible values are PT3S -> 3 seconds, PT1M -> 1 Minute etc ...
 The thrown exception may look like this:
 ```
 [object] (Laravel\\Socialite\\Two\\InvalidStateException(code: 0): The token violates some mandatory constraints, details:                                                                                           - The token was issued in the future at /vendor/socialiteproviders/apple/Provider.php:207)                      [stacktrace]              
+```
+
+#### Invalid audience
+
+The identity token's `aud` claim must match `config('services.apple.client_id')`.
+Native apps send their bundle ID as the audience, which is not always the Services
+ID used for the web flow - if the two differ, configure the one your clients
+actually send.
+
+The thrown exception looks like this:
+```
+Laravel\Socialite\Two\InvalidStateException: The token violates some mandatory constraints, details:
+- The token is not allowed to be used by this audience
 ```
 
 ### Reference

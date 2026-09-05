@@ -14,6 +14,7 @@ use Laravel\Socialite\Two\InvalidStateException;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+use Lcobucci\JWT\Validation\Constraint\HasClaimWithValue;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
@@ -108,9 +109,21 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $this->checkToken($token);
-        $claims = explode('.', $token)[1];
 
-        return json_decode(base64_decode($claims), true);
+        return $this->parseTokenClaims($token);
+    }
+
+    /**
+     * Decode the claims of an already-verified token.
+     *
+     * @param  string  $token
+     * @return array<string, mixed>
+     */
+    protected function parseTokenClaims($token)
+    {
+        $payload = explode('.', $token)[1];
+
+        return json_decode(base64_decode(strtr($payload, '-_', '+/')), true);
     }
 
     protected function getClientSecret()
@@ -158,37 +171,35 @@ class Provider extends AbstractProvider
      * Return the user given the identity token provided on the client
      * side by Apple.
      *
+     * Pass the nonce from the authorization request to have it verified, as
+     * Apple requires. Without it a token can be replayed until it expires.
+     *
      * @param  string  $token
      * @return User $user
      *
      * @throws InvalidStateException when token can't be parsed
      */
-    public function userByIdentityToken(string $token): User
+    public function userByIdentityToken(string $token, ?string $nonce = null): User
     {
-        $array = $this->getUserByToken($token);
+        $this->checkToken($token, $nonce);
 
-        return $this->mapUserToObject($array);
+        return $this->mapUserToObject($this->parseTokenClaims($token));
     }
 
     /**
      * Verify Apple JWT.
      *
      * @param  string  $jwt
+     * @param  string|null  $nonce
      * @return bool
      *
      * @see https://appleid.apple.com/auth/keys
      */
-    public function checkToken($jwt)
+    public function checkToken($jwt, $nonce = null)
     {
         $token = $this->getJwtConfig()->parser()->parse($jwt);
 
-        $data = Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
-            $response = (new Client)->get(self::URL . '/auth/keys');
-
-            return json_decode((string) $response->getBody(), true);
-        });
-
-        $publicKeys = JWK::parseKeySet($data);
+        $publicKeys = JWK::parseKeySet($this->getJwkSet());
         $kid = $token->headers()->get('kid');
 
         if (isset($publicKeys[$kid])) {
@@ -201,6 +212,10 @@ class Provider extends AbstractProvider
                 new LooseValidAt(SystemClock::fromSystemTimezone(), new DateInterval($this->getConfig('jwt_issued_time_leeway', 'PT3S'))),
             ];
 
+            if ($nonce !== null) {
+                $constraints[] = new HasClaimWithValue('nonce', $nonce);
+            }
+
             try {
                 $this->jwtConfig->validator()->assert($token, ...$constraints);
 
@@ -211,6 +226,30 @@ class Provider extends AbstractProvider
         }
 
         throw new InvalidStateException('Invalid JWT Signature');
+    }
+
+    /**
+     * Apple's public keys, cached so every token check does not refetch them.
+     *
+     * @return array<string, mixed>
+     */
+    protected function getJwkSet()
+    {
+        return Cache::remember('socialite:Apple-JWKSet', 5 * 60, function () {
+            $response = $this->getJwkHttpClient()->get(self::URL . '/auth/keys');
+
+            return json_decode((string) $response->getBody(), true);
+        });
+    }
+
+    /**
+     * Separate from getHttpClient(), whose client carries OAuth request options.
+     *
+     * @return Client
+     */
+    protected function getJwkHttpClient()
+    {
+        return new Client;
     }
 
     /**
