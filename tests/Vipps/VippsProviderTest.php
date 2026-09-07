@@ -2,10 +2,7 @@
 
 namespace SocialiteProviders\Tests\Vipps;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Cache\ArrayStore;
@@ -49,9 +46,9 @@ class VippsProviderTest extends TestCase
         $provider = $this->makeProvider($request ?? $this->makeRequestWithSession());
         $provider->setConfig(new Config(static::CLIENT_ID, static::CLIENT_SECRET, static::REDIRECT_URI, $config));
 
-        $handler = HandlerStack::create(new MockHandler($responses));
-        $handler->push(Middleware::history($this->history));
-        $provider->setHttpClient(new Client(['handler' => $handler]));
+        $client = $this->makeHttpClient($responses);
+        $client->getConfig('handler')->push(Middleware::history($this->history));
+        $provider->setHttpClient($client);
 
         return $provider;
     }
