@@ -256,7 +256,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function sendMessage(SamlMessage $message, string $bindingType): HttpFoundationResponse
     {
-        if ($credential = $this->signingCredential()) {
+        if ($credential = $this->credential()) {
             $message->setSignature($this->signature($credential));
         }
 
@@ -411,7 +411,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
             ->setEntityID($this->getConfig('sp_entityid', URL::to('auth/saml2')))
             ->addItem($spSsoDescriptor);
 
-        if ($credential = $this->signingCredential()) {
+        if ($credential = $this->credential()) {
             $entityDescriptor->setSignature($this->signature($credential));
             $spSsoDescriptor->setAuthnRequestsSigned(true);
 
@@ -701,7 +701,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         );
     }
 
-    protected function signingCredential(): ?X509Credential
+    protected function credential(): ?X509Credential
     {
         return $this->makeCredential(
             $this->getConfig('sp_certificate'),
@@ -727,7 +727,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     protected function decryptionCredentials(): array
     {
         return array_values(array_filter([
-            $this->signingCredential(),
+            $this->credential(),
             $this->previousCredential(),
         ]));
     }
@@ -741,7 +741,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $certificates = [];
 
-        foreach ([$this->signingCredential(), $this->previousCredential()] as $credential) {
+        foreach ([$this->credential(), $this->previousCredential()] as $credential) {
             if ($credential === null) {
                 continue;
             }
