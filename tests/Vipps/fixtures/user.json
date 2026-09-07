@@ -1,0 +1,42 @@
+{
+    "sub": "126684df-c056-4625-821d-f2905febe3f9",
+    "name": "Test User",
+    "given_name": "Test",
+    "family_name": "User",
+    "email": "test@example.com",
+    "email_verified": true,
+    "phone_number": "4712345678",
+    "phone_number_verified": true,
+    "birthdate": "1990-05-18",
+    "address": {
+        "address_type": "home",
+        "country": "NO",
+        "formatted": "Testveien 1\n0152\nOSLO\nNO",
+        "postal_code": "0152",
+        "region": "OSLO",
+        "street_address": "Testveien 1"
+    },
+    "other_addresses": [],
+    "flowResult": {
+        "language": "EN",
+        "screens": [
+            {
+                "title": "Additional consents",
+                "elements": [
+                    {
+                        "type": "checkbox",
+                        "id": "marketing",
+                        "checked": false,
+                        "required": false
+                    }
+                ]
+            }
+        ],
+        "timeOfConsent": "2026-09-07T10:00:00Z"
+    },
+    "payment_sources_details": [
+        {
+            "external_payment_source_id": "a91b26e4-a833-4618-84f8-c5e2a94545bb"
+        }
+    ]
+}
