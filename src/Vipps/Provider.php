@@ -73,10 +73,12 @@ class Provider extends AbstractProvider
         $headers = [
             'Accept'                       => 'application/json',
             'Vipps-System-Name'            => 'laravel-socialite',
-            'Vipps-System-Version'         => InstalledVersions::getPrettyVersion('laravel/socialite'),
+            'Vipps-System-Version'         => InstalledVersions::isInstalled('laravel/socialite')
+                ? (InstalledVersions::getPrettyVersion('laravel/socialite') ?? 'dev')
+                : 'dev',
             'Vipps-System-Plugin-Name'     => 'socialiteproviders-vipps',
             'Vipps-System-Plugin-Version'  => InstalledVersions::isInstalled('socialiteproviders/vipps')
-                ? InstalledVersions::getPrettyVersion('socialiteproviders/vipps')
+                ? (InstalledVersions::getPrettyVersion('socialiteproviders/vipps') ?? 'dev')
                 : 'dev',
         ];
 
@@ -138,11 +140,9 @@ class Provider extends AbstractProvider
         }
 
         return (new User)->setRaw($user)->map([
-            'id'       => $user['sub'],
-            'nickname' => null,
-            'name'     => $user['name'] ?? null,
-            'email'    => $user['email'] ?? null,
-            'avatar'   => null,
+            'id'    => $user['sub'],
+            'name'  => $user['name'] ?? null,
+            'email' => $user['email'] ?? null,
         ]);
     }
 }
