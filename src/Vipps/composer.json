@@ -1,0 +1,34 @@
+{
+    "name": "socialiteproviders/vipps",
+    "description": "Vipps MobilePay OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "vipps",
+        "mobilepay",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Johannes Andersen",
+            "email": "johannes.andersen@schibsted.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/vipps"
+    },
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^11.0 | ^12.0 | ^13.0",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Vipps\\": ""
+        }
+    }
+}
