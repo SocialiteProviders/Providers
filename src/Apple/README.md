@@ -92,13 +92,24 @@ issued on redirect, so a callback the app did not start is rejected with
 `InvalidStateException`.
 
 Both checks need the session cookie to arrive with that `POST`. Laravel's
-default `SameSite=lax` cookie is not sent on cross-site `POST`s, so a
-default install will reject every callback. Send the cookie cross-site:
+default `SameSite=lax` cookie is not sent on a cross-site `POST`, so a
+default install sees an empty session and rejects every callback. You have
+to let the cookie cross the site boundary:
 
 ```
 SESSION_SAME_SITE=none
 SESSION_SECURE_COOKIE=true
 ```
+
+`SameSite=none` loosens every cookie the app sets, not just Apple's, so if
+you would rather keep `lax` elsewhere, recover the session from a key in the
+`redirect_uri` instead (for example
+[ycs77/laravel-recover-session](https://github.com/ycs77/laravel-recover-session)).
+Either way the session has to be present on the callback.
+
+`stateless()` skips the session, but it also skips both the state and the
+nonce checks, so it gives up the CSRF protection entirely. Don't reach for
+it to dodge the cookie requirement.
 
 Versions before 6.0.0 accepted the callback without a session, which allowed
 login CSRF.
