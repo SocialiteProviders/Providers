@@ -121,6 +121,10 @@ can be replayed until it expires.
 - ``name``
 - ``email``
 
+`name` comes from the `user` field of the callback `POST`, not from the
+signed identity token, and Apple only sends it on the first authorization.
+Treat it as user input: validate and sanitise it before storing.
+
 ### Known Issues
 
 #### JWT Issued_at
