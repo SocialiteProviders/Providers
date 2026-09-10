@@ -59,13 +59,37 @@ class CallbackNonceValidationTest extends TestCase
         $this->assertSame('apple-user-id', $user->getId());
     }
 
-    public function test_stateless_callback_skips_nonce_verification(): void
+    public function test_stateless_callback_without_a_nonce_is_refused(): void
     {
         $request = $this->makeRequestWithSession(['code' => 'authorization-code']);
 
-        $user = $this->providerReturning($request, ['nonce' => 'anything'])->stateless()->user();
+        $this->expectException(InvalidStateException::class);
+
+        $this->providerReturning($request, ['nonce' => 'anything'])->stateless()->user();
+    }
+
+    public function test_stateless_callback_verifies_the_supplied_nonce(): void
+    {
+        $request = $this->makeRequestWithSession(['code' => 'authorization-code']);
+
+        $user = $this->providerReturning($request, ['nonce' => self::NONCE])
+            ->stateless()
+            ->setNonce(self::NONCE)
+            ->user();
 
         $this->assertSame('apple-user-id', $user->getId());
+    }
+
+    public function test_stateless_callback_rejects_a_mismatched_supplied_nonce(): void
+    {
+        $request = $this->makeRequestWithSession(['code' => 'authorization-code']);
+
+        $this->expectException(InvalidStateException::class);
+
+        $this->providerReturning($request, ['nonce' => 'a-different-nonce'])
+            ->stateless()
+            ->setNonce(self::NONCE)
+            ->user();
     }
 
     /**

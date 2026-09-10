@@ -107,9 +107,34 @@ you would rather keep `lax` elsewhere, recover the session from a key in the
 [ycs77/laravel-recover-session](https://github.com/ycs77/laravel-recover-session)).
 Either way the session has to be present on the callback.
 
-`stateless()` skips the session, but it also skips both the state and the
-nonce checks, so it gives up the CSRF protection entirely. Don't reach for
-it to dodge the cookie requirement.
+#### Without a session (stateless)
+
+If you cannot keep the session on the callback, run the flow stateless and
+manage the nonce yourself. The nonce is what binds the identity token to the
+request you started, so you have to generate it, send it to Apple, and hand
+the same value back on the callback:
+
+```php
+// On the way out: generate a nonce, store it somewhere that survives the
+// round trip without the session cookie (a cache row, a signed cookie, ...).
+$nonce = Str::random(40);
+Cache::put("apple_nonce:$key", $nonce, now()->addMinutes(10));
+
+return Socialite::driver('apple')->stateless()->setNonce($nonce)->redirect();
+
+// On the callback: look the nonce back up and pass it in.
+$nonce = Cache::pull("apple_nonce:$key");
+
+$user = Socialite::driver('apple')->stateless()->setNonce($nonce)->user();
+```
+
+The `state` check is skipped when stateless, so the nonce is your only CSRF
+control, treat it like one: single-use, unguessable, tied to the browser
+that started the flow. Calling `stateless()` without `setNonce()` throws
+`InvalidStateException` rather than accepting the callback unprotected.
+
+For native iOS and Android clients that already hand you an identity token,
+use `userByIdentityToken()` (below) instead.
 
 Versions before 6.0.0 accepted the callback without a session, which allowed
 login CSRF.

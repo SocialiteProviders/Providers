@@ -32,7 +32,7 @@ class RedirectTest extends TestCase
         $this->assertSame($second, $request->session()->get('nonce'));
     }
 
-    public function test_stateless_redirect_sends_neither_state_nor_nonce(): void
+    public function test_stateless_redirect_sends_neither_state_nor_nonce_by_default(): void
     {
         $response = $this->makeAppleProvider()->stateless()->redirect();
 
@@ -40,5 +40,15 @@ class RedirectTest extends TestCase
 
         $this->assertArrayNotHasKey('state', $params);
         $this->assertArrayNotHasKey('nonce', $params);
+    }
+
+    public function test_stateless_redirect_sends_a_supplied_nonce(): void
+    {
+        $response = $this->makeAppleProvider()->stateless()->setNonce('caller-nonce')->redirect();
+
+        $params = $this->queryParams($response->getTargetUrl());
+
+        $this->assertArrayNotHasKey('state', $params);
+        $this->assertSame('caller-nonce', $params['nonce']);
     }
 }

@@ -57,6 +57,13 @@ class Provider extends AbstractProvider
     protected $privateKey = '';
 
     /**
+     * Expected identity token nonce for a stateless web callback.
+     *
+     * @var ?string
+     */
+    protected $nonce = null;
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state): string
@@ -82,6 +89,24 @@ class Provider extends AbstractProvider
     }
 
     /**
+     * Set the expected identity token nonce for a stateless web callback.
+     *
+     * Stateless callbacks have no session to hold the nonce, so a caller that
+     * wants to run stateless must generate the nonce, pass it to Apple on the
+     * authorization request, and hand the same value back here. Without it a
+     * stateless callback has no CSRF protection and user() will refuse to run.
+     *
+     * @param  string  $nonce
+     * @return $this
+     */
+    public function setNonce($nonce)
+    {
+        $this->nonce = $nonce;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getCodeFields($state = null)
@@ -97,6 +122,8 @@ class Provider extends AbstractProvider
         if ($this->usesState()) {
             $fields['state'] = $state;
             $fields['nonce'] = $this->request->session()->get('nonce');
+        } elseif ($this->nonce !== null) {
+            $fields['nonce'] = $this->nonce;
         }
 
         return array_merge($fields, $this->parameters);
@@ -294,8 +321,19 @@ class Provider extends AbstractProvider
 
         // Issued alongside the state on redirect; Apple echoes it in the
         // identity token so a token from another authorization request is
-        // rejected even when the code exchange itself succeeds.
-        $nonce = $this->usesState() ? $this->request->session()->pull('nonce') : null;
+        // rejected even when the code exchange itself succeeds. A stateless
+        // callback has no session to hold it, so the caller must supply it
+        // with setNonce(); refuse to run stateless without one rather than
+        // silently drop CSRF protection.
+        if ($this->usesState()) {
+            $nonce = $this->request->session()->pull('nonce');
+        } elseif ($this->nonce !== null) {
+            $nonce = $this->nonce;
+        } else {
+            throw new InvalidStateException(
+                'A stateless Apple callback has no CSRF protection. Call setNonce() with the nonce sent to Apple, or use userByIdentityToken() for native apps.'
+            );
+        }
 
         $response = $this->getAccessTokenResponse($this->getCode());
 
