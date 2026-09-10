@@ -276,26 +276,15 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        //Temporary fix to enable stateless
+        if ($this->usesState() && $this->hasInvalidState()) {
+            throw new InvalidStateException;
+        }
+
         $response = $this->getAccessTokenResponse($this->getCode());
 
         $appleUserToken = $this->getUserByToken(
             $token = Arr::get($response, 'id_token')
         );
-
-        if ($this->usesState()) {
-            $state = explode('.', $appleUserToken['nonce'])[1];
-            if ($state === $this->request->input('state')) {
-                $this->request->session()->put([
-                    'state'        => $state,
-                    'state_verify' => $state,
-                ]);
-            }
-
-            if ($this->hasInvalidState()) {
-                throw new InvalidStateException;
-            }
-        }
 
         $user = $this->mapUserToObject($appleUserToken);
 
