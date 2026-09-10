@@ -82,6 +82,26 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('apple')->redirect();
 ```
 
+#### Callback state and nonce
+
+Apple posts the callback to your redirect URL as a cross-site `POST`
+(`response_mode=form_post`). On the callback the provider checks the `state`
+against the session, and checks the identity token's `nonce` against the one
+issued on redirect, so a callback the app did not start is rejected with
+`InvalidStateException`.
+
+Both checks need the session cookie to arrive with that `POST`. Laravel's
+default `SameSite=lax` cookie is not sent on cross-site `POST`s, so a
+default install will reject every callback. Send the cookie cross-site:
+
+```
+SESSION_SAME_SITE=none
+SESSION_SECURE_COOKIE=true
+```
+
+Versions before 6.0.0 accepted the callback without a session, which allowed
+login CSRF.
+
 #### Native apps (identity token)
 
 Native iOS and Android clients hand your server an identity token directly. Pass

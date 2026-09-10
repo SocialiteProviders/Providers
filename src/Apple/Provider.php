@@ -72,6 +72,18 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
+    public function redirect()
+    {
+        if ($this->usesState()) {
+            $this->request->session()->put('nonce', Str::random(40));
+        }
+
+        return parent::redirect();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getCodeFields($state = null)
     {
         $fields = [
@@ -84,7 +96,7 @@ class Provider extends AbstractProvider
 
         if ($this->usesState()) {
             $fields['state'] = $state;
-            $fields['nonce'] = Str::uuid() . '.' . $state;
+            $fields['nonce'] = $this->request->session()->get('nonce');
         }
 
         return array_merge($fields, $this->parameters);
@@ -276,17 +288,22 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        if ($this->usesState() && $this->hasInvalidState()) {
+        if ($this->hasInvalidState()) {
             throw new InvalidStateException;
         }
 
+        // Issued alongside the state on redirect; Apple echoes it in the
+        // identity token so a token from another authorization request is
+        // rejected even when the code exchange itself succeeds.
+        $nonce = $this->usesState() ? $this->request->session()->pull('nonce') : null;
+
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        $appleUserToken = $this->getUserByToken(
-            $token = Arr::get($response, 'id_token')
-        );
+        $token = Arr::get($response, 'id_token');
 
-        $user = $this->mapUserToObject($appleUserToken);
+        $this->checkToken($token, $nonce);
+
+        $user = $this->mapUserToObject($this->parseTokenClaims($token));
 
         if ($user instanceof User) {
             $user->setAccessTokenResponseBody($response);
