@@ -85,7 +85,8 @@ return Socialite::driver('apple')->redirect();
 #### Callback state and nonce
 
 Apple posts the callback to your redirect URL as a cross-site `POST`
-(`response_mode=form_post`). On the callback the provider checks the `state`
+(`response_mode=form_post`, which Apple requires whenever scopes are
+requested). On the callback the provider checks the `state`
 against the session, and checks the identity token's `nonce` against the one
 issued on redirect, so a callback the app did not start is rejected with
 `InvalidStateException`.
