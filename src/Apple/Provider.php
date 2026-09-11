@@ -21,12 +21,15 @@ use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'APPLE';
+
+    protected const STATELESS_NONCE_COOKIE = 'socialite_apple_nonce';
 
     public const URL = 'https://appleid.apple.com';
 
@@ -86,14 +89,29 @@ class Provider extends AbstractProvider
     {
         if ($this->usesState()) {
             $this->request->session()->put('nonce', Str::random(40));
-        } elseif ($this->manageStatelessNonce) {
-            $this->nonce = Str::random(40);
-            $this->parameters['state'] = $state = Str::random(40);
 
-            $this->nonceCache()->put($this->nonceCacheKey($state), $this->nonce, $this->nonceCacheTtl());
+            return parent::redirect();
         }
 
-        return parent::redirect();
+        if (! $this->manageStatelessNonce) {
+            return parent::redirect();
+        }
+
+        $this->nonce = Str::random(40);
+        $this->parameters['state'] = $state = Str::random(40);
+
+        // Bind the cached nonce to this browser: only a callback carrying the
+        // same cookie can spend it, so a captured callback replayed in another
+        // browser is rejected (RFC 9700 section 2.1).
+        $binding = Str::random(40);
+
+        $this->nonceCache()->put(
+            $this->nonceCacheKey($state),
+            ['nonce' => $this->nonce, 'binding' => hash('sha256', $binding)],
+            $this->nonceCacheTtl()
+        );
+
+        return parent::redirect()->withCookie($this->statelessNonceCookie($binding));
     }
 
     /**
@@ -340,8 +358,7 @@ class Provider extends AbstractProvider
         if ($this->usesState()) {
             $nonce = $this->request->session()->pull('nonce');
         } elseif ($this->manageStatelessNonce) {
-            // pull() so a state cannot be replayed.
-            $nonce = $this->nonceCache()->pull($this->nonceCacheKey($this->request->input('state')));
+            $nonce = $this->pullStatelessNonce($this->request->input('state'));
         } elseif ($this->nonce !== null) {
             $nonce = $this->nonce;
         } else {
@@ -369,6 +386,44 @@ class Provider extends AbstractProvider
         return $user->setToken($token)
             ->setRefreshToken(Arr::get($response, 'refresh_token'))
             ->setExpiresIn(Arr::get($response, 'expires_in'));
+    }
+
+    /**
+     * Verify the browser binding and return the cached nonce, or null.
+     *
+     * pull() so a captured state cannot be replayed; the cookie must match the
+     * binding stored on redirect so the callback comes from the same browser.
+     */
+    protected function pullStatelessNonce(?string $state): ?string
+    {
+        $entry = $this->nonceCache()->pull($this->nonceCacheKey($state));
+
+        if (! is_array($entry)) {
+            return null;
+        }
+
+        $binding = (string) $this->request->cookies->get(self::STATELESS_NONCE_COOKIE);
+
+        if ($binding === '' || ! hash_equals($entry['binding'], hash('sha256', $binding))) {
+            return null;
+        }
+
+        return $entry['nonce'];
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Cookie
+     */
+    protected function statelessNonceCookie(string $binding)
+    {
+        // SameSite=none so it survives Apple's cross-site form_post; Secure and
+        // HttpOnly so it is TLS-only and unreadable to scripts.
+        return Cookie::create(self::STATELESS_NONCE_COOKIE)
+            ->withValue($binding)
+            ->withExpires(time() + $this->nonceCacheTtl())
+            ->withSecure(true)
+            ->withHttpOnly(true)
+            ->withSameSite('none');
     }
 
     /**

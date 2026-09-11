@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Apple\Provider;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class CallbackNonceValidationTest extends TestCase
 {
@@ -93,74 +94,111 @@ class CallbackNonceValidationTest extends TestCase
             ->user();
     }
 
-    public function test_managed_stateless_caches_the_nonce_under_the_state(): void
+    public function test_managed_stateless_redirect_caches_a_binding_and_sets_a_cookie(): void
     {
-        $request = $this->makeRequestWithSession();
-
-        $response = $this->makeAppleProvider($request)->stateless()->statelessNonce()->redirect();
-
-        $params = $this->queryParams($response->getTargetUrl());
+        [$params, $cookie] = $this->statelessRedirect();
 
         $this->assertNotEmpty($params['state']);
         $this->assertNotEmpty($params['nonce']);
-        $this->assertSame(
-            $params['nonce'],
-            Cache::get('socialite:apple:nonce:'.$params['state'])
-        );
+
+        $entry = Cache::get('socialite:apple:nonce:'.$params['state']);
+
+        $this->assertSame($params['nonce'], $entry['nonce']);
+        $this->assertSame(hash('sha256', $cookie->getValue()), $entry['binding']);
+
+        // The cookie must cross Apple's cross-site form_post and stay TLS-only.
+        $this->assertSame('none', $cookie->getSameSite());
+        $this->assertTrue($cookie->isSecure());
+        $this->assertTrue($cookie->isHttpOnly());
     }
 
-    public function test_managed_stateless_callback_verifies_and_consumes_the_cached_nonce(): void
+    public function test_managed_stateless_callback_from_the_same_browser_is_accepted(): void
     {
-        $state = 'echoed-state';
-        Cache::put('socialite:apple:nonce:'.$state, self::NONCE, 600);
+        [$params, $cookie] = $this->statelessRedirect();
 
-        $request = $this->makeRequestWithSession([
-            'code'  => 'authorization-code',
-            'state' => $state,
-        ]);
-
-        $user = $this->providerReturning($request, ['nonce' => self::NONCE])
-            ->stateless()
-            ->statelessNonce()
-            ->user();
+        $user = $this->statelessCallback($params['state'], $params['nonce'], $cookie->getValue())->user();
 
         $this->assertSame('apple-user-id', $user->getId());
-        $this->assertNull(Cache::get('socialite:apple:nonce:'.$state));
+        $this->assertNull(Cache::get('socialite:apple:nonce:'.$params['state']));
+    }
+
+    public function test_managed_stateless_callback_from_another_browser_is_rejected(): void
+    {
+        // Attacker runs the flow in their browser and captures a full callback.
+        [$params, $attackerCookie] = $this->statelessRedirect();
+
+        // Replayed in a victim's browser that does not carry the attacker's
+        // binding cookie: the cross-browser login CSRF must fail.
+        $this->expectException(InvalidStateException::class);
+
+        $this->statelessCallback($params['state'], $params['nonce'], null)->user();
     }
 
     public function test_managed_stateless_callback_rejects_an_unknown_state(): void
     {
-        $request = $this->makeRequestWithSession([
-            'code'  => 'authorization-code',
-            'state' => 'never-issued',
-        ]);
+        $provider = $this->statelessCallback('never-issued', self::NONCE, 'any-cookie');
 
         $this->expectException(InvalidStateException::class);
 
-        $this->providerReturning($request, ['nonce' => self::NONCE])
-            ->stateless()
-            ->statelessNonce()
-            ->user();
+        $provider->user();
     }
 
     public function test_managed_stateless_callback_rejects_a_replayed_state(): void
     {
-        $state = 'echoed-state';
-        Cache::put('socialite:apple:nonce:'.$state, self::NONCE, 600);
+        [$params, $cookie] = $this->statelessRedirect();
 
-        $request = fn () => $this->makeRequestWithSession([
-            'code'  => 'authorization-code',
-            'state' => $state,
-        ]);
-
-        $this->providerReturning($request(), ['nonce' => self::NONCE])
-            ->stateless()->statelessNonce()->user();
+        $this->statelessCallback($params['state'], $params['nonce'], $cookie->getValue())->user();
 
         // Second use of the same state must fail: the nonce was consumed.
         $this->expectException(InvalidStateException::class);
 
-        $this->providerReturning($request(), ['nonce' => self::NONCE])
-            ->stateless()->statelessNonce()->user();
+        $this->statelessCallback($params['state'], $params['nonce'], $cookie->getValue())->user();
+    }
+
+    /**
+     * Run a managed-stateless redirect and return its query params and cookie.
+     *
+     * @return array{0: array<string, string>, 1: Cookie}
+     */
+    private function statelessRedirect(): array
+    {
+        $response = $this->makeAppleProvider($this->makeRequestWithSession())
+            ->stateless()
+            ->statelessNonce()
+            ->redirect();
+
+        $cookies = $response->headers->getCookies();
+
+        $cookie = collect($cookies)->first(fn ($c) => $c->getName() === 'socialite_apple_nonce');
+
+        $this->assertNotNull($cookie, 'redirect did not set the binding cookie');
+
+        return [$this->queryParams($response->getTargetUrl()), $cookie];
+    }
+
+    /**
+     * A managed-stateless callback provider carrying the given state/cookie.
+     */
+    private function statelessCallback(string $state, string $tokenNonce, ?string $cookie): Provider
+    {
+        $request = $this->makeRequestWithSession([
+            'code'  => 'authorization-code',
+            'state' => $state,
+        ]);
+
+        if ($cookie !== null) {
+            $request->cookies->set('socialite_apple_nonce', $cookie);
+        }
+
+        $provider = $this->makeAppleProvider($request);
+
+        $provider->setHttpClient($this->makeHttpClient([
+            new Response(200, [], json_encode([
+                'id_token' => $this->identityToken(['nonce' => $tokenNonce]),
+            ])),
+        ]));
+
+        return $provider->stateless()->statelessNonce();
     }
 
     /**

@@ -120,16 +120,19 @@ return Socialite::driver('apple')->stateless()->statelessNonce()->redirect();
 $user = Socialite::driver('apple')->stateless()->statelessNonce()->user();
 ```
 
-The nonce is generated server-side, sent only to Apple, and consumed on the
-first callback, so a callback the app did not start cannot present a matching
-`state`/nonce pair. An unknown or already-used state is rejected with
-`InvalidStateException`.
+On redirect the provider also sets a `socialite_apple_nonce` cookie
+(`Secure`, `HttpOnly`, `SameSite=none`) holding a random value, and stores
+its hash with the cached nonce. The callback is accepted only when it
+carries that cookie, which binds the flow to the browser that started it as
+[RFC 9700][rfc9700] section 2.1 requires. A callback captured and replayed
+in another browser has no matching cookie and is rejected, as is an unknown
+or already-used state. Every rejection is an `InvalidStateException`.
 
-The cache entry is shared rather than tied to one browser, so this is a
-correlation on the token binding rather than the session-bound `state` check
-of the default flow. It is the CSRF protection [RFC 9700][rfc9700] allows a
-correctly enforced nonce to provide, but if you can keep the session, the
-default flow is stronger.
+Because the binding rides a `SameSite=none` cookie, it still needs
+`SESSION_SECURE_COOKIE`-style HTTPS: the callback must be served over TLS or
+the browser drops the cookie. This is one purpose-built cookie rather than
+loosening every session cookie, so `lax` stays in force for the rest of the
+app.
 
 Configure the store and lifetime if the defaults (the default cache store,
 600 seconds) do not suit you:
