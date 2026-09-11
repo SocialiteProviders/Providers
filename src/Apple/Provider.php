@@ -9,6 +9,7 @@ use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use Lcobucci\Clock\SystemClock;
@@ -97,21 +98,12 @@ class Provider extends AbstractProvider
             return parent::redirect();
         }
 
+        // Carry the nonce in an encrypted cookie so it is bound to the browser
+        // that started the login and cannot be forged. A callback captured and
+        // replayed in another browser has no such cookie (RFC 9700 section 2.1).
         $this->nonce = Str::random(40);
-        $this->parameters['state'] = $state = Str::random(40);
 
-        // Bind the cached nonce to this browser: only a callback carrying the
-        // same cookie can spend it, so a captured callback replayed in another
-        // browser is rejected (RFC 9700 section 2.1).
-        $binding = Str::random(40);
-
-        $this->nonceCache()->put(
-            $this->nonceCacheKey($state),
-            ['nonce' => $this->nonce, 'binding' => hash('sha256', $binding)],
-            $this->nonceCacheTtl()
-        );
-
-        return parent::redirect()->withCookie($this->statelessNonceCookie($binding));
+        return parent::redirect()->withCookie($this->statelessNonceCookie($this->nonce));
     }
 
     /**
@@ -358,7 +350,7 @@ class Provider extends AbstractProvider
         if ($this->usesState()) {
             $nonce = $this->request->session()->pull('nonce');
         } elseif ($this->manageStatelessNonce) {
-            $nonce = $this->pullStatelessNonce($this->request->input('state'));
+            $nonce = $this->statelessNonceFromCookie();
         } elseif ($this->nonce !== null) {
             $nonce = $this->nonce;
         } else {
@@ -389,63 +381,38 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Verify the browser binding and return the cached nonce, or null.
-     *
-     * pull() so a captured state cannot be replayed; the cookie must match the
-     * binding stored on redirect so the callback comes from the same browser.
+     * Decrypt the nonce carried in the request cookie, or null when it is
+     * absent or fails to decrypt (forged, tampered, or from another browser).
      */
-    protected function pullStatelessNonce(?string $state): ?string
+    protected function statelessNonceFromCookie(): ?string
     {
-        $entry = $this->nonceCache()->pull($this->nonceCacheKey($state));
+        $cookie = $this->request->cookies->get(self::STATELESS_NONCE_COOKIE);
 
-        if (! is_array($entry)) {
+        if (! is_string($cookie) || $cookie === '') {
             return null;
         }
 
-        $binding = (string) $this->request->cookies->get(self::STATELESS_NONCE_COOKIE);
-
-        if ($binding === '' || ! hash_equals($entry['binding'], hash('sha256', $binding))) {
+        try {
+            return Crypt::decryptString($cookie);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException) {
             return null;
         }
-
-        return $entry['nonce'];
     }
 
     /**
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
-    protected function statelessNonceCookie(string $binding)
+    protected function statelessNonceCookie(string $nonce)
     {
-        // SameSite=none so it survives Apple's cross-site form_post; Secure and
-        // HttpOnly so it is TLS-only and unreadable to scripts.
+        // Encrypt so the client cannot forge it. SameSite=none so it survives
+        // Apple's cross-site form_post; Secure and HttpOnly keep it TLS-only
+        // and out of scripts.
         return Cookie::create(self::STATELESS_NONCE_COOKIE)
-            ->withValue($binding)
-            ->withExpires(time() + $this->nonceCacheTtl())
+            ->withValue(Crypt::encryptString($nonce))
+            ->withExpires(time() + (int) $this->getConfig('nonce_ttl', 600))
             ->withSecure(true)
             ->withHttpOnly(true)
             ->withSameSite('none');
-    }
-
-    /**
-     * @return \Illuminate\Contracts\Cache\Repository
-     */
-    protected function nonceCache()
-    {
-        $store = $this->getConfig('nonce_cache_store');
-
-        $cache = Cache::getFacadeRoot();
-
-        return $store !== null && method_exists($cache, 'store') ? $cache->store($store) : $cache;
-    }
-
-    protected function nonceCacheKey(?string $state): string
-    {
-        return 'socialite:apple:nonce:'.$state;
-    }
-
-    protected function nonceCacheTtl(): int
-    {
-        return (int) $this->getConfig('nonce_cache_ttl', 600);
     }
 
     /**
@@ -546,6 +513,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway', 'nonce_cache_store', 'nonce_cache_ttl'];
+        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway', 'nonce_ttl'];
     }
 }

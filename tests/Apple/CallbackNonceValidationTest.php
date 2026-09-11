@@ -4,7 +4,7 @@ namespace SocialiteProviders\Tests\Apple;
 
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Apple\Provider;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -94,19 +94,17 @@ class CallbackNonceValidationTest extends TestCase
             ->user();
     }
 
-    public function test_managed_stateless_redirect_caches_a_binding_and_sets_a_cookie(): void
+    public function test_managed_stateless_redirect_sets_an_encrypted_nonce_cookie(): void
     {
         [$params, $cookie] = $this->statelessRedirect();
 
-        $this->assertNotEmpty($params['state']);
         $this->assertNotEmpty($params['nonce']);
 
-        $entry = Cache::get('socialite:apple:nonce:'.$params['state']);
+        // The cookie carries the nonce encrypted, not in plain text.
+        $this->assertNotSame($params['nonce'], $cookie->getValue());
+        $this->assertSame($params['nonce'], Crypt::decryptString($cookie->getValue()));
 
-        $this->assertSame($params['nonce'], $entry['nonce']);
-        $this->assertSame(hash('sha256', $cookie->getValue()), $entry['binding']);
-
-        // The cookie must cross Apple's cross-site form_post and stay TLS-only.
+        // It must cross Apple's cross-site form_post and stay TLS-only.
         $this->assertSame('none', $cookie->getSameSite());
         $this->assertTrue($cookie->isSecure());
         $this->assertTrue($cookie->isHttpOnly());
@@ -116,43 +114,40 @@ class CallbackNonceValidationTest extends TestCase
     {
         [$params, $cookie] = $this->statelessRedirect();
 
-        $user = $this->statelessCallback($params['state'], $params['nonce'], $cookie->getValue())->user();
+        $user = $this->statelessCallback($params['nonce'], $cookie->getValue())->user();
 
         $this->assertSame('apple-user-id', $user->getId());
-        $this->assertNull(Cache::get('socialite:apple:nonce:'.$params['state']));
     }
 
     public function test_managed_stateless_callback_from_another_browser_is_rejected(): void
     {
-        // Attacker runs the flow in their browser and captures a full callback.
-        [$params, $attackerCookie] = $this->statelessRedirect();
+        // Attacker runs the flow in their browser and captures a full callback,
+        // but the victim's browser does not carry the attacker's nonce cookie.
+        [$params] = $this->statelessRedirect();
 
-        // Replayed in a victim's browser that does not carry the attacker's
-        // binding cookie: the cross-browser login CSRF must fail.
         $this->expectException(InvalidStateException::class);
 
-        $this->statelessCallback($params['state'], $params['nonce'], null)->user();
+        $this->statelessCallback($params['nonce'], null)->user();
     }
 
-    public function test_managed_stateless_callback_rejects_an_unknown_state(): void
+    public function test_managed_stateless_callback_rejects_a_forged_cookie(): void
     {
-        $provider = $this->statelessCallback('never-issued', self::NONCE, 'any-cookie');
+        [$params] = $this->statelessRedirect();
 
+        // A cookie the app did not sign fails to decrypt and is rejected.
         $this->expectException(InvalidStateException::class);
 
-        $provider->user();
+        $this->statelessCallback($params['nonce'], 'not-a-valid-encrypted-value')->user();
     }
 
-    public function test_managed_stateless_callback_rejects_a_replayed_state(): void
+    public function test_managed_stateless_callback_rejects_a_cookie_for_a_different_nonce(): void
     {
-        [$params, $cookie] = $this->statelessRedirect();
+        $this->statelessRedirect();
 
-        $this->statelessCallback($params['state'], $params['nonce'], $cookie->getValue())->user();
-
-        // Second use of the same state must fail: the nonce was consumed.
+        // Valid, app-signed cookie, but it does not match the token's nonce.
         $this->expectException(InvalidStateException::class);
 
-        $this->statelessCallback($params['state'], $params['nonce'], $cookie->getValue())->user();
+        $this->statelessCallback('token-nonce', Crypt::encryptString('a-different-nonce'))->user();
     }
 
     /**
@@ -167,24 +162,21 @@ class CallbackNonceValidationTest extends TestCase
             ->statelessNonce()
             ->redirect();
 
-        $cookies = $response->headers->getCookies();
+        $cookie = collect($response->headers->getCookies())
+            ->first(fn ($c) => $c->getName() === 'socialite_apple_nonce');
 
-        $cookie = collect($cookies)->first(fn ($c) => $c->getName() === 'socialite_apple_nonce');
-
-        $this->assertNotNull($cookie, 'redirect did not set the binding cookie');
+        $this->assertNotNull($cookie, 'redirect did not set the nonce cookie');
 
         return [$this->queryParams($response->getTargetUrl()), $cookie];
     }
 
     /**
-     * A managed-stateless callback provider carrying the given state/cookie.
+     * A managed-stateless callback provider carrying the given cookie, whose
+     * token echoes $tokenNonce.
      */
-    private function statelessCallback(string $state, string $tokenNonce, ?string $cookie): Provider
+    private function statelessCallback(string $tokenNonce, ?string $cookie): Provider
     {
-        $request = $this->makeRequestWithSession([
-            'code'  => 'authorization-code',
-            'state' => $state,
-        ]);
+        $request = $this->makeRequestWithSession(['code' => 'authorization-code']);
 
         if ($cookie !== null) {
             $request->cookies->set('socialite_apple_nonce', $cookie);

@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use Illuminate\Cache\ArrayStore;
 use Illuminate\Cache\Repository;
 use Illuminate\Container\Container;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Facade;
 use Lcobucci\JWT\Encoding\ChainedFormatter;
@@ -34,7 +35,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->bindCache();
+        $this->bindContainer();
         $this->makeKeyPair();
     }
 
@@ -48,13 +49,15 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * The provider caches the JWKS through the Cache facade, which needs a
-     * container behind it. An array store keeps each test isolated.
+     * The provider reaches for the Cache and Crypt facades, which need a
+     * container behind them. An array store and a throwaway key keep each test
+     * isolated.
      */
-    private function bindCache(): void
+    private function bindContainer(): void
     {
         $container = new Container;
         $container->instance('cache', new Repository(new ArrayStore));
+        $container->instance('encrypter', new Encrypter(random_bytes(32), 'aes-256-cbc'));
 
         Container::setInstance($container);
         Facade::clearResolvedInstances();

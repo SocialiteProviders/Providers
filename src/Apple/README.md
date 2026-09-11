@@ -107,48 +107,45 @@ would rather keep `lax` elsewhere, run the flow stateless with
 
 #### Without a session (stateless)
 
-If you cannot keep the session on the callback, run the flow stateless and
-let the provider manage the nonce through the cache with `statelessNonce()`:
+If you cannot keep the session on the callback, run the flow stateless with
+`statelessNonce()` and the provider handles the nonce for you:
 
 ```php
-// Redirect. The provider generates the state and nonce, caches the nonce
-// keyed by the state, and sends both to Apple.
+// Redirect. The provider generates the nonce, sends it to Apple, and sets it
+// on the browser in an encrypted cookie.
 return Socialite::driver('apple')->stateless()->statelessNonce()->redirect();
 
-// Callback. The provider reads the state Apple echoed back, pulls the nonce
-// from the cache (once), and verifies it against the identity token.
+// Callback. The provider reads the nonce back from the cookie and verifies it
+// against the identity token.
 $user = Socialite::driver('apple')->stateless()->statelessNonce()->user();
 ```
 
-On redirect the provider also sets a `socialite_apple_nonce` cookie
-(`Secure`, `HttpOnly`, `SameSite=none`) holding a random value, and stores
-its hash with the cached nonce. The callback is accepted only when it
-carries that cookie, which binds the flow to the browser that started it as
-[RFC 9700][rfc9700] section 2.1 requires. A callback captured and replayed
-in another browser has no matching cookie and is rejected, as is an unknown
-or already-used state. Every rejection is an `InvalidStateException`.
+The nonce travels in a `socialite_apple_nonce` cookie (`Secure`, `HttpOnly`,
+`SameSite=none`), encrypted with your `APP_KEY` so the client cannot forge
+it. Only the browser that started the login carries it, which binds the flow
+to that browser as [RFC 9700][rfc9700] section 2.1 requires: a callback
+captured and replayed in another browser has no cookie and is rejected, and
+so is a tampered one. No session, cache, or server-side state is involved.
 
-Because the binding rides a `SameSite=none` cookie, it still needs
-`SESSION_SECURE_COOKIE`-style HTTPS: the callback must be served over TLS or
-the browser drops the cookie. This is one purpose-built cookie rather than
-loosening every session cookie, so `lax` stays in force for the rest of the
-app.
+Because the cookie is `SameSite=none` it needs HTTPS, the callback must be
+served over TLS or the browser drops it. This is one purpose-built cookie
+rather than loosening every session cookie, so `lax` stays in force for the
+rest of the app.
 
-Configure the store and lifetime if the defaults (the default cache store,
-600 seconds) do not suit you:
+Set `nonce_ttl` (seconds, default 600) to change how long the cookie,
+and so the login attempt, stays valid:
 
 ```php
 'apple' => [
   // ...
-  'nonce_cache_store' => env('APPLE_NONCE_CACHE_STORE'), // default cache store
-  'nonce_cache_ttl'   => env('APPLE_NONCE_CACHE_TTL', 600), // seconds
+  'nonce_ttl' => env('APPLE_NONCE_TTL', 600),
 ],
 ```
 
-If you want to hold the nonce somewhere other than the cache, call
-`setNonce()` with a value you generate, send to Apple, and hand back
-yourself. Calling `stateless()` without either throws `InvalidStateException`
-rather than accepting the callback unprotected.
+To hold the nonce yourself instead, call `setNonce()` with a value you
+generate, send to Apple, and hand back. Calling `stateless()` without either
+throws `InvalidStateException` rather than accepting the callback
+unprotected.
 
 For native iOS and Android clients that already hand you an identity token,
 use `userByIdentityToken()` (below) instead.
