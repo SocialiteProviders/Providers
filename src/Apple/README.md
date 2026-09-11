@@ -103,21 +103,21 @@ SESSION_SECURE_COOKIE=true
 
 `SameSite=none` loosens every cookie the app sets, not just Apple's. If you
 would rather keep `lax` elsewhere, run the flow stateless with
-`statelessNonce()` instead (see below).
+`cookieNonce()` instead (see below).
 
 #### Without a session (stateless)
 
 If you cannot keep the session on the callback, run the flow stateless with
-`statelessNonce()` and the provider handles the nonce for you:
+`cookieNonce()` and the provider handles the nonce for you:
 
 ```php
 // Redirect. The provider generates the nonce, sends it to Apple, and sets it
 // on the browser in an encrypted cookie.
-return Socialite::driver('apple')->stateless()->statelessNonce()->redirect();
+return Socialite::driver('apple')->stateless()->cookieNonce()->redirect();
 
 // Callback. The provider reads the nonce back from the cookie and verifies it
 // against the identity token.
-$user = Socialite::driver('apple')->stateless()->statelessNonce()->user();
+$user = Socialite::driver('apple')->stateless()->cookieNonce()->user();
 ```
 
 The nonce travels in a `socialite_apple_nonce` cookie (`Secure`, `HttpOnly`,

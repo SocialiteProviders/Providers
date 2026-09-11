@@ -159,7 +159,7 @@ class CallbackNonceValidationTest extends TestCase
     {
         $response = $this->makeAppleProvider($this->makeRequestWithSession())
             ->stateless()
-            ->statelessNonce()
+            ->cookieNonce()
             ->redirect();
 
         $cookie = collect($response->headers->getCookies())
@@ -190,7 +190,7 @@ class CallbackNonceValidationTest extends TestCase
             ])),
         ]));
 
-        return $provider->stateless()->statelessNonce();
+        return $provider->stateless()->cookieNonce();
     }
 
     /**

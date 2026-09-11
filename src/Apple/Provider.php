@@ -68,7 +68,7 @@ class Provider extends AbstractProvider
     /**
      * @var bool
      */
-    protected $manageStatelessNonce = false;
+    protected $carryNonceInCookie = false;
 
     /**
      * {@inheritdoc}
@@ -94,7 +94,7 @@ class Provider extends AbstractProvider
             return parent::redirect();
         }
 
-        if (! $this->manageStatelessNonce) {
+        if (! $this->carryNonceInCookie) {
             return parent::redirect();
         }
 
@@ -103,7 +103,7 @@ class Provider extends AbstractProvider
         // replayed in another browser has no such cookie (RFC 9700 section 2.1).
         $this->nonce = Str::random(40);
 
-        return parent::redirect()->withCookie($this->statelessNonceCookie($this->nonce));
+        return parent::redirect()->withCookie($this->nonceCookie($this->nonce));
     }
 
     /**
@@ -121,15 +121,15 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Let the provider manage the stateless nonce through the cache instead of
-     * the caller supplying it. The nonce is cached under the state Apple echoes
-     * back, so no session cookie is needed on the callback.
+     * Carry the nonce in an encrypted cookie instead of the session, so a
+     * session-less (stateless) callback still has CSRF protection bound to the
+     * browser that started the login.
      *
      * @return $this
      */
-    public function statelessNonce()
+    public function cookieNonce()
     {
-        $this->manageStatelessNonce = true;
+        $this->carryNonceInCookie = true;
 
         return $this;
     }
@@ -349,13 +349,13 @@ class Provider extends AbstractProvider
 
         if ($this->usesState()) {
             $nonce = $this->request->session()->pull('nonce');
-        } elseif ($this->manageStatelessNonce) {
-            $nonce = $this->statelessNonceFromCookie();
+        } elseif ($this->carryNonceInCookie) {
+            $nonce = $this->nonceFromCookie();
         } elseif ($this->nonce !== null) {
             $nonce = $this->nonce;
         } else {
             throw new InvalidStateException(
-                'A stateless Apple callback has no CSRF protection. Call setNonce() with the nonce sent to Apple, use statelessNonce() to have the provider manage it, or use userByIdentityToken() for native apps.'
+                'A stateless Apple callback has no CSRF protection. Call cookieNonce() to have the provider carry the nonce in a cookie, setNonce() with a nonce you manage, or userByIdentityToken() for native apps.'
             );
         }
 
@@ -384,7 +384,7 @@ class Provider extends AbstractProvider
      * Decrypt the nonce carried in the request cookie, or null when it is
      * absent or fails to decrypt (forged, tampered, or from another browser).
      */
-    protected function statelessNonceFromCookie(): ?string
+    protected function nonceFromCookie(): ?string
     {
         $cookie = $this->request->cookies->get(self::STATELESS_NONCE_COOKIE);
 
@@ -402,7 +402,7 @@ class Provider extends AbstractProvider
     /**
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
-    protected function statelessNonceCookie(string $nonce)
+    protected function nonceCookie(string $nonce)
     {
         // Encrypt so the client cannot forge it. SameSite=none so it survives
         // Apple's cross-site form_post; Secure and HttpOnly keep it TLS-only
