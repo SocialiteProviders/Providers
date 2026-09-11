@@ -98,9 +98,8 @@ class Provider extends AbstractProvider
             return parent::redirect();
         }
 
-        // Carry the nonce in an encrypted cookie so it is bound to the browser
-        // that started the login and cannot be forged. A callback captured and
-        // replayed in another browser has no such cookie (RFC 9700 section 2.1).
+        // Bound to the browser that started the login: a callback replayed in
+        // another browser carries no such cookie (RFC 9700 section 2.1).
         $this->nonce = Str::random(40);
 
         return parent::redirect()->withCookie($this->nonceCookie($this->nonce));
@@ -404,9 +403,8 @@ class Provider extends AbstractProvider
      */
     protected function nonceCookie(string $nonce)
     {
-        // Encrypt so the client cannot forge it. SameSite=none so it survives
-        // Apple's cross-site form_post; Secure and HttpOnly keep it TLS-only
-        // and out of scripts.
+        // Encrypted so the client cannot forge it; SameSite=none so it survives
+        // Apple's cross-site form_post.
         return Cookie::create(self::STATELESS_NONCE_COOKIE)
             ->withValue(Crypt::encryptString($nonce))
             ->withExpires(time() + (int) $this->getConfig('nonce_ttl', 600))

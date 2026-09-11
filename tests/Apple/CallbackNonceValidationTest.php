@@ -100,11 +100,10 @@ class CallbackNonceValidationTest extends TestCase
 
         $this->assertNotEmpty($params['nonce']);
 
-        // The cookie carries the nonce encrypted, not in plain text.
         $this->assertNotSame($params['nonce'], $cookie->getValue());
         $this->assertSame($params['nonce'], Crypt::decryptString($cookie->getValue()));
 
-        // It must cross Apple's cross-site form_post and stay TLS-only.
+        // Must cross Apple's cross-site form_post and stay TLS-only.
         $this->assertSame('none', $cookie->getSameSite());
         $this->assertTrue($cookie->isSecure());
         $this->assertTrue($cookie->isHttpOnly());
@@ -121,8 +120,7 @@ class CallbackNonceValidationTest extends TestCase
 
     public function test_managed_stateless_callback_from_another_browser_is_rejected(): void
     {
-        // Attacker runs the flow in their browser and captures a full callback,
-        // but the victim's browser does not carry the attacker's nonce cookie.
+        // Attacker's captured callback replayed in a browser without the cookie.
         [$params] = $this->statelessRedirect();
 
         $this->expectException(InvalidStateException::class);
