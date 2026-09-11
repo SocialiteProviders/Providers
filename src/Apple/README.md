@@ -82,6 +82,76 @@ You should now be able to use the provider like you would regularly use Socialit
 return Socialite::driver('apple')->redirect();
 ```
 
+#### Callback state and nonce
+
+Apple posts the callback to your redirect URL as a cross-site `POST`
+(`response_mode=form_post`, which Apple requires whenever scopes are
+requested). On the callback the provider checks the `state`
+against the session, and checks the identity token's `nonce` against the one
+issued on redirect, so a callback the app did not start is rejected with
+`InvalidStateException`.
+
+Both checks need the session cookie to arrive with that `POST`. Laravel's
+default `SameSite=lax` cookie is not sent on a cross-site `POST`, so a
+default install sees an empty session and rejects every callback. You have
+to let the cookie cross the site boundary:
+
+```
+SESSION_SAME_SITE=none
+SESSION_SECURE_COOKIE=true
+```
+
+`SameSite=none` loosens every cookie the app sets, not just Apple's. If you
+would rather keep `lax` elsewhere, run the flow stateless with
+`cookieNonce()` instead (see below).
+
+#### Without a session (stateless)
+
+If you cannot keep the session on the callback, run the flow stateless with
+`cookieNonce()` and the provider handles the nonce for you:
+
+```php
+// Redirect. The provider generates the nonce, sends it to Apple, and sets it
+// on the browser in an encrypted cookie.
+return Socialite::driver('apple')->stateless()->cookieNonce()->redirect();
+
+// Callback. The provider reads the nonce back from the cookie and verifies it
+// against the identity token.
+$user = Socialite::driver('apple')->stateless()->cookieNonce()->user();
+```
+
+The nonce travels in a `socialite_apple_nonce` cookie (`Secure`, `HttpOnly`,
+`SameSite=none`), encrypted with your `APP_KEY` so the client cannot forge
+it. Only the browser that started the login carries it, which binds the flow
+to that browser as [RFC 9700][rfc9700] section 2.1 requires: a callback
+captured and replayed in another browser has no cookie and is rejected, and
+so is a tampered one. No session, cache, or server-side state is involved.
+
+Because the cookie is `SameSite=none` it needs HTTPS, the callback must be
+served over TLS or the browser drops it. This is one purpose-built cookie
+rather than loosening every session cookie, so `lax` stays in force for the
+rest of the app.
+
+Set `nonce_ttl` (seconds, default 600) to change how long the cookie,
+and so the login attempt, stays valid:
+
+```php
+'apple' => [
+  // ...
+  'nonce_ttl' => env('APPLE_NONCE_TTL', 600),
+],
+```
+
+To hold the nonce yourself instead, call `setNonce()` with a value you
+generate, send to Apple, and hand back. Calling `stateless()` without either
+throws `InvalidStateException` rather than accepting the callback
+unprotected.
+
+For native iOS and Android clients that already hand you an identity token,
+use `userByIdentityToken()` (below) instead.
+
+[rfc9700]: https://www.rfc-editor.org/rfc/rfc9700
+
 #### Native apps (identity token)
 
 Native iOS and Android clients hand your server an identity token directly. Pass
@@ -99,6 +169,10 @@ can be replayed until it expires.
 - ``id``
 - ``name``
 - ``email``
+
+`name` comes from the `user` field of the callback `POST`, not from the
+signed identity token, and Apple only sends it on the first authorization.
+Treat it as user input: validate and sanitise it before storing.
 
 ### Known Issues
 

@@ -9,6 +9,7 @@ use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Two\InvalidStateException;
 use Lcobucci\Clock\SystemClock;
@@ -21,12 +22,15 @@ use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'APPLE';
+
+    protected const STATELESS_NONCE_COOKIE = 'socialite_apple_nonce';
 
     public const URL = 'https://appleid.apple.com';
 
@@ -57,6 +61,16 @@ class Provider extends AbstractProvider
     protected $privateKey = '';
 
     /**
+     * @var ?string
+     */
+    protected $nonce = null;
+
+    /**
+     * @var bool
+     */
+    protected $carryNonceInCookie = false;
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state): string
@@ -67,6 +81,56 @@ class Provider extends AbstractProvider
     protected function getTokenUrl(): string
     {
         return self::URL . '/auth/token';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function redirect()
+    {
+        if ($this->usesState()) {
+            $this->request->session()->put('nonce', Str::random(40));
+
+            return parent::redirect();
+        }
+
+        if (! $this->carryNonceInCookie) {
+            return parent::redirect();
+        }
+
+        // Bound to the browser that started the login: a callback replayed in
+        // another browser carries no such cookie (RFC 9700 section 2.1).
+        $this->nonce = Str::random(40);
+
+        return parent::redirect()->withCookie($this->nonceCookie($this->nonce));
+    }
+
+    /**
+     * Required for a stateless callback: the nonce the caller sent to Apple,
+     * verified against the identity token in place of the session state.
+     *
+     * @param  string  $nonce
+     * @return $this
+     */
+    public function setNonce($nonce)
+    {
+        $this->nonce = $nonce;
+
+        return $this;
+    }
+
+    /**
+     * Carry the nonce in an encrypted cookie instead of the session, so a
+     * session-less (stateless) callback still has CSRF protection bound to the
+     * browser that started the login.
+     *
+     * @return $this
+     */
+    public function cookieNonce()
+    {
+        $this->carryNonceInCookie = true;
+
+        return $this;
     }
 
     /**
@@ -84,7 +148,9 @@ class Provider extends AbstractProvider
 
         if ($this->usesState()) {
             $fields['state'] = $state;
-            $fields['nonce'] = Str::uuid() . '.' . $state;
+            $fields['nonce'] = $this->request->session()->get('nonce');
+        } elseif ($this->nonce !== null) {
+            $fields['nonce'] = $this->nonce;
         }
 
         return array_merge($fields, $this->parameters);
@@ -276,17 +342,33 @@ class Provider extends AbstractProvider
      */
     public function user()
     {
-        if ($this->usesState() && $this->hasInvalidState()) {
+        if ($this->hasInvalidState()) {
+            throw new InvalidStateException;
+        }
+
+        if ($this->usesState()) {
+            $nonce = $this->request->session()->pull('nonce');
+        } elseif ($this->carryNonceInCookie) {
+            $nonce = $this->nonceFromCookie();
+        } elseif ($this->nonce !== null) {
+            $nonce = $this->nonce;
+        } else {
+            throw new InvalidStateException(
+                'A stateless Apple callback has no CSRF protection. Call cookieNonce() to have the provider carry the nonce in a cookie, setNonce() with a nonce you manage, or userByIdentityToken() for native apps.'
+            );
+        }
+
+        if ($nonce === null) {
             throw new InvalidStateException;
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        $appleUserToken = $this->getUserByToken(
-            $token = Arr::get($response, 'id_token')
-        );
+        $token = Arr::get($response, 'id_token');
 
-        $user = $this->mapUserToObject($appleUserToken);
+        $this->checkToken($token, $nonce);
+
+        $user = $this->mapUserToObject($this->parseTokenClaims($token));
 
         if ($user instanceof User) {
             $user->setAccessTokenResponseBody($response);
@@ -295,6 +377,40 @@ class Provider extends AbstractProvider
         return $user->setToken($token)
             ->setRefreshToken(Arr::get($response, 'refresh_token'))
             ->setExpiresIn(Arr::get($response, 'expires_in'));
+    }
+
+    /**
+     * Decrypt the nonce carried in the request cookie, or null when it is
+     * absent or fails to decrypt (forged, tampered, or from another browser).
+     */
+    protected function nonceFromCookie(): ?string
+    {
+        $cookie = $this->request->cookies->get(self::STATELESS_NONCE_COOKIE);
+
+        if (! is_string($cookie) || $cookie === '') {
+            return null;
+        }
+
+        try {
+            return Crypt::decryptString($cookie);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException) {
+            return null;
+        }
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Cookie
+     */
+    protected function nonceCookie(string $nonce)
+    {
+        // Encrypted so the client cannot forge it; SameSite=none so it survives
+        // Apple's cross-site form_post.
+        return Cookie::create(self::STATELESS_NONCE_COOKIE)
+            ->withValue(Crypt::encryptString($nonce))
+            ->withExpires(time() + (int) $this->getConfig('nonce_ttl', 600))
+            ->withSecure(true)
+            ->withHttpOnly(true)
+            ->withSameSite('none');
     }
 
     /**
@@ -395,6 +511,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway'];
+        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway', 'nonce_ttl'];
     }
 }
