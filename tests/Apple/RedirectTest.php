@@ -62,8 +62,6 @@ class RedirectTest extends TestCase
 
         $params = $this->queryParams($response->getTargetUrl());
 
-        // The README's stateless recipe relies on state reaching Apple so it
-        // can key the cached nonce on the value Apple echoes back.
         $this->assertSame('caller-state', $params['state']);
         $this->assertSame('caller-nonce', $params['nonce']);
     }

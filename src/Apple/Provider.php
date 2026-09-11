@@ -57,8 +57,6 @@ class Provider extends AbstractProvider
     protected $privateKey = '';
 
     /**
-     * Expected identity token nonce for a stateless web callback.
-     *
      * @var ?string
      */
     protected $nonce = null;
@@ -89,12 +87,8 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Set the expected identity token nonce for a stateless web callback.
-     *
-     * Stateless callbacks have no session to hold the nonce, so a caller that
-     * wants to run stateless must generate the nonce, pass it to Apple on the
-     * authorization request, and hand the same value back here. Without it a
-     * stateless callback has no CSRF protection and user() will refuse to run.
+     * Required for a stateless callback: the nonce the caller sent to Apple,
+     * verified against the identity token in place of the session state.
      *
      * @param  string  $nonce
      * @return $this
@@ -319,12 +313,8 @@ class Provider extends AbstractProvider
             throw new InvalidStateException;
         }
 
-        // Issued alongside the state on redirect; Apple echoes it in the
-        // identity token so a token from another authorization request is
-        // rejected even when the code exchange itself succeeds. A stateless
-        // callback has no session to hold it, so the caller must supply it
-        // with setNonce(); refuse to run stateless without one rather than
-        // silently drop CSRF protection.
+        // Refuse a stateless callback with no nonce rather than run it with no
+        // CSRF protection at all.
         if ($this->usesState()) {
             $nonce = $this->request->session()->pull('nonce');
         } elseif ($this->nonce !== null) {

@@ -101,11 +101,9 @@ SESSION_SAME_SITE=none
 SESSION_SECURE_COOKIE=true
 ```
 
-`SameSite=none` loosens every cookie the app sets, not just Apple's, so if
-you would rather keep `lax` elsewhere, recover the session from a key in the
-`redirect_uri` instead (for example
-[ycs77/laravel-recover-session](https://github.com/ycs77/laravel-recover-session)).
-Either way the session has to be present on the callback.
+`SameSite=none` loosens every cookie the app sets, not just Apple's. If you
+would rather keep `lax` elsewhere, run the flow stateless and manage the
+nonce yourself instead (see below).
 
 #### Without a session (stateless)
 
