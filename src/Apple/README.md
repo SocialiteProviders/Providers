@@ -102,55 +102,55 @@ SESSION_SECURE_COOKIE=true
 ```
 
 `SameSite=none` loosens every cookie the app sets, not just Apple's. If you
-would rather keep `lax` elsewhere, run the flow stateless and manage the
-nonce yourself instead (see below).
+would rather keep `lax` elsewhere, run the flow stateless with
+`statelessNonce()` instead (see below).
 
 #### Without a session (stateless)
 
 If you cannot keep the session on the callback, run the flow stateless and
-manage the nonce yourself. The nonce is what binds the identity token to the
-request you started, so you have to generate it, send it to Apple, and hand
-the same value back on the callback.
-
-You need somewhere to keep the nonce between the two requests, keyed by
-something that survives the round trip. Apple echoes `state` back in the
-callback `POST` body, so `state` works as that key without adding anything
-to your `redirect_uri` (extra query params on the redirect URL are not
-guaranteed to round-trip, since Apple matches it against the one registered
-on your Services ID):
+let the provider manage the nonce through the cache with `statelessNonce()`:
 
 ```php
-// On the way out: pick a state, generate a nonce, cache the nonce under the
-// state, and send both to Apple.
-$state = Str::random(40);
-$nonce = Str::random(40);
+// Redirect. The provider generates the state and nonce, caches the nonce
+// keyed by the state, and sends both to Apple.
+return Socialite::driver('apple')->stateless()->statelessNonce()->redirect();
 
-Cache::put("apple_nonce:$state", $nonce, now()->addMinutes(10));
-
-return Socialite::driver('apple')
-    ->stateless()
-    ->setNonce($nonce)
-    ->with(['state' => $state])
-    ->redirect();
-
-// On the callback: read the state Apple echoed back, pull the nonce, verify.
-$state = request('state');
-$nonce = Cache::pull("apple_nonce:$state");
-
-abort_if($nonce === null, 403); // unknown or replayed state
-
-$user = Socialite::driver('apple')->stateless()->setNonce($nonce)->user();
+// Callback. The provider reads the state Apple echoed back, pulls the nonce
+// from the cache (once), and verifies it against the identity token.
+$user = Socialite::driver('apple')->stateless()->statelessNonce()->user();
 ```
 
-The provider's own `state` check is skipped when stateless, so the cache
-lookup above is doing that job and the nonce is verifying the token, treat
-both as single-use and unguessable. Cache the nonce server-side rather than
-in a query param so the handle never leaves your server. Calling
-`stateless()` without `setNonce()` throws `InvalidStateException` rather
-than accepting the callback unprotected.
+The nonce is generated server-side, sent only to Apple, and consumed on the
+first callback, so a callback the app did not start cannot present a matching
+`state`/nonce pair. An unknown or already-used state is rejected with
+`InvalidStateException`.
+
+The cache entry is shared rather than tied to one browser, so this is a
+correlation on the token binding rather than the session-bound `state` check
+of the default flow. It is the CSRF protection [RFC 9700][rfc9700] allows a
+correctly enforced nonce to provide, but if you can keep the session, the
+default flow is stronger.
+
+Configure the store and lifetime if the defaults (the default cache store,
+600 seconds) do not suit you:
+
+```php
+'apple' => [
+  // ...
+  'nonce_cache_store' => env('APPLE_NONCE_CACHE_STORE'), // default cache store
+  'nonce_cache_ttl'   => env('APPLE_NONCE_CACHE_TTL', 600), // seconds
+],
+```
+
+If you want to hold the nonce somewhere other than the cache, call
+`setNonce()` with a value you generate, send to Apple, and hand back
+yourself. Calling `stateless()` without either throws `InvalidStateException`
+rather than accepting the callback unprotected.
 
 For native iOS and Android clients that already hand you an identity token,
 use `userByIdentityToken()` (below) instead.
+
+[rfc9700]: https://www.rfc-editor.org/rfc/rfc9700
 
 Versions before 6.0.0 accepted the callback without a session, which allowed
 login CSRF.

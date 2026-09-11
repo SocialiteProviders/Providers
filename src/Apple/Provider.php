@@ -62,6 +62,11 @@ class Provider extends AbstractProvider
     protected $nonce = null;
 
     /**
+     * @var bool
+     */
+    protected $manageStatelessNonce = false;
+
+    /**
      * {@inheritdoc}
      */
     protected function getAuthUrl($state): string
@@ -81,6 +86,11 @@ class Provider extends AbstractProvider
     {
         if ($this->usesState()) {
             $this->request->session()->put('nonce', Str::random(40));
+        } elseif ($this->manageStatelessNonce) {
+            $this->nonce = Str::random(40);
+            $this->parameters['state'] = $state = Str::random(40);
+
+            $this->nonceCache()->put($this->nonceCacheKey($state), $this->nonce, $this->nonceCacheTtl());
         }
 
         return parent::redirect();
@@ -96,6 +106,20 @@ class Provider extends AbstractProvider
     public function setNonce($nonce)
     {
         $this->nonce = $nonce;
+
+        return $this;
+    }
+
+    /**
+     * Let the provider manage the stateless nonce through the cache instead of
+     * the caller supplying it. The nonce is cached under the state Apple echoes
+     * back, so no session cookie is needed on the callback.
+     *
+     * @return $this
+     */
+    public function statelessNonce()
+    {
+        $this->manageStatelessNonce = true;
 
         return $this;
     }
@@ -316,12 +340,22 @@ class Provider extends AbstractProvider
         // Refuse a stateless callback with no nonce rather than run it with no
         // CSRF protection at all.
         if ($this->usesState()) {
+            // A login begun before this version was deployed has state but no
+            // nonce; the state check already passed, so let it through.
             $nonce = $this->request->session()->pull('nonce');
+        } elseif ($this->manageStatelessNonce) {
+            // pull() so a state cannot be replayed; a miss means the state was
+            // never issued or is already spent, so reject it.
+            $nonce = $this->nonceCache()->pull($this->nonceCacheKey($this->request->input('state')));
+
+            if ($nonce === null) {
+                throw new InvalidStateException;
+            }
         } elseif ($this->nonce !== null) {
             $nonce = $this->nonce;
         } else {
             throw new InvalidStateException(
-                'A stateless Apple callback has no CSRF protection. Call setNonce() with the nonce sent to Apple, or use userByIdentityToken() for native apps.'
+                'A stateless Apple callback has no CSRF protection. Call setNonce() with the nonce sent to Apple, use statelessNonce() to have the provider manage it, or use userByIdentityToken() for native apps.'
             );
         }
 
@@ -340,6 +374,28 @@ class Provider extends AbstractProvider
         return $user->setToken($token)
             ->setRefreshToken(Arr::get($response, 'refresh_token'))
             ->setExpiresIn(Arr::get($response, 'expires_in'));
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Cache\Repository
+     */
+    protected function nonceCache()
+    {
+        $store = $this->getConfig('nonce_cache_store');
+
+        $cache = Cache::getFacadeRoot();
+
+        return $store !== null && method_exists($cache, 'store') ? $cache->store($store) : $cache;
+    }
+
+    protected function nonceCacheKey(?string $state): string
+    {
+        return 'socialite:apple:nonce:'.$state;
+    }
+
+    protected function nonceCacheTtl(): int
+    {
+        return (int) $this->getConfig('nonce_cache_ttl', 600);
     }
 
     /**
@@ -440,6 +496,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway'];
+        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway', 'nonce_cache_store', 'nonce_cache_ttl'];
     }
 }

@@ -4,6 +4,7 @@ namespace SocialiteProviders\Tests\Apple;
 
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Apple\Provider;
 
@@ -90,6 +91,76 @@ class CallbackNonceValidationTest extends TestCase
             ->stateless()
             ->setNonce(self::NONCE)
             ->user();
+    }
+
+    public function test_managed_stateless_caches_the_nonce_under_the_state(): void
+    {
+        $request = $this->makeRequestWithSession();
+
+        $response = $this->makeAppleProvider($request)->stateless()->statelessNonce()->redirect();
+
+        $params = $this->queryParams($response->getTargetUrl());
+
+        $this->assertNotEmpty($params['state']);
+        $this->assertNotEmpty($params['nonce']);
+        $this->assertSame(
+            $params['nonce'],
+            Cache::get('socialite:apple:nonce:'.$params['state'])
+        );
+    }
+
+    public function test_managed_stateless_callback_verifies_and_consumes_the_cached_nonce(): void
+    {
+        $state = 'echoed-state';
+        Cache::put('socialite:apple:nonce:'.$state, self::NONCE, 600);
+
+        $request = $this->makeRequestWithSession([
+            'code'  => 'authorization-code',
+            'state' => $state,
+        ]);
+
+        $user = $this->providerReturning($request, ['nonce' => self::NONCE])
+            ->stateless()
+            ->statelessNonce()
+            ->user();
+
+        $this->assertSame('apple-user-id', $user->getId());
+        $this->assertNull(Cache::get('socialite:apple:nonce:'.$state));
+    }
+
+    public function test_managed_stateless_callback_rejects_an_unknown_state(): void
+    {
+        $request = $this->makeRequestWithSession([
+            'code'  => 'authorization-code',
+            'state' => 'never-issued',
+        ]);
+
+        $this->expectException(InvalidStateException::class);
+
+        $this->providerReturning($request, ['nonce' => self::NONCE])
+            ->stateless()
+            ->statelessNonce()
+            ->user();
+    }
+
+    public function test_managed_stateless_callback_rejects_a_replayed_state(): void
+    {
+        $state = 'echoed-state';
+        Cache::put('socialite:apple:nonce:'.$state, self::NONCE, 600);
+
+        $request = fn () => $this->makeRequestWithSession([
+            'code'  => 'authorization-code',
+            'state' => $state,
+        ]);
+
+        $this->providerReturning($request(), ['nonce' => self::NONCE])
+            ->stateless()->statelessNonce()->user();
+
+        // Second use of the same state must fail: the nonce was consumed.
+        $this->expectException(InvalidStateException::class);
+
+        $this->providerReturning($request(), ['nonce' => self::NONCE])
+            ->stateless()->statelessNonce()->user();
     }
 
     /**
