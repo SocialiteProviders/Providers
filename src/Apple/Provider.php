@@ -337,26 +337,21 @@ class Provider extends AbstractProvider
             throw new InvalidStateException;
         }
 
-        // Refuse a stateless callback with no nonce rather than run it with no
-        // CSRF protection at all.
         if ($this->usesState()) {
-            // A login begun before this version was deployed has state but no
-            // nonce; the state check already passed, so let it through.
             $nonce = $this->request->session()->pull('nonce');
         } elseif ($this->manageStatelessNonce) {
-            // pull() so a state cannot be replayed; a miss means the state was
-            // never issued or is already spent, so reject it.
+            // pull() so a state cannot be replayed.
             $nonce = $this->nonceCache()->pull($this->nonceCacheKey($this->request->input('state')));
-
-            if ($nonce === null) {
-                throw new InvalidStateException;
-            }
         } elseif ($this->nonce !== null) {
             $nonce = $this->nonce;
         } else {
             throw new InvalidStateException(
                 'A stateless Apple callback has no CSRF protection. Call setNonce() with the nonce sent to Apple, use statelessNonce() to have the provider manage it, or use userByIdentityToken() for native apps.'
             );
+        }
+
+        if ($nonce === null) {
+            throw new InvalidStateException;
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());

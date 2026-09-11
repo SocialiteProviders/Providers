@@ -22,16 +22,18 @@ class CallbackStateValidationTest extends TestCase
     public function test_callback_with_matching_previously_stored_state_is_accepted(): void
     {
         $state = 'expected-state';
+        $nonce = 'expected-nonce';
         $request = $this->makeRequestWithSession([
             'code'  => 'authorization-code',
             'state' => $state,
         ], [
             'state' => $state,
+            'nonce' => $nonce,
         ]);
         $provider = $this->makeAppleProvider($request);
         $provider->setHttpClient($this->makeHttpClient([
             new Response(200, [], json_encode([
-                'id_token' => $this->identityToken(['nonce' => 'nonce']),
+                'id_token' => $this->identityToken(['nonce' => $nonce]),
             ])),
         ]));
 

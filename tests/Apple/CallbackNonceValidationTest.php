@@ -51,13 +51,13 @@ class CallbackNonceValidationTest extends TestCase
         $this->assertFalse($request->session()->has('state'));
     }
 
-    public function test_nonce_is_not_checked_when_the_session_never_issued_one(): void
+    public function test_callback_with_state_but_no_session_nonce_is_rejected(): void
     {
         $request = $this->callbackRequest(['state' => self::STATE]);
 
-        $user = $this->providerReturning($request, ['nonce' => 'whatever-apple-sent'])->user();
+        $this->expectException(InvalidStateException::class);
 
-        $this->assertSame('apple-user-id', $user->getId());
+        $this->providerReturning($request, ['nonce' => 'whatever-apple-sent'])->user();
     }
 
     public function test_stateless_callback_without_a_nonce_is_refused(): void
