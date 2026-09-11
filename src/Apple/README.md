@@ -112,26 +112,44 @@ Either way the session has to be present on the callback.
 If you cannot keep the session on the callback, run the flow stateless and
 manage the nonce yourself. The nonce is what binds the identity token to the
 request you started, so you have to generate it, send it to Apple, and hand
-the same value back on the callback:
+the same value back on the callback.
+
+You need somewhere to keep the nonce between the two requests, keyed by
+something that survives the round trip. Apple echoes `state` back in the
+callback `POST` body, so `state` works as that key without adding anything
+to your `redirect_uri` (extra query params on the redirect URL are not
+guaranteed to round-trip, since Apple matches it against the one registered
+on your Services ID):
 
 ```php
-// On the way out: generate a nonce, store it somewhere that survives the
-// round trip without the session cookie (a cache row, a signed cookie, ...).
+// On the way out: pick a state, generate a nonce, cache the nonce under the
+// state, and send both to Apple.
+$state = Str::random(40);
 $nonce = Str::random(40);
-Cache::put("apple_nonce:$key", $nonce, now()->addMinutes(10));
 
-return Socialite::driver('apple')->stateless()->setNonce($nonce)->redirect();
+Cache::put("apple_nonce:$state", $nonce, now()->addMinutes(10));
 
-// On the callback: look the nonce back up and pass it in.
-$nonce = Cache::pull("apple_nonce:$key");
+return Socialite::driver('apple')
+    ->stateless()
+    ->setNonce($nonce)
+    ->with(['state' => $state])
+    ->redirect();
+
+// On the callback: read the state Apple echoed back, pull the nonce, verify.
+$state = request('state');
+$nonce = Cache::pull("apple_nonce:$state");
+
+abort_if($nonce === null, 403); // unknown or replayed state
 
 $user = Socialite::driver('apple')->stateless()->setNonce($nonce)->user();
 ```
 
-The `state` check is skipped when stateless, so the nonce is your only CSRF
-control, treat it like one: single-use, unguessable, tied to the browser
-that started the flow. Calling `stateless()` without `setNonce()` throws
-`InvalidStateException` rather than accepting the callback unprotected.
+The provider's own `state` check is skipped when stateless, so the cache
+lookup above is doing that job and the nonce is verifying the token, treat
+both as single-use and unguessable. Cache the nonce server-side rather than
+in a query param so the handle never leaves your server. Calling
+`stateless()` without `setNonce()` throws `InvalidStateException` rather
+than accepting the callback unprotected.
 
 For native iOS and Android clients that already hand you an identity token,
 use `userByIdentityToken()` (below) instead.

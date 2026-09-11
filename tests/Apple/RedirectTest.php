@@ -51,4 +51,20 @@ class RedirectTest extends TestCase
         $this->assertArrayNotHasKey('state', $params);
         $this->assertSame('caller-nonce', $params['nonce']);
     }
+
+    public function test_stateless_redirect_forwards_a_caller_supplied_state(): void
+    {
+        $response = $this->makeAppleProvider()
+            ->stateless()
+            ->setNonce('caller-nonce')
+            ->with(['state' => 'caller-state'])
+            ->redirect();
+
+        $params = $this->queryParams($response->getTargetUrl());
+
+        // The README's stateless recipe relies on state reaching Apple so it
+        // can key the cached nonce on the value Apple echoes back.
+        $this->assertSame('caller-state', $params['state']);
+        $this->assertSame('caller-nonce', $params['nonce']);
+    }
 }
