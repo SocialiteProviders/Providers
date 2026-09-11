@@ -152,9 +152,6 @@ use `userByIdentityToken()` (below) instead.
 
 [rfc9700]: https://www.rfc-editor.org/rfc/rfc9700
 
-Versions before 6.0.0 accepted the callback without a session, which allowed
-login CSRF.
-
 #### Native apps (identity token)
 
 Native iOS and Android clients hand your server an identity token directly. Pass
