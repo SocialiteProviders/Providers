@@ -17,6 +17,7 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
   'redirect' => env('AZURE_REDIRECT_URI'),
   'tenant' => env('AZURE_TENANT_ID'),
   'proxy' => env('PROXY'), // optionally
+  'base_url' => env('AZURE_BASE_URL'), // optionally, defaults to https://login.microsoftonline.com; only set to trusted endpoints because tokens are sent here, especially when using mocks
   'graph_url' => env('AZURE_GRAPH_URL'), // optionally, defaults to https://graph.microsoft.com/v1.0/me; only set to trusted endpoints because access tokens are sent here, especially when using mocks
 ],
 ```
