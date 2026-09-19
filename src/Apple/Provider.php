@@ -267,8 +267,6 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Native apps send their App ID as aud, not the Services ID of the web flow.
-     *
      * @return array<int, string>
      */
     protected function audiences()
