@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Laravel\Socialite\Two\InvalidStateException;
 use SocialiteProviders\Apple\Provider;
+use SocialiteProviders\Manager\Config;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class CallbackNonceValidationTest extends TestCase
@@ -31,6 +32,21 @@ class CallbackNonceValidationTest extends TestCase
         $this->expectException(InvalidStateException::class);
 
         $this->providerReturning($request, ['nonce' => 'nonce-from-another-request'])->user();
+    }
+
+    public function test_callback_only_accepts_a_token_for_the_client_id(): void
+    {
+        $request = $this->callbackRequest(['state' => self::STATE, 'nonce' => self::NONCE]);
+
+        $provider = $this->providerReturning($request, ['nonce' => self::NONCE, 'aud' => 'com.example.app'])
+            ->setConfig(new Config(static::CLIENT_ID, static::CLIENT_SECRET, static::REDIRECT_URI, [
+                'audiences' => ['com.example.app'],
+            ]));
+
+        $this->expectException(InvalidStateException::class);
+        $this->expectExceptionMessage('The token is not allowed to be used by this audience');
+
+        $provider->user();
     }
 
     public function test_callback_whose_token_has_no_nonce_is_rejected(): void

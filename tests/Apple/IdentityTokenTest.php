@@ -3,6 +3,8 @@
 namespace SocialiteProviders\Tests\Apple;
 
 use Laravel\Socialite\Two\InvalidStateException;
+use SocialiteProviders\Apple\Provider;
+use SocialiteProviders\Manager\Config;
 
 class IdentityTokenTest extends TestCase
 {
@@ -33,6 +35,39 @@ class IdentityTokenTest extends TestCase
         $this->makeAppleProvider()->userByIdentityToken(
             $this->identityTokenWithoutAudience()
         );
+    }
+
+    public function test_it_accepts_a_token_for_an_additional_audience(): void
+    {
+        $user = $this->providerWithAudiences(['com.example.app', 'com.example.app.macos'])
+            ->userByIdentityToken($this->identityToken(['aud' => 'com.example.app.macos']));
+
+        $this->assertSame('apple-user-id', $user->getId());
+    }
+
+    public function test_it_still_accepts_the_client_id_when_audiences_are_configured(): void
+    {
+        $user = $this->providerWithAudiences(['com.example.app'])
+            ->userByIdentityToken($this->identityToken());
+
+        $this->assertSame('apple-user-id', $user->getId());
+    }
+
+    public function test_it_accepts_a_single_audience_given_as_a_string(): void
+    {
+        $user = $this->providerWithAudiences('com.example.app')
+            ->userFromToken($this->identityToken(['aud' => 'com.example.app']));
+
+        $this->assertSame('apple-user-id', $user->getId());
+    }
+
+    public function test_it_rejects_a_token_for_an_audience_that_is_not_configured(): void
+    {
+        $this->expectException(InvalidStateException::class);
+        $this->expectExceptionMessage('The token is not allowed to be used by this audience');
+
+        $this->providerWithAudiences(['com.example.app'])
+            ->userByIdentityToken($this->identityToken(['aud' => 'com.attacker.app']));
     }
 
     public function test_it_decodes_claims_whose_payload_uses_base64url_characters(): void
@@ -69,5 +104,15 @@ class IdentityTokenTest extends TestCase
         $this->expectExceptionMessage('Invalid JWT Signature');
 
         $this->makeAppleProvider()->userByIdentityToken($token);
+    }
+
+    private function providerWithAudiences(array|string $audiences): Provider
+    {
+        return $this->makeAppleProvider()->setConfig(new Config(
+            static::CLIENT_ID,
+            static::CLIENT_SECRET,
+            static::REDIRECT_URI,
+            ['audiences' => $audiences]
+        ));
     }
 }

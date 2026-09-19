@@ -263,7 +263,34 @@ class Provider extends AbstractProvider
      */
     public function checkToken($jwt, $nonce = null)
     {
+        return $this->validateToken($jwt, $nonce, $this->audiences());
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    protected function audiences()
+    {
+        return array_values(array_unique(array_merge(
+            [$this->clientId],
+            (array) $this->getConfig('audiences', [])
+        )));
+    }
+
+    /**
+     * @param  array<int, string>  $audiences
+     */
+    protected function validateToken(string $jwt, ?string $nonce, array $audiences): bool
+    {
         $token = $this->getJwtConfig()->parser()->parse($jwt);
+
+        // Every constraint must pass, so assert only the audience the token
+        // carries. The client ID default fails a token that carries none.
+        $audience = Arr::first(
+            $audiences,
+            fn ($audience) => $token->isPermittedFor($audience),
+            $this->clientId
+        );
 
         $publicKeys = JWK::parseKeySet($this->getJwkSet());
         $kid = $token->headers()->get('kid');
@@ -273,7 +300,7 @@ class Provider extends AbstractProvider
             $constraints = [
                 new SignedWith(new Sha256, AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
-                new PermittedFor($this->clientId),
+                new PermittedFor($audience),
                 // fix for #1354
                 new LooseValidAt(SystemClock::fromSystemTimezone(), new DateInterval($this->getConfig('jwt_issued_time_leeway', 'PT3S'))),
             ];
@@ -366,7 +393,8 @@ class Provider extends AbstractProvider
 
         $token = Arr::get($response, 'id_token');
 
-        $this->checkToken($token, $nonce);
+        // The code exchange is made as the client ID, so only it is accepted.
+        $this->validateToken($token, $nonce, [$this->clientId]);
 
         $user = $this->mapUserToObject($this->parseTokenClaims($token));
 
@@ -511,6 +539,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway', 'nonce_ttl'];
+        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway', 'nonce_ttl', 'audiences'];
     }
 }
