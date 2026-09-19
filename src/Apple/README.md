@@ -164,6 +164,27 @@ $user = Socialite::driver('apple')->userByIdentityToken($identityToken, $nonce);
 The nonce is optional for backwards compatibility, but omitting it means a token
 can be replayed until it expires.
 
+Apple issues an identity token for whichever client requested it, so one API
+serving several clients sees several audiences:
+
+| Client | `aud` |
+|---|---|
+| Web, Android (Sign in with Apple JS / REST) | Services ID |
+| Native iOS, macOS | App ID (bundle ID) of that app |
+
+Keep `client_id` as the Services ID, which the web flow needs, and list the
+others in `audiences`:
+
+```php
+'apple' => [
+  // ...
+  'audiences' => ['com.example.app', 'com.example.app.macos'],
+],
+```
+
+`userByIdentityToken()` and `userFromToken()` accept a token issued for
+`client_id` or any of `audiences`. The web callback only accepts `client_id`.
+
 ### Returned User fields
 
 - ``id``
@@ -188,10 +209,10 @@ The thrown exception may look like this:
 
 #### Invalid audience
 
-The identity token's `aud` claim must match `config('services.apple.client_id')`.
-Native apps send their bundle ID as the audience, which is not always the Services
-ID used for the web flow - if the two differ, configure the one your clients
-actually send.
+The identity token's `aud` claim must match `config('services.apple.client_id')`
+or one of `config('services.apple.audiences')`. Native apps send their bundle ID
+as the audience rather than the Services ID used for the web flow - see
+[Native apps](#native-apps-identity-token).
 
 The thrown exception looks like this:
 ```

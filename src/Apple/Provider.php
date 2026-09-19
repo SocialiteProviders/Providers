@@ -263,7 +263,40 @@ class Provider extends AbstractProvider
      */
     public function checkToken($jwt, $nonce = null)
     {
+        return $this->validateToken($jwt, $nonce, $this->audiences());
+    }
+
+    /**
+     * The client IDs an identity token may be issued for. Native apps send
+     * their App ID, which differs from the Services ID used for the web flow.
+     *
+     * @return array<int, string>
+     */
+    protected function audiences()
+    {
+        return array_values(array_unique(array_merge(
+            [$this->clientId],
+            (array) $this->getConfig('audiences', [])
+        )));
+    }
+
+    /**
+     * @param  string  $jwt
+     * @param  string|null  $nonce
+     * @param  array<int, string>  $audiences
+     * @return bool
+     */
+    protected function validateToken($jwt, $nonce, array $audiences)
+    {
         $token = $this->getJwtConfig()->parser()->parse($jwt);
+
+        // PermittedFor takes a single audience, and stacking them would
+        // require all of them. Fall back to the client ID so a mismatch fails.
+        $audience = Arr::first(
+            $audiences,
+            fn ($audience) => $token->isPermittedFor($audience),
+            $this->clientId
+        );
 
         $publicKeys = JWK::parseKeySet($this->getJwkSet());
         $kid = $token->headers()->get('kid');
@@ -273,7 +306,7 @@ class Provider extends AbstractProvider
             $constraints = [
                 new SignedWith(new Sha256, AppleSignerInMemory::plainText($publicKey['key'])),
                 new IssuedBy(self::URL),
-                new PermittedFor($this->clientId),
+                new PermittedFor($audience),
                 // fix for #1354
                 new LooseValidAt(SystemClock::fromSystemTimezone(), new DateInterval($this->getConfig('jwt_issued_time_leeway', 'PT3S'))),
             ];
@@ -366,7 +399,8 @@ class Provider extends AbstractProvider
 
         $token = Arr::get($response, 'id_token');
 
-        $this->checkToken($token, $nonce);
+        // The code exchange is made as the client ID, so only it is accepted.
+        $this->validateToken($token, $nonce, [$this->clientId]);
 
         $user = $this->mapUserToObject($this->parseTokenClaims($token));
 
@@ -511,6 +545,6 @@ class Provider extends AbstractProvider
      */
     public static function additionalConfigKeys()
     {
-        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway', 'nonce_ttl'];
+        return ['private_key', 'passphrase', 'signer', 'jwt_issued_time_leeway', 'nonce_ttl', 'audiences'];
     }
 }
