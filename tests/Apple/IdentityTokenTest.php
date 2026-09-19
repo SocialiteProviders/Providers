@@ -106,10 +106,7 @@ class IdentityTokenTest extends TestCase
         $this->makeAppleProvider()->userByIdentityToken($token);
     }
 
-    /**
-     * @param  array<int, string>|string  $audiences
-     */
-    private function providerWithAudiences($audiences): Provider
+    private function providerWithAudiences(array|string $audiences): Provider
     {
         return $this->makeAppleProvider()->setConfig(new Config(
             static::CLIENT_ID,

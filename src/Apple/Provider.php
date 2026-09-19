@@ -267,8 +267,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * The client IDs an identity token may be issued for. Native apps send
-     * their App ID, which differs from the Services ID used for the web flow.
+     * Native apps send their App ID as aud, not the Services ID of the web flow.
      *
      * @return array<int, string>
      */
@@ -281,17 +280,14 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param  string  $jwt
-     * @param  string|null  $nonce
      * @param  array<int, string>  $audiences
-     * @return bool
      */
-    protected function validateToken($jwt, $nonce, array $audiences)
+    protected function validateToken(string $jwt, ?string $nonce, array $audiences): bool
     {
         $token = $this->getJwtConfig()->parser()->parse($jwt);
 
-        // PermittedFor takes a single audience, and stacking them would
-        // require all of them. Fall back to the client ID so a mismatch fails.
+        // Every constraint must pass, so assert only the audience the token
+        // carries. The client ID default fails a token that carries none.
         $audience = Arr::first(
             $audiences,
             fn ($audience) => $token->isPermittedFor($audience),
