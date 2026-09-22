@@ -12,13 +12,14 @@ use SocialiteProviders\Tests\OpenIDConnect\TestCase;
 
 class HttpClientTest extends TestCase
 {
-    private function clientOptions(array $config): array
+    private function clientOptions(array $config, array $guzzle = []): array
     {
         $provider = new Provider(
             Request::create('https://app.test/login'),
             'the-client',
             'the-secret',
             'https://app.test/callback',
+            $guzzle,
         );
 
         $provider->setConfig(new Config('the-client', 'the-secret', 'https://app.test/callback', $config));
@@ -76,6 +77,42 @@ class HttpClientTest extends TestCase
 
         $this->assertSame(5.0, $options['connect_timeout']);
         $this->assertSame(10.0, $options['timeout']);
+    }
+
+    public function test_socialite_guzzle_options_reach_the_http_client(): void
+    {
+        $options = $this->clientOptions(
+            ['base_url' => 'https://op.test'],
+            ['headers' => ['X-Relay-Token' => 'relay-secret'], 'verify' => '/etc/ssl/corp-ca.pem'],
+        );
+
+        $this->assertSame('relay-secret', $options['headers']['X-Relay-Token']);
+        $this->assertSame('/etc/ssl/corp-ca.pem', $options['verify']);
+    }
+
+    public function test_guzzle_timeouts_apply_when_the_dedicated_keys_are_absent(): void
+    {
+        $options = $this->clientOptions(['base_url' => 'https://op.test'], ['timeout' => 30, 'connect_timeout' => 3]);
+
+        $this->assertSame(3.0, $options['connect_timeout']);
+        $this->assertSame(30.0, $options['timeout']);
+    }
+
+    public function test_the_dedicated_keys_win_over_guzzle_options(): void
+    {
+        $options = $this->clientOptions(
+            [
+                'base_url'             => 'https://op.test',
+                'http_connect_timeout' => 1,
+                'http_timeout'         => 2,
+                'proxy'                => 'http://proxy.corp.test:8080',
+            ],
+            ['connect_timeout' => 3, 'timeout' => 30, 'proxy' => 'http://other.test:3128'],
+        );
+
+        $this->assertSame(1.0, $options['connect_timeout']);
+        $this->assertSame(2.0, $options['timeout']);
+        $this->assertSame('http://proxy.corp.test:8080', $options['proxy']);
     }
 
     public function test_proxy_is_a_declared_config_key(): void

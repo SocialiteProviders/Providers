@@ -133,6 +133,7 @@ Required: `client_id`, `client_secret`, `redirect`, and `base_url` (unless a bui
 | `clock_skew` | `0` | Leeway in seconds applied to `exp`/`nbf`/`iat`. |
 | `http_timeout` / `http_connect_timeout` | `10` / `5` | Guzzle timeouts for IdP calls. |
 | `proxy` | none | Proxy for IdP calls, in [Guzzle's format](https://docs.guzzlephp.org/en/stable/request-options.html#proxy) (a URL string, or an array per scheme). |
+| `guzzle` | none | Socialite's [Guzzle request options](https://docs.guzzlephp.org/en/stable/request-options.html) for IdP calls, such as `headers` for an authenticating relay or `verify` for a private CA. `http_timeout`, `http_connect_timeout` and `proxy` win over it. |
 
 The `driver_prefix` config key (default `oidc_`) controls the driver names.
 
