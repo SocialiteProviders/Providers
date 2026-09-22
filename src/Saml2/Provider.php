@@ -4,6 +4,7 @@ namespace SocialiteProviders\Saml2;
 
 use DateTime;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\HttpFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
@@ -20,11 +21,12 @@ use Laravel\Socialite\Two\InvalidStateException;
 use LightSaml\Binding\BindingFactory;
 use LightSaml\Builder\EntityDescriptor\SimpleEntityDescriptorBuilder;
 use LightSaml\ClaimTypes;
+use LightSaml\Context\Model\DeserializationContext;
+use LightSaml\Context\Model\SerializationContext;
 use LightSaml\Context\Profile\MessageContext;
 use LightSaml\Credential\KeyHelper;
 use LightSaml\Credential\X509Certificate;
 use LightSaml\Credential\X509Credential;
-use LightSaml\Criteria\CriteriaSet;
 use LightSaml\Error\LightSamlSecurityException;
 use LightSaml\Error\LightSamlValidationException;
 use LightSaml\Helper;
@@ -33,8 +35,6 @@ use LightSaml\Model\Assertion\AttributeStatement;
 use LightSaml\Model\Assertion\EncryptedAssertionReader;
 use LightSaml\Model\Assertion\Issuer;
 use LightSaml\Model\Assertion\NameID;
-use LightSaml\Model\Context\DeserializationContext;
-use LightSaml\Model\Context\SerializationContext;
 use LightSaml\Model\Metadata\AssertionConsumerService;
 use LightSaml\Model\Metadata\ContactPerson;
 use LightSaml\Model\Metadata\EntitiesDescriptor;
@@ -52,20 +52,19 @@ use LightSaml\Model\Protocol\SamlMessage;
 use LightSaml\Model\Protocol\Status;
 use LightSaml\Model\XmlDSig\SignatureWriter;
 use LightSaml\Model\XmlDSig\SignatureXmlReader;
-use LightSaml\Resolver\Endpoint\Criteria\DescriptorTypeCriteria;
-use LightSaml\Resolver\Endpoint\Criteria\LocationCriteria;
-use LightSaml\Resolver\Endpoint\Criteria\ServiceTypeCriteria;
-use LightSaml\Resolver\Endpoint\DescriptorTypeEndpointResolver;
 use LightSaml\SamlConstants;
 use LightSaml\Validator\Model\Assertion\AssertionTimeValidator;
 use LightSaml\Validator\Model\Assertion\AssertionValidator;
 use LightSaml\Validator\Model\NameId\NameIdValidator;
 use LightSaml\Validator\Model\Statement\StatementValidator;
 use LightSaml\Validator\Model\Subject\SubjectValidator;
+use Psr\Http\Message\ServerRequestInterface;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
 use SocialiteProviders\Manager\Contracts\ConfigInterface;
 use SocialiteProviders\Manager\Exception\MissingConfigException;
+use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
+use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
@@ -267,9 +266,9 @@ class Provider extends AbstractProvider implements SocialiteProvider
             $messageContext->getMessage()->setRelayState($this->messageContext->getMessage()->getRelayState());
         }
 
-        $binding = (new BindingFactory)->create($bindingType);
+        $binding = $this->bindingFactory()->create($bindingType);
 
-        return $binding->send($messageContext);
+        return (new HttpFoundationFactory)->createResponse($binding->send($messageContext));
     }
 
     protected function getIdentityProviderEntityDescriptorManually(): EntityDescriptor
@@ -518,18 +517,22 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $recipient = $this->getFirstAssertion()->getSubject()->getFirstSubjectConfirmation()->getSubjectConfirmationData()->getRecipient();
 
-        $criteriaSet = new CriteriaSet([
-            new DescriptorTypeCriteria(SpSsoDescriptor::class),
-            new ServiceTypeCriteria(AssertionConsumerService::class),
-            new LocationCriteria($recipient),
-        ]);
+        // LightSAML v6's BindingEndpointResolver only ranks endpoints by binding, so match the
+        // recipient against this SP's own assertion consumer locations here to keep the guarantee
+        // that the assertion was addressed to an endpoint we actually advertise.
+        foreach ($this->getServiceProviderEntityDescriptor()->getAllEndpoints() as $endpointReference) {
+            if (! $endpointReference->getDescriptor() instanceof SpSsoDescriptor) {
+                continue;
+            }
 
-        $endpoints = (new DescriptorTypeEndpointResolver)
-            ->resolve($criteriaSet, $this->getServiceProviderEntityDescriptor()->getAllEndpoints());
+            $endpoint = $endpointReference->getEndpoint();
 
-        if (empty($endpoints)) {
-            throw new LightSamlValidationException("The recipient endpoint in the assertion did not match the service provider's configured endpoints");
+            if ($endpoint instanceof AssertionConsumerService && $recipient === $endpoint->getLocation()) {
+                return;
+            }
         }
+
+        throw new LightSamlValidationException("The recipient endpoint in the assertion did not match the service provider's configured endpoints");
     }
 
     protected function validateRepeatedId(): void
@@ -554,9 +557,11 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $idpSsoDescriptor = $this->getIdentityProviderEntityDescriptor()->getFirstIdpSsoDescriptor();
 
-        $keyDescriptors = array_merge(
-            $idpSsoDescriptor->getAllKeyDescriptorsByUse(KeyDescriptor::USE_SIGNING),
-            $idpSsoDescriptor->getAllKeyDescriptorsByUse(null),
+        // A key descriptor with no declared use is valid for signing, so accept those alongside
+        // the explicit signing keys. LightSAML v6 no longer accepts a null use, so filter here.
+        $keyDescriptors = array_filter(
+            $idpSsoDescriptor->getAllKeyDescriptors() ?? [],
+            static fn (KeyDescriptor $keyDescriptor): bool => in_array($keyDescriptor->getUse(), [KeyDescriptor::USE_SIGNING, null], true)
         );
 
         /** @var SignatureXmlReader $signatureReader */
@@ -656,10 +661,34 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
     protected function receive(): void
     {
-        $bindingFactory = new BindingFactory;
-        $bindingType = $bindingFactory->detectBindingType($this->request);
-        $bindingFactory->create($bindingType)->receive($this->request, $this->messageContext);
+        $request = $this->toPsrRequest($this->request);
+
+        $bindingFactory = $this->bindingFactory();
+        $bindingType = $bindingFactory->detectBindingType($request);
+        $bindingFactory->create($bindingType)->receive($request, $this->messageContext);
         $this->messageContext->setBindingType($bindingType);
+    }
+
+    /**
+     * LightSAML v6 bindings speak PSR-7 and PSR-17: the factory needs a response
+     * and stream factory to build outgoing bindings, so hand it one that covers both.
+     */
+    protected function bindingFactory(): BindingFactory
+    {
+        $psr17Factory = new HttpFactory;
+
+        return new BindingFactory(null, $psr17Factory, $psr17Factory);
+    }
+
+    /**
+     * Bridge the Laravel request into the PSR-7 server request the bindings expect.
+     */
+    protected function toPsrRequest(Request $request): ServerRequestInterface
+    {
+        $psr17Factory = new HttpFactory;
+
+        return (new PsrHttpFactory($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory))
+            ->createRequest($request);
     }
 
     protected function decryptAssertions(): void
