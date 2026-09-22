@@ -103,6 +103,9 @@ The `provider` key picks the class that drives a connection. The built-in classe
 | `auth0` | `domain` | `base_url`, `client_secret_post` token auth |
 | `okta` | `domain`, `auth_server` | `base_url`, `/oauth2/{auth_server}` when named |
 | `google` | none | `base_url` = `https://accounts.google.com` |
+| `telegram` | none | `base_url` = `https://oauth.telegram.org`, scopes `openid profile`, user id from the `id` claim, no userinfo call |
+
+Telegram's Client ID and Client Secret come from [@BotFather](https://t.me/BotFather) (Bot Settings → Web Login), where the redirect URLs are allowed too; see [Telegram Login](https://core.telegram.org/bots/telegram-login). `getId()` returns the numeric Telegram user id, the one bots and Mini Apps see; the OIDC `sub` is a different, opaque value and stays in `getRaw()`. That id comes with the `profile` scope, so `profile` is always requested. Telegram's id_token is valid for only 30 seconds, so keep the server clock in sync or set `clock_skew`.
 
 For any other issuer, omit `provider` and set `base_url` directly. To encode your own IdP's shape, write a provider class and put its class name in `provider`. [docs/extending.md](docs/extending.md) covers the `configDefaults()` hook, the commonly overridden methods, and issuer validation (including [how Entra multi-tenant is handled](docs/extending.md#the-entra-issuer-template)).
 

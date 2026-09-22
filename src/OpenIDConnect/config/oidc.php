@@ -37,8 +37,8 @@ return [
     |                 the default strict comparison cannot express (built-in
     |                 providers set this where their IdP needs it).
     | provider        Which Provider class drives this connection: a built-in
-    |                 shorthand (entra, keycloak, auth0, okta, google) or the
-    |                 name of any Provider subclass.
+    |                 shorthand (entra, keycloak, auth0, okta, google,
+    |                 telegram) or the name of any Provider subclass.
     |                 Built-ins derive config from friendlier keys (tenant,
     |                 server_url + realm, domain); your explicit values always
     |                 win. Subclasses can override configDefaults() and any
