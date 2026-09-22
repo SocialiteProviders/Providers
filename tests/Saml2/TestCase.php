@@ -58,14 +58,12 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        // The provider builds SP endpoint URLs with URL::to() and matches the assertion
-        // recipient against them, so pin a stable root URL the fixtures can target.
+        // Recipient validation matches URL::to() endpoints, so pin a root the fixtures can target.
         config(['app.url' => static::ROOT_URL]);
         URL::forceRootUrl(static::ROOT_URL);
         URL::forceScheme('https');
 
-        // A handful of paths (metadata, recipient validation) inspect the app's routes to
-        // decide which bindings the SP advertises, so register the ACS/SLS endpoints.
+        // The SP advertises only bindings whose routes exist, so register the ACS/SLS endpoints.
         Route::get(static::ACS_ROUTE, fn () => 'acs');
         Route::post(static::ACS_ROUTE, fn () => 'acs');
         Route::get(static::SLS_ROUTE, fn () => 'sls');
@@ -99,8 +97,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * The base64-encoded SAMLResponse a bearer POST binding delivers to the ACS.
-     *
+     * @param  array<string, mixed>  $overrides
      * @param  array<string, string>  $attributes
      */
     protected function samlResponse(array $overrides = [], array $attributes = []): string
@@ -109,8 +106,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * Build a signed SAML Response, addressed to this SP, with fresh timestamps so the
-     * provider's time-restriction validation passes.
+     * Timestamps are built fresh so the provider's time-restriction validation passes.
      *
      * @param  array<string, mixed>  $overrides
      * @param  array<string, string>  $attributes

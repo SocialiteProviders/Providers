@@ -517,9 +517,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $recipient = $this->getFirstAssertion()->getSubject()->getFirstSubjectConfirmation()->getSubjectConfirmationData()->getRecipient();
 
-        // LightSAML v6's BindingEndpointResolver only ranks endpoints by binding, so match the
-        // recipient against this SP's own assertion consumer locations here to keep the guarantee
-        // that the assertion was addressed to an endpoint we actually advertise.
+        // LightSAML v6's endpoint resolver no longer filters by location, so match the recipient here.
         foreach ($this->getServiceProviderEntityDescriptor()->getAllEndpoints() as $endpointReference) {
             if (! $endpointReference->getDescriptor() instanceof SpSsoDescriptor) {
                 continue;
@@ -557,8 +555,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
     {
         $idpSsoDescriptor = $this->getIdentityProviderEntityDescriptor()->getFirstIdpSsoDescriptor();
 
-        // A key descriptor with no declared use is valid for signing, so accept those alongside
-        // the explicit signing keys. LightSAML v6 no longer accepts a null use, so filter here.
+        // A key descriptor with no declared use is also valid for signing.
         $keyDescriptors = array_filter(
             $idpSsoDescriptor->getAllKeyDescriptors() ?? [],
             static fn (KeyDescriptor $keyDescriptor): bool => in_array($keyDescriptor->getUse(), [KeyDescriptor::USE_SIGNING, null], true)
@@ -669,10 +666,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $this->messageContext->setBindingType($bindingType);
     }
 
-    /**
-     * LightSAML v6 bindings speak PSR-7 and PSR-17: the factory needs a response
-     * and stream factory to build outgoing bindings, so hand it one that covers both.
-     */
+    // The factory needs a PSR-17 response and stream factory or send() throws.
     protected function bindingFactory(): BindingFactory
     {
         $psr17Factory = new HttpFactory;
@@ -680,9 +674,6 @@ class Provider extends AbstractProvider implements SocialiteProvider
         return new BindingFactory(null, $psr17Factory, $psr17Factory);
     }
 
-    /**
-     * Bridge the Laravel request into the PSR-7 server request the bindings expect.
-     */
     protected function toPsrRequest(Request $request): ServerRequestInterface
     {
         $psr17Factory = new HttpFactory;

@@ -12,8 +12,6 @@ class RedirectTest extends TestCase
 
         $response = $this->makeProvider($request)->redirect();
 
-        // The binding layer speaks PSR-7 in LightSAML v6; the provider must hand back a
-        // Symfony response for the framework to emit.
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(302, $response->getStatusCode());
 
