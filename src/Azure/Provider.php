@@ -10,6 +10,13 @@ class Provider extends AbstractProvider
     public const IDENTIFIER = 'AZURE';
 
     /**
+     * The base Azure OAuth URL.
+     *
+     * @var string
+     */
+    protected $baseUrl = 'https://login.microsoftonline.com';
+
+    /**
      * The base Azure Graph URL.
      *
      * @var string
@@ -111,11 +118,11 @@ class Provider extends AbstractProvider
      */
     protected function getBaseUrl(): string
     {
-        return 'https://login.microsoftonline.com/'.$this->getConfig('tenant', 'common');
+        return rtrim($this->getConfig('base_url', $this->baseUrl), '/').'/'.$this->getConfig('tenant', 'common');
     }
 
     public static function additionalConfigKeys(): array
     {
-        return ['tenant', 'proxy', 'graph_url'];
+        return ['tenant', 'proxy', 'base_url', 'graph_url'];
     }
 }
