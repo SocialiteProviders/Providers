@@ -33,6 +33,8 @@ return [
     | jwt_algorithm   Pin the accepted signing algorithm(s).
     | issuer          Override the expected `iss` claim.
     | proxy           Proxy for calls to the IdP, in Guzzle's format.
+    | guzzle          Other Guzzle request options for calls to the IdP
+    |                 (headers, verify, ...); the timeout and proxy keys win.
     | issuer_validator  Class implementing IssuerValidator, for issuer shapes
     |                 the default strict comparison cannot express (built-in
     |                 providers set this where their IdP needs it).

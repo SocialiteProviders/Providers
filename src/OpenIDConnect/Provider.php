@@ -303,13 +303,18 @@ class Provider extends AbstractProvider
         return ($configured === null || $configured === '') ? $default : (float) $configured;
     }
 
+    /**
+     * Starts from the connection's `guzzle` options, which Socialite hands to
+     * every provider (headers, TLS settings, ...); the dedicated timeout and
+     * proxy keys win over them.
+     */
     protected function getHttpClient()
     {
         if ($this->httpClient === null) {
-            $options = [
-                'connect_timeout' => $this->timeoutConfig('http_connect_timeout', 5),
-                'timeout'         => $this->timeoutConfig('http_timeout', 10),
-            ];
+            $options = $this->guzzle;
+
+            $options['connect_timeout'] = $this->timeoutConfig('http_connect_timeout', (float) ($options['connect_timeout'] ?? 5));
+            $options['timeout'] = $this->timeoutConfig('http_timeout', (float) ($options['timeout'] ?? 10));
 
             if ($proxy = $this->getConfig('proxy')) {
                 $options[RequestOptions::PROXY] = $proxy;

@@ -36,6 +36,7 @@ class MultiConnectionTest extends TestCase
                 'client_id'     => 'ak-client',
                 'client_secret' => 'ak-secret',
                 'redirect'      => 'https://app.test/ak/callback',
+                'guzzle'        => ['headers' => ['X-Relay-Token' => 'relay-secret']],
             ],
             'entra' => [
                 'provider'      => 'entra',
@@ -117,6 +118,16 @@ class MultiConnectionTest extends TestCase
             parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
             $this->assertSame($clientId, $query['client_id']);
         }
+    }
+
+    public function test_a_connection_passes_its_guzzle_options_to_the_http_client(): void
+    {
+        $provider = Socialite::driver('oidc_authentik');
+
+        $client = (new ReflectionMethod($provider, 'getHttpClient'))->invoke($provider);
+        $config = (new ReflectionProperty($client, 'config'))->getValue($client);
+
+        $this->assertSame('relay-secret', $config['headers']['X-Relay-Token']);
     }
 
     public function test_a_provider_shorthand_resolves_to_the_built_in_class_with_derived_config(): void
