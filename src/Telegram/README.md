@@ -4,6 +4,9 @@
 composer require socialiteproviders/telegram
 ```
 
+> [!NOTE]
+> This provider uses the [legacy Telegram Login Widget](https://core.telegram.org/widgets/login-legacy). For new projects, consider [Log In with Telegram](https://core.telegram.org/bots/telegram-login) over OpenID Connect, available as the `telegram` shorthand of the [OpenID Connect provider](https://socialiteproviders.com/OpenIDConnect/).
+
 ## Installation & Basic Usage
 
 Please see the [Base Installation Guide](https://socialiteproviders.com/usage/), then follow the provider specific instructions below.
@@ -70,7 +73,7 @@ You **can** add the login button to your page, anywhere you want  with this snip
 {!! Socialite::driver('telegram')->getButton() !!}
 ``` 
 
-If you want to see the Telegram Widget configuration page: https://core.telegram.org/widgets/login
+If you want to see the Telegram Widget configuration page: https://core.telegram.org/widgets/login-legacy
 
 ### Returned User fields
 
