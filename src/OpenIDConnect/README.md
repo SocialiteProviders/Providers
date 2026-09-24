@@ -1,6 +1,6 @@
 # OpenID Connect
 
-A generic OpenID Connect driver for Laravel Socialite. Point it at any issuer that serves a discovery document: Keycloak, Entra ID, Auth0, Okta, Google, Authentik, or anything else that speaks OIDC. You can configure several issuers at once, and each becomes its own Socialite driver.
+A generic OpenID Connect driver for Laravel Socialite. Point it at any issuer that serves a discovery document: Keycloak, Entra ID, Auth0, Okta, Google, Authentik, Telegram, or anything else that speaks OIDC. You can configure several issuers at once, and each becomes its own Socialite driver.
 
 Endpoints come from the issuer's discovery document. Signing keys come from its JWKS and refresh automatically when the issuer rotates them. Every id_token is validated properly (signature, `iss`, `aud`, `azp`, `exp`, `nonce`, `at_hash`) and PKCE is on by default.
 
