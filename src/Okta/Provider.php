@@ -65,7 +65,7 @@ class Provider extends AbstractProvider
 
     public static function additionalConfigKeys(): array
     {
-        return ['base_url', 'auth_server_id'];
+        return ['base_url', 'auth_server_id', 'scopes'];
     }
 
     protected function getAuthUrl($state): string
