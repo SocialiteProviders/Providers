@@ -77,7 +77,18 @@ class Provider extends AbstractProvider
             ],
         ]);
 
-        return json_decode((string) $response->getBody(), true);
+        $contents = (string) $response->getBody();
+
+        $user = json_decode($contents, true);
+
+        if (! is_array($user)) {
+            throw new UnexpectedValueException(sprintf(
+                'Invalid userinfo response from Hytale: %s',
+                $contents
+            ));
+        }
+
+        return $user;
     }
 
     /**

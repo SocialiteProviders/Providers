@@ -216,4 +216,21 @@ class HytaleProviderTest extends TestCase
 
         $this->makeProvider($request, $responses)->stateless()->user();
     }
+
+    public function test_a_non_json_userinfo_body_is_rejected(): void
+    {
+        $responses = [
+            new Response(200, ['Content-Type' => 'application/json'], (string) json_encode([
+                'access_token' => 'access-token',
+            ])),
+            new Response(200, ['Content-Type' => 'text/html'], '<html>sign in</html>'),
+        ];
+
+        $request = $this->makeRequestWithSession(['code' => 'code', 'state' => 'state']);
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Invalid userinfo response from Hytale');
+
+        $this->makeProvider($request, $responses)->stateless()->user();
+    }
 }
