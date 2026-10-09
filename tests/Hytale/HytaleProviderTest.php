@@ -8,6 +8,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use SocialiteProviders\Hytale\Provider;
 use SocialiteProviders\Tests\TestCase;
+use UnexpectedValueException;
 
 class HytaleProviderTest extends TestCase
 {
@@ -194,5 +195,25 @@ class HytaleProviderTest extends TestCase
         $this->assertTrue($user->shared_source);
         $this->assertTrue($user->game_ownership);
         $this->assertFalse($user->parental_managed);
+    }
+
+    public function test_an_unexpected_userinfo_shape_is_rejected(): void
+    {
+        $responses = [
+            new Response(200, ['Content-Type' => 'application/json'], (string) json_encode([
+                'access_token' => 'access-token',
+            ])),
+            new Response(200, ['Content-Type' => 'application/json'], (string) json_encode([
+                'error'             => 'invalid_token',
+                'error_description' => 'The access token is invalid.',
+            ])),
+        ];
+
+        $request = $this->makeRequestWithSession(['code' => 'code', 'state' => 'state']);
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Hytale userinfo response is missing sub.');
+
+        $this->makeProvider($request, $responses)->stateless()->user();
     }
 }

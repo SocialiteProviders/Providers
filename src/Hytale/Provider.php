@@ -6,6 +6,7 @@ use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use UnexpectedValueException;
 
 /**
  * @see https://accounts.hytale.com/third-party-developer-apps
@@ -91,6 +92,10 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
+        if (! is_string($user['sub'] ?? null) || $user['sub'] === '') {
+            throw new UnexpectedValueException('Hytale userinfo response is missing sub.');
+        }
+
         return (new User)->setRaw($user)->map([
             'id'                => Arr::get($user, 'sub'),
             'nickname'          => Arr::get($user, 'profile.username'),

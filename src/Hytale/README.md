@@ -85,6 +85,8 @@ return Socialite::driver('hytale')
     ->redirect();
 ```
 
+`scopes()` merges with the default `openid`. Prefer it over `setScopes()`, which replaces the defaults and would drop the required `openid` scope, making the whole request fail with `invalid_scope`.
+
 Hytale shows the consent screen on every sign-in: there is no silent re-authentication, so `prompt=none` always fails.
 
 ### Callback errors
