@@ -62,3 +62,9 @@ return Socialite::driver('pinterest')->redirect();
 - ``id``
 - ``nickname``
 - ``name``
+
+### Upgrading from 4.x
+
+`id` is now Pinterest's stable account ID. Earlier versions returned the username, which users can change, so an ID stored against a local account could later match a different Pinterest user.
+
+If you stored `getId()` from an earlier version, migrate on the next login: when no account matches the new ID, look it up once by the old value (`getNickname()`), then overwrite the stored provider ID with `getId()`.
