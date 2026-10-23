@@ -1,0 +1,16 @@
+{
+    "data": {
+        "id": "12345",
+        "type": "users",
+        "attributes": {
+            "username": "j@doe.com",
+            "country": "GB",
+            "email": "j@doe.com",
+            "emailVerified": true,
+            "developerAccessTier": "THIRD_PARTY"
+        }
+    },
+    "links": {
+        "self": "/users/me"
+    }
+}
