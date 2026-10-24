@@ -1,0 +1,8 @@
+{
+    "sub": "usr_01HXYZ9876543210ABCDEF",
+    "name": "John Doe",
+    "preferred_username": "jdoe",
+    "email": "jdoe@example.com",
+    "email_verified": true,
+    "picture": "https://example.com/avatar.png"
+}
