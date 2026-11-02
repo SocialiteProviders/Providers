@@ -205,6 +205,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         if ($this->usesState()) {
             $this->request->session()->put('state', $state = $this->getState());
+            $this->request->session()->put('saml2_request_id', $authnRequest->getID());
             $authnRequest->setRelayState($state);
         }
 
@@ -533,6 +534,26 @@ class Provider extends AbstractProvider implements SocialiteProvider
         throw new LightSamlValidationException("The recipient endpoint in the assertion did not match the service provider's configured endpoints");
     }
 
+    /**
+     * Stateful logins must answer the AuthnRequest this session sent, so an
+     * unsolicited or another session's response can't be submitted here.
+     */
+    protected function validateInResponseTo(): void
+    {
+        if ($this->stateless) {
+            return;
+        }
+
+        $requestId = $this->request->session()->pull('saml2_request_id');
+        $assertionInResponseTo = $this->getFirstAssertion()->getSubject()->getFirstSubjectConfirmation()->getSubjectConfirmationData()->getInResponseTo();
+        $responseInResponseTo = $this->messageContext->getMessage()->getInResponseTo();
+
+        if (! is_string($requestId) || $requestId === '' || $assertionInResponseTo !== $requestId
+            || ($responseInResponseTo !== null && $responseInResponseTo !== $requestId)) {
+            throw new InvalidStateException('The SAML response was not issued for this session\'s authentication request');
+        }
+    }
+
     protected function validateRepeatedId(): void
     {
         $assertion = $this->getFirstAssertion();
@@ -604,6 +625,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
         $this->validateAssertion();
         $this->validateIssuer();
         $this->validateRecipient();
+        $this->validateInResponseTo();
         $this->validateRepeatedId();
         $this->validateTimestamps();
         $this->validateSignature();
@@ -653,7 +675,7 @@ class Provider extends AbstractProvider implements SocialiteProvider
 
         $state = $this->request->session()->pull('state');
 
-        return $state === '' || $state !== $this->messageContext->getMessage()->getRelayState();
+        return ! is_string($state) || $state === '' || $state !== $this->messageContext->getMessage()->getRelayState();
     }
 
     protected function receive(): void
