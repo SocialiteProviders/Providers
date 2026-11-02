@@ -90,18 +90,17 @@ class ReceiveTest extends TestCase
         $this->makeProvider($request)->stateless()->user();
     }
 
-    public function test_it_accepts_a_relay_state_matching_the_session(): void
+    public function test_it_accepts_a_response_matching_the_session_state_and_request(): void
     {
-        $request = $this->makeRequest('POST', ['SAMLResponse' => $this->samlResponse(), 'RelayState' => 'expected-state']);
-        $request->session()->put('state', 'expected-state');
+        $request = $this->statefulRequest(['inResponseTo' => 'request-id'], 'expected-state');
 
         $this->assertSame('user@example.com', $this->makeProvider($request)->user()->getId());
+        $this->assertFalse($request->session()->has('saml2_request_id'));
     }
 
     public function test_it_rejects_a_relay_state_not_matching_the_session(): void
     {
-        $request = $this->makeRequest('POST', ['SAMLResponse' => $this->samlResponse(), 'RelayState' => 'attacker-state']);
-        $request->session()->put('state', 'expected-state');
+        $request = $this->statefulRequest(['inResponseTo' => 'request-id'], 'attacker-state');
 
         $this->expectException(InvalidStateException::class);
 
@@ -125,5 +124,58 @@ class ReceiveTest extends TestCase
         $this->expectException(InvalidStateException::class);
 
         $this->makeProvider($request)->user();
+    }
+
+    public function test_it_rejects_an_unsolicited_response_when_stateful(): void
+    {
+        $request = $this->statefulRequest();
+
+        $this->expectException(InvalidStateException::class);
+        $this->expectExceptionMessage('authentication request');
+
+        $this->makeProvider($request)->user();
+    }
+
+    public function test_it_rejects_a_response_to_another_request(): void
+    {
+        $request = $this->statefulRequest(['inResponseTo' => 'other-request-id']);
+
+        $this->expectException(InvalidStateException::class);
+        $this->expectExceptionMessage('authentication request');
+
+        $this->makeProvider($request)->user();
+    }
+
+    public function test_it_rejects_a_response_level_in_response_to_not_matching_the_request(): void
+    {
+        $request = $this->statefulRequest(['inResponseTo' => 'request-id', 'responseInResponseTo' => 'other-request-id']);
+
+        $this->expectException(InvalidStateException::class);
+        $this->expectExceptionMessage('authentication request');
+
+        $this->makeProvider($request)->user();
+    }
+
+    public function test_it_rejects_a_response_when_the_session_has_no_request_id(): void
+    {
+        $request = $this->statefulRequest(['inResponseTo' => 'request-id']);
+        $request->session()->forget('saml2_request_id');
+
+        $this->expectException(InvalidStateException::class);
+        $this->expectExceptionMessage('authentication request');
+
+        $this->makeProvider($request)->user();
+    }
+
+    /**
+     * @param  array<string, mixed>  $overrides
+     */
+    private function statefulRequest(array $overrides = [], string $relayState = 'expected-state')
+    {
+        $request = $this->makeRequest('POST', ['SAMLResponse' => $this->samlResponse($overrides), 'RelayState' => $relayState]);
+        $request->session()->put('state', 'expected-state');
+        $request->session()->put('saml2_request_id', 'request-id');
+
+        return $request;
     }
 }

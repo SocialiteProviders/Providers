@@ -117,6 +117,7 @@ abstract class TestCase extends Orchestra
         $issuer = $overrides['issuer'] ?? static::IDP_ENTITY_ID;
         $nameId = $overrides['nameId'] ?? 'user@example.com';
         $sign = $overrides['sign'] ?? true;
+        $inResponseTo = $overrides['inResponseTo'] ?? null;
 
         $attributes = $attributes ?: [
             ClaimTypes::EMAIL_ADDRESS => 'user@example.com',
@@ -158,6 +159,10 @@ abstract class TestCase extends Orchestra
             )
             ->addItem($attributeStatement);
 
+        if ($inResponseTo !== null) {
+            $assertion->getSubject()->getFirstSubjectConfirmation()->getSubjectConfirmationData()->setInResponseTo($inResponseTo);
+        }
+
         if ($sign) {
             $assertion->setSignature(new SignatureWriter($this->idpCertificate(), $this->idpPrivateKey(), XMLSecurityDSig::SHA256));
         }
@@ -170,6 +175,10 @@ abstract class TestCase extends Orchestra
             ->setStatus(new Status(new StatusCode($overrides['status'] ?? SamlConstants::STATUS_SUCCESS)))
             ->setDestination($recipient)
             ->addAssertion($assertion);
+
+        if (($responseInResponseTo = $overrides['responseInResponseTo'] ?? $inResponseTo) !== null) {
+            $response->setInResponseTo($responseInResponseTo);
+        }
 
         $context = new SerializationContext;
         $response->serialize($context->getDocument(), $context);

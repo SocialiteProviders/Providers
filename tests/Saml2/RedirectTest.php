@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Tests\Saml2;
 
+use DOMDocument;
 use Symfony\Component\HttpFoundation\Response;
 
 class RedirectTest extends TestCase
@@ -34,6 +35,21 @@ class RedirectTest extends TestCase
         $this->assertArrayHasKey('RelayState', $params);
         $this->assertSame($request->session()->get('state'), $params['RelayState']);
         $this->assertNotEmpty($params['RelayState']);
+    }
+
+    public function test_redirect_keeps_the_authn_request_id_in_the_session(): void
+    {
+        $request = $this->makeRequest();
+
+        $response = $this->makeProvider($request)->redirect();
+
+        $params = $this->locationQuery($response->headers->get('Location'));
+        $document = new DOMDocument;
+        $document->loadXML(gzinflate(base64_decode($params['SAMLRequest'])));
+        $requestId = $document->documentElement->getAttribute('ID');
+
+        $this->assertNotEmpty($requestId);
+        $this->assertSame($requestId, $request->session()->get('saml2_request_id'));
     }
 
     public function test_stateless_redirect_omits_relay_state(): void
