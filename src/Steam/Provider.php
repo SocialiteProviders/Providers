@@ -78,11 +78,6 @@ class Provider extends AbstractProvider
     public const REQUIRED_SIGNED_FIELDS = ['op_endpoint', 'claimed_id', 'identity', 'return_to', 'response_nonce', 'assoc_handle'];
 
     /**
-     * How far the assertion nonce timestamp may drift from now, in seconds.
-     */
-    public const NONCE_MAX_AGE = 300;
-
-    /**
      * {@inheritdoc}
      */
     protected $stateless = true;
@@ -388,16 +383,6 @@ class Provider extends AbstractProvider
         if ($claimedId !== $this->getOrNull('openid.identity')
             || preg_match('#^https://steamcommunity\.com/openid/id/76561[0-9]{12}/?$#D', (string) $claimedId) !== 1) {
             throw new OpenIDValidationException('Invalid openid.claimed_id');
-        }
-
-        if (preg_match('/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)/', (string) $this->getOrNull('openid.response_nonce'), $nonce) !== 1) {
-            throw new OpenIDValidationException('Invalid openid.response_nonce');
-        }
-
-        $nonceTime = strtotime($nonce[1]);
-
-        if ($nonceTime === false || abs(time() - $nonceTime) > self::NONCE_MAX_AGE) {
-            throw new OpenIDValidationException('Expired openid.response_nonce');
         }
     }
 

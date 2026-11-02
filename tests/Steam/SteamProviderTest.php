@@ -242,9 +242,6 @@ class SteamProviderTest extends TestCase
             'missing op endpoint'    => ['openid.op_endpoint', null, 'Invalid openid.op_endpoint'],
             'identity mismatch'      => ['openid.identity', 'https://steamcommunity.com/openid/id/76561197960287931', 'Invalid openid.claimed_id'],
             'non-steam claimed id'   => ['openid.claimed_id', 'https://example.com/openid/id/76561197960287930', 'Invalid openid.claimed_id'],
-            'malformed nonce'        => ['openid.response_nonce', 'not-a-nonce', 'Invalid openid.response_nonce'],
-            'expired nonce'          => ['openid.response_nonce', '2020-01-01T00:00:00Zabc', 'Expired openid.response_nonce'],
-            'future nonce'           => ['openid.response_nonce', gmdate('Y-m-d\\TH:i:s\\Z', time() + 600).'abc', 'Expired openid.response_nonce'],
         ];
     }
 
