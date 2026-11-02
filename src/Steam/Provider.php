@@ -3,7 +3,10 @@
 namespace SocialiteProviders\Steam;
 
 use GuzzleHttp\RequestOptions;
+use Illuminate\Cache\NullStore;
+use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use RuntimeException;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
@@ -76,6 +79,13 @@ class Provider extends AbstractProvider
      * Fields Steam signs on every assertion.
      */
     public const REQUIRED_SIGNED_FIELDS = ['op_endpoint', 'claimed_id', 'identity', 'return_to', 'response_nonce', 'assoc_handle'];
+
+    /**
+     * How far the response nonce timestamp may drift from now, in seconds.
+     */
+    public const NONCE_MAX_AGE = 300;
+
+    protected ?Repository $nonceCache = null;
 
     /**
      * {@inheritdoc}
@@ -192,6 +202,8 @@ class Provider extends AbstractProvider
         if (! $this->validateHost($returnTo)) {
             throw new OpenIDValidationException('Invalid return_to host');
         }
+
+        $this->claimNonce();
 
         $requestOptions = $this->getDefaultRequestOptions();
         $customOptions = $this->getCustomRequestOptions();
@@ -349,7 +361,7 @@ class Provider extends AbstractProvider
 
     public static function additionalConfigKeys(): array
     {
-        return ['realm', 'proxy', 'allowed_hosts', 'force_https'];
+        return ['realm', 'proxy', 'allowed_hosts', 'force_https', 'nonce_cache_store'];
     }
 
     /**
@@ -384,6 +396,50 @@ class Provider extends AbstractProvider
             || preg_match('#^https://steamcommunity\.com/openid/id/76561[0-9]{12}/?$#D', (string) $claimedId) !== 1) {
             throw new OpenIDValidationException('Invalid openid.claimed_id');
         }
+
+        if (preg_match('/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)/', (string) $this->getOrNull('openid.response_nonce'), $nonce) !== 1) {
+            throw new OpenIDValidationException('Invalid openid.response_nonce');
+        }
+
+        $nonceTime = strtotime($nonce[1]);
+
+        if ($nonceTime === false || abs(time() - $nonceTime) > self::NONCE_MAX_AGE) {
+            throw new OpenIDValidationException('Expired openid.response_nonce');
+        }
+    }
+
+    /**
+     * OpenID 2.0 section 11.3: reject a response_nonce that was already accepted.
+     * Kept for as long as the nonce could still pass the age check.
+     *
+     * @throws OpenIDValidationException
+     */
+    protected function claimNonce(): void
+    {
+        $cache = $this->getNonceCache();
+
+        // add() always fails on the null store, which would reject every login.
+        if ($cache->getStore() instanceof NullStore) {
+            return;
+        }
+
+        $key = 'socialite:steam-nonce:'.hash('sha256', (string) $this->getOrNull('openid.response_nonce'));
+
+        if (! $cache->add($key, true, self::NONCE_MAX_AGE * 2)) {
+            throw new OpenIDValidationException('Replayed openid.response_nonce');
+        }
+    }
+
+    public function setNonceCache(Repository $cache): static
+    {
+        $this->nonceCache = $cache;
+
+        return $this;
+    }
+
+    protected function getNonceCache(): Repository
+    {
+        return $this->nonceCache ??= Cache::store($this->getConfig('nonce_cache_store'));
     }
 
     /**

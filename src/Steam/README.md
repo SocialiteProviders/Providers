@@ -35,6 +35,16 @@ The signed `openid.return_to` must exactly match the provider's redirect URL. If
 
 The callback also checks that the assertion came from Steam's OpenID endpoint, that Steam signed the required fields, and that Steam's verification response is a valid OpenID 2.0 reply.
 
+### Replay protection
+Each login's `openid.response_nonce` must be within 5 minutes of your server's clock and can only be used once. Used nonces are kept in your default cache store for 10 minutes. The `null` store skips the replay check. If you run more than one server, use a shared store (Redis, database, etc.):
+
+```php
+'steam' => [
+  // ...
+  'nonce_cache_store' => 'redis',
+],
+```
+
 ### force_https
 Set this property to force HTTPS scheme when redirecting from Steam OAuth.
 
