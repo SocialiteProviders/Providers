@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Tests\Steam;
 
 use GuzzleHttp\Psr7\Response;
+use SocialiteProviders\Manager\Config;
 use SocialiteProviders\Steam\OpenIDValidationException;
 use SocialiteProviders\Steam\Provider;
 use SocialiteProviders\Tests\TestCase;
@@ -120,6 +121,64 @@ class SteamProviderTest extends TestCase
         $provider->validate();
     }
 
+    public function test_validate_rejects_a_return_to_with_userinfo_that_spoofs_the_host(): void
+    {
+        $query = $this->validOpenidQuery();
+        $query['openid.return_to'] = 'https://attacker.example\\@example.com/auth/callback';
+
+        $provider = $this->makeProvider($this->makeRequest($query));
+        $provider->setConfig(new Config('', '', self::REDIRECT_URI, ['allowed_hosts' => ['example.com']]));
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid return_to');
+
+        $provider->validate();
+    }
+
+    public function test_validate_rejects_a_return_to_on_another_path(): void
+    {
+        $query = $this->validOpenidQuery();
+        $query['openid.return_to'] = 'https://example.com/capture';
+
+        $provider = $this->makeProvider($this->makeRequest($query));
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid return_to');
+
+        $provider->validate();
+    }
+
+    public function test_validate_rejects_an_unsigned_return_to(): void
+    {
+        $query = $this->validOpenidQuery();
+        $query['openid.signed'] = 'signed,claimed_id';
+
+        $provider = $this->makeProvider($this->makeRequest($query));
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid return_to');
+
+        $provider->validate();
+    }
+
+    public function test_validate_honours_a_redirect_url_override(): void
+    {
+        $override = 'https://example.com/auth/steam/other';
+
+        $query = $this->validOpenidQuery();
+        $query['openid.return_to'] = $override;
+
+        $provider = $this->makeProvider(
+            $this->makeRequest($query),
+            [new Response(200, [], "is_valid:true\n")]
+        )->redirectUrl($override);
+
+        $this->assertTrue($provider->validate());
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->makeProvider($this->makeRequest($query))->validate();
+    }
+
     public function test_parse_results_splits_the_key_value_body(): void
     {
         $parsed = $this->makeProvider()->parseResults('ns:'.Provider::OPENID_NS."\nis_valid:true\n");
@@ -154,7 +213,7 @@ class SteamProviderTest extends TestCase
     {
         return [
             'openid.assoc_handle' => '1234567890',
-            'openid.signed'       => 'signed,claimed_id',
+            'openid.signed'       => 'signed,return_to,claimed_id',
             'openid.sig'          => 'signature',
             'openid.return_to'    => self::REDIRECT_URI,
             'openid.claimed_id'   => 'https://steamcommunity.com/openid/id/'.self::STEAM_ID,

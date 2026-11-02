@@ -176,7 +176,13 @@ class Provider extends AbstractProvider
             throw new OpenIDValidationException('A critical openid parameter is missing from the request');
         }
 
-        if (! $this->validateHost($this->getOrNull(self::OPENID_RETURN_TO))) {
+        $returnTo = (string) $this->getOrNull(self::OPENID_RETURN_TO);
+
+        if (! $this->validateReturnTo($returnTo)) {
+            throw new OpenIDValidationException('Invalid return_to');
+        }
+
+        if (! $this->validateHost($returnTo)) {
             throw new OpenIDValidationException('Invalid return_to host');
         }
 
@@ -336,6 +342,20 @@ class Provider extends AbstractProvider
     public static function additionalConfigKeys(): array
     {
         return ['realm', 'proxy', 'allowed_hosts', 'force_https'];
+    }
+
+    /**
+     * The signed return_to must be exactly the callback URL we sent to Steam.
+     * A host-only check can be fooled by URLs that PHP and browsers parse
+     * differently, letting an assertion issued for another URL be replayed here.
+     */
+    protected function validateReturnTo(string $url): bool
+    {
+        $signed = explode(',', (string) $this->getOrNull(self::OPENID_SIGNED));
+
+        return ! empty($this->redirectUrl)
+            && in_array('return_to', $signed, true)
+            && hash_equals((string) $this->redirectUrl, $url);
     }
 
     /**

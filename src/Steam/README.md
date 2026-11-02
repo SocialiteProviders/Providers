@@ -30,6 +30,9 @@ Issue resolved in https://github.com/SocialiteProviders/Providers/pull/817
 
 By default this protection is disabled. It will only be active when allowed hosts is not equal to an empty array.
 
+### return_to validation
+The signed `openid.return_to` must exactly match the provider's redirect URL. If you override it with `redirectUrl()` when redirecting to Steam, set the same URL before calling `user()` on the callback.
+
 ### force_https
 Set this property to force HTTPS scheme when redirecting from Steam OAuth.
 
