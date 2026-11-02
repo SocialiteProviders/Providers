@@ -73,6 +73,11 @@ class Provider extends AbstractProvider
     public const OPENID_CLAIMED_ID = 'openid.claimed_id';
 
     /**
+     * Fields Steam signs on every assertion.
+     */
+    public const REQUIRED_SIGNED_FIELDS = ['op_endpoint', 'claimed_id', 'identity', 'return_to', 'response_nonce', 'assoc_handle'];
+
+    /**
      * {@inheritdoc}
      */
     protected $stateless = true;
@@ -176,7 +181,15 @@ class Provider extends AbstractProvider
             throw new OpenIDValidationException('A critical openid parameter is missing from the request');
         }
 
-        if (! $this->validateHost($this->getOrNull(self::OPENID_RETURN_TO))) {
+        $this->validateAssertion();
+
+        $returnTo = (string) $this->getOrNull(self::OPENID_RETURN_TO);
+
+        if (! $this->validateReturnTo($returnTo)) {
+            throw new OpenIDValidationException('Invalid return_to');
+        }
+
+        if (! $this->validateHost($returnTo)) {
             throw new OpenIDValidationException('Invalid return_to host');
         }
 
@@ -191,7 +204,8 @@ class Provider extends AbstractProvider
 
         $results = $this->parseResults((string) $response->getBody());
 
-        $isValid = $results['is_valid'] === 'true';
+        $isValid = ($results['ns'] ?? null) === self::OPENID_NS
+            && ($results['is_valid'] ?? null) === 'true';
 
         if ($isValid) {
             $this->parseSteamID();
@@ -336,6 +350,50 @@ class Provider extends AbstractProvider
     public static function additionalConfigKeys(): array
     {
         return ['realm', 'proxy', 'allowed_hosts', 'force_https'];
+    }
+
+    /**
+     * Checks the assertion fields before asking Steam to verify the signature,
+     * so Steam's answer only covers an assertion issued by Steam for this login.
+     *
+     * @throws OpenIDValidationException
+     */
+    protected function validateAssertion(): void
+    {
+        if ($this->getOrNull('openid.mode') !== 'id_res') {
+            throw new OpenIDValidationException('Invalid openid.mode');
+        }
+
+        if ($this->getOrNull('openid.ns') !== self::OPENID_NS) {
+            throw new OpenIDValidationException('Invalid openid.ns');
+        }
+
+        if ($this->getOrNull('openid.op_endpoint') !== self::OPENID_URL) {
+            throw new OpenIDValidationException('Invalid openid.op_endpoint');
+        }
+
+        $signed = explode(',', (string) $this->getOrNull(self::OPENID_SIGNED));
+
+        if (array_diff(self::REQUIRED_SIGNED_FIELDS, $signed) !== []) {
+            throw new OpenIDValidationException('Invalid openid.signed');
+        }
+
+        $claimedId = $this->getOrNull(self::OPENID_CLAIMED_ID);
+
+        if ($claimedId !== $this->getOrNull('openid.identity')
+            || preg_match('#^https://steamcommunity\.com/openid/id/76561[0-9]{12}/?$#D', (string) $claimedId) !== 1) {
+            throw new OpenIDValidationException('Invalid openid.claimed_id');
+        }
+    }
+
+    /**
+     * The signed return_to must be exactly the callback URL we sent to Steam.
+     * A host-only check can be fooled by URLs that PHP and browsers parse
+     * differently, letting an assertion issued for another URL be replayed here.
+     */
+    protected function validateReturnTo(string $url): bool
+    {
+        return ! empty($this->redirectUrl) && hash_equals((string) $this->redirectUrl, $url);
     }
 
     /**

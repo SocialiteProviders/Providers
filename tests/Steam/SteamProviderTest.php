@@ -3,6 +3,8 @@
 namespace SocialiteProviders\Tests\Steam;
 
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\DataProvider;
+use SocialiteProviders\Manager\Config;
 use SocialiteProviders\Steam\OpenIDValidationException;
 use SocialiteProviders\Steam\Provider;
 use SocialiteProviders\Tests\TestCase;
@@ -87,7 +89,7 @@ class SteamProviderTest extends TestCase
         $provider = $this->makeProvider(
             $this->makeRequest($query),
             [
-                new Response(200, [], "is_valid:true\n"),
+                new Response(200, [], 'ns:'.Provider::OPENID_NS."\nis_valid:true\n"),
                 new Response(200, [], $this->fixture('player.json')),
             ]
         );
@@ -99,7 +101,7 @@ class SteamProviderTest extends TestCase
     {
         $provider = $this->makeProvider(
             $this->makeRequest($this->validOpenidQuery()),
-            [new Response(200, [], "is_valid:false\n")]
+            [new Response(200, [], 'ns:'.Provider::OPENID_NS."\nis_valid:false\n")]
         );
 
         $this->expectException(OpenIDValidationException::class);
@@ -118,6 +120,162 @@ class SteamProviderTest extends TestCase
         $this->expectExceptionMessage('critical openid parameter is missing');
 
         $provider->validate();
+    }
+
+    public function test_validate_rejects_a_return_to_with_userinfo_that_spoofs_the_host(): void
+    {
+        $query = $this->validOpenidQuery();
+        $query['openid.return_to'] = 'https://attacker.example\\@example.com/auth/callback';
+
+        $provider = $this->makeProvider($this->makeRequest($query));
+        $provider->setConfig(new Config('', '', self::REDIRECT_URI, ['allowed_hosts' => ['example.com']]));
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid return_to');
+
+        $provider->validate();
+    }
+
+    public function test_validate_rejects_a_return_to_on_another_path(): void
+    {
+        $query = $this->validOpenidQuery();
+        $query['openid.return_to'] = 'https://example.com/capture';
+
+        $provider = $this->makeProvider($this->makeRequest($query));
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid return_to');
+
+        $provider->validate();
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function requiredSignedFieldProvider(): array
+    {
+        return array_combine(
+            Provider::REQUIRED_SIGNED_FIELDS,
+            array_map(fn (string $field) => [$field], Provider::REQUIRED_SIGNED_FIELDS)
+        );
+    }
+
+    #[DataProvider('requiredSignedFieldProvider')]
+    public function test_validate_rejects_an_assertion_missing_a_required_signed_field(string $field): void
+    {
+        $query = $this->validOpenidQuery();
+        $signed = array_diff(explode(',', $query['openid.signed']), [$field]);
+        $query['openid.signed'] = implode(',', $signed);
+
+        $provider = $this->makeProvider($this->makeRequest($query));
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid openid.signed');
+
+        $provider->validate();
+    }
+
+    public function test_validate_accepts_extra_signed_fields(): void
+    {
+        $query = $this->validOpenidQuery();
+        $query['openid.signed'] .= ',ns,mode';
+
+        $provider = $this->makeProvider(
+            $this->makeRequest($query),
+            [new Response(200, [], 'ns:'.Provider::OPENID_NS."\nis_valid:true\n")]
+        );
+
+        $this->assertTrue($provider->validate());
+    }
+
+    public function test_validate_still_enforces_allowed_hosts(): void
+    {
+        $provider = $this->makeProvider($this->makeRequest($this->validOpenidQuery()));
+        $provider->setConfig(new Config('', '', self::REDIRECT_URI, ['allowed_hosts' => ['other.example']]));
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid return_to host');
+
+        $provider->validate();
+    }
+
+    public function test_validate_rejects_every_return_to_without_a_redirect_url(): void
+    {
+        $query = $this->validOpenidQuery();
+        $query['openid.return_to'] = '';
+
+        $provider = $this->makeProvider($this->makeRequest($query))->redirectUrl('');
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid return_to');
+
+        $provider->validate();
+    }
+
+    public function test_validate_honours_a_redirect_url_override(): void
+    {
+        $override = 'https://example.com/auth/steam/other';
+
+        $query = $this->validOpenidQuery();
+        $query['openid.return_to'] = $override;
+
+        $provider = $this->makeProvider(
+            $this->makeRequest($query),
+            [new Response(200, [], 'ns:'.Provider::OPENID_NS."\nis_valid:true\n")]
+        )->redirectUrl($override);
+
+        $this->assertTrue($provider->validate());
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->makeProvider($this->makeRequest($query))->validate();
+    }
+
+    /**
+     * @return array<string, array{string, string|null, string}>
+     */
+    public static function tamperedAssertionProvider(): array
+    {
+        return [
+            'wrong mode'             => ['openid.mode', 'cancel', 'Invalid openid.mode'],
+            'wrong namespace'        => ['openid.ns', 'http://specs.openid.net/auth/1.1', 'Invalid openid.ns'],
+            'foreign op endpoint'    => ['openid.op_endpoint', 'https://openid.example.com/login', 'Invalid openid.op_endpoint'],
+            'missing op endpoint'    => ['openid.op_endpoint', null, 'Invalid openid.op_endpoint'],
+            'identity mismatch'      => ['openid.identity', 'https://steamcommunity.com/openid/id/76561197960287931', 'Invalid openid.claimed_id'],
+            'non-steam claimed id'   => ['openid.claimed_id', 'https://example.com/openid/id/76561197960287930', 'Invalid openid.claimed_id'],
+        ];
+    }
+
+    #[DataProvider('tamperedAssertionProvider')]
+    public function test_validate_rejects_a_tampered_assertion(string $key, ?string $value, string $message): void
+    {
+        $query = $this->validOpenidQuery();
+
+        if ($key === 'openid.claimed_id') {
+            $query['openid.identity'] = $value;
+        }
+
+        if ($value === null) {
+            unset($query[$key]);
+        } else {
+            $query[$key] = $value;
+        }
+
+        $provider = $this->makeProvider($this->makeRequest($query));
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage($message);
+
+        $provider->validate();
+    }
+
+    public function test_validate_rejects_a_steam_response_without_the_openid_namespace(): void
+    {
+        $provider = $this->makeProvider(
+            $this->makeRequest($this->validOpenidQuery()),
+            [new Response(200, [], "is_valid:true\n")]
+        );
+
+        $this->assertFalse($provider->validate());
     }
 
     public function test_parse_results_splits_the_key_value_body(): void
@@ -152,12 +310,19 @@ class SteamProviderTest extends TestCase
      */
     private function validOpenidQuery(): array
     {
+        $claimedId = 'https://steamcommunity.com/openid/id/'.self::STEAM_ID;
+
         return [
-            'openid.assoc_handle' => '1234567890',
-            'openid.signed'       => 'signed,claimed_id',
-            'openid.sig'          => 'signature',
-            'openid.return_to'    => self::REDIRECT_URI,
-            'openid.claimed_id'   => 'https://steamcommunity.com/openid/id/'.self::STEAM_ID,
+            'openid.ns'             => Provider::OPENID_NS,
+            'openid.mode'           => 'id_res',
+            'openid.op_endpoint'    => Provider::OPENID_URL,
+            'openid.claimed_id'     => $claimedId,
+            'openid.identity'       => $claimedId,
+            'openid.return_to'      => self::REDIRECT_URI,
+            'openid.response_nonce' => gmdate('Y-m-d\\TH:i:s\\Z').'abc123',
+            'openid.assoc_handle'   => '1234567890',
+            'openid.signed'         => 'signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle',
+            'openid.sig'            => 'signature',
         ];
     }
 }
