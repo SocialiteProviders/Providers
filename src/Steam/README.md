@@ -33,6 +33,8 @@ By default this protection is disabled. It will only be active when allowed host
 ### return_to validation
 The signed `openid.return_to` must exactly match the provider's redirect URL. If you override it with `redirectUrl()` when redirecting to Steam, set the same URL before calling `user()` on the callback.
 
+The callback also checks the assertion came from Steam's OpenID endpoint, that Steam signed the required fields, and that the response nonce is no more than 5 minutes from your server's clock, so keep the clock in sync.
+
 ### force_https
 Set this property to force HTTPS scheme when redirecting from Steam OAuth.
 
