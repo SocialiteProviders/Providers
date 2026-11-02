@@ -149,15 +149,65 @@ class SteamProviderTest extends TestCase
         $provider->validate();
     }
 
-    public function test_validate_rejects_an_unsigned_return_to(): void
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function requiredSignedFieldProvider(): array
+    {
+        return array_combine(
+            Provider::REQUIRED_SIGNED_FIELDS,
+            array_map(fn (string $field) => [$field], Provider::REQUIRED_SIGNED_FIELDS)
+        );
+    }
+
+    #[DataProvider('requiredSignedFieldProvider')]
+    public function test_validate_rejects_an_assertion_missing_a_required_signed_field(string $field): void
     {
         $query = $this->validOpenidQuery();
-        $query['openid.signed'] = 'signed,op_endpoint,claimed_id,identity,response_nonce,assoc_handle';
+        $signed = array_diff(explode(',', $query['openid.signed']), [$field]);
+        $query['openid.signed'] = implode(',', $signed);
 
         $provider = $this->makeProvider($this->makeRequest($query));
 
         $this->expectException(OpenIDValidationException::class);
         $this->expectExceptionMessage('Invalid openid.signed');
+
+        $provider->validate();
+    }
+
+    public function test_validate_accepts_extra_signed_fields(): void
+    {
+        $query = $this->validOpenidQuery();
+        $query['openid.signed'] .= ',ns,mode';
+
+        $provider = $this->makeProvider(
+            $this->makeRequest($query),
+            [new Response(200, [], 'ns:'.Provider::OPENID_NS."\nis_valid:true\n")]
+        );
+
+        $this->assertTrue($provider->validate());
+    }
+
+    public function test_validate_still_enforces_allowed_hosts(): void
+    {
+        $provider = $this->makeProvider($this->makeRequest($this->validOpenidQuery()));
+        $provider->setConfig(new Config('', '', self::REDIRECT_URI, ['allowed_hosts' => ['other.example']]));
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid return_to host');
+
+        $provider->validate();
+    }
+
+    public function test_validate_rejects_every_return_to_without_a_redirect_url(): void
+    {
+        $query = $this->validOpenidQuery();
+        $query['openid.return_to'] = '';
+
+        $provider = $this->makeProvider($this->makeRequest($query))->redirectUrl('');
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Invalid return_to');
 
         $provider->validate();
     }
@@ -194,6 +244,7 @@ class SteamProviderTest extends TestCase
             'non-steam claimed id'   => ['openid.claimed_id', 'https://example.com/openid/id/76561197960287930', 'Invalid openid.claimed_id'],
             'malformed nonce'        => ['openid.response_nonce', 'not-a-nonce', 'Invalid openid.response_nonce'],
             'expired nonce'          => ['openid.response_nonce', '2020-01-01T00:00:00Zabc', 'Expired openid.response_nonce'],
+            'future nonce'           => ['openid.response_nonce', gmdate('Y-m-d\\TH:i:s\\Z', time() + 600).'abc', 'Expired openid.response_nonce'],
         ];
     }
 
