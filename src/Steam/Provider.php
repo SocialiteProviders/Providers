@@ -3,6 +3,7 @@
 namespace SocialiteProviders\Steam;
 
 use GuzzleHttp\RequestOptions;
+use Illuminate\Cache\NullStore;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -415,9 +416,16 @@ class Provider extends AbstractProvider
      */
     protected function claimNonce(): void
     {
+        $cache = $this->getNonceCache();
+
+        // add() always fails on the null store, which would reject every login.
+        if ($cache->getStore() instanceof NullStore) {
+            return;
+        }
+
         $key = 'socialite:steam-nonce:'.hash('sha256', (string) $this->getOrNull('openid.response_nonce'));
 
-        if (! $this->getNonceCache()->add($key, true, self::NONCE_MAX_AGE * 2)) {
+        if (! $cache->add($key, true, self::NONCE_MAX_AGE * 2)) {
             throw new OpenIDValidationException('Replayed openid.response_nonce');
         }
     }

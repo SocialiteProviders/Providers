@@ -4,6 +4,7 @@ namespace SocialiteProviders\Tests\Steam;
 
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Cache\ArrayStore;
+use Illuminate\Cache\NullStore;
 use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -300,6 +301,16 @@ class SteamProviderTest extends TestCase
         $this->expectExceptionMessage('Replayed openid.response_nonce');
 
         $this->makeProvider($this->makeRequest($query), $valid())->validate();
+    }
+
+    public function test_validate_skips_replay_check_on_the_null_cache_store(): void
+    {
+        $this->nonceCache = new Repository(new NullStore);
+        $valid = fn () => [new Response(200, [], 'ns:'.Provider::OPENID_NS."\nis_valid:true\n")];
+        $query = $this->validOpenidQuery();
+
+        $this->assertTrue($this->makeProvider($this->makeRequest($query), $valid())->validate());
+        $this->assertTrue($this->makeProvider($this->makeRequest($query), $valid())->validate());
     }
 
     public function test_validate_accepts_a_new_nonce_after_a_previous_login(): void
