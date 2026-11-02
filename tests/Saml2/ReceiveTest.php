@@ -2,6 +2,7 @@
 
 namespace SocialiteProviders\Tests\Saml2;
 
+use Laravel\Socialite\Two\InvalidStateException;
 use LightSaml\ClaimTypes;
 use LightSaml\Error\LightSamlValidationException;
 use SocialiteProviders\Saml2\InvalidSignatureException;
@@ -87,5 +88,42 @@ class ReceiveTest extends TestCase
         $this->expectExceptionMessage('unsuccessful status');
 
         $this->makeProvider($request)->stateless()->user();
+    }
+
+    public function test_it_accepts_a_relay_state_matching_the_session(): void
+    {
+        $request = $this->makeRequest('POST', ['SAMLResponse' => $this->samlResponse(), 'RelayState' => 'expected-state']);
+        $request->session()->put('state', 'expected-state');
+
+        $this->assertSame('user@example.com', $this->makeProvider($request)->user()->getId());
+    }
+
+    public function test_it_rejects_a_relay_state_not_matching_the_session(): void
+    {
+        $request = $this->makeRequest('POST', ['SAMLResponse' => $this->samlResponse(), 'RelayState' => 'attacker-state']);
+        $request->session()->put('state', 'expected-state');
+
+        $this->expectException(InvalidStateException::class);
+
+        $this->makeProvider($request)->user();
+    }
+
+    public function test_it_rejects_a_response_without_relay_state_when_the_session_has_no_state(): void
+    {
+        $request = $this->makeRequest('POST', ['SAMLResponse' => $this->samlResponse()]);
+
+        $this->expectException(InvalidStateException::class);
+
+        $this->makeProvider($request)->user();
+    }
+
+    public function test_it_rejects_an_empty_relay_state_when_the_session_has_an_empty_state(): void
+    {
+        $request = $this->makeRequest('POST', ['SAMLResponse' => $this->samlResponse(), 'RelayState' => '']);
+        $request->session()->put('state', '');
+
+        $this->expectException(InvalidStateException::class);
+
+        $this->makeProvider($request)->user();
     }
 }
