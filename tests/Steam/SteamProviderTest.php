@@ -3,8 +3,12 @@
 namespace SocialiteProviders\Tests\Steam;
 
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Cache\ArrayStore;
+use Illuminate\Cache\Repository;
+use Illuminate\Http\Request;
 use PHPUnit\Framework\Attributes\DataProvider;
 use SocialiteProviders\Manager\Config;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Steam\OpenIDValidationException;
 use SocialiteProviders\Steam\Provider;
 use SocialiteProviders\Tests\TestCase;
@@ -16,9 +20,23 @@ class SteamProviderTest extends TestCase
 
     private const STEAM_ID = '76561197960287930';
 
+    private Repository $nonceCache;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->nonceCache = new Repository(new ArrayStore);
+    }
+
     protected function provider(): string
     {
         return Provider::class;
+    }
+
+    protected function makeProvider(?Request $request = null, array $responses = []): AbstractProvider
+    {
+        return parent::makeProvider($request, $responses)->setNonceCache($this->nonceCache);
     }
 
     public function test_redirect_builds_an_openid_checkid_setup_url(): void
@@ -242,6 +260,9 @@ class SteamProviderTest extends TestCase
             'missing op endpoint'    => ['openid.op_endpoint', null, 'Invalid openid.op_endpoint'],
             'identity mismatch'      => ['openid.identity', 'https://steamcommunity.com/openid/id/76561197960287931', 'Invalid openid.claimed_id'],
             'non-steam claimed id'   => ['openid.claimed_id', 'https://example.com/openid/id/76561197960287930', 'Invalid openid.claimed_id'],
+            'malformed nonce'        => ['openid.response_nonce', 'not-a-nonce', 'Invalid openid.response_nonce'],
+            'expired nonce'          => ['openid.response_nonce', '2020-01-01T00:00:00Zabc', 'Expired openid.response_nonce'],
+            'future nonce'           => ['openid.response_nonce', gmdate('Y-m-d\\TH:i:s\\Z', time() + 600).'abc', 'Expired openid.response_nonce'],
         ];
     }
 
@@ -266,6 +287,31 @@ class SteamProviderTest extends TestCase
         $this->expectExceptionMessage($message);
 
         $provider->validate();
+    }
+
+    public function test_validate_rejects_a_replayed_nonce(): void
+    {
+        $valid = fn () => [new Response(200, [], 'ns:'.Provider::OPENID_NS."\nis_valid:true\n")];
+        $query = $this->validOpenidQuery();
+
+        $this->assertTrue($this->makeProvider($this->makeRequest($query), $valid())->validate());
+
+        $this->expectException(OpenIDValidationException::class);
+        $this->expectExceptionMessage('Replayed openid.response_nonce');
+
+        $this->makeProvider($this->makeRequest($query), $valid())->validate();
+    }
+
+    public function test_validate_accepts_a_new_nonce_after_a_previous_login(): void
+    {
+        $valid = fn () => [new Response(200, [], 'ns:'.Provider::OPENID_NS."\nis_valid:true\n")];
+        $query = $this->validOpenidQuery();
+
+        $this->assertTrue($this->makeProvider($this->makeRequest($query), $valid())->validate());
+
+        $query['openid.response_nonce'] = gmdate('Y-m-d\\TH:i:s\\Z').'other';
+
+        $this->assertTrue($this->makeProvider($this->makeRequest($query), $valid())->validate());
     }
 
     public function test_validate_rejects_a_steam_response_without_the_openid_namespace(): void
