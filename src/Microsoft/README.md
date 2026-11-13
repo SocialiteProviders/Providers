@@ -60,6 +60,20 @@ return Socialite::driver('microsoft')->redirect();
 
 ## Extended features
 
+### Request timeout
+
+All requests of this provider, including the avatar request of `$user->getAvatar()`, are sent through Socialite's Guzzle client. Guzzle waits indefinitely by default, so a slow or unreachable Microsoft Graph can stall the sign-in. Options under the `guzzle` key are passed to that client:
+
+```php
+'microsoft' => [
+    // ...
+    'guzzle' => [
+        'connect_timeout' => 5,
+        'timeout'         => 10,
+    ],
+],
+```
+
 ### ID token validation and key rollover
 
 When using the `openid` scope, Microsoft returns an `id_token` JWT. This provider validates the `id_token` signature and claims.
