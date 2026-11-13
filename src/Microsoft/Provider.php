@@ -189,7 +189,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
+        // The avatar is fetched lazily by the user object. Handing over the
+        // provider's client and proxy makes that request behave like all others.
+        $microsoftUser = (new User)
+            ->setHttpClient($this->getHttpClient())
+            ->setProxy($this->getConfig('proxy'));
+
+        return $microsoftUser->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => null,
             'name'     => $user['displayName'],
