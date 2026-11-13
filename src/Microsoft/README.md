@@ -68,7 +68,7 @@ Microsoft (Entra ID / Azure AD) periodically rotates signing keys. During rollov
 
 ### Roles
 
-`Socialite::driver('microsoft')->user()->getRoles()` returns an array of strings containing the names of the Microsoft 365/Azure AD groups the authenticated user belongs to. You can use this information to assign users to application roles at login.
+`Socialite::driver('microsoft')->getRoles()` returns an array of strings taken from the `roles` claim of the ID token: the app roles assigned to the user, or the names of the Microsoft 365/Azure AD groups the user belongs to if groups are emitted as role claims. You can use this information to assign users to application roles at login. The roles are also available on the user object as `$user->roles`.
 
 - ref. [Emit groups as role claims in Entra ID](https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-fed-group-claims)
 
@@ -91,6 +91,60 @@ Microsoft (Entra ID / Azure AD) periodically rotates signing keys. During rollov
 $user = Socialite::driver('microsoft')->user();
 $ipAddress = Socialite::driver('microsoft')->getClaims()?->ipaddr;
 ```
+
+### User fields
+
+The provider requests these fields from Microsoft Graph and maps them onto the user object: `id`, `displayName`, `givenName`, `surname`, `mail`, `userPrincipalName`, `businessPhones`, `mobilePhone`, `jobTitle`, `department`, `officeLocation`, `preferredLanguage` and `employeeId`. They are available as properties, e.g. `$user->jobTitle`. `getName()` returns the `displayName`.
+
+**Note:** `getEmail()` returns the `userPrincipalName`, which is the sign-in name and not necessarily the mail address. The mail address is available as `$user->mail`, which is `null` for accounts without a mailbox.
+
+Further [user properties](https://learn.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0#properties) can be requested with the `fields` key:
+
+```php
+'microsoft' => [
+    // ...
+    'fields' => ['accountEnabled', 'companyName'],
+],
+```
+
+They are not mapped onto the user object. Read them from the raw response instead:
+
+```php
+$user = Socialite::driver('microsoft')->user();
+$companyName = $user->user['companyName'] ?? null;
+```
+
+### Avatar
+
+There are two ways to get the user's profile photo.
+
+**On demand:** `$user->getAvatar()` requests the photo from Microsoft Graph in the largest available size, every time it is called. It returns a `MicrosoftAvatar`, or `null` if the user has no photo:
+
+```php
+$avatar = $user->getAvatar();
+
+if ($avatar !== null) {
+    $dataUri = (string) $avatar; // "data:<content type>;base64,..."
+    $binary = $avatar->getContents();
+    $contentType = $avatar->getContentType();
+}
+```
+
+**During sign-in:** with `include_avatar`, the photo is fetched together with the user data. `include_avatar_size` sets the size. Microsoft Graph supports `48x48`, `64x64`, `96x96`, `120x120`, `240x240`, `360x360`, `432x432`, `504x504` and `648x648`, which is the default:
+
+```php
+'microsoft' => [
+    // ...
+    'include_avatar' => true,
+    'include_avatar_size' => '120x120',
+],
+```
+
+The photo is then available in `$user->avatar` as a base64 encoded string, without a `data:` prefix and without its content type, or `null` if the user has no photo.
+
+**Note:** `getAvatar()` doesn't use the photo fetched by `include_avatar`. It always sends its own request, so read `$user->avatar` when `include_avatar` is enabled.
+
+- ref. [Get profilePhoto](https://learn.microsoft.com/en-us/graph/api/profilephoto-get?view=graph-rest-1.0)
 
 ### Tenant Details
 You can also retrieve Tenant information at the same time as you retrieve users, this can be useful if you need to allow only your tenant/s or filter certain tenants.
@@ -117,10 +171,6 @@ The default tenant fields returned are:
 * state
 * street
 * verifiedDomains
-
-### Refresh token
-By default Microsoft doesn't return a refresh token. But if you do need a refresh token you need to add the `offline_access` scope. 
-Adding the scope is done on the `redirect` method as is described in the Laravel [docs](https://laravel.com/docs/master/socialite#access-scopes).
 
 #### Tenant types
 
@@ -149,7 +199,7 @@ if ($user->tenant === null) {
 } else {
 
     // do your work / school tenant workflow
-    Log::info(sprintf("Tenant found - %s", $user->tenant->displayName));
+    Log::info(sprintf("Tenant found - %s", $user->tenant['displayName']));
      
 }
 ```
@@ -169,8 +219,10 @@ e.g. `'tenantType', 'technicalNotificationMails'` can be requested as such
         'tenant' => env('MICROSOFT_TENANT_ID', 'common'), 
         'include_tenant_info' => true,
         'tenant_fields' => [ 'tenantType', 'technicalNotificationMails' ],
-        'include_avatar' => true,
-        'include_avatar_size' => '648x648',
     ], 
 ```
+
+### Refresh token
+By default Microsoft doesn't return a refresh token. But if you do need a refresh token you need to add the `offline_access` scope. 
+Adding the scope is done on the `redirect` method as is described in the Laravel [docs](https://laravel.com/docs/master/socialite#access-scopes).
 
