@@ -5,6 +5,10 @@ namespace SocialiteProviders\Azure;
 use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 
+/**
+ * @deprecated Use the Microsoft provider (socialiteproviders/microsoft) instead.
+ * @see        https://github.com/SocialiteProviders/Microsoft-Azure#migrating-to-the-microsoft-provider
+ */
 class Provider extends AbstractProvider
 {
     public const IDENTIFIER = 'AZURE';
