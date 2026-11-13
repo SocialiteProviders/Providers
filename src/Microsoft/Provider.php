@@ -5,7 +5,7 @@ namespace SocialiteProviders\Microsoft;
 use Exception;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -139,8 +139,9 @@ class Provider extends AbstractProvider
                 );
 
                 $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents()) ?? null;
-            } catch (ClientException) {
-                // if exception then avatar does not exist.
+            } catch (TransferException) {
+                // The avatar is optional. A missing photo (4xx), a Graph outage (5xx)
+                // or a network error must not break the sign-in.
                 $formattedResponse['avatar'] = null;
             }
         }
@@ -188,7 +189,13 @@ class Provider extends AbstractProvider
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
+        // The avatar is fetched lazily by the user object. Handing over the
+        // provider's client and proxy makes that request behave like all others.
+        $microsoftUser = (new User)
+            ->setHttpClient($this->getHttpClient())
+            ->setProxy($this->getConfig('proxy'));
+
+        return $microsoftUser->setRaw($user)->map([
             'id'       => $user['id'],
             'nickname' => null,
             'name'     => $user['displayName'],
