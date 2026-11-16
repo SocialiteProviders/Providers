@@ -140,8 +140,6 @@ class Provider extends AbstractProvider
 
                 $formattedResponse['avatar'] = base64_encode($responseAvatar->getBody()->getContents()) ?? null;
             } catch (TransferException) {
-                // The avatar is optional. A missing photo (4xx), a Graph outage (5xx)
-                // or a network error must not break the sign-in.
                 $formattedResponse['avatar'] = null;
             }
         }
