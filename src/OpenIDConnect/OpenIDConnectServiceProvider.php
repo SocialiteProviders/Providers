@@ -11,6 +11,7 @@ use SocialiteProviders\OpenIDConnect\Providers\EntraProvider;
 use SocialiteProviders\OpenIDConnect\Providers\GoogleProvider;
 use SocialiteProviders\OpenIDConnect\Providers\KeycloakProvider;
 use SocialiteProviders\OpenIDConnect\Providers\OktaProvider;
+use SocialiteProviders\OpenIDConnect\Providers\TelegramProvider;
 
 /**
  * Registers each config/oidc.php connection as its own Socialite driver
@@ -27,6 +28,7 @@ class OpenIDConnectServiceProvider extends ServiceProvider
         'auth0'    => Auth0Provider::class,
         'okta'     => OktaProvider::class,
         'google'   => GoogleProvider::class,
+        'telegram' => TelegramProvider::class,
     ];
 
     public function register(): void

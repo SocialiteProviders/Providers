@@ -4,7 +4,7 @@ There are two extension points: a provider class per connection, and an issuer v
 
 ## Custom provider classes
 
-The `provider` key in a connection names the class that drives it. Built-in shorthands (`entra`, `keycloak`, `auth0`, `okta`, `google`) map to subclasses shipped with the package. Any class extending `SocialiteProviders\OpenIDConnect\Provider` works the same way. There is no registration step: Socialite instantiates the class when the driver is first resolved.
+The `provider` key in a connection names the class that drives it. Built-in shorthands (`entra`, `keycloak`, `auth0`, `okta`, `google`, `telegram`) map to subclasses shipped with the package. Any class extending `SocialiteProviders\OpenIDConnect\Provider` works the same way. There is no registration step: Socialite instantiates the class when the driver is first resolved.
 
 A subclass usually overrides two things:
 
