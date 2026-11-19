@@ -2,6 +2,9 @@
 
 namespace SocialiteProviders\Tests\Steam;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Cache\ArrayStore;
 use Illuminate\Cache\NullStore;
@@ -89,6 +92,21 @@ class SteamProviderTest extends TestCase
             'email'    => $user->getEmail(),
             'avatar'   => $user->getAvatar(),
         ]);
+    }
+
+    public function test_user_fetches_the_player_summary_over_https(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], 'ns:'.Provider::OPENID_NS."\nis_valid:true\n"),
+            new Response(200, [], $this->fixture('player.json')),
+        ]);
+
+        $provider = $this->makeProvider($this->makeRequest($this->validOpenidQuery()));
+        $provider->setHttpClient(new Client(['handler' => HandlerStack::create($mock)]));
+
+        $provider->user();
+
+        $this->assertSame('https', $mock->getLastRequest()?->getUri()->getScheme());
     }
 
     /**
