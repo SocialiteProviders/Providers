@@ -18,9 +18,27 @@ Please see the [Base Installation Guide](https://socialiteproviders.com/usage/),
 'vkid' => [
   'client_id' => env('VKID_CLIENT_ID'),
   'client_secret' => env('VKID_CLIENT_SECRET'),
-  'redirect' => env('VKID_REDIRECT_URI')
+  'redirect' => env('VKID_REDIRECT_URI'),
+
+  // Public apps (default): leave false. Do not send classic client_secret —
+  // VK ID returns HTTP 404 for public apps when it is present.
+  // Confidential apps: set true and put the *service token* in client_secret;
+  // it is sent as service_token on token exchange.
+  'confidential' => env('VKID_CONFIDENTIAL', false),
+
+  // Optional PKCE cache tuning (used for both session and stateless flows)
+  // 'pkce_ttl' => 10,
+  // 'cache_store' => 'redis',
+  // 'cache_prefix' => 'socialite:vkid:pkce:',
 ],
 ```
+
+### Local development (VK ID)
+
+VK ID only accepts localhost redirects on ports **80** or **443**:
+
+- Base domain: `localhost`
+- Trusted redirect URL example: `http://localhost/auth/vkid/callback` (no non-standard port in the URL)
 
 ### Add provider event listener
 
@@ -60,6 +78,18 @@ You should now be able to use the provider like you would regularly use Socialit
 ```php
 return Socialite::driver('vkid')->redirect();
 ```
+
+### Stateless / API / SPA
+
+PKCE `code_verifier` is stored in the application cache (not the session), so `stateless()` works for API and SPA callbacks. VK ID still requires a `state` parameter (≥ 32 characters); this provider always sends one.
+
+```php
+return Socialite::driver('vkid')->stateless()->redirect();
+
+$user = Socialite::driver('vkid')->stateless()->user();
+```
+
+Ensure a shared cache store is available between the redirect and callback requests (for example Redis).
 
 ### Returned User fields
 - ``id``
