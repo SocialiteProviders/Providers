@@ -1,0 +1,32 @@
+{
+    "name": "socialiteproviders/tidal",
+    "description": "TIDAL OAuth Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "tidal",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "milliedarc",
+            "email": "milliedarc@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/tidal"
+    },
+    "require": {
+        "php": "^8.3",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Tidal\\": ""
+        }
+    }
+}
