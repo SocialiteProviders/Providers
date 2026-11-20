@@ -3,7 +3,7 @@
 namespace SocialiteProviders\Microsoft;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\RequestOptions;
 use SocialiteProviders\Manager\OAuth2\User;
 
@@ -28,7 +28,7 @@ class MicrosoftUser extends User
             );
 
             return (new MicrosoftAvatar)->setResponse($response);
-        } catch (ClientException) {
+        } catch (TransferException) {
             return null;
         }
     }
