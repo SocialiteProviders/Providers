@@ -1,0 +1,8 @@
+{
+  "id": "microsoft-user-id",
+  "displayName": "Microsoft User",
+  "givenName": "Microsoft",
+  "surname": "User",
+  "userPrincipalName": "microsoft.user@example.com",
+  "mail": "microsoft.user@example.com"
+}
