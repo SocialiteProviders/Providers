@@ -1,5 +1,9 @@
 # Azure
 
+## Deprecated
+
+This provider is deprecated. You should use the [Microsoft](https://github.com/SocialiteProviders/Microsoft) provider instead. It uses the same Microsoft identity platform and Microsoft Graph endpoints, supports the same `tenant` and `proxy` options and additionally validates the ID token and can return roles, groups, the avatar and tenant details. See [Migrating to the Microsoft provider](#migrating-to-the-microsoft-provider).
+
 ```bash
 composer require socialiteproviders/microsoft-azure
 ```
@@ -112,3 +116,38 @@ If the application that you are authenticating against is anything other single 
  - Multitenant applications: "organizations"
  - Multitenant and personal accounts: "common"
  - Personal accounts only: "consumers"
+
+## Migrating to the Microsoft provider
+
+Both providers sign users in through the same Microsoft identity platform v2.0 endpoints and read them from Microsoft Graph `/me`. `id`, `name` and `email` are mapped the same way, so users you already linked by their ID stay linked.
+
+1. Replace the package:
+
+    ```bash
+    composer require socialiteproviders/microsoft
+    composer remove socialiteproviders/microsoft-azure
+    ```
+
+2. Register the Microsoft provider under the `azure` driver name. Your `azure` entry in `config/services.php`, your `Socialite::driver('azure')` calls, the redirect URI and any driver names you stored keep working unchanged:
+
+    ```php
+    Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+        $event->extendSocialite('azure', \SocialiteProviders\Microsoft\Provider::class);
+    });
+    ```
+
+    On Laravel 10 or below, put this in the `boot` method of your `EventServiceProvider` and remove `AzureExtendSocialite` from the `$listen` array. If you prefer the `microsoft` driver name, follow the [Microsoft provider's installation guide](https://github.com/SocialiteProviders/Microsoft) and rename the driver everywhere instead.
+
+3. Replace the Azure specific user methods:
+
+    | Azure provider | Microsoft provider |
+    |---|---|
+    | `$user->getPrincipalName()`, `$user->principalName` | `$user->userPrincipalName` |
+    | `$user->getMail()` | `$user->mail` |
+
+4. Check these differences:
+    - The default scopes are `openid profile User.Read` instead of `User.Read`, and the returned ID token is validated.
+    - Only a fixed set of Graph user fields is requested. Add any other fields you read from `getRaw()` with the `fields` config option.
+    - `getAvatar()` fetches the photo from Microsoft Graph and returns a `MicrosoftAvatar` or `null`, instead of always returning `null`.
+    - `getLogoutUrl()` returns the v2.0 logout endpoint (`/oauth2/v2.0/logout`) instead of `/oauth2/logout`.
+    - There is no `graph_url` option. To fake the sign-in in tests, use [`Socialite::fake()`](https://laravel.com/docs/socialite#testing).
