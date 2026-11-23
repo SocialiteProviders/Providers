@@ -174,3 +174,48 @@ e.g. `'tenantType', 'technicalNotificationMails'` can be requested as such
     ], 
 ```
 
+## Known limitations
+
+`$user->getAvatar()` sends its request with a Guzzle client of its own, not with the HTTP client of the provider. The request ignores the `proxy` option and the options under the `guzzle` key, such as timeouts. The `include_avatar` option is not affected.
+
+This will not change in version 4. Use `getAvatarResponse()` on the provider instead, which sends the request through the HTTP client of the provider. It is described under [Deprecations](#deprecations).
+
+## Deprecations
+
+The avatar handling changes in version 5:
+
+- `MicrosoftUser` and `MicrosoftAvatar` are deprecated and will be removed. The provider will return `SocialiteProviders\Manager\OAuth2\User`.
+- `$user->getAvatar()` will no longer send a request and will no longer return a `MicrosoftAvatar` object. It will return the photo as a data URL if `include_avatar` is enabled, and `null` otherwise.
+- With `include_avatar` enabled, `$user->avatar` will hold a data URL instead of the bare base64 string of the photo.
+- `include_avatar_size` will default to the largest photo available instead of `648x648`, and will only accept the sizes in `MicrosoftAvatarSize`.
+
+You can prepare for that now:
+
+- Do not use `MicrosoftUser` and `MicrosoftAvatar` in type hints.
+- Set `include_avatar_size` to one of the `MicrosoftAvatarSize` constants, e.g. `MicrosoftAvatarSize::SIZE_648` to keep the current size.
+- Use `getAvatarResponse()` on the provider instead of `getContents()` and `getContentType()` of the `MicrosoftAvatar` object. It returns the PSR-7 response of Microsoft Graph, or `null` if the user has no photo or the request failed. The body of the response is the image as a stream, the `Content-Type` header holds its MIME type:
+
+```php
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use SocialiteProviders\Microsoft\MicrosoftAvatarSize;
+use Symfony\Component\Mime\MimeTypes;
+
+$provider = Socialite::driver('microsoft');
+$user = $provider->user();
+
+$response = $provider->getAvatarResponse(MicrosoftAvatarSize::SIZE_240);
+
+if ($response !== null) {
+    $mimeType = trim(Str::before($response->getHeaderLine('Content-Type'), ';'));
+    $extension = MimeTypes::getDefault()->getExtensions($mimeType)[0] ?? 'jpg';
+
+    Storage::put("avatars/{$user->getId()}.{$extension}", $response->getBody());
+}
+```
+
+Both arguments are optional. Without a size, Graph returns the largest photo available. The request uses the access token of the user loaded with `user()`. To fetch the photo without loading the user first, for example in a queued job, pass the access token as the second argument:
+
+```php
+$response = Socialite::driver('microsoft')->getAvatarResponse(null, $token);
+```
