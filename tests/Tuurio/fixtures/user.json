@@ -1,0 +1,9 @@
+{
+    "sub": "5f0c1d7e-2b6a-4c7e-9a31-8d2f4e6b1a90",
+    "tenant_id": "acme",
+    "email": "jane@example.com",
+    "email_verified": true,
+    "preferred_username": "jane@example.com",
+    "name": "Jane Doe",
+    "locale": "de"
+}
