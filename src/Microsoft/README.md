@@ -237,3 +237,9 @@ e.g. `'tenantType', 'technicalNotificationMails'` can be requested as such
     ], 
 ```
 
+## Upgrading from 4.x
+
+- `$user->getAvatar()` no longer sends a request and no longer returns a `MicrosoftAvatar` object. It returns a data URL if `include_avatar` is enabled, and `null` otherwise. Enable `include_avatar` if you use `getAvatar()`. If you used `getContents()` or `getContentType()` of the `MicrosoftAvatar` object, use `getAvatarResponse()` instead.
+- `MicrosoftUser` and `MicrosoftAvatar` are removed. The provider returns `SocialiteProviders\Manager\OAuth2\User`, so update type hints that refer to `MicrosoftUser`.
+- With `include_avatar` enabled, `$user->avatar` used to be the bare base64 string of the photo. It is a complete data URL now. If you prepended `data:image/jpeg;base64,` yourself, use the value as it is.
+- `include_avatar_size` used to default to `648x648`. It now defaults to the largest photo available. Set it to `MicrosoftAvatarSize::SIZE_648` to keep the previous size.
