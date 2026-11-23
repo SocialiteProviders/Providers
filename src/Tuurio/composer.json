@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/tuurio",
+    "description": "Tuurio ID OAuth Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "tuurio",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Tuurio GmbH",
+            "homepage": "https://id.tuurio.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/tuurio"
+    },
+    "require": {
+        "php": "^8.3",
+        "laravel/socialite": "^5.2",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Tuurio\\": ""
+        }
+    }
+}
