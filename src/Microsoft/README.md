@@ -60,6 +60,71 @@ return Socialite::driver('microsoft')->redirect();
 
 ## Extended features
 
+### Avatar
+
+Microsoft Graph has no public URL for a profile photo. The photo is only available from an endpoint that requires the access token of the user. By default the provider does not fetch it, and `$user->getAvatar()` returns `null`.
+
+#### As a data URL
+
+Enable `include_avatar` to let the provider fetch the photo during the sign-in:
+
+```php
+'microsoft' => [
+    // ...
+    'include_avatar'      => true,
+    'include_avatar_size' => \SocialiteProviders\Microsoft\MicrosoftAvatarSize::SIZE_240, // Optional
+],
+```
+
+`$user->getAvatar()` then returns the photo as a data URL (`data:image/jpeg;base64,...`), which can be used as the `src` of an `<img>` tag. It returns `null` if the user has no photo or the request failed.
+
+- The data URL contains the whole image and does not fit into a `VARCHAR(255)` column. Use a text column, or save the photo to a file as shown below.
+- Without `include_avatar_size`, Graph returns the largest photo available. The size has to be one of the `MicrosoftAvatarSize` constants (`48x48`, `64x64`, `96x96`, `120x120`, `240x240`, `360x360`, `432x432`, `504x504` or `648x648`), any other value throws an `InvalidArgumentException`. If there is no photo in the requested size, the avatar is `null`.
+- The option adds one request to every sign-in.
+
+#### As a file
+
+`getAvatarResponse()` on the provider returns the PSR-7 response of Graph, or `null` if the user has no photo or the request failed. The body of the response is the image as a stream, the `Content-Type` header holds its MIME type. The method does not depend on `include_avatar`.
+
+```php
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use SocialiteProviders\Microsoft\MicrosoftAvatarSize;
+use Symfony\Component\Mime\MimeTypes;
+
+$provider = Socialite::driver('microsoft');
+$user = $provider->user();
+
+$response = $provider->getAvatarResponse(MicrosoftAvatarSize::SIZE_240);
+
+if ($response !== null) {
+    $mimeType = trim(Str::before($response->getHeaderLine('Content-Type'), ';'));
+    $extension = MimeTypes::getDefault()->getExtensions($mimeType)[0] ?? 'jpg';
+
+    Storage::put("avatars/{$user->getId()}.{$extension}", $response->getBody());
+}
+```
+
+Both arguments are optional. Without a size, Graph returns the largest photo available. The request uses the access token of the user loaded with `user()`. To fetch the photo without loading the user first, for example in a queued job, pass the access token as the second argument:
+
+```php
+$response = Socialite::driver('microsoft')->getAvatarResponse(null, $token);
+```
+
+#### Proxy and timeouts
+
+The avatar requests are sent through the HTTP client of the provider, like all its other requests. The `proxy` option applies to them, and so do the options under the `guzzle` key. Guzzle waits indefinitely by default, so with `include_avatar` enabled a slow Microsoft Graph can stall the sign-in. Set a timeout to prevent that:
+
+```php
+'microsoft' => [
+    // ...
+    'guzzle' => [
+        'connect_timeout' => 5,
+        'timeout'         => 10,
+    ],
+],
+```
+
 ### ID token validation and key rollover
 
 When using the `openid` scope, Microsoft returns an `id_token` JWT. This provider validates the `id_token` signature and claims.
@@ -169,8 +234,6 @@ e.g. `'tenantType', 'technicalNotificationMails'` can be requested as such
         'tenant' => env('MICROSOFT_TENANT_ID', 'common'), 
         'include_tenant_info' => true,
         'tenant_fields' => [ 'tenantType', 'technicalNotificationMails' ],
-        'include_avatar' => true,
-        'include_avatar_size' => '648x648',
     ], 
 ```
 
