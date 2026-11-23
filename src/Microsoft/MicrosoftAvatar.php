@@ -5,6 +5,10 @@ namespace SocialiteProviders\Microsoft;
 use GuzzleHttp\Psr7\Response;
 use Stringable;
 
+/**
+ * @deprecated Will be removed in 5.0. getAvatar() will return a data URL string instead.
+ *             Use Provider::getAvatarResponse() to get the image and its content type.
+ */
 class MicrosoftAvatar implements Stringable
 {
     /**

@@ -6,9 +6,13 @@ use Exception;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use Laravel\Socialite\Two\InvalidStateException;
+use LogicException;
+use Psr\Http\Message\ResponseInterface;
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Microsoft\MicrosoftUser as User;
 
@@ -170,6 +174,56 @@ class Provider extends AbstractProvider
         $formattedResponse['groups'] = $this->getGroups();
 
         return $formattedResponse;
+    }
+
+    /**
+     * Fetch the profile photo of a user from Microsoft Graph.
+     *
+     * The body of the response is the image as a stream, its Content-Type header
+     * holds the MIME type of the image. Without a size, Graph returns the largest
+     * photo available.
+     *
+     * @param  MicrosoftAvatarSize::SIZE_*|null  $size
+     * @param  string|null  $token  Defaults to the access token of the user loaded with user().
+     * @return ResponseInterface|null Null if there is no photo in that size or the request failed.
+     *
+     * @throws InvalidArgumentException If the size is not one of the MicrosoftAvatarSize constants.
+     * @throws LogicException If no token is given and no user has been loaded yet.
+     */
+    public function getAvatarResponse(?string $size = null, ?string $token = null): ?ResponseInterface
+    {
+        if ($size !== null && !in_array($size, MicrosoftAvatarSize::ALL, true)) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid avatar size "%s". Use one of the %s constants.',
+                $size,
+                MicrosoftAvatarSize::class
+            ));
+        }
+
+        $token ??= $this->user?->token;
+
+        if ($token === null) {
+            throw new LogicException('No access token available. Load the user with user() first or pass a token.');
+        }
+
+        try {
+            $response = $this->getHttpClient()->get(
+                $size === null
+                    ? 'https://graph.microsoft.com/v1.0/me/photo/$value'
+                    : "https://graph.microsoft.com/v1.0/me/photos/{$size}/\$value",
+                [
+                    RequestOptions::HEADERS => [
+                        'Accept'        => 'image/*',
+                        'Authorization' => 'Bearer ' . $token,
+                    ],
+                    RequestOptions::PROXY => $this->getConfig('proxy'),
+                ]
+            );
+        } catch (TransferException) {
+            return null;
+        }
+
+        return $response->getStatusCode() === 200 ? $response : null;
     }
 
     public function getAccessTokenResponse($code)
