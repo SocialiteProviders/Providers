@@ -1,0 +1,32 @@
+{
+    "name": "socialiteproviders/stalwart",
+    "description": "Stalwart OAuth Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "stalwart",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Indunil Peramuna",
+            "email": "iperamuna@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/stalwart"
+    },
+    "require": {
+        "php": "^8.3",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Stalwart\\": ""
+        }
+    }
+}
